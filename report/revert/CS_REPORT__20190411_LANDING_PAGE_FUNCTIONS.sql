@@ -1,0 +1,7 @@
+-- Revert report:CS_REPORT__20190411_LANDING_PAGE_FUNCTIONS from pg
+
+BEGIN;
+
+-- XXX Add DDLs here.
+
+COMMIT;

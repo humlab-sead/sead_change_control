@@ -1,0 +1,42 @@
+%syntax-version=1.0.0
+%project=sead_change_control
+%uri=https://github.com/humlab-sead/sead_change_control
+
+CS_RESTAPI_20180501_GENERATE_SCHEMA [utility:CS_UTILITY_20190407_CREATE_UTILITY_SCHEMA] 2019-04-08T14:33:10Z Roger Mähler <roger.mahler@umu.se> # Schema used by PostgREST REST API publication of SEAD base tables
+CS_RESTAPI_20180501_CREATE_SAMPLE_AGE_RANGES [CS_RESTAPI_20180501_GENERATE_SCHEMA] 2019-04-08T14:38:24Z Roger Mähler <roger.mahler@umu.se> # Views (site_sample_taxon_abundance and sample_age_ranges) published via REST API
+
+CS_ANALYSIS_ENTITY_20170911_ALTER_AGES_PRECISION 2019-04-10T07:28:54Z Roger Mähler <roger.mahler@umu.se> # PIB: Changed numeric ranges of values to 20,5 to match tbl_relative_ages
+
+CS_BIBLIO_20170101_REFACTOR_MODEL 2019-04-06T15:57:13Z Roger Mähler <roger.mahler@umu.se> # Refactor bibliographic data to a less complex model.
+
+CS_DENDRO_20180520_CREATE_DENDRO_LOOKUP 2019-04-09T14:34:56Z Roger Mähler <roger.mahler@umu.se> # Add lookup table for dendro data
+CS_DENDRO_20180521_REFACTOR_MODEL [CS_DENDRO_20180520_CREATE_DENDRO_LOOKUP] 2019-04-08T10:16:55Z Roger Mähler <roger.mahler@umu.se> # Schema adaptations to dendrochronology datasets
+CS_DENDRO_20180521_ADD_LOOKUP_DATA [CS_DENDRO_20180521_REFACTOR_MODEL CS_DENDRO_20180520_CREATE_DENDRO_LOOKUP] 2019-04-08T10:16:55Z Roger Mähler <roger.mahler@umu.se> # Add dendrochronology lookup data
+CS_DENDRO_20190408_ALTER_DENDRO_DATES_ALLOW_NULL [CS_DENDRO_20180521_REFACTOR_MODEL] 2019-04-09T08:46:39Z Roger Mähler <roger.mahler@umu.se> # Allow NULL values in tbl_dendro_dates.error_uncertainty_id
+
+CS_CERAMICS_20190408_CREATE_TABLE_CERAMICS_LOOKUP 2019-04-09T08:59:54Z Roger Mähler <roger.mahler@umu.se> # Add new lookup table for ceramics data
+
+CS_DATASET_20190408_CREATE_TABLE_DATASET_METHODS 2019-04-09T10:45:59Z Roger Mähler <roger.mahler@umu.se> # Add new table
+
+CS_SAMPLE_GROUP_20180607_ALTER_SAMPLING_CONTEXT 2019-04-08T14:44:13Z Roger Mähler <roger.mahler@umu.se> # Change type of tbl_sample_group_sampling_contexts.sampling_context
+
+CS_SAMPLE_20190408_ALTER_TYPE_DATE_SAMPLED 2019-04-09T08:50:24Z Roger Mähler <roger.mahler@umu.se> # Alter tbl_physical_samples.date_sampled to timestamp with time zone
+CS_SAMPLE_20190408_ALTER_SAMPLE_COORDINATES 2019-04-09T10:19:12Z Roger Mähler <roger.mahler@umu.se> # Add sequence default to key
+
+CS_ECOCODE_20190408_ALTER_TYPE_ECOCODE_GROUPS 2019-04-09T09:18:52Z Roger Mähler <roger.mahler@umu.se> # Alter type for columns name, abbreviation
+CS_RELATIVE_DATES_20190408_ALTER_RELATION 2019-04-09T09:22:14Z Roger Mähler <roger.mahler@umu.se> # Alter FK from physical_sample_id to analysis_entity_id
+CS_PROJECT_20190408_ALTER_PROJECT_STAGES 2019-04-09T10:19:11Z Roger Mähler <roger.mahler@umu.se> # Add sequence default to key
+CS_TAXA_20190408_ALTER_SPECIES_ASSOCIATION_TYPES 2019-04-09T10:32:12Z Roger Mähler <roger.mahler@umu.se> # Add sequence default to key
+CS_CHRONOLOGIES_20190408_REFACTOR_MODEL 2019-04-09T10:36:57Z Roger Mähler <roger.mahler@umu.se> # Allow relation to multiple sample groups
+CS_LOCATION_20190408_UPDATE_LOCATION_RECORD 2019-04-09T08:40:43Z Roger Mähler <roger.mahler@umu.se> # Update name on location 3894
+CS_SITE_20180601_ADD_LOCATION_ACCURACY 2019-04-09T18:08:43Z Roger Mähler <roger.mahler@umu.se> # Accuracy of highest location resolution level.
+CS_TAXA_20180601_DROP_VIEWS 2019-04-10T08:58:56Z Roger Mähler <roger.mahler@umu.se> # Drop old views.
+CS_DEPRECATE_20180601_DROP_RADIOCARBON_CALIBRATION 2019-04-10T09:14:56Z Roger Mähler <roger.mahler@umu.se> # Drop deprecated table.
+CS_SITE_20180601_ALTER_TYPE 2019-04-10T09:18:15Z Roger Mähler <roger.mahler@umu.se> # Increase length of varchar columns .
+CS_SAMPLE_20190410_CREATE_INDEX 2019-04-10T09:20:28Z Roger Mähler <roger.mahler@umu.se> # Create index on FK feature_id.
+CS_TAXA_20190410_CREATE_VIEW_ALPHABETICALLY 2019-04-10T09:24:15Z Roger Mähler <roger.mahler@umu.se> # Create taxa helper view.
+CS_COMMENTS_20190410_UPDATE_COMMENTS 2019-04-10T12:04:29Z Roger Mähler <roger.mahler@umu.se> # Comment diffs on table/columns with respect to sead_master_8.
+CS_RELATIVE_DATING_20190410_RENAME_COLUMN 2019-04-10T14:58:41Z Roger Mähler <roger.mahler@umu.se> # Rename column from abbreviation
+CS_ECOCODE_20190411_RENAME_COLUMNS 2019-04-11T09:40:32Z Roger Mähler <roger.mahler@umu.se> # Rename ecocode columns
+CS_META_20190411_VIEW_UPDATES 2019-04-11T11:44:44Z Roger Mähler <roger.mahler@umu.se> # Deprecate some views
+CS_SAMPLE__20190411_ASSIGN_SEQUENCE 2019-04-11T14:41:49Z Roger Mähler <roger.mahler@umu.se> # Assign sequence as default
