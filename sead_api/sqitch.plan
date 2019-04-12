@@ -1,0 +1,5 @@
+%syntax-version=1.0.0
+%project=sead_api
+%uri=https://github.com/humlab-sead/sead-api
+
+CS_DATAARC_20170810_DATASRC_API 2019-04-12T13:06:07Z Roger Mähler <roger.mahler@umu.se> # DataARC export schema.
