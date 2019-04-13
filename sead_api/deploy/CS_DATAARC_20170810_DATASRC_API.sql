@@ -34,7 +34,8 @@ begin
         drop type if exists humlab_utility.ecocode_crosstab_cols;
         
         set client_min_messages = warning;
-
+        set plpgsql.extra_warnings to 'shadowed_variables';
+        
         create type humlab_utility.ecocode_crosstab_cols as (
             "physical_sample_id" integer,
             "aquatics" integer,
