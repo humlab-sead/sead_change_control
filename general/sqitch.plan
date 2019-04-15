@@ -40,3 +40,14 @@ CS_RELATIVE_DATING_20190410_RENAME_COLUMN 2019-04-10T14:58:41Z Roger Mähler <ro
 CS_ECOCODE_20190411_RENAME_COLUMNS 2019-04-11T09:40:32Z Roger Mähler <roger.mahler@umu.se> # Rename ecocode columns
 CS_META_20190411_VIEW_UPDATES 2019-04-11T11:44:44Z Roger Mähler <roger.mahler@umu.se> # Deprecate some views
 CS_SAMPLE__20190411_ASSIGN_SEQUENCE 2019-04-11T14:41:49Z Roger Mähler <roger.mahler@umu.se> # Assign sequence as default
+CS_BIBLIO_20180222_ADD_RECORD 2019-04-15T08:25:52Z Roger Mähler <roger.mahler@umu.se> # Add "Arnolds & E. van der Maarel (1979)".
+CS_ECOCODE_20180222_ADD_SYSTEM_ID 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
+CS_ECOCODE_20180222_DELETE_SYSTEMS 2019-04-15T08:42:29Z Roger Mähler <roger.mahler@umu.se> # Delete systems (id 2 and 3).
+CS_METHOD_20140417_ADD_METHOD_GEOLPER 2019-04-15T10:32:04Z Roger Mähler <roger.mahler@umu.se> # Add method GeolPer.
+CS_METHOD_20180502_UPDATE_METHOD_TL 2019-04-15T10:32:04Z Roger Mähler <roger.mahler@umu.se> # Update description for method TL.
+CS_RECORD_TYPE_20120921_UPDATE_PLANTS_POLLEN 2019-04-15T10:41:55Z Roger Mähler <roger.mahler@umu.se> # Update description for method plants and pollen.
+CS_RELATIVE_AGE_20140417_ADD_DATA 2019-04-15T10:55:51Z Roger Mähler <roger.mahler@umu.se> # Add relative ages data (origin is sead_master_8).
+CS_SITE_20131113_UPDATE_LAT_LONG 2019-04-15T13:54:01Z Roger Mähler <roger.mahler@umu.se> # Set latitude/longitude on 61 sites
+CS_SPECIES_20190415_DELETE_DUPLICATES 2019-04-15T14:37:52Z Roger Mähler <roger.mahler@umu.se> # Delete species associations types marked as duplicates
+CS_DATA_TYPE_20170517_ADD_TYPES 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # Add three types
+CS_DATA_TYPE_20120921_UPDATE_DESCRIPTION 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # Add three types

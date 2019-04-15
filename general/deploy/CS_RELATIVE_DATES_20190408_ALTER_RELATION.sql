@@ -4,24 +4,24 @@ do $$
 begin
 	begin   
 
-        IF sead_utility.column_exists('public'::text, 'tbl_relative_dates'::text, 'analysis_entity_id'::text) = FALSE THEN
-            RAISE EXCEPTION SQLSTATE 'GUARD';
-        END IF;
+        if sead_utility.column_exists('public'::text, 'tbl_relative_dates'::text, 'analysis_entity_id'::text) = false then
+            raise exception sqlstate 'guard';
+        end if;
 
-        IF (SELECT COUNT(*) FROM tbl_relative_dates) > 0 THEN
-            RAISE EXCEPTION 'Table contains data. Cannot deploy requested action';
-            -- TODO Update is not deterministic
-        END IF;
+        if (select count(*) from tbl_relative_dates) > 0 then
+            raise exception 'table contains data. cannot deploy requested action';
+            -- todo update is not deterministic
+        end if;
         
-        ALTER TABLE tbl_relative_dates
-            ADD COLUMN analysis_entity_id int4 NOT NULL,
-            ADD CONSTRAINT "fk_tbl_relative_dates_to_tbl_analysis_entities" FOREIGN KEY (analysis_entity_id) REFERENCES tbl_analysis_entities (analysis_entity_id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+        alter table tbl_relative_dates
+            add column analysis_entity_id int4 not null,
+            add constraint "fk_tbl_relative_dates_to_tbl_analysis_entities" foreign key (analysis_entity_id) references tbl_analysis_entities (analysis_entity_id) on delete no action on update no action;
 
-        ALTER TABLE tbl_relative_dates
-            DROP CONSTRAINT IF EXISTS "fk_relative_dates_physical_sample_id",
-            DROP COLUMN IF EXISTS "physical_sample_id";
+        alter table tbl_relative_dates
+            drop constraint if exists "fk_relative_dates_physical_sample_id",
+            drop column if exists "physical_sample_id";
             
-        COMMENT ON TABLE "public"."tbl_relative_dates" IS '20120504PIB: Added method_id to store dating method used to attribute sample to period or calendar date (e.g. strategraphic dating, typological)
+        comment on table "public"."tbl_relative_dates" is '20120504PIB: Added method_id to store dating method used to attribute sample to period or calendar date (e.g. strategraphic dating, typological)
 20130722PIB: added field dating_uncertainty_id to cater for "from", "to" and "ca." etc. especially from import of BugsCEP
 20170906PIB: removed fk physical_samples_id and replaced with analysis_entity_id';
 

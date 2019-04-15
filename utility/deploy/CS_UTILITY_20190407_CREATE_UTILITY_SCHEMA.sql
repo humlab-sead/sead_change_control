@@ -1,47 +1,114 @@
 -- Deploy sead_db_change_control:create_sead_utility_schema to pg
 
-BEGIN;
+begin;
 
-    CREATE SCHEMA IF NOT EXISTS sead_utility;
+    create schema if not exists sead_utility;
     
-    CREATE OR REPLACE FUNCTION sead_utility.schema_exists(p_schema_name text)
-      RETURNS bool AS
+    create or replace function sead_utility.schema_exists(p_schema_name text)
+      returns bool as
     $$
-        SELECT EXISTS (
-            SELECT 1 FROM information_schema.schemata WHERE schema_name = p_schema_name;
+        select exists (
+            select 1 from information_schema.schemata where schema_name = p_schema_name;
         );
-    $$  LANGUAGE sql;
+    $$  language sql;
     
-SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'name';
-
-    CREATE OR REPLACE FUNCTION sead_utility.table_exists(p_schema_name text, p_table_name text)
-      RETURNS bool AS
+    create or replace function sead_utility.table_exists(p_schema_name text, p_table_name text)
+      returns bool as
     $$
-        SELECT EXISTS (
-            SELECT 1
-            FROM pg_catalog.pg_class AS c
-            JOIN pg_catalog.pg_namespace AS ns
-              ON c.relnamespace = ns.oid
-            WHERE c.oid::regclass::text = p_table_name
-              AND ns.nspname = p_schema_name
+        select exists (
+            select 1
+            from pg_catalog.pg_class as c
+            join pg_catalog.pg_namespace as ns
+              on c.relnamespace = ns.oid
+            where c.oid::regclass::text = p_table_name
+              and ns.nspname = p_schema_name
         );
-    $$  LANGUAGE sql;
+    $$  language sql;
 
-    CREATE OR REPLACE FUNCTION sead_utility.column_exists(p_schema_name text, p_table_name text, p_column_name text)
-      RETURNS bool AS
+    create or replace function sead_utility.column_exists(p_schema_name text, p_table_name text, p_column_name text)
+      returns bool as
     $$
-        SELECT EXISTS (
-            SELECT 1
-            FROM pg_catalog.pg_attribute AS a
-            JOIN pg_catalog.pg_class AS c
-              ON a.attrelid = c.oid
-            JOIN pg_catalog.pg_namespace AS ns
-              ON c.relnamespace = ns.oid
-            WHERE c.oid::regclass::text = p_table_name
-              AND a.attname = p_column_name
-              AND ns.nspname = p_schema_name
-              AND attnum > 0
+        select exists (
+            select 1
+            from pg_catalog.pg_attribute as a
+            join pg_catalog.pg_class as c
+              on a.attrelid = c.oid
+            join pg_catalog.pg_namespace as ns
+              on c.relnamespace = ns.oid
+            where c.oid::regclass::text = p_table_name
+              and a.attname = p_column_name
+              and ns.nspname = p_schema_name
+              and attnum > 0
         );
-    $$  LANGUAGE sql;
+    $$  language sql;
 
-COMMIT;
+
+    create or replace view sead_utility.view_table_columns as (
+        with fk_constraint as (
+            select distinct fk.conrelid, fk.confrelid, fk.conkey,
+                    fk.confrelid::regclass::information_schema.sql_identifier as fk_table_name,
+                    fkc.attname::information_schema.sql_identifier as fk_column_name
+            from pg_constraint as fk
+            join pg_attribute fkc
+            on fkc.attrelid = fk.confrelid
+            and fkc.attnum = fk.confkey[1]
+            where fk.contype = 'f'::char
+        )
+            select  pg_tables.schemaname::information_schema.sql_identifier as table_schema,
+                pg_tables.tablename::information_schema.sql_identifier as table_name,
+                pg_attribute.attname::information_schema.sql_identifier as column_name,
+                pg_attribute.attnum::information_schema.cardinal_number as ordinal_position,
+                format_type(pg_attribute.atttypid, null)::information_schema.character_data as data_type,
+                case pg_attribute.atttypid
+                    when 21 /*int2*/ then 16
+                    when 23 /*int4*/ then 32
+                    when 20 /*int8*/ then 64
+                    when 1700 /*numeric*/ then
+                        case when pg_attribute.atttypmod = -1
+                            then null
+                            else ((pg_attribute.atttypmod - 4) >> 16) & 65535     -- calculate the precision
+                            end
+                    when 700 /*float4*/ then 24 /*flt_mant_dig*/
+                    when 701 /*float8*/ then 53 /*dbl_mant_dig*/
+                    else null
+                end::information_schema.cardinal_number as numeric_precision,
+                case
+                when pg_attribute.atttypid in (21, 23, 20) then 0
+                when pg_attribute.atttypid in (1700) then
+                    case
+                        when pg_attribute.atttypmod = -1 then null
+                        else (pg_attribute.atttypmod - 4) & 65535            -- calculate the scale
+                    end
+                else null
+                end::information_schema.cardinal_number as numeric_scale,
+                case when pg_attribute.atttypid not in (1042,1043) or pg_attribute.atttypmod = -1 then null
+                    else pg_attribute.atttypmod - 4 end::information_schema.cardinal_number as character_maximum_length,
+                case pg_attribute.attnotnull when false then 'YES' else 'NO' end::information_schema.yes_or_no as is_nullable,
+                case when pk.contype is null then 'NO' else 'YES' end::information_schema.yes_or_no as is_pk,
+                case when fk.conrelid is null then 'NO' else 'YES' end::information_schema.yes_or_no as is_fk,
+                fk.fk_table_name,
+                fk.fk_column_name
+        from pg_tables
+        join pg_class
+          on pg_class.relname = pg_tables.tablename
+        join pg_namespace ns
+          on ns.oid = pg_class.relnamespace
+         and ns.nspname  = pg_tables.schemaname
+        join pg_attribute
+          on pg_class.oid = pg_attribute.attrelid
+         and pg_attribute.attnum > 0
+        left join pg_constraint pk
+          on pk.contype = 'p'::"char"
+         and pk.conrelid = pg_class.oid
+         and (pg_attribute.attnum = any (pk.conkey))
+        left join fk_constraint as fk
+          on fk.conrelid = pg_class.oid
+         and (pg_attribute.attnum = any (fk.conkey))
+        where true
+          --and pg_tables.tableowner = 'sead_master'
+          and pg_attribute.atttypid <> 0::oid
+          and pg_tables.schemaname = 'public'
+        order by table_name, ordinal_position asc
+)
+              
+commit;
