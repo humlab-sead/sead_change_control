@@ -1,5 +1,6 @@
 -- Deploy sead_db_change_control:create_sead_utility_schema to pg
 
+
 begin;
 
     create schema if not exists sead_utility;
@@ -8,7 +9,7 @@ begin;
       returns bool as
     $$
         select exists (
-            select 1 from information_schema.schemata where schema_name = p_schema_name;
+            select 1 from information_schema.schemata where schema_name = p_schema_name
         );
     $$  language sql;
     
@@ -109,6 +110,39 @@ begin;
           and pg_attribute.atttypid <> 0::oid
           and pg_tables.schemaname = 'public'
         order by table_name, ordinal_position asc
-)
+    );
+              
+    create or replace function sead_utility.create_consolidated_references_view(p_fk_column_name varchar)
+        returns text as $$
+    declare
+        v_sql text;
+        v_table_name varchar;
+        v_view_name varchar;
+        v_pk_column_name varchar;
+    begin
+        v_sql = '';
+        v_view_name = 'sead_utility.view_consolidated_' || p_fk_column_name;
+        for v_table_name, v_pk_column_name in 
+            select fk.table_name, pk.column_name as pk_column_name
+            from sead_utility.view_table_columns fk
+            join sead_utility.view_table_columns pk
+              on pk.table_name = fk.table_name
+             and pk.is_pk = 'YES'
+            where fk.is_fk = 'YES'
+              and fk.column_name = p_fk_column_name
+        loop
+                if v_sql <> '' then
+                    v_sql = v_sql || '    union all' || E'\n';
+                end if;
+                v_sql = v_sql || '    select ''' || v_table_name || ''' as table_name, ''' || v_pk_column_name || ''' as pk_column_name, ' ||
+                    v_pk_column_name || ' as pk_id, ' ||
+                    p_fk_column_name || ' as fk_id ' ||
+                    'from ' || v_table_name || E'\n';
+                raise notice '%', v_table_name;
+        end loop;
+        v_sql = 'create or replace view ' || v_view_name || ' as (' || E'\n' || v_sql || ');' || E'\n';
+        raise notice '%', v_sql;
+        return v_sql;
+    end $$ language plpgsql;     
               
 commit;

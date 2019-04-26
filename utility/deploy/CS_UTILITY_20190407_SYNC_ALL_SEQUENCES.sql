@@ -11,25 +11,25 @@
 **  Idempotent              YES
 **/
 
-DO $BODY$
-DECLARE
+create or replace function sead_utility.sync_sequences() returns void language plpgsql as $$
+declare
 	sql record;
-BEGIN
-	FOR sql in SELECT 'SELECT SETVAL(' ||
-				quote_literal(quote_ident(PGT.schemaname) ||
-				'.'||quote_ident(S.relname)) ||
-				', MAX(' ||quote_ident(C.attname)||
-				') ) FROM ' ||
-				quote_ident(PGT.schemaname)|| '.'||quote_ident(T.relname)|| ';' as fix_query
-			FROM pg_class AS S, pg_depend AS D, pg_class AS T, pg_attribute AS C, pg_tables AS PGT
-			WHERE S.relkind = 'S'
-			    AND S.oid = D.objid
-			    AND D.refobjid = T.oid
-			    AND D.refobjid = C.attrelid
-			    AND D.refobjsubid = C.attnum
-			    AND T.relname = PGT.tablename
-			ORDER BY S.relname LOOP
-		EXECUTE sql.fix_query;
-	END LOOP;
-END;
-$BODY$;
+begin
+	for sql in
+        select 'select setval(' || quote_literal(quote_ident(pgt.schemaname) || '.'|| quote_ident(s.relname)) ||
+                ', max(' || quote_ident(c.attname) || ') ) from ' || quote_ident(pgt.schemaname) || '.' || quote_ident(t.relname) || ';' as fix_query
+		from pg_class as s, pg_depend as d, pg_class as t, pg_attribute as c, pg_tables as pgt
+		where s.relkind = 's'
+		  and s.oid = d.objid
+		  and d.refobjid = t.oid
+		  and d.refobjid = c.attrelid
+		  and d.refobjsubid = c.attnum
+		  and t.relname = pgt.tablename
+		order by s.relname
+    loop
+		execute sql.fix_query;
+	end loop;
+end;
+$$;
+                                                                                                  
+                                                                                                  

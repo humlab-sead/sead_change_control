@@ -19,7 +19,7 @@ begin
     
         -- create extension tablefunc;
     
-        create schema humlab_utility;
+        create schema if not exists humlab_utility;
     
         if sead_utility.view_exists('public'::text, 'humlab_utility'::text, 'column_name'::text) = TRUE then
             raise exception SQLSTATE 'GUARD';
@@ -104,7 +104,7 @@ begin
             crosstab_ecocode."Heathland & moorland",
             crosstab_ecocode.halotolerant,
             crosstab_ecocode.ectoparasite
-           from humlab_utility.crosstab_ecocode('SELECT physical_sample_id, ecocode_name::text, abundance_sum::int as abundance FROM humlab_utility.physical_sample_ecocode_abundance'::text) crosstab_ecocode(physical_sample_id, aquatics, "Indicators: Standing water", "Indicators: Running water", "Pasture/Dung", meadowland, "Wood and trees", "Indicators: Deciduous", "Indicators: Coniferous", "Wetlands/marshes", "Open wet habitats", "Disturbed/arable", "Sandy/dry disturbed/arable", "Dung/foul habitats", carrion, "Indicators: Dung", "Mould beetles", "General synanthropic", "Stored grain pest", "Dry dead wood", "Heathland & moorland", halotolerant, ectoparasite)
+           from humlab_utility.crosstab_ecocode('select physical_sample_id, ecocode_name::text, abundance_sum::int as abundance from humlab_utility.physical_sample_ecocode_abundance order by 1, 2'::text) crosstab_ecocode(physical_sample_id, aquatics, "Indicators: Standing water", "Indicators: Running water", "Pasture/Dung", meadowland, "Wood and trees", "Indicators: Deciduous", "Indicators: Coniferous", "Wetlands/marshes", "Open wet habitats", "Disturbed/arable", "Sandy/dry disturbed/arable", "Dung/foul habitats", carrion, "Indicators: Dung", "Mould beetles", "General synanthropic", "Stored grain pest", "Dry dead wood", "Heathland & moorland", halotolerant, ectoparasite)
         union
          select 'count'::text as agg_type,
             crosstab_ecocode.physical_sample_id,
@@ -130,7 +130,7 @@ begin
             crosstab_ecocode."Heathland & moorland",
             crosstab_ecocode.halotolerant,
             crosstab_ecocode.ectoparasite
-           from humlab_utility.crosstab_ecocode('SELECT physical_sample_id, ecocode_name::text, abundance_count::int as abundance FROM humlab_utility.physical_sample_ecocode_abundance'::text) crosstab_ecocode(physical_sample_id, aquatics, "Indicators: Standing water", "Indicators: Running water", "Pasture/Dung", meadowland, "Wood and trees", "Indicators: Deciduous", "Indicators: Coniferous", "Wetlands/marshes", "Open wet habitats", "Disturbed/arable", "Sandy/dry disturbed/arable", "Dung/foul habitats", carrion, "Indicators: Dung", "Mould beetles", "General synanthropic", "Stored grain pest", "Dry dead wood", "Heathland & moorland", halotolerant, ectoparasite);
+           from humlab_utility.crosstab_ecocode('select physical_sample_id, ecocode_name::text, abundance_count::int as abundance from humlab_utility.physical_sample_ecocode_abundance order by 1, 2'::text) crosstab_ecocode(physical_sample_id, aquatics, "Indicators: Standing water", "Indicators: Running water", "Pasture/Dung", meadowland, "Wood and trees", "Indicators: Deciduous", "Indicators: Coniferous", "Wetlands/marshes", "Open wet habitats", "Disturbed/arable", "Sandy/dry disturbed/arable", "Dung/foul habitats", carrion, "Indicators: Dung", "Mould beetles", "General synanthropic", "Stored grain pest", "Dry dead wood", "Heathland & moorland", halotolerant, ectoparasite);
 
         /***************************************************************************************
         **  View    humlab_utility.physical_sample_dating
@@ -284,6 +284,7 @@ begin
              join public.tbl_ecocodes e on ((tm.taxon_id = e.taxon_id)))
              join public.tbl_ecocode_definitions ed on ((e.ecocode_definition_id = ed.ecocode_definition_id)))
              join public.tbl_ecocode_groups eg on ((eg.ecocode_group_id = ed.ecocode_group_id)))
+            where eg.ecocode_system_id = 2
           group by ps.physical_sample_id, ed.name
           with no data;
 

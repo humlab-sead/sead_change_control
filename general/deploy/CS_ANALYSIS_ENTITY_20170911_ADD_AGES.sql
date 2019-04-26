@@ -1,0 +1,1807 @@
+-- Deploy sead_change_control:CS_ANALYSIS_ENTITY_20170911_ADD_AGES to pg
+
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2019-01-01
+  Description   
+  Prerequisites 
+  Reviewer      
+  Approver      
+  Idempotent    Yes
+  Notes
+*****************************************************************************************************************/
+
+begin;
+do $$
+begin
+
+    begin
+    
+        if sead_utility.column_exists('public'::text, 'table_name'::text, 'column_name'::text) = TRUE then
+            raise exception SQLSTATE 'GUARD';
+        end if;
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (890, NULL, 7841.50000, 7581.00000, 159868, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (891, NULL, 7658.50000, 7440.00000, 159869, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (892, NULL, 7679.50000, 7459.50000, 159870, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (893, NULL, 8694.00000, 7839.50000, 159871, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (894, NULL, 9524.00000, 7428.50000, 159872, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (895, NULL, 8581.50000, 7016.00000, 159873, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (896, NULL, 9887.00000, 9090.00000, 159874, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (897, NULL, 2713.00000, 2379.00000, 159880, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (898, NULL, 2743.50000, 2490.50000, 159881, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (899, NULL, 2713.00000, 2379.00000, 159882, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (900, NULL, 2743.50000, 2490.50000, 159883, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (901, NULL, 2713.00000, 2379.00000, 159884, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (902, NULL, 2743.50000, 2490.50000, 159885, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (903, NULL, 2713.00000, 2379.00000, 159886, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (904, NULL, 2743.50000, 2490.50000, 159887, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (905, NULL, 2713.00000, 2379.00000, 159888, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (906, NULL, 2743.50000, 2490.50000, 159889, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (907, NULL, 2713.00000, 2379.00000, 159890, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (908, NULL, 2743.50000, 2490.50000, 159891, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (909, NULL, 30860.00000, 29515.50000, 159893, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (910, NULL, 5445.00000, 4891.00000, 159896, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (911, NULL, 5465.00000, 4891.00000, 159897, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (912, NULL, 11958.00000, 11326.50000, 159898, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (913, NULL, 15140.00000, 14314.50000, 159899, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (914, NULL, 2750.00000, 2160.00000, 159900, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (915, NULL, 32100.00000, 31048.50000, 159901, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (916, NULL, 14091.50000, 13297.00000, 159902, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (917, NULL, 13765.50000, 13081.00000, 159903, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (918, NULL, 11261.00000, 10589.00000, 159904, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (919, NULL, 16749.00000, 15716.50000, 159908, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (920, NULL, 23389.50000, 21437.00000, 159909, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (921, NULL, 22611.50000, 21451.00000, 159910, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (922, NULL, 27105.00000, 24861.00000, 159911, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (923, NULL, 13051.00000, 11708.50000, 159912, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (924, NULL, 43320.00000, 41250.00000, 159914, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (925, NULL, 3390.00000, 3184.50000, 159919, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (926, NULL, 5035.00000, 4845.00000, 159920, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (927, NULL, 33069.00000, 31347.50000, 159921, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (928, NULL, 33069.00000, 31347.50000, 159922, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (929, NULL, 33069.00000, 31347.50000, 159923, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (930, NULL, 33069.00000, 31347.50000, 159924, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (931, NULL, 33069.00000, 31347.50000, 159925, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (932, NULL, 33069.00000, 31347.50000, 159926, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (933, NULL, 33069.00000, 31347.50000, 159927, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (934, NULL, 11094.00000, 10433.00000, 159928, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (935, NULL, 11194.00000, 10673.00000, 159929, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (936, NULL, 11133.00000, 10523.00000, 159930, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (937, NULL, 9435.00000, 8795.00000, 159931, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (938, NULL, 9596.00000, 9290.00000, 159932, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (939, NULL, 9398.50000, 8778.50000, 159933, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (940, NULL, 10234.50000, 9764.50000, 159934, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (941, NULL, 2718.00000, 2184.50000, 159935, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (942, NULL, 2718.00000, 2184.50000, 159936, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (943, NULL, 4804.00000, 4249.00000, 159937, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (944, NULL, 10156.50000, 9532.50000, 159939, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (945, NULL, 10780.00000, 10240.00000, 159940, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (946, NULL, 13093.00000, 12712.50000, 159941, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (947, NULL, 12860.50000, 12552.00000, 159942, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (948, NULL, 14766.00000, 13740.00000, 159943, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (949, NULL, 11100.50000, 10440.00000, 159944, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (950, NULL, 11229.50000, 10249.50000, 159945, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (951, NULL, 11205.00000, 10235.00000, 159946, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (952, NULL, 11599.00000, 10214.50000, 159947, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (953, NULL, 11349.00000, 10255.50000, 159948, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (954, NULL, 14002.50000, 13139.50000, 159949, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (955, NULL, 11772.00000, 11175.50000, 159951, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (956, NULL, 9409.50000, 8630.00000, 159952, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (957, NULL, 4960.00000, 4521.50000, 159953, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (958, NULL, 4848.50000, 4531.50000, 159954, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (959, NULL, 13307.00000, 12861.50000, 159955, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (960, NULL, 3612.00000, 3362.50000, 159956, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (961, NULL, 2990.50000, 2740.00000, 159957, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (962, NULL, 4403.50000, 3725.50000, 159962, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (963, NULL, 11750.00000, 11103.00000, 159963, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (964, NULL, 11705.00000, 10785.50000, 159964, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (965, NULL, 15221.50000, 13629.00000, 159965, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (966, NULL, 13384.50000, 12731.00000, 159966, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (967, NULL, 13155.00000, 12425.50000, 159967, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (968, NULL, 13059.50000, 9549.50000, 159968, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (969, NULL, 13075.50000, 12446.00000, 159969, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (970, NULL, 14728.00000, 13719.50000, 159970, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (971, NULL, 11242.50000, 10793.00000, 159971, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (972, NULL, 16242.00000, 14519.00000, 159972, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (973, NULL, 12578.50000, 11400.50000, 159973, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (974, NULL, 12805.00000, 12153.00000, 159974, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (975, NULL, 4972.00000, 4446.50000, 159975, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (976, NULL, 14852.00000, 13583.50000, 159978, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (977, NULL, 5580.00000, 4879.50000, 159979, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (978, NULL, 5580.00000, 4879.50000, 159980, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (979, NULL, 5580.00000, 4879.50000, 159981, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (980, NULL, 5580.00000, 4879.50000, 159982, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (981, NULL, 5580.00000, 4879.50000, 159983, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (982, NULL, 5580.00000, 4879.50000, 159984, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (983, NULL, 5580.00000, 4879.50000, 159985, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (984, NULL, 5609.00000, 5044.50000, 159986, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (985, NULL, 5609.00000, 5044.50000, 159987, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (986, NULL, 5609.00000, 5044.50000, 159988, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (987, NULL, 5609.00000, 5044.50000, 159989, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (988, NULL, 5609.00000, 5044.50000, 159990, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (989, NULL, 5609.00000, 5044.50000, 159991, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (990, NULL, 5609.00000, 5044.50000, 159992, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (991, NULL, 7269.50000, 6414.50000, 159993, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (992, NULL, 7269.50000, 6414.50000, 159994, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (993, NULL, 7269.50000, 6414.50000, 159995, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (994, NULL, 7269.50000, 6414.50000, 159996, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (995, NULL, 7269.50000, 6414.50000, 159997, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (996, NULL, 7269.50000, 6414.50000, 159998, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (997, NULL, 7269.50000, 6414.50000, 159999, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (998, NULL, 5469.50000, 4867.00000, 160000, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (999, NULL, 5469.50000, 4867.00000, 160001, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1000, NULL, 5469.50000, 4867.00000, 160002, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1001, NULL, 5469.50000, 4867.00000, 160003, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1002, NULL, 5469.50000, 4867.00000, 160004, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1003, NULL, 5469.50000, 4867.00000, 160005, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1004, NULL, 5469.50000, 4867.00000, 160006, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1005, NULL, 5568.00000, 4827.00000, 160007, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1006, NULL, 5568.00000, 4827.00000, 160008, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1007, NULL, 5568.00000, 4827.00000, 160009, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1008, NULL, 5568.00000, 4827.00000, 160010, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1009, NULL, 5568.00000, 4827.00000, 160011, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1010, NULL, 5568.00000, 4827.00000, 160012, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1011, NULL, 5568.00000, 4827.00000, 160013, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1012, NULL, 5289.50000, 4580.00000, 160014, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1013, NULL, 5289.50000, 4580.00000, 160015, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1014, NULL, 5289.50000, 4580.00000, 160016, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1015, NULL, 5289.50000, 4580.00000, 160017, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1016, NULL, 5289.50000, 4580.00000, 160018, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1017, NULL, 5289.50000, 4580.00000, 160019, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1018, NULL, 5289.50000, 4580.00000, 160020, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1019, NULL, 4852.50000, 4358.00000, 160021, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1020, NULL, 4852.50000, 4358.00000, 160022, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1021, NULL, 4852.50000, 4358.00000, 160023, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1022, NULL, 4852.50000, 4358.00000, 160024, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1023, NULL, 4852.50000, 4358.00000, 160025, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1024, NULL, 4852.50000, 4358.00000, 160026, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1025, NULL, 4852.50000, 4358.00000, 160027, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1026, NULL, 4413.00000, 4149.50000, 160028, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1027, NULL, 4413.00000, 4149.50000, 160029, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1028, NULL, 4413.00000, 4149.50000, 160030, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1029, NULL, 4413.00000, 4149.50000, 160031, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1030, NULL, 4413.00000, 4149.50000, 160032, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1031, NULL, 4413.00000, 4149.50000, 160033, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1032, NULL, 4413.00000, 4149.50000, 160034, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1033, NULL, 4286.00000, 3932.50000, 160035, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1034, NULL, 1808.00000, 1553.50000, 160036, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1035, NULL, 2044.50000, 1825.00000, 160037, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1036, NULL, 47445.50000, 38949.00000, 160039, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1037, NULL, 5305.50000, 4878.50000, 160040, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1038, NULL, 1857.50000, 1552.00000, 160041, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1039, NULL, 2699.50000, 2312.00000, 160042, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1040, NULL, 2699.50000, 2312.00000, 160043, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1041, NULL, 2699.50000, 2312.00000, 160044, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1042, NULL, 2699.50000, 2312.00000, 160045, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1043, NULL, 2699.50000, 2312.00000, 160046, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1044, NULL, 2699.50000, 2312.00000, 160047, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1045, NULL, 2699.50000, 2312.00000, 160048, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1046, NULL, 2698.50000, 2207.00000, 160049, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1047, NULL, 2698.50000, 2207.00000, 160050, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1048, NULL, 2698.50000, 2207.00000, 160051, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1049, NULL, 2698.50000, 2207.00000, 160052, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1050, NULL, 2485.00000, 1995.00000, 160053, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1051, NULL, 2485.00000, 1995.00000, 160054, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1052, NULL, 2485.00000, 1995.00000, 160055, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1053, NULL, 2485.00000, 1995.00000, 160056, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1054, NULL, 2455.50000, 2062.50000, 160057, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1055, NULL, 2455.50000, 2062.50000, 160058, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1056, NULL, 2455.50000, 2062.50000, 160059, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1057, NULL, 2455.50000, 2062.50000, 160060, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1058, NULL, 2697.00000, 2146.50000, 160061, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1059, NULL, 2697.00000, 2146.50000, 160062, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1060, NULL, 2697.00000, 2146.50000, 160063, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1061, NULL, 2697.00000, 2146.50000, 160064, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1062, NULL, 2701.00000, 2155.00000, 160065, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1063, NULL, 2701.00000, 2155.00000, 160066, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1064, NULL, 2701.00000, 2155.00000, 160067, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1065, NULL, 2701.00000, 2155.00000, 160068, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1066, NULL, 3399.50000, 2863.00000, 160070, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1067, NULL, 3476.00000, 3005.00000, 160071, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1068, NULL, 3810.00000, 3239.00000, 160072, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1069, NULL, 3392.50000, 3006.50000, 160073, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1070, NULL, 3392.50000, 3006.50000, 160074, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1071, NULL, 3374.50000, 3003.00000, 160075, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1072, NULL, 3344.00000, 2885.00000, 160076, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1073, NULL, 3374.50000, 3003.00000, 160077, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1074, NULL, 3344.00000, 2929.00000, 160078, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1075, NULL, 3230.50000, 2880.50000, 160079, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1076, NULL, 3344.00000, 2929.00000, 160080, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1077, NULL, 15458.00000, 14911.00000, 160081, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1078, NULL, 47017.00000, 43880.50000, 160082, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1079, NULL, 47017.00000, 43880.50000, 160083, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1080, NULL, 47017.00000, 43880.50000, 160084, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1081, NULL, 14892.50000, 13727.00000, 160087, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1082, NULL, 14892.50000, 13727.00000, 160088, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1083, NULL, 11962.50000, 11243.50000, 160089, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1084, NULL, 11225.50000, 10712.50000, 160090, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1085, NULL, 11225.50000, 10712.50000, 160091, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1086, NULL, 11057.00000, 10231.00000, 160092, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1087, NULL, 11057.00000, 10231.00000, 160093, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1088, NULL, 11125.00000, 10430.00000, 160094, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1089, NULL, 11705.00000, 9125.50000, 160095, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1090, NULL, 13315.50000, 12801.00000, 160096, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1091, NULL, 12521.00000, 10303.50000, 160097, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1092, NULL, 14967.50000, 12388.00000, 160098, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1093, NULL, 15581.00000, 14061.00000, 160099, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1094, NULL, 12226.00000, 10585.00000, 160100, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1095, NULL, 12375.00000, 10736.00000, 160101, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1096, NULL, 13314.00000, 12685.00000, 160102, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1097, NULL, 13733.50000, 12423.50000, 160103, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1098, NULL, 3033.00000, 2759.50000, 160104, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1099, NULL, 3330.00000, 2785.50000, 160105, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1100, NULL, 3325.00000, 2780.00000, 160106, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1101, NULL, 3448.50000, 2876.00000, 160107, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1102, NULL, 18329.00000, 15984.50000, 160108, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1103, NULL, 17443.50000, 16537.50000, 160109, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1104, NULL, 17927.00000, 14627.50000, 160110, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1105, NULL, 33502.50000, 28281.50000, 160111, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1106, NULL, 34575.50000, 32636.00000, 160112, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1107, NULL, 13294.50000, 12958.50000, 160113, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1108, NULL, 12539.00000, 11501.00000, 160114, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1109, NULL, 12995.50000, 11507.50000, 160115, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1110, NULL, 3826.00000, 3380.00000, 160116, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1111, NULL, 29079.00000, 25991.50000, 160117, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1112, NULL, 17012.00000, 15776.00000, 160118, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1113, NULL, 25272.50000, 22191.50000, 160119, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1114, NULL, 25272.50000, 22191.50000, 160120, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1115, NULL, 25272.50000, 22191.50000, 160121, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1116, NULL, 25272.50000, 22191.50000, 160122, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1117, NULL, 25272.50000, 22191.50000, 160123, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1118, NULL, 25272.50000, 22191.50000, 160124, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1119, NULL, 16675.00000, 15640.00000, 160125, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1120, NULL, 12775.50000, 11750.00000, 160126, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1121, NULL, 12225.50000, 11262.50000, 160127, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1122, NULL, 12225.50000, 11262.50000, 160128, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1123, NULL, 3543.50000, 2865.50000, 160129, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1124, NULL, 3543.50000, 2865.50000, 160130, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1125, NULL, 2340.00000, 1898.50000, 160131, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1126, NULL, 2340.00000, 1898.50000, 160132, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1127, NULL, 2340.00000, 1898.50000, 160133, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1128, NULL, 10189.00000, 9308.00000, 160134, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1129, NULL, 13073.50000, 12652.50000, 160135, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1130, NULL, 13099.00000, 12794.50000, 160136, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1131, NULL, 13099.00000, 12794.50000, 160137, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1132, NULL, 13099.00000, 12794.50000, 160138, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1133, NULL, 13099.00000, 12794.50000, 160139, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1134, NULL, 9023.50000, 8483.50000, 160140, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1135, NULL, 8715.00000, 7027.00000, 160141, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1136, NULL, 8508.00000, 8045.50000, 160142, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1137, NULL, 14308.00000, 13379.50000, 160143, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1138, NULL, 14037.00000, 13203.50000, 160144, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1139, NULL, 13601.00000, 12766.00000, 160145, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1140, NULL, 15211.00000, 12647.00000, 160146, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1141, NULL, 5643.50000, 5330.00000, 160147, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1142, NULL, 1990.00000, 1823.50000, 160148, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1143, NULL, 4081.50000, 3730.50000, 160149, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1144, NULL, 16795.00000, 16021.00000, 160150, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1145, NULL, 16435.50000, 15335.50000, 160151, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1146, NULL, 9501.00000, 9032.00000, 160153, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1147, NULL, 14743.50000, 13756.50000, 160168, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1148, NULL, 14743.50000, 13756.50000, 160169, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1149, NULL, 14743.50000, 13756.50000, 160170, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1150, NULL, 15815.00000, 14344.00000, 160171, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1151, NULL, 15815.00000, 14344.00000, 160172, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1152, NULL, 15815.00000, 14344.00000, 160173, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1153, NULL, 15779.00000, 13753.50000, 160174, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1154, NULL, 15779.00000, 13753.50000, 160175, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1155, NULL, 15779.00000, 13753.50000, 160176, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1156, NULL, 15476.00000, 14205.00000, 160177, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1157, NULL, 15476.00000, 14205.00000, 160178, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1158, NULL, 15476.00000, 14205.00000, 160179, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1159, NULL, 9731.50000, 9459.00000, 160199, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1160, NULL, 14984.50000, 14218.50000, 160200, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1161, NULL, 12227.00000, 11415.00000, 160201, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1162, NULL, 11395.00000, 11159.50000, 160202, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1163, NULL, 11767.00000, 11266.50000, 160203, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1164, NULL, 11329.00000, 10910.00000, 160204, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1165, NULL, 10755.50000, 10423.00000, 160205, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1166, NULL, 10245.50000, 9929.00000, 160206, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1167, NULL, 8977.50000, 8593.00000, 160207, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1168, NULL, 44802.00000, 42289.00000, 160211, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1169, NULL, 36606.00000, 34519.50000, 160212, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1170, NULL, 13544.00000, 13131.00000, 160213, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1171, NULL, 33953.50000, 32288.50000, 160214, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1172, NULL, 34095.00000, 32644.50000, 160215, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1173, NULL, 33156.00000, 31418.00000, 160216, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1174, NULL, 34849.00000, 33566.50000, 160217, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1175, NULL, 34849.00000, 33566.50000, 160218, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1176, NULL, 34849.00000, 33566.50000, 160219, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1177, NULL, 34849.00000, 33566.50000, 160220, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1178, NULL, 34849.00000, 33566.50000, 160221, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1179, NULL, 34849.00000, 33566.50000, 160222, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1180, NULL, 34849.00000, 33566.50000, 160223, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1181, NULL, 34849.00000, 33566.50000, 160224, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1182, NULL, 34849.00000, 33566.50000, 160225, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1183, NULL, 34849.00000, 33566.50000, 160226, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1184, NULL, 33688.00000, 31858.50000, 160227, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1185, NULL, 33688.00000, 31858.50000, 160228, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1186, NULL, 33688.00000, 31858.50000, 160229, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1187, NULL, 33688.00000, 31858.50000, 160230, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1188, NULL, 33688.00000, 31858.50000, 160231, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1189, NULL, 33688.00000, 31858.50000, 160232, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1190, NULL, 33688.00000, 31858.50000, 160233, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1191, NULL, 33688.00000, 31858.50000, 160234, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1192, NULL, 33688.00000, 31858.50000, 160235, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1193, NULL, 33688.00000, 31858.50000, 160236, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1194, NULL, 15988.50000, 14499.50000, 160237, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1195, NULL, 16129.50000, 14724.50000, 160238, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1196, NULL, 12952.50000, 12700.00000, 160239, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1197, NULL, 5715.00000, 5058.00000, 160243, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1198, NULL, 1857.00000, 1561.00000, 160244, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1199, NULL, 506.00000, 310.50000, 160245, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1200, NULL, 4783.50000, 4092.00000, 160246, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1201, NULL, 2700.00000, 2150.50000, 160247, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1202, NULL, 922.50000, 703.00000, 160248, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1203, NULL, 13953.00000, 13550.50000, 160249, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1204, NULL, 13134.00000, 12789.00000, 160250, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1205, NULL, 13134.00000, 12789.00000, 160251, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1206, NULL, 13087.00000, 12758.50000, 160252, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1207, NULL, 14953.00000, 13923.00000, 160253, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1208, NULL, 14953.00000, 13923.00000, 160254, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1209, NULL, 14600.00000, 13805.50000, 160255, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1210, NULL, 14600.00000, 13805.50000, 160256, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1211, NULL, 14600.00000, 13805.50000, 160257, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1212, NULL, 12815.50000, 12570.00000, 160258, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1213, NULL, 13265.50000, 12816.00000, 160259, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1214, NULL, 13284.00000, 12808.50000, 160261, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1215, NULL, 3825.00000, 3453.50000, 160262, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1216, NULL, 4081.50000, 3694.50000, 160263, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1217, NULL, 4089.50000, 3718.00000, 160264, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1218, NULL, 4147.50000, 3727.50000, 160265, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1219, NULL, 1177.50000, 737.50000, 160266, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1220, NULL, 1172.00000, 693.50000, 160267, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1221, NULL, 1255.00000, 784.00000, 160268, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1222, NULL, 1172.00000, 693.50000, 160269, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1223, NULL, 1172.00000, 693.50000, 160270, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1224, NULL, 1172.00000, 693.50000, 160271, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1225, NULL, 1255.00000, 784.00000, 160272, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1226, NULL, 1255.00000, 784.00000, 160273, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1227, NULL, 1255.00000, 784.00000, 160274, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1228, NULL, 1177.50000, 737.50000, 160275, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1229, NULL, 1177.50000, 737.50000, 160276, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1230, NULL, 3379.00000, 3158.00000, 160277, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1231, NULL, 3379.00000, 3158.00000, 160278, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1232, NULL, 3358.00000, 3060.00000, 160279, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1233, NULL, 3358.00000, 3060.00000, 160280, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1234, NULL, 3376.00000, 3080.00000, 160281, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1235, NULL, 3444.50000, 3226.50000, 160282, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1236, NULL, 3444.50000, 3226.50000, 160283, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1237, NULL, 3217.00000, 2971.00000, 160284, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1238, NULL, 3444.50000, 3226.50000, 160285, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1239, NULL, 3550.00000, 3273.50000, 160286, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1240, NULL, 1692.50000, 1407.00000, 160287, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1241, NULL, 1692.50000, 1407.00000, 160288, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1242, NULL, 1692.50000, 1407.00000, 160289, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1243, NULL, 1692.50000, 1407.00000, 160290, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1244, NULL, 3325.00000, 2877.50000, 160291, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1245, NULL, 3325.00000, 2877.50000, 160292, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1246, NULL, 3325.00000, 2877.50000, 160293, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1247, NULL, 3549.50000, 3209.50000, 160294, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1248, NULL, 3549.50000, 3209.50000, 160295, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1249, NULL, 3549.50000, 3209.50000, 160296, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1250, NULL, 3332.50000, 2885.00000, 160297, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1251, NULL, 3332.50000, 2885.00000, 160298, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1252, NULL, 3332.50000, 2885.00000, 160299, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1253, NULL, 3341.00000, 3072.00000, 160300, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1254, NULL, 3341.00000, 3072.00000, 160301, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1255, NULL, 3341.00000, 3072.00000, 160302, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1256, NULL, 42326.50000, 40744.50000, 160304, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1257, NULL, 9252.00000, 9010.50000, 160305, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1258, NULL, 5574.50000, 5040.00000, 160306, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1259, NULL, 3975.00000, 3725.50000, 160307, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1260, NULL, 3444.50000, 3074.50000, 160308, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1261, NULL, 3144.50000, 2760.00000, 160309, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1262, NULL, 1284.50000, 1087.50000, 160310, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1263, NULL, 504.50000, 315.00000, 160311, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1264, NULL, 495.00000, 312.00000, 160312, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1265, NULL, 3076.00000, 2880.00000, 160313, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1266, NULL, 1177.50000, 737.50000, 160314, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1267, NULL, 1255.00000, 801.00000, 160315, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1268, NULL, 1259.50000, 937.00000, 160316, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1269, NULL, 1298.50000, 999.00000, 160317, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1270, NULL, 1298.50000, 999.00000, 160318, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1271, NULL, 1298.50000, 999.00000, 160319, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1272, NULL, 5888.00000, 5476.50000, 160320, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1273, NULL, 10738.00000, 10398.00000, 160321, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1274, NULL, 11592.00000, 11170.00000, 160322, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1275, NULL, 11065.00000, 10431.00000, 160323, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1276, NULL, 11618.00000, 11210.50000, 160324, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1277, NULL, 13107.50000, 12772.50000, 160325, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1278, NULL, 13320.50000, 13045.00000, 160326, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1279, NULL, 13085.00000, 12775.00000, 160327, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1280, NULL, 13146.00000, 12819.50000, 160328, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1281, NULL, 13376.00000, 13075.00000, 160329, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1282, NULL, 13742.50000, 13358.50000, 160330, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1283, NULL, 13421.50000, 13100.50000, 160331, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1284, NULL, 13440.00000, 13117.00000, 160332, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1285, NULL, 13071.50000, 12760.50000, 160333, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1286, NULL, 13460.50000, 13141.50000, 160334, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1287, NULL, 12730.50000, 12425.00000, 160335, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1288, NULL, 13039.00000, 12719.50000, 160336, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1289, NULL, 13085.00000, 12775.00000, 160337, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1290, NULL, 13290.00000, 13055.00000, 160338, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1291, NULL, 12961.50000, 12684.00000, 160339, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1292, NULL, 12715.00000, 12245.00000, 160340, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1293, NULL, 13323.00000, 12738.00000, 160341, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1294, NULL, 13217.50000, 12814.50000, 160342, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1295, NULL, 13159.50000, 12821.50000, 160343, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1296, NULL, 13406.00000, 13105.50000, 160344, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1297, NULL, 13342.50000, 12944.50000, 160345, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1298, NULL, 13409.50000, 13084.50000, 160346, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1299, NULL, 13428.00000, 13081.00000, 160347, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1300, NULL, 13314.00000, 13003.00000, 160348, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1301, NULL, 13733.50000, 13409.00000, 160349, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1302, NULL, 13699.50000, 13306.50000, 160350, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1303, NULL, 13489.00000, 13104.50000, 160351, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1304, NULL, 14186.00000, 13778.50000, 160352, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1305, NULL, 14606.50000, 13960.50000, 160353, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1306, NULL, 13590.50000, 13265.00000, 160354, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1307, NULL, 14854.00000, 14112.50000, 160355, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1308, NULL, 15077.00000, 14274.00000, 160356, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1309, NULL, 14130.00000, 13717.00000, 160357, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1310, NULL, 16115.00000, 15610.50000, 160358, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1311, NULL, 17530.50000, 17046.50000, 160359, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1312, NULL, 13055.00000, 12701.50000, 160360, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1313, NULL, 13708.00000, 13437.50000, 160361, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1314, NULL, 15240.50000, 14810.50000, 160362, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1315, NULL, 13463.00000, 13275.50000, 160363, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1316, NULL, 14034.50000, 13758.00000, 160364, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1317, NULL, 13761.50000, 13545.50000, 160365, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1318, NULL, 14247.50000, 13958.50000, 160366, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1319, NULL, 13281.50000, 13090.00000, 160367, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1320, NULL, 15614.50000, 15011.50000, 160368, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1321, NULL, 13740.50000, 13480.50000, 160369, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1322, NULL, 15549.00000, 15149.00000, 160370, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1323, NULL, 15593.50000, 14024.50000, 160371, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1324, NULL, 13774.50000, 12668.00000, 160372, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1325, NULL, 14215.50000, 13053.00000, 160373, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1326, NULL, 14125.00000, 12913.50000, 160374, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1327, NULL, 16146.50000, 15220.00000, 160375, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1328, NULL, 7959.00000, 7844.00000, 160376, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1329, NULL, 9625.00000, 9470.00000, 160377, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1330, NULL, 10554.00000, 10228.00000, 160378, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1331, NULL, 11169.50000, 10582.50000, 160379, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1332, NULL, 12054.50000, 11356.00000, 160380, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1333, NULL, 13200.50000, 12819.00000, 160381, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1334, NULL, 14137.00000, 13744.00000, 160382, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1335, NULL, 15458.00000, 14911.00000, 160384, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1336, NULL, 5713.50000, 4879.50000, 160385, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1337, NULL, 12390.00000, 11408.50000, 160386, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1338, NULL, 5855.00000, 5318.00000, 160389, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1339, NULL, 5290.00000, 4625.50000, 160390, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1340, NULL, 6207.50000, 5664.00000, 160391, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1341, NULL, 13330.50000, 12709.50000, 160392, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1342, NULL, 35353.50000, 33782.00000, 160399, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1343, NULL, 17640.50000, 16865.50000, 160400, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1344, NULL, 13741.00000, 13415.00000, 160401, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1345, NULL, 13299.50000, 12979.50000, 160402, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1346, NULL, 12980.00000, 12685.50000, 160403, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1347, NULL, 10153.00000, 9627.00000, 160404, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1348, NULL, 9886.00000, 9540.00000, 160405, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1349, NULL, 9246.00000, 8772.50000, 160406, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1350, NULL, 6630.00000, 6320.50000, 160407, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1351, NULL, 14901.00000, 13559.00000, 160408, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1352, NULL, 18091.00000, 14430.00000, 160409, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1353, NULL, 13975.50000, 13341.50000, 160410, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1354, NULL, 13272.00000, 12576.50000, 160411, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1355, NULL, 13754.50000, 12019.00000, 160412, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1356, NULL, 17405.50000, 15226.00000, 160413, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1357, NULL, 23861.00000, 21466.00000, 160414, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1358, NULL, 15856.50000, 14019.00000, 160415, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1359, NULL, 13283.00000, 12150.00000, 160416, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1360, NULL, 11695.50000, 10434.50000, 160417, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1361, NULL, 12642.00000, 12107.50000, 160418, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1362, NULL, 12961.50000, 12241.00000, 160419, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1363, NULL, 12961.50000, 12241.00000, 160420, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1364, NULL, 12642.00000, 12107.50000, 160421, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1365, NULL, 15344.50000, 14120.00000, 160422, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1366, NULL, 13559.00000, 13110.00000, 160423, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1367, NULL, 13547.50000, 12738.00000, 160424, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1368, NULL, 13275.00000, 12776.00000, 160425, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1369, NULL, 13711.50000, 13083.50000, 160426, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1370, NULL, 6183.00000, 5660.50000, 160427, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1371, NULL, 9240.00000, 8597.50000, 160428, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1372, NULL, 661.50000, 550.00000, 160429, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1373, NULL, 909.50000, 704.00000, 160430, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1374, NULL, 14051.00000, 13726.50000, 160431, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1375, NULL, 16044.00000, 15572.50000, 160432, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1376, NULL, 15143.00000, 14323.50000, 160433, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1377, NULL, 15806.00000, 15260.50000, 160434, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1378, NULL, 15581.00000, 15095.50000, 160435, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1379, NULL, 16570.00000, 14079.00000, 160436, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1380, NULL, 15631.00000, 14311.00000, 160437, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1381, NULL, 2685.00000, 2004.50000, 160438, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1382, NULL, 13569.50000, 13270.50000, 160439, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1383, NULL, 13560.00000, 13277.00000, 160440, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1384, NULL, 13560.50000, 13205.00000, 160441, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1385, NULL, 13740.00000, 13435.50000, 160442, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1386, NULL, 13055.00000, 12701.50000, 160443, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1387, NULL, 13744.00000, 13418.00000, 160444, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1388, NULL, 13755.50000, 13455.50000, 160445, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1389, NULL, 914.50000, 705.50000, 160446, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1390, NULL, 916.00000, 730.00000, 160447, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1391, NULL, 1058.50000, 922.00000, 160448, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1392, NULL, 905.50000, 690.00000, 160449, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1393, NULL, 1172.50000, 928.50000, 160450, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1394, NULL, 1381.00000, 1279.50000, 160451, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1395, NULL, 650.50000, 505.00000, 160452, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1396, NULL, 650.50000, 505.00000, 160453, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1397, NULL, 650.50000, 505.00000, 160454, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1398, NULL, 650.50000, 505.00000, 160455, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1399, NULL, 650.50000, 505.00000, 160456, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1400, NULL, 650.50000, 505.00000, 160457, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1401, NULL, 629.00000, 315.00000, 160458, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1402, NULL, 629.00000, 315.00000, 160459, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1403, NULL, 629.00000, 315.00000, 160460, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1404, NULL, 629.00000, 315.00000, 160461, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1405, NULL, 629.00000, 315.00000, 160462, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1406, NULL, 629.00000, 315.00000, 160463, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1407, NULL, 2309.50000, 1698.50000, 160464, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1408, NULL, 2309.50000, 1698.50000, 160465, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1409, NULL, 2309.50000, 1698.50000, 160466, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1410, NULL, 2309.50000, 1698.50000, 160467, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1411, NULL, 2050.00000, 1827.00000, 160468, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1412, NULL, 2050.00000, 1827.00000, 160469, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1413, NULL, 2050.00000, 1827.00000, 160470, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1414, NULL, 2050.00000, 1827.00000, 160471, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1415, NULL, 2002.00000, 1821.50000, 160472, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1416, NULL, 2002.00000, 1821.50000, 160473, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1417, NULL, 2002.00000, 1821.50000, 160474, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1418, NULL, 2002.00000, 1821.50000, 160475, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1419, NULL, 41641.00000, 39611.50000, 160476, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1420, NULL, 42063.50000, 40403.50000, 160477, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1421, NULL, 42197.50000, 40595.50000, 160478, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1422, NULL, 9255.00000, 9018.00000, 160479, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1423, NULL, 9255.00000, 9018.00000, 160480, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1424, NULL, 9255.00000, 9018.00000, 160481, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1425, NULL, 9255.00000, 9018.00000, 160482, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1426, NULL, 9255.00000, 9018.00000, 160483, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1427, NULL, 9255.00000, 9018.00000, 160484, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1428, NULL, 9255.00000, 9018.00000, 160485, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1429, NULL, 8971.50000, 8593.50000, 160486, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1430, NULL, 9255.00000, 9018.00000, 160487, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1431, NULL, 9255.00000, 9018.00000, 160488, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1432, NULL, 9255.00000, 9018.00000, 160489, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1433, NULL, 9255.00000, 9018.00000, 160490, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1434, NULL, 9255.00000, 9018.00000, 160491, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1435, NULL, 9255.00000, 9018.00000, 160492, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1436, NULL, 8971.50000, 8593.50000, 160493, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1437, NULL, 8971.50000, 8593.50000, 160494, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1438, NULL, 8971.50000, 8593.50000, 160495, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1439, NULL, 8971.50000, 8593.50000, 160496, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1440, NULL, 8971.50000, 8593.50000, 160497, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1441, NULL, 8971.50000, 8593.50000, 160498, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1442, NULL, 2298.50000, 1994.50000, 160499, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1443, NULL, 2341.50000, 2154.50000, 160500, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1444, NULL, 2333.50000, 2152.00000, 160501, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1445, NULL, 2675.00000, 2334.50000, 160502, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1446, NULL, 2309.00000, 2065.00000, 160503, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1447, NULL, 2309.00000, 2065.00000, 160504, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1448, NULL, 2309.00000, 2065.00000, 160505, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1449, NULL, 2309.00000, 2065.00000, 160506, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1450, NULL, 2309.00000, 2065.00000, 160507, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1451, NULL, 2309.00000, 2065.00000, 160508, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1452, NULL, 2309.50000, 2125.50000, 160509, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1453, NULL, 2309.50000, 2125.50000, 160510, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1454, NULL, 2309.50000, 2125.50000, 160511, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1455, NULL, 2309.50000, 2125.50000, 160512, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1456, NULL, 2309.50000, 2125.50000, 160513, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1457, NULL, 2309.50000, 2125.50000, 160514, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1458, NULL, 535.50000, 319.00000, 160515, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1459, NULL, 12744.50000, 11980.00000, 160516, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1460, NULL, 42860.50000, 39786.50000, 160517, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1461, NULL, 44549.50000, 40240.50000, 160518, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1462, NULL, 8582.50000, 8208.50000, 160520, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1463, NULL, 1517.00000, 1068.00000, 160521, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1464, NULL, 6715.00000, 6307.00000, 160522, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1465, NULL, 1263.50000, 802.00000, 160523, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1466, NULL, 1231.50000, 798.50000, 160524, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1467, NULL, 1180.00000, 800.00000, 160525, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1468, NULL, 4809.00000, 4157.50000, 160526, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1469, NULL, 4416.50000, 3926.50000, 160527, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1470, NULL, 4235.00000, 3721.00000, 160528, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1471, NULL, 4407.00000, 3924.00000, 160529, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1472, NULL, 4220.00000, 3722.50000, 160530, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1473, NULL, 3561.50000, 3172.00000, 160531, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1474, NULL, 3813.50000, 3370.00000, 160532, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1475, NULL, 4287.50000, 3728.50000, 160533, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1476, NULL, 15274.00000, 13280.00000, 160534, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1477, NULL, 13935.00000, 12543.50000, 160535, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1478, NULL, 15274.00000, 13280.00000, 160536, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1479, NULL, 15274.00000, 13280.00000, 160537, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1480, NULL, 15274.00000, 13280.00000, 160538, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1481, NULL, 13935.00000, 12543.50000, 160539, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1482, NULL, 13935.00000, 12543.50000, 160540, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1483, NULL, 13935.00000, 12543.50000, 160541, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1484, NULL, 2995.50000, 2755.00000, 160542, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1485, NULL, 3457.50000, 3080.00000, 160543, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1486, NULL, 2850.00000, 2490.00000, 160544, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1487, NULL, 3103.00000, 2759.50000, 160545, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1488, NULL, 10130.00000, 9315.50000, 160546, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1489, NULL, 10159.00000, 9013.50000, 160547, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1490, NULL, 10179.50000, 9557.00000, 160548, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1491, NULL, 1824.50000, 1420.00000, 160549, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1492, NULL, 3561.50000, 3172.00000, 160550, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1493, NULL, 3905.00000, 3211.00000, 160551, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1494, NULL, 3839.50000, 3452.00000, 160552, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1495, NULL, 13608.50000, 13146.00000, 160553, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1496, NULL, 13608.50000, 13146.00000, 160554, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1497, NULL, 13608.50000, 13146.00000, 160555, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1498, NULL, 13608.50000, 13146.00000, 160556, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1499, NULL, 13608.50000, 13146.00000, 160557, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1500, NULL, 13608.50000, 13146.00000, 160558, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1501, NULL, 13608.50000, 13146.00000, 160559, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1502, NULL, 13608.50000, 13146.00000, 160560, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1503, NULL, 13608.50000, 13146.00000, 160561, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1504, NULL, 13608.50000, 13146.00000, 160562, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1505, NULL, 13608.50000, 13146.00000, 160563, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1506, NULL, 13608.50000, 13146.00000, 160564, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1507, NULL, 13608.50000, 13146.00000, 160565, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1508, NULL, 13608.50000, 13146.00000, 160566, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1509, NULL, 13608.50000, 13146.00000, 160567, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1510, NULL, 13608.50000, 13146.00000, 160568, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1511, NULL, 13608.50000, 13146.00000, 160569, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1512, NULL, 13608.50000, 13146.00000, 160570, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1513, NULL, 13608.50000, 13146.00000, 160571, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1514, NULL, 13608.50000, 13146.00000, 160572, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1515, NULL, 13608.50000, 13146.00000, 160573, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1516, NULL, 13608.50000, 13146.00000, 160574, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1517, NULL, 13608.50000, 13146.00000, 160575, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1518, NULL, 13608.50000, 13146.00000, 160576, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1519, NULL, 13608.50000, 13146.00000, 160577, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1520, NULL, 13608.50000, 13146.00000, 160578, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1521, NULL, 13608.50000, 13146.00000, 160579, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1522, NULL, 13608.50000, 13146.00000, 160580, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1523, NULL, 13608.50000, 13146.00000, 160581, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1524, NULL, 13608.50000, 13146.00000, 160582, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1525, NULL, 13608.50000, 13146.00000, 160583, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1526, NULL, 13608.50000, 13146.00000, 160584, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1527, NULL, 13608.50000, 13146.00000, 160585, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1528, NULL, 13608.50000, 13146.00000, 160586, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1529, NULL, 13608.50000, 13146.00000, 160587, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1530, NULL, 13608.50000, 13146.00000, 160588, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1531, NULL, 13608.50000, 13146.00000, 160589, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1532, NULL, 13608.50000, 13146.00000, 160590, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1533, NULL, 13608.50000, 13146.00000, 160591, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1534, NULL, 13608.50000, 13146.00000, 160592, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1535, NULL, 13608.50000, 13146.00000, 160593, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1536, NULL, 13608.50000, 13146.00000, 160594, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1537, NULL, 13608.50000, 13146.00000, 160595, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1538, NULL, 1367.50000, 979.50000, 160596, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1539, NULL, 9526.00000, 9141.50000, 160597, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1540, NULL, 10229.00000, 9795.00000, 160598, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1541, NULL, 1969.00000, 1629.00000, 160599, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1542, NULL, 10158.50000, 9551.00000, 160600, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1543, NULL, 10153.00000, 9526.00000, 160601, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1544, NULL, 8299.00000, 8022.50000, 160602, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1545, NULL, 8448.50000, 8199.50000, 160603, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1546, NULL, 9017.50000, 8726.50000, 160604, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1547, NULL, 9017.50000, 8656.50000, 160605, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1548, NULL, 8998.50000, 8655.50000, 160606, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1549, NULL, 9408.50000, 9033.00000, 160607, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1550, NULL, 10146.50000, 9683.50000, 160608, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1551, NULL, 7324.00000, 6971.00000, 160610, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1552, NULL, 6394.50000, 6016.00000, 160611, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1553, NULL, 7169.00000, 6800.00000, 160612, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1554, NULL, 8952.50000, 8425.50000, 160613, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1555, NULL, 12098.00000, 11404.50000, 160614, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1556, NULL, 7154.00000, 6740.00000, 160615, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1557, NULL, 8417.50000, 8183.00000, 160616, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1558, NULL, 11087.50000, 10575.50000, 160617, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1559, NULL, 10484.00000, 9677.00000, 160618, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1560, NULL, 7933.50000, 7585.00000, 160619, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1561, NULL, 5991.50000, 5751.00000, 160620, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1562, NULL, 12160.00000, 11816.50000, 160621, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1563, NULL, 11755.50000, 11343.50000, 160622, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1564, NULL, 11601.50000, 11094.00000, 160623, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1565, NULL, 31755.50000, 30761.00000, 160624, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1566, NULL, 12526.50000, 11817.50000, 160625, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1567, NULL, 12414.50000, 11621.50000, 160626, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1568, NULL, 12640.00000, 12105.00000, 160627, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1569, NULL, 13055.00000, 12790.00000, 160628, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1570, NULL, 13138.00000, 12892.50000, 160629, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1571, NULL, 13065.00000, 12810.00000, 160630, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1572, NULL, 4783.50000, 4257.50000, 160631, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1573, NULL, 4875.50000, 4710.00000, 160632, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1574, NULL, 2310.50000, 1819.00000, 160633, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1575, NULL, 3676.50000, 3402.50000, 160634, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1576, NULL, 13225.50000, 13060.50000, 160635, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1577, NULL, 13039.50000, 12701.00000, 160636, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1578, NULL, 13933.50000, 13122.00000, 160637, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1579, NULL, 9530.00000, 9031.50000, 160638, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1580, NULL, 9522.50000, 9094.00000, 160639, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1581, NULL, 37878.50000, 36139.00000, 160642, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1582, NULL, 39816.00000, 38365.50000, 160643, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1583, NULL, 32460.50000, 31388.50000, 160644, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1584, NULL, 37874.50000, 36092.50000, 160645, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1585, NULL, 34543.50000, 33787.50000, 160646, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1586, NULL, 35005.50000, 34145.00000, 160647, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1587, NULL, 5038.50000, 4645.00000, 160648, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1588, NULL, 6479.00000, 6298.00000, 160649, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1589, NULL, 4847.00000, 4568.50000, 160650, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1590, NULL, 11066.00000, 10504.00000, 160651, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1591, NULL, 13041.00000, 12572.00000, 160652, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1592, NULL, 11075.00000, 10265.00000, 160653, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1593, NULL, 8548.00000, 8202.50000, 160654, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1594, NULL, 7577.00000, 7305.50000, 160655, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1595, NULL, 2348.00000, 1950.00000, 160656, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1596, NULL, 19175.50000, 17591.00000, 160657, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1597, NULL, 16415.00000, 14100.50000, 160658, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1598, NULL, 15281.50000, 13552.00000, 160659, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1599, NULL, 15347.50000, 14086.00000, 160660, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1600, NULL, 13585.00000, 12790.00000, 160661, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1601, NULL, 15141.50000, 13735.50000, 160662, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1602, NULL, 13279.50000, 12187.00000, 160663, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1603, NULL, 45841.00000, 44390.50000, 160664, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1604, NULL, 47084.00000, 45234.50000, 160665, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1605, NULL, 47794.50000, 45574.00000, 160666, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1606, NULL, 13332.00000, 13054.00000, 160667, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1607, NULL, 64743.00000, 58167.00000, 160668, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1608, NULL, 5712.00000, 5322.00000, 160669, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1609, NULL, 5712.00000, 5322.00000, 160670, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1610, NULL, 5712.00000, 5322.00000, 160671, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1611, NULL, 5712.00000, 5322.00000, 160672, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1612, NULL, 5712.00000, 5322.00000, 160673, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1613, NULL, 5710.00000, 5315.00000, 160674, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1614, NULL, 5710.00000, 5315.00000, 160675, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1615, NULL, 5710.00000, 5315.00000, 160676, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1616, NULL, 5710.00000, 5315.00000, 160677, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1617, NULL, 5710.00000, 5315.00000, 160678, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1618, NULL, 5580.50000, 4870.00000, 160679, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1619, NULL, 5580.50000, 4870.00000, 160680, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1620, NULL, 5580.50000, 4870.00000, 160681, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1621, NULL, 5580.50000, 4870.00000, 160682, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1622, NULL, 5580.50000, 4870.00000, 160683, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1623, NULL, 4418.50000, 4013.00000, 160684, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1624, NULL, 3573.50000, 3369.50000, 160685, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1625, NULL, 3679.00000, 3353.50000, 160686, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1626, NULL, 3479.00000, 3082.50000, 160687, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1627, NULL, 3610.00000, 3227.00000, 160688, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1628, NULL, 3555.50000, 3216.50000, 160689, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1629, NULL, 5739.50000, 5600.50000, 160690, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1630, NULL, 5725.00000, 5595.00000, 160691, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1631, NULL, 18370.50000, 16796.50000, 160692, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1632, NULL, 13774.50000, 12668.00000, 160693, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1633, NULL, 47769.00000, 43642.50000, 160708, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1634, NULL, 47769.00000, 43642.50000, 160709, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1635, NULL, 47769.00000, 43642.50000, 160710, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1636, NULL, 47769.00000, 43642.50000, 160711, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1637, NULL, 47769.00000, 43642.50000, 160712, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1638, NULL, 47769.00000, 43642.50000, 160713, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1639, NULL, 47769.00000, 43642.50000, 160714, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1640, NULL, 47769.00000, 43642.50000, 160715, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1641, NULL, 41601.00000, 37017.50000, 160716, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1642, NULL, 47802.00000, 43022.50000, 160717, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1643, NULL, 47802.00000, 43022.50000, 160718, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1644, NULL, 47802.00000, 43022.50000, 160719, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1645, NULL, 47802.00000, 43022.50000, 160720, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1646, NULL, 12725.50000, 12055.50000, 160721, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1647, NULL, 41832.50000, 38759.50000, 160722, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1648, NULL, 41832.50000, 38759.50000, 160723, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1649, NULL, 43099.50000, 40123.50000, 160724, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1650, NULL, 43099.50000, 40123.50000, 160725, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1651, NULL, 46834.00000, 42160.00000, 160726, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1652, NULL, 46834.00000, 42160.00000, 160727, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1653, NULL, 4418.50000, 4241.50000, 160731, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1654, NULL, 726.50000, 665.50000, 160733, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1655, NULL, 549.50000, 504.50000, 160734, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1656, NULL, 8575.50000, 8412.50000, 160735, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1657, NULL, 5027.00000, 4830.00000, 160736, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1658, NULL, 4383.50000, 4085.00000, 160737, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1659, NULL, 540.50000, 500.50000, 160738, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1660, NULL, 14758.00000, 13779.50000, 160739, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1661, NULL, 13709.00000, 13195.00000, 160740, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1662, NULL, 12743.00000, 12240.50000, 160741, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1663, NULL, 11064.50000, 10250.00000, 160742, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1664, NULL, 11064.50000, 10250.00000, 160743, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1665, NULL, 14359.50000, 13569.00000, 160744, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1666, NULL, 14038.00000, 13455.00000, 160745, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1667, NULL, 932.00000, 795.50000, 160746, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1668, NULL, 11815.00000, 11340.00000, 160747, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1669, NULL, 1302.50000, 1150.00000, 160749, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1670, NULL, 7300.00000, 7167.00000, 160750, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1671, NULL, 7264.50000, 7019.00000, 160751, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1672, NULL, 7274.00000, 7025.00000, 160752, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1673, NULL, 7274.00000, 7025.00000, 160753, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1674, NULL, 7469.50000, 7310.00000, 160754, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1675, NULL, 7575.00000, 7440.00000, 160755, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1676, NULL, 1060.50000, 925.50000, 160756, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1677, NULL, 1705.00000, 1444.50000, 160757, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1678, NULL, 1819.50000, 1573.00000, 160758, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1679, NULL, 1968.00000, 1736.00000, 160759, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1680, NULL, 5593.00000, 5330.00000, 160760, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1681, NULL, 6792.00000, 6534.00000, 160761, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1682, NULL, 6730.00000, 6505.00000, 160762, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1683, NULL, 6944.00000, 6741.00000, 160763, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1684, NULL, 3632.00000, 3470.00000, 160764, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1685, NULL, 3632.00000, 3470.00000, 160765, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1686, NULL, 3632.00000, 3470.00000, 160766, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1687, NULL, 3632.00000, 3470.00000, 160767, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1688, NULL, 3632.00000, 3470.00000, 160768, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1689, NULL, 3632.00000, 3470.00000, 160769, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1690, NULL, 2718.00000, 2184.50000, 160770, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1691, NULL, 1054.00000, 832.00000, 160771, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1692, NULL, 41601.00000, 37017.50000, 160772, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1693, NULL, 41601.00000, 37017.50000, 160773, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1694, NULL, 41601.00000, 37017.50000, 160774, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1695, NULL, 41601.00000, 37017.50000, 160775, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1696, NULL, 41601.00000, 37017.50000, 160776, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1697, NULL, 41601.00000, 37017.50000, 160777, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1698, NULL, 41601.00000, 37017.50000, 160778, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1699, NULL, 41601.00000, 37017.50000, 160779, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1700, NULL, 41601.00000, 37017.50000, 160780, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1701, NULL, 41601.00000, 37017.50000, 160781, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1702, NULL, 41601.00000, 37017.50000, 160782, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1703, NULL, 41601.00000, 37017.50000, 160783, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1704, NULL, 41601.00000, 37017.50000, 160784, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1705, NULL, 4778.00000, 4417.50000, 160785, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1706, NULL, 5279.50000, 4846.50000, 160786, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1707, NULL, 1521.00000, 1307.50000, 160787, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1708, NULL, 1594.50000, 1398.00000, 160788, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1709, NULL, 913.50000, 743.50000, 160789, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1710, NULL, 2341.50000, 2155.00000, 160790, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1711, NULL, 11070.00000, 10254.00000, 160791, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1712, NULL, 1275.00000, 1069.50000, 160792, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1713, NULL, 4521.50000, 4294.50000, 160793, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1714, NULL, 3561.00000, 3385.00000, 160794, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1715, NULL, 3561.00000, 3385.00000, 160795, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1716, NULL, 3561.00000, 3385.00000, 160796, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1717, NULL, 3561.00000, 3385.00000, 160797, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1718, NULL, 9436.00000, 9094.50000, 160798, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1719, NULL, 9436.00000, 9094.50000, 160799, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1720, NULL, 4380.50000, 3983.50000, 160800, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1721, NULL, 10744.00000, 10417.50000, 160801, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1722, NULL, 2696.50000, 2358.00000, 160802, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1723, NULL, 2696.50000, 2358.00000, 160803, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1724, NULL, 2713.00000, 2439.50000, 160804, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1725, NULL, 2713.00000, 2439.50000, 160805, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1726, NULL, 8376.00000, 8187.00000, 160806, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1727, NULL, 8379.00000, 8181.00000, 160807, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1728, NULL, 8374.00000, 7932.50000, 160808, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1729, NULL, 957.00000, 795.50000, 160809, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1730, NULL, 1922.00000, 1736.50000, 160810, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1731, NULL, 1995.00000, 1825.00000, 160811, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1732, NULL, 1969.00000, 1820.50000, 160812, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1733, NULL, 14395.50000, 14020.00000, 160813, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1734, NULL, 14933.50000, 14249.50000, 160814, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1735, NULL, 14729.50000, 14150.00000, 160815, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1736, NULL, 15296.00000, 14917.50000, 160816, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1737, NULL, 11125.00000, 10708.50000, 160817, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1738, NULL, 7161.00000, 6903.50000, 160818, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1739, NULL, 5607.00000, 5333.00000, 160819, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1740, NULL, 5279.50000, 4857.50000, 160820, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1741, NULL, 5308.00000, 4961.50000, 160821, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1742, NULL, 4407.00000, 4096.50000, 160822, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1743, NULL, 2701.50000, 2352.50000, 160823, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1744, NULL, 2331.00000, 2132.50000, 160824, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1745, NULL, 2042.50000, 1832.00000, 160825, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1746, NULL, 1698.00000, 1420.00000, 160826, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1747, NULL, 5569.00000, 5291.00000, 160827, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1748, NULL, 5605.00000, 5474.50000, 160828, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1749, NULL, 1522.00000, 1271.00000, 160829, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1750, NULL, 2314.50000, 1948.50000, 160830, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1751, NULL, 3576.00000, 3240.50000, 160831, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1752, NULL, 3637.50000, 3272.00000, 160832, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1753, NULL, 3825.50000, 2973.50000, 160833, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1754, NULL, 3021.00000, 2750.50000, 160834, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1755, NULL, 646.00000, 527.50000, 160835, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1756, NULL, 10154.00000, 9610.00000, 160838, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1757, NULL, 9906.50000, 9633.50000, 160839, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1758, NULL, 9652.00000, 9525.00000, 160840, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1759, NULL, 10147.00000, 9708.50000, 160841, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1760, NULL, 10115.00000, 9633.00000, 160842, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1761, NULL, 10732.00000, 10555.00000, 160843, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1762, NULL, 11130.00000, 10744.00000, 160844, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1763, NULL, 11218.50000, 10887.00000, 160845, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1764, NULL, 11165.50000, 10780.00000, 160846, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1765, NULL, 11936.50000, 11403.00000, 160847, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1766, NULL, 12128.50000, 11625.00000, 160848, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1767, NULL, 12700.00000, 12550.00000, 160849, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1768, NULL, 12980.50000, 12711.50000, 160850, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1769, NULL, 12956.50000, 12717.50000, 160851, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1770, NULL, 12104.00000, 11770.50000, 160852, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1771, NULL, 13133.50000, 12988.00000, 160853, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1772, NULL, 13035.00000, 12737.50000, 160854, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1773, NULL, 13454.00000, 13284.50000, 160855, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1774, NULL, 14092.50000, 13779.50000, 160856, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1775, NULL, 15539.50000, 15091.00000, 160857, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1776, NULL, 16945.00000, 16450.00000, 160858, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1777, NULL, 17682.00000, 17295.50000, 160859, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_analysis_entity_ages"("analysis_entity_age_id", "age", "age_older", "age_younger", "analysis_entity_id", "chronology_id", "date_updated") VALUES (1778, NULL, 3379.00000, 3158.00000, 160860, 1, '2017-09-11 16:44:02.971979+02');
+
+INSERT INTO "public"."tbl_chronologies"("chronology_id", "age_bound_older", "age_bound_younger", "age_model", "chronology_name", "contact_id", "date_prepared", "date_updated", "is_default", "notes", "sample_group_id") VALUES (1, NULL, NULL, 'Calibrated radiocarbon range limits, 2sd, BP', 'DataArc calibrated ages BP', NULL, NULL, '2017-09-11 13:07:12.831+02', 't', 'Radiocarbon dates calibrated using Oxcal 4.2. Two standard deviation ranges to enable quick visualisation of samples potentially covering a selected date range.', NULL);        
+    exception when sqlstate 'GUARD' then
+        raise notice 'ALREADY EXECUTED';
+    end;
+    
+end $$;
+commit;

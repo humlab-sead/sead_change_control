@@ -2,9 +2,6 @@
 %project=sead_change_control
 %uri=https://github.com/humlab-sead/sead_change_control
 
-CS_RESTAPI_20180501_GENERATE_SCHEMA [utility:CS_UTILITY_20190407_CREATE_UTILITY_SCHEMA] 2019-04-08T14:33:10Z Roger Mähler <roger.mahler@umu.se> # Schema used by PostgREST REST API publication of SEAD base tables
-CS_RESTAPI_20180501_CREATE_SAMPLE_AGE_RANGES [CS_RESTAPI_20180501_GENERATE_SCHEMA] 2019-04-08T14:38:24Z Roger Mähler <roger.mahler@umu.se> # Views (site_sample_taxon_abundance and sample_age_ranges) published via REST API
-
 CS_ANALYSIS_ENTITY_20170911_ALTER_AGES_PRECISION 2019-04-10T07:28:54Z Roger Mähler <roger.mahler@umu.se> # PIB: Changed numeric ranges of values to 20,5 to match tbl_relative_ages
 
 CS_BIBLIO_20170101_REFACTOR_MODEL 2019-04-06T15:57:13Z Roger Mähler <roger.mahler@umu.se> # Refactor bibliographic data to a less complex model.
@@ -41,8 +38,6 @@ CS_ECOCODE_20190411_RENAME_COLUMNS 2019-04-11T09:40:32Z Roger Mähler <roger.mah
 CS_META_20190411_VIEW_UPDATES 2019-04-11T11:44:44Z Roger Mähler <roger.mahler@umu.se> # Deprecate some views
 CS_SAMPLE__20190411_ASSIGN_SEQUENCE 2019-04-11T14:41:49Z Roger Mähler <roger.mahler@umu.se> # Assign sequence as default
 CS_BIBLIO_20180222_ADD_RECORD 2019-04-15T08:25:52Z Roger Mähler <roger.mahler@umu.se> # Add "Arnolds & E. van der Maarel (1979)".
-CS_ECOCODE_20180222_ADD_SYSTEM_ID 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
-CS_ECOCODE_20180222_DELETE_SYSTEMS 2019-04-15T08:42:29Z Roger Mähler <roger.mahler@umu.se> # Delete systems (id 2 and 3).
 CS_METHOD_20140417_ADD_METHOD_GEOLPER 2019-04-15T10:32:04Z Roger Mähler <roger.mahler@umu.se> # Add method GeolPer.
 CS_METHOD_20180502_UPDATE_METHOD_TL 2019-04-15T10:32:04Z Roger Mähler <roger.mahler@umu.se> # Update description for method TL.
 CS_RECORD_TYPE_20120921_UPDATE_PLANTS_POLLEN 2019-04-15T10:41:55Z Roger Mähler <roger.mahler@umu.se> # Update description for method plants and pollen.
@@ -51,3 +46,16 @@ CS_SITE_20131113_UPDATE_LAT_LONG 2019-04-15T13:54:01Z Roger Mähler <roger.mahle
 CS_SPECIES_20190415_DELETE_DUPLICATES 2019-04-15T14:37:52Z Roger Mähler <roger.mahler@umu.se> # Delete species associations types marked as duplicates
 CS_DATA_TYPE_20170517_ADD_TYPES 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # Add three types
 CS_DATA_TYPE_20120921_UPDATE_DESCRIPTION 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # Add three types
+CS_TAXA_20150522_ADD_GENERA_SPHAGNUM 2019-04-16T08:10:44Z Roger Mähler <roger.mahler@umu.se> # Add genera Sphagnum. Origin is sead_master_8 cpnsolidation.
+CS_HORIZON_20121220_UPDATE_DESCRIPTION 2019-04-16T14:05:32Z Roger Mähler <roger.mahler@umu.se> # Origin for update is diff between sead_master_9/sead_master_8.
+CS_ANALYSIS_ENTITY_20170911_ADD_AGES 2019-04-17T09:11:46Z Roger Mähler <roger.mahler@umu.se> # Add modelled "official" ages for 889 bugs samples
+
+CS_ECOCODE_20180222_DELETE_SYSTEMS 2019-04-15T08:42:29Z Roger Mähler <roger.mahler@umu.se> # Delete systems (id 2 and 3).
+
+# dependent on bugs import:
+# CS_ECOCODE_20170814_ADD_SYSTEM_2 2019-04-25T07:21:35Z Roger Mähler <roger.mahler@umu.se> # Add "Bugs Ecocodes"
+# CS_ECOCODE_20170814_ADD_SYSTEM_3 2019-04-25T07:21:36Z Roger Mähler <roger.mahler@umu.se> # Add "Koch Ecology Codes"
+
+CS_ECOCODE_20180222_ADD_SYSTEM_4 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
+
+CS_SCHEMA_20190425_ADD_MISSING_FOREIGN_KEYS 2019-04-25T12:36:40Z Roger Mähler <roger.mahler@umu.se> # Add missing FK in public schema

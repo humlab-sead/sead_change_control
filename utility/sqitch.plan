@@ -12,3 +12,4 @@ CS_AUDIT_20180613_DEPLOY_AUDIT_SYSTEM 2019-04-09T08:53:03Z Roger Mähler <roger.
 
 CS_UTILITY_20190411_ENABLE_TABLEFUNC 2019-04-11T05:56:01Z Roger Mähler <roger.mahler@umu.se> # Enable table_func
 CS_UTILITY_20190411_ENABLE_PGCRYPTO 2019-04-11T08:38:38Z Roger Mähler <roger.mahler@umu.se> # Enable pgcrypt
+CS_STAGING_20190517_CREATE_DATABASE 2019-04-17T05:58:08Z Roger Mähler <roger.mahler@umu.se> # Create a new staging database

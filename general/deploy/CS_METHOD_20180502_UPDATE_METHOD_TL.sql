@@ -21,6 +21,11 @@ begin
             set "description" = 'Dating using the release of stored energy properties of (mainly sonte) material previously exposed to the sun.'
         where "method_id" = 150;
         
+        update "public"."tbl_method_groups"
+            set "description" = 'Sample preparation method. Method used to extract identifiable elements/specimens/analysed sample from the physical sample (e.g. paraffin floatation, centrifugation).
+In some parts of the database multiple preparation methods may be given for a sample, as separate entries (e.g. 1. HF treatment; 2. centrifugation; 3. Slide preparation)'
+        where "method_id" = 16;
+        
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;

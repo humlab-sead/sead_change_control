@@ -2,4 +2,7 @@
 %project=sead_api
 %uri=https://github.com/humlab-sead/sead-api
 
+CS_RESTAPI_20180501_GENERATE_SCHEMA [utility:CS_UTILITY_20190407_CREATE_UTILITY_SCHEMA] 2019-04-08T14:33:10Z Roger Mähler <roger.mahler@umu.se> # Schema used by PostgREST REST API publication of SEAD base tables
+CS_RESTAPI_20180501_CREATE_SAMPLE_AGE_RANGES [CS_RESTAPI_20180501_GENERATE_SCHEMA] 2019-04-08T14:38:24Z Roger Mähler <roger.mahler@umu.se> # Views (site_sample_taxon_abundance and sample_age_ranges) published via REST API
+
 CS_DATAARC_20170810_DATASRC_API 2019-04-12T13:06:07Z Roger Mähler <roger.mahler@umu.se> # DataARC export schema.
