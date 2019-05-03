@@ -59,3 +59,7 @@ CS_ECOCODE_20180222_DELETE_SYSTEMS 2019-04-15T08:42:29Z Roger Mähler <roger.mah
 CS_ECOCODE_20180222_ADD_SYSTEM_4 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
 
 CS_SCHEMA_20190425_ADD_MISSING_FOREIGN_KEYS 2019-04-25T12:36:40Z Roger Mähler <roger.mahler@umu.se> # Add missing FK in public schema
+CS_TAXA_20190503_ATTRIBUTE_TYPE_LENGTH 2019-05-03T08:57:52Z Roger Mähler <roger.mahler@umu.se> # Increase length of field attribute_type to accomodate large values from Bugs
+CS_TAXA_20190503_ADD_SPECIES_ASSOC_TYPES 2019-05-03T18:07:02Z Roger Mähler <roger.mahler@umu.se> # Add new association type names to accomodate Bugs import
+CS_METHOD_20190503_ADD_BUGS_METHODS 2019-05-03T18:27:38Z Roger Mähler <roger.mahler@umu.se> # Add new methods to accomodate Bugs import
+CS_DATINGLAB_20190503_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # Add unknown dating lab to accomodate Bugs import
