@@ -1,0 +1,6 @@
+%syntax-version=1.0.0
+%project=bugs
+%uri=https://github.com/humlab-sead/bugs
+
+CS_BUGS_20190503_SETUP_SCHEMA 2019-05-04T14:30:13Z Roger Mähler <roger.mahler@umu.se> # Bugs import schema
+CS_BUGS_20190503_ADD_TRANSLATIONS 2019-05-04T14:31:03Z Roger Mähler <roger.mahler@umu.se> # Add bugs import value translations

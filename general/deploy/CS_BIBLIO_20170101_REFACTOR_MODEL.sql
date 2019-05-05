@@ -14,9 +14,9 @@
   Author        Roger Mähler
   Date          2019-01-01
   Description   give a brief change description
-  Prerequisites 
-  Reviewer      
-  Approver      
+  Prerequisites
+  Reviewer
+  Approver
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
@@ -25,9 +25,9 @@ begin;
 
     do $$
     begin
-        
-        begin;
-        
+
+        begin
+
             if sead_utility.column_exists('public', 'tbl_biblio', 'full_reference') then
                 raise exception sqlstate 'GUARD';
             end if;
@@ -39,7 +39,7 @@ begin;
 
             -- update new autors field
             /*
-            
+
             with biblio_authors as (
                 select biblio_id, '[' || bugs_author || ']' as authors
                 from tbl_biblio
@@ -50,7 +50,7 @@ begin;
                  set x.authors = y.authors
               join biblio_authors y
               where x.biblio_id = y.biblio_id;
-              
+
             with biblio_titles as (
                 select biblio_id, bugs_title as title
                 from tbl_biblio
@@ -61,7 +61,7 @@ begin;
                  set x.title = y.title
               join biblio_titles y
               where x.biblio_id = y.biblio_id;
-  
+
             with biblio_references as (
                 select biblio_id, bugs_title || coalesce(', ' || bugs_reference || '', '') as full_reference
                 from tbl_biblio
@@ -73,9 +73,9 @@ begin;
                  set x.full_reference = y.full_reference
               join biblio_references y
               where x.biblio_id = y.biblio_id;
-  
+
             */
-            
+
             alter table public."tbl_biblio"
                 drop constraint if exists "fk_biblio_publisher_id",
                 drop constraint if exists "fk_biblio_publication_type_id",
@@ -96,19 +96,19 @@ begin;
                 drop column if exists "volume";
 
             if sead_utility.schema_exists('clearing_house') = TRUE then
-            
+
                 drop view if exists clearing_house.view_biblio_keywords;
                 drop view if exists clearing_house.view_keywords;
                 drop view if exists clearing_house.view_collections_or_journals;
                 drop view if exists clearing_house.view_publication_types;
                 drop view if exists clearing_house.view_publishers;
-                
+
                 drop table if exists clearing_house.tbl_biblio_keywords;
                 drop table if exists clearing_house.tbl_keywords;
                 drop table if exists clearing_house.tbl_collections_or_journals;
                 drop table if exists clearing_house.tbl_publication_types;
                 drop table if exists clearing_house.tbl_publishers;
-                
+
             end if;
 
             drop table if exists public.tbl_biblio_keywords CASCADE;
@@ -123,7 +123,7 @@ begin;
         exception when sqlstate 'GUARD' then
             raise notice 'ALREADY EXECUTED';
         end;
-        
+
     end $$ language plpgsql;
-    
-rollback;
+
+commit;

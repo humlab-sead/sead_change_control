@@ -1,0 +1,3 @@
+
+sqitch add --change-name CS_BUGS_20190503_SETUP_SCHEMA --note "Bugs import schema" -C ./bugs
+sqitch add --change-name CS_BUGS_20190503_ADD_TRANSLATIONS --note "Add bugs import value translations" -C ./bugs
