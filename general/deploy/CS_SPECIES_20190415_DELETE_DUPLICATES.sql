@@ -3,10 +3,10 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-01-15
-  Description   
-  Prerequisites 
-  Reviewer      
-  Approver      
+  Description
+  Prerequisites
+  Reviewer
+  Approver
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
@@ -22,11 +22,11 @@ begin
     raise exception 'PENDING CONFIRM: this CR is not confirmed';
 
     begin
-    
+
         if sead_utility.column_exists('public'::text, 'table_name'::text, 'column_name'::text) = TRUE then
             raise exception SQLSTATE 'GUARD';
         end if;
-        
+
         for x_id, y_id in
             with dupes(association_type_id, dupe_association_type_id) as (values
                 (17, 85),
@@ -40,7 +40,7 @@ begin
 
             raise notice 'UPDATE ONHOLD: %/"%" TO %/"%"', x_id, x_name, y_id, y_name;
 
-            
+
             -- update tbl_species_associations set association_type_id = x_id where association_type_id = y_id;
             -- delete from tbl_species_association_types  where association_type_id = y_id;
 
@@ -49,8 +49,8 @@ begin
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
-    
+
 end $$;
 
-rollback;
+commit;
 
