@@ -1,22 +1,25 @@
 
 @Echo Off
 
-Set PWD=%cd%
-Set "PWD=%PWD:\=/%"
+Set CURDIR=%cd%
+Set "CURDIR=%CURDIR:\=/%"
 
 Set "SQHOME=%HOMEPATH:\=/%"
 
+:: Set PGPASSFILE=%SQHOME%/.pgpass
+
 Set SQOPTS=
-Set EVARS=SQITCH_CONFIG SQITCH_USERNAME SQITCH_PASSWORD SQITCH_FULLNAME SQITCH_EMAIL SQITCH_TARGET
+Set EVARS=SQITCH_CONFIG SQITCH_USERNAME SQITCH_PASSWORD SQITCH_FULLNAME SQITCH_EMAIL SQITCH_TARGET PGPASSFILE
 Set EVARS=%EVARS% PGUSER PGPASSWORD PGHOST PGHOSTADDR PGPORT PGDATABASE PGSERVICE PGOPTIONS PGSSLMODE PGREQUIRESSL
 Set EVARS=%EVARS% PGSSLCOMPRESSION PGREQUIREPEER PGKRBSRVNAME PGKRBSRVNAME PGGSSLIB PGCONNECT_TIMEOUT PGCLIENTENCODING PGTARGETSESSIONATTRS
 
 SetLocal EnableDelayedExpansion
-FOR %%x in (%EVARS%) DO (
+for %%x in (%EVARS%) do (
     If "!%%x!" neq "" (
         Set SQOPTS=%SQOPTS% -e %%x=!%%x!
     )
 )
 
-docker run -it --rm --network host %SQOPTS% -v "%PWD%":/repo:rw -v "%SQHOME%":/home:rw sqitch/sqitch %*
+:: Changed mountpoint from home to root (see issue https://github.com/sqitchers/docker-sqitch/issues/2)
 
+docker run -it --rm --network host %SQOPTS% -v "%CURDIR%":/repo:rw -v "%SQHOME%":/home:rw sqitch/sqitch %*

@@ -25,19 +25,21 @@ BEGIN;
 -- STEP #1: Install audit-trigger
 -- See https://wiki.postgresql.org/wiki/Audit_trigger_91plus
 
-DO $$
-    BEGIN
-        -- Apply as humlab_admin: https://github.com/2ndQuadrant/audit-trigger (audit.sql)
+do $$
+    begin
+        -- apply as humlab_admin: https://github.com/2ndquadrant/audit-trigger (audit.sql)
 
-        GRANT USAGE ON SCHEMA audit TO humlab_admin;
-        GRANT SELECT ON ALL TABLES IN SCHEMA audit TO humlab_admin;
+        create schema if not exists audit;
 
-        GRANT USAGE ON SCHEMA audit TO sead_master, sead_read, humlab_admin, humlab_read, phil, mattias, postgres;
-        GRANT ALL ON ALL TABLES IN SCHEMA audit TO sead_master, sead_read, humlab_admin, mattias, phil, postgres;
-        ALTER DEFAULT PRIVILEGES FOR ROLE humlab_admin IN SCHEMA audit
-            GRANT SELECT ON TABLES TO sead_master, sead_read, humlab_admin, mattias, phil, humlab_read;
+        grant usage on schema audit to humlab_admin;
+        grant select on all tables in schema audit to humlab_admin;
 
-    END
+        grant usage on schema audit to sead_master, sead_read, humlab_admin, humlab_read, phil, mattias, postgres;
+        grant all on all tables in schema audit to sead_master, sead_read, humlab_admin, mattias, phil, postgres;
+        alter default privileges for role humlab_admin in schema audit
+            grant select on tables to sead_master, sead_read, humlab_admin, mattias, phil, humlab_read;
+
+    end
 $$;
 
 /********************************************************************************************************
@@ -45,14 +47,14 @@ $$;
 **  WHO         Roger Mähler
 **  WHAT        Adds DML audit triggers on all tables in schema
 *********************************************************************************************************/
-CREATE OR REPLACE FUNCTION metainformation.audit_schema(p_table_schema text) RETURNS void AS $$
-DECLARE
-   v_record RECORD;
+create or replace function metainformation.audit_schema(p_table_schema text) returns void as $$
+declare
+   v_record record;
    v_table_name text;
    v_table_audit_view text;
-BEGIN
+begin
 
-	FOR v_record IN
+	for v_record in
 		select  t.table_name
 		from information_schema.tables t
 		left join pg_trigger g
@@ -62,18 +64,18 @@ BEGIN
 		  and t.table_type = 'BASE TABLE'
 		  and g.tgrelid is NULL
 		order by 1
-	LOOP
+	loop
 		v_table_name = p_table_schema || '.' || v_record.table_name;
-		PERFORM audit.audit_table(v_table_name);
+		perform audit.audit_table(v_table_name);
 
         -- v_table_audit_view_sql = clearing_house.fn_script_audit_views(p_table_schema, v_record.table_name);
         -- Execute v_table_audit_view_sql;
 
-		RAISE NOTICE 'DONE: %', v_table_name;
-	END LOOP;
+		raise notice 'done: %', v_table_name;
+	end loop;
 
-END
-$$ LANGUAGE plpgsql VOLATILE;
+end
+$$ language plpgsql volatile;
 
 /********************************************************************************************************
 **  FUNCTION    metainformation.fn_script_audit_views
@@ -124,13 +126,13 @@ Begin
 
 End $$ Language plpgsql;
 
-CREATE OR REPLACE FUNCTION metainformation.create_typed_audit_views(p_table_schema text = 'public') RETURNS void AS $$
-DECLARE
-   v_record RECORD;
+create or replace function metainformation.create_typed_audit_views(p_table_schema text = 'public') returns void as $$
+declare
+   v_record record;
    v_view_dml text;
-BEGIN
+begin
 
-	FOR v_record IN
+	for v_record in
 		select  distinct t.table_name
 		from information_schema.tables t
 		join pg_trigger g
@@ -139,14 +141,15 @@ BEGIN
 		where t.table_schema = p_table_schema
 		  and t.table_type = 'BASE TABLE'
 		order by 1
-	LOOP
+	loop
         v_view_dml = metainformation.fn_script_audit_views(p_table_schema, v_record.table_name);
-        Execute v_view_dml;
-		RAISE NOTICE 'DONE: %', v_record.table_name;
-	END LOOP;
+        execute v_view_dml;
+		raise notice 'done: %', v_record.table_name;
+	end loop;
 
-END
-$$ LANGUAGE plpgsql VOLATILE;
+end
+$$ language plpgsql volatile;
 
 -- SELECT metainformation.create_typed_audit_views('public');
-COMMIT;
+
+commit;

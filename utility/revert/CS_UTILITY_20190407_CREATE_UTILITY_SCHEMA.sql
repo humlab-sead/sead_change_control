@@ -1,7 +1,7 @@
 -- Revert sead_db_change_control:create_sead_utility_schema from pg
 
-BEGIN;
+begin;
 
-DROP SCHEMA sead_utility;
+    drop schema sead_utility cascade;
 
-COMMIT;
+commit;
