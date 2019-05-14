@@ -1,4 +1,6 @@
 {
     "terminal.integrated.copyOnSelection": true,
-    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe"
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+    "vscode-postgres.defaultConnection": "130.239.1.181",
+    "vscode-postgres.defaultDatabase": "sead_staging"
 }
