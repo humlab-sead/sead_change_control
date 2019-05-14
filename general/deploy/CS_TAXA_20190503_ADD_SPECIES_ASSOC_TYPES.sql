@@ -4,9 +4,9 @@
   Author        Roger Mähler
   Date          2019-01-01
   Description   New association type names needed for Bugs import
-  Prerequisites 
-  Reviewer      
-  Approver      
+  Prerequisites
+  Reviewer
+  Approver
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
@@ -33,15 +33,16 @@ begin
                 ('is loosely associated with'),
                 ('predated on by')
         )
-        insert into tbl_species_association_types (association_type_name)
+        --insert into tbl_species_association_types (association_type_name)
             select association_type_name
             from new_species_association_types n
             left join tbl_species_association_types x using (association_type_name)
-            where x.association_type_id is null;
-        
+            where x.association_type_id is null
+            order by association_type_name;
+
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
-    
+
 end $$;
 commit;
