@@ -2,14 +2,21 @@
 %project=utility
 %uri=https://github.com/humlab-sead/sead/utility
 
+CS_STAGING_20190517_CREATE_DATABASE 2019-04-17T05:58:08Z Roger Mähler <roger.mahler@umu.se> # Create a new staging database
+@v0.01 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Create staging DB
+
 CS_UTILITY_20190407_CREATE_UTILITY_SCHEMA 2019-04-07T09:00:06Z Roger Mähler <roger.mahler@umu.se> # Schema for DB global utility objects
 CS_UTILITY_20190407_CREATE_TABLE_DEPENDENCY_VIEW [CS_UTILITY_20190407_CREATE_UTILITY_SCHEMA] 2019-04-07T17:43:35Z Roger Mähler <roger.mahler@umu.se> # View that returns table inter-dependencies
 CS_UTILITY_20190407_CONVERT_SEQUENCES_TO_SERIAL [CS_UTILITY_20190407_CREATE_UTILITY_SCHEMA] 2019-04-05T13:32:18Z Roger Mähler <roger.mahler@umu.se> # Assign an "owned by" column to all public sequences
 CS_UTILITY_20190407_SYNC_ALL_SEQUENCES [CS_UTILITY_20190407_CREATE_UTILITY_SCHEMA] 2019-04-05T14:12:09Z Roger Mähler <roger.mahler@umu.se> # Resets all sequences to MAX value of parent column
 CS_UTILITY_20190407_ADD_UUID_SUPPORT [CS_UTILITY_20190407_CREATE_UTILITY_SCHEMA] 2019-04-08T08:45:30Z Roger Mähler <roger.mahler@umu.se> # Add UUID extension
 
-CS_UTILITY_20190411_ENABLE_TABLEFUNC 2019-04-11T05:56:01Z Roger Mähler <roger.mahler@umu.se> # Enable table_func
+CS_UTILITY_20190411_ENABLE_TABLEFUNC 2019-04-11T05:56:01Z Roger Mähler <roger.mahler@umu.se> # Enable tablefunc
 CS_UTILITY_20190411_ENABLE_PGCRYPTO 2019-04-11T08:38:38Z Roger Mähler <roger.mahler@umu.se> # Enable pgcrypt
+<<<<<<< HEAD
+=======
+@v0.1 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Initial set of CRs
+>>>>>>> 38ea0af0d79d915a271e12e0f748fd414eb25bf0
 
 # CS_AUDIT_20180613_DEPLOY_AUDIT_SYSTEM 2019-04-09T08:53:03Z Roger Mähler <roger.mahler@umu.se> # https://github.com/2ndQuadrant/audit-trigger
 # CS_STAGING_20190517_CREATE_DATABASE 2019-04-17T05:58:08Z Roger Mähler <roger.mahler@umu.se> # Create a new staging database

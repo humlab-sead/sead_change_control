@@ -17,13 +17,10 @@ begin
 
     begin
 
-        create extension if not exists table_func;
+        create extension if not exists "tablefunc";
 
-    exception
-        when sqlstate '58P01' then
-            raise notice 'SKIPPED: missing: /usr/share/postgresql/9.4/extension/table_func.control';
-        when sqlstate 'GUARD' then
-            raise notice 'ALREADY EXECUTED';
+    exception when sqlstate 'GUARD' then
+        raise notice 'ALREADY EXECUTED';
     end;
 
 end $$;
