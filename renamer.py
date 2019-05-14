@@ -28,17 +28,34 @@ def rename_change_request(project, cr_name, new_cr_name, dry_run=True):
             f.write(content)
         print('fixed plan')
 
-# import glob
+import glob
 
-# deploy_pattern = os.path.join('.', 'general', 'deploy', 'CS_*.sql')
-# cr_names = [ os.path.splitext(x)[0] for x in [ os.path.split(x)[1] for x in glob.glob(deploy_pattern) ] ]
+deploy_pattern = os.path.join('.', 'bugs', 'deploy', 'CS_*.sql')
+cr_names = [ os.path.splitext(x)[0] for x in [ os.path.split(x)[1] for x in glob.glob(deploy_pattern) ] ]
 
-# for x in cr_names:
-#     eight_digits = regex.match(r'.*(\d{8}_).*',x).groups()[0]
-#     new_name = eight_digits + 'DML_' + x[3:].replace(eight_digits, '')
-#     print("rename_change_request('general', '{}', '{}', False)".format(x, new_name))
+for x in cr_names:
+    eight_digits = regex.match(r'.*(\d{8}_).*',x).groups()[0]
+    new_name = eight_digits + 'DDL_' + x[3:].replace(eight_digits, '')
+    print("rename_change_request('bugs', '{}', '{}', False)".format(x, new_name))
+    
+rename_change_request('bugs', 'CS_BUGS_20190503_ADD_TRANSLATIONS', '20190503_DDL_BUGS_ADD_TRANSLATIONS', False)
+rename_change_request('bugs', 'CS_BUGS_20190503_SETUP_SCHEMA', '20190503_DDL_BUGS_SETUP_SCHEMA', False)
 
-rename_change_request('general', 'DML_20170911_ANALYSIS_ENTITY_ADD_AGES',    '20170911_DML_ANALYSIS_ENTITY_ADD_AGES', False)
+# rename_change_request('sead_api', 'CS_DATAARC_20170810_DATASRC_API', '20170810_DDL_DATAARC_DATASRC_API', False)
+# rename_change_request('sead_api', 'CS_RESTAPI_20180501_CREATE_SAMPLE_AGE_RANGES', '20180501_DDL_RESTAPI_CREATE_SAMPLE_AGE_RANGES', False)
+# rename_change_request('sead_api', 'CS_RESTAPI_20180501_GENERATE_SCHEMA', '20180501_DDL_RESTAPI_GENERATE_SCHEMA', False)
+
+# rename_change_request('utility', 'CS_AUDIT_20180613_DEPLOY_AUDIT_SYSTEM', '20180613_DDL_AUDIT_DEPLOY_AUDIT_SYSTEM', False)
+# rename_change_request('utility', 'CS_STAGING_20190517_CREATE_DATABASE', '20190517_DDL_STAGING_CREATE_DATABASE', False)
+# rename_change_request('utility', 'CS_UTILITY_20190407_ADD_UUID_SUPPORT', '20190407_DDL_UTILITY_ADD_UUID_SUPPORT', False)
+# rename_change_request('utility', 'CS_UTILITY_20190407_CONVERT_SEQUENCES_TO_SERIAL', '20190407_DDL_UTILITY_CONVERT_SEQUENCES_TO_SERIAL', False)
+# rename_change_request('utility', 'CS_UTILITY_20190407_CREATE_TABLE_DEPENDENCY_VIEW', '20190407_DDL_UTILITY_CREATE_TABLE_DEPENDENCY_VIEW', False)
+# rename_change_request('utility', 'CS_UTILITY_20190407_CREATE_UTILITY_SCHEMA', '20190407_DDL_UTILITY_CREATE_UTILITY_SCHEMA', False)
+# rename_change_request('utility', 'CS_UTILITY_20190407_SYNC_ALL_SEQUENCES', '20190407_DDL_UTILITY_SYNC_ALL_SEQUENCES', False)
+# rename_change_request('utility', 'CS_UTILITY_20190411_ENABLE_PGCRYPTO', '20190411_DDL_UTILITY_ENABLE_PGCRYPTO', False)
+# rename_change_request('utility', 'CS_UTILITY_20190411_ENABLE_TABLEFUNC', '20190411_DDL_UTILITY_ENABLE_TABLEFUNC', False)
+
+# rename_change_request('general', 'DML_20170911_ANALYSIS_ENTITY_ADD_AGES',    '20170911_DML_ANALYSIS_ENTITY_ADD_AGES', False)
 # rename_change_request('general', 'CS_ANALYSIS_ENTITY_20170911_ALTER_AGES_PRECISION',    '20170911_DDL_ANALYSIS_ENTITY_ALTER_AGES_PRECISION', False)
 # rename_change_request('general', 'CS_BIBLIO_20170101_REFACTOR_MODEL',                   '20170101_DDL_BIBLIO_REFACTOR_MODEL', False)
 # rename_change_request('general', 'CS_BIBLIO_20180222_ADD_RECORD',                       '20180222_DML_BIBLIO_ADD_RECORD', False)
