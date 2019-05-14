@@ -17,7 +17,7 @@ begin
 
     begin
     
-        create extension if not exists "table_func";
+        create extension if not exists "tablefunc";
         
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
