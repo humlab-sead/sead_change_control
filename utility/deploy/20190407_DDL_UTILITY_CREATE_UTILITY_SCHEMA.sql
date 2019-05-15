@@ -144,5 +144,30 @@ begin;
         raise notice '%', v_sql;
         return v_sql;
     end $$ language plpgsql;     
+    
+    create or replace function sead_utility.set_as_serial(p_table_name character varying, p_column_name character varying)
+              returns integer as $$
+    declare
+        v_start_with integer;
+        v_sequence_name text;
+        v_sql text;
+    begin
+
+        select pg_get_serial_sequence(p_table_name, p_column_name)
+            into v_sequence_name;
+
+        execute format('select coalesce(max(%s), 0) + 1 from %s;', p_column_name, p_table_name) into v_start_with;
+
+        if v_sequence_name is null then
+            v_sequence_name = format('%s_%s_seq', p_table_name, p_column_name);
+            execute format('create sequence %s start with %s owned by %s.%s;', v_sequence_name, v_start_with, p_table_name, p_column_name);
+            execute format('alter sequence %s owner to sead_master;', v_sequence_name);
+            execute format('alter table %s alter column %s set default nextval(''%s'');', p_table_name, p_column_name, v_sequence_name);
+        else
+            execute format('alter sequence %s owned by %s.%s;', v_sequence_name, p_table_name, p_column_name);
+        end if;
+        return v_start_with;
+    end;
+    $$ language plpgsql volatile;
               
 commit;
