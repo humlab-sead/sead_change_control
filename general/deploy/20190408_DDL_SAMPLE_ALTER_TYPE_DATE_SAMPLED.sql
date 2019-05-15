@@ -21,6 +21,6 @@ BEGIN;
     Changes must be propagated to Clearing House
 *****************************************************************************************************************/
 
-ALTER TABLE public.tbl_physical_samples ALTER COLUMN date_sampled TYPE timestamp with time zone;
+    alter table public.tbl_physical_samples alter column date_sampled type timestamp with time zone using date_sampled::timestamp with time zone;
 
 COMMIT;

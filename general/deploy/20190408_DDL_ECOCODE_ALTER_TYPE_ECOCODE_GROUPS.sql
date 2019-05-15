@@ -16,7 +16,8 @@ do $$
 begin
     begin
     
-        if sead.utility.column_exists('public'::text, 'tbl_ecocode_groups'::text, 'name'::text) = FALSE then
+        if sead_utility.column_exists('public'::text, 'tbl_ecocode_groups'::text, 'name'::text) = FALSE then
+        
             alter table "public"."tbl_ecocode_groups"
                 add column "name" varchar(200) collate "pg_catalog"."default" default null::character varying;
                 
@@ -24,7 +25,7 @@ begin
             
         end if;
         
-        if sead.utility.column_exists('public'::text, 'tbl_ecocode_groups'::text, 'abbreviation'::text) = FALSE then
+        if sead_utility.column_exists('public'::text, 'tbl_ecocode_groups'::text, 'abbreviation'::text) = FALSE then
             alter table "public"."tbl_ecocode_groups"
                 add column "abbreviation" varchar(50) collate "pg_catalog"."default" default null::character varying;
         end if;
@@ -35,7 +36,6 @@ begin
         alter table tbl_ecocode_groups
             alter column "name" TYPE varchar(200) COLLATE "pg_catalog"."default",
             alter column "abbreviation" TYPE varchar(50) COLLATE "pg_catalog"."default";
-            
         
         drop index if exists "public"."tbl_ecocode_groups_idx_label";
         create index "tbl_ecocode_groups_idx_label" on "public"."tbl_ecocode_groups" (

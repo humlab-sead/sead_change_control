@@ -26,11 +26,11 @@
 *****************************************************************************************************************/
 
 
-BEGIN;
+begin;
 
-ALTER TABLE public.tbl_dendro_dates ALTER COLUMN error_uncertainty_id DROP NOT NULL;
+    alter table public.tbl_dendro_dates alter column error_uncertainty_id drop not null;
 
---  NOTES:
---  FK constraint is of "SIMPLE MATCH" which allows NULL FK values i.e. no change needed
+--  notes:
+--  fk constraint is of "simple match" which allows null fk values i.e. no change needed
 
-COMMIT;
+commit;

@@ -159,7 +159,7 @@ WITH new_locations(location_id, location_name, location_type_id) AS ( VALUES
 
 WITH new_sample_group_sampling_contexts (sampling_context_id, sampling_context, description) AS (VALUES
     (17, 'Dendrochronological building investigation', 'Investigation of wood for age determination, sampled in a historic building context'),
-	(18, 'Dendrochronological archaeological sampling', 'Investigation of wood for age determination, sampled in an archaeological context');
+	(18, 'Dendrochronological archaeological sampling', 'Investigation of wood for age determination, sampled in an archaeological context')
 ) INSERT INTO tbl_sample_group_sampling_contexts (sampling_context_id, sampling_context, description)
   SELECT a.sampling_context_id, a.sampling_context, a.description
   FROM new_sample_group_sampling_contexts a

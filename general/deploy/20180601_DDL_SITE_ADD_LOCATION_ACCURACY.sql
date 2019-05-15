@@ -1,24 +1,24 @@
 -- Deploy sead_db_change_control:CS_SITE_20180601_ADD_LOCATION_ACCURACY to pg
 
-BEGIN;
+begin;
 
-DO $$
-BEGIN
-	BEGIN
+do $$
+begin
+	begin
     
-        IF sead_utility.column_exists('public'::text, 'tbl_sites'::text, 'site_location_accuracy'::text) = TRUE THEN
-            RAISE EXCEPTION SQLSTATE 'GUARD';
-        END IF;
+        if sead_utility.column_exists('public'::text, 'tbl_sites'::text, 'site_location_accuracy'::text) = true then
+            raise exception sqlstate 'GUARD';
+        end if;
         
-        ALTER TABLE "tbl_sites" ADD COLUMN "site_location_accuracy" varchar COLLATE "pg_catalog"."default";
+        alter table "tbl_sites" add column "site_location_accuracy" varchar collate "pg_catalog"."default";
 
-        COMMENT ON COLUMN "tbl_sites"."site_location_accuracy"
-            IS 'Accuracy of highest location resolution level. E.g. Nearest settlement, lake, bog, ancient monument, approximate';
+        comment on column "tbl_sites"."site_location_accuracy"
+            is 'accuracy of highest location resolution level. e.g. nearest settlement, lake, bog, ancient monument, approximate';
 
-    EXCEPTION WHEN SQLSTATE 'GUARD' THEN
-        RAISE NOTICE 'ALREADY EXECUTED';
-    END;
+    exception when sqlstate 'GUARD' then
+        raise notice 'already executed';
+    end;
     
-END $$;
+end $$;
 
-ROLLBACK;
+commit;

@@ -5,7 +5,7 @@ begin
 	begin   
 
         if sead_utility.column_exists('public'::text, 'tbl_relative_dates'::text, 'analysis_entity_id'::text) = false then
-            raise exception sqlstate 'guard';
+            raise exception sqlstate 'GUARD';
         end if;
 
         if (select count(*) from tbl_relative_dates) > 0 then
@@ -30,5 +30,4 @@ begin
     end;
     
 end $$;
-rollback;
---COMMIT;
+commit;

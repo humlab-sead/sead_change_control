@@ -1,44 +1,44 @@
 -- Deploy sead_db_change_control:CS_DENDRO_20190520_CREATE_DENDRO_LOOKUP to pg
 
-BEGIN;
+begin;
 
-DO $$
-BEGIN
-	BEGIN
+do $$
+begin
+	begin
     
-        IF sead_utility.table_exists('public'::text, 'tbl_dendro_lookup'::text) = TRUE THEN
-            RAISE EXCEPTION SQLSTATE 'GUARD';
-        END IF;
+        if sead_utility.table_exists('public'::text, 'tbl_dendro_lookup'::text) = true then
+            raise exception sqlstate 'GUARD';
+        end if;
         
-        CREATE TABLE tbl_dendro_lookup (
-            dendro_lookup_id SERIAL PRIMARY KEY,
+        create table tbl_dendro_lookup (
+            dendro_lookup_id serial primary key,
             method_id int4,
-            name varchar COLLATE "pg_catalog"."default" NOT NULL,
-            description text COLLATE "pg_catalog"."default",
-            date_updated timestamptz(6) DEFAULT now(),
-            CONSTRAINT "fk_dendro_lookup_method_id"
-                FOREIGN KEY ("method_id") REFERENCES tbl_methods (method_id)
-                    ON DELETE NO ACTION ON UPDATE NO ACTION
+            name varchar collate "pg_catalog"."default" not null,
+            description text collate "pg_catalog"."default",
+            date_updated timestamptz(6) default now(),
+            constraint "fk_dendro_lookup_method_id"
+                foreign key ("method_id") references tbl_methods (method_id)
+                    on delete no action on update no action
         );
         
-        ALTER TABLE tbl_dendro
-            DROP CONSTRAINT IF EXISTS "fk_dendro_dendro_measurement_id",
-            DROP COLUMN "dendro_measurement_id",
-            ADD COLUMN "dendro_lookup_id" int4 NOT NULL,
-            ADD CONSTRAINT "fk_dendro_dendro_lookup_id"
-                FOREIGN KEY ("dendro_lookup_id") REFERENCES tbl_dendro_lookup (dendro_lookup_id)
-                    ON DELETE NO ACTION ON UPDATE NO ACTION;
+        alter table tbl_dendro
+            drop constraint if exists "fk_dendro_dendro_measurement_id",
+            drop column "dendro_measurement_id",
+            add column "dendro_lookup_id" int4 not null,
+            add constraint "fk_dendro_dendro_lookup_id"
+                foreign key ("dendro_lookup_id") references tbl_dendro_lookup (dendro_lookup_id)
+                    on delete no action on update no action;
 
-        ALTER TABLE tbl_dendro_lookup OWNER TO "sead_master";
+        alter table tbl_dendro_lookup owner to "sead_master";
         
-        DROP TABLE IF EXISTS "public"."tbl_dendro_measurement_lookup";
+        drop table if exists "public"."tbl_dendro_measurement_lookup";
         
-        COMMENT ON TABLE tbl_dendro_lookup IS 'Type=lookup';
+        comment on table tbl_dendro_lookup is 'type=lookup';
 
-    EXCEPTION WHEN SQLSTATE 'GUARD' THEN
-        RAISE NOTICE 'ALREADY EXECUTED';
-    END;
+    exception when sqlstate 'GUARD' then
+        raise notice 'already executed';
+    end;
     
-END $$;
+end $$;
 
-ROLLBACK;
+commit;
