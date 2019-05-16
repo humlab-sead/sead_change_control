@@ -3,10 +3,10 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-01-01
-  Description   
-  Prerequisites 
-  Reviewer      
-  Approver      
+  Description
+  Prerequisites
+  Reviewer
+  Approver
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
@@ -16,17 +16,17 @@ do $$
 begin
 
     begin
-    
+
         set constraints all deferred;
-        
+
         with new_relative_age_types("relative_age_type_id", "age_type", "description", "date_updated") as (values
             (14, 'Calibrated 14C 2sd age range', NULL, '2016-10-20')
         ) insert into "public"."tbl_relative_age_types"("relative_age_type_id", "age_type", "description", "date_updated")
-          select n."relative_age_type_id", n."age_type", n."description", n."date_updated"
+          select n."relative_age_type_id", n."age_type", n."description", n."date_updated"::timestamp with time zone
           from new_relative_age_types n
-          left join new_relative_age_types x
+          left join tbl_relative_age_types x
             on x.relative_age_type_id = n.relative_age_type_id
-          where not x.relative_age_type_id is null;
+          where x.relative_age_type_id is null;
 
         with new_relative_ages("relative_age_id", "relative_age_type_id", "relative_age_name", "description", "c14_age_older", "c14_age_younger", "cal_age_older", "cal_age_younger", "notes", "date_updated", "location_id", "abbreviation") as (values
                 (1, 3, 'Alleröd', 'Pollen Zone II', 12000.00000, 10500.00000, NULL, NULL, NULL, '2014-04-17', 1661, 'BS-Al'),
@@ -143,13 +143,13 @@ begin
                 (112, 4, 'Oxygen Isotope Stage 22', NULL, 0.00000, 0.00000, NULL, NULL, NULL, '2014-04-17', 1661, 'MIS-22'),
                 (113, 4, 'Oxygen Isotope Stage 23', NULL, 0.00000, 0.00000, NULL, NULL, NULL, '2014-04-17', 1661, 'MIS-23'),
                 (389, 1, 'Early Roman', 'Early Roman without regional definition', NULL, NULL, NULL, NULL, NULL, '2018-05-02 09:11:22.794774+02', NULL, 'ERom')
-        )
-        insert into "public"."tbl_relative_ages"("relative_age_id", "relative_age_type_id", "relative_age_name", "description", "c14_age_older", "c14_age_younger", "cal_age_older", "cal_age_younger", "notes", "date_updated", "location_id", "abbreviation")
-            select n."relative_age_id", n."relative_age_type_id", n."relative_age_name", n."description", n."c14_age_older", n."c14_age_younger", n."cal_age_older", n."cal_age_younger", n."notes", n."date_updated", n."location_id", n."abbreviation"
+        ) insert into "public"."tbl_relative_ages"("relative_age_id", "relative_age_type_id", "relative_age_name", "description", "c14_age_older", "c14_age_younger", "cal_age_older", "cal_age_younger", "notes", "date_updated", "location_id", "abbreviation")
+            select n."relative_age_id", n."relative_age_type_id", n."relative_age_name", n."description", n."c14_age_older", n."c14_age_younger", n."cal_age_older", n."cal_age_younger", n."notes", n."date_updated"::timestamp with time zone, n."location_id", n."abbreviation"
             from new_relative_ages n
-            left join tbl_relative_ages  x using (relative_age_id)
+            left join tbl_relative_ages x
+              on x.relative_age_id = n.relative_age_id
             where x.relative_age_id is null;
-        
+
         with new_relative_age_refs ("relative_age_ref_id", "biblio_id", "date_updated", "relative_age_id") as (
             values
                 (1, 1000, '2014-04-17', 1),
@@ -198,14 +198,19 @@ begin
                 (44, 3962, '2014-04-17', 102),
                 (45, 3962, '2014-04-17', 105)
         ) insert into "public"."tbl_relative_age_refs"("relative_age_ref_id", "biblio_id", "date_updated", "relative_age_id")
-          select n."relative_age_ref_id", n."biblio_id", n."date_updated", n."relative_age_id"
+          select n."relative_age_ref_id", n."biblio_id", n."date_updated"::timestamp with time zone, n."relative_age_id"
           from new_relative_age_refs n
-          left join tbl_relative_age_refs x using (relative_age_ref_id)
+          left join tbl_relative_age_refs x
+            on x.relative_age_ref_id = n.relative_age_ref_id
           where x.relative_age_ref_id is null;
+
+        perform sead_utility.sync_sequence('public', 'tbl_relative_age_types');
+        perform sead_utility.sync_sequence('public', 'tbl_relative_ages');
+        perform sead_utility.sync_sequence('public', 'tbl_relative_age_refs');
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
-    
+
 end $$;
 commit;

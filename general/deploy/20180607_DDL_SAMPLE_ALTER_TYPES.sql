@@ -15,9 +15,12 @@ begin;
 do $$
 begin
     begin
-        drop view postgrest_default_api.sample_group_sampling_context;
-        alter table public.tbl_sample_group_sampling_contexts alter column sampling_context type character varying(60);
-        select clearing_house.fn_create_local_union_public_entity_views('clearing_house', 'clearing_house', false, true);
+
+        alter table tbl_sample_group_sampling_contexts alter column sampling_context type character varying(80);
+
+        -- alter table tbl_physical_samples alter column date_sampled type timestamp with time zone using date_sampled::timestamp with time zone;
+        raise notice 'FLAGGED: alter type of tbl_physical_samples.date_sampled to timestamp disabled';
+
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;

@@ -4,9 +4,9 @@
   Author        Roger Mähler
   Date          2019-05-03
   Description   New Bugs methods needed for bugs import
-  Prerequisites 
-  Reviewer      
-  Approver      
+  Prerequisites
+  Reviewer
+  Approver
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
@@ -15,6 +15,9 @@ begin;
 do $$
 begin
     begin
+
+        perform sead_utility.sync_sequence('public', 'tbl_methods', 'method_id');
+
         with new_methods (method_abbrev_or_alt_name, method_group_id, method_name, record_type_id, unit_id, description) as (values
                 ('Cal',20,'Calibrated radiocarbon date (method unspecified)',null,8,'Calendar years date provided by the calibration of a radiocarbon age. Exact dating method unspecified.'),
                 ('CalAMS',20,'Calibrated AMS radiocarbon date',null,8,'Calendar years date provided by calibration of an AMS radiocarbon age.'),

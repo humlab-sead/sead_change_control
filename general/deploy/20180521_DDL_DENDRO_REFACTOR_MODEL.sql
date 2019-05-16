@@ -1,18 +1,16 @@
 -- Deploy sead_db_change_control:CSR_20180521_ADD_DENDROCHRONOLOGY_DATING to pg
 
+set client_min_messages to warning;
 
 begin;
 
 do $$
 begin
 	begin
-    
+
         if sead_utility.table_exists('public'::text, 'tbl_age_types'::text) = TRUE THEN
-            RAISE EXCEPTION SQLSTATE 'GUARD';
+            raise exception sqlstate 'GUARD';
         end if;
-        
-        drop view if exists postgrest_default_api.dendro_date;
-        drop view if exists clearing_house.view_dendro_dates;
 
         create table if not exists public.tbl_age_types (
             age_type_id serial primary key,
@@ -34,14 +32,14 @@ begin
             description text,
             date_updated timestamp with time zone default now()
         );
-        
+
         if (select count(*) from public.tbl_dendro_dates) > 0 then
             raise exception 'Cannot delete tbl_dendro_dates since it''s not empty';
         end if;
-        
+
         drop table if exists public.tbl_dendro_date_notes;
         drop table if exists public.tbl_dendro_dates;
-        
+
         create table if not exists public.tbl_dendro_dates
         (
             dendro_date_id serial primary key,
@@ -91,7 +89,7 @@ begin
         );
 
         comment on table public.tbl_dendro_dates
-            IS '20130722PIB: Added field dating_uncertainty_id to cater for >< etc.
+            is '20130722PIB: Added field dating_uncertainty_id to cater for >< etc.
         20130722pib: prefixed fieldnames age_younger and age_older with "cal_" to conform with equivalent names in other tables';
 
         alter table public.tbl_dendro_dates owner to sead_master;
@@ -102,7 +100,7 @@ begin
 
         grant all on table public.tbl_dendro_dates to sead_read, mattias, postgres;
         grant select on table public.tbl_dendro_dates to humlab_read, johan;
-        
+
         grant select on table public.tbl_dendro_date_notes to humlab_read, johan;
         grant all on table public.tbl_dendro_date_notes to mattias, postgres, sead_master, sead_read;
 
@@ -111,13 +109,10 @@ begin
 
         grant select on table public.tbl_age_types, public.tbl_error_uncertainties, public.tbl_season_or_qualifier to humlab_read;
 
-        RAISE NOTICE 'Please re-create: postgrest_default_api.dendro_date';
-        RAISE NOTICE 'Please re-create: clearing_house.view_dendro_dates;';
-        
-    EXCEPTION WHEN SQLSTATE 'GUARD' THEN
-        RAISE NOTICE 'ALREADY EXECUTED';
-    END;
-    
+    exception when sqlstate 'GUARD' THEN
+        raise notice 'ALREADY EXECUTED';
+    end;
+
 end $$;
 
 commit;

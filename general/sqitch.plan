@@ -4,34 +4,30 @@
 
 20170911_DDL_ANALYSIS_ENTITY_ALTER_AGES_PRECISION 2019-04-10T07:28:54Z Roger Mähler <roger.mahler@umu.se> # PIB: Changed numeric ranges of values to 20,5 to match tbl_relative_ages
 20190408_DDL_DATASET_CREATE_TABLE_DATASET_METHODS 2019-04-09T10:45:59Z Roger Mähler <roger.mahler@umu.se> # Add new table
-20190408_DDL_SAMPLE_ALTER_SAMPLE_COORDINATES 2019-04-09T10:19:12Z Roger Mähler <roger.mahler@umu.se> # Add sequence default to key
-20190408_DDL_TAXA_ALTER_SPECIES_ASSOCIATION_TYPES 2019-04-09T10:32:12Z Roger Mähler <roger.mahler@umu.se> # Add sequence default to key
-20190408_DDL_CHRONOLOGIES_REFACTOR_MODEL 2019-04-09T10:36:57Z Roger Mähler <roger.mahler@umu.se> # Allow relation to multiple sample groups
-20190408_DDL_ECOCODE_ALTER_TYPE_ECOCODE_GROUPS 2019-04-09T09:18:52Z Roger Mähler <roger.mahler@umu.se> # Alter type for columns name, abbreviation
+20170911_DDL_CHRONOLOGIES_REFACTOR_MODEL 2019-04-09T10:36:57Z Roger Mähler <roger.mahler@umu.se> # Allow relation to multiple sample groups
+20190408_DDL_ECOCODE_REFACTOR_MODEL 2019-04-09T09:18:52Z Roger Mähler <roger.mahler@umu.se> # Alter type for columns name, abbreviation
 20180520_DDL_DENDRO_CREATE_DENDRO_LOOKUP 2019-04-09T14:34:56Z Roger Mähler <roger.mahler@umu.se> # Add lookup table for dendro data
 20180521_DDL_DENDRO_REFACTOR_MODEL [20180520_DDL_DENDRO_CREATE_DENDRO_LOOKUP] 2019-04-08T10:16:55Z Roger Mähler <roger.mahler@umu.se> # Schema adaptations to dendrochronology datasets
-20190408_DDL_DENDRO_ALTER_DENDRO_DATES_ALLOW_NULL [20180521_DDL_DENDRO_REFACTOR_MODEL] 2019-04-09T08:46:39Z Roger Mähler <roger.mahler@umu.se> # Allow NULL values in tbl_dendro_dates.error_uncertainty_id
+20180612_DDL_DENDRO_ALTER_DENDRO_DATES_ALLOW_NULL [20180521_DDL_DENDRO_REFACTOR_MODEL] 2019-04-09T08:46:39Z Roger Mähler <roger.mahler@umu.se> # Allow NULL values in tbl_dendro_dates.error_uncertainty_id
 20190408_DDL_CERAMICS_CREATE_CERAMICS_LOOKUP 2019-04-09T08:59:54Z Roger Mähler <roger.mahler@umu.se> # Add new lookup table for ceramics data
-20190408_DDL_RELATIVE_DATES_ALTER_RELATION 2019-04-09T09:22:14Z Roger Mähler <roger.mahler@umu.se> # Alter FK from physical_sample_id to analysis_entity_id
+20170906_DDL_RELATIVE_DATES_ALTER_RELATION 2019-04-09T09:22:14Z Roger Mähler <roger.mahler@umu.se> # Alter FK from physical_sample_id to analysis_entity_id
 20180601_DDL_SITE_ADD_LOCATION_ACCURACY 2019-04-09T18:08:43Z Roger Mähler <roger.mahler@umu.se> # Accuracy of highest location resolution level.
 20180601_DDL_TAXA_DROP_VIEWS 2019-04-10T08:58:56Z Roger Mähler <roger.mahler@umu.se> # Drop old views.
-20180601_DDL_DEPRECATE_DROP_RADIOCARBON_CALIBRATION 2019-04-10T09:14:56Z Roger Mähler <roger.mahler@umu.se> # Drop deprecated table.
+20180601_DDL_DROP_RADIOCARBON_CALIBRATION 2019-04-10T09:14:56Z Roger Mähler <roger.mahler@umu.se> # Drop deprecated table.
 20180601_DDL_SITE_ALTER_TYPE 2019-04-10T09:18:15Z Roger Mähler <roger.mahler@umu.se> # Increase length of varchar columns .
 20190410_DDL_SAMPLE_CREATE_INDEX 2019-04-10T09:20:28Z Roger Mähler <roger.mahler@umu.se> # Create index on FK feature_id.
 20190410_DDL_TAXA_CREATE_VIEW_ALPHABETICALLY 2019-04-10T09:24:15Z Roger Mähler <roger.mahler@umu.se> # Create taxa helper view.
 20190410_DDL_COMMENTS_UPDATE_COMMENTS 2019-04-10T12:04:29Z Roger Mähler <roger.mahler@umu.se> # Comment diffs on table/columns with respect to sead_master_8.
 20190410_DDL_RELATIVE_DATING_RENAME_COLUMN 2019-04-10T14:58:41Z Roger Mähler <roger.mahler@umu.se> # Rename column from abbreviation
-20190411_DDL_ECOCODE_RENAME_COLUMNS 2019-04-11T09:40:32Z Roger Mähler <roger.mahler@umu.se> # Rename ecocode columns
 20190411_DDL_META_VIEW_UPDATES 2019-04-11T11:44:44Z Roger Mähler <roger.mahler@umu.se> # Deprecate some views
-20190411_DDL_SAMPLE_ASSIGN_SEQUENCE 2019-04-11T14:41:49Z Roger Mähler <roger.mahler@umu.se> # Assign sequence as default
-20190425_DDL_SCHEMA_ADD_MISSING_FOREIGN_KEYS 2019-04-25T12:36:40Z Roger Mähler <roger.mahler@umu.se> # Add missing FK in public schema
+20190411_DDL_ASSIGN_SEQUENCES 2019-04-11T14:41:49Z Roger Mähler <roger.mahler@umu.se> # Assign sequence as default
 20190503_DDL_TAXA_ATTRIBUTE_TYPE_LENGTH 2019-05-03T08:57:52Z Roger Mähler <roger.mahler@umu.se> # Increase length of field attribute_type to accomodate large values from Bugs
 20170101_DDL_BIBLIO_REFACTOR_MODEL 2019-04-06T15:57:13Z Roger Mähler <roger.mahler@umu.se> # Refactor bibliographic data to a less complex model.
 
 @v0.1 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Staging DB with initial DDL changes
 
-20190408_DML_PROJECT_ALTER_PROJECT_STAGES 2019-04-09T10:19:11Z Roger Mähler <roger.mahler@umu.se> # Add sequence default to key
 20180222_DML_BIBLIO_ADD_RECORD 2019-04-15T08:25:52Z Roger Mähler <roger.mahler@umu.se> # Add "Arnolds & E. van der Maarel (1979)".
+20180607_DDL_SAMPLE_ALTER_TYPES 2019-04-08T14:44:13Z Roger Mähler <roger.mahler@umu.se> # Change type of tbl_sample_group_sampling_contexts.sampling_context
 20180521_DML_DENDRO_ADD_LOOKUP_DATA [20180521_DDL_DENDRO_REFACTOR_MODEL 20180520_DDL_DENDRO_CREATE_DENDRO_LOOKUP] 2019-04-08T10:16:55Z Roger Mähler <roger.mahler@umu.se> # Add dendrochronology lookup data
 20190408_DML_LOCATION_UPDATE_LOCATION_RECORD 2019-04-09T08:40:43Z Roger Mähler <roger.mahler@umu.se> # Update name on location 3894
 20140417_DML_METHOD_ADD_METHOD_GEOLPER 2019-04-15T10:32:04Z Roger Mähler <roger.mahler@umu.se> # Add method GeolPer.
@@ -39,24 +35,27 @@
 20120921_DML_RECORD_TYPE_UPDATE_PLANTS_POLLEN 2019-04-15T10:41:55Z Roger Mähler <roger.mahler@umu.se> # Update description for method plants and pollen.
 20140417_DML_RELATIVE_AGE_ADD_DATA 2019-04-15T10:55:51Z Roger Mähler <roger.mahler@umu.se> # Add relative ages data (origin is sead_master_8).
 20131113_DML_SITE_UPDATE_LAT_LONG 2019-04-15T13:54:01Z Roger Mähler <roger.mahler@umu.se> # Set latitude/longitude on 61 sites
-20190415_DML_SPECIES_DELETE_DUPLICATES 2019-04-15T14:37:52Z Roger Mähler <roger.mahler@umu.se> # Delete species associations types marked as duplicates
-20170517_DML_DATA_TYPE_ADD_TYPES 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # Add three types
-20120921_DML_DATA_TYPE_UPDATE_DESCRIPTION 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # Add three types
+20170517_DML_DATATYPE_ADD_TYPES 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # Add three types
+20120921_DML_DATATYPE_UPDATE_DESCRIPTION 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # Add three types
 20150522_DML_TAXA_ADD_GENERA_SPHAGNUM 2019-04-16T08:10:44Z Roger Mähler <roger.mahler@umu.se> # Add genera Sphagnum. Origin is sead_master_8 cpnsolidation.
 20121220_DML_HORIZON_UPDATE_DESCRIPTION 2019-04-16T14:05:32Z Roger Mähler <roger.mahler@umu.se> # Origin for update is diff between sead_master_9/sead_master_8.
-20170911_DML_ANALYSIS_ENTITY_ADD_AGES 2019-04-17T09:11:46Z Roger Mähler <roger.mahler@umu.se> # Add modelled "official" ages for 889 bugs samples
-20180222_DML_ECOCODE_DELETE_SYSTEMS 2019-04-15T08:42:29Z Roger Mähler <roger.mahler@umu.se> # Delete systems (id 2 and 3).
-20180222_DML_ECOCODE_ADD_SYSTEM_4 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
+
 20190503_DML_TAXA_ADD_SPECIES_ASSOC_TYPES 2019-05-03T18:07:02Z Roger Mähler <roger.mahler@umu.se> # Add new association type names to accomodate Bugs import
 20190503_DML_METHOD_ADD_BUGS_METHODS 2019-05-03T18:27:38Z Roger Mähler <roger.mahler@umu.se> # Add new methods to accomodate Bugs import
 20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # Add unknown dating lab to accomodate Bugs import
 20190513_DML_DATA_TYPE_ADD_TYPES_CALENDER_DATES 2019-05-13T13:37:26Z Roger Mähler <roger.mahler@umu.se> # Add Calender Dates
-20190513_DML_ECOCODE_ADD_GROUP_UPDATE_SYSTEM [20180222_DML_ECOCODE_DELETE_SYSTEMS] 2019-05-13T13:56:11Z Roger Mähler <roger.mahler@umu.se> # Add Habitat type, and assign system ids
+
+20190513_DML_ECOCODE_ADD_BUGS_SYSTEMS 2019-04-25T07:21:35Z Roger Mähler <roger.mahler@umu.se> # Add "Bugs Ecocodes"
+
+# Must be fixed, ids clashes with bugs data
+#20180222_DML_ECOCODE_ADD_SYSTEM_4 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
+#20190513_DML_ECOCODE_ADD_GROUP_UPDATE_SYSTEM 2019-05-13T13:56:11Z Roger Mähler <roger.mahler@umu.se> # Add Habitat type, and assign system ids
 
 @v0.2 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Staging DB with initial DML updates
 
-# dependent on bugs import:
-# Kolla med Phil!!! 20190408_DDL_SAMPLE_ALTER_TYPE_DATE_SAMPLED 2019-04-09T08:50:24Z Roger Mähler <roger.mahler@umu.se> # Alter tbl_physical_samples.date_sampled to timestamp with time zone
-# 20170814_DML_ECOCODE_ADD_SYSTEM_2 2019-04-25T07:21:35Z Roger Mähler <roger.mahler@umu.se> # Add "Bugs Ecocodes"
-# 20170814_DML_ECOCODE_ADD_SYSTEM_3 2019-04-25T07:21:36Z Roger Mähler <roger.mahler@umu.se> # Add "Koch Ecology Codes"
-# 20180607_DDL_SAMPLE_GROUP_ALTER_SAMPLING_CONTEXT 2019-04-08T14:44:13Z Roger Mähler <roger.mahler@umu.se> # Change type of tbl_sample_group_sampling_contexts.sampling_context
+# Doesn't work, fk-error on analysis entity id, this is DATA not LOOKUP???
+# 20170911_DML_ANALYSIS_ENTITY_ADD_AGES 2019-04-17T09:11:46Z Roger Mähler <roger.mahler@umu.se> # Add modelled "official" ages for 889 bugs samples
+# Not implemented or confirmed
+# 20190425_DDL_SCHEMA_ADD_MISSING_FOREIGN_KEYS 2019-04-25T12:36:40Z Roger Mähler <roger.mahler@umu.se> # Add missing FK in public schema
+# 20190415_DML_SPECIES_DELETE_DUPLICATES 2019-04-15T14:37:52Z Roger Mähler <roger.mahler@umu.se> # Delete species associations types marked as duplicates
+

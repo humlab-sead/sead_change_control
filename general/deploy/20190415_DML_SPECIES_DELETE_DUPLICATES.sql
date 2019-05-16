@@ -40,7 +40,6 @@ begin
 
             raise notice 'UPDATE ONHOLD: %/"%" TO %/"%"', x_id, x_name, y_id, y_name;
 
-
             -- update tbl_species_associations set association_type_id = x_id where association_type_id = y_id;
             -- delete from tbl_species_association_types  where association_type_id = y_id;
 

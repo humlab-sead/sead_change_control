@@ -4,3 +4,5 @@
 
 20190503_DDL_BUGS_SETUP_SCHEMA 2019-05-04T14:30:13Z Roger Mähler <roger.mahler@umu.se> # Bugs import schema
 20190503_DDL_BUGS_ADD_TRANSLATIONS 2019-05-04T14:31:03Z Roger Mähler <roger.mahler@umu.se> # Add bugs import value translations
+
+@v0.1 2019-05-14T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Initial schema and translation

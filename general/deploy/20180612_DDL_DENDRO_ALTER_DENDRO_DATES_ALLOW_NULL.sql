@@ -30,7 +30,4 @@ begin;
 
     alter table public.tbl_dendro_dates alter column error_uncertainty_id drop not null;
 
---  notes:
---  fk constraint is of "simple match" which allows null fk values i.e. no change needed
-
 commit;

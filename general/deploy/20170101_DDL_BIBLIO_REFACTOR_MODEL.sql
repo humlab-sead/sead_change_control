@@ -1,15 +1,3 @@
-/*
-**  Change request ID       SEAD_CR_00001
-**  Change request tag
-**  Change origin
-**  Description
-**  Dependencies
-**  Timestamp
-**  Rollback
-**  Commited
-**  Reentrent               YES
-**/
-
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-01-01
@@ -20,6 +8,8 @@
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
+
+set client_min_messages to warning;
 
 begin;
 

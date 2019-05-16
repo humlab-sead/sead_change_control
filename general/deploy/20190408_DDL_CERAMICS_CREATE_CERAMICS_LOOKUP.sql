@@ -3,10 +3,10 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-01-01
-  Description   
-  Prerequisites 
-  Reviewer      
-  Approver      
+  Description
+  Prerequisites
+  Reviewer
+  Approver
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
@@ -15,8 +15,8 @@ begin;
 
 do $$
 begin
-	begin   
-    
+	begin
+
         if sead_utility.table_exists('public'::text, 'tbl_ceramics_lookup'::text) = FALSE THEN
 
             create table if not exists tbl_ceramics_lookup
@@ -52,13 +52,13 @@ begin
                     on delete no action on update no action;
 
             drop table if exists "public"."tbl_ceramics_measurement_lookup";
-            
+
         end if;
-        
+
     exception when SQLSTATE 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
-    
+
 end $$;
 
-COMMIT;
+commit;

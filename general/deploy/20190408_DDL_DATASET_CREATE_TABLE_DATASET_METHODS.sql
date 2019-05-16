@@ -1,31 +1,33 @@
 -- Deploy sead_db_change_control:CSR_20190408_CREATE_TABLE_DATASET_METHODS to pg
-BEGIN;
+begin;
 
-    DO $$
-    BEGIN
-        BEGIN
-        
-            IF sead_utility.table_exists('public'::text, 'tbl_dataset_methods'::text) = FALSE THEN
-                RAISE EXCEPTION SQLSTATE 'GUARD';
-            END IF;
-        
-            CREATE TABLE IF NOT EXISTS tbl_dataset_methods (
-                 dataset_method_id SERIAL PRIMARY KEY,
-                 dataset_id int4 NOT NULL,
-                 method_id int4 NOT NULL,
-                 date_updated timestamptz(6) DEFAULT now(),
-                 CONSTRAINT "fk_tbl_dataset_methods_to_tbl_datasets" FOREIGN KEY ("dataset_id")
-                    REFERENCES tbl_datasets ("dataset_id") ON DELETE NO ACTION ON UPDATE NO ACTION,
-                 CONSTRAINT "fk_tbl_dataset_methods_to_tbl_methods" FOREIGN KEY ("method_id")
-                    REFERENCES tbl_methods ("method_id") ON DELETE NO ACTION ON UPDATE NO ACTION
+    do $$
+    begin
+        begin
+
+            set client_min_messages to warning;
+
+            if sead_utility.table_exists('public'::text, 'tbl_dataset_methods'::text) = false then
+                raise exception sqlstate 'GUARD';
+            end if;
+
+            create table if not exists tbl_dataset_methods (
+                 dataset_method_id serial primary key,
+                 dataset_id int4 not null,
+                 method_id int4 not null,
+                 date_updated timestamptz(6) default now(),
+                 constraint "fk_tbl_dataset_methods_to_tbl_datasets" foreign key ("dataset_id")
+                    references tbl_datasets ("dataset_id") on delete no action on update no action,
+                 constraint "fk_tbl_dataset_methods_to_tbl_methods" foreign key ("method_id")
+                    references tbl_methods ("method_id") on delete no action on update no action
             );
 
-            ALTER TABLE tbl_dataset_methods OWNER TO "sead_master";
-            
-        EXCEPTION WHEN SQLSTATE 'GUARD' THEN
-            RAISE NOTICE 'ALREADY EXECUTED';
-        END;
-        
-    END $$ LANGUAGE plpgsql;
-    
-COMMIT;
+            alter table tbl_dataset_methods owner to "sead_master";
+
+        exception when sqlstate 'GUARD' then
+            raise notice 'already executed';
+        end;
+
+    end $$ language plpgsql;
+
+commit;

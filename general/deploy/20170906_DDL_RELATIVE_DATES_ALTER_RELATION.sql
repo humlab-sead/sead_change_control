@@ -2,7 +2,9 @@ begin;
 
 do $$
 begin
-	begin   
+	begin
+
+        set client_min_messages to warning;
 
         if sead_utility.column_exists('public'::text, 'tbl_relative_dates'::text, 'analysis_entity_id'::text) = false then
             raise exception sqlstate 'GUARD';
@@ -12,7 +14,7 @@ begin
             raise exception 'table contains data. cannot deploy requested action';
             -- todo update is not deterministic
         end if;
-        
+
         alter table tbl_relative_dates
             add column analysis_entity_id int4 not null,
             add constraint "fk_tbl_relative_dates_to_tbl_analysis_entities" foreign key (analysis_entity_id) references tbl_analysis_entities (analysis_entity_id) on delete no action on update no action;
@@ -20,7 +22,7 @@ begin
         alter table tbl_relative_dates
             drop constraint if exists "fk_relative_dates_physical_sample_id",
             drop column if exists "physical_sample_id";
-            
+
         comment on table "public"."tbl_relative_dates" is '20120504PIB: Added method_id to store dating method used to attribute sample to period or calendar date (e.g. strategraphic dating, typological)
 20130722PIB: added field dating_uncertainty_id to cater for "from", "to" and "ca." etc. especially from import of BugsCEP
 20170906PIB: removed fk physical_samples_id and replaced with analysis_entity_id';
@@ -28,6 +30,6 @@ begin
     exception when SQLSTATE 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
-    
+
 end $$;
 commit;

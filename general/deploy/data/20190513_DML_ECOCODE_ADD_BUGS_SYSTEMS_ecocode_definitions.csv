@@ -1,0 +1,147 @@
+23,Ecoab,2017-08-14 11:59:00.28+02,in trees.,1,arboricolous,,0
+24,Ecoag,2017-08-14 11:59:00.28+02,agarics,1,agaricolous,,0
+25,Ecoak,2017-08-14 11:59:00.28+02,in tree tops.,1,akrodendric,,0
+26,Ecoap,2017-08-14 11:59:00.28+02,in reeds.,1,arundicolous,,0
+27,Ecoaq,2017-08-14 11:59:00.28+02,in water,1,aquatic,,0
+28,Ecoar,2017-08-14 11:59:00.28+02,on sand.,1,arenicolous,,0
+29,Ecoav,2017-08-14 11:59:00.28+02,in arable fields.,1,arvicolous,,0
+30,Ecobo,2017-08-14 11:59:00.296+02,tube fungi.,1,boleticolous,,0
+31,Ecoca,2017-08-14 11:59:00.296+02,in cadavers.,1,cadavericolous,,0
+32,Ecoco,2017-08-14 11:59:00.296+02,under bark.,1,corticolous,,0
+33,Ecocp,2017-08-14 11:59:00.296+02,in fields.,1,campicolous,,0
+34,Ecocv,2017-08-14 11:59:00.296+02,in caves.,1,cavernicolous,,0
+35,Ecode,2017-08-14 11:59:00.296+02,in waste places.,1,deserticolous,,0
+36,Ecodt,2017-08-14 11:59:00.296+02,in litter,1,detriticolous,,0
+37,Ecofl,2017-08-14 11:59:00.296+02,on flowers.,1,floricolous,,0
+38,Ecofu,2017-08-14 11:59:00.296+02,in fungi.,1,fungicolous,,0
+39,Ecogr,2017-08-14 11:59:00.296+02,on grasses,1,graminicolous,,0
+40,Ecohe,2017-08-14 11:59:00.296+02,on herbs.,1,herbicolous,,0
+41,Ecohu,2017-08-14 11:59:00.312+02,in the humus layer.,1,humicolous,,0
+42,Ecolc,2017-08-14 11:59:00.312+02,in mud.,1,linicolous,,0
+43,Ecoli,2017-08-14 11:59:00.312+02,in wood.,1,lignicolous,,0
+44,Ecolm,2017-08-14 11:59:00.312+02,in inland waters.,1,limnicolous,,0
+45,Ecomi,2017-08-14 11:59:00.312+02,in galleries nests lairs of rodents etc.,1,microcavernicolous,,0
+46,Ecomu,2017-08-14 11:59:00.312+02,in moss.,1,muscicolous,,0
+47,Econi,2017-08-14 11:59:00.312+02,in birds' nests.,1,nidicolous,,0
+48,Econv,2017-08-14 11:59:00.312+02,snow.,1,nivicolous,,0
+49,Ecopa,2017-08-14 11:59:00.312+02,in swamps.,1,paludicolous,,0
+50,Ecope,2017-08-14 11:59:00.312+02,among stones.,1,petricolous,,0
+51,Ecoph,2017-08-14 11:59:00.312+02,leaves.,1,phyllicolous,,0
+52,Ecopl,2017-08-14 11:59:00.312+02,on shoots.,1,planticolous,,0
+53,Ecopo,2017-08-14 11:59:00.312+02,in fungi (e.g. dry rot).,1,polyporicolous,,0
+54,Ecopr,2017-08-14 11:59:00.327+02,in meadows.,1,praticolous,,0
+55,Ecops,2017-08-14 11:59:00.327+02,tied to specific host animal,1,parasitic,,0
+56,Ecopt,2017-08-14 11:59:00.327+02,in plant debris.,1,phytodetriticolous,,0
+57,Ecopy,2017-08-14 11:59:00.327+02,in leaf debris.,1,phyllodetriticolous,,0
+58,Ecori,2017-08-14 11:59:00.327+02,on river banks.,1,ripicolous,,0
+59,Ecosi,2017-08-14 11:59:00.327+02,in woodland.,1,silvicolous,,0
+60,Ecosk,2017-08-14 11:59:00.327+02,in dung,1,stercoricolous,,0
+61,Ecosp,2017-08-14 11:59:00.327+02,in Sphagnum.,1,sphagnicolous,,0
+62,Ecost,2017-08-14 11:59:00.327+02,on the steppes.,1,steppicolous,,0
+63,Ecosu,2017-08-14 11:59:00.327+02,at sap.,1,succicolous,,0
+64,Ecote,2017-08-14 11:59:00.327+02,in the earth.,1,terricolous or subterranean,,0
+65,Ecoto,2017-08-14 11:59:00.343+02,by waterfalls.,1,torrenticolous,,0
+66,Ecoxy,2017-08-14 11:59:00.343+02,in wood debris.,1,xylodetriticolous,,0
+67,Ecozo,2017-08-14 11:59:00.343+02,in animal debris,1,zoodetriticolous,,0
+68,FCoHo,2017-08-14 11:59:00.343+02,slimey dissolved consistency.,2,holoprobic,,0
+69,FCoMe,2017-08-14 11:59:00.343+02,distinct traces of rot in the whole substrate.,2,mesoprobic,,0
+70,FCoOl,2017-08-14 11:59:00.343+02,beginning to rot.,2,oligoprobic,,0
+71,FDeEk,2017-08-14 11:59:00.343+02,feeds on the plant’s outer parts.,3,ectophagous,,0
+72,FDeEn,2017-08-14 11:59:00.343+02,feeds on the plant’s inner parts.,3,endophagous,,0
+73,FDeMe,2017-08-14 11:59:00.343+02,feeds on plant structural parts.,3,merotopic,,0
+74,FDeMo,2017-08-14 11:59:00.343+02,specialises on a  specific plant or animal species.,3,monophagous,,0
+75,FDeOl,2017-08-14 11:59:00.343+02,on a narrow range of often closely related species.,3,oligophagous,,0
+76,FDeOm,2017-08-14 11:59:00.343+02,on living or dead plant and animal materials.,3,omnivorous,,0
+77,FDePo,2017-08-14 11:59:00.343+02,on a wide variety of various plant or animal species.,3,polyphagous,,0
+78,FDeXe,2017-08-14 11:59:00.343+02,developing on an otherwise not common food.,3,xenophagous,,0
+79,FDeXn,2017-08-14 11:59:00.359+02,prefers a foodstuff originating from abroad.,3,xenophilous,,0
+80,FNoAl,2017-08-14 11:59:00.359+02,feeds on algae.,4,algophagous,,0
+81,FNoAp,2017-08-14 11:59:00.359+02,on aphids.,4,aphidophagous,,0
+82,FNoBl,2017-08-14 11:59:00.359+02,on buds.,4,blastophagous,,0
+83,FNoCa,2017-08-14 11:59:00.359+02,on seeds.,4,carpophagous,,0
+84,FNoCe,2017-08-14 11:59:00.359+02,in galls.,4,cecidophagous,,0
+85,FNoCo,2017-08-14 11:59:00.359+02,on bark.,4,cortivorous,,0
+86,FNoCp,2017-08-14 11:59:00.359+02,in dung.,4,coprophilous,,0
+87,FNoCu,2017-08-14 11:59:00.359+02,on stalks.,4,caulophagous,,0
+88,FNoDi,2017-08-14 11:59:00.359+02,eats Dipterous larvae,4,,,0
+89,FNoEn,2017-08-14 11:59:00.359+02,eats insects.,4,entomophagous,,0
+90,FNoFr,2017-08-14 11:59:00.359+02,on fruits.,4,fructivorous,,0
+91,FNoHe,2017-08-14 11:59:00.359+02,eats worms,4,helminthophagous  ,,0
+92,FNoKr,2017-08-14 11:59:00.359+02,on living animals (parasitic).,4,kreophilous,,0
+93,FNoLi,2017-08-14 11:59:00.374+02,on lichens.,4,lichenophagous,,0
+94,FNoMi,2017-08-14 11:59:00.374+02,eats mites,4,,,0
+95,FNoMm,2017-08-14 11:59:00.374+02,eats ants.,4,myrmecophagous,,0
+96,FNoMs,2017-08-14 11:59:00.374+02,feeds on mosses,4,muscophagous,,0
+97,FNoMu,2017-08-14 11:59:00.374+02,eats mollusca.,4,molluscophagous   ,,0
+98,FNoMy,2017-08-14 11:59:00.374+02,on fungi.,4,mycetophagous,,0
+99,FNoNe,2017-08-14 11:59:00.374+02,on dead animals.,4,necrophagous,,0
+100,FNoOo,2017-08-14 11:59:00.374+02,eats eggs.,4,oophagous,,0
+101,FNoPh,2017-08-14 11:59:00.374+02,plant materials.,4,phytophagous,,0
+102,FNoPl,2017-08-14 11:59:00.374+02,on phloem wood,4,phloeophagous,,0
+103,FNoPn,2017-08-14 11:59:00.374+02,eats pollen.,4,pollenophagous,,0
+104,FNoPy,2017-08-14 11:59:00.374+02,on leaves.,4,phyllophagous,,0
+105,FNoRh,2017-08-14 11:59:00.374+02,on roots.,4,rhizophagous,,0
+106,FNoSa,2017-08-14 11:59:00.39+02,in rotting materials.,4,saprophagous,,0
+107,FNoSp,2017-08-14 11:59:00.39+02,on spores.,4,sporophagous,,0
+108,FNoXy,2017-08-14 11:59:00.39+02,in wood.,4,xylophagous,,0
+109,FNoZo,2017-08-14 11:59:00.39+02,animal materials.,4,zoophagous,,0
+110,HRaEh,2017-08-14 11:59:00.39+02,tolerates a wide range of temperatures.,5,eurythermal,,0
+111,HRaEm,2017-08-14 11:59:00.39+02,tolerates a wide range of moisture conditions.,5,euryhygric,,0
+112,HRaEu,2017-08-14 11:59:00.39+02,in many varied biotopes.,5,eurytopic,,0
+113,HRaSf,2017-08-14 11:59:00.39+02,"synanthropic, but not restrictedly so.",5,Facultative Sy,,0
+114,HRaSh,2017-08-14 11:59:00.39+02,only in a narrow temperature range.,5,stenothermic,,0
+115,HRaSm,2017-08-14 11:59:00.39+02,only in a narrow moisture range.,5,stenohygric,,0
+116,HRaSn,2017-08-14 11:59:00.39+02,"typical, but non-obligate synanthrope.",5,Typically Sy,,0
+117,HRaSs,2017-08-14 11:59:00.39+02,"strongly, often obligate synanthrope.",5,Strong Sy,,0
+118,HRaSt,2017-08-14 11:59:00.39+02,only in the specified biotope.,5,stenotopic,,0
+119,HRaSy,2017-08-14 11:59:00.405+02,living in close association with Man.,5,synanthropic,,0
+120,HRaUb,2017-08-14 11:59:00.405+02,occurs everywhere.,5,ubiquitous,,0
+121,HTyac,2017-08-14 11:59:00.405+02,prefers acid conditions.,6,acidophilous,,0
+122,HTyam,2017-08-14 11:59:00.405+02,attracted to amyls in wood,6,amylophilous,,0
+123,HTyap,2017-08-14 11:59:00.405+02,associated with bees & wasps,6,apoidephilous,,0
+124,HTych,2017-08-14 11:59:00.405+02,attracted by colour.,6,chromophilous,,0
+125,HTyco,2017-08-14 11:59:00.405+02,dung.,6,coprophilous,,0
+126,HTyha,2017-08-14 11:59:00.405+02,salty environments.,6,halophilous,,0
+127,HTyhe,2017-08-14 11:59:00.405+02,prefers light.,6,heliophilous,,0
+128,HTyhl,2017-08-14 11:59:00.405+02,wood.,6,xylophilous,,0
+129,HTyht,2017-08-14 11:59:00.405+02,tolerant of saline habitats,6,halotolerant,,0
+130,HTyhy,2017-08-14 11:59:00.405+02,prefers moisture.,6,hygrophilous,,0
+131,HTykr,2017-08-14 11:59:00.405+02,water sources.,6,krenophilous,,0
+132,HTymm,2017-08-14 11:59:00.405+02,associated with ants.,6,myrmecophilous,,0
+133,HTymy,2017-08-14 11:59:00.421+02,fungi.,6,mycetophilous,,0
+134,HTyne,2017-08-14 11:59:00.421+02,associated with carrion.,6,necrophilous,,0
+135,HTyos,2017-08-14 11:59:00.421+02,smell.,6,osmophilous,,0
+136,HType,2017-08-14 11:59:00.421+02,among stones.,6,petrophilous,,0
+137,HTyph,2017-08-14 11:59:00.421+02,prefers shade.,6,pholeophilous,,0
+138,HTyps,2017-08-14 11:59:00.421+02,sand.,6,psammophilous,,0
+139,HTyrh,2017-08-14 11:59:00.421+02,associated with flowing water.,6,rheophilous,,0
+140,HTyro,2017-08-14 11:59:00.421+02,associated with rodents,6,rodentophilous,,0
+141,HTysa,2017-08-14 11:59:00.421+02,in rotting materials.,6,saprophilous,,0
+142,HTysi,2017-08-14 11:59:00.421+02,on gravel.,6,silicophilous,,0
+143,HTyth,2017-08-14 11:59:00.421+02,prefers warm conditions.,6,thermophilous,,0
+144,HTyti,2017-08-14 11:59:00.421+02,contiguous.,6,tixophilous,,0
+145,HTytr,2017-08-14 11:59:00.421+02,in caves.,6,trogophilous,,0
+146,HTyty,2017-08-14 11:59:00.437+02,in bogs.,6,tyrphophilous,,0
+147,HTyxe,2017-08-14 11:59:00.437+02,prefers dry  places.,6,xerophilous,,0
+1,BEco01,2017-08-14 11:58:52.4+02,Aquatics,7,Aquatics,"Living in/on water, in any form. From temporary pools to lakes and rivers.",0
+2,BEco01a,2017-08-14 11:58:52.416+02,Standing water (ponds) indicators,7,Indicators: Standing water,"Primary habitat in/on pools, ponds, slow flowing water – including temporary ponds, but avoiding species specifically in vegetation and mud or banks of ponds.",0
+3,BEco01b,2017-08-14 11:58:52.416+02,Running water (rivers/streams) indicators,7,Indicators: Running water,Rivers and/or streams. Species predominantly found in these.,0
+4,BEco02,2017-08-14 11:58:52.416+02,Pasture/Dung,7,Pasture/Dung,"Grazed land of varying form. Includes most dung beetles, including those that are not stenotopic to dung. Mostly open landscape, but may include pasture-woodland when in combination with BEco4.",0
+5,BEco03,2017-08-14 11:58:52.416+02,Meadowland,7,Meadowland,Natural grassland or near equivalents. Open landscape.,0
+6,BEco04,2017-08-14 11:58:52.416+02,Wood and trees,7,Wood and trees,"Species tied to either the actual wood, trees or the forest/woodland environment. Generally shade tolerant.",0
+7,BEco04a,2017-08-14 11:58:52.432+02,Deciduous Wood and tree indicators,7,Indicators: Deciduous,"Specifically deciduous wood or woodland, species not found on coniferous wood except on rare occasions.",0
+8,BEco04b,2017-08-14 11:58:52.432+02,Coniferous Wood and tree indicators,7,Indicators: Coniferous,"Specifically coniferous wood or woodland, species not found on deciduous wood except on rare occasions.",0
+9,BEco05a,2017-08-14 11:58:52.432+02,Wetlands/marshes,7,Wetlands/marshes,"Water tolerant but not living specifically in the water. May include mud and bank species, as well as those moss & reed dwellers that prefer permanently wet environments.",0
+10,BEco05b,2017-08-14 11:58:52.432+02,"Open wet habitats, shingle, etc",7,Open wet habitats,"Hydrophilous shade intolerant species, shingle, beaches etc. and other exposed wet environments.",0
+11,BEco06a,2017-08-14 11:58:52.432+02,Disturbed ground/arable,7,Disturbed/arable,"Any disturbed ground surface, be it by animal, geological or human action. Includes ploughed fields, edges of watering holes, farm yards, glacial margins etc.",0
+12,BEco06b,2017-08-14 11:58:52.432+02,Sandy/dry disturbed ground/arable,7,Sandy/dry disturbed/arable,"Similar to the above, but more xerophilous species. Typifies beach, dune and aeolian landscapes, or ploughed fields on more sandy soils. A more dominant environment in southern Europe than BEco6a.",0
+13,BEco07a,2017-08-14 11:58:52.432+02,Dung/foul decaying habitats,7,Dung/foul habitats,"A wide category for species that live in decaying, muddy and fetid environments, including compost, wet hay, dung and muddy edges of water.",0
+14,BEco07b,2017-08-14 11:58:52.432+02,Carrion,7,Carrion,"Animal carcasses of all forms, dry or wet.",0
+15,BEco07c,2017-08-14 11:58:52.432+02,Dung indicators,7,Indicators: Dung,"Primary habitat dung, or dung essential for reproduction. Includes parasites of other species that live in dung. Majority of species not found in other environments represented by the broader class BEco7a, but some may be found on occasions outside of dung.",0
+16,BEco08,2017-08-14 11:58:52.432+02,Mould beetles of all types.,7,Mould beetles,Large part of the typical indoor synanthropic fauna in northern Europe.,0
+17,BEco09a,2017-08-14 11:58:52.432+02,General synanthropic,7,General synanthropic,"In association with humans, either when outside of their ‘natural’ geographical range, or in all known records. This term may be geographically specific, and is used in a north European context here.",0
+18,BEco09b,2017-08-14 11:58:52.432+02,Stored grain pest,7,Stored grain pest,Pests of stored products.,0
+19,BEco10,2017-08-14 11:58:52.432+02,Dry dead wood,7,Dry dead wood,"Wood in constructions, but also similar natural environments such as large fallen trees, especially in warmer climates.",0
+20,BEco12,2017-08-14 11:58:52.432+02,Heathland and moorland,7,Heathland & moorland,"Heathland and moorland, but may also indicate the under-storey of a Boreal forest.",0
+21,BEco13,2017-08-14 11:58:52.432+02,Halotolerant (all salts),7,Halotolerant,"Salt tolerant, often coastal or salt marsh tied, but not just NaCl – can be species found on mineral rich ploughed soils or where mineral precipitation is prominent.",0
+22,Ecto,2017-08-14 11:58:52.447+02,Ectoparasites,7,Ectoparasite,External parasites of humans and animals,0
