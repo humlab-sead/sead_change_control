@@ -1,17 +1,17 @@
-begin;
 
+begin;
 do $$
 begin
 	begin
 
         set client_min_messages to warning;
 
-        if sead_utility.column_exists('public'::text, 'tbl_relative_dates'::text, 'analysis_entity_id'::text) = false then
+        if sead_utility.column_exists('public'::text, 'tbl_relative_dates'::text, 'analysis_entity_id'::text) = TRUE then
             raise exception sqlstate 'GUARD';
         end if;
 
         if (select count(*) from tbl_relative_dates) > 0 then
-            raise exception 'table contains data. cannot deploy requested action';
+            raise exception 'Table tbl_relative_dates contains data. Cannot deploy requested DDL change since data will be lost.';
             -- todo update is not deterministic
         end if;
 
