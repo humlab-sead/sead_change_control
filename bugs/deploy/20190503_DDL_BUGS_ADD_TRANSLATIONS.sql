@@ -62,6 +62,7 @@ insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, trigger
 insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TCountsheet', 'SheetType', 'Partial abundances', 'SheetType', 'Partial abundance');
 insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TCountsheet', 'SheetType', 'Partial Abundance', 'SheetType', 'Partial abundance');
 insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TCountsheet', 'SheetType', 'Other', 'SheetType', 'Undefined other');
+insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TCountsheet', 'SheetType', null, 'SheetType', 'Undefined other');
 
 insert into bugs_import.id_based_translations (bugs_definition, bugs_table, target_column, replacement_value) values ('SAMP004604', 'TSample', 'X', null);
 insert into bugs_import.id_based_translations (bugs_definition, bugs_table, target_column, replacement_value) values ('SAMP005693', 'TSample', 'X', null);
