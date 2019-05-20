@@ -1,4 +1,4 @@
--- Deploy sead_change_control:CS_METHOD_20140417_ADD_METHOD_GEOLPER to pg
+-- Deploy sead_change_control: to pg
 
 /****************************************************************************************************************
   Author
