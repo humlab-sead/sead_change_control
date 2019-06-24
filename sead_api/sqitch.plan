@@ -6,3 +6,8 @@
 20180501_DDL_RESTAPI_CREATE_SAMPLE_AGE_RANGES [20180501_DDL_RESTAPI_GENERATE_SCHEMA] 2019-04-08T14:38:24Z Roger Mähler <roger.mahler@umu.se> # Views (site_sample_taxon_abundance and sample_age_ranges) published via REST API
 
 20170810_DDL_DATAARC_DATASRC_API 2019-04-12T13:06:07Z Roger Mähler <roger.mahler@umu.se> # DataARC export schema.
+
+@v0.1 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Staging DB with initial DML updates
+
+20190101_DDL_FACET_SCHEMA 2019-06-22T09:32:24Z Roger Mähler <roger.mahler@umu.se> # SEAD Query API schema DDL.
+20190101_DML_FACET_SCHEMA 2019-06-22T09:33:04Z Roger Mähler <roger.mahler@umu.se> # SEAD Query API schema DDL.
