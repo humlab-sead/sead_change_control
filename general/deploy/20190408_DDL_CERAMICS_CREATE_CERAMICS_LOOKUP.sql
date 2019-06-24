@@ -25,7 +25,7 @@ begin
                 method_id integer NOT NULL,
                 description text COLLATE pg_catalog."default",
                 name character varying COLLATE pg_catalog."default" NOT NULL,
-                date_updated timestamp(6) with time zone default now(),
+                date_updated timestamp with time zone default now(),
                 constraint fk_ceramics_lookup_method_id foreign key (method_id)
                     references tbl_methods (method_id) match simple
                     on update no action
