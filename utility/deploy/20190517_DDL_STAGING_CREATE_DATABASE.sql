@@ -3,10 +3,10 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-01-01
-  Description   
-  Prerequisites 
-  Reviewer      
-  Approver      
+  Description
+  Prerequisites
+  Reviewer
+  Approver
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
@@ -16,16 +16,17 @@
 
 select pg_terminate_backend(pid)
 from pg_stat_activity
-where datname in ('sead_master_9', 'sead_staging');
-
-drop database if exists sead_staging;
+where datname in ('sead_staging_tng');
 
 \connect postgres
+drop database sead_staging_tng;
 
-create database sead_staging with template = sead_master_9 encoding = 'utf8';
+create database sead_staging_facet with template = sead_staging_tng_template encoding = 'utf8';
 
+
+ALTER DATABASE sead_staging_facet OWNER TO sead_master;
 \connect postgres
 
-ALTER DATABASE sead_staging OWNER TO sead_master;
+
 
 */
