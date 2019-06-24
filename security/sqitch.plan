@@ -1,0 +1,5 @@
+%syntax-version=1.0.0
+%project=security
+%uri=https://github.com/humlab-sead/security
+
+20190622_DDL_FACET_USERS 2019-06-22T19:30:55Z Roger Mähler <roger.mahler@umu.se> # SEAD Queary API roles and priviliages
