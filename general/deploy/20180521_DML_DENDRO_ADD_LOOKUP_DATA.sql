@@ -540,11 +540,11 @@ begin
             on a.contact_id = b.contact_id
         where b.contact_id is null;
 
-        WITH tbl_project_types (project_type_id, project_type_name, description) AS (VALUES
+        WITH new_project_types (project_type_id, project_type_name, description) AS (VALUES
             (8, 'Unclassified', 'A project of unknown character.')
         ) insert into tbl_project_types (project_type_id, project_type_name, description)
         select a.project_type_id, a.project_type_name, a.description
-        from tbl_project_types a
+        from new_project_types a
         left join tbl_project_types b
             on a.project_type_id = b.project_type_id
         where b.project_type_id is null;
