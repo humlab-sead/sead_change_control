@@ -43,11 +43,11 @@ do $$
 $$;
 
 /********************************************************************************************************
-**  FUNCTION    metainformation.audit_schema
+**  FUNCTION    sead_utility.audit_schema
 **  WHO         Roger Mähler
 **  WHAT        Adds DML audit triggers on all tables in schema
 *********************************************************************************************************/
-create or replace function metainformation.audit_schema(p_table_schema text) returns void as $$
+create or replace function sead_utility.audit_schema(p_table_schema text) returns void as $$
 declare
    v_record record;
    v_table_name text;
@@ -78,12 +78,12 @@ end
 $$ language plpgsql volatile;
 
 /********************************************************************************************************
-**  FUNCTION    metainformation.fn_script_audit_views
+**  FUNCTION    sead_utility.fn_script_audit_views
 **  WHO         Roger Mähler
 **  WHAT        Script view DDL over audit HSTORE data for a specific table
 *********************************************************************************************************/
--- DROP FUNCTION IF EXISTS metainformation.fn_script_audit_views(character varying(255), character varying(255))
-Create Or Replace Function metainformation.fn_script_audit_views(source_schema character varying(255), p_table_name character varying(255)) Returns text As $$
+-- DROP FUNCTION IF EXISTS sead_utility.fn_script_audit_views(character varying(255), character varying(255))
+Create Or Replace Function sead_utility.fn_script_audit_views(source_schema character varying(255), p_table_name character varying(255)) Returns text As $$
 	Declare v_template text;
 	Declare v_view_name text;
 	Declare v_view_dml text;
@@ -126,7 +126,7 @@ Begin
 
 End $$ Language plpgsql;
 
-create or replace function metainformation.create_typed_audit_views(p_table_schema text = 'public') returns void as $$
+create or replace function sead_utility.create_typed_audit_views(p_table_schema text = 'public') returns void as $$
 declare
    v_record record;
    v_view_dml text;
@@ -142,7 +142,7 @@ begin
 		  and t.table_type = 'BASE TABLE'
 		order by 1
 	loop
-        v_view_dml = metainformation.fn_script_audit_views(p_table_schema, v_record.table_name);
+        v_view_dml = sead_utility.fn_script_audit_views(p_table_schema, v_record.table_name);
         execute v_view_dml;
 		raise notice 'done: %', v_record.table_name;
 	end loop;
@@ -150,6 +150,6 @@ begin
 end
 $$ language plpgsql volatile;
 
--- SELECT metainformation.create_typed_audit_views('public');
+-- SELECT sead_utility.create_typed_audit_views('public');
 
 commit;
