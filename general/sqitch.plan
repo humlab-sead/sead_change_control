@@ -26,7 +26,7 @@
 
 20180222_DML_BIBLIO_ADD_RECORD 2019-04-15T08:25:52Z Roger Mähler <roger.mahler@umu.se> # Add "Arnolds & E. van der Maarel (1979)".
 20180607_DDL_SAMPLE_ALTER_TYPES 2019-04-08T14:44:13Z Roger Mähler <roger.mahler@umu.se> # Change type of tbl_sample_group_sampling_contexts.sampling_context
-20180521_DML_DENDRO_ADD_LOOKUP_DATA [20180521_DDL_DENDRO_REFACTOR_MODEL 20180520_DDL_DENDRO_CREATE_DENDRO_LOOKUP] 2019-04-08T10:16:55Z Roger Mähler <roger.mahler@umu.se> # Add dendrochronology lookup data
+20180521_DML_DENDRO_ADD_LOOKUP_DATA 2019-04-08T10:16:55Z Roger Mähler <roger.mahler@umu.se> # Add dendrochronology lookup data
 20190408_DML_LOCATION_UPDATE_LOCATION_RECORD 2019-04-09T08:40:43Z Roger Mähler <roger.mahler@umu.se> # Update name on location 3894
 20140417_DML_METHOD_ADD_METHOD_GEOLPER 2019-04-15T10:32:04Z Roger Mähler <roger.mahler@umu.se> # Add method GeolPer.
 20180502_DML_METHOD_UPDATE_METHOD_TL 2019-04-15T10:32:04Z Roger Mähler <roger.mahler@umu.se> # Update description for method TL.
