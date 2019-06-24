@@ -1,6 +1,7 @@
 
 @Echo Off
 
+Set PGCLIENTENCODING=UTF8
 Set CURDIR=%cd%
 Set "CURDIR=%CURDIR:\=/%"
 
