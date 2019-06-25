@@ -33,6 +33,7 @@ Sample `sqitch.conf`:
 ```
 
 Locations of `sqitch.conf`:
+
 - Project: ./sqitch.conf
 - User: `~/.sqitch/sqitch.conf`
 - Global: `sqitch --etc-path/sqitch.conf`
@@ -59,7 +60,7 @@ yyyymmdd_[DML|DDL]_ENTITY_DESCRIPTION
 
 ## Add a New SEAD CCS Task
 
-sqitch add --change-name xyz --note "a note" --chdir ./sub-project-path
+sqitch add --change-name xyz --note "a note" --chdir ./project-path
 
 Task templates locations:
 
@@ -68,13 +69,29 @@ cat `sqitch --etc-path`/templates/deploy/pg.tmpl
 
 ## Add a New SEAD CCS Tag
 
-sqitch tag --tag v0.1 --note "tag description" --plan-file ./sub-project-path/sqitch.plan
+sqitch tag --tag v0.1 --note "tag description" --plan-file ./project-path/sqitch.plan
 
-## Deploy Task up to Tag to Target
+## Deploy Tasks up to Tag or Change
 
-sqitch deploy --target staging --to @v0.1 --mode change --no-verify -C ./sub-project/
+```bash
+sqitch deploy --target staging --to @v0.1 [--mode change] --no-verify -C ./project-path/
+sqitch deploy --target staging --to-change @v0.1 [--mode change] --no-verify -C ./project-path/
+```
 
-sqitch deploy --target staging  -C ./sub-project/
+## Deploy Single Task
+
+```bash
+sqitch deploy --target staging  -C ./project-path/ change
+```
+
+## Fix inconsistency between plan and database
+
+Use this only if plan actually reflects current state of the database. It will log a revert of all current changes in the database,
+without actually doing a revert, and then log deploy of changes according to plan (without acutuall doing the deploy).
+
+```bash
+sqitch rebase --log-only --target staging-tng -C ./general
+```
 
 ## More
 
