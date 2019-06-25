@@ -45,12 +45,15 @@
 
 @v0.1 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Staging DB with initial DML updates
 
+20190624_DML_SUBMISSION_DENDRO_ARKEO_002_COMMIT 2019-06-24T13:07:26Z Roger Mähler <roger.mahler@umu.se> # Add Calender Dates
+@v0.2 2019-06-25T08:46:09Z Roger Mähler <roger.mahler@umu.se> # Dendro archeology dataset commit
+
 # Disabled: Updated by Bugs import system
-#20190513_DML_ECOCODE_ADD_BUGS_SYSTEMS 2019-04-25T07:21:35Z Roger Mähler <roger.mahler@umu.se> # Add "Bugs Ecocodes"
+# 20190513_DML_ECOCODE_ADD_BUGS_SYSTEMS 2019-04-25T07:21:35Z Roger Mähler <roger.mahler@umu.se> # Add "Bugs Ecocodes"
 
 # Must be fixed, ids clashes with bugs data
-#20180222_DML_ECOCODE_ADD_SYSTEM_4 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
-#20190513_DML_ECOCODE_ADD_GROUP_UPDATE_SYSTEM 2019-05-13T13:56:11Z Roger Mähler <roger.mahler@umu.se> # Add Habitat type, and assign system ids
+# 20180222_DML_ECOCODE_ADD_SYSTEM_4 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
+# 20190513_DML_ECOCODE_ADD_GROUP_UPDATE_SYSTEM 2019-05-13T13:56:11Z Roger Mähler <roger.mahler@umu.se> # Add Habitat type, and assign system ids
 
 # Doesn't work, fk-error on analysis entity id, this is DATA not LOOKUP???
 # 20170911_DML_ANALYSIS_ENTITY_ADD_AGES 2019-04-17T09:11:46Z Roger Mähler <roger.mahler@umu.se> # Add modelled "official" ages for 889 bugs samples
