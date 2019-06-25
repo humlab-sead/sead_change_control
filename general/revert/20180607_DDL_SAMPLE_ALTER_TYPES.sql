@@ -2,6 +2,6 @@
 
 BEGIN;
 
-    DROP VIEW clearing_house.view_sample_group_sampling_contexts;
+    -- DROP VIEW clearing_house.view_sample_group_sampling_contexts;
 
 COMMIT;

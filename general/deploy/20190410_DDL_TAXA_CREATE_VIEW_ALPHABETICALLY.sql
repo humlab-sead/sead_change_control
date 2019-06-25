@@ -17,7 +17,7 @@ begin
 
     begin
 
-        if sead_utility.column_exists('public'::text, 'table_name'::text, 'column_name'::text) = TRUE then
+        if sead_utility.table_exists('public'::text, 'view_taxa_alphabetically'::text) = TRUE then
             raise exception SQLSTATE 'GUARD';
         end if;
 

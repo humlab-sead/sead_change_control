@@ -3,10 +3,10 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-01-01
-  Description   
-  Prerequisites 
-  Reviewer      
-  Approver      
+  Description
+  Prerequisites
+  Reviewer
+  Approver
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
@@ -16,20 +16,19 @@ do $$
 begin
 
     begin
-    
-        -- insert your DDL code here
-        WITH new_data_types (data_type_id, data_type_group_id, data_type_name, definition) AS (VALUES
-            (16, 8, 'Calendar dates', 'Sample ages calibrated to calendar dates')
-        ) INSERT INTO tbl_data_types (data_type_id, data_type_group_id, data_type_name, definition)
-          SELECT a.data_type_id, a.data_type_group_id, a.data_type_name, a.definition
-          FROM new_data_types a
-          LEFT JOIN tbl_data_types b
-            ON a.data_type_id = b.data_type_id
-          WHERE b.data_type_id IS NULL;
-  
+
+        with new_data_types (data_type_id, data_type_group_id, data_type_name, definition) as (values
+            (16, 8, 'calendar dates', 'sample ages calibrated to calendar dates')
+        ) insert into tbl_data_types (data_type_id, data_type_group_id, data_type_name, definition)
+          select a.data_type_id, a.data_type_group_id, a.data_type_name, a.definition
+          from new_data_types a
+          left join tbl_data_types b
+            on a.data_type_id = b.data_type_id
+          where b.data_type_id is null;
+
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
-    
+
 end $$;
 commit;

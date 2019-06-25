@@ -74,6 +74,8 @@ sqitch tag --tag v0.1 --note "tag description" --plan-file ./sub-project-path/sq
 
 sqitch deploy --target staging --to @v0.1 --mode change --no-verify -C ./sub-project/
 
+sqitch deploy --target staging  -C ./sub-project/
+
 ## More
 
 sqitch status

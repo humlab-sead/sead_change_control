@@ -43,13 +43,14 @@
 20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # Add unknown dating lab to accomodate Bugs import
 20190513_DML_DATA_TYPE_ADD_TYPES_CALENDER_DATES 2019-05-13T13:37:26Z Roger Mähler <roger.mahler@umu.se> # Add Calender Dates
 
-20190513_DML_ECOCODE_ADD_BUGS_SYSTEMS 2019-04-25T07:21:35Z Roger Mähler <roger.mahler@umu.se> # Add "Bugs Ecocodes"
+@v0.1 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Staging DB with initial DML updates
+
+# Disabled: Updated by Bugs import system
+#20190513_DML_ECOCODE_ADD_BUGS_SYSTEMS 2019-04-25T07:21:35Z Roger Mähler <roger.mahler@umu.se> # Add "Bugs Ecocodes"
 
 # Must be fixed, ids clashes with bugs data
 #20180222_DML_ECOCODE_ADD_SYSTEM_4 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
 #20190513_DML_ECOCODE_ADD_GROUP_UPDATE_SYSTEM 2019-05-13T13:56:11Z Roger Mähler <roger.mahler@umu.se> # Add Habitat type, and assign system ids
-
-@v0.1 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Staging DB with initial DML updates
 
 # Doesn't work, fk-error on analysis entity id, this is DATA not LOOKUP???
 # 20170911_DML_ANALYSIS_ENTITY_ADD_AGES 2019-04-17T09:11:46Z Roger Mähler <roger.mahler@umu.se> # Add modelled "official" ages for 889 bugs samples

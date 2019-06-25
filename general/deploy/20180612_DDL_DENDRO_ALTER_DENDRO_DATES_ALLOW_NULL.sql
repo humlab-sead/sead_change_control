@@ -25,9 +25,39 @@
     Changes must be propagated to Clearing House
 *****************************************************************************************************************/
 
+-- Deploy sead_db_change_control:CSA_20180607_ALTER_SAMPLE_GROUP_SAMPLING_CONTEXT to pg
+
+/****************************************************************************************************************
+  Author
+  Date
+  Description
+  Prerequisites
+  Reviewer
+  Approver
+  Idempotent    Yes
+  Notes
+*****************************************************************************************************************/
 
 begin;
+do $$
+begin
+    begin
 
-    alter table public.tbl_dendro_dates alter column error_uncertainty_id drop not null;
+        if (select count(*)
+            from INFORMATION_SCHEMA.COLUMNS
+            where table_schema = 'public'
+              and table_name = 'tbl_dendro_dates'
+              and column_name = 'error_uncertainty_id'
+              and is_nullable = 'YES') = 1
+        then
+            raise exception sqlstate 'GUARD';
+        end if;
 
+        alter table public.tbl_dendro_dates alter column error_uncertainty_id drop not null;
+
+    exception when sqlstate 'GUARD' then
+        raise notice 'ALREADY EXECUTED';
+    end;
+
+end $$;
 commit;

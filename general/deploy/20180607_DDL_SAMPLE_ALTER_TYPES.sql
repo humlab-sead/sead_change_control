@@ -16,6 +16,16 @@ do $$
 begin
     begin
 
+        if (select count(*)
+            from INFORMATION_SCHEMA.COLUMNS
+            where table_schema = 'public'
+              and table_name = 'tbl_sample_group_sampling_contexts'
+              and column_name = 'sampling_context'
+              and character_maximum_length = 80) = 1
+        then
+            raise exception sqlstate 'GUARD';
+        end if;
+
         alter table tbl_sample_group_sampling_contexts alter column sampling_context type character varying(80);
 
         -- alter table tbl_physical_samples alter column date_sampled type timestamp with time zone using date_sampled::timestamp with time zone;

@@ -17,8 +17,8 @@ begin
 
     begin
 
-        if sead_utility.column_exists('public'::text, 'table_name'::text, 'column_name'::text) = TRUE then
-            raise exception SQLSTATE 'GUARD';
+        if (select count(*) from "public"."tbl_analysis_entity_ages" where analysis_entity_age_id = 8905) > 0 then
+            raise exception sqlstate 'GUARD';
         end if;
 
         perform sead_utility.sync_sequence('public', 'tbl_analysis_entity_ages');

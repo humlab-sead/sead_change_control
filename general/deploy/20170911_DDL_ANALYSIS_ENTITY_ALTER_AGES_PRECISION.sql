@@ -17,6 +17,18 @@ begin
 
     begin
 
+        if (select count(*)
+            from INFORMATION_SCHEMA.COLUMNS
+            where table_schema='public'
+              and table_name = 'tbl_analysis_entity_ages'
+              and column_name = 'age'
+              and numeric_precision = 20
+              and numeric_scale = 5) > 0
+        then
+            raise exception sqlstate 'GUARD';
+        end if;
+
+
         alter table tbl_analysis_entity_ages
             alter column "age" type numeric(20,5),
             alter column "age_older" type numeric(20,5),

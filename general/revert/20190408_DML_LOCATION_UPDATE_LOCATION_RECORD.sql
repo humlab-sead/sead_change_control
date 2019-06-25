@@ -2,9 +2,9 @@
 
 BEGIN;
 
-Update public.tbl_locations
- 	Set location_name = 'Flensburg'
-Where location_id = 3894;
+    -- Update public.tbl_locations
+    --     Set location_name = 'Flensburg'
+    -- Where location_id = 3894;
 
 
 COMMIT;

@@ -40,6 +40,7 @@ begin
             from new_methods n
             left join tbl_methods x using (method_abbrev_or_alt_name)
             where x.method_name is null;
+            
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
