@@ -61,3 +61,5 @@
 # 20190425_DDL_SCHEMA_ADD_MISSING_FOREIGN_KEYS 2019-04-25T12:36:40Z Roger Mähler <roger.mahler@umu.se> # Add missing FK in public schema
 # 20190415_DML_SPECIES_DELETE_DUPLICATES 2019-04-15T14:37:52Z Roger Mähler <roger.mahler@umu.se> # Delete species associations types marked as duplicates
 
+20190627_DML_SUBMISSION_DENDRO_BYGG_003_COMMIT 2019-06-27T12:36:06Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {3}.
+@v0.3 2019-06-27T13:29:49Z Roger Mähler <roger.mahler@umu.se> # Dendro building dataset commit
