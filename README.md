@@ -1,6 +1,6 @@
 # SEAD Change Control System
 
-Sane SEAD change control using [Sqitch](https://sqitch.org/).
+Sensible SEAD change control system (CCS) using [Sqitch](https://sqitch.org/).
 
 ## Install Sqitch
 
@@ -43,10 +43,11 @@ Locations of `sqitch.conf`:
 | Project       | Description   |
 | ------------- | ------------- |
 | ./general     | Main repository for schema and data change requests (CR) |
-| ./utility     | Repository for generic utility objects      |
-| ./sead_api    | Repository for CR related to external API
+| ./utility     | Repository for generic utility objects |
+| ./sead_api    | Repository for CR related to external API |
 | ./bugs        | CRs related to Bugs import |
-| ./report      | Report related CRs  (e.g. Clearinghouse, SuperSEAD) |
+| ./report      | Report related CRs (e.g. Clearinghouse, SuperSEAD) |
+| ./security    | Changes related to roles and privileges |
 
 Use `sqitch init` to create a new project:
 
@@ -56,20 +57,37 @@ sqitch init xyz --uri https://github.com/humlab-sead/xyz --engine pg -C xyz
 
 ## Naming Conventions
 
+```bash
 yyyymmdd_[DML|DDL]_ENTITY_DESCRIPTION
+```
 
 ## Add a New SEAD CCS Task
 
+```bash
 sqitch add --change-name xyz --note "a note" --chdir ./project-path
+```
 
 Task templates locations:
 
+```bash
 sqitch --etc-path
 cat `sqitch --etc-path`/templates/deploy/pg.tmpl
+```
 
 ## Add a New SEAD CCS Tag
 
+Add a new (release) tag to a specific plan file:
+
+```bash
 sqitch tag --tag v0.1 --note "tag description" --plan-file ./project-path/sqitch.plan
+```
+
+Example:
+
+```bash
+$ sqitch tag @v0.2 20190624_DML_SUBMISSION_DENDRO_ARKEO_002_COMMIT --plan-file ./general/sqitch.plan --note "Dendro archeology dataset commit"
+Tagged "20190624_DML_SUBMISSION_DENDRO_ARKEO_002_COMMIT" with @v0.2 in general/sqitch.plan
+```
 
 ## Deploy Tasks up to Tag or Change
 
@@ -90,7 +108,8 @@ Use this only if plan actually reflects current state of the database. It will l
 without actually doing a revert, and then log deploy of changes according to plan (without acutuall doing the deploy).
 
 ```bash
-sqitch rebase --log-only --target staging-tng -C ./general
+sqitch rebase --log-only --target "a-target" --chdir "a-sub-project"
+sqitch rebase --upto "some-point" --log-only --target "a-target" --chdir "a-sub-project"
 ```
 
 ## More
