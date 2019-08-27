@@ -69,7 +69,7 @@ begin
 
         create table if not exists facet.facet (
             facet_id integer not null primary key,
-            facet_key character varying(80) not null,
+            facet_code character varying(80) not null,
             display_title character varying(80) not null,
             facet_group_id integer not null references facet_group(facet_group_id),
             facet_type_id integer not null references facet_type(facet_type_id),
