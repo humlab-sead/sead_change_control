@@ -84,7 +84,7 @@ begin
             aggregate_facet_id integer not null
         );
 
-        create table if not exists facet.facet_condition_clause (
+        create table if not exists facet.facet_clause (
             facet_source_table_id serial primary key,
             facet_id integer not null references facet(facet_id),
             clause character varying(512)
