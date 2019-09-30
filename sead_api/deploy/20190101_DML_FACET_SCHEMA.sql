@@ -5,7 +5,7 @@
   Date          2019-01-01
   Description
   Reviewer
-  Approver
+  Approver rollback
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
@@ -66,11 +66,11 @@ begin
             (1, 'result_facet', 'Analysis entities', 999, 1, 'tbl_analysis_entities.analysis_entity_id', 'tbl_physical_samples.sample_name||'' ''||tbl_datasets.dataset_name', 'tbl_analysis_entities.analysis_entity_id', 'tbl_datasets.dataset_name', false, false, 'count', 'Number of samples', 0),
             (2, 'dataset_helper', 'dataset_helper', 999, 1, 'tbl_datasets.dataset_id', 'tbl_datasets.dataset_id', 'tbl_dataset.dataset_id', 'tbl_dataset.dataset_id', false, false, 'count', 'Number of samples', 1),
             (25, 'species', 'Taxa', 6, 1, 'tbl_taxa_tree_master.taxon_id', 'concat_ws('' '', tbl_taxa_tree_genera.genus_name, tbl_taxa_tree_master.species, tbl_taxa_tree_authors.author_name)', 'tbl_taxa_tree_master.taxon_id', 'tbl_taxa_tree_genera.genus_name||'' ''||tbl_taxa_tree_master.species', true, false, 'sum', 'sum of Abundance', 32),
-            (35, 'tbl_biblio_modern', 'Bibligraphy modern', 1, 1, 'metainformation.view_taxa_biblio.biblio_id', 'tbl_biblio.title||''  ''||tbl_biblio.author ', 'tbl_biblio.biblio_id', 'tbl_biblio.author', true, false, 'count', 'count of species', 19),
-            (3, 'tbl_denormalized_measured_values_33_0', 'MS ', 5, 2, 'metainformation.tbl_denormalized_measured_values.value_33_0', 'metainformation.tbl_denormalized_measured_values.value_33_0', 'metainformation.tbl_denormalized_measured_values.value_33_0', 'metainformation.tbl_denormalized_measured_values.value_33_0', true, false, '', 'Number of samples', 1),
-            (4, 'tbl_denormalized_measured_values_33_82', 'MS Heating 550', 5, 2, 'metainformation.tbl_denormalized_measured_values.value_33_82', 'metainformation.tbl_denormalized_measured_values.value_33_82', 'metainformation.tbl_denormalized_measured_values.value_33_82', 'metainformation.tbl_denormalized_measured_values.value_33_82', true, false, '', 'Number of samples', 1),
-            (5, 'tbl_denormalized_measured_values_32', 'LOI', 5, 2, 'metainformation.tbl_denormalized_measured_values.value_32_0', 'metainformation.tbl_denormalized_measured_values.value_32_0', 'metainformation.tbl_denormalized_measured_values.value_32', 'metainformation.tbl_denormalized_measured_values.value_32', true, false, '', 'Number of samples', 1),
-            (6, 'tbl_denormalized_measured_values_37', ' P┬░', 5, 2, 'metainformation.tbl_denormalized_measured_values.value_37_0', 'metainformation.tbl_denormalized_measured_values.value_37_0', 'metainformation.tbl_denormalized_measured_values.value_37', 'metainformation.tbl_denormalized_measured_values.value_37', true, false, '', 'Number of samples', 1),
+            (35, 'tbl_biblio_modern', 'Bibligraphy modern', 1, 1, 'facet.view_taxa_biblio.biblio_id', 'tbl_biblio.title||''  ''||tbl_biblio.author ', 'tbl_biblio.biblio_id', 'tbl_biblio.author', true, false, 'count', 'count of species', 19),
+            (3, 'tbl_denormalized_measured_values_33_0', 'MS ', 5, 2, 'facet.tbl_denormalized_measured_values.value_33_0', 'facet.tbl_denormalized_measured_values.value_33_0', 'facet.tbl_denormalized_measured_values.value_33_0', 'facet.tbl_denormalized_measured_values.value_33_0', true, false, '', 'Number of samples', 1),
+            (4, 'tbl_denormalized_measured_values_33_82', 'MS Heating 550', 5, 2, 'facet.tbl_denormalized_measured_values.value_33_82', 'facet.tbl_denormalized_measured_values.value_33_82', 'facet.tbl_denormalized_measured_values.value_33_82', 'facet.tbl_denormalized_measured_values.value_33_82', true, false, '', 'Number of samples', 1),
+            (5, 'tbl_denormalized_measured_values_32', 'LOI', 5, 2, 'facet.tbl_denormalized_measured_values.value_32_0', 'facet.tbl_denormalized_measured_values.value_32_0', 'facet.tbl_denormalized_measured_values.value_32', 'facet.tbl_denormalized_measured_values.value_32', true, false, '', 'Number of samples', 1),
+            (6, 'tbl_denormalized_measured_values_37', ' P┬░', 5, 2, 'facet.tbl_denormalized_measured_values.value_37_0', 'facet.tbl_denormalized_measured_values.value_37_0', 'facet.tbl_denormalized_measured_values.value_37', 'facet.tbl_denormalized_measured_values.value_37', true, false, '', 'Number of samples', 1),
             (7, 'measured_values_helper', 'values', 999, 1, 'tbl_measured_values.measured_value', 'tbl_measured_values.measured_value', 'tbl_measured_values.measured_value', 'tbl_measured_values.measured_value', false, false, 'count', 'Number of samples', 1),
             (8, 'taxon_result', 'taxon_id', 999, 1, 'tbl_abundances.taxon_id', 'tbl_abundances.taxon_id', 'tbl_abundances.taxon_id', 'tbl_abundances.taxon_id', false, false, 'count', 'Number of samples', 1),
             (9, 'map_result', 'Site', 999, 1, 'tbl_sites.site_id', 'tbl_sites.site_name', 'tbl_sites.site_id', 'tbl_sites.site_name', false, false, 'count', 'Number of samples', 1),
@@ -91,16 +91,16 @@ begin
             (28, 'species_author', 'Author', 6, 1, 'tbl_taxa_tree_authors.author_id ', 'tbl_taxa_tree_authors.author_name ', 'tbl_taxa_tree_authors.author_id ', 'tbl_taxa_tree_authors.author_name ', true, false, 'count', 'Number of samples', 1),
             (29, 'feature_type', 'Feature type', 1, 1, 'tbl_feature_types.feature_type_id ', 'tbl_feature_types.feature_type_name', 'tbl_feature_types.feature_id ', 'tbl_feature_types.feature_type_name', true, false, 'count', 'Number of samples', 1),
             (30, 'ecocode_system', 'Eco code system', 4, 1, 'tbl_ecocode_systems.ecocode_system_id ', 'tbl_ecocode_systems.name', 'tbl_ecocode_systems.ecocode_system_id ', 'tbl_ecocode_systems.definition', true, false, 'count', 'Number of samples', 1),
-            (31, 'abundance_classification', 'abundance classification', 4, 1, 'metainformation.view_abundance.elements_part_mod ', 'metainformation.view_abundance.elements_part_mod ', 'metainformation.view_abundance.elements_part_mod ', 'metainformation.view_abundance.elements_part_mod ', true, false, 'count', 'Number of samples', 1),
+            (31, 'abundance_classification', 'abundance classification', 4, 1, 'facet.view_abundance.elements_part_mod ', 'facet.view_abundance.elements_part_mod ', 'facet.view_abundance.elements_part_mod ', 'facet.view_abundance.elements_part_mod ', true, false, 'count', 'Number of samples', 1),
             (10, 'geochronology', 'Geochronology', 2, 2, 'tbl_geochronology.age', 'tbl_geochronology.age', 'tbl_geochronology.age', 'tbl_geochronology.age', true, false, '', 'Number of samples', 1),
             (11, 'relative_age_name', 'Time periods', 2, 1, 'tbl_relative_ages.relative_age_id', 'tbl_relative_ages.relative_age_name', 'tbl_relative_ages.relative_age_id', 'tbl_relative_ages.relative_age_name', true, false, 'count', 'Number of samples', 1),
             (20, 'tbl_relative_dates_helper', 'tbl_relative_dates', 2, 1, 'tbl_relative_dates.relative_age_id', 'tbl_relative_dates.relative_age_name ', 'tbl_relative_dates.relative_age_name', 'tbl_relative_dates.relative_age_name ', false, false, 'count', 'Number of samples', 1),
             (34, 'activeseason', 'Seasons', 2, 1, 'tbl_seasons.season_id', 'tbl_seasons.season_name ', 'tbl_seasons.season_id', 'tbl_seasons.season_type ', true, false, 'count', 'Number of samples', 1),
-            (32, 'abundances_all_helper', 'Abundances', 4, 2, 'metainformation.view_abundance.abundance ', 'metainformation.view_abundance.abundance ', 'metainformation.view_abundance.abundance ', 'metainformation.view_abundance.abundance', false, false, '', 'Number of samples', 1),
-            (33, 'abundances_all', 'Abundances', 4, 2, 'metainformation.view_abundance.abundance ', 'metainformation.view_abundance.abundance ', 'metainformation.view_abundance.abundance ', 'metainformation.view_abundance.abundance', true, false, '', 'Number of samples', 1),
+            (32, 'abundances_all_helper', 'Abundances', 4, 2, 'facet.view_abundance.abundance ', 'facet.view_abundance.abundance ', 'facet.view_abundance.abundance ', 'facet.view_abundance.abundance', false, false, '', 'Number of samples', 1),
+            (33, 'abundances_all', 'Abundances', 4, 2, 'facet.view_abundance.abundance ', 'facet.view_abundance.abundance ', 'facet.view_abundance.abundance ', 'facet.view_abundance.abundance', true, false, '', 'Number of samples', 1),
             (36, 'tbl_biblio_sample_groups', 'Bibligraphy sites/Samplegroups', 1, 1, 'tbl_biblio.biblio_id', 'tbl_biblio.title||''  ''||tbl_biblio.author', 'tbl_biblio.biblio_id', 'tbl_biblio.author', true, false, 'count', 'Number of samples', 1),
             (37, 'tbl_biblio_sites', 'Bibligraphy sites', 1, 1, 'tbl_biblio.biblio_id', 'tbl_biblio.title||''  ''||tbl_biblio.author', 'tbl_biblio.biblio_id', 'tbl_biblio.author', false, false, 'count', 'Number of samples', 1)
-        ) on conflict (facet_id) to update
+        ) on conflict (facet_id) do update
             set facet_code = excluded.facet_code,
                 display_title = excluded.display_title,
                 facet_group_id = excluded.facet_group_id,
@@ -115,13 +115,13 @@ begin
                 aggregate_title = excluded.aggregate_title,
                 aggregate_facet_id = excluded.aggregate_facet_id;
 
-        insert into facet.facet_condition_clause (facet_source_table_id, facet_id, clause) (values
+        insert into facet.facet_clause (facet_source_table_id, facet_id, clause) (values
             (1, 21, 'countries.location_type_id=1'),
             (2, 25, 'tbl_sites.site_id is not null'),
-            (3, 32, 'metainformation.view_abundance.abundance is not null'),
-            (4, 33, 'metainformation.view_abundance.abundance is not null'),
-            (5, 36, 'metainformation.view_sample_group_references.biblio_id is not null'),
-            (6, 37, 'metainformation.view_site_references.biblio_id is not null')
+            (3, 32, 'facet.view_abundance.abundance is not null'),
+            (4, 33, 'facet.view_abundance.abundance is not null'),
+            (5, 36, 'facet.view_sample_group_references.biblio_id is not null'),
+            (6, 37, 'facet.view_site_references.biblio_id is not null')
         ) on conflict (facet_source_table_id) do update
             set facet_id = excluded.facet_id,
                 clause = excluded.clause;
@@ -129,10 +129,10 @@ begin
        insert into facet.facet_table (facet_table_id, facet_id, sequence_id, schema_name, table_name, alias) (values
             (1, 1, 1, '', 'tbl_analysis_entities', ''),
             (2, 2, 1, '', 'tbl_datasets', ''),
-            (3, 3, 1, '', 'metainformation.tbl_denormalized_measured_values', ''),
-            (4, 4, 1, '', 'metainformation.tbl_denormalized_measured_values', ''),
-            (5, 5, 1, '', 'metainformation.tbl_denormalized_measured_values', ''),
-            (6, 6, 1, '', 'metainformation.tbl_denormalized_measured_values', ''),
+            (3, 3, 1, '', 'facet.tbl_denormalized_measured_values', ''),
+            (4, 4, 1, '', 'facet.tbl_denormalized_measured_values', ''),
+            (5, 5, 1, '', 'facet.tbl_denormalized_measured_values', ''),
+            (6, 6, 1, '', 'facet.tbl_denormalized_measured_values', ''),
             (7, 7, 1, '', 'tbl_measured_values', ''),
             (8, 8, 1, '', 'tbl_abundances', ''),
             (9, 9, 1, '', 'tbl_sites', ''),
@@ -157,11 +157,11 @@ begin
             (28, 28, 1, '', 'tbl_taxa_tree_authors', ''),
             (29, 29, 1, '', 'tbl_feature_types', ''),
             (30, 30, 1, '', 'tbl_ecocode_systems', ''),
-            (31, 31, 1, '', 'metainformation.view_abundance', ''),
-            (32, 32, 1, '', 'metainformation.view_abundance', ''),
-            (33, 33, 1, '', 'metainformation.view_abundance', ''),
+            (31, 31, 1, '', 'facet.view_abundance', ''),
+            (32, 32, 1, '', 'facet.view_abundance', ''),
+            (33, 33, 1, '', 'facet.view_abundance', ''),
             (34, 34, 1, '', 'tbl_seasons', ''),
-            (35, 35, 1, '', 'metainformation.view_taxa_biblio', ''),
+            (35, 35, 1, '', 'facet.view_taxa_biblio', ''),
             (36, 36, 1, '', 'tbl_biblio', ''),
             (37, 37, 1, '', 'tbl_biblio', ''),
             (38, 1, 2, '', 'tbl_physical_samples', ''),
@@ -177,8 +177,8 @@ begin
             (48, 29, 2, '', 'tbl_physical_sample_features', ''),
             (49, 30, 2, '', 'tbl_ecocode_systems', ''),
             (50, 35, 2, '', 'tbl_biblio', ''),
-            (51, 36, 2, '', 'metainformation.view_sample_group_references', ''),
-            (52, 37, 2, '', 'metainformation.view_site_references', ''),
+            (51, 36, 2, '', 'facet.view_sample_group_references', ''),
+            (52, 37, 2, '', 'facet.view_site_references', ''),
             (57, 25, 4, '', 'tbl_sites', ''),
             (53, 1, 3, '', 'tbl_datasets', ''),
             (54, 15, 3, '', 'tbl_site_locations', ''),
@@ -216,8 +216,8 @@ begin
             (22, 'tbl_imported_taxa_replacements'),
             (23, 'tbl_dendro_measurement_lookup'),
             (24, 'tbl_rdb_codes'),
-            (25, 'metainformation.view_abundances_by_taxon_analysis_entity'),
-            (26, 'metainformation.view_site_references'),
+            (25, 'facet.view_abundances_by_taxon_analysis_entity'),
+            (26, 'facet.view_site_references'),
             (27, 'tbl_taxa_seasonality'),
             (28, 'tbl_sample_group_description_type_sampling_contexts'),
             (29, 'tbl_contacts'),
@@ -248,7 +248,7 @@ begin
             (54, 'tbl_sample_group_description_types'),
             (55, 'tbl_relative_dates'),
             (56, 'tbl_sample_description_sample_group_contexts'),
-            (57, 'metainformation.view_abundance'),
+            (57, 'facet.view_abundance'),
             (58, 'tbl_projects'),
             (59, 'tbl_chron_controls'),
             (60, 'tbl_geochronology'),
@@ -290,7 +290,7 @@ begin
             (96, 'tbl_analysis_entity_ages'),
             (97, 'tbl_ceramics_measurements'),
             (98, 'tbl_dimensions'),
-            (99, 'metainformation.view_taxa_biblio'),
+            (99, 'facet.view_taxa_biblio'),
             (100, 'tbl_dendro_measurements'),
             (101, 'tbl_ecocodes'),
             (102, 'tbl_physical_samples'),
@@ -305,7 +305,7 @@ begin
             (111, 'tbl_sample_descriptions'),
             (112, 'tbl_sample_group_dimensions'),
             (113, 'tbl_site_locations'),
-            (114, 'metainformation.view_sample_group_references'),
+            (114, 'facet.view_sample_group_references'),
             (115, 'tbl_aggregate_sample_ages'),
             (116, 'tbl_sample_dimensions'),
             (117, 'tbl_chronologies'),
@@ -316,7 +316,7 @@ begin
             (122, 'tbl_text_biology'),
             (123, 'tbl_contact_types'),
             (124, 'tbl_sample_group_images'),
-            (125, 'metainformation.tbl_denormalized_measured_values'),
+            (125, 'facet.tbl_denormalized_measured_values'),
             (126, 'tbl_taxa_measured_attributes'),
             (127, 'tbl_dendro_date_notes'),
             (128, 'tbl_ecocode_systems'),
