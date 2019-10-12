@@ -11,3 +11,5 @@
 
 20190101_DDL_FACET_SCHEMA 2019-06-22T09:32:24Z Roger Mähler <roger.mahler@umu.se> # SEAD Query API schema DDL.
 20190101_DML_FACET_SCHEMA 2019-06-22T09:33:04Z Roger Mähler <roger.mahler@umu.se> # SEAD Query API schema DDL.
+20191012_DML_ECOCODE_GEOJSON_EXPORT 2019-10-12T17:14:27Z Roger Mähler <roger.mahler@umu.se> # Greatly improved Ecocode GeoJSON export
+20191012_DDL_FACET_MEASURED_VALUE_UDF 2019-10-12T17:18:45Z Roger Mähler <roger.mahler@umu.se> # Facet UDF (replaces materialized view)
