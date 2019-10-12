@@ -2,7 +2,7 @@
 
 Sensible SEAD change control system (CCS) using [Sqitch](https://sqitch.org/).
 
-## Install Sqitch
+## Install (or update) Sqitch
 
 ```bash
 docker pull sqitch/sqitch
@@ -55,16 +55,12 @@ Use `sqitch init` to create a new project:
 sqitch init xyz --uri https://github.com/humlab-sead/xyz --engine pg -C xyz
 ```
 
-## Naming Conventions
-
-```bash
-yyyymmdd_[DML|DDL]_ENTITY_DESCRIPTION
-```
-
 ## Add a New SEAD CCS Task
 
+Use `sqitch add` (or possibly `docker-sqitch.sh` depending on install) with task naming convention `yyyymmdd_[DML|DDL]_ENTITY_DESCRIPTION`:
+
 ```bash
-sqitch add --change-name xyz --note "a note" --chdir ./project-path
+docker-sqitch.sh add --change-name yyyymmdd_DXL_ENTITY_DESCRIPTION --note "a note" --chdir ./project-path
 ```
 
 Task templates locations:
@@ -110,6 +106,17 @@ without actually doing a revert, and then log deploy of changes according to pla
 ```bash
 sqitch rebase --log-only --target "a-target" --chdir "a-sub-project"
 sqitch rebase --upto "some-point" --log-only --target "a-target" --chdir "a-sub-project"
+```
+
+## Troubleshooting
+
+If squitch says `fe_sendauth: no password supplied` then you need to set SQITCH_PASSWORD or properly configure .pgpass.
+
+ ```bash
+ $ ./docker-sqitch.sh status --target my-targetg -C ./my-project
+fe_sendauth: no password supplied
+
+export SQITCH_PASSWORD=password
 ```
 
 ## More
