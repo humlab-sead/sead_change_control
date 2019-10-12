@@ -63,3 +63,6 @@
 
 20190627_DML_SUBMISSION_DENDRO_BYGG_003_COMMIT 2019-06-27T12:36:06Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {3}.
 @v0.3 2019-06-27T13:29:49Z Roger Mähler <roger.mahler@umu.se> # Dendro building dataset commit
+
+20191012_DDL_ISOTOPE_MODEL 2019-10-12T15:09:19Z Roger Mähler <roger.mahler@umu.se> # Creates Isotope data model
+20191012_DML_ISOTOPE_LOOKUP_DATA 2019-10-12T15:10:14Z Roger Mähler <roger.mahler@umu.se> # Isotope lookup data
