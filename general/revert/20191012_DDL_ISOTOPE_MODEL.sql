@@ -2,6 +2,9 @@
 
 BEGIN;
 
--- XXX Add DDLs here.
+    drop table if exists public.tbl_isotope_standards;
+    drop table if exists public.tbl_isotopes;
+    drop table if exists public.tbl_isotope_types;
+    drop table if exists public.tbl_isotope_measurments;
 
 COMMIT;
