@@ -7,15 +7,15 @@
 
 20170810_DDL_DATAARC_DATASRC_API 2019-04-12T13:06:07Z Roger Mähler <roger.mahler@umu.se> # DataARC export schema.
 
-@2019.05 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Staging DB with initial DML updates
+@201905 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Staging DB with initial DML updates
 
 20190101_DDL_FACET_SCHEMA 2019-06-22T09:32:24Z Roger Mähler <roger.mahler@umu.se> # SEAD Query API schema DDL.
 20190101_DML_FACET_SCHEMA 2019-06-22T09:33:04Z Roger Mähler <roger.mahler@umu.se> # SEAD Query API schema DDL.
 
-@2019.09 2019-09-01T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Staging DB with facet schema
+@201909 2019-09-01T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Staging DB with facet schema
 
 20191012_DDL_ECOCODE_GEOJSON_EXPORT 2019-10-12T17:14:27Z Roger Mähler <roger.mahler@umu.se> # Greatly improved Ecocode GeoJSON export
 20191012_DDL_FACET_MEASURED_VALUE_UDF 2019-10-12T17:18:45Z Roger Mähler <roger.mahler@umu.se> # Facet UDF (replaces materialized view)
 
-@2019.10 2019-10-13T18:54:000 Roger Mähler <roger.mahler@umu.se> # October 2019 release
+@201910 2019-10-13T18:54:000 Roger Mähler <roger.mahler@umu.se> # October 2019 release
 

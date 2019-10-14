@@ -48,13 +48,13 @@
 
 20190624_DML_SUBMISSION_DENDRO_ARKEO_002_COMMIT 2019-06-24T13:07:26Z Roger Mähler <roger.mahler@umu.se> # Add Calender Dates
 20190627_DML_SUBMISSION_DENDRO_BYGG_003_COMMIT 2019-06-27T12:36:06Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {3}.
-@2019.06 2019-06-27T13:29:49Z Roger Mähler <roger.mahler@umu.se> # Dendro datasets commit
+@201906 2019-06-27T13:29:49Z Roger Mähler <roger.mahler@umu.se> # Dendro datasets commit
 
 20191012_DDL_ISOTOPE_MODEL 2019-10-12T15:09:19Z Roger Mähler <roger.mahler@umu.se> # Creates Isotope data model
 20191012_DML_ISOTOPE_LOOKUP_DATA 2019-10-12T15:10:14Z Roger Mähler <roger.mahler@umu.se> # Isotope lookup data
 20191012_DML_ASSOCIATION_TYPE_UPDATES 2019-10-12T17:11:01Z Roger Mähler <roger.mahler@umu.se> # Association type updates (from bugs)
 
-@2019.10 2019-10-13T18:54:000 Roger Mähler <roger.mahler@umu.se> # October 2019 release
+@201910 2019-10-13T18:54:000 Roger Mähler <roger.mahler@umu.se> # October 2019 release
 
 # Disabled: Updated by Bugs import system
 # 20190513_DML_ECOCODE_ADD_BUGS_SYSTEMS 2019-04-25T07:21:35Z Roger Mähler <roger.mahler@umu.se> # Add "Bugs Ecocodes"
