@@ -17,7 +17,6 @@ source_type=
 source_name=
 conflict_resolution=rename
 
-deprecated_name=${target_name}_`date "+%Y%m%d%H%M%S"`
 log_file=`date "+%Y%m%d%H%M%S"`_"deploy_${target_name}_${source_type}.log"
 
 deploy_tag=
@@ -81,7 +80,7 @@ do
                     source_name=${default_source_dump_file}
                 elif [ "$source_type" == "db" ]; then
                     source_name=${default_source_db_name}
-                elif
+                else
                     echo "error: source-type must be db or dump"
                 fi
             fi
@@ -142,7 +141,7 @@ elif [ "$create_target" == "YES" ]; then
         echo "error: source type must be specified when --create  is specified"
         usage
         exit 64
-    if
+    fi
 
     if [ "${source_name}" == "" ]; then
         echo "error: source ${source_type} name not specified"
@@ -151,6 +150,8 @@ elif [ "$create_target" == "YES" ]; then
     fi
 
 fi
+
+deprecated_name=${target_name}_`date "+%Y%m%d%H%M%S"`
 
 function dbexec() {
     db_name=$1
@@ -205,7 +206,7 @@ function setup_new_target_database() {
 
 	    elif [ "$conflict_resolution" == "drop" ]; then
 
-		    sql='drop database if exists ${target_name};'
+		    sql="drop database if exists ${target_name};"
 		    dbexec "postgres" "$sql"
 
 	    else
@@ -248,7 +249,7 @@ function setup_new_target_database() {
 	fi
 }
 
-if [ "create_target" == "YES" ]; then
+if [ "$create_target" == "YES" ]; then
 
     echo "Setting up a new database..."
 
