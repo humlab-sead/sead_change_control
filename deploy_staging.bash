@@ -5,19 +5,22 @@ export PGCLIENTENCODING=UTF8
 #echo "x.x.1.181" >  ~/.default.sead.server
 #echo "x" >  ~/.default.sead.username
 
-db_hostfile=~/.default.sead.server
-db_userfile=~/.default.sead.username
+db_hostfile=~/vault/.default.sead.server
+db_userfile=~/vault/.default.sead.username
 db_source_db=sead_master_9
 db_source_sql="./starting_point/sead_master_9_public.sql.gz"
-db_target_db=sead_staging
+db_target_db=sead_staging_test
 db_deprecated_db=${db_target_db}_`date "+%Y%m%d%H%M%S"`
 on_conflict=rename
 db_source_type=sql
 
+log_file=`date "+%Y%m%d%H%M%S"`_"deploy_${db_target_db}_${db_source_type}.log"
+
 deploy_tag=
 
-#sqitch_projects="utility general bugs sead_api report"
-sqitch_projects="utility general bugs sead_api report"
+sqitch_projects="utility general"
+
+# bugs sead_api report"
 
 if [[ -f "$db_hostfile" ]]; then
     db_host=`cat $db_hostfile`
@@ -37,6 +40,8 @@ usage: deploy_staging OPTIONS...
     --source-type [db|sql]          Source template type (sql)
     --on-conflict [drop|rename]     What to do if target database exists (rename)
     --deploy-to-tag TAG             Sqitch deploy to tag
+
+
 EOF
 )
 
@@ -81,20 +86,21 @@ done
 
 function usage() {
 
-    echo $usage_message
+    echo "$usage_message"
 }
 
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-if [ "$db_host" != "130.239.1.181" ]; then
+if [ "$db_host" != "seadserv.humlab.umu.se" ]; then
     echo "This script can for now only be run on 130.239.1.181";
     exit 64
 fi
 
-if [ "$source-type" != "db" && "$source-type" != "sql" ]; then
+if [ "${db_source_type}" != "db" ] && [ "${db_source_type}" != "sql" ]; then
     usage
     exit 64
 fi
+
 
 if [ "$db_target_db" == "sead_production" ]; then
     echo "Not allowed: You are not allowed to deploy directly to sead_production!";
@@ -104,8 +110,8 @@ fi
 function dbexec() {
     db_name=$1
     sql=$2
-    echo $sql
-    psql --host=$db_host --username=$db_user --no-password --dbname=$db_name --command "$sql"
+    echo $sql >> $log_file
+    psql -v ON_ERROR_STOP=1 --host=$db_host --username=$db_user --no-password --dbname=$db_name --command "$sql" >> $log_file
     if [ $? -ne 0 ];  then
         echo "FATAL: psql command failed! Deploy aborted." >&2
         exit 64
@@ -115,8 +121,8 @@ function dbexec() {
 function dbexecgz() {
     db_name=$1
     gz_file=$2
-    echo "executing file: $gz_file..."
-    zcat $gz_file | psql --host=$db_host --username=$db_user --no-password --dbname=$db_name
+    echo "Executing file $gz_file..." >> $log_file
+    zcat $gz_file | psql -v ON_ERROR_STOP=1 --host=$db_host --username=$db_user --no-password --dbname=$db_name >> $log_file
     if [ $? -ne 0 ];  then
         echo "FATAL: psql command failed! Deploy aborted." >&2
         exit 64
@@ -124,6 +130,7 @@ function dbexecgz() {
 }
 
 function kick_out_users() {
+    echo "Kicking out users..."
     sql=$(cat <<____EOF
         select pg_terminate_backend(pg_stat_activity.pid)
         from pg_stat_activity
@@ -131,13 +138,14 @@ function kick_out_users() {
           and pid <> pg_backend_pid();
 ____EOF
     )
-    dbexec "postgres" "$sql" # > /dev/null
+    dbexec "postgres" "$sql" >& /dev/null >> $log_file
 }
 
 kick_out_users
 
 if [ "$( psql --host=$db_host --username=$db_user --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${db_target_db}'" )" == '1' ]
 then
+    echo "Database exists..."
     if [ "$on_conflict" == "rename" ]; then
         echo "Renaming ${db_target_db} to ${db_deprecated_db}..."
         sql="alter database ${db_target_db} rename to ${db_deprecated_db};"
@@ -152,32 +160,51 @@ then
 fi
 
 if [ "${db_source_type}" == "db" ]; then
+
     if [ "${db_source_db}" == "" ]; then
         echo "error: source database not specified"
         usage
         exit 64
     fi
+
+    echo "Creating database ${db_target_db} using template ${db_source_db}..."
     dbexec "postgres" "create database ${db_target_db} with template ${db_source_db} owner sead_master;"
+
 elif [ "${db_source_type}" == "sql" ]; then
+
     if [ "${db_source_sql}" == "" ]; then
         echo "error: source sql.gz file not specified"
         usage
         exit 64
     fi
+
+    echo "Creating database ${db_target_db}..."
     dbexec "postgres" "create database ${db_target_db} owner sead_master;"
-    dbexecgz "postgres" "$db_source_sql"
+
+    dbexec "$db_target_db" "drop schema if exists public;"
+
+    echo "Applying source SQL script..."
+    dbexecgz "$db_target_db" "$db_source_sql"
+
+    echo "Applying default permissions..."
     dbexecgz "${db_target_db}" "./starting_point/role_permissions.sql.gz"
+
 else
+
     echo "error: please specify which source db to use as base template"
     usage
     exit 64
+
 fi
 
-deploy_target_uri="db:pg://${db_user}@${db_host}/${db_target_db}"
-for sqitch_project in $sqitch_projects; do
-    sqitch deploy --target ${deploy_target_uri} $deploy_tag --mode change --no-verify -C ./$sqitch_project
-    if [ $? -ne 0 ];  then
-        echo "FAILURE: sqitch deploy FAILED! DB is in an undefined state." >&2
-        exit 64
-    fi
-done
+if [ "$deploy_tag" != "" ]; then
+
+    deploy_target_uri="db:pg://${db_user}@${db_host}/${db_target_db}"
+    for sqitch_project in $sqitch_projects; do
+        sqitch deploy --target ${deploy_target_uri} $deploy_tag --mode change --no-verify -C ./$sqitch_project
+        if [ $? -ne 0 ];  then
+            echo "FAILURE: sqitch deploy FAILED! DB is in an undefined state." >&2
+            exit 64
+        fi
+    done
+fi
