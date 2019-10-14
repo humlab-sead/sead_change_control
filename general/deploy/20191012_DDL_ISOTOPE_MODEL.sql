@@ -41,8 +41,8 @@ begin
                 abbreviation character varying NULL,
                 atomic_number numeric NULL,
                 description text NULL,
-                alternativ_name character varying NULL,
-                unit_id integer not null,
+                alternative_designation character varying NULL, -- designation
+                -- unit_id integer not null,
                 date_updated timestamp with time zone default now(),
 
                 constraint fk_isotope_types_unit_id foreign key (unit_id)
@@ -80,6 +80,13 @@ begin
 
         end if;
 
+        create table if not exists public.tbl_isotope_value_specifier
+        (
+            isotope_value_specifier_id int primary key not null,
+            decription text not null,
+            date_updated timestamp with time zone default now()
+        );
+
         if sead_utility.table_exists('public'::text, 'tbl_isotopes'::text) = FALSE THEN
 
             create table if not exists public.tbl_isotopes
@@ -88,7 +95,9 @@ begin
                 analysis_entity_id integer NOT NULL,
                 isotope_measurment_id integer NOT NULL,
                 isotope_standard_id integer NULL,
-                measurment_value numeric NULL,
+                measurment_value text NULL,
+                unit_id int not NULL,
+                isotope_value_specifier_id int not NULL,
                 date_updated timestamp with time zone default now(),
 
                 constraint fk_isotopes_analysis_entity_id foreign key (analysis_entity_id)
@@ -104,8 +113,17 @@ begin
                 constraint fk_isotopes_isotope_measurment_id foreign key (isotope_measurment_id)
                     references public.tbl_isotope_measurments (isotope_measurment_id) match simple
                     on update no action
-                    on delete no action
+                    on delete no action,
 
+                constraint fk_isotopes_unit_id foreign key (unit_id)
+                    references public.tbl_units (unit_id) match simple
+                    on update no action
+                    on delete no action,
+
+                constraint fk_isotopes_isotope_value_specifier_id foreign key (isotope_value_specifier_id)
+                    references public.tbl_isotope_value_specifier (isotope_value_specifier_id) match simple
+                    on update no action
+                    on delete no action
             );
         end if;
 
