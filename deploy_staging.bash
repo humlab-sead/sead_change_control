@@ -5,17 +5,20 @@ export PGCLIENTENCODING=UTF8
 #echo "x.x.1.181" >  ~/.default.sead.server
 #echo "x" >  ~/.default.sead.username
 
-db_hostfile=~/vault/.default.sead.server
-db_userfile=~/vault/.default.sead.username
-db_source_db=sead_master_9
-db_source_sql="./starting_point/sead_master_9_public.sql.gz"
-db_create_target_db=NO
-db_target_db=
-db_deprecated_db=${db_target_db}_`date "+%Y%m%d%H%M%S"`
-on_conflict=rename
-db_source_type=
+default_source_db_name=sead_master_9
+default_source_dump_file="./starting_point/sead_master_9_public.sql.gz"
 
-log_file=`date "+%Y%m%d%H%M%S"`_"deploy_${db_target_db}_${db_source_type}.log"
+dothostfile=~/vault/.default.sead.server
+dotuserfile=~/vault/.default.sead.username
+
+target_name=
+create_target=NO
+source_type=
+source_name=
+conflict_resolution=rename
+
+deprecated_name=${target_name}_`date "+%Y%m%d%H%M%S"`
+log_file=`date "+%Y%m%d%H%M%S"`_"deploy_${target_name}_${source_type}.log"
 
 deploy_tag=
 
@@ -23,29 +26,29 @@ sqitch_projects="utility general"
 
 # bugs sead_api report"
 
-if [[ -f "$db_hostfile" ]]; then
-    db_host=`cat $db_hostfile`
+if [[ -f "$dothostfile" ]]; then
+    dbhost=`cat $dothostfile`
 fi
-if [[ -f "$db_userfile" ]]; then
-    db_user=`cat $db_userfile`
+if [[ -f "$dotuserfile" ]]; then
+    dbuser=`cat $dotuserfile`
 fi
 
 usage_message=$(cat <<EOF
 usage: deploy_staging OPTIONS...
 
-    --host SERVERNAME               Target server (${db_host})
-    --user USERNAME                 User on target server (${db_user})
-    --target-db DBNAME              Target database name. Will be overwritten!
-    --create-target                 Create a fresh database from source
-    --source-type [db|sql]          Source template type (db or sql)
-                                    Only valid when --create-target is specified.  No default.
-    --source-db DBNAME              Use DBNAME as source template (sets type to "db", default sead_master_9)
-                                    Only valid when source-type is db. Default "sead_master_9".
-    --source-sql-file FILENAME      Use gzipped dump-file FILENAME as template (sets type to "sql")
-                                    Only valid when source-type is sql. Default "./starting_point/sead_master_9_public.sql.gz".
+    --host SERVERNAME               Target server (${dbhost})
+    --user USERNAME                 User on target server (${dbuser})
+    --target DBNAME                 Target database name. Mandatory.
+    --create                        Create a fresh database from given source.
+    --source-type [db|dump]         Source type i.e. a database name or a dump filename.
+                                    Mandatory if "--create" is specified, else ignored.
+    --source [DBNAME|FILE]          Name of source database or dump file depending on source type
+                                    Optional if "--create" is specified, else ignored.
+                                    Default "sead_master_9" if "source_type" is "db"
+                                    Default "./starting_point/sead_master_9_public.sql.gz" if "source_type" is "dump"
     --on-conflict [drop|rename]     What to do if target database exists (rename)
-                                    Only valid when --create-target is specified.
-    --deploy-to-tag TAG             Sqitch deploy to tag
+                                    Optional if "--create" is specified, else ignored. Default rename.
+    --deploy-to-tag TAG             Sqitch deploy to tag. Optional. Set tag to "latest" for full deploy.
 
 
 EOF
@@ -58,33 +61,39 @@ do
 
     case $key in
         --host)
-            db_host="$2"; shift; shift
+            dbhost="$2"; shift; shift
         ;;
         --user)
-            db_user="$2"; shift; shift
+            dbuser="$2"; shift; shift
         ;;
-        --target-db)
-            db_target_db="$2"; shift; shift
+        --target)
+            target_name="$2"; shift; shift
         ;;
-        --create-target)
-            db_create_target_db="YES"; shift;
+        --create)
+            create_target="YES"; shift;
         ;;
-        --source-db)
-            db_source_db="$2"; shift; shift
-            db_source_type="db";
-        ;;
-        --source-sql-file)
-            db_source_sql="$2"; shift; shift
-            db_source_type="sql";
+        --source)
+            source_name="$2";
+            shift; shift
         ;;
         --source-type)
-            db_source_type="$2"; shift; shift
+            source_type="$2";
+            if [ "$source_name" == "" ]; then
+                if [ "$source_type" == "dump" ]; then
+                    source_name=${default_source_dump_file}
+                elif [ "$source_type" == "db" ]; then
+                    source_name=${default_source_db_name}
+                elif
+                    echo "error: source-type must be db or dump"
+                fi
+            fi
+            shift; shift
         ;;
         --deploy-to-tag)
             deploy_tag="--to $2"; shift; shift
         ;;
         --on-conflict)
-            on_conflict="$2"; shift; shift;
+            conflict_resolution="$2"; shift; shift;
         ;;
         *)
             POSITIONAL+=("$1") # save it in an array for later
@@ -100,40 +109,56 @@ function usage() {
 
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-if [ "$db_host" != "seadserv.humlab.umu.se" ]; then
+if [ "$dbhost" != "seadserv.humlab.umu.se" ]; then
     echo "This script can for now only be run on 130.239.1.181";
     exit 64
 fi
 
-if [ "$db_create_target_db" == "YES"  ] && [ "${db_source_type}" != "db" ] && [ "${db_source_type}" != "sql" ]; then
-    echo "error: you need to specify a db source type (db or sql) for new database";
+if [ "$create_target" == "YES"  ] && [ "${source_type}" != "db" ] && [ "${source_type}" != "dump" ]; then
+    echo "error: you need to specify a db source type (db or dump) for new database";
     usage
     exit 64
 fi
 
 
-if [ "$db_target_db" == "" ]; then
+if [ "$target_name" == "" ]; then
     echo "error: you need to specify a target database";
     usage
     exit 64
 fi
 
-if [ "$db_target_db" == "sead_production" ]; then
+if [ "$target_name" == "sead_production" ]; then
     echo "Not allowed: You are not allowed to deploy directly to sead_production!";
     usage
     exit 64
 fi
 
-if [ "$db_create_target_db" == "NO" ]; then
+if [ "$create_target" == "NO" ]; then
+
     echo "notice: a new target database will not be create since --create-target is not requested";
     echo "  ==> Settings "source-db", "source-sql-file" and "source-type" is ignored.";
+
+elif [ "$create_target" == "YES" ]; then
+
+	if [ "${source_type}" == "" ]; then
+        echo "error: source type must be specified when --create  is specified"
+        usage
+        exit 64
+    if
+
+    if [ "${source_name}" == "" ]; then
+        echo "error: source ${source_type} name not specified"
+        usage
+        exit 64
+    fi
+
 fi
 
 function dbexec() {
     db_name=$1
     sql=$2
     echo $sql >> $log_file
-    psql -v ON_ERROR_STOP=1 --host=$db_host --username=$db_user --no-password --dbname=$db_name --command "$sql" >> $log_file
+    psql -v ON_ERROR_STOP=1 --host=$dbhost --username=$dbuser --no-password --dbname=$db_name --command "$sql" >> $log_file
     if [ $? -ne 0 ];  then
         echo "FATAL: psql command failed! Deploy aborted." >&2
         exit 64
@@ -144,7 +169,7 @@ function dbexecgz() {
     db_name=$1
     gz_file=$2
     echo "Executing file $gz_file..." >> $log_file
-    zcat $gz_file | psql -v ON_ERROR_STOP=1 --host=$db_host --username=$db_user --no-password --dbname=$db_name >> $log_file
+    zcat $gz_file | psql -v ON_ERROR_STOP=1 --host=$dbhost --username=$dbuser --no-password --dbname=$db_name >> $log_file
     if [ $? -ne 0 ];  then
         echo "FATAL: psql command failed! Deploy aborted." >&2
         exit 64
@@ -156,81 +181,76 @@ function kick_out_users() {
     sql=$(cat <<____EOF
         select pg_terminate_backend(pg_stat_activity.pid)
         from pg_stat_activity
-        where pg_stat_activity.datname in ('${db_target_db}', '${db_source_db}')
+        where pg_stat_activity.datname in ('${target_name}', '${source_name}')
           and pid <> pg_backend_pid();
 ____EOF
     )
     dbexec "postgres" "$sql" >& /dev/null >> $log_file
 }
 
-target_db_exists="$( psql --host=$db_host --username=$db_user --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${db_target_db}'" )"
-
 kick_out_users
 
 function setup_new_target_database() {
+
+    target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
 
 	if [ "$target_db_exists" = "1" ]
 	then
 
 	    echo "Database exists..."
 
-	    if [ "$on_conflict" == "rename" ]; then
+	    if [ "$conflict_resolution" == "rename" ]; then
 
-		    echo "Renaming ${db_target_db} to ${db_deprecated_db}..."
-		    sql="alter database ${db_target_db} rename to ${db_deprecated_db};"
+		    echo "Renaming ${target_name} to ${deprecated_name}..."
+		    sql="alter database ${target_name} rename to ${deprecated_name};"
 		    dbexec "postgres" "$sql"
 
-	    elif [ "$on_conflict" == "drop" ]; then
+	    elif [ "$conflict_resolution" == "drop" ]; then
 
-		    sql='drop database if exists ${db_target_db};'
+		    sql='drop database if exists ${target_name};'
 		    dbexec "postgres" "$sql"
+
 	    else
-
-		    echo "error: target database ${db_target_db} exists. Drop database or use --on-conflict [drop|rename] to resolve"
+		    echo "error: target database ${target_name} exists. Drop database or use --on-conflict [drop|rename] to resolve"
 		    exit 64
 	    fi
 	fi
 
-	if [ "${db_source_type}" == "db" ]; then
+	if [ "${source_type}" == "db" ]; then
 
-	    if [ "${db_source_db}" == "" ]; then
+	    if [ "${source_name}" == "" ]; then
 		    echo "error: source database not specified"
 		    usage
 		    exit 64
 	    fi
 
-	    echo "Creating database ${db_target_db} using template ${db_source_db}..."
-	    dbexec "postgres" "create database ${db_target_db} with template ${db_source_db} owner sead_master;"
+	    echo "Creating database ${target_name} using template ${source_name}..."
+	    dbexec "postgres" "create database ${target_name} with template ${source_name} owner sead_master;"
 
-	elif [ "${db_source_type}" == "sql" ]; then
+	elif [ "${source_type}" == "dump" ]; then
 
-	    if [ "${db_source_sql}" == "" ]; then
+	    if [ "${source_name}" == "" ]; then
 		    echo "error: source sql.gz file not specified"
 		    usage
 		    exit 64
 	    fi
 
-	    echo "Creating database ${db_target_db}..."
-	    dbexec "postgres" "create database ${db_target_db} owner sead_master;"
+	    echo "Creating database ${target_name}..."
+	    dbexec "postgres" "create database ${target_name} owner sead_master;"
 
-	    dbexec "$db_target_db" "drop schema if exists public;"
+	    dbexec "$target_name" "drop schema if exists public;"
 
 	    echo "Applying source SQL script..."
-	    dbexecgz "$db_target_db" "$db_source_sql"
+	    dbexecgz "$target_name" "$source_name"
 
 	    echo "Applying default permissions..."
-	    dbexecgz "${db_target_db}" "./starting_point/role_permissions.sql.gz"
-
-	else
-
-	    echo "error: please specify which source db to use as base template"
-	    usage
-	    exit 64
+        # FIXME: Loop and apply all gz-files found in starting_point/
+	    dbexecgz "${target_name}" "./starting_point/role_permissions.sql.gz"
 
 	fi
 }
 
-if [ "db_create_target_db" == "YES" ]; then
+if [ "create_target" == "YES" ]; then
 
     echo "Setting up a new database..."
 
@@ -238,7 +258,7 @@ if [ "db_create_target_db" == "YES" ]; then
 
 else
 
-    echo "Using existing database ${db_target_db}..."
+    echo "Using existing database ${target_name}..."
 
 fi
 
@@ -252,15 +272,17 @@ if [ "$deploy_tag" == "--to latest" ]; then
     deploy_tag=
 fi
 
-deploy_target_uri="db:pg://${db_user}@${db_host}/${db_target_db}"
+target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
+deploy_target_uri="db:pg://${dbuser}@${dbhost}/${target_name}"
+
+if [ "$target_db_exists" != "1" ]; then
+    echo "error: Target ${target_name} does not exist"
+    exit 64
+fi
+
 for sqitch_project in $sqitch_projects; do
 
-    if [ "$target_db_exists" != "1" ]; then
-        echo "error: Target ${db_target_db} does not exist"
-        exit 64
-    fi
-
-    echo sqitch deploy --target ${deploy_target_uri} $deploy_tag --mode change --no-verify -C ./$sqitch_project
+    sqitch deploy --target ${deploy_target_uri} $deploy_tag --mode change --no-verify -C ./$sqitch_project
     if [ $? -ne 0 ];  then
         echo "FAILURE: sqitch deploy FAILED! DB is in an undefined state." >&2
         exit 64
