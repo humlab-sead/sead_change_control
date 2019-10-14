@@ -14,21 +14,12 @@
 begin;
 do $$
 begin
-    begin
+    set client_min_messages to warning;
 
-        set client_min_messages to warning;
-
-        if sead_utility.column_exists('public'::text, 'tbl_relative_ages'::text, 'abbreviation'::text) = TRUE then
-            raise exception SQLSTATE 'GUARD';
-        end if;
-
+    if sead_utility.column_exists('public'::text, 'tbl_relative_ages'::text, 'Abbreviation'::text) = TRUE then
         alter table tbl_relative_ages rename column "Abbreviation" to "abbreviation";
-
         comment on column "public"."tbl_relative_ages"."abbreviation" is 'Standard abbreviated form of name if available';
-
-    exception when sqlstate 'GUARD' then
-        raise notice 'ALREADY EXECUTED';
-    end;
+    end if;
 
 end $$;
 commit;
