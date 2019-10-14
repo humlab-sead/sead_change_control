@@ -7,9 +7,9 @@ begin;
 
             set client_min_messages to warning;
 
-            if sead_utility.table_exists('public'::text, 'tbl_dataset_methods'::text) = false then
-                raise exception sqlstate 'GUARD';
-            end if;
+            --if sead_utility.table_exists('public'::text, 'tbl_dataset_methods'::text) = false then
+            --    raise exception sqlstate 'GUARD';
+            --end if;
 
             create table if not exists tbl_dataset_methods (
                  dataset_method_id serial primary key,
