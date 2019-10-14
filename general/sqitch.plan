@@ -54,7 +54,7 @@
 20191012_DML_ISOTOPE_LOOKUP_DATA 2019-10-12T15:10:14Z Roger Mähler <roger.mahler@umu.se> # Isotope lookup data
 20191012_DML_ASSOCIATION_TYPE_UPDATES 2019-10-12T17:11:01Z Roger Mähler <roger.mahler@umu.se> # Association type updates (from bugs)
 
-@2019.10 2019-10-13T18:54:000 Roger Mähler <roger.mahler@umu.se> # October 2019 release
+@2019.10 2019-10-13T18:54:19Z Roger Mähler <roger.mahler@umu.se> # October 2019 release
 
 # Disabled: Updated by Bugs import system
 # 20190513_DML_ECOCODE_ADD_BUGS_SYSTEMS 2019-04-25T07:21:35Z Roger Mähler <roger.mahler@umu.se> # Add "Bugs Ecocodes"
