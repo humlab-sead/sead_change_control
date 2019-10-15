@@ -23,21 +23,20 @@ begin
 
     begin
 
-        set role querysead_owner;
 
         if current_database() not like 'sead_staging%' then
             raise exception 'this script must be run in sead_staging!';
         end if;
 
-        if current_role != 'querysead_owner' then
-            raise exception 'this script must be run as querysead_owner!';
-        end if;
+        --if current_role != 'querysead_owner' then
+        --    raise exception 'this script must be run as querysead_owner!';
+        --end if;
 
         set default_with_oids = false;
 
         drop schema if exists facet cascade;
 
-        create schema if not exists facet;
+        create schema if not exists facet authorization querysead_owner;
 
         set search_path = facet, pg_catalog;
 
@@ -50,6 +49,8 @@ begin
         alter default privileges in schema facet grant select        on tables    to public, querysead_worker, sead_read, sead_write;
         alter default privileges in schema facet grant select, usage on sequences to public, querysead_worker, sead_read, sead_write;
         alter default privileges in schema facet grant execute       on functions to public, querysead_worker, sead_read, sead_write;
+
+        set role querysead_owner;
 
         /* create tables */
 

@@ -21,8 +21,8 @@ log_file=`date "+%Y%m%d%H%M%S"`_"deploy_${target_name}_${source_type}.log"
 
 deploy_tag=
 
-sqitch_projects="utility general bugs security subsystem submissions"
-# sead_api report
+sqitch_projects="utility general bugs security subsystem submissions sead_api report"
+
 if [[ -f "$dothostfile" ]]; then
     dbhost=`cat $dothostfile`
 fi

@@ -16,14 +16,12 @@ begin
 
     begin
 
-        set role querysead_owner;
-
         set search_path = facet, pg_catalog;
         set default_with_oids = false;
 
-        if current_role != 'querysead_owner' then
-            raise exception 'This script must be run as querysead_worker!';
-        end if;
+        --if current_role != 'querysead_owner' then
+        --    raise exception 'This script must be run as querysead_worker!';
+        --end if;
 
         if current_database() not like 'sead_staging%' then
             raise exception 'This script must be run in sead_staging!';
@@ -39,7 +37,9 @@ begin
 
         set search_path = facet, pg_catalog;
 
-       insert into facet_group (facet_group_id, facet_group_key, display_title, is_applicable, is_default) (values
+        --set role querysead_owner;
+
+        insert into facet_group (facet_group_id, facet_group_key, display_title, is_applicable, is_default) (values
             (99, 'ROOT', 'ROOT', false, false),
             (1, 'others', 'Others', true, false),
             (2, 'space_time', 'Space/Time', true, false),
@@ -63,17 +63,17 @@ begin
                 reload_as_target = excluded.reload_as_target;
 
        insert into facet (facet_id, facet_code, display_title, facet_group_id, facet_type_id, category_id_expr, category_name_expr, icon_id_expr, sort_expr, is_applicable, is_default, aggregate_type, aggregate_title, aggregate_facet_id) (values
-            (1, 'result_facet', 'Analysis entities', 999, 1, 'tbl_analysis_entities.analysis_entity_id', 'tbl_physical_samples.sample_name||'' ''||tbl_datasets.dataset_name', 'tbl_analysis_entities.analysis_entity_id', 'tbl_datasets.dataset_name', false, false, 'count', 'Number of samples', 0),
-            (2, 'dataset_helper', 'dataset_helper', 999, 1, 'tbl_datasets.dataset_id', 'tbl_datasets.dataset_id', 'tbl_dataset.dataset_id', 'tbl_dataset.dataset_id', false, false, 'count', 'Number of samples', 1),
+            (1, 'result_facet', 'Analysis entities', 99, 1, 'tbl_analysis_entities.analysis_entity_id', 'tbl_physical_samples.sample_name||'' ''||tbl_datasets.dataset_name', 'tbl_analysis_entities.analysis_entity_id', 'tbl_datasets.dataset_name', false, false, 'count', 'Number of samples', 0),
+            (2, 'dataset_helper', 'dataset_helper', 99, 1, 'tbl_datasets.dataset_id', 'tbl_datasets.dataset_id', 'tbl_dataset.dataset_id', 'tbl_dataset.dataset_id', false, false, 'count', 'Number of samples', 1),
             (25, 'species', 'Taxa', 6, 1, 'tbl_taxa_tree_master.taxon_id', 'concat_ws('' '', tbl_taxa_tree_genera.genus_name, tbl_taxa_tree_master.species, tbl_taxa_tree_authors.author_name)', 'tbl_taxa_tree_master.taxon_id', 'tbl_taxa_tree_genera.genus_name||'' ''||tbl_taxa_tree_master.species', true, false, 'sum', 'sum of Abundance', 32),
             (35, 'tbl_biblio_modern', 'Bibligraphy modern', 1, 1, 'facet.view_taxa_biblio.biblio_id', 'tbl_biblio.title||''  ''||tbl_biblio.author ', 'tbl_biblio.biblio_id', 'tbl_biblio.author', true, false, 'count', 'count of species', 19),
             (3, 'tbl_denormalized_measured_values_33_0', 'MS ', 5, 2, 'facet.tbl_denormalized_measured_values.value_33_0', 'facet.tbl_denormalized_measured_values.value_33_0', 'facet.tbl_denormalized_measured_values.value_33_0', 'facet.tbl_denormalized_measured_values.value_33_0', true, false, '', 'Number of samples', 1),
             (4, 'tbl_denormalized_measured_values_33_82', 'MS Heating 550', 5, 2, 'facet.tbl_denormalized_measured_values.value_33_82', 'facet.tbl_denormalized_measured_values.value_33_82', 'facet.tbl_denormalized_measured_values.value_33_82', 'facet.tbl_denormalized_measured_values.value_33_82', true, false, '', 'Number of samples', 1),
             (5, 'tbl_denormalized_measured_values_32', 'LOI', 5, 2, 'facet.tbl_denormalized_measured_values.value_32_0', 'facet.tbl_denormalized_measured_values.value_32_0', 'facet.tbl_denormalized_measured_values.value_32', 'facet.tbl_denormalized_measured_values.value_32', true, false, '', 'Number of samples', 1),
             (6, 'tbl_denormalized_measured_values_37', ' P┬░', 5, 2, 'facet.tbl_denormalized_measured_values.value_37_0', 'facet.tbl_denormalized_measured_values.value_37_0', 'facet.tbl_denormalized_measured_values.value_37', 'facet.tbl_denormalized_measured_values.value_37', true, false, '', 'Number of samples', 1),
-            (7, 'measured_values_helper', 'values', 999, 1, 'tbl_measured_values.measured_value', 'tbl_measured_values.measured_value', 'tbl_measured_values.measured_value', 'tbl_measured_values.measured_value', false, false, 'count', 'Number of samples', 1),
-            (8, 'taxon_result', 'taxon_id', 999, 1, 'tbl_abundances.taxon_id', 'tbl_abundances.taxon_id', 'tbl_abundances.taxon_id', 'tbl_abundances.taxon_id', false, false, 'count', 'Number of samples', 1),
-            (9, 'map_result', 'Site', 999, 1, 'tbl_sites.site_id', 'tbl_sites.site_name', 'tbl_sites.site_id', 'tbl_sites.site_name', false, false, 'count', 'Number of samples', 1),
+            (7, 'measured_values_helper', 'values', 99, 1, 'tbl_measured_values.measured_value', 'tbl_measured_values.measured_value', 'tbl_measured_values.measured_value', 'tbl_measured_values.measured_value', false, false, 'count', 'Number of samples', 1),
+            (8, 'taxon_result', 'taxon_id', 99, 1, 'tbl_abundances.taxon_id', 'tbl_abundances.taxon_id', 'tbl_abundances.taxon_id', 'tbl_abundances.taxon_id', false, false, 'count', 'Number of samples', 1),
+            (9, 'map_result', 'Site', 99, 1, 'tbl_sites.site_id', 'tbl_sites.site_name', 'tbl_sites.site_id', 'tbl_sites.site_name', false, false, 'count', 'Number of samples', 1),
             (12, 'record_types', 'Proxy types', 1, 1, 'tbl_record_types.record_type_id', 'tbl_record_types.record_type_name', 'tbl_record_types.record_type_id', 'tbl_record_types.record_type_name', true, false, 'count', 'Number of samples', 1),
             (13, 'sample_groups', 'Sample group', 2, 1, 'tbl_sample_groups.sample_group_id', 'tbl_sample_groups.sample_group_name', 'tbl_sample_groups.sample_group_id', 'tbl_sample_groups.sample_group_name', true, true, 'count', 'Number of samples', 1),
             (14, 'places', 'Places', 2, 1, 'tbl_locations.location_id', 'tbl_locations.location_name', 'tbl_locations.location_id', 'tbl_locations.location_name', false, true, 'count', 'Number of samples', 1),
