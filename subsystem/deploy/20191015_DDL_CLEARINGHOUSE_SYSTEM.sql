@@ -1,8 +1,8 @@
 /***************************************************************************
 Author         roger
-Date           
-Description    
-Prerequisites  
+Date
+Description
+Prerequisites
 Reviewer
 Approver
 Idempotent     YES
@@ -369,7 +369,7 @@ BEGIN
           select n.nspname, c.relname
           from pg_class c, pg_namespace n
           where n.oid = c.relnamespace
-            and nspname = %I
+            and nspname = %L
             and relkind = %L',in_schema,object_type.code)
     loop
       raise notice 'Changing ownership of % %.% to %',
