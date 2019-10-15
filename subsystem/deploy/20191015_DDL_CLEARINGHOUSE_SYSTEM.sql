@@ -1,3 +1,4 @@
+
 /***************************************************************************
 Author         roger
 Date
@@ -346,26 +347,24 @@ create or replace function clearing_house.fn_dba_get_sead_public_db_schema(p_sch
 end
 $body$;
 
-CREATE OR REPLACE FUNCTION clearing_house.chown(in_schema character varying, new_owner character varying)
- RETURNS void
- LANGUAGE plpgsql
-AS $function$
-DECLARE
-  object_types VARCHAR[];
-  object_classes VARCHAR[];
+create or replace function clearing_house.chown(in_schema character varying, new_owner character varying)
+  returns void
+as $$
+declare
+  object_types varchar[];
+  object_classes varchar[];
   object_type record;
-
   r record;
-BEGIN
+begin
   object_types = '{type,table,table,sequence,index,view}';
   object_classes = '{c,t,r,S,i,v}';
 
-  FOR object_type IN
-      SELECT unnest(object_types) type_name,
+  for object_type in
+      select unnest(object_types) type_name,
                 unnest(object_classes) code
   loop
-    FOR r IN
-      EXECUTE format('
+    for r in
+      execute format('
           select n.nspname, c.relname
           from pg_class c, pg_namespace n
           where n.oid = c.relnamespace
@@ -375,39 +374,37 @@ BEGIN
       raise notice 'Changing ownership of % %.% to %',
                   object_type.type_name,
                   r.nspname, r.relname, new_owner;
-      EXECUTE format(
+      execute format(
         'alter %s %I.%I owner to %I'
         , object_type.type_name, r.nspname, r.relname,new_owner);
-    END loop;
-  END loop;
+    end loop;
+  end loop;
 
-  FOR r IN
-    SELECT  p.proname, n.nspname,
+  for r in
+    select  p.proname, n.nspname,
        pg_catalog.pg_get_function_identity_arguments(p.oid) args
-    FROM    pg_catalog.pg_namespace n
-    JOIN    pg_catalog.pg_proc p
-    ON      p.pronamespace = n.oid
-    WHERE   n.nspname = in_schema
-  LOOP
+    from    pg_catalog.pg_namespace n
+    join    pg_catalog.pg_proc p
+    on      p.pronamespace = n.oid
+    where   n.nspname = in_schema
+  loop
     raise notice 'Changing ownership of function %.%(%) to %',
                  r.nspname, r.proname, r.args, new_owner;
-    EXECUTE format(
+    execute format(
        'alter function %I.%I (%s) owner to %I', r.nspname, r.proname, r.args, new_owner);
-  END LOOP;
+  end loop;
 
-  FOR r IN
-    SELECT *
-    FROM pg_catalog.pg_namespace n
-    JOIN pg_catalog.pg_ts_dict d
-      ON d.dictnamespace = n.oid
-    WHERE n.nspname = in_schema
-  LOOP
-    EXECUTE format(
+  for r in
+    select *
+    from pg_catalog.pg_namespace n
+    join pg_catalog.pg_ts_dict d
+      on d.dictnamespace = n.oid
+    where n.nspname = in_schema
+  loop
+    execute format(
        'alter text search dictionary %I.%I owner to %I', r.nspname, r.dictname, new_owner );
-  END LOOP;
-END;
-$function$
-
+  end loop;
+end $$ language plpgsql;
 /*********************************************************************************************************************************
 **  Function    create_clearinghouse_model
 **  When        2013-10-17
@@ -420,7 +417,6 @@ $function$
 **********************************************************************************************************************************/
 -- Select clearing_house.fn_dba_create_clearing_house_db_model();
 -- Drop Function If Exists fn_dba_create_clearing_house_db_model(BOOLEAN);
-
 Create Or Replace Procedure clearing_house.create_clearinghouse_model(p_drop_tables BOOLEAN=FALSE) As $$
 
 Begin
@@ -4511,8 +4507,7 @@ begin
           and ldb.physical_sample_id = -p_physical_sample_id;
 
 end $body$
-  language plpgsql;
-/*****************************************************************************************************************************
+  language plpgsql;/*****************************************************************************************************************************
 **	Function	fn_clearinghouse_review_sample_group_client_data
 **	Who			Roger Mähler
 **	When		2013-11-07
@@ -7555,5 +7550,5 @@ Begin
 
 End
 $BODY$;
-call clearing_house.chown('clearing_house', 'clearinghouse_worker');
+--select clearing_house.chown('clearing_house', 'clearinghouse_worker');
 -- commit;
