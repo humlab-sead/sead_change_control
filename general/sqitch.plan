@@ -44,10 +44,13 @@
 20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # Add unknown dating lab to accomodate Bugs import
 20190513_DML_DATA_TYPE_ADD_TYPES_CALENDER_DATES 2019-05-13T13:37:26Z Roger Mähler <roger.mahler@umu.se> # Add Calender Dates
 
-@209.05 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Staging DB with initial DML updates
+@2019.05 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Staging DB with initial DML updates
 
-20190624_DML_SUBMISSION_DENDRO_ARKEO_002_COMMIT 2019-06-24T13:07:26Z Roger Mähler <roger.mahler@umu.se> # Add Calender Dates
-20190627_DML_SUBMISSION_DENDRO_BYGG_003_COMMIT 2019-06-27T12:36:06Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {3}.
+20191015_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM 2019-10-15T08:56:34Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse Transport System.
+
+20190624_DML_SUBMISSION_DENDRO_ARKEO_002_COMMIT [20191015_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM] 2019-06-24T13:07:26Z Roger Mähler <roger.mahler@umu.se> # Add Calender Dates
+20190627_DML_SUBMISSION_DENDRO_BYGG_003_COMMIT [20191015_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM] 2019-06-27T12:36:06Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {3}.
+
 @2019.06 2019-06-27T13:29:49Z Roger Mähler <roger.mahler@umu.se> # Dendro datasets commit
 
 20191012_DDL_ISOTOPE_MODEL 2019-10-12T15:09:19Z Roger Mähler <roger.mahler@umu.se> # Creates Isotope data model
@@ -68,3 +71,4 @@
 # Not implemented or confirmed
 # 20190425_DDL_SCHEMA_ADD_MISSING_FOREIGN_KEYS 2019-04-25T12:36:40Z Roger Mähler <roger.mahler@umu.se> # Add missing FK in public schema
 # 20190415_DML_SPECIES_DELETE_DUPLICATES 2019-04-15T14:37:52Z Roger Mähler <roger.mahler@umu.se> # Delete species associations types marked as duplicates
+
