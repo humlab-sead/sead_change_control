@@ -12,7 +12,7 @@ Notes          Use --single-transactin on execute!
 set client_min_messages to warning;
 -- set autocommit off;
 -- begin;
-\cd /repo/general/deploy
+\cd deploy
 
 
 /************************************************************************************************************************************
