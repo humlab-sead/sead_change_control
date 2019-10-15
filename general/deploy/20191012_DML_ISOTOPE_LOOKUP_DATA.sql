@@ -17,7 +17,7 @@ begin
 
     begin
 
-
+/*
         WITH new_locations(location_id, location_name, location_type_id) AS ( VALUES
             (3736, 'Jönköpings län', 2),
 
@@ -177,6 +177,7 @@ begin
         perform sead_utility.sync_sequence('public', 'tbl_project_stages');
         perform sead_utility.sync_sequence('public', 'tbl_isotope_standars');
         perform sead_utility.sync_sequence('public', 'tbl_isotope_types');
+*/
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';

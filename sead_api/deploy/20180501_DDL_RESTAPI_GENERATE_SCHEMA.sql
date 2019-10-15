@@ -32,6 +32,7 @@ Begin
         Create Role anonymous_rest_user nologin;
         Grant anonymous_rest_user to humlab_admin, humlab_read;
     End If;
+
     Create Schema If Not Exists postgrest_default_api AUTHORIZATION humlab_read;
 
     Grant Usage On Schema postgrest_default_api, public To anonymous_rest_user, humlab_read, humlab_admin;
@@ -79,4 +80,4 @@ Begin
 End $$ language plpgsql;
 
 
-ROLLBACK;
+COMMIT;

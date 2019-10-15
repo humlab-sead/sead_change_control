@@ -41,14 +41,8 @@ begin
                 abbreviation character varying NULL,
                 atomic_number numeric NULL,
                 description text NULL,
-                alternative_designation character varying NULL, -- designation
-                -- unit_id integer not null,
-                date_updated timestamp with time zone default now(),
-
-                constraint fk_isotope_types_unit_id foreign key (unit_id)
-                    references public.tbl_units (unit_id) match simple
-                    on update no action
-                    on delete no action
+                alternative_designation character varying NULL,
+                date_updated timestamp with time zone default now()
             );
         end if;
 
