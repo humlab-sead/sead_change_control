@@ -18,7 +18,7 @@ begin
     begin
 
         with new_data_types (data_type_id, data_type_group_id, data_type_name, definition) as (values
-            (16, 8, 'calendar dates', 'sample ages calibrated to calendar dates')
+            (16, 8, 'Calendar dates', 'sample ages calibrated to calendar dates')
         ) insert into tbl_data_types (data_type_id, data_type_group_id, data_type_name, definition)
           select a.data_type_id, a.data_type_group_id, a.data_type_name, a.definition
           from new_data_types a
