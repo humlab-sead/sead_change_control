@@ -14,11 +14,11 @@ begin;
 
 /*
 select *
-from humlab_utility.fn_sample_ecocode_abundances(2, 7, 1)
+from sead_utility.fn_sample_ecocode_abundances(2, 7, 1)
 where physical_sample_id = 1
 */
 
-create or replace function humlab_utility.fn_sample_ecocode_abundances(v_ecocode_system_id int, v_ecocode_group_id int, v_master_set_id int)
+create or replace function sead_utility.fn_sample_ecocode_abundances(v_ecocode_system_id int, v_ecocode_group_id int, v_master_set_id int)
     returns table (
         physical_sample_id int,
         ecocode_name character varying(150),
@@ -76,8 +76,8 @@ begin
       left join sample_ecocode_abundances using (physical_sample_id, ecocode_name);
 end $$ language plpgsql;
 
--- drop function if exists humlab_utility.fn_generate_ecocode_crosstab_function(int, int);
-create or replace function humlab_utility.fn_generate_ecocode_crosstab_function(
+-- drop function if exists sead_utility.fn_generate_ecocode_crosstab_function(int, int);
+create or replace function sead_utility.fn_generate_ecocode_crosstab_function(
     p_ecocode_system_id int,
     p_ecocode_group_id int
 ) returns text
@@ -113,7 +113,7 @@ begin
        data to  be sorted in row, category order (othwerwise crosstab will display wrong values ). */
     v_data_sql = format('
         select physical_sample_id, ecocode_name::text, (array[abundance_count, abundance_sum])[%%s]::int as abundance
-        from humlab_utility.fn_sample_ecocode_abundances(%s, %s, %%s)
+        from sead_utility.fn_sample_ecocode_abundances(%s, %s, %%s)
         order by 1, 2
     ', p_ecocode_system_id, p_ecocode_group_id);
 
@@ -123,7 +123,7 @@ begin
         from crosstab(format(''%s'', v_abundance_index, p_master_set_id), ''%s'') as cx (physical_sample_id int, %s)
     ', v_fields, v_data_sql, v_category_sql, v_typed_fields);
 
-    v_udf_name = format('humlab_utility.fn_ecocode_crosstab_%s_%s', p_ecocode_system_id, p_ecocode_group_id);
+    v_udf_name = format('sead_utility.fn_ecocode_crosstab_%s_%s', p_ecocode_system_id, p_ecocode_group_id);
 
     v_udf_sql  = format('
 drop function if exists %s(text);
@@ -158,6 +158,6 @@ end $$ language plpgsql;
 commit;
 
 
--- select humlab_utility.fn_generate_ecocode_crosstab_function(2, 7)
+-- select sead_utility.fn_generate_ecocode_crosstab_function(2, 7)
 --select *
---from humlab_utility.fn_ecocode_crosstab_2_7(1, 'count')
+--from sead_utility.fn_ecocode_crosstab_2_7(1, 'count')
