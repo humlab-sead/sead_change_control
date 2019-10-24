@@ -20,6 +20,7 @@ begin
         -- create extension tablefunc;
 
         raise notice 'DATAARC API has been deprecated';
+        raise exception SQLSTATE 'GUARD';
 
         -- if sead_utility.view_exists('public'::text, 'sead_utility'::text, 'column_name'::text) = TRUE then
         --     raise exception SQLSTATE 'GUARD';
