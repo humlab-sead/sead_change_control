@@ -19,26 +19,25 @@ begin
 
         -- create extension tablefunc;
 
-        create schema if not exists humlab_utility;
+        raise notice 'DATAARC API has been deprecated';
 
-        -- if sead_utility.view_exists('public'::text, 'humlab_utility'::text, 'column_name'::text) = TRUE then
+        -- if sead_utility.view_exists('public'::text, 'sead_utility'::text, 'column_name'::text) = TRUE then
         --     raise exception SQLSTATE 'GUARD';
         -- end if;
 
-        drop view if exists humlab_utility.ecocode_dating_geojson;
-        drop view if exists humlab_utility.ecocode_dating;
-        drop view if exists humlab_utility.physical_sample_dating;
-        drop view if exists humlab_utility.ecocode_pivot_abundance;
-        drop materialized view if exists humlab_utility.physical_sample_ecocode_abundance;
-        drop function if exists humlab_utility.crosstab_ecocode(text);
-        drop type if exists humlab_utility.ecocode_crosstab_cols;
+        drop view if exists sead_utility.ecocode_dating_geojson;
+        drop view if exists sead_utility.ecocode_dating;
+        drop view if exists sead_utility.physical_sample_dating;
+        drop view if exists sead_utility.ecocode_pivot_abundance;
+        drop materialized view if exists sead_utility.physical_sample_ecocode_abundance;
+        drop function if exists sead_utility.crosstab_ecocode(text);
+        drop type if exists sead_utility.ecocode_crosstab_cols;
 
-        raise notice 'DATAARC API has been deprecated';
 
         -- set client_min_messages = warning;
         -- set plpgsql.extra_warnings to 'shadowed_variables';
 
-        -- create type humlab_utility.ecocode_crosstab_cols as (
+        -- create type sead_utility.ecocode_crosstab_cols as (
         --     "physical_sample_id" integer,
         --     "aquatics" integer,
         --     "Indicators: Standing water" integer,
@@ -65,12 +64,12 @@ begin
         -- );
 
 
-        -- create function humlab_utility.crosstab_ecocode(text) returns setof humlab_utility.ecocode_crosstab_cols
+        -- create function sead_utility.crosstab_ecocode(text) returns setof sead_utility.ecocode_crosstab_cols
         --     language c stable strict
         --     as '$libdir/tablefunc', 'crosstab';
 
         -- /*******************************************************************************************************************************************************************
-        -- **  View    humlab_utility.ecocode_pivot_abundance
+        -- **  View    sead_utility.ecocode_pivot_abundance
         -- **  What    Returns physical samples’ abundance data for each aggregate types ‘sum’ and ‘count pivoted by ecocodes.
         -- **  Who     Phil & Roger
         -- **  Note    crosstab(text source_sql, text category_sql):
@@ -81,7 +80,7 @@ begin
         -- **    error will be generated. Also, it must not produce duplicate values, or an error will be generated."
         -- ********************************************************************************************************************************************************************/
 
-        -- create view humlab_utility.ecocode_pivot_abundance as
+        -- create view sead_utility.ecocode_pivot_abundance as
         --  select 'sum'::text as agg_type,
         --     crosstab_ecocode.physical_sample_id,
         --     crosstab_ecocode.aquatics,
@@ -106,7 +105,7 @@ begin
         --     crosstab_ecocode."Heathland & moorland",
         --     crosstab_ecocode.halotolerant,
         --     crosstab_ecocode.ectoparasite
-        --    from humlab_utility.crosstab_ecocode('select physical_sample_id, ecocode_name::text, abundance_sum::int as abundance from humlab_utility.physical_sample_ecocode_abundance order by 1, 2'::text) crosstab_ecocode(physical_sample_id, aquatics, "Indicators: Standing water", "Indicators: Running water", "Pasture/Dung", meadowland, "Wood and trees", "Indicators: Deciduous", "Indicators: Coniferous", "Wetlands/marshes", "Open wet habitats", "Disturbed/arable", "Sandy/dry disturbed/arable", "Dung/foul habitats", carrion, "Indicators: Dung", "Mould beetles", "General synanthropic", "Stored grain pest", "Dry dead wood", "Heathland & moorland", halotolerant, ectoparasite)
+        --    from sead_utility.crosstab_ecocode('select physical_sample_id, ecocode_name::text, abundance_sum::int as abundance from sead_utility.physical_sample_ecocode_abundance order by 1, 2'::text) crosstab_ecocode(physical_sample_id, aquatics, "Indicators: Standing water", "Indicators: Running water", "Pasture/Dung", meadowland, "Wood and trees", "Indicators: Deciduous", "Indicators: Coniferous", "Wetlands/marshes", "Open wet habitats", "Disturbed/arable", "Sandy/dry disturbed/arable", "Dung/foul habitats", carrion, "Indicators: Dung", "Mould beetles", "General synanthropic", "Stored grain pest", "Dry dead wood", "Heathland & moorland", halotolerant, ectoparasite)
         -- union
         --  select 'count'::text as agg_type,
         --     crosstab_ecocode.physical_sample_id,
@@ -132,16 +131,16 @@ begin
         --     crosstab_ecocode."Heathland & moorland",
         --     crosstab_ecocode.halotolerant,
         --     crosstab_ecocode.ectoparasite
-        --    from humlab_utility.crosstab_ecocode('select physical_sample_id, ecocode_name::text, abundance_count::int as abundance from humlab_utility.physical_sample_ecocode_abundance order by 1, 2'::text) crosstab_ecocode(physical_sample_id, aquatics, "Indicators: Standing water", "Indicators: Running water", "Pasture/Dung", meadowland, "Wood and trees", "Indicators: Deciduous", "Indicators: Coniferous", "Wetlands/marshes", "Open wet habitats", "Disturbed/arable", "Sandy/dry disturbed/arable", "Dung/foul habitats", carrion, "Indicators: Dung", "Mould beetles", "General synanthropic", "Stored grain pest", "Dry dead wood", "Heathland & moorland", halotolerant, ectoparasite);
+        --    from sead_utility.crosstab_ecocode('select physical_sample_id, ecocode_name::text, abundance_count::int as abundance from sead_utility.physical_sample_ecocode_abundance order by 1, 2'::text) crosstab_ecocode(physical_sample_id, aquatics, "Indicators: Standing water", "Indicators: Running water", "Pasture/Dung", meadowland, "Wood and trees", "Indicators: Deciduous", "Indicators: Coniferous", "Wetlands/marshes", "Open wet habitats", "Disturbed/arable", "Sandy/dry disturbed/arable", "Dung/foul habitats", carrion, "Indicators: Dung", "Mould beetles", "General synanthropic", "Stored grain pest", "Dry dead wood", "Heathland & moorland", halotolerant, ectoparasite);
 
         -- /***************************************************************************************
-        -- **  View    humlab_utility.physical_sample_dating
+        -- **  View    sead_utility.physical_sample_dating
         -- **  What    Helper view used in ecocode GeoJSON export
         -- **          compiles dating analysis data for each physical sample.
         -- **  Who     Phil & Roger
         -- ****************************************************************************************/
 
-        -- create view humlab_utility.physical_sample_dating as
+        -- create view sead_utility.physical_sample_dating as
         --  with abundance_analysis as (
         --          select ae.physical_sample_id
         --            from ((public.tbl_analysis_entities ae
@@ -203,12 +202,12 @@ begin
         --   where (sl.location_type_id = 1);
 
         -- /***************************************************************************************
-        -- **  View    humlab_utility.ecocode_dating
+        -- **  View    sead_utility.ecocode_dating
         -- **  What    Returns compiled result for ecocode dating export.
         -- **  Who     Phil & Roger
         -- ****************************************************************************************/
 
-        -- create view humlab_utility.ecocode_dating as
+        -- create view sead_utility.ecocode_dating as
         --  select a.physical_sample_id,
         --     a.agg_type,
         --     a.aquatics,
@@ -249,32 +248,32 @@ begin
         --     ps.sample_name,
         --     ps.date_updated,
         --     ps.date_sampled
-        --   from ((humlab_utility.ecocode_pivot_abundance a
-        --   join humlab_utility.physical_sample_dating d USING (physical_sample_id))
+        --   from ((sead_utility.ecocode_pivot_abundance a
+        --   join sead_utility.physical_sample_dating d USING (physical_sample_id))
         --   join public.tbl_physical_samples ps USING (physical_sample_id));
 
         -- /***************************************************************************************
-        -- **  View    humlab_utility.ecocode_dating_geojson
+        -- **  View    sead_utility.ecocode_dating_geojson
         -- **  What    Returns GeoJSON objects for each aggregate type (sum and count) from data returned by VIEW ecocode_dating
         -- **  Who     Phil & Roger
         -- ****************************************************************************************/
 
-        -- create view humlab_utility.ecocode_dating_geojson as
+        -- create view sead_utility.ecocode_dating_geojson as
         --  select ecocode_dating.agg_type,
         --     json_build_object('type', 'FeatureCollection', 'features', json_agg(json_build_object('type', 'Feature', 'id', ecocode_dating.physical_sample_id, 'geometry', json_build_object('type', 'Point', 'coordinates', json_build_array(ecocode_dating.longitude_dd, ecocode_dating.latitude_dd)), 'properties', json_build_object('id', ecocode_dating.physical_sample_id, 'country', ecocode_dating.location_name, 'sampleData', json_build_object('site_id', ecocode_dating.site_id, 'site_name', ecocode_dating.site_name, 'sample_name', ecocode_dating.sample_name, 'sample_group_id', ecocode_dating.sample_group_id, 'dating_type', (ARRAY['Calibrated radiocarbon dates'::text, 'Relative dates'::text])[ecocode_dating.dating_type], 'start', ecocode_dating.age_older, 'end', ecocode_dating.age_younger, 'age_name', ecocode_dating.age_name, 'age_abbreviation', ecocode_dating.age_abbreviation), 'indicators', json_build_object('Aquatics', ecocode_dating.aquatics, 'Indicators: Standing water', ecocode_dating."Indicators: Standing water", 'Indicators: Running water', ecocode_dating."Indicators: Running water", 'Pasture/Dung', ecocode_dating."Pasture/Dung", 'Meadowland', ecocode_dating.meadowland, 'Wood and trees', ecocode_dating."Wood and trees", 'Indicators: Deciduous', ecocode_dating."Indicators: Deciduous", 'Indicators: Coniferous', ecocode_dating."Indicators: Coniferous", 'Wetlands/marshes', ecocode_dating."Wetlands/marshes", 'Open wet habitats', ecocode_dating."Open wet habitats", 'Disturbed/arable', ecocode_dating."Disturbed/arable", 'Sandy/dry disturbed/arable', ecocode_dating."Sandy/dry disturbed/arable", 'Dung/foul habitats', ecocode_dating."Dung/foul habitats", 'Carrion', ecocode_dating.carrion, 'Indicators: Dung', ecocode_dating."Indicators: Dung", 'Mould beetles', ecocode_dating."Mould beetles", 'General synanthropic', ecocode_dating."General synanthropic", 'Stored grain pest', ecocode_dating."Stored grain pest", 'Dry dead wood', ecocode_dating."Dry dead wood", 'Heathland & moorland', ecocode_dating."Heathland & moorland", 'Halotolerant', ecocode_dating.halotolerant, 'Ectoparasite', ecocode_dating.ectoparasite))))) AS ecocode_json
-        --  from humlab_utility.ecocode_dating
+        --  from sead_utility.ecocode_dating
         --  group by ecocode_dating.agg_type;
 
         -- /***************************************************************************************
-        -- **  View    humlab_utility.physical_sample_ecocode_abundance
+        -- **  View    sead_utility.physical_sample_ecocode_abundance
         -- **  What    Helper view used in ecocode GeoJSON export of ecocodes
         -- **  Who     Phil & Roger
         -- **  Note    View DOES NOT automatically update when data change.
         -- **          Run
-        -- **          REFRESH MATERIALIZED VIEW humlab_utility.physical_sample_ecocode_abundance
+        -- **          REFRESH MATERIALIZED VIEW sead_utility.physical_sample_ecocode_abundance
         -- ****************************************************************************************/
 
-        -- create materialized view humlab_utility.physical_sample_ecocode_abundance as
+        -- create materialized view sead_utility.physical_sample_ecocode_abundance as
         --  select ps.physical_sample_id,
         --     ed.name as ecocode_name,
         --     sum(ab.abundance) as abundance_sum,
@@ -290,9 +289,9 @@ begin
         --   group by ps.physical_sample_id, ed.name
         --   with no data;
 
-        -- create unique index idx_physical_sample_ecocode_abundance on humlab_utility.physical_sample_ecocode_abundance using btree (physical_sample_id, ecocode_name);
+        -- create unique index idx_physical_sample_ecocode_abundance on sead_utility.physical_sample_ecocode_abundance using btree (physical_sample_id, ecocode_name);
 
-        -- refresh materialized view humlab_utility.physical_sample_ecocode_abundance;
+        -- refresh materialized view sead_utility.physical_sample_ecocode_abundance;
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
