@@ -15,16 +15,23 @@ begin;
 do $$
 begin
 
-    if current_database() not like 'sead_staging%' then
-        raise exception 'this script must be run in sead_staging!';
-    end if;
-
     if sead_utility.column_exists('facet'::text, 'facet_table'::text, 'table_name'::text) = true then
 		alter table facet.facet_table rename column table_name to table_or_udf_name;
     end if;
 
-    if not sead_utility.column_exists('facet'::text, 'facet_table'::text, 'udf_call_arguments'::text) = true then
-		alter table facet.facet_table add column udf_call_arguments character varying(80) null;
+    if sead_utility.column_exists('facet'::text, 'facet_table'::text, 'udf_call_arguments'::text) = false then
+		alter table facet.facet_table add column if not exists udf_call_arguments character varying(80) null;
+    end if;
+
+end $$;
+commit;
+
+begin;
+do $$
+begin
+
+    if current_database() not like 'sead_staging%' then
+        raise exception 'this script must be run in sead_staging!';
     end if;
 
 	update facet.facet
@@ -71,9 +78,8 @@ end $$;
 
 commit;
 
-
 begin;
-
+	drop function if exists facet.method_measured_values(p_dataset_method_id int, p_prep_method_id int);
 	create or replace function facet.method_measured_values(p_dataset_method_id int, p_prep_method_id int)
 	returns table (
 	    physical_sample_id int,
