@@ -12,29 +12,6 @@
 *****************************************************************************************************************/
 
 begin;
-
-	create or replace function facet.method_measured_values(p_dataset_method_id int, p_prep_method_id int)
-	returns table (
-	    physical_sample_id int,
-	    -- analysis_entity_id int,
-	    measured_value numeric(20,10)
-	) as $$
-	begin
-
-	    return query
-	        select distinct ae.physical_sample_id, /* mv.analysis_entity_id, */ mv.measured_value
-	        from tbl_measured_values mv
-	        join tbl_analysis_entities ae using (analysis_entity_id)
-	        join tbl_datasets ds using (dataset_id)
-	        left join tbl_analysis_entity_prep_methods pm using (analysis_entity_id)
-	        where ds.method_id = p_dataset_method_id
-	          and coalesce(pm.method_id, 0) = p_prep_method_id;
-
-	end $$ language plpgsql;
-
-commit;
-
-begin;
 do $$
 begin
 
@@ -93,6 +70,31 @@ begin
 end $$;
 
 commit;
+
+
+begin;
+
+	create or replace function facet.method_measured_values(p_dataset_method_id int, p_prep_method_id int)
+	returns table (
+	    physical_sample_id int,
+	    -- analysis_entity_id int,
+	    measured_value numeric(20,10)
+	) as $$
+	begin
+
+	    return query
+	        select distinct ae.physical_sample_id, /* mv.analysis_entity_id, */ mv.measured_value
+	        from tbl_measured_values mv
+	        join tbl_analysis_entities ae using (analysis_entity_id)
+	        join tbl_datasets ds using (dataset_id)
+	        left join tbl_analysis_entity_prep_methods pm using (analysis_entity_id)
+	        where ds.method_id = p_dataset_method_id
+	          and coalesce(pm.method_id, 0) = p_prep_method_id;
+
+	end $$ language plpgsql;
+
+commit;
+
 
 /*
 select ds.method_id as dataset_method_id, coalesce(aepm.method_id, 0) as prep_method_id, count(*)
