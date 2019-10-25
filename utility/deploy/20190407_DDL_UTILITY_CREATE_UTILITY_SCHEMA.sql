@@ -4,7 +4,7 @@
 begin;
 
     create schema if not exists sead_utility;
-    
+
     create or replace function sead_utility.schema_exists(p_schema_name text)
       returns bool as
     $$
@@ -12,7 +12,7 @@ begin;
             select 1 from information_schema.schemata where schema_name = p_schema_name
         );
     $$  language sql;
-    
+
     create or replace function sead_utility.table_exists(p_schema_name text, p_table_name text)
       returns bool as
     $$
@@ -36,7 +36,7 @@ begin;
               on a.attrelid = c.oid
             join pg_catalog.pg_namespace as ns
               on c.relnamespace = ns.oid
-            where c.oid::regclass::text = p_table_name
+            where c.oid::regclass::text in ( p_table_name, p_schema_name || '.' || p_table_name )
               and a.attname = p_column_name
               and ns.nspname = p_schema_name
               and attnum > 0
@@ -111,7 +111,7 @@ begin;
           and pg_tables.schemaname = 'public'
         order by table_name, ordinal_position asc
     );
-              
+
     create or replace function sead_utility.create_consolidated_references_view(p_fk_column_name varchar)
         returns text as $$
     declare
@@ -122,7 +122,7 @@ begin;
     begin
         v_sql = '';
         v_view_name = 'sead_utility.view_consolidated_' || p_fk_column_name;
-        for v_table_name, v_pk_column_name in 
+        for v_table_name, v_pk_column_name in
             select fk.table_name, pk.column_name as pk_column_name
             from sead_utility.view_table_columns fk
             join sead_utility.view_table_columns pk
@@ -143,8 +143,8 @@ begin;
         v_sql = 'create or replace view ' || v_view_name || ' as (' || E'\n' || v_sql || ');' || E'\n';
         raise notice '%', v_sql;
         return v_sql;
-    end $$ language plpgsql;     
-    
+    end $$ language plpgsql;
+
     create or replace function sead_utility.set_as_serial(p_table_name character varying, p_column_name character varying)
               returns integer as $$
     declare
@@ -169,5 +169,5 @@ begin;
         return v_start_with;
     end;
     $$ language plpgsql volatile;
-              
+
 commit;
