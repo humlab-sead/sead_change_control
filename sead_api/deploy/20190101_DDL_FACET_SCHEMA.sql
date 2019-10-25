@@ -40,16 +40,6 @@ begin
 
         set search_path = facet, pg_catalog;
 
-        grant usage on schema facet to querysead_owner, querysead_worker, sead_read, sead_write;
-
-        grant select        on all tables    in schema facet, public to public, querysead_worker, sead_read, sead_write;
-        grant select, usage on all sequences in schema facet, public to public, querysead_worker, sead_read, sead_write;
-        grant execute       on all functions in schema facet, public to public, querysead_worker, sead_read, sead_write;
-
-        alter default privileges in schema facet grant select        on tables    to public, querysead_worker, sead_read, sead_write;
-        alter default privileges in schema facet grant select, usage on sequences to public, querysead_worker, sead_read, sead_write;
-        alter default privileges in schema facet grant execute       on functions to public, querysead_worker, sead_read, sead_write;
-
         set role querysead_owner;
 
         /* create tables */
@@ -185,6 +175,17 @@ begin
 
         create index idx_graph_table_relation_fk1 on graph_table_relation using btree (source_table_id);
         create index idx_graph_table_relation_fk2 on graph_table_relation using btree (target_table_id);
+
+        grant usage on schema facet to querysead_owner, querysead_worker, sead_read, sead_write;
+
+        grant select        on all tables    in schema facet, public to public, querysead_worker, sead_read, sead_write;
+        grant select, usage on all sequences in schema facet, public to public, querysead_worker, sead_read, sead_write;
+        grant execute       on all functions in schema facet, public to public, querysead_worker, sead_read, sead_write;
+
+        alter default privileges in schema facet grant select        on tables    to public, querysead_worker, sead_read, sead_write;
+        alter default privileges in schema facet grant select, usage on sequences to public, querysead_worker, sead_read, sead_write;
+        alter default privileges in schema facet grant execute       on functions to public, querysead_worker, sead_read, sead_write;
+
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
