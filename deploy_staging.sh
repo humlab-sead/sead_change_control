@@ -151,6 +151,8 @@ elif [ "$create_target" == "YES" ]; then
 
 fi
 
+git pull
+
 deprecated_name=${target_name}_`date "+%Y%m%d%H%M%S"`
 
 function dbexec() {
