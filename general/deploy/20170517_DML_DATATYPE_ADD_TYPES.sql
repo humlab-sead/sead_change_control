@@ -17,10 +17,6 @@ begin
 
     begin
 
-        if sead_utility.column_exists('public'::text, 'table_name'::text, 'column_name'::text) = TRUE then
-            raise exception SQLSTATE 'GUARD';
-        end if;
-
         with new_data_types("data_type_id", "data_type_group_id", "data_type_name", "date_updated", "definition") as (values
             (18, 7, 'Categorical & Scaled (0-5', '2017-05-17 13:23:57.600695+02',
                     'Mix of data specified on a scale of 0 to 5 where 0 is absence and 5 is maximum amount of property, and data classified on the presence of a property (e.g. Granite = tempering by granite present)'),
