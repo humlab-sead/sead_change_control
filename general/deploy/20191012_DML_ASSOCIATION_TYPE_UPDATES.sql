@@ -17,12 +17,6 @@ begin
 
     begin
 
-        if sead_utility.column_exists('public'::text, 'table_name'::text, 'column_name'::text) = TRUE then
-            raise exception SQLSTATE 'GUARD';
-        end if;
-
-        -- insert your DDL code here
-
         update tbl_species_association_types set association_type_name = 'has undefined association with' where association_type_name = 'undefined association with';
         update tbl_species_association_types set association_type_name = 'inquiline with' where association_type_name = 'inquiline';
         update tbl_species_association_types set association_type_name = 'found around nests of' where association_type_name = 'around nests of';
