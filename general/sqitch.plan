@@ -20,7 +20,6 @@
 20190410_DDL_TAXA_CREATE_VIEW_ALPHABETICALLY 2019-04-10T09:24:15Z Roger Mähler <roger.mahler@umu.se> # Create taxa helper view.
 20190410_DDL_COMMENTS_UPDATE_COMMENTS 2019-04-10T12:04:29Z Roger Mähler <roger.mahler@umu.se> # Comment diffs on table/columns with respect to sead_master_8.
 20190410_DDL_RELATIVE_DATING_RENAME_COLUMN 2019-04-10T14:58:41Z Roger Mähler <roger.mahler@umu.se> # Rename column from abbreviation
-20190411_DDL_META_VIEW_UPDATES 2019-04-11T11:44:44Z Roger Mähler <roger.mahler@umu.se> # Deprecate some views
 20190411_DDL_ASSIGN_SEQUENCES 2019-04-11T14:41:49Z Roger Mähler <roger.mahler@umu.se> # Assign sequence as default
 20190503_DDL_TAXA_ATTRIBUTE_TYPE_LENGTH 2019-05-03T08:57:52Z Roger Mähler <roger.mahler@umu.se> # Increase length of field attribute_type to accomodate large values from Bugs
 20170101_DDL_BIBLIO_REFACTOR_MODEL 2019-04-06T15:57:13Z Roger Mähler <roger.mahler@umu.se> # Refactor bibliographic data to a less complex model.
