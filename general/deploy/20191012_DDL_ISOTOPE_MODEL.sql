@@ -74,7 +74,7 @@ begin
 
         end if;
 
-        create table if not exists public.tbl_isotope_value_specifier
+        create table if not exists public.tbl_isotope_value_specifiers
         (
             isotope_value_specifier_id int primary key not null,
             decription text not null,
@@ -115,7 +115,7 @@ begin
                     on delete no action,
 
                 constraint fk_isotopes_isotope_value_specifier_id foreign key (isotope_value_specifier_id)
-                    references public.tbl_isotope_value_specifier (isotope_value_specifier_id) match simple
+                    references public.tbl_isotope_value_specifiers (isotope_value_specifier_id) match simple
                     on update no action
                     on delete no action
             );
