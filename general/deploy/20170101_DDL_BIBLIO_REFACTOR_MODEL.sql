@@ -27,42 +27,79 @@ begin;
                 add column "full_reference" text not null default(''),
                 add column "url" character varying;
 
-            -- update new autors field
+			/*
+			SEAD: AUTHORS
+			*/
+			with biblio_authors as (
+				select biblio_id, author as authors
+				from tbl_biblio
+				where TRUE
+				  and coalesce(author, '') <> ''
+				  and coalesce(bugs_author, '') <> ''
+			) update tbl_biblio
+				 set authors = y.authors
+			  from biblio_authors y
+			  where tbl_biblio.biblio_id = y.biblio_id;
+
+			/*
+			BUGS: AUTHORS
+			*/
+			with biblio_authors as (
+				select biblio_id, bugs_author,
+					coalesce(substring(bugs_author from '(.*) \(.*\)$'), bugs_author) as authors,
+					substring(bugs_author from '.*\((.*)\)$') as "year"
+				from tbl_biblio
+				where TRUE
+				  and coalesce(authors, '') = ''
+				  and coalesce(bugs_author, '') <> ''
+			) update tbl_biblio
+				 set authors = y.authors,
+				 	 "year" = y."year"
+			  from biblio_authors y
+			  where tbl_biblio.biblio_id = y.biblio_id;
+
+			/*
+			BUGS: FULL_REFERENCE
+			*/
+
+			with biblio_full_reference as (
+				select biblio_id, bugs_author || coalesce('. ' || bugs_title, '') as full_reference
+				from tbl_biblio
+				where TRUE
+				  and coalesce(authors, '') = ''
+				  and coalesce(full_reference, '') <> ''
+			) update tbl_biblio
+				 set full_reference = y.full_reference
+			  from biblio_full_reference y
+			  where tbl_biblio.biblio_id = y.biblio_id;
+
+			/*
+			SEAD: FULL_REFERENCE
+			MISSING
+			*/
+
+
+
+			/*
+			SEAD: TITLE
+			MISSING
+  			*/
+
+			/*
+			BUGS: TITLE
+			*/
+			with biblio_titles as (
+				select biblio_id, bugs_title as title
+				from tbl_biblio
+				where TRUE
+				  and coalesce(title, '') = ''
+				  and coalesce(bugs_title, '') <> ''
+			) update tbl_biblio
+				 set title = y.title
+			  from biblio_titles y
+			  where tbl_biblio.biblio_id = y.biblio_id;
+
             /*
-
-            with biblio_authors as (
-                select biblio_id, '[' || bugs_author || ']' as authors
-                from tbl_biblio
-                where TRUE
-                  and coalesce(authors, '') = ''
-                  and coalesce(bugs_author, '') <> ''
-            ) update tbl_biblio AS x
-                 set x.authors = y.authors
-              join biblio_authors y
-              where x.biblio_id = y.biblio_id;
-
-            with biblio_titles as (
-                select biblio_id, bugs_title as title
-                from tbl_biblio
-                where TRUE
-                  and coalesce(title, '') = ''
-                  and coalesce(bugs_title, '') <> ''
-            ) update tbl_biblio AS x
-                 set x.title = y.title
-              join biblio_titles y
-              where x.biblio_id = y.biblio_id;
-
-            with biblio_references as (
-                select biblio_id, bugs_title || coalesce(', ' || bugs_reference || '', '') as full_reference
-                from tbl_biblio
-                where TRUE
-                  and coalesce(full_reference, '') = ''
-                  and coalesce(bugs_title, '') <> ''
-                  and coalesce(bugs_reference, '') <> ''
-            ) update tbl_biblio AS x
-                 set x.full_reference = y.full_reference
-              join biblio_references y
-              where x.biblio_id = y.biblio_id;
 
             */
 
