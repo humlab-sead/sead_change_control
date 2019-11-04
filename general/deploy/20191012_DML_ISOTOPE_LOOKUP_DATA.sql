@@ -13,12 +13,22 @@
 
 begin;
 do $$
+declare new_id int;
 begin
 
     begin
+        perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
+        perform sead_utility.sync_sequence('public', 'tbl_sample_location_types');
+        perform sead_utility.sync_sequence('public', 'tbl_data_types');
+        perform sead_utility.sync_sequence('public', 'tbl_isotope_value_specifiers');
+        perform sead_utility.sync_sequence('public', 'tbl_isotope_types');
+        perform sead_utility.sync_sequence('public', 'tbl_contacts');
+        perform sead_utility.sync_sequence('public', 'tbl_biblio');
+        perform sead_utility.sync_sequence('public', 'tbl_locations');
 
+        new_id = 11;
         with new_dataset_masters (master_set_id, contact_id, master_name, master_note, url) as (values
-            (99999, 999999, 'Sample data Isotopes', 'Sample data for implementing isotope data in to SEAD', '')
+            (11, 999999, 'Sample data Isotopes', 'Sample data for implementing isotope data in to SEAD', '')
         ) insert into tbl_dataset_masters (master_set_id, master_name, url)
         select a.master_set_id, a.master_name, a.url
         from new_dataset_masters a
@@ -26,9 +36,10 @@ begin
             on a.master_set_id = b.master_set_id
         where b.master_set_id is null*/;
 
+        new_id = 78;
         with new_sample_location_types (sample_location_type_id, location_type, location_type_description) as (values
-        	(9999, 'cheramic part', 'Description of what part of ceramic vessel/structure were sampled'),
-	        (9999, 'sample position', 'Describes what substance and/or more accurate information on where on the ceramic part the sample came from (e.g. charred deposit from inside the vessel)')
+        	(new_id + 0, 'cheramic part', 'Description of what part of ceramic vessel/structure were sampled'),
+	        (new_id + 1, 'sample position', 'Describes what substance and/or more accurate information on where on the ceramic part the sample came from (e.g. charred deposit from inside the vessel)')
         ) insert into tbl_sample_location_types (sample_location_type_id, location_type, location_type_description)
         select a.sample_location_type_id, a.location_type, a.location_type_description
         from new_sample_location_types a
@@ -36,8 +47,9 @@ begin
             on a.sample_location_type_id = b.sample_location_type_id
         where b.sample_location_type_id is null*/;
 
+        new_id = 46;
         with new_data_types (data_type_id, data_type_group_id, data_type_name, definition) as (values
-            (9999, 1, 'Mixed-method dependent', 'Multiple datatypes from one method. (e.g. multiple isotope types from masspectrometry')),
+            (new_id + 0, 1, 'Mixed-method dependent', 'Multiple datatypes from one method. (e.g. multiple isotope types from masspectrometry')),
         ) insert into tbl_data_types (data_type_id, data_type_group_id, data_type_name, definition)
         select a.data_type_id, a.data_type_group_id, a.data_type_name, a.definition
         from new_data_types a
@@ -230,12 +242,104 @@ begin
             on a.isotope_type_id = b.isotope_type_id
         where b.isotope_type_id is null*/;
 
-/*
-        NOTE! Value below are just examples and should be removed from file!
+        new_id = 68;
+        with new_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, phone_number) as (values
+            (new_id + 0, 'BioArCh, Department of Archaeology, University of York, Heslington, York YO10 5DD, UK', '', 'Josie', 'Thomas', 'josie.thomas@york.ac.uk', 'https://archaeologydataservice.ac.uk/archives/view/idopea_ahrc_2018/', '+44 1904 328802'),
+            (new_id + 1, 'Environmental Archaeology Lab, Umeå University', '', 'Mats', 'Eriksson', 'mats.eriksson@umu.se', 'https://archaeologydataservice.ac.uk/archives/view/idopea_ahrc_2018/', '+46 907866741')
+        ) insert into tbl_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, phone_number)
+        select a.contact_id, a.address_1, a.address_2, a.first_name, a.last_name, a.email, a.url, a.phone_number
+        from new_contacts a
+        /*left join tbl_contacts b
+            on a.contact_id = b.contact_id
+        where b.contact_id is null*/;
 
-        WITH new_locations(location_id, location_name, location_type_id) AS ( VALUES
-            (3736, 'Jönköpings län', 2),
+        new_id = 6291;
+        with new_biblio (biblio_id, authors, year, title, full_reference) as (values
+            (
+                new_id + 0,
+                'Craig, O.E., Saul, H., Lucquin, A., Nishida, Y., Taché, K., Clarke, L., Thompson, A., Altoft, D.T., Uchiyama, J., Ajimoto, M. and Gibbs, K.',
+                2013,
+                'Earliest evidence for the use of pottery',
+                'Craig, O.E., Saul, H., Lucquin, A., Nishida, Y., Taché, K., Clarke, L., Thompson, A., Altoft, D.T., Uchiyama, J., Ajimoto, M. and Gibbs, K.  2013. Earliest evidence for the use of pottery. Nature, 496(7445), p.351.',
+                'https://www.nature.com/articles/nature12109',
+                null,
+                'https://www.nature.com/articles/nature12109.pdf'
+            ),
+            (
+                new_id + 1,
+                'Lucquin, A., Gibbs, K., Uchiyama, J., Saul, H., Ajimoto, M., Eley, Y., Radini, A., Heron, C.P., Shoda, S., Nishida, Y. and Lundy, J.',
+                2016,
+                'Ancient lipids document continuity in the use of early hunter–gatherer pottery through 9,000 years of Japanese prehistory',
+                'Lucquin, A., Gibbs, K., Uchiyama, J., Saul, H., Ajimoto, M., Eley, Y., Radini, A., Heron, C.P., Shoda, S., Nishida, Y. and Lundy, J. 2016. Ancient lipids document continuity in the use of early hunter–gatherer pottery through 9,000 years of Japanese prehistory. Proceedings of the National Academy of Sciences, 113(15), pp.3991-3996.',
+                'https://www.pnas.org/content/113/15/3991',
+                null,
+                'https://www.pnas.org/content/pnas/113/15/3991.full.pdf'
+            ),
+            (
+                new_id + 2,
+                'Lucquin, A., Robson, H.K., Eley, Y., Shoda, S., Veltcheva, D., Gibbs, K., Heron, C.P., Isaksson, S., Nishida, Y., Taniguchi, Y. and Nakajima, S.',
+                2018,
+                'The impact of environmental change on the use of early pottery by East Asian hunter-gatherers',
+                'Lucquin, A., Robson, H.K., Eley, Y., Shoda, S., Veltcheva, D., Gibbs, K., Heron, C.P., Isaksson, S., Nishida, Y., Taniguchi, Y. and Nakajima, S. 2018. The impact of environmental change on the use of early pottery by East Asian hunter-gatherers. Proceedings of the National Academy of Sciences, 115(31), pp.7931-7936.',
+                'https://www.pnas.org/content/115/31/7931',
+                null,
+                'https://www.pnas.org/content/pnas/115/31/7931.full.pdf'
+            ),
+            (
+                new_id + 3,
+                'Papakosta, V., Smittenberg, R.H., Gibbs, K., Jordan, P. and Isaksson, S.',
+                2015,
+                'Extraction and derivatization of absorbed lipid residues from very small and very old samples of ceramic potsherds for molecular analysis by gas chromatography–mass spectrometry (GC–MS) and single compound stable carbon isotope analysis by gas chromatography–combustion–isotope ratio mass spectrometry (GC–C–IRMS)',
+                'Papakosta, V., Smittenberg, R.H., Gibbs, K., Jordan, P. and Isaksson, S. 2015. Extraction and derivatization of absorbed lipid residues from very small and very old samples of ceramic potsherds for molecular analysis by gas chromatography–mass spectrometry (GC–MS) and single compound stable carbon isotope analysis by gas chromatography–combustion–isotope ratio mass spectrometry (GC–C–IRMS). Microchemical Journal, 123, pp.196-200.',
+                'https://doi.org/10.1016/j.microc.2015.06.013',
+                'Incipient Jōmon,Absorbed lipid residues, Solvent extraction, Acidic extraction, Gas chromatography–mass spectrometry, Stable carbon isotopes',
+                'https://reader.elsevier.com/reader/sd/pii/S0026265X15001356'
+            ),
+            (
+                new_id + 4,
+                'Meier‐Augenstein, W. and Kemp, H.F',
+                2009,
+                'Stable isotope analysis: general principles and limitations',
+                'Meier‐Augenstein, W. and Kemp, H.F. 2009. Stable isotope analysis: general principles and limitations. Wiley Encyclopedia of Forensic Science.',
+                'https://doi.org/10.1002/9780470061589.fsa1041',
+                'investigative focus, isotope ratio, linkage, provenance, stable isotope signature, stable isotope profile',
+                'https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&ved=2ahUKEwiytdS8jObiAhWwk4sKHeMUCW0QFjABegQIBRAC&url=https%3A%2F%2Fwww.researchgate.net%2Fprofile%2FClaudia_Cunha%2Fpost%2FWhat_archaeologicals_methods_can_be_applied_to_studies_of_anthropology_of_food%2Fattachment%2F59d61ea879197b807797d127%2FAS%253A279741983674372%25401443707094633%2Fdownload%2Ffsa1041.pdf&usg=AOvVaw2hbk-enYkzFDnz2kR4obyT'
+            ),
+            (
+                new_id + 5,
+                'Brock, F., Higham, T. and Ramsey, C.B.' ,
+                2010,
+                'Pre-screening techniques for identification of samples suitable for radiocarbon dating of poorly preserved bones',
+                'Brock, F., Higham, T. and Ramsey, C.B. (2010). Pre-screening techniques for identification of samples suitable for radiocarbon dating of poorly preserved bones. Journal of Archaeological Science 37: 855 – 865.',
+                'https://doi.org/10.1016/j.jas.2009.11.015',
+                'Radiocarbon dating, Bone collagen, Nitrogen'
+                'https://reader.elsevier.com/reader/sd/pii/S0305440309004336'
+            )
+        ) insert into tbl_biblio (biblio_id, authors, year, title, full_reference, doi, notes, url)
+        select a.biblio_id, a.authors, a.year, a.title, a.full_reference, a.doi, a.notes, a.url
+        from new_biblio a
+        /*left join tbl_biblio b
+            on a.biblio_id = b.biblio_id
+        where b.biblio_id is null*/;
 
+        new_id =  0;
+        with new_locations(location_id, location_name, location_type_id, default_lat_dd	default_long_dd) as ( values
+        	(new_id =  0, 'Tochigi prefecture',	    2,	36.6763115,	    139.8094394),
+        	(new_id =  1, 'Shiga prefecture',	    2,	35.2471599,	    136.1092995),
+        	(new_id =  2, 'Hiroshima Prefecture',	2,	34.4557655,	    132.4373114),
+        	(new_id =  3, 'Saga prefecture',	    2,	33.31162345,	130.258994),
+        	(new_id =  4, 'Gunma prefecture',	    2,	36.5219914,	    139.0334981),
+        	(new_id =  5, 'Niigata prefecture',	    2,	37.64508315,	138.7674579),
+        	(new_id =  6, 'Kagoshima prefecture',	2,	29.6646725,	    129.8003557),
+        	(new_id =  7, 'Hokkaido prefecture',	2,	43.43905915,	142.7220621),
+        	(new_id =  8, 'Ehime prefecture',	    2,	33.5932911,	    132.8525472),
+        	(new_id =  9, 'Nagano prefecture',	    2,	36.1143974,	    138.0318452),
+        	(new_id = 10, 'Chiba prefecture',	    2,	35.50104105,	140.3091766),
+        	(new_id = 11, 'Shizuoka prefecture',	2,	35.10951685,	138.3253921),
+        	(new_id = 12, 'Kumamoto prefecture',	2,	32.6450942,	    130.6339892),
+        	(new_id = 13, 'Yamanashi prefecture',	2,	35.57004815,	138.6572887),
+        	(new_id = 14, 'Akita prefecture',	    2,	39.692085,	    140.343581),
+        	(new_id = 15, 'Fukui prefecture',	    2,	35.8196589,	    136.1408376)
         ) insert into tbl_locations (location_id, location_name, location_type_id)
         select a.location_id, a.location_name, a.location_type_id
         from new_locations a
@@ -243,39 +347,14 @@ begin
             on a.location_id = b.location_id
         where b.location_id is null;
 
-        WITH new_biblio (biblio_id, authors, year, title, full_reference) AS (VALUES
-        (6148, 'Andersson, Iwar', '1967', 'Hagby fästningskyrka. Fornvännen, vol 62, 1967, s. 22-36.', 'Andersson, Iwar (1967). Hagby fästningskyrka. Fornvännen, vol 62, 1967, s. 22-36.'),
-
-        ) insert into tbl_biblio (biblio_id, authors, year, title, full_reference)
-        select a.biblio_id, a.authors, a.year, a.title, a.full_reference
-        from new_biblio a
-        left join tbl_biblio b
-            on a.biblio_id = b.biblio_id
-        where b.biblio_id is null;
-
-        WITH new_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, location_id) AS (VALUES
-            (1, 'Environmental Archaeology Lab
-        Dept. of Philosophical, Historical & Religious Studes', 'Umeå University
-        SE-90187  Umeå', 'Philip', 'Buckland', 'phil.buckland@arke.umu.se', 'http://www.idesam.umu.se/om/personal/visa-person/?uid=phbu0001&guise=anst1', 205),
-        ) insert into tbl_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, location_id)
-        select a.contact_id, a.address_1, a.address_2, a.first_name, a.last_name, a.email, a.url, a.location_id
-        from new_contacts a
-        left join tbl_contacts b
-            on a.contact_id = b.contact_id
-        where b.contact_id is null;
-
-        -- SAME FOR tbl_isotope_value_specifiers AND tbl_isotope_types AND tbl_isotope_standards
-
-        perform sead_utility.sync_sequence('public', 'tbl_sample_location_types');
-        perform sead_utility.sync_sequence('public', 'tbl_locations');
-        perform sead_utility.sync_sequence('public', 'tbl_data_types');
         perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
-        perform sead_utility.sync_sequence('public', 'tbl_biblio');
-        perform sead_utility.sync_sequence('public', 'tbl_contacts');
+        perform sead_utility.sync_sequence('public', 'tbl_sample_location_types');
+        perform sead_utility.sync_sequence('public', 'tbl_data_types');
         perform sead_utility.sync_sequence('public', 'tbl_isotope_value_specifiers');
         perform sead_utility.sync_sequence('public', 'tbl_isotope_types');
-        perform sead_utility.sync_sequence('public', 'tbl_isotope_standards');
-*/
+        perform sead_utility.sync_sequence('public', 'tbl_contacts');
+        perform sead_utility.sync_sequence('public', 'tbl_biblio');
+        perform sead_utility.sync_sequence('public', 'tbl_locations');
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
