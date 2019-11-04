@@ -322,30 +322,30 @@ begin
             on a.biblio_id = b.biblio_id
         where b.biblio_id is null*/;
 
-        new_id =  0;
+        new_id =  3895;
         with new_locations(location_id, location_name, location_type_id, default_lat_dd	default_long_dd) as ( values
-        	(new_id =  0, 'Tochigi prefecture',	    2,	36.6763115,	    139.8094394),
-        	(new_id =  1, 'Shiga prefecture',	    2,	35.2471599,	    136.1092995),
-        	(new_id =  2, 'Hiroshima Prefecture',	2,	34.4557655,	    132.4373114),
-        	(new_id =  3, 'Saga prefecture',	    2,	33.31162345,	130.258994),
-        	(new_id =  4, 'Gunma prefecture',	    2,	36.5219914,	    139.0334981),
-        	(new_id =  5, 'Niigata prefecture',	    2,	37.64508315,	138.7674579),
-        	(new_id =  6, 'Kagoshima prefecture',	2,	29.6646725,	    129.8003557),
-        	(new_id =  7, 'Hokkaido prefecture',	2,	43.43905915,	142.7220621),
-        	(new_id =  8, 'Ehime prefecture',	    2,	33.5932911,	    132.8525472),
-        	(new_id =  9, 'Nagano prefecture',	    2,	36.1143974,	    138.0318452),
-        	(new_id = 10, 'Chiba prefecture',	    2,	35.50104105,	140.3091766),
-        	(new_id = 11, 'Shizuoka prefecture',	2,	35.10951685,	138.3253921),
-        	(new_id = 12, 'Kumamoto prefecture',	2,	32.6450942,	    130.6339892),
-        	(new_id = 13, 'Yamanashi prefecture',	2,	35.57004815,	138.6572887),
-        	(new_id = 14, 'Akita prefecture',	    2,	39.692085,	    140.343581),
-        	(new_id = 15, 'Fukui prefecture',	    2,	35.8196589,	    136.1408376)
+        	(new_id +  0, 'Tochigi prefecture',	    2,	36.6763115,	    139.8094394),
+        	(new_id +  1, 'Shiga prefecture',	    2,	35.2471599,	    136.1092995),
+        	(new_id +  2, 'Hiroshima Prefecture',	2,	34.4557655,	    132.4373114),
+        	(new_id +  3, 'Saga prefecture',	    2,	33.31162345,	130.258994),
+        	(new_id +  4, 'Gunma prefecture',	    2,	36.5219914,	    139.0334981),
+        	(new_id +  5, 'Niigata prefecture',	    2,	37.64508315,	138.7674579),
+        	(new_id +  6, 'Kagoshima prefecture',	2,	29.6646725,	    129.8003557),
+        	(new_id +  7, 'Hokkaido prefecture',	2,	43.43905915,	142.7220621),
+        	(new_id +  8, 'Ehime prefecture',	    2,	33.5932911,	    132.8525472),
+        	(new_id +  9, 'Nagano prefecture',	    2,	36.1143974,	    138.0318452),
+        	(new_id + 10, 'Chiba prefecture',	    2,	35.50104105,	140.3091766),
+        	(new_id + 11, 'Shizuoka prefecture',	2,	35.10951685,	138.3253921),
+        	(new_id + 12, 'Kumamoto prefecture',	2,	32.6450942,	    130.6339892),
+        	(new_id + 13, 'Yamanashi prefecture',	2,	35.57004815,	138.6572887),
+        	(new_id + 14, 'Akita prefecture',	    2,	39.692085,	    140.343581),
+        	(new_id + 15, 'Fukui prefecture',	    2,	35.8196589,	    136.1408376)
         ) insert into tbl_locations (location_id, location_name, location_type_id)
         select a.location_id, a.location_name, a.location_type_id
         from new_locations a
-        left join tbl_locations b
+        /*left join tbl_locations b
             on a.location_id = b.location_id
-        where b.location_id is null;
+        where b.location_id is null*/;
 
         perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
         perform sead_utility.sync_sequence('public', 'tbl_sample_location_types');
