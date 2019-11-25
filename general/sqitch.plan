@@ -64,3 +64,5 @@
 # 20190425_DDL_SCHEMA_ADD_MISSING_FOREIGN_KEYS 2019-04-25T12:36:40Z Roger Mähler <roger.mahler@umu.se> # Add missing FK in public schema
 # 20190415_DML_SPECIES_DELETE_DUPLICATES 2019-04-15T14:37:52Z Roger Mähler <roger.mahler@umu.se> # Delete species associations types marked as duplicates
 
+
+20191125_DML_CERAMICS_LOOKUP 2019-11-25T14:57:46Z Roger Mähler <roger.mahler@umu.se> # Ceramics lookup data

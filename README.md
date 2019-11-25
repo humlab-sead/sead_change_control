@@ -48,6 +48,8 @@ Locations of `sqitch.conf`:
 | ./bugs        | CRs related to Bugs import |
 | ./report      | Report related CRs (e.g. Clearinghouse, SuperSEAD) |
 | ./security    | Changes related to roles and privileges |
+| ./subsystem   | Changes related to subsystems |
+| ./submissions | Commited Clearinghouse submissions |
 
 Use `sqitch init` to create a new project:
 
@@ -61,6 +63,12 @@ Use `sqitch add` (or possibly `docker-sqitch.sh` depending on install) with task
 
 ```bash
 docker-sqitch.sh add --change-name yyyymmdd_DXL_ENTITY_DESCRIPTION --note "a note" --chdir ./project-path
+```
+
+Example:
+
+```bash
+./docker-sqitch.sh add --change-name 20191125_DML_CERAMICS_LOOKUP --note "Ceramics lookup data" --chdir ./general
 ```
 
 Task templates locations:
