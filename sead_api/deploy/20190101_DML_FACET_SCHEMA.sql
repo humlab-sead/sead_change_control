@@ -450,17 +450,18 @@ begin
                 source_column_name = excluded.source_column_name,
                 target_column_name = excluded.target_column_name;
 
-        insert into facet_group (facet_group_id, facet_group_key, display_title, is_applicable, is_default) (values
-            (99, 'ROOT', 'ROOT', false, false),
-            (1, 'others', 'Others', true, false),
-            (2, 'space_time', 'Space/Time', true, false),
-            (3, 'time', 'Time', true, false),
-            (4, 'ecology', 'Ecology', true, false),
-            (5, 'measured_values', 'Measured values', true, false),
-            (6, 'taxonomy', 'Taxonomy', true, false)
+        insert into facet_group (facet_group_id, facet_group_key, display_title, description, is_applicable, is_default) (values
+            (99, 'ROOT', 'ROOT', 'ROOT', false, false),
+            (1, 'others', 'Others', 'Others', true, false),
+            (2, 'space_time', 'Space/Time', 'Space/Time', true, false),
+            (3, 'time', 'Time', 'Time', true, false),
+            (4, 'ecology', 'Ecology', 'Ecology', true, false),
+            (5, 'measured_values', 'Measured values', 'Measured values', true, false),
+            (6, 'taxonomy', 'Taxonomy', 'Taxonomy', true, false)
         ) on conflict (facet_group_id) do update
             set facet_group_key = excluded.facet_group_key,
                 display_title = excluded.display_title,
+                description = excluded.description,
                 is_applicable = excluded.is_applicable,
                 is_default = excluded.is_default;
 
@@ -472,157 +473,6 @@ begin
         ) on conflict (facet_type_id) do update
             set facet_type_name = excluded.facet_type_name,
                 reload_as_target = excluded.reload_as_target;
-
-		/* DEPRECATED FACETS */
-    --    insert into facet.facet (facet_id, facet_code, display_title, facet_group_id, facet_type_id, category_id_expr, category_name_expr, sort_expr, is_applicable, is_default, aggregate_type, aggregate_title, aggregate_facet_id) (values
-    --         (2, 'dataset_helper', 'dataset_helper', 99, 1, 'tbl_datasets.dataset_id', 'tbl_datasets.dataset_id', 'tbl_dataset.dataset_id', false, false, 'count', 'Number of samples', 1),
-    --         (7, 'measured_values_helper', 'values', 99, 1, 'tbl_measured_values.measured_value', 'tbl_measured_values.measured_value', 'tbl_measured_values.measured_value', false, false, 'count', 'Number of samples', 1),
-    --         (8, 'taxon_result', 'taxon_id', 99, 1, 	'tbl_abundances.taxon_id', 'tbl_abundances.taxon_id', 'tbl_abundances.taxon_id', false, false, 'count', 'Number of samples', 1),
-    --         (14, 'places', 'Places', 2, 1, 'tbl_locations.location_id', 'tbl_locations.location_name', 'tbl_locations.location_name', false, true, 'count', 'Number of samples', 1),
-    --         (15, 'places_all2', 'view_places_relations', 2, 1, 'tbl_locations.location_id', 'tbl_locations.location_name', 'tbl_locations.location_name', false, true, 'count', 'Number of samples', 1),
-    --         (16, 'sample_groups_helper', 'Sample group', 2, 1, 'tbl_sample_groups.sample_group_id', 'tbl_sample_groups.sample_group_name', 'tbl_sample_groups.sample_group_name', false, true, 'count', 'Number of samples', 1),
-    --         (17, 'physical_samples', 'physical samples', 2, 1, 'tbl_physical_samples.physical_sample_id', 'tbl_physical_samples.sample_name', 'tbl_physical_samples.sample_name', false, true, 'count', 'Number of samples', 1),
-    --         (20, 'tbl_relative_dates_helper', 'tbl_relative_dates', 2, 1, 'tbl_relative_dates.relative_age_id', 'tbl_relative_dates.relative_age_name ', 'tbl_relative_dates.relative_age_name ', false, false, 'count', 'Number of samples', 1),
-    --         (26, 'species_helper', 'Species', 6, 1, 'tbl_taxa_tree_master.taxon_id', 'tbl_taxa_tree_master.taxon_id', 'tbl_taxa_tree_master.species', false, false, 'count', 'Number of samples', 1),
-    --         (27, 'abundance_helper', 'abundance_id', 6, 1, 'tbl_abundances.abundance_id', 'tbl_abundances.abundance_id', 'tbl_abundances.abundance_id', false, false, 'count', 'Number of samples', 1),
-	--    )
-    --    insert into facet.facet_table (facet_id, sequence_id, table_id, udf_call_arguments, alias) (
-	-- 			( 2, 1, 'tbl_datasets', NULL, NULL),
-	-- 			( 7, 1, 'tbl_measured_values', NULL, NULL),
-	-- 			( 8, 1, 'tbl_abundances', NULL, NULL),
-	-- 			(14, 1, 'tbl_locations', NULL, NULL),
-	-- 			(14, 2, 'tbl_site_locations', NULL, NULL),
-	-- 			(15, 3, 'tbl_site_locations', NULL, NULL),
-	-- 			(15, 2, 'tbl_locations', NULL, NULL),
-	-- 			(16, 1, 'tbl_sample_groups', NULL, NULL),
-	-- 			(17, 1, 'tbl_physical_samples', NULL, NULL),
-	-- 			(20, 1, 'tbl_relative_dates', NULL, NULL),
-	-- 			(26, 1, 'tbl_taxa_tree_master', NULL, NULL),
-	-- 			(26, 2, 'tbl_taxa_tree_genera', NULL, NULL),
-	-- 			(26, 3, 'tbl_taxa_tree_authors', NULL, NULL),
-	-- 			(27, 1, 'tbl_abundances', NULL, NULL),
-	--    );
-
-	/* REPLACED BY JSON INSERT: */
-    --    	insert into facet.facet (facet_id, facet_code, display_title, facet_group_id, facet_type_id, category_id_expr, category_name_expr, sort_expr, is_applicable, is_default, aggregate_type, aggregate_title, aggregate_facet_id) (values
-
-    --         (1, 'result_facet',				 'Analysis entities', 99, 1, 			 'tbl_analysis_entities.analysis_entity_id', 'tbl_physical_samples.sample_name||'' ''||tbl_datasets.dataset_name', 'tbl_datasets.dataset_name', false, false, 'count', 'Number of samples', 0),
-    --         (9, 'map_result', 				 'Site', 99, 1, 						 'tbl_sites.site_id', 'tbl_sites.site_name', 'tbl_sites.site_name', false, false, 'count', 'Number of samples', 1),
-
-    --         (3, 'tbl_denormalized_measured_values_33_0',  'MS ', 5, 2,            	 'method_values_33.measured_value',    'method_values_33.measured_value',    'method_values_33.measured_value', true, false, '', 'Number of samples', 1),
-    --         (4, 'tbl_denormalized_measured_values_33_82', 'MS Heating 550', 5, 2, 	 'method_values_33_82.measured_value', 'method_values_33_82.measured_value', 'method_values_33_82.measured_value', true, false, '', 'Number of samples', 1),
-    --         (5, 'tbl_denormalized_measured_values_32',    'LOI', 5, 2,            	 'method_values_32.measured_value',    'method_values_32.measured_value',    'method_values_32.measured_value', true, false, '', 'Number of samples', 1),
-    --         (6, 'tbl_denormalized_measured_values_37',    'P┬░', 5, 2,            	 'method_values_37.measured_value',    'method_values_37.measured_value',    'method_values_37.measured_value', true, false, '', 'Number of samples', 1),
-
-    --         (10, 'geochronology',			 'Geochronology', 2, 2,					 'tbl_geochronology.age', 'tbl_geochronology.age', 'tbl_geochronology.age', true, false, '', 'Number of samples', 1),
-    --         (11, 'relative_age_name',		 'Time periods', 2, 1,					 'tbl_relative_ages.relative_age_id', 'tbl_relative_ages.relative_age_name', 'tbl_relative_ages.relative_age_name', true, false, 'count', 'Number of samples', 1),
-    --         (12, 'record_types',			 'Proxy types', 1, 1,					 'tbl_record_types.record_type_id', 'tbl_record_types.record_type_name', 'tbl_record_types.record_type_name', true, false, 'count', 'Number of samples', 1),
-    --         (13, 'sample_groups',			 'Sample group', 2, 1,					 'tbl_sample_groups.sample_group_id', 'tbl_sample_groups.sample_group_name', 'tbl_sample_groups.sample_group_name', true, true, 'count', 'Number of samples', 1),
-    --         (18, 'sites',					 'Site', 2, 1,							 'tbl_sites.site_id', 'tbl_sites.site_name', 'tbl_sites.site_name', true, true, 'count', 'Number of samples', 1),
-    --         (21, 'country',					 'Country', 2, 1,						 'countries.location_id', 'countries.location_name ', 'countries.location_name', true, false, 'count', 'Number of samples', 1),
-    --         (22, 'ecocode',					 'Eco code', 4, 1,						 'tbl_ecocode_definitions.ecocode_definition_id', 'tbl_ecocode_definitions.label', 'tbl_ecocode_definitions.label', true, false, 'count', 'Number of samples', 1),
-    --         (23, 'family',					 'Family', 6, 1,						 'tbl_taxa_tree_families.family_id', 'tbl_taxa_tree_families.family_name ', 'tbl_taxa_tree_families.family_name ', true, false, 'count', 'Number of samples', 1),
-    --         (24, 'genus',					 'Genus', 6, 1,							 'tbl_taxa_tree_genera.genus_id', 'tbl_taxa_tree_genera.genus_name', 'tbl_taxa_tree_genera.genus_name', true, false, 'count', 'Number of samples', 1),
-    --         (25, 'species',					 'Taxa', 6, 1,							 'tbl_taxa_tree_master.taxon_id', 'concat_ws('' '', tbl_taxa_tree_genera.genus_name, tbl_taxa_tree_master.species, tbl_taxa_tree_authors.author_name)', 'tbl_taxa_tree_genera.genus_name||'' ''||tbl_taxa_tree_master.species', true, false, 'sum', 'sum of Abundance', 32),
-    --         (28, 'species_author',			 'Author', 6, 1,						 'tbl_taxa_tree_authors.author_id ', 'tbl_taxa_tree_authors.author_name ', 'tbl_taxa_tree_authors.author_name ', true, false, 'count', 'Number of samples', 1),
-    --         (29, 'feature_type',			 'Feature type', 1, 1,					 'tbl_feature_types.feature_type_id ', 'tbl_feature_types.feature_type_name', 'tbl_feature_types.feature_type_name', true, false, 'count', 'Number of samples', 1),
-    --         (30, 'ecocode_system',			 'Eco code system', 4, 1,				 'tbl_ecocode_systems.ecocode_system_id ', 'tbl_ecocode_systems.name', 'tbl_ecocode_systems.definition', true, false, 'count', 'Number of samples', 1),
-    --         (31, 'abundance_classification', 'abundance classification', 4, 1, 		 'facet.view_abundance.elements_part_mod ', 'facet.view_abundance.elements_part_mod ', 'facet.view_abundance.elements_part_mod ', true, false, 'count', 'Number of samples', 1),
-    --         (33, 'abundances_all',           'Abundances', 4, 2,					 'facet.view_abundance.abundance', 'facet.view_abundance.abundance', 'facet.view_abundance.abundance', true, false, '', 'Number of samples', 1),
-    --         (34, 'activeseason',			 'Seasons', 2, 1, 						 'tbl_seasons.season_id', 'tbl_seasons.season_name', 'tbl_seasons.season_type ', true, false, 'count', 'Number of samples', 1),
-    --         (35, 'tbl_biblio_modern',		 'Bibligraphy modern', 1, 1, 			 'facet.view_taxa_biblio.biblio_id', 'tbl_biblio.title||''  ''||tbl_biblio.authors ', 'tbl_biblio.authors', true, false, 'count', 'count of species', 19),
-    --         (36, 'tbl_biblio_sample_groups', 'Bibligraphy sites/Samplegroups', 1, 1, 'tbl_biblio.biblio_id', 'tbl_biblio.title||''  ''||tbl_biblio.authors', 'tbl_biblio.authors', true, false, 'count', 'Number of samples', 1),
-    --         (37, 'tbl_biblio_sites',		 'Bibligraphy sites', 1, 1, 			 'tbl_biblio.biblio_id', 'tbl_biblio.title||''  ''||tbl_biblio.authors', 'tbl_biblio.authors', true, false, 'count', 'Number of samples', 1),
-
-	-- 		/* aggregate facet for tbl_biblio_modern */
-    --         (19, 'sites_helper',             'Site', 2, 1,                           'tbl_sites.site_id', 'tbl_sites.site_name', 'tbl_sites.site_name', false, true, 'count', 'Number of samples', 1),
-
-	-- 		/* aggregate facet for species */
-    --         (32, 'abundances_all_helper',    'Abundances', 4, 2,                     'facet.view_abundance.abundance', 'facet.view_abundance.abundance', 'facet.view_abundance.abundance', false, false, '', 'Number of samples', 1)
-
-    --     ) on conflict (facet_id) do update
-    --         set facet_code = excluded.facet_code,
-    --             display_title = excluded.display_title,
-    --             facet_group_id = excluded.facet_group_id,
-    --             facet_type_id = excluded.facet_type_id,
-    --             category_id_expr = excluded.category_id_expr,
-    --             category_name_expr = excluded.category_name_expr,
-    --             sort_expr = excluded.sort_expr,
-    --             is_applicable = excluded.is_applicable,
-    --             is_default = excluded.is_default,
-    --             aggregate_type = excluded.aggregate_type,
-    --             aggregate_title = excluded.aggregate_title,
-    --             aggregate_facet_id = excluded.aggregate_facet_id;
-
-    --     insert into facet.facet_clause (facet_id, clause) (values
-    --         (21, 'countries.location_type_id=1'),
-    --         (25, 'tbl_sites.site_id is not null'),
-    --         (33, 'facet.view_abundance.abundance is not null'),
-    --         (36, 'facet.view_sample_group_references.biblio_id is not null'),
-    --         (32, 'facet.view_abundance.abundance is not null'),
-    --         (37, 'facet.view_site_references.biblio_id is not null')
-    --     ) on conflict (facet_clause_id) do update
-    --         set facet_id = excluded.facet_id,
-    --             clause = excluded.clause;
-
-    --    insert into facet.facet_table (facet_id, sequence_id, table_id, udf_call_arguments, alias) (
-
-	-- 	   select facet_id, sequence_id, t.table_id, udf_call_arguments, alias
-	-- 	   from (values
-
-	-- 			( 1, 1, 'tbl_analysis_entities', NULL, NULL),
-	-- 			( 1, 2, 'tbl_physical_samples', NULL, NULL),
-	-- 			( 1, 3, 'tbl_datasets', NULL, NULL),
-
-	-- 			( 3, 1, 'facet.method_measured_values(33,0)', NULL, 'method_values_33'),
-	-- 			( 4, 1, 'facet.method_measured_values(33,82)', NULL, 'method_values_33_82'),
-	-- 			( 5, 1, 'facet.method_measured_values(32,0)', NULL, 'method_values_32'),
-	-- 			( 6, 1, 'facet.method_measured_values(37,0)', NULL, 'method_values_37'),
-
-	-- 			( 9, 1, 'tbl_sites', NULL, NULL),
-	-- 			(10, 1, 'tbl_geochronology', NULL, NULL),
-	-- 			(11, 1, 'tbl_relative_ages', NULL, NULL),
-	-- 			(12, 1, 'tbl_record_types', NULL, NULL),
-	-- 			(13, 1, 'tbl_sample_groups', NULL, NULL),
-	-- 			(18, 1, 'tbl_sites', NULL, NULL),
-	-- 			(19, 1, 'tbl_sites', NULL, NULL),
-	-- 			(21, 1, 'tbl_locations', NULL, 'countries'),
-	-- 			(21, 2, 'tbl_site_locations', NULL, NULL),
-	-- 			(22, 1, 'tbl_ecocode_definitions', NULL, NULL),
-	-- 			(22, 2, 'tbl_ecocode_definitions', NULL, NULL),
-	-- 			(23, 1, 'tbl_taxa_tree_families', NULL, NULL),
-	-- 			(23, 2, 'tbl_taxa_tree_families', NULL, NULL),
-	-- 			(24, 1, 'tbl_taxa_tree_genera', NULL, NULL),
-	-- 			(24, 2, 'tbl_taxa_tree_genera', NULL, NULL),
-	-- 			(25, 1, 'tbl_taxa_tree_master', NULL, NULL),
-	-- 			(25, 2, 'tbl_taxa_tree_genera', NULL, NULL),
-	-- 			(25, 3, 'tbl_taxa_tree_authors', NULL, NULL),
-	-- 			(25, 4, 'tbl_sites', NULL, NULL),
-	-- 			(28, 1, 'tbl_taxa_tree_authors', NULL, NULL),
-	-- 			(28, 2, 'tbl_taxa_tree_authors', NULL, NULL),
-	-- 			(29, 1, 'tbl_feature_types', NULL, NULL),
-	-- 			(29, 2, 'tbl_physical_sample_features', NULL, NULL),
-	-- 			(30, 1, 'tbl_ecocode_systems', NULL, NULL),
-	-- 			(30, 2, 'tbl_ecocode_systems', NULL, NULL),
-	-- 			(31, 1, 'facet.view_abundance', NULL, NULL),
-	-- 			(32, 1, 'facet.view_abundance', NULL, NULL),
-	-- 			(33, 1, 'facet.view_abundance', NULL, NULL),
-	-- 			(34, 1, 'tbl_seasons', NULL, NULL),
-	-- 			(35, 1, 'facet.view_taxa_biblio', NULL, NULL),
-	-- 			(35, 2, 'tbl_biblio', NULL, NULL),
-	-- 			(36, 1, 'tbl_biblio', NULL, NULL),
-	-- 			(36, 2, 'facet.view_sample_group_references', NULL, NULL),
-	-- 			(37, 1, 'tbl_biblio', NULL, NULL),
-	-- 			(37, 2, 'facet.view_site_references', NULL, NULL)
-
-	-- 		) as v(facet_id, sequence_id, table_or_udf_name, udf_call_arguments, alias)
-	-- 		join facet.table t
-	-- 		  on t.table_or_udf_name = v.table_or_udf_name
-    --     ) on conflict (facet_table_id) do update
-    --         set facet_id = excluded.facet_id,
-    --             sequence_id = excluded.sequence_id,
-    --             table_id = excluded.table_id,
-    --             alias = excluded.alias;
 
         insert into facet.result_aggregate (aggregate_id, aggregate_key, display_text, is_applicable, is_activated, input_type, has_selector) (values
             (1, 'site_level', 'Site level', false, true, 'checkboxes', true),
@@ -759,6 +609,7 @@ begin
 	"facet_id": 1,
 	"facet_code": "result_facet",
 	"display_title": "Analysis entities",
+	"description": "Analysis entities",
 	"facet_group_id":"99",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_analysis_entities.analysis_entity_id",
@@ -793,6 +644,7 @@ begin
 	"facet_id": 9,
 	"facet_code": "map_result",
 	"display_title": "Site",
+	"description": "Site",
 	"facet_group_id":"99",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_sites.site_id",
@@ -812,9 +664,33 @@ begin
 	} ],
 	"clauses": [  ]
 }, {
-	"facet_id": 19,
+	"facet_id": 40,
+	"facet_code": "result_facet_dataset",
+	"display_title": "Datasets",
+	"description": "Datasets",
+	"facet_group_id":"99",
+	"facet_type_id": 1,
+	"category_id_expr": "tbl_datasets.dataset_id",
+	"category_name_expr": "tbl_datasets.dataset_name",
+	"sort_expr": "tbl_datasets.dataset_name",
+	"is_applicable": false,
+	"is_default": false,
+	"aggregate_type": "count",
+	"aggregate_title": "Number of datasets",
+	"aggregate_facet_code": null,
+	"tables": [
+	{
+		"sequence_id": 1,
+		"table_name": "tbl_datasets",
+		"udf_call_arguments": null,
+		"alias":  null
+	} ],
+	"clauses": [  ]
+}, {
+    "facet_id": 19,
 	"facet_code": "sites_helper",
 	"display_title": "Site",
+	"description": "Report helper",
 	"facet_group_id":"2",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_sites.site_id",
@@ -837,6 +713,7 @@ begin
 	"facet_id": 32,
 	"facet_code": "abundances_all_helper",
 	"display_title": "Abundances",
+	"description": "Abundances",
 	"facet_group_id":"4",
 	"facet_type_id": 2,
 	"category_id_expr": "facet.view_abundance.abundance",
@@ -862,6 +739,7 @@ begin
 	"facet_id": 3,
 	"facet_code": "tbl_denormalized_measured_values_33_0",
 	"display_title": "MS ",
+	"description": "MS ",
 	"facet_group_id":"5",
 	"facet_type_id": 2,
 	"category_id_expr": "method_values_33.measured_value",
@@ -884,6 +762,7 @@ begin
 	"facet_id": 4,
 	"facet_code": "tbl_denormalized_measured_values_33_82",
 	"display_title": "MS Heating 550",
+	"description": "MS Heating 550",
 	"facet_group_id":"5",
 	"facet_type_id": 2,
 	"category_id_expr": "method_values_33_82.measured_value",
@@ -906,6 +785,7 @@ begin
 	"facet_id": 5,
 	"facet_code": "tbl_denormalized_measured_values_32",
 	"display_title": "LOI",
+	"description": "Loss of ignition",
 	"facet_group_id":"5",
 	"facet_type_id": 2,
 	"category_id_expr": "method_values_32.measured_value",
@@ -927,7 +807,8 @@ begin
 }, {
 	"facet_id": 6,
 	"facet_code": "tbl_denormalized_measured_values_37",
-	"display_title": "P┬░",
+	"display_title": "P° ",
+	"description": "P°",
 	"facet_group_id":"5",
 	"facet_type_id": 2,
 	"category_id_expr": "method_values_37.measured_value",
@@ -950,6 +831,7 @@ begin
 	"facet_id": 10,
 	"facet_code": "geochronology",
 	"display_title": "Geochronology",
+	"description": "Sample ages as retrieved through absolute methods such as radiocarbon dating or other radiometric methods (in method based years before present - e.g. 14C years)",
 	"facet_group_id":"2",
 	"facet_type_id": 2,
 	"category_id_expr": "tbl_geochronology.age",
@@ -972,6 +854,7 @@ begin
 	"facet_id": 11,
 	"facet_code": "relative_age_name",
 	"display_title": "Time periods",
+	"description": "Age of sample as defined by association with a (often regionally specific) cultural or geological period (in years before present)",
 	"facet_group_id":"2",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_relative_ages.relative_age_id",
@@ -994,6 +877,7 @@ begin
 	"facet_id": 12,
 	"facet_code": "record_types",
 	"display_title": "Proxy types",
+	"description": "Proxy types",
 	"facet_group_id":"1",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_record_types.record_type_id",
@@ -1016,6 +900,7 @@ begin
 	"facet_id": 13,
 	"facet_code": "sample_groups",
 	"display_title": "Sample group",
+	"description": "A collection of samples, usually defined by the excavator or collector",
 	"facet_group_id":"2",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_sample_groups.sample_group_id",
@@ -1038,6 +923,7 @@ begin
 	"facet_id": 18,
 	"facet_code": "sites",
 	"display_title": "Site",
+	"description": "General name for the excavation or sampling location",
 	"facet_group_id":"2",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_sites.site_id",
@@ -1060,6 +946,7 @@ begin
 	"facet_id": 21,
 	"facet_code": "country",
 	"display_title": "Country",
+	"description": "The name of the country, at the time of collection, in which the samples were collected",
 	"facet_group_id":"2",
 	"facet_type_id": 1,
 	"category_id_expr": "countries.location_id",
@@ -1091,6 +978,7 @@ begin
 	"facet_id": 22,
 	"facet_code": "ecocode",
 	"display_title": "Eco code",
+	"description": "Ecological category (trait) or cultural relevance of organisms based on a classification system",
 	"facet_group_id":"4",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_ecocode_definitions.ecocode_definition_id",
@@ -1119,6 +1007,7 @@ begin
 	"facet_id": 23,
 	"facet_code": "family",
 	"display_title": "Family",
+	"description": "Taxonomic family",
 	"facet_group_id":"6",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_taxa_tree_families.family_id",
@@ -1147,6 +1036,7 @@ begin
 	"facet_id": 24,
 	"facet_code": "genus",
 	"display_title": "Genus",
+	"description": "Taxonomic genus (under family)",
 	"facet_group_id":"6",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_taxa_tree_genera.genus_id",
@@ -1175,6 +1065,7 @@ begin
 	"facet_id": 25,
 	"facet_code": "species",
 	"display_title": "Taxa",
+	"description": "Taxonomic species (under genus)",
 	"facet_group_id":"6",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_taxa_tree_master.taxon_id",
@@ -1218,6 +1109,7 @@ begin
 	"facet_id": 28,
 	"facet_code": "species_author",
 	"display_title": "Author",
+	"description": "Authority of the taxonomic name (not used for all species)",
 	"facet_group_id":"6",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_taxa_tree_authors.author_id ",
@@ -1246,6 +1138,7 @@ begin
 	"facet_id": 29,
 	"facet_code": "feature_type",
 	"display_title": "Feature type",
+	"description": "Feature type",
 	"facet_group_id":"1",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_feature_types.feature_type_id ",
@@ -1274,6 +1167,7 @@ begin
 	"facet_id": 30,
 	"facet_code": "ecocode_system",
 	"display_title": "Eco code system",
+	"description": "Ecological or cultural organism classification system (which groups items in the ecological/cultural category filter)",
 	"facet_group_id":"4",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_ecocode_systems.ecocode_system_id ",
@@ -1302,6 +1196,7 @@ begin
 	"facet_id": 31,
 	"facet_code": "abundance_classification",
 	"display_title": "abundance classification",
+	"description": "abundance classification",
 	"facet_group_id":"4",
 	"facet_type_id": 1,
 	"category_id_expr": "facet.view_abundance.elements_part_mod ",
@@ -1324,6 +1219,7 @@ begin
 	"facet_id": 33,
 	"facet_code": "abundances_all",
 	"display_title": "Abundances",
+	"description": "Abundances",
 	"facet_group_id":"4",
 	"facet_type_id": 2,
 	"category_id_expr": "facet.view_abundance.abundance",
@@ -1349,6 +1245,7 @@ begin
 	"facet_id": 34,
 	"facet_code": "activeseason",
 	"display_title": "Seasons",
+	"description": "Seasons",
 	"facet_group_id":"2",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_seasons.season_id",
@@ -1371,6 +1268,7 @@ begin
 	"facet_id": 35,
 	"facet_code": "tbl_biblio_modern",
 	"display_title": "Bibligraphy modern",
+	"description": "Bibligraphy modern",
 	"facet_group_id":"1",
 	"facet_type_id": 1,
 	"category_id_expr": "facet.view_taxa_biblio.biblio_id",
@@ -1399,6 +1297,7 @@ begin
 	"facet_id": 36,
 	"facet_code": "tbl_biblio_sample_groups",
 	"display_title": "Bibligraphy sites/Samplegroups",
+	"description": "Bibligraphy sites/Samplegroups",
 	"facet_group_id":"1",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_biblio.biblio_id",
@@ -1430,6 +1329,7 @@ begin
 	"facet_id": 37,
 	"facet_code": "tbl_biblio_sites",
 	"display_title": "Bibligraphy sites",
+	"description": "Bibligraphy sites",
 	"facet_group_id":"1",
 	"facet_type_id": 1,
 	"category_id_expr": "tbl_biblio.biblio_id",
@@ -1457,6 +1357,60 @@ begin
 	{
 		"clause": "facet.view_site_references.biblio_id is not null"
 	} ]
+}, {
+	"facet_id": 38,
+	"facet_code": "dataset_master",
+	"display_title": "Master datasets",
+	"description": "Master datasets",
+	"facet_group_id": "2",
+	"facet_type_id": 1,
+	"category_id_expr": "tbl_dataset_masters.master_set_id ",
+	"category_name_expr": "tbl_dataset_masters.master_name",
+	"sort_expr": "tbl_dataset_masters.master_name",
+	"is_applicable": true,
+	"is_default": false,
+	"aggregate_type": "count",
+	"aggregate_title": "Number of samples",
+	"aggregate_facet_code": "result_facet",
+	"tables": [
+    	{
+    		"sequence_id": 1,
+    		"table_name": "tbl_dataset_masters",
+    		"udf_call_arguments": null,
+    		"alias":  null
+    	}
+    ],
+	"clauses": [  ]
+}, {
+	"facet_id": 39,
+	"facet_code": "dataset_methods",
+	"display_title": "Dataset methods",
+	"description": "Dataset methods",
+	"facet_group_id": "2",
+	"facet_type_id": 1,
+	"category_id_expr": "tbl_methods.method_id ",
+	"category_name_expr": "tbl_methods.method_name",
+	"sort_expr": "tbl_methods.method_name",
+	"is_applicable": true,
+	"is_default": false,
+	"aggregate_type": "count",
+	"aggregate_title": "Number of datasets",
+	"aggregate_facet_code": "result_facet_dataset",
+	"tables": [
+    	{
+    		"sequence_id": 1,
+    		"table_name": "tbl_dataset_masters",
+    		"udf_call_arguments": null,
+    		"alias":  null
+    	},
+    	{
+    		"sequence_id": 2,
+    		"table_name": "tbl_datasets",
+    		"udf_call_arguments": null,
+    		"alias":  null
+    	}
+    ],
+	"clauses": [  ]
 }
 ]
 

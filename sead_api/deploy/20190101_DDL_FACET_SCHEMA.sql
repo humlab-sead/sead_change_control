@@ -75,10 +75,18 @@ begin
             target_column_name information_schema.sql_identifier not null
         );
 
+        -- create table if not exists facet.facet_domain (
+        --     facet_domain_id serial primary key,
+        --     display_title character varying(80) not null,
+        --     description character varying(256) not null default('')
+        --  );
+
         create table if not exists facet.facet_group (
             facet_group_id integer not null primary key,
+            -- facet_domain_id integer not null default(0) references facet.facet_domain(table_id),
             facet_group_key character varying(80) unique not null,
             display_title character varying(80) not null,
+            description character varying(256) not null default(''),
             is_applicable boolean not null,
             is_default boolean not null
         );
@@ -93,6 +101,7 @@ begin
             facet_id integer not null primary key,
             facet_code character varying(80) unique not null,
             display_title character varying(80) not null,
+            description character varying(256) not null default(''),
             facet_group_id integer not null references facet_group(facet_group_id),
             facet_type_id integer not null references facet_type(facet_type_id),
             category_id_expr character varying(256) not null,
@@ -103,6 +112,12 @@ begin
             aggregate_type character varying(256) not null,
             aggregate_title character varying(256) not null,
             aggregate_facet_id integer not null /* references facet.facet(facet_id) */
+        );
+
+        create table if not exists facet.facet_dependency (
+            facet_dependency_id serial primary key,
+            facet_id integer not null references facet(facet_id) on delete cascade,
+            dependency_facet_id integer not null references facet(facet_id)
         );
 
         create table if not exists facet.facet_clause (
@@ -358,11 +373,12 @@ begin
 		end if;
 	end if;
 
-	insert into facet.facet (facet_id, facet_code, display_title, facet_group_id, facet_type_id, category_id_expr, category_name_expr, sort_expr, is_applicable, is_default, aggregate_type, aggregate_title, aggregate_facet_id)
+	insert into facet.facet (facet_id, facet_code, display_title, description, facet_group_id, facet_type_id, category_id_expr, category_name_expr, sort_expr, is_applicable, is_default, aggregate_type, aggregate_title, aggregate_facet_id)
 		(values (
 			i_facet_id,
 			(j_facet ->> 'facet_code')::text,
 			(j_facet ->> 'display_title')::text,
+			(j_facet ->> 'description')::text,
 			(j_facet ->> 'facet_group_id')::int,
 			(j_facet ->> 'facet_type_id')::text::int,
 			(j_facet ->> 'category_id_expr')::text,
@@ -413,6 +429,7 @@ create or replace function facet.export_facets_to_json()
 				"facet_id": %s,
 				"facet_code": "%s",
 				"display_title": "%s",
+				"description": "%s",
 				"facet_group_id":"%s",
 				"facet_type_id": %s,
 				"category_id_expr": "%s",
@@ -473,6 +490,7 @@ create or replace function facet.export_facets_to_json()
 				r_facet.facet_id,
 				r_facet.facet_code,
 				r_facet.display_title,
+				r_facet.description,
 				r_facet.facet_group_id,
 				r_facet.facet_type_id,
 				r_facet.category_id_expr,
