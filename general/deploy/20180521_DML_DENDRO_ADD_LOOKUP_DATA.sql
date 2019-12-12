@@ -6,6 +6,15 @@ begin
 
     begin
 
+        with new_record_types (record_type_id, record_type_name, record_type_description) as ( values
+            (20, 'Dendrochronology', 'Detemination of age through tree ring measurements', '2019-12-10 10:29:17.789481+00')
+        ) insert into tbl_record_types (record_type_id, record_type_name, record_type_description)
+        select a.record_type_id, a.record_type_name, a.record_type_description
+        from new_record_types a
+        left join tbl_record_types b
+            on a.record_type_id = b.record_type_id
+        where b.record_type_id is null;
+
         WITH new_locations(location_id, location_name, location_type_id) AS ( VALUES
             (3736, 'Jönköpings län', 2),
             (3737, 'Kalmar län', 2),
