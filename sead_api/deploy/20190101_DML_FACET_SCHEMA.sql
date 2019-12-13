@@ -1411,6 +1411,44 @@ begin
     	}
     ],
 	"clauses": [  ]
+}, {
+	"facet_id": 41,
+	"facet_code": "region",
+	"display_title": "Region",
+	"description": "Region",
+	"facet_group_id": "2",
+	"facet_type_id": 1,
+	"category_id_expr": "tbl_locations.location_id ",
+	"category_name_expr": "tbl_locations.location_name || '  ' || tbl_sites.site_name",
+	"sort_expr": "tbl_locations.location_name",
+	"is_applicable": true,
+	"is_default": false,
+	"aggregate_type": "count",
+	"aggregate_title": "Number of samples",
+	"aggregate_facet_code": "result_facet",
+	"tables": [
+    	{
+    		"sequence_id": 1,
+    		"table_name": "tbl_locations",
+    		"udf_call_arguments": null,
+    		"alias":  "null"
+    	},
+    	{
+    		"sequence_id": 2,
+    		"table_name": "tbl_site_locations",
+    		"udf_call_arguments": null,
+    		"alias":  null
+    	},
+    	{
+    		"sequence_id": 3,
+    		"table_name": "tbl_sites",
+    		"udf_call_arguments": null,
+    		"alias":  null
+    	}
+    ],
+	"clauses": [ {
+		"clause": "tbl_locations.location_type_id in (2, 7, 14, 16, 18)"
+	} ]
 }
 ]
 
