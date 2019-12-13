@@ -7,10 +7,7 @@
 20190408_DDL_DATASET_CREATE_TABLE_DATASET_METHODS 2019-04-09T10:45:59Z Roger Mähler <roger.mahler@umu.se> # Add new table
 20170911_DDL_CHRONOLOGIES_REFACTOR_MODEL 2019-04-09T10:36:57Z Roger Mähler <roger.mahler@umu.se> # Allow relation to multiple sample groups
 20190408_DDL_ECOCODE_REFACTOR_MODEL 2019-04-09T09:18:52Z Roger Mähler <roger.mahler@umu.se> # Alter type for columns name, abbreviation
-20180520_DDL_DENDRO_CREATE_DENDRO_LOOKUP 2019-04-09T14:34:56Z Roger Mähler <roger.mahler@umu.se> # Add lookup table for dendro data
-20180521_DDL_DENDRO_REFACTOR_MODEL [20180520_DDL_DENDRO_CREATE_DENDRO_LOOKUP] 2019-04-08T10:16:55Z Roger Mähler <roger.mahler@umu.se> # Schema adaptations to dendrochronology datasets
-20180612_DDL_DENDRO_ALTER_DENDRO_DATES_ALLOW_NULL [20180521_DDL_DENDRO_REFACTOR_MODEL] 2019-04-09T08:46:39Z Roger Mähler <roger.mahler@umu.se> # Allow NULL values in tbl_dendro_dates.error_uncertainty_id
-20190408_DDL_CERAMICS_CREATE_CERAMICS_LOOKUP 2019-04-09T08:59:54Z Roger Mähler <roger.mahler@umu.se> # Add new lookup table for ceramics data
+
 20170906_DDL_RELATIVE_DATES_ALTER_RELATION 2019-04-09T09:22:14Z Roger Mähler <roger.mahler@umu.se> # Alter FK from physical_sample_id to analysis_entity_id
 20180601_DDL_SITE_ADD_LOCATION_ACCURACY 2019-04-09T18:08:43Z Roger Mähler <roger.mahler@umu.se> # Accuracy of highest location resolution level.
 20180601_DDL_TAXA_DROP_VIEWS 2019-04-10T08:58:56Z Roger Mähler <roger.mahler@umu.se> # Drop old views.
@@ -26,7 +23,6 @@
 
 20180222_DML_BIBLIO_ADD_RECORD 2019-04-15T08:25:52Z Roger Mähler <roger.mahler@umu.se> # Add "Arnolds & E. van der Maarel (1979)".
 20180607_DDL_SAMPLE_ALTER_TYPES 2019-04-08T14:44:13Z Roger Mähler <roger.mahler@umu.se> # Change type of tbl_sample_group_sampling_contexts.sampling_context
-20180521_DML_DENDRO_ADD_LOOKUP_DATA 2019-04-08T10:16:55Z Roger Mähler <roger.mahler@umu.se> # Add dendrochronology lookup data
 20190408_DML_LOCATION_UPDATE_LOCATION_RECORD 2019-04-09T08:40:43Z Roger Mähler <roger.mahler@umu.se> # Update name on location 3894
 20140417_DML_METHOD_ADD_METHOD_GEOLPER 2019-04-15T10:32:04Z Roger Mähler <roger.mahler@umu.se> # Add method GeolPer.
 20180502_DML_METHOD_UPDATE_METHOD_TL 2019-04-15T10:32:04Z Roger Mähler <roger.mahler@umu.se> # Update description for method TL.
@@ -43,14 +39,16 @@
 20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # Add unknown dating lab to accomodate Bugs import
 20190513_DML_DATA_TYPE_ADD_TYPES_CALENDER_DATES 2019-05-13T13:37:26Z Roger Mähler <roger.mahler@umu.se> # Add Calender Dates
 
-@2019.06 2019-06-27T13:29:49Z Roger Mähler <roger.mahler@umu.se> # Dendro datasets commit
-
-20191012_DDL_ISOTOPE_MODEL 2019-10-12T15:09:19Z Roger Mähler <roger.mahler@umu.se> # Creates Isotope data model
-20191012_DML_ISOTOPE_LOOKUP_DATA 2019-10-12T15:10:14Z Roger Mähler <roger.mahler@umu.se> # Isotope lookup data
 20191012_DML_ASSOCIATION_TYPE_UPDATES 2019-10-12T17:11:01Z Roger Mähler <roger.mahler@umu.se> # Association type updates (from bugs)
 20180222_DML_ECOCODE_ADD_SYSTEM_4 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
 
-@2019.10 2019-10-13T18:54:19Z Roger Mähler <roger.mahler@umu.se> # October 2019 release
+20191213_DDL_CERAMICS_MODEL 2019-04-09T08:59:54Z Roger Mähler <roger.mahler@umu.se> # Add new lookup table for ceramics data
+20191213_DDL_DENDRO_MODEL 2019-04-09T14:34:56Z Roger Mähler <roger.mahler@umu.se> # Add lookup table for dendro data
+20191213_DDL_ISOTOPE_MODEL 2019-10-12T15:09:19Z Roger Mähler <roger.mahler@umu.se> # Creates Isotope data model
+
+20191213_DML_CERAMICS_LOOKUP 2019-11-25T14:57:46Z Roger Mähler <roger.mahler@umu.se> # Ceramics lookup data
+20191213_DML_DENDRO_LOOKUP 2019-04-08T10:16:55Z Roger Mähler <roger.mahler@umu.se> # Add dendrochronology lookup data
+20191213_DML_ISOTOPE_LOOKUP 2019-10-12T15:10:14Z Roger Mähler <roger.mahler@umu.se> # Isotope lookup data
 
 # Disabled: Updated by Bugs import system
 # 20190513_DML_ECOCODE_ADD_BUGS_SYSTEMS 2019-04-25T07:21:35Z Roger Mähler <roger.mahler@umu.se> # Add "Bugs Ecocodes"
@@ -62,5 +60,7 @@
 # 20190425_DDL_SCHEMA_ADD_MISSING_FOREIGN_KEYS 2019-04-25T12:36:40Z Roger Mähler <roger.mahler@umu.se> # Add missing FK in public schema
 # 20190415_DML_SPECIES_DELETE_DUPLICATES 2019-04-15T14:37:52Z Roger Mähler <roger.mahler@umu.se> # Delete species associations types marked as duplicates
 
-20191125_DML_CERAMICS_LOOKUP 2019-11-25T14:57:46Z Roger Mähler <roger.mahler@umu.se> # Ceramics lookup data
 20191212_DML_ADD_RECORD_TYPE 2019-12-12T07:54:59Z Roger Mähler <roger.mahler@umu.se> # Add missing record types
+20191212_DML_UPDATE_SAMPLE_ALT_REFS 2019-12-12T13:29:25Z Roger Mähler <roger.mahler@umu.se> # Update insert into tbl_alt_ref_types (alt_ref_type_id, alt_ref_type, description)
+
+@2019.12 2019-12-13T11:52:06Z Roger Mähler <roger.mahler@umu.se> # 2019 December release

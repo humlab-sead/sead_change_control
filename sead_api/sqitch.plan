@@ -17,5 +17,5 @@
 20191012_DDL_ECOCODE_GEOJSON_EXPORT 2019-10-12T17:14:27Z Roger Mähler <roger.mahler@umu.se> # Greatly improved Ecocode GeoJSON export
 20191012_DDL_FACET_MEASURED_VALUE_UDF 2019-10-12T17:18:45Z Roger Mähler <roger.mahler@umu.se> # Facet UDF (replaces materialized view)
 
-@2019.10 2019-10-13T18:54:13Z Roger Mähler <roger.mahler@umu.se> # October 2019 release
+@2019.12 2019-12-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
