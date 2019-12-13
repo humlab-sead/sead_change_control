@@ -10,15 +10,6 @@ begin
         insert into tbl_taxa_tree_master (taxon_id, author_id, genus_id, species)
 	        values (39622, null, 432, 'sp.');
 
-        with new_record_types (record_type_id, record_type_name, record_type_description) as ( values
-            (20, 'Dendrochronology', 'Detemination of age through tree ring measurements', '2019-12-10 10:29:17.789481+00')
-        ) insert into tbl_record_types (record_type_id, record_type_name, record_type_description)
-        select a.record_type_id, a.record_type_name, a.record_type_description
-        from new_record_types a
-        left join tbl_record_types b
-            on a.record_type_id = b.record_type_id
-        where b.record_type_id is null;
-
         WITH new_locations(location_id, location_name, location_type_id) AS ( VALUES
             (3736, 'Jönköpings län', 2),
             (3737, 'Kalmar län', 2),
@@ -169,10 +160,10 @@ begin
 
         ) insert into tbl_locations (location_id, location_name, location_type_id)
         select a.location_id, a.location_name, a.location_type_id
-        from new_locations a
+        from new_locations a /*
         left join tbl_locations b
             on a.location_id = b.location_id
-        where b.location_id is null;
+        where b.location_id is null*/;
 
         --alter table tbl_sample_group_sampling_contexts alter column sampling_context type character varying(80);
 
@@ -181,10 +172,10 @@ begin
             (18, 'Dendrochronological archaeological sampling', 'Investigation of wood for age determination, sampled in an archaeological context')
         ) insert into tbl_sample_group_sampling_contexts (sampling_context_id, sampling_context, description)
         select a.sampling_context_id, a.sampling_context, a.description
-        from new_sample_group_sampling_contexts a
+        from new_sample_group_sampling_contexts a /*
         left join tbl_sample_group_sampling_contexts b
             on a.sampling_context_id = b.sampling_context_id
-        where b.sampling_context_id is null;
+        where b.sampling_context_id is null*/;
 
         WITH new_sample_location_types (sample_location_type_id, location_type, location_type_description) AS (VALUES
             (71, 'Sampled section', 'A description of the sampled area. i.e. what building or what part of the building was sampled, and possibly its function. (e.g. Västtorn, östra ladan, kor, långhus).'),
@@ -196,10 +187,10 @@ begin
             (77, 'Sampled object', 'Description of the object, or part of object, was sampled (e.g. 3:e timmervarv, sparre, grov bjälke, dörrkarm). ')
         ) insert into tbl_sample_location_types (sample_location_type_id, location_type, location_type_description)
         select a.sample_location_type_id, a.location_type, a.location_type_description
-        from new_sample_location_types a
+        from new_sample_location_types a /*
         left join tbl_sample_location_types b
             on a.sample_location_type_id = b.sample_location_type_id
-        where b.sample_location_type_id is null;
+        where b.sample_location_type_id is null*/;
 
         WITH new_feature_types (feature_type_id, feature_type_name, feature_type_description) AS (VALUES
             (503, 'Barrier', NULL),
@@ -252,19 +243,19 @@ begin
             (550, 'Unknown', 'Feature type is either of a unknown character or not specified')
         ) insert into tbl_feature_types (feature_type_id, feature_type_name, feature_type_description)
         select a.feature_type_id, a.feature_type_name, a.feature_type_description
-        from new_feature_types a
+        from new_feature_types a /*
         left join tbl_feature_types b
             on a.feature_type_id = b.feature_type_id
-        where b.feature_type_id is null;
+        where b.feature_type_id is null*/;
 
         WITH new_data_type_groups (data_type_group_id, data_type_group_name, description) AS (VALUES
             (19, 'Geographical','Geographical data either as a value or as a string.')
         ) insert into tbl_data_type_groups (data_type_group_id, data_type_group_name, description)
         select a.data_type_group_id, a.data_type_group_name, a.description
-        from new_data_type_groups a
+        from new_data_type_groups a /*
         left join tbl_data_type_groups b
             on a.data_type_group_id = b.data_type_group_id
-        where b.data_type_group_id is null;
+        where b.data_type_group_id is null */;
 
         WITH new_data_types (data_type_id, data_type_group_id, data_type_name, definition) AS (VALUES
             (43, 19, 'Estimated Years', 'Dates that are an estimation'),
@@ -272,19 +263,19 @@ begin
             (45, 19, 'Approximate location', 'Geographical location given as approximate values or text. May include multiple levels, text strings and exclusions (e.g. not Poland).')
         ) insert into tbl_data_types (data_type_id, data_type_group_id, data_type_name, definition)
         select a.data_type_id, a.data_type_group_id, a.data_type_name, a.definition
-        from new_data_types a
+        from new_data_types a /*
         left join tbl_data_types b
             on a.data_type_id = b.data_type_id
-        where b.data_type_id is null;
+        where b.data_type_id is null*/;
 
         WITH new_dataset_masters (master_set_id, master_name, url) AS (VALUES
             (10, 'The Laboratory for Wood Anatomy and Dendrochronology (Lund)','https://www.geology.lu.se/research/laboratories-equipment/the-laboratory-for-wood-anatomy-and-dendrochronology')
         ) insert into tbl_dataset_masters (master_set_id, master_name, url)
         select a.master_set_id, a.master_name, a.url
-        from new_dataset_masters a
+        from new_dataset_masters a /*
         left join tbl_dataset_masters b
             on a.master_set_id = b.master_set_id
-        where b.master_set_id is null;
+        where b.master_set_id is null*/;
 
         WITH new_dendro_lookup (dendro_lookup_id, method_id, name, description, date_updated) AS (VALUES
             (121, 10, 'Tree species', 'Species name of the tree the sample came from.', '2018-05-31 16:24:11.022085+02'),
@@ -309,28 +300,28 @@ begin
             (140, 10, 'Provenance comment', 'Comments on the provenance of a sample', '2018-05-31 16:24:11.022085+02')
         ) insert into tbl_dendro_lookup (dendro_lookup_id, method_id, name, description, date_updated)
         select a.dendro_lookup_id, a.method_id, a.name, a.description, a.date_updated::timestamp with time zone
-        from new_dendro_lookup a
+        from new_dendro_lookup a /*
         left join tbl_dendro_lookup b
             on a.dendro_lookup_id = b.dendro_lookup_id
-        where b.dendro_lookup_id is null;
+        where b.dendro_lookup_id is null*/;
 
         WITH new_error_uncertainties (error_uncertainty_id, error_uncertainty_type, description) AS (VALUES
             (1, 'Ca','The error of a date is estimated as being circa (e.g. 1800 + ca 20 years)')
         ) insert into tbl_error_uncertainties (error_uncertainty_id, error_uncertainty_type, description)
         select a.error_uncertainty_id, a.error_uncertainty_type, a.description
-        from new_error_uncertainties a
+        from new_error_uncertainties a/*
         left join tbl_error_uncertainties b
             on a.error_uncertainty_id = b.error_uncertainty_id
-        where b.error_uncertainty_id is null;
+        where b.error_uncertainty_id is null*/;
 
         WITH new_age_types (age_type_id, age_type, description) AS (VALUES
             (1, 'AD','Anno Domini, Christian era; calendar era dates according to the Gregorian calendar.')
         ) insert into tbl_age_types (age_type_id, age_type, description)
         select a.age_type_id, a.age_type, a.description
-        from new_age_types a
+        from new_age_types a/*
         left join tbl_age_types b
             on a.age_type_id = b.age_type_id
-        where b.age_type_id is null;
+        where b.age_type_id is null*/;
 
         WITH new_season_or_qualifier (season_or_qualifier_id, season_or_qualifier_type, description) AS (VALUES
             (1, 'Winter','Felling date estimated as being during the winter, which is the resting period of the tree'),
@@ -338,10 +329,10 @@ begin
             (3, 'After','When the waney edge is missing in dendrochronological analysis the felling date is estimated after the date of the outermost tree ring')
         ) insert into tbl_season_or_qualifier (season_or_qualifier_id, season_or_qualifier_type, description)
         select a.season_or_qualifier_id, a.season_or_qualifier_type, a.description
-        from new_season_or_qualifier a
+        from new_season_or_qualifier a/*
         left join tbl_season_or_qualifier b
             on a.season_or_qualifier_id = b.season_or_qualifier_id
-        where b.season_or_qualifier_id is null;
+        where b.season_or_qualifier_id is null*/;
 
         WITH new_sample_description_types (sample_description_type_id, type_name, type_description) AS (VALUES
             (30, 'Wood function','Function or format of the wood'),
@@ -352,10 +343,10 @@ begin
             (35, 'Wood reuse','Information about the potential reuse of the wood (e.g. house move, reused timber)')
         ) insert into tbl_sample_description_types (sample_description_type_id, type_name, type_description)
         select a.sample_description_type_id, a.type_name, a.type_description
-        from new_sample_description_types a
+        from new_sample_description_types a /*
         left join tbl_sample_description_types b
             on a.sample_description_type_id = b.sample_description_type_id
-        where b.sample_description_type_id is null;
+        where b.sample_description_type_id is null*/;
 
         WITH new_biblio (biblio_id, authors, year, title, full_reference) AS (VALUES
         (6148, 'Andersson, Iwar', '1967', 'Hagby fästningskyrka. Fornvännen, vol 62, 1967, s. 22-36.', 'Andersson, Iwar (1967). Hagby fästningskyrka. Fornvännen, vol 62, 1967, s. 22-36.'),
@@ -504,15 +495,15 @@ begin
 
         ) insert into tbl_biblio (biblio_id, authors, year, title, full_reference)
         select a.biblio_id, a.authors, a.year, a.title, a.full_reference
-        from new_biblio a
+        from new_biblio a /*
         left join tbl_biblio b
             on a.biblio_id = b.biblio_id
-        where b.biblio_id is null;
+        where b.biblio_id is null*/;
 
         WITH new_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, location_id) AS (VALUES
-            (1, 'Environmental Archaeology Lab
-        Dept. of Philosophical, Historical & Religious Studes', 'Umeå University
-        SE-90187  Umeå', 'Philip', 'Buckland', 'phil.buckland@arke.umu.se', 'http://www.idesam.umu.se/om/personal/visa-person/?uid=phbu0001&guise=anst1', 205),
+--            (1, 'Environmental Archaeology Lab
+--        Dept. of Philosophical, Historical & Religious Studes', 'Umeå University
+--        SE-90187  Umeå', 'Philip', 'Buckland', 'phil.buckland@arke.umu.se', 'http://www.idesam.umu.se/om/personal/visa-person/?uid=phbu0001&guise=anst1', 205),
             (34, 'Knadriks Kulturbygg', 'Blekinge, Skåne', 'Karl-Magnus', 'Melin', NULL, 'http://www.knadrikskulturbygg.se/', 1004),
             (35, 'The Laboratory for Wood Anatomy and Dendrochronology', 'Lund University', 'Hans', 'Linderson', 'hans.linderson@geol.lu.se', 'https://www.geology.lu.se/hans-linderson', NULL),
             (36, 'Byggkult: Byggnadsvård och kulturmiljö', 'Kalmar', 'Katja', 'Meissner', 'katja@byggkult.se', 'http://www.byggkult.se/kontakt/', NULL),
@@ -548,28 +539,28 @@ begin
             (67, 'Environmental Archaeology Lab Dept. of Philosophical, Historical & Religious Studies', 'Umeå University', 'Mattias', 'Sjölander', 'mattias.sjolander@umu.se', 'http://www.idesam.umu.se/om/personal/?uid=masj0062&guiseId=360086&orgId=4864cb4234d0bf7c77c65d7f78ffca7ecaf285c7&name=Mattias%20Sj%c3%b6lander', 205)
         ) insert into tbl_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, location_id)
         select a.contact_id, a.address_1, a.address_2, a.first_name, a.last_name, a.email, a.url, a.location_id
-        from new_contacts a
+        from new_contacts a /*
         left join tbl_contacts b
             on a.contact_id = b.contact_id
-        where b.contact_id is null;
+        where b.contact_id is null*/;
 
         WITH new_project_types (project_type_id, project_type_name, description) AS (VALUES
             (8, 'Unclassified', 'A project of unknown character.')
         ) insert into tbl_project_types (project_type_id, project_type_name, description)
         select a.project_type_id, a.project_type_name, a.description
-        from new_project_types a
+        from new_project_types a /*
         left join tbl_project_types b
             on a.project_type_id = b.project_type_id
-        where b.project_type_id is null;
+        where b.project_type_id is null*/;
 
         WITH new_project_stages (project_stage_id, stage_name, description) AS (VALUES
             (6, 'Dendrochronological study', 'An investigation using tree rings to determine the age of wood. Sampling in historic building investigation and archaeological contexts.')
         ) insert into tbl_project_stages (project_stage_id, stage_name, description)
         select a.project_stage_id, a.stage_name, a.description
-        from new_project_stages a
+        from new_project_stages a /*
         left join tbl_project_stages b
             on a.project_stage_id = b.project_stage_id
-        where b.project_stage_id is null;
+        where b.project_stage_id is null*/;
 
         perform sead_utility.sync_sequence('public', 'tbl_feature_types');
         perform sead_utility.sync_sequence('public', 'tbl_locations');
