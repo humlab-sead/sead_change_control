@@ -49,7 +49,7 @@ begin
 
         new_id = 46;
         with new_data_types (data_type_id, data_type_group_id, data_type_name, definition) as (values
-            (new_id + 0, 1, 'Mixed-method dependent', 'Multiple datatypes from one method. (e.g. multiple isotope types from masspectrometry')),
+            (new_id + 0, 1, 'Mixed-method dependent', 'Multiple datatypes from one method. (e.g. multiple isotope types from masspectrometry)')
         ) insert into tbl_data_types (data_type_id, data_type_group_id, data_type_name, definition)
         select a.data_type_id, a.data_type_group_id, a.data_type_name, a.definition
         from new_data_types a
@@ -74,7 +74,7 @@ begin
             values (1)
                 on conflict do nothing;
 
-        with new_isotope_types(isotope_type_id, designation, abbreviation, atomic_number, description)
+        with new_isotope_types(isotope_type_id, designation, abbreviation, atomic_number, description) as (values
             (1, 'actinium', 'Ac', 89, 'basic chemical element'),
             (2, 'aluminium (aluminum)', 'Al', 13, 'basic chemical element'),
             (3, 'americium', 'Am', 95, 'basic chemical element'),
@@ -193,52 +193,52 @@ begin
             (116, 'yttrium', 'Y', 39, 'basic chemical element'),
             (117, 'zinc', 'Zn', 30, 'basic chemical element'),
             (118, 'zirconium', 'Zr', 40, 'basic chemical element'),
-            (119, 'collagen g', 'collagen g', , 'weight of collagen in sample (in milligrams)'),
-            (120, 'collagen %', 'collagen %', , 'procentage of collagen in sample'),
-            (121, 'Concentration', 'Concentration', , 'Concentration in lipids (µg g-1)'),
-            (122, 'Meaningful lipids present', 'Meaningful lipids present', , 'Concentration in lipids above threeshold or with biomarkers'),
-            (123, 'APAA C16', 'APAA C16', , 'Presence of  C16 ω-(ο-alkylphenyl) alkanoic acids '),
-            (124, 'APAA C18', 'APAA C18', , 'Presence of  C18 ω-(ο-alkylphenyl) alkanoic acids '),
-            (125, 'APAA C20', 'APAA C20', , 'Presence of  C20 ω-(ο-alkylphenyl) alkanoic acids '),
-            (126, 'APAA C22', 'APAA C22', , 'Presence of  C22 ω-(ο-alkylphenyl) alkanoic acids '),
-            (127, 'DHYA C16', 'DHYA C16', , 'Presence of  C16 dihydroxyacids'),
-            (128, 'DHYA C18', 'DHYA C18', , 'Presence of  C18 dihydroxyacids'),
-            (129, 'DHYA C20', 'DHYA C20', , 'Presence of  C20 dihydroxyacids'),
-            (130, 'DHYA C22', 'DHYA C22', , 'Presence of  C22 dihydroxyacids'),
-            (131, 'TMTD', 'TMTD', , 'Presence of  4,8,12-Trimethyltridecanoic acid'),
-            (132, 'Pristanic', 'Pristanic', , 'Presence of  pristanic acid'),
-            (133, 'Phytanic', 'Phytanic', , 'Presence of phytanic acid'),
-            (134, 'SRR%', 'SRR%', , 'The contribution of the SRR isomer in total phytanic acid (SRR%)'),
-            (135, 'Plant signal (PHYST)', 'Plant signal (PHYST)', , 'Presence of plant biomarkers of type PHYST'),
-            (136, 'Full aquatic biomarker', 'Full aquatic biomarker', , 'Presence of  at least C20 ω-(ο-alkylphenyl) alkanoic acids  associated to an isoprenoid fatty acid indicative of an aquatic source'),
-            (137, 'Partial aquatic biomarker', 'Partial aquatic biomarker', , 'Presence of  C18 ω-(ο-alkylphenyl) alkanoic acids  associated to 4,8,12-Trimethyltridecanoic acid probqbly related to an aquatic source'),
-            (138, '>75.5% SRR-phytanic', '>75.5% SRR-phytanic', , 'SRR%>75.5 indicative of an aquatic source'),
-            (139, 'Aquatic signal', 'Aquatic signal', , 'Extract with Full aquatic biomarker or >75.5% SSR-phytanic'),
-            (140, 'GC-c-IRMS', 'GC-c-IRMS', , 'Compound Specific Isotopes Analysis carried out'),
-            (141, 'Fraction (C16:0)', 'Fraction (C16:0)', , 'Biochemical fraction for measurement (C16:0)'),
-            (142, '13C/12C', '13C/12C', , '13C/12C isotopic measurement'),
-            (143, '13C/12C unc', '13C/12C unc', , 'uncertainty of 13C/12C isotopic measurement'),
-            (144, 'Fraction (C18:0)', 'Fraction (C18:0)', , 'Biochemical fraction for measurement (C18:0)'),
-            (145, '13C/12C', '13C/12C', , '13C/12C isotopic measurement'),
-            (146, '13C/12C unc', '13C/12C unc', , 'uncertainty of 13C/12C isotopic measurement'),
-            (147, '13C/12C offset fractions (C18:0-C16:0)', '13C/12C offset fractions (C18:0-C16:0)', , 'Δ13C (C16:0-C18:0)'),
-            (148, 'EA-IRMS', 'EA-IRMS', , 'Bulk Isotopes Analysis carried out'),
-            (149, 'Fraction (Bulk)', 'Fraction', , 'Biochemical fraction for measurement (Bluk)'),
-            (150, 'Quality control', 'Quality control', , 'Above %N threashold (1%)'),
-            (151, '13C/12C', '13C/12C', , '13C/12C isotopic measurement'),
-            (152, '13C/12C unc', '13C/12C unc', , 'uncertainty of 13C/12C isotopic measurement'),
-            (153, '15N/14N', '15N/14N', , '15N/14N isotopic measurement'),
-            (154, '15N/14N unc', '15N/14N unc', , 'uncertainty of 15N/14N isotopic measurement'),
-            (155, '%C', '%C', , 'C elemental concentration in bone collagen'),
-            (156, '%N', '%N', , 'N elemental concentration in bone collagen'),
-            (157, 'C/N (atomic)', 'C/N (atomic)', , 'C/N elemental ratio'),
-            (158, 'Numbers of labstandards/delta samples', 'Numbers of labstandards/delta samples', , 'The number of lab/international-standards/deltasamples run before the acctual sample were analyzed'),
-            (159, 'Bone/dentine (mg)', 'Bone/dentine (mg)', , 'Weight of bone or dentine in sample (in milligrams)'),
-            (160, 'Collagen (mg)', 'Collagen (mg)', , 'Weight of collagen in sample (in milligrams)'),
-            (161, 'N/S', 'N/S', , 'Ratio of Nitrogen and Sulfur in sample'),
-            (162, 'C/S', 'C/S', , 'Ratio of Carbon and Sulfur in sample'),
-            (163, 'Plant signal (ALK)', 'Plant signal (ALK)', , 'Presence of plant biomarkers of type ALK'),
-            (164, 'Plant signal (LCFA)', 'Plant signal (LCFA)', , 'Presence of plant biomarkers of type LCFA')
+            (119, 'collagen g', 'collagen g', NULL, 'weight of collagen in sample (in milligrams)'),
+            (120, 'collagen %', 'collagen %', NULL, 'procentage of collagen in sample'),
+            (121, 'Concentration', 'Concentration', NULL, 'Concentration in lipids (µg g-1)'),
+            (122, 'Meaningful lipids present', 'Meaningful lipids present', NULL, 'Concentration in lipids above threeshold or with biomarkers'),
+            (123, 'APAA C16', 'APAA C16', NULL, 'Presence of  C16 ω-(ο-alkylphenyl) alkanoic acids '),
+            (124, 'APAA C18', 'APAA C18', NULL, 'Presence of  C18 ω-(ο-alkylphenyl) alkanoic acids '),
+            (125, 'APAA C20', 'APAA C20', NULL, 'Presence of  C20 ω-(ο-alkylphenyl) alkanoic acids '),
+            (126, 'APAA C22', 'APAA C22', NULL, 'Presence of  C22 ω-(ο-alkylphenyl) alkanoic acids '),
+            (127, 'DHYA C16', 'DHYA C16', NULL, 'Presence of  C16 dihydroxyacids'),
+            (128, 'DHYA C18', 'DHYA C18', NULL, 'Presence of  C18 dihydroxyacids'),
+            (129, 'DHYA C20', 'DHYA C20', NULL, 'Presence of  C20 dihydroxyacids'),
+            (130, 'DHYA C22', 'DHYA C22', NULL, 'Presence of  C22 dihydroxyacids'),
+            (131, 'TMTD', 'TMTD', NULL, 'Presence of  4,8,12-Trimethyltridecanoic acid'),
+            (132, 'Pristanic', 'Pristanic', NULL, 'Presence of  pristanic acid'),
+            (133, 'Phytanic', 'Phytanic', NULL, 'Presence of phytanic acid'),
+            (134, 'SRR%', 'SRR%', NULL, 'The contribution of the SRR isomer in total phytanic acid (SRR%)'),
+            (135, 'Plant signal (PHYST)', 'Plant signal (PHYST)', NULL, 'Presence of plant biomarkers of type PHYST'),
+            (136, 'Full aquatic biomarker', 'Full aquatic biomarker', NULL, 'Presence of  at least C20 ω-(ο-alkylphenyl) alkanoic acids  associated to an isoprenoid fatty acid indicative of an aquatic source'),
+            (137, 'Partial aquatic biomarker', 'Partial aquatic biomarker', NULL, 'Presence of  C18 ω-(ο-alkylphenyl) alkanoic acids  associated to 4,8,12-Trimethyltridecanoic acid probqbly related to an aquatic source'),
+            (138, '>75.5% SRR-phytanic', '>75.5% SRR-phytanic', NULL, 'SRR%>75.5 indicative of an aquatic source'),
+            (139, 'Aquatic signal', 'Aquatic signal', NULL, 'Extract with Full aquatic biomarker or >75.5% SSR-phytanic'),
+            (140, 'GC-c-IRMS', 'GC-c-IRMS', NULL, 'Compound Specific Isotopes Analysis carried out'),
+            (141, 'Fraction (C16:0)', 'Fraction (C16:0)', NULL, 'Biochemical fraction for measurement (C16:0)'),
+            (142, '13C/12C', '13C/12C', NULL, '13C/12C isotopic measurement'),
+            (143, '13C/12C unc', '13C/12C unc', NULL, 'uncertainty of 13C/12C isotopic measurement'),
+            (144, 'Fraction (C18:0)', 'Fraction (C18:0)', NULL, 'Biochemical fraction for measurement (C18:0)'),
+            (145, '13C/12C', '13C/12C', NULL, '13C/12C isotopic measurement'),
+            (146, '13C/12C unc', '13C/12C unc', NULL, 'uncertainty of 13C/12C isotopic measurement'),
+            (147, '13C/12C offset fractions (C18:0-C16:0)', '13C/12C offset fractions (C18:0-C16:0)', NULL, 'Δ13C (C16:0-C18:0)'),
+            (148, 'EA-IRMS', 'EA-IRMS', NULL, 'Bulk Isotopes Analysis carried out'),
+            (149, 'Fraction (Bulk)', 'Fraction', NULL, 'Biochemical fraction for measurement (Bluk)'),
+            (150, 'Quality control', 'Quality control', NULL, 'Above %N threashold (1%)'),
+            (151, '13C/12C', '13C/12C', NULL, '13C/12C isotopic measurement'),
+            (152, '13C/12C unc', '13C/12C unc', NULL, 'uncertainty of 13C/12C isotopic measurement'),
+            (153, '15N/14N', '15N/14N', NULL, '15N/14N isotopic measurement'),
+            (154, '15N/14N unc', '15N/14N unc', NULL, 'uncertainty of 15N/14N isotopic measurement'),
+            (155, '%C', '%C', NULL, 'C elemental concentration in bone collagen'),
+            (156, '%N', '%N', NULL, 'N elemental concentration in bone collagen'),
+            (157, 'C/N (atomic)', 'C/N (atomic)', NULL, 'C/N elemental ratio'),
+            (158, 'Numbers of labstandards/delta samples', 'Numbers of labstandards/delta samples', NULL, 'The number of lab/international-standards/deltasamples run before the acctual sample were analyzed'),
+            (159, 'Bone/dentine (mg)', 'Bone/dentine (mg)', NULL, 'Weight of bone or dentine in sample (in milligrams)'),
+            (160, 'Collagen (mg)', 'Collagen (mg)', NULL, 'Weight of collagen in sample (in milligrams)'),
+            (161, 'N/S', 'N/S', NULL, 'Ratio of Nitrogen and Sulfur in sample'),
+            (162, 'C/S', 'C/S', NULL, 'Ratio of Carbon and Sulfur in sample'),
+            (163, 'Plant signal (ALK)', 'Plant signal (ALK)', NULL, 'Presence of plant biomarkers of type ALK'),
+            (164, 'Plant signal (LCFA)', 'Plant signal (LCFA)', NULL, 'Presence of plant biomarkers of type LCFA')
         ) insert into tbl_isotope_types (isotope_type_id, designation, abbreviation, atomic_number, description)
         select a.isotope_type_id, a.designation, a.abbreviation, a.atomic_number, a.description
         from new_isotope_types a
@@ -258,7 +258,7 @@ begin
         where b.contact_id is null*/;
 
         new_id = 6291;
-        with new_biblio (biblio_id, authors, year, title, full_reference) as (values
+        with new_biblio (biblio_id, authors, year, title, full_reference, doi, notes, url) as (values
             (
                 new_id + 0,
                 'Craig, O.E., Saul, H., Lucquin, A., Nishida, Y., Taché, K., Clarke, L., Thompson, A., Altoft, D.T., Uchiyama, J., Ajimoto, M. and Gibbs, K.',
@@ -316,7 +316,7 @@ begin
                 'Pre-screening techniques for identification of samples suitable for radiocarbon dating of poorly preserved bones',
                 'Brock, F., Higham, T. and Ramsey, C.B. (2010). Pre-screening techniques for identification of samples suitable for radiocarbon dating of poorly preserved bones. Journal of Archaeological Science 37: 855 – 865.',
                 'https://doi.org/10.1016/j.jas.2009.11.015',
-                'Radiocarbon dating, Bone collagen, Nitrogen'
+                'Radiocarbon dating, Bone collagen, Nitrogen',
                 'https://reader.elsevier.com/reader/sd/pii/S0305440309004336'
             )
         ) insert into tbl_biblio (biblio_id, authors, year, title, full_reference, doi, notes, url)
@@ -327,7 +327,7 @@ begin
         where b.biblio_id is null*/;
 
         new_id =  3895;
-        with new_locations(location_id, location_name, location_type_id, default_lat_dd	default_long_dd) as ( values
+        with new_locations(location_id, location_name, location_type_id, default_lat_dd, default_long_dd) as ( values
         	(new_id +  0, 'Tochigi prefecture',	    2,	36.6763115,	    139.8094394),
         	(new_id +  1, 'Shiga prefecture',	    2,	35.2471599,	    136.1092995),
         	(new_id +  2, 'Hiroshima Prefecture',	2,	34.4557655,	    132.4373114),
@@ -354,7 +354,6 @@ begin
         perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
         perform sead_utility.sync_sequence('public', 'tbl_sample_location_types');
         perform sead_utility.sync_sequence('public', 'tbl_data_types');
-        perform sead_utility.sync_sequence('public', 'tbl_isotope_value_specifiers');
         perform sead_utility.sync_sequence('public', 'tbl_isotope_types');
         perform sead_utility.sync_sequence('public', 'tbl_contacts');
         perform sead_utility.sync_sequence('public', 'tbl_biblio');
