@@ -10,6 +10,7 @@ default_source_dump_file="./starting_point/sead_master_9_public.sql.gz"
 
 dothostfile=~/vault/.default.sead.server
 dotuserfile=~/vault/.default.sead.username
+dotsqitchfile=~/vault/.sqitch.env
 
 target_name=
 create_target=NO
@@ -149,6 +150,27 @@ elif [ "$create_target" == "YES" ]; then
         exit 64
     fi
 
+fi
+
+if [ "$SQITCH_USERNAME" == "" ]; then
+    export SQITCH_USERNAME=${dbuser}
+fi
+
+if [ "$SQITCH_USERNAME" == "" ]; then
+    echo "error: username not specified"
+    usage
+    exit 64
+fi
+
+if [ "$SQITCH_PASSWORD" == "" ]; then
+    if [ -f "${dotsqitchfile}" ]; then
+        echo "info: using credentials found in vault"
+        source "${dotsqitchfile}"
+    else
+        echo "error: password not specified (SQITCH_PASSWORD not defined and ${dotsqitchfile} not found)"
+        usage
+        exit 64
+    fi
 fi
 
 git pull
