@@ -3,7 +3,6 @@
 %uri=https://github.com/humlab-sead/sead/utility
 
 20190517_DDL_STAGING_CREATE_DATABASE 2019-04-17T05:58:08Z Roger Mähler <roger.mahler@umu.se> # Create a new staging database
-@2019.05 2019-05-13T11:01:58Z Roger Mähler <roger.mahler@umu.se> # Create staging DB
 
 20190407_DDL_UTILITY_CREATE_UTILITY_SCHEMA 2019-04-07T09:00:06Z Roger Mähler <roger.mahler@umu.se> # Schema for DB global utility objects
 20190407_DDL_UTILITY_CREATE_TABLE_DEPENDENCY_VIEW [20190407_DDL_UTILITY_CREATE_UTILITY_SCHEMA] 2019-04-07T17:43:35Z Roger Mähler <roger.mahler@umu.se> # View that returns table inter-dependencies
@@ -16,5 +15,3 @@
 20180613_DDL_AUDIT_DEPLOY_AUDIT_SYSTEM 2019-04-09T08:53:03Z Roger Mähler <roger.mahler@umu.se> # https://github.com/2ndQuadrant/audit-trigger
 
 @2019.12 2019-12-13T11:55:09Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
-
-# 20190517_DDL_STAGING_CREATE_DATABASE 2019-04-17T05:58:08Z Roger Mähler <roger.mahler@umu.se> # Create a new staging database
