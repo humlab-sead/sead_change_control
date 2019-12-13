@@ -17,6 +17,8 @@ do $$
 begin
 	begin
 
+        drop table if exists tbl_ceramics_lookup;
+
         if sead_utility.table_exists('public'::text, 'tbl_ceramics_lookup'::text) = FALSE THEN
 
             create table if not exists tbl_ceramics_lookup
@@ -41,18 +43,18 @@ begin
 
         end if;
 
+        drop table if exists tbl_ceramics;
+
         if sead_utility.column_exists('public'::text, 'tbl_ceramics'::text, 'ceramics_lookup_id'::text) = FALSE THEN
 
             create table tbl_ceramics
             (
-
-                ceramics_id integer not null default nextval('tbl_ceramics_ceramics_id_seq'::regclass),
+                ceramics_id serial primary key,
                 analysis_entity_id integer not null,
                 measurement_value character varying collate pg_catalog."default" not null,
                 date_updated timestamp with time zone default now(),
                 ceramics_lookup_id integer not null,
 
-                constraint tbl_ceramics_pkey primary key (ceramics_id),
                 constraint fk_ceramics_analysis_entity_id foreign key (analysis_entity_id)
                     references public.tbl_analysis_entities (analysis_entity_id) match simple
                     on update no action
@@ -61,7 +63,7 @@ begin
                     references public.tbl_ceramics_lookup (ceramics_lookup_id) match simple
                     on update no action
                     on delete no action
-            )
+            );
 
             alter table tbl_ceramics owner to sead_master;
 
