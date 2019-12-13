@@ -6,6 +6,10 @@ begin
 
     begin
 
+        -- taxon_id = 39622 (näst i tur), genus_id = 432 och species = sp.
+        insert into tbl_taxa_tree_master (taxon_id, author_id, genus_id, species)
+	        values (39622, null, 432, 'sp.');
+
         with new_record_types (record_type_id, record_type_name, record_type_description) as ( values
             (20, 'Dendrochronology', 'Detemination of age through tree ring measurements', '2019-12-10 10:29:17.789481+00')
         ) insert into tbl_record_types (record_type_id, record_type_name, record_type_description)

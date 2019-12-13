@@ -35,7 +35,7 @@ begin
             alter table tbl_ceramics_lookup owner to sead_master;
 
             grant all    on table tbl_ceramics_lookup to sead_master;
-            grant select on table tbl_ceramics_lookup to humlab_read, clearinghouse_worker, mattias;
+            grant select on table tbl_ceramics_lookup to humlab_read, clearinghouse_worker, mattias, public, anonymous_rest_user;
 
             comment on table tbl_ceramics_lookup IS 'Type=lookup';
 
@@ -43,13 +43,30 @@ begin
 
         if sead_utility.column_exists('public'::text, 'tbl_ceramics'::text, 'ceramics_lookup_id'::text) = FALSE THEN
 
-            alter table tbl_ceramics
-                drop constraint if exists "fk_ceramics_ceramics_measurement_id",
-                add column "ceramics_lookup_id" int4 not null,
-                drop column if exists  "ceramics_measurement_id",
-                add constraint "fk_ceramics_ceramics_lookup_id" foreign key ("ceramics_lookup_id")
-                    references tbl_ceramics_lookup (ceramics_lookup_id)
-                    on delete no action on update no action;
+            create table tbl_ceramics
+            (
+
+                ceramics_id integer not null default nextval('tbl_ceramics_ceramics_id_seq'::regclass),
+                analysis_entity_id integer not null,
+                measurement_value character varying collate pg_catalog."default" not null,
+                date_updated timestamp with time zone default now(),
+                ceramics_lookup_id integer not null,
+
+                constraint tbl_ceramics_pkey primary key (ceramics_id),
+                constraint fk_ceramics_analysis_entity_id foreign key (analysis_entity_id)
+                    references public.tbl_analysis_entities (analysis_entity_id) match simple
+                    on update no action
+                    on delete no action,
+                constraint fk_ceramics_ceramics_lookup_id foreign key (ceramics_lookup_id)
+                    references public.tbl_ceramics_lookup (ceramics_lookup_id) match simple
+                    on update no action
+                    on delete no action
+            )
+
+            alter table tbl_ceramics owner to sead_master;
+
+            grant all    on table tbl_ceramics to sead_master;
+            grant select on table tbl_ceramics to humlab_read, clearinghouse_worker, mattias, public, anonymous_rest_user;
 
             drop table if exists "public"."tbl_ceramics_measurement_lookup";
 

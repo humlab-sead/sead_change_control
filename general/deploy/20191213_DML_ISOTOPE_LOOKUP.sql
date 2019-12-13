@@ -70,6 +70,10 @@ begin
             on a.isotope_value_specifier_id = b.isotope_value_specifier_id
         where b.isotope_value_specifier_id is null*/;
 
+        insert into tbl_isotope_standards (isotope_standard_id)
+            values (1)
+                on conflict do nothing;
+
         with new_isotope_types(isotope_type_id, designation, abbreviation, atomic_number, description)
             (1, 'actinium', 'Ac', 89, 'basic chemical element'),
             (2, 'aluminium (aluminum)', 'Al', 13, 'basic chemical element'),
