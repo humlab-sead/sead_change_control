@@ -3,10 +3,10 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-01-01
-  Description   
-  Prerequisites 
-  Reviewer      
-  Approver      
+  Description
+  Prerequisites
+  Reviewer
+  Approver
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
@@ -16,8 +16,8 @@ do $$
 begin
 
     begin
-    
-        create or replace view sead_utility.sead_comments as 
+
+        create or replace view sead_utility.sead_comments as
             select schema_name, table_name, column_name, objsubid, description::varchar(2048)
             from (
                 select pg_namespace.nspname as schema_name, pg_class.relname as table_name, '' as column_name, objsubid, pg_description.description
@@ -34,10 +34,8 @@ begin
             where coalesce(description, '') <> ''
               and schema_name = 'public'
             order by schema_name, table_name, column_name;
-    
-    
-        comment on table public.tbl_ceramics_lookup is 'Type=lookup';
-        comment on table public.tbl_dendro_lookup is 'Type=lookup';
+
+
         comment on table public.tbl_chronologies is 'Constraint removed to obsolete table (tbl_age_types), replaced by non-binding id of relative_age_types - but not fully implemented. Notes should be used to inform on chronology years types and construction.';
         comment on column public.tbl_sites.site_location_accuracy is 'Accuracy of highest location resolution level. E.g. Nearest settlement, lake, bog, ancient monument, approximate';
 
@@ -65,6 +63,6 @@ Increased length of some fields.
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
-    
+
 end $$;
 commit;
