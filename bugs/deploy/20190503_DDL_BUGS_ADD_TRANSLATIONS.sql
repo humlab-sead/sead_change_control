@@ -216,10 +216,11 @@ begin
         insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TDatesPeriod', 'PeriodCODE', 'OIS-06', 'PeriodCODE', 'MIS-06');
         insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TDatesPeriod', 'PeriodCODE', 'OIS-07', 'PeriodCODE', 'MIS-07');
         insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TDatesPeriod', 'PeriodCODE', 'OIS-09', 'PeriodCODE', 'MIS-09');
-        insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TDatesPeriod', 'PeriodCODE', 'OIS-012', 'PeriodCODE', 'MIS-012');
-        insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TDatesPeriod', 'PeriodCODE', 'OIS-013', 'PeriodCODE', 'MIS-013');
+        insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TDatesPeriod', 'PeriodCODE', 'OIS-12', 'PeriodCODE', 'MIS-12');
+        insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TDatesPeriod', 'PeriodCODE', 'OIS-13', 'PeriodCODE', 'MIS-13');
 
         insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TDatesPeriod', 'DatingMethod', ' ', 'DatingMethod', null);
+        -- insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TDatesPeriod', 'DatingMethod', 'GeolPer', 'TDatesPeriod', 'GeolPer');
 
         insert into bugs_import.bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) values ('TSeasonActiveAdult', 'HSeason', 'Sep', 'HSeason', 'Se');
 
