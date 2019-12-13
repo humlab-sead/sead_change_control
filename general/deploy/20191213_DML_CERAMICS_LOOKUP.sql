@@ -17,397 +17,1100 @@ declare new_id int;
 begin
 
     begin
-        perform sead_utility.sync_sequence('public', 'tbl_locations');
+		perform sead_utility.sync_sequence('public', 'tbl_locations');
         perform sead_utility.sync_sequence('public', 'tbl_methods');
+		perform sead_utility.sync_sequence('public', 'tbl_contacts');
+        perform sead_utility.sync_sequence('public', 'tbl_alt_ref_types');
+		perform sead_utility.sync_sequence('public', 'tbl_biblio');
+		perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
+		perform sead_utility.sync_sequence('public', 'tbl_units');
+		perform sead_utility.sync_sequence('public', 'tbl_dimensions');
+		perform sead_utility.sync_sequence('public', 'tbl_feature_types');
+		perform sead_utility.sync_sequence('public', 'tbl_relative_ages');
+		perform sead_utility.sync_sequence('public', 'tbl_sample_group_description_types');
+		perform sead_utility.sync_sequence('public', 'tbl_sample_types');
+		perform sead_utility.sync_sequence('public', 'tbl_ceramics_lookup');
 
-        new_id = 3911;
+		new_id = 3911;
         with new_locations (location_id, location_name, location_type_id) as (values
-            (new_id + 0, 'Lund', 4)
-			(new_id + 1, 'Aldenhovener Platte', 17)
-			(new_id + 2, 'Attica', 2)
-			(new_id + 3, 'Bagamoyo', 4)
-			(new_id + 4, 'Bornholm', 18)
-			(new_id + 5, 'Buhera', 2)
-			(new_id + 6, 'Buskerud', 2)
-			(new_id + 7, 'Chachapoyas', 2)
-			(new_id + 8, 'Varsinais-Suomi', 14)
-			(new_id + 9, 'Etruria', 14)
-			(new_id + 10, 'Fyn', 18)
-			(new_id + 11, 'Odense ', 14)
-			(new_id + 12, 'Hedmark', 2)
-			(new_id + 13, 'Hordaland', 2)
-			(new_id + 14, 'Isle of Bazaruto', 18)
-			(new_id + 15, 'Kisarawe', 2)
-			(new_id + 16, 'Kurzeme', 14)
-			(new_id + 17, 'Laconia', 7)
-			(new_id + 18, 'Latium', 2)
-			(new_id + 19, 'Limburg', 2)
-			(new_id + 20, 'Lofoten', 7)
-			(new_id + 21, 'Mazowieckie', 2)
-			(new_id + 22, 'Mecklenburg-Vorpommern', 2)
-			(new_id + 23, 'Möre og Romsdal', 2)
-			(new_id + 24, 'New Ireland', 2)
-			(new_id + 25, 'Nordland', 2)
-			(new_id + 26, 'Nordrhein-Westfalen', 2)
-			(new_id + 27, 'Nordrhein-Westfalen or Belgium', 7)
-			(new_id + 28, 'Uusimaa', 2)
-			(new_id + 29, 'Oost Flevoland', 14)
-			(new_id + 30, 'Ostholstein', 2)
-			(new_id + 31, 'Peloponnese', 2)
-			(new_id + 32, 'Pomorskie', 2)
-			(new_id + 33, 'Rheinland-Pfalz', 2)
-			(new_id + 34, 'Rheinland', 7)
-			(new_id + 35, 'Rogaland', 2)
-			(new_id + 36, 'Saipan', 18)
-			(new_id + 37, 'Sardegna', 2)
-			(new_id + 38, 'Schleswig', 4)
-			(new_id + 39, 'Schleswig-Holstein', 2)
-			(new_id + 40, 'Sicilia', 2)
-			(new_id + 41, 'Sjælland', 2)
-			(new_id + 42, 'Wielkopolskie', 2)
-			(new_id + 43, 'Wielkopolskie?', 2)
-			(new_id + 44, 'Sunnmøre', 16)
-			(new_id + 45, 'Sør-Varanger', 2)
-			(new_id + 46, 'Hämeenlinna', 4)
-			(new_id + 47, 'Telemark', 2)
-			(new_id + 48, 'Toscana', 2)
-			(new_id + 49, 'Toscana or Lazio', 7)
-			(new_id + 50, 'Transilvania ', 16)
-			(new_id + 51, 'Tucuman', 2)
-			(new_id + 52, 'Oroolong', 18)
-			(new_id + 53, 'Vest-Agder', 2)
-			(new_id + 54, 'Vestmannaeyjar', 2)
-			(new_id + 55, 'Viang chan', 4)
-			(new_id + 56, 'Zachodniopomorskie', 2)
-			(new_id + 57, 'Åland', 2)
-			(new_id + 58, 'Östergötland', 2)
-			(new_id + 59, 'Eastern Holland?', 16)
-			(new_id + 60, 'Aakirkeby', 14)
-			(new_id + 61, 'Adelsö socken', 2)
-			(new_id + 62, 'Almby socken', 2)
-			(new_id + 63, 'Alta', 2)
-			(new_id + 64, 'Alunda socken', 2)
-			(new_id + 65, 'Annelöv socken', 2)
-			(new_id + 66, 'Aricia?', 2)
-			(new_id + 67, 'Arjeplog socken', 2)
-			(new_id + 68, 'Askeby socken', 2)
-			(new_id + 69, 'Asmundtorp socken', 2)
-			(new_id + 70, 'Augerum socken', 2)
-			(new_id + 71, 'Barsebäck socken', 2)
-			(new_id + 72, 'Bergen', 4)
-			(new_id + 73, 'Bjäresjö socken', 2)
-			(new_id + 74, 'Bjärtrå socken', 2)
-			(new_id + 75, 'Björklinge socken', 2)
-			(new_id + 76, 'Pori', 2)
-			(new_id + 77, 'Blidsberg socken', 2)
-			(new_id + 78, 'Blowatz', 2)
-			(new_id + 79, 'Bodum socken', 2)
-			(new_id + 80, 'Borgeby socken', 2)
-			(new_id + 81, 'Borrby socken', 2)
-			(new_id + 82, 'Botkyrka socken', 2)
-			(new_id + 83, 'Bromölla ', 2)
-			(new_id + 84, 'Brudager', 2)
-			(new_id + 85, 'Brügge', 4)
-			(new_id + 86, 'Brörup?', 2)
-			(new_id + 87, 'Burlöv socken', 2)
-			(new_id + 88, 'Bälinge socken', 2)
-			(new_id + 89, 'Lambak ng Cagayan', 2)
-			(new_id + 90, 'Carunia', 2)
-			(new_id + 91, 'Chojna', 4)
-			(new_id + 92, 'Cluj-Napoca', 2)
-			(new_id + 93, 'Colalao del Valle', 4)
-			(new_id + 94, 'Dagstorp socken', 2)
-			(new_id + 95, 'Dalby socken', 2)
-			(new_id + 96, 'Danmark socken', 2)
-			(new_id + 97, 'Deset?', 4)
-			(new_id + 98, 'Dronten', 2)
-			(new_id + 99, 'Dunker socken', 2)
-			(new_id + 100, 'Eggby & Öglunda', 7)
-			(new_id + 101, 'Eidanger', 2)
-			(new_id + 102, 'Ekeby socken', 2)
-			(new_id + 103, 'Eker socken', 2)
-			(new_id + 104, 'Ekerö socken', 2)
-			(new_id + 105, 'Eksta socken', 2)
-			(new_id + 106, 'Endre socken', 2)
-			(new_id + 107, 'Enslöv socken', 2)
-			(new_id + 108, 'Espe', 4)
-			(new_id + 109, 'Eura', 2)
-			(new_id + 110, 'Farsund', 2)
-			(new_id + 111, 'Farum', 4)
-			(new_id + 112, 'Fellingsbro socken', 2)
-			(new_id + 113, 'Fjälkestad socken', 2)
-			(new_id + 114, 'Fjälkinge socken', 2)
-			(new_id + 115, 'Fjällsjö socken', 2)
-			(new_id + 116, 'Flemlöse ', 2)
-			(new_id + 117, 'Flädie socken', 2)
-			(new_id + 118, 'Fosie socken', 2)
-			(new_id + 119, 'Froland', 2)
-			(new_id + 120, 'Fårö socken', 2)
-			(new_id + 121, 'Gamla Uppsala socken', 2)
-			(new_id + 122, 'Gdańsk', 4)
-			(new_id + 123, 'Gevninge', 2)
-			(new_id + 124, 'Giske', 2)
-			(new_id + 125, 'Glanshammar socken', 2)
-			(new_id + 126, 'Glemminge socken', 2)
-			(new_id + 127, 'Glesborg ', 2)
-			(new_id + 128, 'Glostorp socken', 2)
-			(new_id + 129, 'Glostrup ', 2)
-			(new_id + 130, 'Glumslöv socken', 2)
-			(new_id + 131, 'Grajewo', 4)
-			(new_id + 132, 'Gransherad', 14)
-			(new_id + 133, 'Grevie socken', 2)
-			(new_id + 134, 'Grimeton socken', 2)
-			(new_id + 135, 'Grimstad', 2)
-			(new_id + 136, 'Grobina', 4)
-			(new_id + 137, 'Grosssolt', 2)
-			(new_id + 138, 'Grube', 2)
-			(new_id + 139, 'Gräsgård socken', 2)
-			(new_id + 140, 'Grödinge socken', 2)
-			(new_id + 141, 'Grötlingbo socken', 2)
-			(new_id + 142, 'Gualöv socken', 2)
-			(new_id + 143, 'Gudbjerg ', 2)
-			(new_id + 144, 'Gudme ', 2)
-			(new_id + 145, 'Gudme-Lundeborg', 7)
-			(new_id + 146, 'Gödelöv socken', 2)
-			(new_id + 147, 'Gödestad socken', 2)
-			(new_id + 148, 'Gökhem socken', 2)
-			(new_id + 149, 'Haarlem', 2)
-			(new_id + 150, 'Hablingbo socken', 2)
-			(new_id + 151, 'Halmstad socken', 2)
-			(new_id + 152, 'Hangvar socken', 2)
-			(new_id + 153, 'Haram', 2)
-			(new_id + 154, 'Harbo socken', 2)
-			(new_id + 155, 'Harplinge socken', 2)
-			(new_id + 156, 'Hasslösa socken', 2)
-			(new_id + 157, 'Hauho', 14)
-			(new_id + 158, 'Heddal', 4)
-			(new_id + 159, 'Hedeskoga socken', 2)
-			(new_id + 160, 'Heimaey', 18)
-			(new_id + 161, 'Hellum ', 2)
-			(new_id + 162, 'Helsingborg socken', 2)
-			(new_id + 163, 'Helsinge ', 2)
-			(new_id + 164, 'Hemse socken', 2)
-			(new_id + 165, 'Hillerslev ', 2)
-			(new_id + 166, 'Stevns', 2)
-			(new_id + 167, 'Holmedal socken', 2)
-			(new_id + 168, 'Horne ', 2)
-			(new_id + 169, 'Hossmo socken', 2)
-			(new_id + 170, 'Hubbo socken', 2)
-			(new_id + 171, 'Hulterstad socken', 2)
-			(new_id + 172, 'Hylke ', 2)
-			(new_id + 173, 'Hyllie socken', 2)
-			(new_id + 174, 'Häverö socken', 2)
-			(new_id + 175, 'Ingelstorp socken', 2)
-			(new_id + 176, 'Ivetofta socken', 2)
-			(new_id + 177, 'Jonstorp socken', 2)
-			(new_id + 178, 'Järrestad socken', 2)
-			(new_id + 179, 'Jörn socken', 2)
-			(new_id + 180, 'Kalanti', 14)
-			(new_id + 181, 'Karaby socken', 2)
-			(new_id + 182, 'Karlskrona', 4)
-			(new_id + 183, 'Kiel', 4)
-			(new_id + 184, 'Kil socken', 2)
-			(new_id + 185, 'Kila socken', 2)
-			(new_id + 186, 'Kirke Saaby ', 2)
-			(new_id + 187, 'Kjula socken', 2)
-			(new_id + 188, 'Klemensker ', 2)
-			(new_id + 189, 'Kornerup ', 2)
-			(new_id + 190, 'Kortrijk', 2)
-			(new_id + 191, 'Kosel', 2)
-			(new_id + 192, 'Düren', 4)
-			(new_id + 193, 'Schleswig-Flensburg', 2)
-			(new_id + 194, 'Kragelund ', 2)
-			(new_id + 195, 'Kragerø? ', 2)
-			(new_id + 196, 'Kristiansand?', 2)
-			(new_id + 197, 'Krokek socken', 2)
-			(new_id + 198, 'Kungsbacka ', 2)
-			(new_id + 199, 'Kungsör', 2)
-			(new_id + 200, 'Kvarsebo socken', 2)
-			(new_id + 201, 'Kvillinge socken', 2)
-			(new_id + 202, 'Kvistofta socken', 2)
-			(new_id + 203, 'Kymi', 14)
-			(new_id + 204, 'Kyrkheddinge socken', 2)
-			(new_id + 205, 'Källstad socken', 2)
-			(new_id + 206, 'Kökar', 2)
-			(new_id + 207, 'Köping socken', 2)
-			(new_id + 208, 'Laitila', 4)
-			(new_id + 209, 'Landskrona ', 4)
-			(new_id + 210, 'Lieto', 2)
-			(new_id + 211, 'Lilla Beddinge socken', 2)
-			(new_id + 212, 'Lilla Malma socken', 2)
-			(new_id + 213, 'Lilla Slågarp & Västra Alstad', 7)
-			(new_id + 214, 'Linköping ', 4)
-			(new_id + 215, 'Litslena socken', 2)
-			(new_id + 216, 'Ljung socken', 2)
-			(new_id + 217, 'Ljungby socken', 2)
-			(new_id + 218, 'Los socken', 2)
-			(new_id + 219, 'Lund socken', 2)
-			(new_id + 220, 'Lunda socken', 2)
-			(new_id + 221, 'Löddeköpinge socken', 2)
-			(new_id + 222, 'Löderup socken', 2)
-			(new_id + 223, 'Lövånger socken', 2)
-			(new_id + 224, 'Maglarp socken', 2)
-			(new_id + 225, 'Maharashtra', 2)
-			(new_id + 226, 'Malling ', 2)
-			(new_id + 227, 'Markaryd socken', 2)
-			(new_id + 228, 'Mellby socken', 2)
-			(new_id + 229, 'Meløy', 2)
-			(new_id + 230, 'Mjällby socken', 2)
-			(new_id + 231, 'Murlo', 2)
-			(new_id + 232, 'Nyker ', 2)
-			(new_id + 233, 'Neufvilles', 4)
-			(new_id + 234, 'Norra Nöbbelöv socken', 2)
-			(new_id + 235, 'Norrvidinge socken', 2)
-			(new_id + 236, 'Nosaby or Fjälkinge', 7)
-			(new_id + 237, 'Nousiainen', 2)
-			(new_id + 238, 'Novgorod', 4)
-			(new_id + 239, 'Nylars?', 4)
-			(new_id + 240, 'Näs socken?', 2)
-			(new_id + 241, 'Nöbbele socken', 2)
-			(new_id + 242, 'Oure ', 2)
-			(new_id + 243, 'Oxie socken', 2)
-			(new_id + 244, 'Paattinen', 4)
-			(new_id + 245, 'Partille socken', 2)
-			(new_id + 246, 'Porvoo', 4)
-			(new_id + 247, 'Resmo socken', 2)
-			(new_id + 248, 'Revsund socken', 2)
-			(new_id + 249, 'Ringerike', 2)
-			(new_id + 250, 'Riseberga socken', 2)
-			(new_id + 251, 'Romfartuna socken', 2)
-			(new_id + 252, 'Rovaniemi', 2)
-			(new_id + 253, 'Rångedala socken', 2)
-			(new_id + 254, 'Rörum socken', 2)
-			(new_id + 255, 'Saksild ', 2)
-			(new_id + 256, 'Salaj', 2)
-			(new_id + 257, 'Salem socken', 2)
-			(new_id + 258, 'Saltvik', 2)
-			(new_id + 259, 'Sande', 2)
-			(new_id + 260, 'Sandseryd socken', 2)
-			(new_id + 261, 'Saxtorp socken', 2)
-			(new_id + 262, 'Sebber ', 2)
-			(new_id + 263, 'Segeberg', 2)
-			(new_id + 264, 'Segerstad socken', 2)
-			(new_id + 265, 'Sigtuna ', 4)
-			(new_id + 266, 'Silbodal socken', 2)
-			(new_id + 267, 'Silte socken', 2)
-			(new_id + 268, 'Sjonhem socken', 2)
-			(new_id + 269, 'Själevad socken', 2)
-			(new_id + 270, 'Skara socken', 2)
-			(new_id + 271, 'Skjerstad ', 16)
-			(new_id + 272, 'Skummeslöv socken', 2)
-			(new_id + 273, 'Skuttunge socken', 2)
-			(new_id + 274, 'Skållerud socken', 2)
-			(new_id + 275, 'Skånes-Fagerhult socken', 2)
-			(new_id + 276, 'Skänninge ', 4)
-			(new_id + 277, 'Skärv socken', 2)
-			(new_id + 278, 'Sligeach', 2)
-			(new_id + 279, 'Snöstorp socken', 2)
-			(new_id + 280, 'Sortland ', 2)
-			(new_id + 281, 'Stora Malm socken', 2)
-			(new_id + 282, 'Uppåkra socken', 2)
-			(new_id + 283, 'Stenkyrka socken', 2)
-			(new_id + 284, 'Stenungsund?', 2)
-			(new_id + 285, 'Stockholm', 4)
-			(new_id + 286, 'Mora socken', 2)
-			(new_id + 287, 'Stora Herrestad socken', 2)
-			(new_id + 288, 'Stora Köpinge socken', 2)
-			(new_id + 289, 'Stora Åby socken', 2)
-			(new_id + 290, 'Stävie socken', 2)
-			(new_id + 291, 'Sula', 2)
-			(new_id + 292, 'Säby socken', 2)
-			(new_id + 293, 'Sävare socken', 2)
-			(new_id + 294, 'Söderköping ', 4)
-			(new_id + 295, 'Södertälje ', 4)
-			(new_id + 296, 'Söderåkra socken', 2)
-			(new_id + 297, 'Södra Åkarp socken', 2)
-			(new_id + 298, 'Sölvesborg socken', 2)
-			(new_id + 299, 'Sövde socken', 2)
-			(new_id + 300, 'Tensta socken', 2)
-			(new_id + 301, 'Thorsager', 2)
-			(new_id + 302, 'Tierp socken', 2)
-			(new_id + 303, 'Tofta socken', 2)
-			(new_id + 304, 'Torbjörntorp socken', 2)
-			(new_id + 305, 'Torhamn socken', 2)
-			(new_id + 306, 'Torridal', 16)
-			(new_id + 307, 'Tortuna socken', 2)
-			(new_id + 308, 'Træna', 2)
-			(new_id + 309, 'Trelleborg socken', 2)
-			(new_id + 310, 'Trolle-Ljungby socken', 2)
-			(new_id + 311, 'Trosa socken', 2)
-			(new_id + 312, 'Tullstorp socken', 2)
-			(new_id + 313, 'Tumbo socken', 2)
-			(new_id + 314, 'Tvedestrand', 2)
-			(new_id + 315, 'Tveta socken', 2)
-			(new_id + 316, 'Tystberga socken', 2)
-			(new_id + 317, 'Tåby socken', 2)
-			(new_id + 318, 'Tårnborg ', 2)
-			(new_id + 319, 'Täby socken', 2)
-			(new_id + 320, 'Tønsberg', 2)
-			(new_id + 321, 'Törnevalla socken', 2)
-			(new_id + 322, 'Uppsala ', 4)
-			(new_id + 323, 'Vadstena ', 4)
-			(new_id + 324, 'Værøy', 2)
-			(new_id + 325, 'Vagnhärad socken', 2)
-			(new_id + 326, 'Valby', 4)
-			(new_id + 327, 'Vallby socken', 2)
-			(new_id + 328, 'Valleberga socken', 2)
-			(new_id + 329, 'Valtorp socken', 2)
-			(new_id + 330, 'Vansö socken', 2)
-			(new_id + 331, 'Warszawa', 4)
-			(new_id + 332, 'Vendel socken', 2)
-			(new_id + 333, 'Ventlinge socken', 2)
-			(new_id + 334, 'Vesterøya', 16)
-			(new_id + 335, 'Vestvågöy ', 2)
-			(new_id + 336, 'Veta socken', 2)
-			(new_id + 337, 'Viksta socken', 2)
-			(new_id + 338, 'Villberga socken', 2)
-			(new_id + 339, 'Vintrosa socken', 2)
-			(new_id + 340, 'Visby socken', 2)
-			(new_id + 341, 'Vreta Kloster socken', 2)
-			(new_id + 342, 'Vågsöy', 2)
-			(new_id + 343, 'Vårdsberg & Linköping', 7)
-			(new_id + 344, 'Vårfrukyrka socken', 2)
-			(new_id + 345, 'Väderstad socken', 2)
-			(new_id + 346, 'Väse socken', 2)
-			(new_id + 347, 'Västergarn socken', 2)
-			(new_id + 348, 'Västerljung socken', 2)
-			(new_id + 349, 'Västerås', 4)
-			(new_id + 350, 'Badelunda socken', 2)
-			(new_id + 351, 'Västra Karaby socken', 2)
-			(new_id + 352, 'Västra Tollstad socken', 2)
-			(new_id + 353, 'Väte socken', 2)
-			(new_id + 354, 'Ystad ', 4)
-			(new_id + 355, 'Å socken', 2)
-			(new_id + 356, 'Ådals-Liden socken', 2)
-			(new_id + 357, 'Åhus socken', 2)
-			(new_id + 358, 'Ål socken', 2)
-			(new_id + 359, 'Ås socken', 2)
-			(new_id + 360, 'Flensburg', 4)
-			(new_id + 361, 'Älgarås socken', 2)
-			(new_id + 362, 'Ärentuna socken', 2)
-			(new_id + 363, 'Öggestorp socken', 2)
-			(new_id + 364, 'Öja socken', 2)
-			(new_id + 365, 'Örkelljunga socken', 2)
-			(new_id + 366, 'Ösmo socken', 2)
-			(new_id + 367, 'Östra Eneby socken', 2)
-			(new_id + 368, 'Övergran socken', 2)
-			(new_id + 369, 'Överjärna socken', 2)
+			(new_id + 0, 'Lund', 4),
+			(new_id + 1, 'Aldenhovener Platte', 17),
+			(new_id + 2, 'Attica', 2),
+			(new_id + 3, 'Bagamoyo', 4),
+			(new_id + 4, 'Bornholm', 18),
+			(new_id + 5, 'Buhera', 2),
+			(new_id + 6, 'Buskerud', 2),
+			(new_id + 7, 'Chachapoyas', 2),
+			(new_id + 8, 'Varsinais-Suomi', 14),
+			(new_id + 9, 'Etruria', 14),
+			(new_id + 10, 'Fyn', 18),
+			(new_id + 11, 'Odense ', 14),
+			(new_id + 12, 'Hedmark', 2),
+			(new_id + 13, 'Hordaland', 2),
+			(new_id + 14, 'Isle of Bazaruto', 18),
+			(new_id + 15, 'Kisarawe', 2),
+			(new_id + 16, 'Kurzeme', 14),
+			(new_id + 17, 'Laconia', 7),
+			(new_id + 18, 'Latium', 2),
+			(new_id + 19, 'Limburg', 2),
+			(new_id + 20, 'Lofoten', 7),
+			(new_id + 21, 'Mazowieckie', 2),
+			(new_id + 22, 'Mecklenburg-Vorpommern', 2),
+			(new_id + 23, 'Möre og Romsdal', 2),
+			(new_id + 24, 'New Ireland', 2),
+			(new_id + 25, 'Nordland', 2),
+			(new_id + 26, 'Nordrhein-Westfalen', 2),
+			(new_id + 27, 'Nordrhein-Westfalen or Belgium', 7),
+			(new_id + 28, 'Uusimaa', 2),
+			(new_id + 29, 'Oost Flevoland', 14),
+			(new_id + 30, 'Ostholstein', 2),
+			(new_id + 31, 'Peloponnese', 2),
+			(new_id + 32, 'Pomorskie', 2),
+			(new_id + 33, 'Rheinland-Pfalz', 2),
+			(new_id + 34, 'Rheinland', 7),
+			(new_id + 35, 'Rogaland', 2),
+			(new_id + 36, 'Saipan', 18),
+			(new_id + 37, 'Sardegna', 2),
+			(new_id + 38, 'Schleswig', 4),
+			(new_id + 39, 'Schleswig-Holstein', 2),
+			(new_id + 40, 'Sicilia', 2),
+			(new_id + 41, 'Sjælland', 2),
+			(new_id + 42, 'Wielkopolskie', 2),
+			(new_id + 43, 'Wielkopolskie?', 2),
+			(new_id + 44, 'Sunnmøre', 16),
+			(new_id + 45, 'Sør-Varanger', 2),
+			(new_id + 46, 'Hämeenlinna', 4),
+			(new_id + 47, 'Telemark', 2),
+			(new_id + 48, 'Toscana', 2),
+			(new_id + 49, 'Toscana or Lazio', 7),
+			(new_id + 50, 'Transilvania ', 16),
+			(new_id + 51, 'Tucuman', 2),
+			(new_id + 52, 'Oroolong', 18),
+			(new_id + 53, 'Vest-Agder', 2),
+			(new_id + 54, 'Vestmannaeyjar', 2),
+			(new_id + 55, 'Viang chan', 4),
+			(new_id + 56, 'Zachodniopomorskie', 2),
+			(new_id + 57, 'Åland', 2),
+			(new_id + 58, 'Östergötland', 2),
+			(new_id + 59, 'Eastern Holland?', 16),
+			(new_id + 60, 'Aakirkeby', 14),
+			(new_id + 61, 'Adelsö socken', 2),
+			(new_id + 62, 'Almby socken', 2),
+			(new_id + 63, 'Alta', 2),
+			(new_id + 64, 'Alunda socken', 2),
+			(new_id + 65, 'Annelöv socken', 2),
+			(new_id + 66, 'Aricia?', 2),
+			(new_id + 67, 'Arjeplog socken', 2),
+			(new_id + 68, 'Askeby socken', 2),
+			(new_id + 69, 'Asmundtorp socken', 2),
+			(new_id + 70, 'Augerum socken', 2),
+			(new_id + 71, 'Barsebäck socken', 2),
+			(new_id + 72, 'Bergen', 4),
+			(new_id + 73, 'Bjäresjö socken', 2),
+			(new_id + 74, 'Bjärtrå socken', 2),
+			(new_id + 75, 'Björklinge socken', 2),
+			(new_id + 76, 'Pori', 2),
+			(new_id + 77, 'Blidsberg socken', 2),
+			(new_id + 78, 'Blowatz', 2),
+			(new_id + 79, 'Bodum socken', 2),
+			(new_id + 80, 'Borgeby socken', 2),
+			(new_id + 81, 'Borrby socken', 2),
+			(new_id + 82, 'Botkyrka socken', 2),
+			(new_id + 83, 'Bromölla ', 2),
+			(new_id + 84, 'Brudager', 2),
+			(new_id + 85, 'Brügge', 4),
+			(new_id + 86, 'Brörup?', 2),
+			(new_id + 87, 'Burlöv socken', 2),
+			(new_id + 88, 'Bälinge socken', 2),
+			(new_id + 89, 'Lambak ng Cagayan', 2),
+			(new_id + 90, 'Carunia', 2),
+			(new_id + 91, 'Chojna', 4),
+			(new_id + 92, 'Cluj-Napoca', 2),
+			(new_id + 93, 'Colalao del Valle', 4),
+			(new_id + 94, 'Dagstorp socken', 2),
+			(new_id + 95, 'Dalby socken', 2),
+			(new_id + 96, 'Danmark socken', 2),
+			(new_id + 97, 'Deset?', 4),
+			(new_id + 98, 'Dronten', 2),
+			(new_id + 99, 'Dunker socken', 2),
+			(new_id + 100, 'Eggby & Öglunda', 7),
+			(new_id + 101, 'Eidanger', 2),
+			(new_id + 102, 'Ekeby socken', 2),
+			(new_id + 103, 'Eker socken', 2),
+			(new_id + 104, 'Ekerö socken', 2),
+			(new_id + 105, 'Eksta socken', 2),
+			(new_id + 106, 'Endre socken', 2),
+			(new_id + 107, 'Enslöv socken', 2),
+			(new_id + 108, 'Espe', 4),
+			(new_id + 109, 'Eura', 2),
+			(new_id + 110, 'Farsund', 2),
+			(new_id + 111, 'Farum', 4),
+			(new_id + 112, 'Fellingsbro socken', 2),
+			(new_id + 113, 'Fjälkestad socken', 2),
+			(new_id + 114, 'Fjälkinge socken', 2),
+			(new_id + 115, 'Fjällsjö socken', 2),
+			(new_id + 116, 'Flemlöse ', 2),
+			(new_id + 117, 'Flädie socken', 2),
+			(new_id + 118, 'Fosie socken', 2),
+			(new_id + 119, 'Froland', 2),
+			(new_id + 120, 'Fårö socken', 2),
+			(new_id + 121, 'Gamla Uppsala socken', 2),
+			(new_id + 122, 'Gdańsk', 4),
+			(new_id + 123, 'Gevninge', 2),
+			(new_id + 124, 'Giske', 2),
+			(new_id + 125, 'Glanshammar socken', 2),
+			(new_id + 126, 'Glemminge socken', 2),
+			(new_id + 127, 'Glesborg ', 2),
+			(new_id + 128, 'Glostorp socken', 2),
+			(new_id + 129, 'Glostrup ', 2),
+			(new_id + 130, 'Glumslöv socken', 2),
+			(new_id + 131, 'Grajewo', 4),
+			(new_id + 132, 'Gransherad', 14),
+			(new_id + 133, 'Grevie socken', 2),
+			(new_id + 134, 'Grimeton socken', 2),
+			(new_id + 135, 'Grimstad', 2),
+			(new_id + 136, 'Grobina', 4),
+			(new_id + 137, 'Grosssolt', 2),
+			(new_id + 138, 'Grube', 2),
+			(new_id + 139, 'Gräsgård socken', 2),
+			(new_id + 140, 'Grödinge socken', 2),
+			(new_id + 141, 'Grötlingbo socken', 2),
+			(new_id + 142, 'Gualöv socken', 2),
+			(new_id + 143, 'Gudbjerg ', 2),
+			(new_id + 144, 'Gudme ', 2),
+			(new_id + 145, 'Gudme-Lundeborg', 7),
+			(new_id + 146, 'Gödelöv socken', 2),
+			(new_id + 147, 'Gödestad socken', 2),
+			(new_id + 148, 'Gökhem socken', 2),
+			(new_id + 149, 'Haarlem', 2),
+			(new_id + 150, 'Hablingbo socken', 2),
+			(new_id + 151, 'Halmstad socken', 2),
+			(new_id + 152, 'Hangvar socken', 2),
+			(new_id + 153, 'Haram', 2),
+			(new_id + 154, 'Harbo socken', 2),
+			(new_id + 155, 'Harplinge socken', 2),
+			(new_id + 156, 'Hasslösa socken', 2),
+			(new_id + 157, 'Hauho', 14),
+			(new_id + 158, 'Heddal', 4),
+			(new_id + 159, 'Hedeskoga socken', 2),
+			(new_id + 160, 'Heimaey', 18),
+			(new_id + 161, 'Hellum ', 2),
+			(new_id + 162, 'Helsingborg socken', 2),
+			(new_id + 163, 'Helsinge ', 2),
+			(new_id + 164, 'Hemse socken', 2),
+			(new_id + 165, 'Hillerslev ', 2),
+			(new_id + 166, 'Stevns', 2),
+			(new_id + 167, 'Holmedal socken', 2),
+			(new_id + 168, 'Horne ', 2),
+			(new_id + 169, 'Hossmo socken', 2),
+			(new_id + 170, 'Hubbo socken', 2),
+			(new_id + 171, 'Hulterstad socken', 2),
+			(new_id + 172, 'Hylke ', 2),
+			(new_id + 173, 'Hyllie socken', 2),
+			(new_id + 174, 'Häverö socken', 2),
+			(new_id + 175, 'Ingelstorp socken', 2),
+			(new_id + 176, 'Ivetofta socken', 2),
+			(new_id + 177, 'Jonstorp socken', 2),
+			(new_id + 178, 'Järrestad socken', 2),
+			(new_id + 179, 'Jörn socken', 2),
+			(new_id + 180, 'Kalanti', 14),
+			(new_id + 181, 'Karaby socken', 2),
+			(new_id + 182, 'Karlskrona', 4),
+			(new_id + 183, 'Kiel', 4),
+			(new_id + 184, 'Kil socken', 2),
+			(new_id + 185, 'Kila socken', 2),
+			(new_id + 186, 'Kirke Saaby ', 2),
+			(new_id + 187, 'Kjula socken', 2),
+			(new_id + 188, 'Klemensker ', 2),
+			(new_id + 189, 'Kornerup ', 2),
+			(new_id + 190, 'Kortrijk', 2),
+			(new_id + 191, 'Kosel', 2),
+			(new_id + 192, 'Düren', 4),
+			(new_id + 193, 'Schleswig-Flensburg', 2),
+			(new_id + 194, 'Kragelund ', 2),
+			(new_id + 195, 'Kragerø? ', 2),
+			(new_id + 196, 'Kristiansand?', 2),
+			(new_id + 197, 'Krokek socken', 2),
+			(new_id + 198, 'Kungsbacka ', 2),
+			(new_id + 199, 'Kungsör', 2),
+			(new_id + 200, 'Kvarsebo socken', 2),
+			(new_id + 201, 'Kvillinge socken', 2),
+			(new_id + 202, 'Kvistofta socken', 2),
+			(new_id + 203, 'Kymi', 14),
+			(new_id + 204, 'Kyrkheddinge socken', 2),
+			(new_id + 205, 'Källstad socken', 2),
+			(new_id + 206, 'Kökar', 2),
+			(new_id + 207, 'Köping socken', 2),
+			(new_id + 208, 'Laitila', 4),
+			(new_id + 209, 'Landskrona ', 4),
+			(new_id + 210, 'Lieto', 2),
+			(new_id + 211, 'Lilla Beddinge socken', 2),
+			(new_id + 212, 'Lilla Malma socken', 2),
+			(new_id + 213, 'Lilla Slågarp & Västra Alstad', 7),
+			(new_id + 214, 'Linköping ', 4),
+			(new_id + 215, 'Litslena socken', 2),
+			(new_id + 216, 'Ljung socken', 2),
+			(new_id + 217, 'Ljungby socken', 2),
+			(new_id + 218, 'Los socken', 2),
+			(new_id + 219, 'Lund socken', 2),
+			(new_id + 220, 'Lunda socken', 2),
+			(new_id + 221, 'Löddeköpinge socken', 2),
+			(new_id + 222, 'Löderup socken', 2),
+			(new_id + 223, 'Lövånger socken', 2),
+			(new_id + 224, 'Maglarp socken', 2),
+			(new_id + 225, 'Maharashtra', 2),
+			(new_id + 226, 'Malling ', 2),
+			(new_id + 227, 'Markaryd socken', 2),
+			(new_id + 228, 'Mellby socken', 2),
+			(new_id + 229, 'Meløy', 2),
+			(new_id + 230, 'Mjällby socken', 2),
+			(new_id + 231, 'Murlo', 2),
+			(new_id + 232, 'Nyker ', 2),
+			(new_id + 233, 'Neufvilles', 4),
+			(new_id + 234, 'Norra Nöbbelöv socken', 2),
+			(new_id + 235, 'Norrvidinge socken', 2),
+			(new_id + 236, 'Nosaby or Fjälkinge', 7),
+			(new_id + 237, 'Nousiainen', 2),
+			(new_id + 238, 'Novgorod', 4),
+			(new_id + 239, 'Nylars?', 4),
+			(new_id + 240, 'Näs socken?', 2),
+			(new_id + 241, 'Nöbbele socken', 2),
+			(new_id + 242, 'Oure ', 2),
+			(new_id + 243, 'Oxie socken', 2),
+			(new_id + 244, 'Paattinen', 4),
+			(new_id + 245, 'Partille socken', 2),
+			(new_id + 246, 'Porvoo', 4),
+			(new_id + 247, 'Resmo socken', 2),
+			(new_id + 248, 'Revsund socken', 2),
+			(new_id + 249, 'Ringerike', 2),
+			(new_id + 250, 'Riseberga socken', 2),
+			(new_id + 251, 'Romfartuna socken', 2),
+			(new_id + 252, 'Rovaniemi', 2),
+			(new_id + 253, 'Rångedala socken', 2),
+			(new_id + 254, 'Rörum socken', 2),
+			(new_id + 255, 'Saksild ', 2),
+			(new_id + 256, 'Salaj', 2),
+			(new_id + 257, 'Salem socken', 2),
+			(new_id + 258, 'Saltvik', 2),
+			(new_id + 259, 'Sande', 2),
+			(new_id + 260, 'Sandseryd socken', 2),
+			(new_id + 261, 'Saxtorp socken', 2),
+			(new_id + 262, 'Sebber ', 2),
+			(new_id + 263, 'Segeberg', 2),
+			(new_id + 264, 'Segerstad socken', 2),
+			(new_id + 265, 'Sigtuna ', 4),
+			(new_id + 266, 'Silbodal socken', 2),
+			(new_id + 267, 'Silte socken', 2),
+			(new_id + 268, 'Sjonhem socken', 2),
+			(new_id + 269, 'Själevad socken', 2),
+			(new_id + 270, 'Skara socken', 2),
+			(new_id + 271, 'Skjerstad ', 16),
+			(new_id + 272, 'Skummeslöv socken', 2),
+			(new_id + 273, 'Skuttunge socken', 2),
+			(new_id + 274, 'Skållerud socken', 2),
+			(new_id + 275, 'Skånes-Fagerhult socken', 2),
+			(new_id + 276, 'Skänninge ', 4),
+			(new_id + 277, 'Skärv socken', 2),
+			(new_id + 278, 'Sligeach', 2),
+			(new_id + 279, 'Snöstorp socken', 2),
+			(new_id + 280, 'Sortland ', 2),
+			(new_id + 281, 'Stora Malm socken', 2),
+			(new_id + 282, 'Uppåkra socken', 2),
+			(new_id + 283, 'Stenkyrka socken', 2),
+			(new_id + 284, 'Stenungsund?', 2),
+			(new_id + 285, 'Stockholm', 4),
+			(new_id + 286, 'Mora socken', 2),
+			(new_id + 287, 'Stora Herrestad socken', 2),
+			(new_id + 288, 'Stora Köpinge socken', 2),
+			(new_id + 289, 'Stora Åby socken', 2),
+			(new_id + 290, 'Stävie socken', 2),
+			(new_id + 291, 'Sula', 2),
+			(new_id + 292, 'Säby socken', 2),
+			(new_id + 293, 'Sävare socken', 2),
+			(new_id + 294, 'Söderköping ', 4),
+			(new_id + 295, 'Södertälje ', 4),
+			(new_id + 296, 'Söderåkra socken', 2),
+			(new_id + 297, 'Södra Åkarp socken', 2),
+			(new_id + 298, 'Sölvesborg socken', 2),
+			(new_id + 299, 'Sövde socken', 2),
+			(new_id + 300, 'Tensta socken', 2),
+			(new_id + 301, 'Thorsager', 2),
+			(new_id + 302, 'Tierp socken', 2),
+			(new_id + 303, 'Tofta socken', 2),
+			(new_id + 304, 'Torbjörntorp socken', 2),
+			(new_id + 305, 'Torhamn socken', 2),
+			(new_id + 306, 'Torridal', 16),
+			(new_id + 307, 'Tortuna socken', 2),
+			(new_id + 308, 'Træna', 2),
+			(new_id + 309, 'Trelleborg socken', 2),
+			(new_id + 310, 'Trolle-Ljungby socken', 2),
+			(new_id + 311, 'Trosa socken', 2),
+			(new_id + 312, 'Tullstorp socken', 2),
+			(new_id + 313, 'Tumbo socken', 2),
+			(new_id + 314, 'Tvedestrand', 2),
+			(new_id + 315, 'Tveta socken', 2),
+			(new_id + 316, 'Tystberga socken', 2),
+			(new_id + 317, 'Tåby socken', 2),
+			(new_id + 318, 'Tårnborg ', 2),
+			(new_id + 319, 'Täby socken', 2),
+			(new_id + 320, 'Tønsberg', 2),
+			(new_id + 321, 'Törnevalla socken', 2),
+			(new_id + 322, 'Uppsala ', 4),
+			(new_id + 323, 'Vadstena ', 4),
+			(new_id + 324, 'Værøy', 2),
+			(new_id + 325, 'Vagnhärad socken', 2),
+			(new_id + 326, 'Valby', 4),
+			(new_id + 327, 'Vallby socken', 2),
+			(new_id + 328, 'Valleberga socken', 2),
+			(new_id + 329, 'Valtorp socken', 2),
+			(new_id + 330, 'Vansö socken', 2),
+			(new_id + 331, 'Warszawa', 4),
+			(new_id + 332, 'Vendel socken', 2),
+			(new_id + 333, 'Ventlinge socken', 2),
+			(new_id + 334, 'Vesterøya', 16),
+			(new_id + 335, 'Vestvågöy ', 2),
+			(new_id + 336, 'Veta socken', 2),
+			(new_id + 337, 'Viksta socken', 2),
+			(new_id + 338, 'Villberga socken', 2),
+			(new_id + 339, 'Vintrosa socken', 2),
+			(new_id + 340, 'Visby socken', 2),
+			(new_id + 341, 'Vreta Kloster socken', 2),
+			(new_id + 342, 'Vågsöy', 2),
+			(new_id + 343, 'Vårdsberg & Linköping', 7),
+			(new_id + 344, 'Vårfrukyrka socken', 2),
+			(new_id + 345, 'Väderstad socken', 2),
+			(new_id + 346, 'Väse socken', 2),
+			(new_id + 347, 'Västergarn socken', 2),
+			(new_id + 348, 'Västerljung socken', 2),
+			(new_id + 349, 'Västerås', 4),
+			(new_id + 350, 'Badelunda socken', 2),
+			(new_id + 351, 'Västra Karaby socken', 2),
+			(new_id + 352, 'Västra Tollstad socken', 2),
+			(new_id + 353, 'Väte socken', 2),
+			(new_id + 354, 'Ystad ', 4),
+			(new_id + 355, 'Å socken', 2),
+			(new_id + 356, 'Ådals-Liden socken', 2),
+			(new_id + 357, 'Åhus socken', 2),
+			(new_id + 358, 'Ål socken', 2),
+			(new_id + 359, 'Ås socken', 2),
+			(new_id + 360, 'Flensburg', 4),
+			(new_id + 361, 'Älgarås socken', 2),
+			(new_id + 362, 'Ärentuna socken', 2),
+			(new_id + 363, 'Öggestorp socken', 2),
+			(new_id + 364, 'Öja socken', 2),
+			(new_id + 365, 'Örkelljunga socken', 2),
+			(new_id + 366, 'Ösmo socken', 2),
+			(new_id + 367, 'Östra Eneby socken', 2),
+			(new_id + 368, 'Övergran socken', 2),
+			(new_id + 369, 'Överjärna socken', 2),
 			(new_id + 370, 'Germany/Belgium?', 1)
         ) insert into tbl_locations (location_id, location_name, location_type_id)
         select a.location_id, a.location_name, a.location_type_id
         from new_locations a;
 
-        new_id =  70;
-        with new_methods (method_id, biblio_id, description, method_abbrev_or_alt_name, method_group_id, method_name, record_type_id, unit_id) as (values
-			(new_id + 0, NULL, 'A piece of the ceramic sherd is cut off, fastened to a microscope slide, ground down to 0,03 mm, and polished. The tempering grains and clay is then studied under a microscope to determine clay content, fraction size, sorting and tempering content. These are all determined ocularly. The max grain size and total percent tempering is determined by marking the tempering grains in a photograph projected from the camera connected to the microscope and calculating in the program.', 'Petrographic', 9, 'Petrographic microscopy', NULL, NULL)
-			(new_id + 1, NULL, 'A raw clay sample and a sample of the ceramic sherd, or archaeological sample, is heated in a lab oven in 100 °C intervals, for a total of 30 minutes, up to 1000 °C. The colour change during and after heating is noted and compared to the Munsell Colour Chart to determine the firing temperature and firing atmosphere of the archaeological sample. The samples are then once more heated above 1000 °C, in 50 °C intervals, until they reach their melting point. The assumption for the thermal analysis is that the colour change of the ceramic sample doesn''t occur until after the original firing temperature has been reached.', 'Thermal', 9, 'Thermal analysis', NULL, NULL)
-			(new_id + 2, NULL, 'Collection of ceramic samples by unspecified means', 'Ceramics', 13, 'Ceramics collection', NULL, NULL)
-
-        select a.method_id, a.biblio_id, a.description, a.method_abbrev_or_alt_name, a.method_group_id, a.method_name, a.record_type_id, a.unit_id
+        new_id =  171;
+        with new_methods (method_id, description, method_abbrev_or_alt_name, method_group_id, method_name, record_type_id) as (values
+			(new_id + 0, 'A piece of the ceramic sherd is cut off, fastened to a microscope slide, ground down to 0,03 mm, and polished. The tempering grains and clay is then studied under a microscope to determine clay content, fraction size, sorting and tempering content. These are all determined ocularly. The max grain size and total percent tempering is determined by marking the tempering grains in a photograph projected from the camera connected to the microscope and calculating in the program.', 'Petrographic', 9, 'Petrographic microscopy', 21),
+			(new_id + 1, 'A raw clay sample and a sample of the ceramic sherd, or archaeological sample, is heated in a lab oven in 100 °C intervals, for a total of 30 minutes, up to 1000 °C. The colour change during and after heating is noted and compared to the Munsell Colour Chart to determine the firing temperature and firing atmosphere of the archaeological sample. The samples are then once more heated above 1000 °C, in 50 °C intervals, until they reach their melting point. The assumption for the thermal analysis is that the colour change of the ceramic sample doesn''t occur until after the original firing temperature has been reached.', 'Thermal', 9, 'Thermal analysis', 21),
+			(new_id + 2, 'Collection of ceramic samples by unspecified means', 'Ceramics', 13, 'Ceramics collection', 21)
+		) insert into tbl_methods (method_id, description, method_abbrev_or_alt_name, method_group_id, method_name, record_type_id)
+        select a.method_id, a.description, a.method_abbrev_or_alt_name, a.method_group_id, a.method_name, a.record_type_id
         from new_methods a;
 
-        perform sead_utility.sync_sequence('public', 'tbl_locations');
+		new_id = 70;
+        with new_contacts (contact_id, address_1, address_2, location_id, email, first_name, last_name, url) as (values
+            (new_id + 0, 'The Laboratory for Ceramic Research', 'Lund University', 3911, 'anders.lindahl@geo.lu.se', 'Anders', 'Lindahl', 'http://www.geology.lu.se/anders-lindahl'),
+			(new_id + 1, 'The Laboratory for Ceramic Research', 'Lund University', 3911, NULL, 'Birgitta ', 'Hulthén', NULL),
+			(new_id + 2, 'The Laboratory for Ceramic Research', 'Lund University', 3911, NULL, 'Emma', 'Grönberg', NULL),
+			(new_id + 3, 'The Laboratory for Ceramic Research', 'Lund University', 3911, NULL, 'Emma', 'Ramstedt', NULL),
+			(new_id + 4, 'The Laboratory for Ceramic Research', 'Lund University', 3911, NULL, 'Paul', 'Eklöv Petterson', NULL),
+			(new_id + 5, 'The Laboratory for Ceramic Research', 'Lund University', 3911, NULL, 'Ole', 'Stilborg', NULL),
+			(new_id + 6, 'The Laboratory for Ceramic Research', 'Lund University', 3911, NULL, 'Siv', 'Olsson', NULL),
+			(new_id + 7, 'The Laboratory for Ceramic Research', 'Lund University', 3911, NULL, 'Torbjörn', 'Brosson', NULL),
+			(new_id + 8, 'The Laboratory for Ceramic Research', 'Lund University', 3911, NULL, 'Thomas', 'Eriksson', NULL),
+			(new_id + 9, 'The Laboratory for Ceramic Research', 'Lund University', 3911, NULL, 'KFL', NULL, 'http://www.geology.lu.se/research/laboratories-equipment/the-laboratory-for-ceramic-research')
+        ) insert into tbl_contacts (contact_id, address_1, address_2, location_id, email, first_name, last_name, url)
+        select a.contact_id, a.address_1, a.address_2, a.location_id, a.email, a.first_name, a.last_name, a.url
+        from new_contacts a;
+
+        new_id =  9;
+        with new_alt_ref_type (alt_ref_type_id, alt_ref_type, description) as (values
+			(new_id + 0, 'Museum subnumber', 'Local identification used by a museum.'),
+			(new_id + 1, 'Find number', 'Identification used in the field for artifacts'),
+			(new_id + 2, 'Compound ID', 'SEAD identification made by concatenating two, or more, existing identifications')
+        ) insert into tbl_alt_ref_types (alt_ref_type_id, alt_ref_type, description)
+        select a.alt_ref_type_id, a.alt_ref_type, a.description
+        from new_alt_ref_type a;
+
+		new_id =  6297;
+		with new_biblio (biblio_id, authors, full_reference, title, year) as (values
+			(new_id + 0, 'Strömberg, Bo.', 'Strömberg, Bo. 2004. Arkeologisk slutundersökning, En järnproduktionsplats från 1500-1600-tal i Östra Spång, Område V24:1, Örkelljunga-länsgränsen, E4-projektet i norra Skåne, Skåne, Örkelljunga socken, Östra Spång 6:1, RAÄ 6:1, UV Syd daff rapport 2004:13, RAÄ dnr 321-182-2006, Lund', ' Arkeologisk slutundersökning, En järnproduktionsplats från 1500-1600-tal i Östra Spång, Område V24:1, Örkelljunga-länsgränsen, E4-projektet i norra Skåne, Skåne, Örkelljunga socken, Östra Spång 6:1, RAÄ 6:1, UV Syd daff rapport 2004:13, RAÄ dnr 321-182-2006, Lund', '2004'),
+			(new_id + 1, 'Ericson, Tyra med bidrag av Anne Carlie.', 'Ericson, Tyra med bidrag av Anne Carlie. 2006. Arkeologisk undersökning 2005. Västervång - en boplats från äldre och yngre järnålder. Skåne, Trelleborgs kommun, Trelleborgs stad och socken, Västervång 3:14 m. fl. UV Syd, dokumentation av fältarbetsfasen DAFF 2006:1. Lund', ' Arkeologisk undersökning 2005. Västervång - en boplats från äldre och yngre järnålder. Skåne, Trelleborgs kommun, Trelleborgs stad och socken, Västervång 3:14 m. fl. UV Syd, dokumentation av fältarbetsfasen DAFF 2006:1. Lund', '2006'),
+			(new_id + 2, 'Granlund, Susanne med bidrag av Leif Karlenby.', 'Granlund, Susanne med bidrag av Leif Karlenby. 2006. Arkeologisk undersökning. Lilla Ulvgryt. Hus och hägnad vid Hummelbäcken. E18, Örebro-Lekhyttan. Närke, Vintrosa socken, Lilla Ulvgryt 1:1, RAÄ 97. Riksantikvarieämbetet UV Bergslagen Rapport 2006:11. Örebro', ' Arkeologisk undersökning. Lilla Ulvgryt. Hus och hägnad vid Hummelbäcken. E18, Örebro-Lekhyttan. Närke, Vintrosa socken, Lilla Ulvgryt 1:1, RAÄ 97. Riksantikvarieämbetet UV Bergslagen Rapport 2006:11. Örebro', '2006'),
+			(new_id + 3, 'Edlund, Martin.', 'Edlund, Martin. 2008. Arkeologisk undersökning. Treuddar och hägnader. E18-undersökning vid Bengtstorps gravfält. Närke, Täby socken, Bengtstorp 1:1, RAÄ 34, RAÄ 35. Riksantikvarieämbetet UV Bergslagen Rapport 2008:4.Örebro', ' Arkeologisk undersökning. Treuddar och hägnader. E18-undersökning vid Bengtstorps gravfält. Närke, Täby socken, Bengtstorp 1:1, RAÄ 34, RAÄ 35. Riksantikvarieämbetet UV Bergslagen Rapport 2008:4.Örebro', '2008'),
+			(new_id + 4, 'Hanlon, Conleth, med bidrag av Tony Björk och Björn Nilsson.', 'Hanlon, Conleth, med bidrag av Tony Björk och Björn Nilsson. 2003. Arkeologisk undersökning. Årups Norrevång. Huslämning och härdanläggningsområde från bronsålder Skåne, Ivetofta socken, fastighet Årup 1:1, RAÄ 162. UV Syd, dokumentation av fältarbetsfasen 2003:4, Regionmuseet Kristianstad/Landsantikvarien i Skåne Rapport 2003:38. Lund och Kristianstad.', ' Arkeologisk undersökning. Årups Norrevång. Huslämning och härdanläggningsområde från bronsålder Skåne, Ivetofta socken, fastighet Årup 1:1, RAÄ 162. UV Syd, dokumentation av fältarbetsfasen 2003:4, Regionmuseet Kristianstad/Landsantikvarien i Skåne Rapport 2003:38. Lund och Kristianstad.', '2003'),
+			(new_id + 5, 'Cullberg, K.', 'Cullberg, K. 1973. Ekehögen und Valtersberg zwei Gräberfelder der vorrömischen Eisenzeit in Westschweden. Katalog. Studier i nordisk arkeologi, 11. Göteborg', ' Ekehögen und Valtersberg  zwei Gräberfelder der vorrömischen Eisenzeit in Westschweden. Katalog. Studier i nordisk arkeologi, 11. Göteborg', '1973'),
+			(new_id + 6, 'Cademar Nilsson, Åsa, Ericson Lagerås, Karin,', 'Cademar Nilsson, Åsa, Ericson Lagerås, Karin, 1999. Gravfältet vid Annelöv. Ett gravfält från bronsålder och boplatslämningar från senneolitikum till äldre järnålder. Skåne, Annelöv sn, Annelöv 38:1, VKB SU13. Arkeologisk undersökning, UV Syd Rapport 1999:104.', ' Gravfältet vid Annelöv. Ett gravfält från bronsålder och boplatslämningar från senneolitikum till äldre järnålder. Skåne, Annelöv sn, Annelöv 38:1, VKB SU13. Arkeologisk undersökning, UV Syd Rapport 1999:104.', '1999'),
+			(new_id + 7, 'Heimann, Curry.', 'Heimann, Curry. 2002. Hästholmen - en stenåldersboplats i Flötefjorden, Stora Le arkeologisk undersökning år 2000 av fornlämning RAÄ nr 197, Holmedal socken, Årjängs kommun, Värmlands län . GOTARC. Serie D, Arkeologiska rapporter, 53 . Göteborgs universitet.', ' Hästholmen - en stenåldersboplats i Flötefjorden, Stora Le  arkeologisk undersökning år 2000 av fornlämning RAÄ nr 197, Holmedal socken, Årjängs kommun, Värmlands län . GOTARC. Serie D, Arkeologiska rapporter, 53 . Göteborgs universitet. ', '2002'),
+			(new_id + 8, 'Söderberg, Bengt (red.)', 'Söderberg, Bengt (red.) 2002. UV Syd Rapport 2002:16. Arkeologisk undersökning. Järrestad i centrum. Väg 11, sträckan Östra Tommarp-Simrishamn. Järrestads sn, Skåne. RAÄ UV Syd Rapport 2002:16. Lund', ' UV Syd Rapport 2002:16. Arkeologisk undersökning. Järrestad i centrum. Väg 11, sträckan Östra Tommarp-Simrishamn. Järrestads sn, Skåne. RAÄ UV Syd Rapport 2002:16. Lund', '2002'),
+			(new_id + 9, 'Larsson, Lars.', 'Larsson, Lars. 1982. A causewayed enclosure and a site with Valby pottery at Stävie, Western Scania. I: Meddelanden från Lunds universitets historiska museum. 1981-2. Lund', 'A causewayed enclosure and a site with Valby pottery at Stävie, Western Scania. I: Meddelanden från Lunds universitets historiska museum. 1981-2. Lund', '1982'),
+			(new_id + 10, 'Hulthén, B. & Welinder, S.', 'Hulthén, B. & Welinder, S. 1981. A Stone Age economy. Theses and papers in Nort-European Archaeology 11. Stockholm-Lund.', 'A Stone Age economy. Theses and papers in Nort-European Archaeology 11.  Stockholm-Lund.', '1981'),
+			(new_id + 11, 'Stjernquist, B.', 'Stjernquist, B. 1985. A Votive Deposit from Arlösa, Southern Sweden. In Honorem Evert Baudou. Archaeology and Environment 4. Dept. of Archaeology. Umeå.', 'A Votive Deposit from Arlösa, Southern Sweden. In Honorem Evert Baudou. Archaeology and Environment 4. Dept. of Archaeology. Umeå.', '1985'),
+			(new_id + 12, 'Rydbeck, O.', 'Rydbeck, O. 1934. Aktuelle Steinzeitsprobleme. LUHM 1933-34. Lund', 'Aktuelle Steinzeitsprobleme. LUHM 1933-34. Lund', '1934'),
+			(new_id + 13, 'Gidlöf, K, Hammarstrand Dehman, K & Johansson, T.', 'Gidlöf, K, Hammarstrand Dehman, K & Johansson, T. 2006. Almhov- delområde 1. Rapport över arkeologisk slutundersökning. Citytunnelprojektet. Malmö kulturmiljö. (RAÄ dnr 321-2984-2006).', 'Almhov- delområde 1. Rapport över arkeologisk slutundersökning. Citytunnelprojektet. Malmö kulturmiljö. (RAÄ dnr 321-2984-2006).', '2006'),
+			(new_id + 14, 'Browall, H.', 'Browall, H. 1986. Alvasta pålbyggnad. Social och ekonomisk bas. Thesis and Papers in North-European Archaeology. Stockholm', 'Alvasta pålbyggnad. Social och ekonomisk bas. Thesis and Papers in North-European Archaeology. Stockholm', '1986'),
+			(new_id + 15, 'Källén, Anna.', 'Källén, Anna. 2004. And through flows the river. Archaeology and the pasts of Lao Pako. Studies in global archaeology, 6. Uppsala', 'And through flows the river. Archaeology and the pasts of Lao Pako. Studies in global archaeology, 6. Uppsala', '2004'),
+			(new_id + 16, 'Stilborg, O.', 'Stilborg, O. 2006. Appendix 4. Clays and tempering in wares from Köpingsvik and Ottenby. Results of petrographic studies of Pitted Ware pottery from Öland. I: Papmehl-Dufay 2006. s. 296-323. Stockholm', 'Appendix 4. Clays and tempering in wares from Köpingsvik and Ottenby. Results of petrographic studies of Pitted Ware pottery from Öland. I: Papmehl-Dufay 2006. s. 296-323. Stockholm', '2006'),
+			(new_id + 17, 'Andersson, Kent, Biwall, Andersson, Frölund, Per, Holm, Jenny, Rosborg, Britta, Waks, Göran & Wrang, Laura.', 'Andersson, Kent, Biwall, Andersson, Frölund, Per, Holm, Jenny, Rosborg, Britta, Waks, Göran & Wrang, Laura. 1994. Arkeologi på väg – undersökningar för E18. Tibble, bebyggelse och gravar i norra Trögden. Rapport Riksantikvarieämbetet. UV-Uppsala 1994:52. Uppsala.', 'Arkeologi på väg – undersökningar för E18. Tibble, bebyggelse och gravar i norra Trögden. Rapport Riksantikvarieämbetet. UV-Uppsala 1994:52. Uppsala. ', '1994'),
+			(new_id + 18, 'Ullén, Inga. (red)', 'Ullén, Inga. (red) 2003. Arkeologi på väg: undersökningar för E18. Bronsåldersboplatsen vid Apalle i Uppland : Uppland, Övergrans socken, Apalle, RAÄ 260. Stockholm: Avd. för arkeologiska undersökningar (UV), Riksantikvarieämbetet', 'Arkeologi på väg: undersökningar för E18. Bronsåldersboplatsen vid Apalle i Uppland : Uppland, Övergrans socken, Apalle, RAÄ 260. Stockholm: Avd. för arkeologiska undersökningar (UV), Riksantikvarieämbetet', '2003'),
+			(new_id + 19, 'Dutra Leivas, Ivonne & Hennius, Andreas.', 'Dutra Leivas, Ivonne & Hennius, Andreas. 2006. Arkeologisk förundersökning. Äldre järnålder och medeltida bebyggelse vid Sandbro. Undersökningar för E4. Fornlämning 314, Björklinge socken, Uppland. Upplandsmuseet Rapport 2006:01. Uppsala', 'Arkeologisk förundersökning. Äldre järnålder och medeltida bebyggelse vid Sandbro. Undersökningar för E4. Fornlämning 314, Björklinge socken, Uppland. Upplandsmuseet Rapport 2006:01. Uppsala', '2006'),
+			(new_id + 20, 'Varenius, B.', 'Varenius, B. 2008. Arkeologisk Rapport 2008:78. Lundströms plats. Arkeologisk undersökning inom område med medeltida kulturlager och bebyggelselämningar, Lundströms plats, Sofia församling, Jönköpings stad, RAÄ 50. Jönköpings museum.', 'Arkeologisk Rapport 2008:78. Lundströms plats. Arkeologisk undersökning inom område med medeltida kulturlager och bebyggelselämningar, Lundströms plats, Sofia församling, Jönköpings stad, RAÄ 50. Jönköpings museum. ', '2008'),
+			(new_id + 21, 'Larsson, Rolf.', 'Larsson, Rolf. 2004. Arkeologisk slutundersökning, En nordvästskånsk järnhanteringsplats och vattenkraftsanläggning, Område E4:31, Örkelljunga-länsgränsen, E4-projektet i norra Skåne, Skåne, Skånes-Fagerhult socken, Värsjö 3:10, RAÄ 125, UV Syd daff rapport 2004:10. RAÄ dnr 321-3241-2005. Lund', 'Arkeologisk slutundersökning, En nordvästskånsk järnhanteringsplats och vattenkraftsanläggning, Område E4:31, Örkelljunga-länsgränsen, E4-projektet i norra Skåne, Skåne, Skånes-Fagerhult socken, Värsjö 3:10, RAÄ 125, UV Syd daff rapport 2004:10. RAÄ dnr 321-3241-2005. Lund', '2004'),
+			(new_id + 22, 'Alexandersson, K.', 'Alexandersson, K. 2004. Arkeologisk undersökning i Mysinge år 2004; Undersökning av gånggrift Raä 85, Resmo socken, Mörbylånga kommun, Öland. Teknisk rapport. Högskolan i Kalmar.', 'Arkeologisk undersökning i Mysinge år 2004; Undersökning av gånggrift Raä 85, Resmo socken, Mörbylånga kommun, Öland. Teknisk rapport. Högskolan i Kalmar.', '2004'),
+			(new_id + 23, 'Artursson, M,', 'Artursson, M, 2000. Arkeologisk undersökning, Häljarp - Boplatslämningar från yngre bronsålder och förromersk järnålder, Skåne, Tofta sn, Häljarp 14:1, VKB SU5, UV Syd Rapport 1999:94 (RAÄ dnr 321-1012-2006).', 'Arkeologisk undersökning, Häljarp - Boplatslämningar från yngre bronsålder och förromersk järnålder, Skåne, Tofta sn, Häljarp 14:1, VKB SU5, UV Syd Rapport 1999:94 (RAÄ dnr 321-1012-2006).', '2000'),
+			(new_id + 24, 'Martens, J.', 'Martens, J. 1999. Arkeologisk undersökning. Kogegrubeområde med grave og lertagningsgruber ved Säbyholm. Skåne, Säbyholm, Vej 1156, Plads 1A:5. Riksantikvarieämbetet. Avdelningen för arkeologiska undersökningar. UV SYD SAPPORT 1999:58. (RAÄ dnr 321-2708-2004).', 'Arkeologisk undersökning. Kogegrubeområde med grave og lertagningsgruber ved Säbyholm. Skåne, Säbyholm, Vej 1156, Plads 1A:5. Riksantikvarieämbetet. Avdelningen för arkeologiska undersökningar. UV SYD SAPPORT 1999:58. (RAÄ dnr 321-2708-2004).', '1999'),
+			(new_id + 25, 'Beronius Jörpeland, L., Dunér, J & Skylberg, E.', 'Beronius Jörpeland, L., Dunér, J & Skylberg, E. 2003. Arkeologisk undersökning. Lunda gård - delområde B. Järnåldersbebyggelsen. E20. Södermanland, Strängnäs socken, Strängnäs 2:1 och 2:23, RAÄ 266. Riksantikvarieämbetet Avdelningen för arkeologiska undersökningar, UV Mitt, dokumentation av fältarbetsfasen 2003:4. (RAÄ dnr 321-147-2009). Stockholm', 'Arkeologisk undersökning. Lunda gård - delområde B. Järnåldersbebyggelsen. E20. Södermanland, Strängnäs socken, Strängnäs 2:1 och 2:23, RAÄ 266. Riksantikvarieämbetet Avdelningen för arkeologiska undersökningar, UV Mitt, dokumentation av fältarbetsfasen 2003:4. (RAÄ dnr 321-147-2009). Stockholm', '2003'),
+			(new_id + 26, 'Åqvist, C.', 'Åqvist, C. 2004. Arkeologisk undersökning. Sanda - en gård i södra Uppland. Bebyggelse från vendeltid till 1600-tal. Uppland, Fresta socken, Sanda 1:1, RAÄ 147. Riksantikvarieämbetet Avdelningen för arkeologiska undersökningar, UV Mitt, Rapport 2004:15', 'Arkeologisk undersökning. Sanda - en gård i södra Uppland. Bebyggelse från vendeltid till 1600-tal. Uppland, Fresta socken, Sanda 1:1, RAÄ 147. Riksantikvarieämbetet Avdelningen för arkeologiska undersökningar, UV Mitt, Rapport 2004:15', '2004'),
+			(new_id + 27, 'Svanberg, Fredrik, Söderberg, Bengt, Andersson, Eva & Brorsson, Torbjörn (red.)', 'Svanberg, Fredrik, Söderberg, Bengt, Andersson, Eva & Brorsson, Torbjörn (red.) 2000. Arkeologiska studier kring Borgeby och Löddeköpinge. 2, Porten till Skåne : Löddeköpinge under järnålder och medeltid, Avd. för arkeologiska undersökningar, Riksantikvarieämbetet, Lund', 'Arkeologiska studier kring Borgeby och Löddeköpinge. 2, Porten till Skåne : Löddeköpinge under järnålder och medeltid, Avd. för arkeologiska undersökningar, Riksantikvarieämbetet, Lund', '2000'),
+			(new_id + 28, 'Grundberg, L. & Johansson, M.', 'Grundberg, L. & Johansson, M. 2010. Arkeologiska undersökningar av "Bjärtrå fäste", Raä 43/44. Fornlämning: Raä 43/44, Fastighet: Kungsgården 1:6, 3:3, Socken: Bjärtrå, Kommun: Kramfors, Landskap: Ångermanland. Murberget, Länsmuseet Västernorrland. Rapport 2010:16. (Raä dnr: 321-2943-2010)', 'Arkeologiska undersökningar av "Bjärtrå fäste", Raä 43/44. Fornlämning: Raä 43/44, Fastighet: Kungsgården 1:6, 3:3, Socken: Bjärtrå, Kommun: Kramfors, Landskap: Ångermanland. Murberget, Länsmuseet Västernorrland. Rapport 2010:16. (Raä dnr: 321-2943-2010)', '2010'),
+			(new_id + 29, 'Menander, Hanna & Molin, Fredrik.', 'Menander, Hanna & Molin, Fredrik. 2003. Arkeologiska undersökningar vid Linköpings flygplats RAÄ 123, 125 i Linköpings stad, RAÄ 17-18, 19, 267 i Vårdsbergs socken, Linköpings flygplats/Saab-fältet, Tannefors 1:107, Linköpings stad, Östergötland . UV Öst, Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, DAFF 2003:3. Linköping', 'Arkeologiska undersökningar vid Linköpings flygplats  RAÄ 123, 125 i Linköpings stad, RAÄ 17-18, 19, 267 i Vårdsbergs socken, Linköpings flygplats/Saab-fältet, Tannefors 1:107, Linköpings stad, Östergötland . UV Öst, Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, DAFF 2003:3. Linköping', '2003'),
+			(new_id + 30, 'Wells, B.', 'Wells, B. 1983. Asine II results of the excavations east of the Acropolis 1970-1974 Fasc. 4 The protogeometric period. Skrifter / utgivna av Svenska institutet i Athen. 4o ; 24. Stockholm-Athen', 'Asine II results of the excavations east of the Acropolis 1970-1974 Fasc. 4 The protogeometric period. Skrifter / utgivna av Svenska institutet i Athen. 4o ; 24. Stockholm-Athen', '1983'),
+			(new_id + 31, 'Gustafsson, Malin.', 'Gustafsson, Malin. 2000. Binga och Hossmo  hantverk och gravar från yngre järnålder, fornlämning 134 och 161, Hossmo socken, Småland. Kalmar läns museums arkeologiska rapporter, 2000:8. Kalmar', 'Binga och Hossmo  hantverk och gravar från yngre järnålder, fornlämning 134 och 161, Hossmo socken, Småland. Kalmar läns museums arkeologiska rapporter, 2000:8. Kalmar', '2000'),
+			(new_id + 32, 'Hagelqvist, T: & Widenborg, M.,', 'Hagelqvist, T: & Widenborg, M., 1977. Björkärr en boplats från yngre stenåldern i östra Blekinge : ett undersökningsobjekt i kronologi och ekologi. C-uppsats i arkeologi. Lund', 'Björkärr  en boplats från yngre stenåldern i östra Blekinge : ett undersökningsobjekt i kronologi och ekologi. C-uppsats i arkeologi. Lund', '1977'),
+			(new_id + 33, 'Red. Artursson, M.', 'Red. Artursson, M. 1996. Bollbacken. En sen gropkeramisk boplats och ett gravfält från äldre järnålder Raä 258, Tortuna sn Västmanland. Rapporter från Arkeologikonsult 1996.', 'Bollbacken. En sen gropkeramisk boplats och ett gravfält från äldre järnålder Raä 258, Tortuna sn Västmanland. Rapporter från Arkeologikonsult 1996.', '1996'),
+			(new_id + 34, 'Olsson, L. och Swedberg, S.', 'Olsson, L. och Swedberg, S. 2005. Boplatser i Amhult. Arkeologiska undersökningar av To 99, To 105, To 107, To 108, To 110, To 257 och To 258. Del 1 Tekniska rapporter. Göteborgs kommun. Arkeologisk rapport 2005:45. Göteborgs Stadsmuseum. (RAÄ dnr 321-3230-2005).', 'Boplatser i Amhult. Arkeologiska undersökningar av To 99, To 105, To 107, To 108, To 110, To 257 och To 258. Del 1 Tekniska rapporter. Göteborgs kommun. Arkeologisk rapport 2005:45. Göteborgs Stadsmuseum. (RAÄ dnr 321-3230-2005).', '2005'),
+			(new_id + 35, 'Olsson, T., Regnell, M., Nilsson, L., Eriksson, M. & Brorsson, T.', 'Olsson, T., Regnell, M., Nilsson, L., Eriksson, M. & Brorsson, T. 1996. Boplatslämningar från neolitikum, bronsålder och äldre järnålder. Skåne, Väg 108, N Nöbbelövs, Stångby, Vallkärra och Lackalänga socknar, Lunds och Kävlinge kommuner. Arkeologisk slutundersökning. Riksantikvarieämbetet. UV Syd Rapport 1996:60. Lund', 'Boplatslämningar från neolitikum, bronsålder och äldre järnålder. Skåne, Väg 108, N Nöbbelövs, Stångby, Vallkärra och Lackalänga socknar, Lunds och Kävlinge kommuner. Arkeologisk slutundersökning. Riksantikvarieämbetet. UV Syd Rapport 1996:60. Lund', '1996'),
+			(new_id + 36, 'Runcis, Janis.', 'Runcis, Janis. 2000. Boplatsmiljöer från yngre bronsålder och äldsta järnålder i Grevies backlandskap arkeologisk undersökning : Skåne, Grevie socken, Grevie 2:13, 34:1, Killeröd 10:32. Rapport / UV Syd, 2000:31:1. Lund', 'Boplatsmiljöer från yngre bronsålder och äldsta järnålder i Grevies backlandskap  arkeologisk undersökning : Skåne, Grevie socken, Grevie 2:13, 34:1, Killeröd 10:32. Rapport / UV Syd, 2000:31:1. Lund', '2000'),
+			(new_id + 37, 'Carlie, L.', 'Carlie, L. 1992. Brogård – ett brons- och järnålderskomplex i södra Halland. Dess kronologi och struktur. Hallands Länsmuseers Skriftserie No 6. Halmstad', 'Brogård – ett brons- och järnålderskomplex i södra Halland. Dess kronologi och struktur. Hallands Länsmuseers Skriftserie No 6. Halmstad', '1992'),
+			(new_id + 38, 'Segerberg, Ann.', 'Segerberg, Ann. 1999. Bälinge mossar  kustbor i Uppland under yngre stenåldern. Aun, 26. Uppsala', 'Bälinge mossar  kustbor i Uppland under yngre stenåldern. Aun, 26. Uppsala', '1999'),
+			(new_id + 39, 'Lindhagen, Adam.', 'Lindhagen, Adam. 2006. Caleacte production and exchange in a North Sicilian town c. 500 BC-AD 500. Diss. Department of Archaeology and Ancient History, Lund University. Lund', 'Caleacte  production and exchange in a North Sicilian town c. 500 BC-AD 500. Diss. Department of Archaeology and Ancient History, Lund University. Lund', '2006'),
+			(new_id + 40, 'Brink, K. & Hydén, S.', 'Brink, K. & Hydén, S. 2006. Citytunnelprojektet Hyllie vattentorn - delområde 4 och Palissaden - delområde 5 : rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 42. Malmö', 'Citytunnelprojektet  Hyllie vattentorn - delområde 4 och Palissaden - delområde 5 : rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 42. Malmö', '2006'),
+			(new_id + 41, 'Chidosan, N.', 'Chidosan, N. 1980. Contributii la istoria tracilor din nord-vestul României. Asezarea Wietenberg de la Dersida. Oradea', 'Contributii la istoria tracilor din nord-vestul României. Asezarea Wietenberg de la Dersida. Oradea', '1980'),
+			(new_id + 42, 'Trotzig, G.', 'Trotzig, G. 1991. Craftsmanship and function. A study of metal vessels found in Viking Age tombs on the island of Gotland, Sweden. Monographs - Museum of National Antiquities/Stockholm, 1. Stockholm', 'Craftsmanship and function. A study of metal vessels found in Viking Age tombs on the island of Gotland, Sweden. Monographs - Museum of National Antiquities/Stockholm, 1. Stockholm', '1991'),
+			(new_id + 43, 'Lagergren-Olsson, A & Linderoth, T.', 'Lagergren-Olsson, A & Linderoth, T. 2000. De neolitiska boplatslämningarna på plats SU 21. Rikdantikvarieämbetet, Avdelningen för arkeologiska undersökningar. UV SYD RAPPORT 2000:22. ARKEOLOGISK UNDRSÖKNING. (RAÄ dnr 321-993-2006).', 'De neolitiska boplatslämningarna på plats SU 21. Rikdantikvarieämbetet, Avdelningen för arkeologiska undersökningar. UV SYD RAPPORT 2000:22. ARKEOLOGISK UNDRSÖKNING. (RAÄ dnr 321-993-2006).', '2000'),
+			(new_id + 44, 'Becker, Nathalie', 'Becker, Nathalie 1999. De vendeltida gårdslämningarna i Dagstorp. Skåne, Dagstorp socken, Dagstorp 1:2-3, 5:31, Västkustbanan SU 21. Arkeologisk undersökning, UV Syd Rapport 1999:62.', 'De vendeltida gårdslämningarna i Dagstorp. Skåne, Dagstorp socken, Dagstorp 1:2-3, 5:31, Västkustbanan SU 21. Arkeologisk undersökning, UV Syd Rapport 1999:62.', '1999'),
+			(new_id + 45, 'Heimer, Olle & Ifverson, Patric.', 'Heimer, Olle & Ifverson, Patric. 2003. Delområde 8 och Amdala gård (Lockarps bytomt). MHM 12756, MK 67, Lockarps sn. Sammanfattning av slutundersökningarna 2001-2002. CITYTUNNELPROJEKTET. Sammanfattningar av undersökningarna 2000-2002. Malmö Kulturmiljö, Kulturförvaltningen 2003. (RAÄ Dnr 321-1462-2004)', 'Delområde 8 och Amdala gård (Lockarps bytomt). MHM 12756, MK 67, Lockarps sn. Sammanfattning av slutundersökningarna 2001-2002. CITYTUNNELPROJEKTET. Sammanfattningar av undersökningarna 2000-2002. Malmö Kulturmiljö, Kulturförvaltningen 2003. (RAÄ Dnr 321-1462-2004)', '2003'),
+			(new_id + 46, 'Nordman, Ann-Marie & Pettersson, Claes.', 'Nordman, Ann-Marie & Pettersson, Claes. 2009. Den centrala periferin arkeologisk undersökning i kvarteret Diplomaten, faktori- och hantverksgårdar i Jönköping 1620-1790 : RAÄ 50, Jönköpings stad. Arkeologisk rapport / Jönköpings läns museum, 2009:40. Jönköping', 'Den centrala periferin  arkeologisk undersökning i kvarteret Diplomaten, faktori- och hantverksgårdar i Jönköping 1620-1790 : RAÄ 50, Jönköpings stad. Arkeologisk rapport / Jönköpings läns museum, 2009:40. Jönköping', '2009'),
+			(new_id + 47, 'Welinder, Stig', 'Welinder, Stig 1974. Den norrländska stenålderns sydgräns. I: Fornvännen. Årg. 69. s. 183-193', 'Den norrländska stenålderns sydgräns. I: Fornvännen. Årg. 69. s. 183-193', '1974'),
+			(new_id + 48, 'Jennbert, Kristina.', 'Jennbert, Kristina. 1984. Den produktiva gåvan. Tradition och innovation i Sydskandinavien för omkring 5300 år sedan. Acta Archaeologica Lundensia. Series in 4o. No 16. Lund', 'Den produktiva gåvan. Tradition och innovation i Sydskandinavien för omkring 5300 år sedan. Acta Archaeologica Lundensia. Series in 4o. No 16. Lund', '1984'),
+			(new_id + 49, 'Scherman, Susanna.', 'Scherman, Susanna. 2007. Den svenska kakelugnen : 1700-talets tillverkning från Marieberg och Rörstrand. Stockholm', 'Den svenska kakelugnen : 1700-talets tillverkning från Marieberg och Rörstrand. Stockholm', '2007'),
+			(new_id + 50, 'Kriig, Stefan och Thomasson, Joakim.', 'Kriig, Stefan och Thomasson, Joakim. 1999. Den vikingatidia/tidigmedeltida bebyggelsen i Häljarp. Skåne, Tofta sn, RAÄ nr 19, Häljarp 10:15, VBK SU3. UV SYD RAPPORT 1999:95. ARKEOLOGISK UNDERSÖKNING. VÄSTKUSTBANAN. Riksantikvarieämbetet. Avdelningen för arkeologiska undersökningar (Dnr 321-2710-2004). Lund', 'Den vikingatidia/tidigmedeltida bebyggelsen i Häljarp. Skåne, Tofta sn, RAÄ nr 19, Häljarp 10:15, VBK SU3. UV SYD RAPPORT 1999:95. ARKEOLOGISK UNDERSÖKNING. VÄSTKUSTBANAN. Riksantikvarieämbetet. Avdelningen för arkeologiska undersökningar (Dnr 321-2710-2004). Lund', '1999'),
+			(new_id + 51, 'Modderman, P. J. R.', 'Modderman, P. J. R. 1974. Die Limburger Keramik von Kesseleyk. I: Archäologisches Korrespondenzblatt, Heft 1.', 'Die Limburger Keramik von Kesseleyk. I: Archäologisches Korrespondenzblatt, Heft 1. ', '1974'),
+			(new_id + 52, 'Strömberg, M.', 'Strömberg, M. 1971. Die Megalitgräber von Hagestad. Acta Archaeologica Lundensia.', 'Die Megalitgräber von Hagestad. Acta Archaeologica Lundensia.', '1971'),
+			(new_id + 53, 'Lindborg, Henrik & Schönbeck, Mattias.', 'Lindborg, Henrik & Schönbeck, Mattias. 1992. Dragby och Åby - ett kronologiskt mönster från två gravfält. Uppsats CD. Inst. för arkeologi. Uppsala Universitet. ht 1992. Uppsala; Lundholm, K., 1969. Dragbyfältet. Lic. avh. Institutionen för nordeuropeisk arkeologi, Uppsala Universitet. Stencil.', 'Dragby och Åby - ett kronologiskt mönster från två gravfält. Uppsats CD. Inst. för arkeologi. Uppsala Universitet. ht 1992. Uppsala; Lundholm, K., 1969. Dragbyfältet. Lic. avh. Institutionen för nordeuropeisk arkeologi, Uppsala Universitet. Stencil. ', '1992'),
+			(new_id + 54, 'Rubensson, Leif, Gustafsson, Malin, Olsson, Robin.', 'Rubensson, Leif, Gustafsson, Malin, Olsson, Robin. 2001. Eket-en järnframställningsplats från äldre järnålder, fornlämning 342, Söderåkra socken, Småland. Kalmar läns museums arkeologiska rapporter, 2001:6. Kalmar', 'Eket-en järnframställningsplats från äldre järnålder, fornlämning 342, Söderåkra socken, Småland. Kalmar läns museums arkeologiska rapporter, 2001:6. Kalmar', '2001'),
+			(new_id + 55, 'Wyszomirska, Bozena.', 'Wyszomirska, Bozena. 1988. Ekonomisk stabilitet vid kusten. Nymölla III. En tidigneoliitisk bosättning med fångstekonomi i nordöstra Skåne. Acta Archaeologica Lundensia. Series in 8o Nr 17. Stockholm-Lund.', 'Ekonomisk stabilitet vid kusten. Nymölla III. En tidigneoliitisk bosättning med fångstekonomi i nordöstra Skåne. Acta Archaeologica Lundensia. Series in 8o Nr 17. Stockholm-Lund. ', '1988'),
+			(new_id + 56, 'Stjernquist, B.', 'Stjernquist, B. 1969. En boplats från äldre järnålder i Hötofta, sydvästra Skåne. I: Fornvännen', 'En boplats från äldre järnålder i Hötofta, sydvästra Skåne. I: Fornvännen', '1969'),
+			(new_id + 57, 'Larsson, L.', 'Larsson, L. 1974. En boplats i Björnstorp. I: Ale no 1.', 'En boplats i Björnstorp. I: Ale no 1. ', '1974'),
+			(new_id + 58, 'Ericson-Lagerås, Karin.', 'Ericson-Lagerås, Karin. 1999. En gravgrupp från yngre bronsålder och boplatser från yngre bronsålder och yngre järnålder vid Rya. Arkeologisk slutundersökning, Västkustbanan 2:5. UV Syd Rapport 1999:3. Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar. Dnr 321-2719-2004. Lund', 'En gravgrupp från yngre bronsålder och boplatser från yngre bronsålder och yngre järnålder vid Rya. Arkeologisk slutundersökning, Västkustbanan 2:5. UV Syd Rapport 1999:3. Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar. Dnr 321-2719-2004. Lund', '1999'),
+			(new_id + 59, 'Becker, Nathalie', 'Becker, Nathalie 2003. En gård på Lilla Tvären. Boplatslämningar och järnhantering från den äldre järnåldern. Skåne, Hedeskoga socken, Lilla Tvären 4:1. Dnr 423-724-2002. UV SYD, DOKUMENTATION AV FÄLTARBETSFASEN 2003:1, ARKEOLOGISK UNDERSÖKNING. Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar.', 'En gård på Lilla Tvären. Boplatslämningar och järnhantering från den äldre järnåldern. Skåne, Hedeskoga socken, Lilla Tvären 4:1. Dnr 423-724-2002. UV SYD, DOKUMENTATION AV FÄLTARBETSFASEN 2003:1, ARKEOLOGISK UNDERSÖKNING. Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar.', '2003'),
+			(new_id + 60, 'Stjernquist, B.', 'Stjernquist, B. 1950. En hällkista på Björkön, Skålleruds socken, Dalsland. I: Hembygden / Dalslands fornminnes- och hembygdsförbund. S. 5-38. Färgelanda', 'En hällkista på Björkön, Skålleruds socken, Dalsland. I: Hembygden / Dalslands fornminnes- och hembygdsförbund. S. 5-38. Färgelanda ', '1950'),
+			(new_id + 61, 'Strömberg, M.', 'Strömberg, M. 1978. En kustby i Ystad - före stadens tillkomst. I: Ystadiana 1978. s. 7-101. Ystad', 'En kustby i Ystad - före stadens tillkomst. I: Ystadiana 1978. s. 7-101. Ystad', '1978'),
+			(new_id + 62, 'Stenvall Johan.', 'Stenvall Johan. 2009. En långvarig boplats i Veta inför nyplanerade villatomter i Mantorps västra utkant, RAÄ 45, boplats, inom fastigheten Veta 5:5, Veta socken, Mantorp, Mjölby kommun, Östergötlands län, dnr 423-4074-2004 : särskild arkeologisk undersökning (arkeologisk slutundersökning). Riksantikvarieämbetet UV Öst rapport, 2009:35. Linköping', 'En långvarig boplats i Veta  inför nyplanerade villatomter i Mantorps västra utkant, RAÄ 45, boplats, inom fastigheten Veta 5:5, Veta socken, Mantorp, Mjölby kommun, Östergötlands län, dnr 423-4074-2004 : särskild arkeologisk undersökning (arkeologisk slutundersökning). Riksantikvarieämbetet UV Öst rapport, 2009:35. Linköping', '2009'),
+			(new_id + 63, 'Schaller Åhrberg, Eva.', 'Schaller Åhrberg, Eva. 1994. En neolitisk boplats i Gödestads socken  projekt Västgas I : arkeologisk undersökning av fornlämning 27, Båtsbergs 2:2, Gödestads socken, Halland. Riksantikvarieämbetet Arkeologiska resultat / UV Väst, 1994:5. Kungsbacka', 'En neolitisk boplats i Gödestads socken  projekt Västgas I : arkeologisk undersökning av fornlämning 27, Båtsbergs 2:2, Gödestads socken, Halland. Riksantikvarieämbetet Arkeologiska resultat / UV Väst, 1994:5. Kungsbacka', '1994'),
+			(new_id + 64, 'Hellerström, Sven.', 'Hellerström, Sven. 1997. En trattbägarboplats vid Nöbbelöv. I: red. Karsten. Carpe Scaniam. Axplock ur skånes förflutna. s. 41-57. Skrifter / Riksantikvarieämbetet, Arkeologiska undersökningar, 22. Lund', 'En trattbägarboplats vid Nöbbelöv. I: red. Karsten. Carpe Scaniam. Axplock ur skånes förflutna. s. 41-57. Skrifter / Riksantikvarieämbetet, Arkeologiska undersökningar, 22. Lund', '1997'),
+			(new_id + 65, 'Rolfsen, P.', 'Rolfsen, P. 1980. Et pottemakerverksted fra Romertiden. I: Festskrift til Sverre Marstrander. Universitetets Oldsaksamling. Skrifter Nr 3. Oslo', 'Et pottemakerverksted fra Romertiden. I: Festskrift til Sverre Marstrander. Universitetets Oldsaksamling. Skrifter Nr 3. Oslo', '1980'),
+			(new_id + 66, 'Lindström, Jonathan & Boije, Margareta.', 'Lindström, Jonathan & Boije, Margareta. 2000. Ett dödshus från stridsyxetid arkeologisk delundersökning av RAÄ 415, ett neolitiskt dödshus med offerplats och en äldre järnåldersboplats samt RAÄ 319:2, en stensträng, Söderby 2:3, Turinge socken, Nykvarns kommun, Södermanland. Rapport / Stockholms läns museum, 2000:8. Stockholm', 'Ett dödshus från stridsyxetid  arkeologisk delundersökning av RAÄ 415, ett neolitiskt dödshus med offerplats och en äldre järnåldersboplats samt RAÄ 319:2, en stensträng, Söderby 2:3, Turinge socken, Nykvarns kommun, Södermanland. Rapport / Stockholms läns museum, 2000:8. Stockholm', '2000'),
+			(new_id + 67, 'Lindahl Jensen, B. & Nilsson, M.-L.', 'Lindahl Jensen, B. & Nilsson, M.-L. 2000. Ett källsprång i Saxtorp - med fynd från tidigneolittikum och yngre bronsålder, Skåne, Saxtorp sn, Kvärlöv 19:1. VKB SU 9. Arkeologisk undersökning. Riksantikvarieämbetet UV Syd rapport 1999:92. (Raä dnr: 321-1013-2006)', 'Ett källsprång i Saxtorp - med fynd från tidigneolittikum och yngre bronsålder, Skåne, Saxtorp sn, Kvärlöv 19:1. VKB SU 9. Arkeologisk undersökning. Riksantikvarieämbetet UV Syd rapport 1999:92. (Raä dnr: 321-1013-2006)', '2000'),
+			(new_id + 68, 'Almgren, O.', 'Almgren, O. 1916. Ett uppländskt gravfält med romerska kärl. Under-sökt av Eskil Olsson. Beskrivet av Oscar Almgren. I. Fornvännen 1916, Årgången 11. s. 76–103. Stockholm', 'Ett uppländskt gravfält med romerska kärl. Under-sökt av Eskil Olsson. Beskrivet av Oscar Almgren. I. Fornvännen 1916, Årgången 11. s. 76–103. Stockholm', '1916'),
+			(new_id + 69, 'van der Waals, J.D. & Waterbolk, H.T.', 'van der Waals, J.D. & Waterbolk, H.T. 1976. Excavations at Swifterbant-discovery, progress, aims and methods. I: Helinium XVI.', 'Excavations at Swifterbant-discovery, progress, aims and methods. I: Helinium XVI. ', '1976'),
+			(new_id + 70, 'Gullmärt-Häger, L. & Pettersson, L.', 'Gullmärt-Häger, L. & Pettersson, L. 1979. Fornlämning 54,boplatsrest från yngre stenåldern. Mjäla 1:13, Nätra sn, Örnsköldsvik kn, Ångermanland. Riksantikvarieämbetets rapport. Ångermanland.', 'Fornlämning 54,boplatsrest från yngre stenåldern. Mjäla 1:13, Nätra sn, Örnsköldsvik kn, Ångermanland. Riksantikvarieämbetets rapport. Ångermanland.', '1979'),
+			(new_id + 71, 'Strömberg, M.', 'Strömberg, M. 1976. Forntid i sydostskåne. Föreningen för hembygdsvård i sydöstra Skåne. Småskrifter 14. Lund', 'Forntid i sydostskåne. Föreningen för hembygdsvård i sydöstra Skåne. Småskrifter 14. Lund', '1976'),
+			(new_id + 72, 'Toreld, Christina & Wranning, Per.', 'Toreld, Christina & Wranning, Per. 2003. Framgrävt förflutet från Fyllinge : resultat från undersökningarna 2001-2002 Halland, Snöstorps socken, Fyllinge 20:436. [Vol. 1]. Arkeologiska rapporter från Landsantikvarien, 1400-8750 ; 2003:3. Halmstad', 'Framgrävt förflutet från Fyllinge : resultat från undersökningarna 2001-2002 Halland, Snöstorps socken, Fyllinge 20:436. [Vol. 1]. Arkeologiska rapporter från Landsantikvarien, 1400-8750 ; 2003:3. Halmstad', '2003'),
+			(new_id + 73, 'Lindahl, Anders & Olausson, Deborah.', 'Lindahl, Anders & Olausson, Deborah. 1991. From Bjäresjö to Buhera. I: ed. Kristina Jennbert. 1991. Regions and reflections in honour of Märta Strömberg. Acta archaeologica Lundensia. Series in 8o, 20. Stockholm-Lund.', 'From Bjäresjö to Buhera. I: ed. Kristina Jennbert. 1991.  Regions and reflections  in honour of Märta Strömberg. Acta archaeologica Lundensia. Series in 8o, 20. Stockholm-Lund.', '1991'),
+			(new_id + 74, 'Schmidt Wikborg, Emelie.', 'Schmidt Wikborg, Emelie. 2006. Från gård och grund uppå Sommaränge skog medeltida bebyggelselämningar i Viksta socken, Uppland : rapport del 2 för undersökningar vid Sommaränge skog, RAÄ 211, Viksta sn, Uppland : de historiska lämningarna. SAU skrifter, 15. Uppsala', 'Från gård och grund uppå Sommaränge skog  medeltida bebyggelselämningar i Viksta socken, Uppland : rapport del 2 för undersökningar vid Sommaränge skog, RAÄ 211, Viksta sn, Uppland : de historiska lämningarna. SAU skrifter, 15. Uppsala', '2006'),
+			(new_id + 75, 'Kriig, Stefan,', 'Kriig, Stefan, 1999. Från stenålder till medeltid i Särslöv. Skåne, Dagstorps sn, Särslöv 2:1, VKB SU 22. Arkeologisk undersökning, UV Syd Rapport 1999:105.', 'Från stenålder till medeltid i Särslöv. Skåne, Dagstorps sn, Särslöv 2:1, VKB SU 22. Arkeologisk undersökning, UV Syd Rapport 1999:105.', '1999'),
+			(new_id + 76, 'Wallin, L., Bergenstråle, I.& Knarrström, B.,', 'Wallin, L., Bergenstråle, I.& Knarrström, B., 2000. Förbi Sölvesborg arkeologiska utredningar, förundersökningar och särskilda undersökningar : Skåne, Ivetofta socken, Blekinge, Sölvesborgs socken, väg E22 delen förbi Sölvesborg. Rapport Riksantikvarieämbetet UV Syd, 2000:108. Lund ', 'Förbi Sölvesborg  arkeologiska utredningar, förundersökningar och särskilda undersökningar : Skåne, Ivetofta socken, Blekinge, Sölvesborgs socken, väg E22 delen förbi Sölvesborg.  Rapport Riksantikvarieämbetet UV Syd, 2000:108. Lund ', '2000'),
+			(new_id + 77, 'Strucke, Ulf & Bäck, Mathias.', 'Strucke, Ulf & Bäck, Mathias. 2003. Förhistoriska lämningar och förindustriell tegeltillverkning i Selånger Medelpad, Selångers socken, Kungsnäs 1:11, RAÄ 87:3, Dnr 423-4413-2000. RAÄ UV Mitt, DAFF 2003:1. Stockholm', 'Förhistoriska lämningar och förindustriell tegeltillverkning i Selånger  Medelpad, Selångers socken, Kungsnäs 1:11, RAÄ 87:3, Dnr 423-4413-2000. RAÄ UV Mitt, DAFF 2003:1. Stockholm', '2003'),
+			(new_id + 78, 'Ramqvist, Per H.', 'Ramqvist, Per H. 1983. Gene. On the origin, function and development of sedentary Iron Age settlement in Northern Sweden. Archaeology and Environment 1. Umeå', 'Gene. On the origin, function and development of sedentary Iron Age settlement in Northern Sweden. Archaeology and Environment 1. Umeå', '1983'),
+			(new_id + 79, 'Lindberg, K.F. et al.', 'Lindberg, K.F. et al. 2006. Glädjen - Rast- och jaktplats från tidigneolitikum till bronsålder. Väg E4, sträckan Uppsala-Mehedeby. Uppland, Tierp socken, Tierps Allmäning S:1, RAÄ 86. DNR 422-1399-2004 och 423-2710-2003. Arkeologi E4 Uppland. UV Gal, Rapport 2006:3. Arkeologisk förundersökning och undersökning. Riksantikvarieämbetet. Avdelningen för arkeologiska undersökningar. (RAÄ dnr 321-821-2007).', 'Glädjen - Rast- och jaktplats från tidigneolitikum till bronsålder. Väg E4, sträckan Uppsala-Mehedeby. Uppland, Tierp socken, Tierps Allmäning S:1, RAÄ 86. DNR 422-1399-2004 och 423-2710-2003. Arkeologi E4 Uppland. UV Gal, Rapport 2006:3. Arkeologisk förundersökning och undersökning. Riksantikvarieämbetet. Avdelningen för arkeologiska undersökningar. (RAÄ dnr 321-821-2007).', '2006'),
+			(new_id + 80, 'Janzon, Gunborg O.', 'Janzon, Gunborg O. 1974. Gotlands mellanneolitiska gravar. Studies in North-European archaeology, 6. Stockholm', 'Gotlands mellanneolitiska gravar. Studies in North-European archaeology, 6. Stockholm', '1974'),
+			(new_id + 81, 'Karlsson, Emma.', 'Karlsson, Emma. 2008. Gravar på Galgebergsgärdet. Arkeologisk undersökning. RAÄ 35-38, kv Cisternen 6, Vadstena stad och kommun, Östergötlands län. Östergötlands länsmuseum. Rapport 2008:105. RAÄ dnr 321-3306-2006', 'Gravar på Galgebergsgärdet. Arkeologisk undersökning. RAÄ 35-38, kv Cisternen 6, Vadstena stad och kommun, Östergötlands län. Östergötlands länsmuseum. Rapport 2008:105. RAÄ dnr 321-3306-2006', '2008'),
+			(new_id + 82, 'Månsson, Stefan & Pihl, Henrik.', 'Månsson, Stefan & Pihl, Henrik. 2000. Gravar, yxtillverkning och hus från mellanneolitikum. Skåne, Dagstorps sn, Särslöv 3:6 m. fl. VKB SU17. Arkeologisk undersökning. Riksantikvarieämbetet UV Syd rapport 1999:98. (Raä dnr: 321-1010-2006)', 'Gravar, yxtillverkning och hus från mellanneolitikum. Skåne, Dagstorps sn, Särslöv 3:6 m. fl. VKB SU17. Arkeologisk undersökning. Riksantikvarieämbetet UV Syd rapport 1999:98. (Raä dnr: 321-1010-2006)', '2000'),
+			(new_id + 83, 'Weiler, Eva & Bergström Eva.', 'Weiler, Eva & Bergström Eva. 1981. Gravfält från äldre järnålder  fornlämning 8, Hasslösa, Hasslösa socken, Västergötland. Rapport - Riksantikvarieämbetet och Statens historiska museer. Undersökningsverksamheten, 1981:21. Stockholm', 'Gravfält från äldre järnålder  fornlämning 8, Hasslösa, Hasslösa socken, Västergötland. Rapport - Riksantikvarieämbetet och Statens historiska museer. Undersökningsverksamheten, 1981:21. Stockholm', '1981'),
+			(new_id + 84, 'Hansen, F.', 'Hansen, F. 1934. Gravundersökningar i sydligaste Skåne. I: Kungliga Humanistiska Vetenskapssamf:s i Lund årsberättelse 1933-34, s 270-75. Lund', 'Gravundersökningar i sydligaste Skåne. I: Kungliga Humanistiska Vetenskapssamf:s i Lund årsberättelse 1933-34, s 270-75. Lund', '1934'),
+			(new_id + 85, 'Nerman, B.', 'Nerman, B. 1958. Grobin-Seeburg : Ausgrabungen und Funde, Stockholm: Almqvist & Wiksell.', 'Grobin-Seeburg : Ausgrabungen und Funde, Stockholm: Almqvist & Wiksell.', '1958'),
+			(new_id + 86, 'Forenius, S. et al.', 'Forenius, S. et al. 2009. Gårdar och järnhantering i Smedsbo. Vid forn-Tämnarens strand från stenålder till tidig medeltid. Uppland, Harbo socken, Harbo-Smedsbo 1:31, Raä 264 m. fl., Rapport 2009:13, UV Uppsala.', 'Gårdar och järnhantering i Smedsbo. Vid forn-Tämnarens strand från stenålder till tidig medeltid. Uppland, Harbo socken, Harbo-Smedsbo 1:31, Raä 264 m. fl., Rapport 2009:13, UV Uppsala.  ', '2009'),
+			(new_id + 87, 'Pettersson, Claes.', 'Pettersson, Claes. 2001. Gårdarna vid vägen arkeologiska undersökningar : Vendel- och vikingatida boplatslämningar : Skåne, Flädie socken, Bjärred 9:6. RAÄ Rapport / UV Syd, 2001:12. Lund', 'Gårdarna vid vägen  arkeologiska undersökningar : Vendel- och vikingatida boplatslämningar : Skåne, Flädie socken, Bjärred 9:6. RAÄ Rapport / UV Syd, 2001:12. Lund', '2001'),
+			(new_id + 88, 'Carlie, Lennart.', 'Carlie, Lennart. 2006. Gården under sanden. Äldre järnåldersbebyggelse vid Lynga. Halland, Harplinge socken, Lynga 1:3, 2:3, RAÄ 155, väg 610. Arkeologiska rapporter från Hallands länsmuseer 2006:2, Kulturmiljö Halland. (Raä dnr: 321-2883-2006)', 'Gården under sanden. Äldre järnåldersbebyggelse vid Lynga. Halland, Harplinge socken, Lynga 1:3, 2:3, RAÄ 155, väg 610. Arkeologiska rapporter från Hallands länsmuseer 2006:2, Kulturmiljö Halland. (Raä dnr: 321-2883-2006)', '2006'),
+			(new_id + 89, 'Hille Jaanusson', 'Hille Jaanusson 1981. Hallunda. A Study of Pottery from a Late Bronze Age Settlement in Central Sweden. The museum of National Antiquities, Stockholm. Studies 1. Stockholm', 'Hallunda. A Study of Pottery from a Late Bronze Age Settlement in Central Sweden. The museum of National Antiquities, Stockholm. Studies 1. Stockholm', '1981'),
+			(new_id + 90, 'Dahlbäck, G. et al. (red.).', 'Dahlbäck, G. et al. (red.). 1982. Helgeandsholmen. 1000 år i Stockholms ström. Monografier / utgivna av Stockholms kommun, 48. Stockholm', 'Helgeandsholmen. 1000 år i Stockholms ström. Monografier / utgivna av Stockholms kommun, 48. Stockholm', '1982'),
+			(new_id + 91, 'Lund Hansen, Ulla et al.', 'Lund Hansen, Ulla et al. 1995. Himlingøje - Seeland - Europa. Ein Gräberfeld der jüngeren römischen Kaiserzeit auf Seeland, seine Bedeutung und internationalen Beziehungen. Nordiske fortidsminder. Serie B - in quarto, 13. Köbenhavn', 'Himlingøje - Seeland - Europa. Ein Gräberfeld der jüngeren römischen Kaiserzeit auf Seeland, seine Bedeutung und internationalen Beziehungen. Nordiske fortidsminder. Serie B - in quarto, 13. Köbenhavn ', '1995'),
+			(new_id + 92, 'Balic, Ivan & Edring, Anders.', 'Balic, Ivan & Edring, Anders. 2003. Hunneberget, En neolitisk centralplats. Arkeologisk slutundersökning, VÄG E 22 Kristianstad-Fjälkinge, Skåne, Fjälkinge socken, RAÄ 76. Dnr 431-39395-02. UV SYD, DOKUMENTATION AV FÄLTARBETSFASEN 2003.7, RAPPORT, REGIONMUSEET I KRISTIANSTAD/LANDSANTIKVARIEN I SKÅNE RAPPORT NR 2003:34. Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar. Regionmuseet i Kristianstad, Landsantikvarien i Skåne.', 'Hunneberget, En neolitisk centralplats. Arkeologisk slutundersökning, VÄG E 22 Kristianstad-Fjälkinge, Skåne, Fjälkinge socken, RAÄ 76. Dnr 431-39395-02. UV SYD, DOKUMENTATION AV FÄLTARBETSFASEN 2003.7, RAPPORT, REGIONMUSEET I KRISTIANSTAD/LANDSANTIKVARIEN I SKÅNE RAPPORT NR 2003:34. Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar. Regionmuseet i Kristianstad, Landsantikvarien i Skåne.', '2003'),
+			(new_id + 93, 'Andréasson, A & Sandén, U.', 'Andréasson, A & Sandén, U. 2008. Hyllie 155:91. Neolitikum och järnålder inom södra delen av Hyllievång. Arkeologisk förundersökning 2001. Malmö Kulturmiljö. Enheten för Arkeologi, rapport 2008:052. (RAÄ dnr 321-1226-2009).', 'Hyllie 155:91. Neolitikum och järnålder inom södra delen av Hyllievång. Arkeologisk förundersökning 2001. Malmö Kulturmiljö. Enheten för Arkeologi, rapport 2008:052. (RAÄ dnr 321-1226-2009).', '2008'),
+			(new_id + 94, 'Borg, Jan & Hylén, Håkan.', 'Borg, Jan & Hylén, Håkan. 2001. Härdar, hyddor och ett hus - två arkeologiska undersökningar av förhistoriska boplatslämningar, RAÄ 98, inom kv Elektronen, Hakarps socken i Jönköpings kommun, Jönköpings län. Arkeologisk rapport / Jönköpings läns museum, 2010:07. Jönköping', 'Härdar, hyddor och ett hus - två arkeologiska undersökningar av förhistoriska boplatslämningar, RAÄ 98, inom kv Elektronen, Hakarps socken i Jönköpings kommun, Jönköpings län. Arkeologisk rapport / Jönköpings läns museum, 2010:07. Jönköping', '2001'),
+			(new_id + 95, 'Ramqvist, Per H.', 'Ramqvist, Per H. 1992. Högom the excavations 1949-1984 : Högom part 1. Archaeology and environment, 13. Stockholm-Umeå', 'Högom  the excavations 1949-1984 : Högom part 1. Archaeology and environment, 13. Stockholm-Umeå', '1992'),
+			(new_id + 96, 'red. Ljungkvist, John.', 'red. Ljungkvist, John. 2000. I maktens närhet. Två boplatsundersökningar i Gamla Uppsala. SAU skrifter 1, 2000. Uppsala', 'I maktens närhet. Två boplatsundersökningar i Gamla Uppsala. SAU skrifter 1, 2000. Uppsala', '2000'),
+			(new_id + 97, 'Strömberg, M.', 'Strömberg, M. 1982. Ingelstorp. Zur Siedlungsentwicklung eines südschwedisches Dorfes. Acta Archaeologica Lundensia. Series in 4o. No 14. Lund.', 'Ingelstorp. Zur Siedlungsentwicklung eines südschwedisches Dorfes. Acta Archaeologica Lundensia. Series in 4o. No 14. Lund.', '1982'),
+			(new_id + 98, 'Andersson, Daniel.', 'Andersson, Daniel. 2006. Järnframställning och smide i Charlottendal  arkeometallurgiska analyser : RAÄ 226, Rångdala sn, Västergötland. Analysrapport / Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL ; 2006:3. Uppsala', 'Järnframställning och smide i Charlottendal  arkeometallurgiska analyser : RAÄ 226, Rångdala sn, Västergötland. Analysrapport / Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL ; 2006:3. Uppsala', '2006'),
+			(new_id + 99, 'Grandin, Lena, Hjärthner-Holdar, Eva och Grönberg, Emma.', 'Grandin, Lena, Hjärthner-Holdar, Eva och Grönberg, Emma. 2005. Järnhantering vid Bjuröklubb och Grundskatan arkeometallurgiska analyser : Lövångers sn, Västerbotten. Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL ; 2005:13. Uppsala', 'Järnhantering vid Bjuröklubb och Grundskatan  arkeometallurgiska analyser : Lövångers sn, Västerbotten. Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL ; 2005:13. Uppsala', '2005'),
+			(new_id + 100, 'Johansson, Anna.', 'Johansson, Anna. 2005. Kakeltillverktning. Examensarbete vid Hantverksskolan i Mariestad Dacopo. Mariestad', 'Kakeltillverktning. Examensarbete vid Hantverksskolan i Mariestad Dacopo. Mariestad', '2005'),
+			(new_id + 101, 'Larsson, L.', 'Larsson, L. 1985. Karlsfält a settlement from the Early and Late Funnel Beaker Culture in southern Scania, Sweden. I: Acta Archaeologica. Vol. 54. 1983. s. 3-71. Köbenhavn.', 'Karlsfält a settlement from the Early and Late Funnel Beaker Culture in southern Scania, Sweden. I: Acta Archaeologica. Vol. 54. 1983. s. 3-71. Köbenhavn.', '1985'),
+			(new_id + 102, 'Carlsson, Ronnie (red.).', 'Carlsson, Ronnie (red.). 1988. Kastelholms slott arkeologiska undersökningar 1982 och 1983; KS 1-KS 14. Museibyrån, Kastelholm 1988:1. Mariehamn', 'Kastelholms slott  arkeologiska undersökningar 1982 och 1983; KS 1-KS 14. Museibyrån, Kastelholm 1988:1. Mariehamn', '1988'),
+			(new_id + 103, 'Augustsson, J-E.', 'Augustsson, J-E. 1985. Keramik i Halmstad ca. 1322-1619. Produktion - Distribution - Funktion. Halland Länsmuseers Skriftserie No 2. Lund', 'Keramik i Halmstad ca. 1322-1619. Produktion - Distribution - Funktion. Halland Länsmuseers Skriftserie No 2. Lund', '1985'),
+			(new_id + 104, 'Stilborg, O.', 'Stilborg, O. 2001. Keramiken i centrum. Keramik som indikator på centralplatsstatus. I: red. L. Larsson. Uppåkrastudier 4. Uppåkra. Centrum i analys och rapport. Acta Archaeologica Lundensia. Series in 8o, No. 36. Lund', 'Keramiken i centrum. Keramik som indikator på centralplatsstatus. I:  red. L. Larsson. Uppåkrastudier 4. Uppåkra. Centrum i analys och rapport. Acta Archaeologica Lundensia. Series in 8o, No. 36. Lund', '2001'),
+			(new_id + 105, 'Haltiner Nordström, Susanne.', 'Haltiner Nordström, Susanne. 2008. Krukmakarna Banck. Inför byggnation inom kvarteret Dromedaren 1 och 2, fornlämning 50, Jönköpings stad. Jönköpings läns museum rapportnr 2008:97. Jönköping', 'Krukmakarna Banck. Inför byggnation inom kvarteret Dromedaren 1 och 2, fornlämning 50, Jönköpings stad. Jönköpings läns museum rapportnr 2008:97. Jönköping', '2008'),
+			(new_id + 106, 'Häggstöm, L., Kristensson, A. och Nilsson, N.', 'Häggstöm, L., Kristensson, A. och Nilsson, N. 2004. Kulturlandskap från äldre Järnålder i Öggestorp. Jönköpings läns museum, arkeologisk rapport 2003:65. (RAÄ dnr 321-2655-2004)', 'Kulturlandskap från äldre Järnålder i Öggestorp. Jönköpings läns museum, arkeologisk rapport 2003:65. (RAÄ dnr 321-2655-2004)', '2004'),
+			(new_id + 107, 'Onsten-Molander, Anna & Wikborg, Jonas.', 'Onsten-Molander, Anna & Wikborg, Jonas. 2006. Kyrsta. Del 2. Förhistoriska boplatslämningar. Undersökningar för E4, RAÄ 327 & RAÄ 330, Ärentuna socken, Uppland. SAU Skrifter 17. 2006. Med bidrag av P. Garsztka, K.- Martinelle, E. Pettersson, E. Sjöling, K. Willemark & H. Åqvist. Uppsala', 'Kyrsta. Del 2. Förhistoriska boplatslämningar. Undersökningar för E4, RAÄ 327 & RAÄ 330, Ärentuna socken, Uppland. SAU Skrifter 17. 2006. Med bidrag av P. Garsztka, K.- Martinelle, E. Pettersson, E. Sjöling, K. Willemark & H. Åqvist. Uppsala', '2006'),
+			(new_id + 108, 'Arbman, H.', 'Arbman, H. 1945. Käringsjön. Studier i Halländsk Järnålder. Kungl. Vitterhets Historie och Antikvitets Akademiens Handlingar Del 59:1. Stockholm', 'Käringsjön. Studier i Halländsk Järnålder. Kungl. Vitterhets Historie och Antikvitets Akademiens Handlingar Del 59:1. Stockholm', '1945'),
+			(new_id + 109, 'Gustafsson, Malin, Dutra Leivas, Ivonne, Mattson, Örjan & Olsson, Robin.', 'Gustafsson, Malin, Dutra Leivas, Ivonne, Mattson, Örjan & Olsson, Robin. 2006. Kättsta - boplatser och gravar genom 2000 år. Undersökningar för E4. Ärentuna socken, Uppland. Med bidrag av Qvarfordt, Tore. Upplandsmuseet, rapport 2006:7. Uppsala', 'Kättsta - boplatser och gravar genom 2000 år. Undersökningar för E4. Ärentuna socken, Uppland. Med bidrag av Qvarfordt, Tore. Upplandsmuseet, rapport 2006:7. Uppsala', '2006'),
+			(new_id + 110, 'Ryberg, Ewa & Wranning, Per (red.).', 'Ryberg, Ewa & Wranning, Per (red.). 2001. Landskap i förändring, volym 2. Teknisk rapport från de arkeologiska undersökningarna av RAÄ 106, 162, 193 och 195, Skrea socken, Halland. Hallands Länsmuseer, Landsantikvarien & Riksantikvarieämbetet. (Raä dnr: 321-1880-2005)', 'Landskap i förändring, volym 2. Teknisk rapport från de arkeologiska undersökningarna av RAÄ 106, 162, 193 och 195, Skrea socken, Halland. Hallands Länsmuseer, Landsantikvarien & Riksantikvarieämbetet. (Raä dnr: 321-1880-2005) ', '2001'),
+			(new_id + 111, 'Johansson, Nils; Streiffert, Jörgen & Wranning, Per (red.).', 'Johansson, Nils; Streiffert, Jörgen & Wranning, Per (red.). 2001. Landskap i förändring, volym 3. Teknisk rapport från de arkeologiska undersökningarna av RAÄ 116, 118, 120 och 122 i Stafsinge socken, Halland. Hallands Länsmuseer, Landsantikvarien & Riksantikvarieämbetet UV Väst. (Raä dnr: 321-1891-2005)', 'Landskap i förändring, volym 3. Teknisk rapport från de arkeologiska undersökningarna av RAÄ 116, 118, 120 och 122 i Stafsinge socken, Halland. Hallands Länsmuseer, Landsantikvarien & Riksantikvarieämbetet UV Väst. (Raä dnr: 321-1891-2005) ', '2001'),
+			(new_id + 112, 'Stilborg, O.', 'Stilborg, O. 2003. Late Iron Age Metal Craft Ceramics at Uppåkra. I: Hårdh, B. (red.). Fler fynd i centrum. Materialstudier i och kring Uppåkra. Uppåkrastudier, 9. Acta archaeologica Lundensia. Series in 8o, 45. S. 137-164. Lund.', 'Late Iron Age Metal Craft Ceramics at Uppåkra. I: Hårdh, B. (red.). Fler fynd i centrum. Materialstudier i och kring Uppåkra. Uppåkrastudier, 9. Acta archaeologica Lundensia. Series in 8o, 45. S. 137-164. Lund. ', '2003'),
+			(new_id + 113, 'Heinzelin, J. de., Haesaerts, P. & Laet, S. J. de.', 'Heinzelin, J. de., Haesaerts, P. & Laet, S. J. de. 1977. Le Gué du Plantin (Neufvilles, Hainaut), site néolithique et romain. Dissertationes Archaeologicae Gandenses. Vol. XVII. Brugge.', 'Le Gué du Plantin (Neufvilles, Hainaut), site néolithique et romain. Dissertationes Archaeologicae Gandenses. Vol. XVII. Brugge.', '1977'),
+			(new_id + 114, 'Häringe Frisberg, Kajsa, Seiler, Anton & Larsson, Fredrik.', 'Häringe Frisberg, Kajsa, Seiler, Anton & Larsson, Fredrik. 2007. Lövstaholm  boplatslämningar från yngre bronsålder-folkvandringstid utmed Samnan, väg E4, sträckan Uppsala-Mehedeby, Uppland, Gamla Uppsala socken, Lövstaholm 21:27 och 21:47, RAÄ 531 : arkeologisk undersökning. Rapport / Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL, 2007:1. Uppsala.', 'Lövstaholm  boplatslämningar från yngre bronsålder-folkvandringstid utmed Samnan, väg E4, sträckan Uppsala-Mehedeby, Uppland, Gamla Uppsala socken, Lövstaholm 21:27 och 21:47, RAÄ 531 : arkeologisk undersökning. Rapport / Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL, 2007:1. Uppsala.', '2007'),
+			(new_id + 115, 'Victor, Helena,', 'Victor, Helena, 2002. Med graven som granne. Om bronsålderns kulthus. AUN 30. Uppsala', 'Med graven som granne. Om bronsålderns kulthus. AUN 30. Uppsala', '2002'),
+			(new_id + 116, 'Cullberg, C.', 'Cullberg, C. 1963. Megalitgraven i Rössberga. Riksantikvarieämbetet. Stockholm', 'Megalitgraven i Rössberga. Riksantikvarieämbetet. Stockholm', '1963'),
+			(new_id + 117, 'Papmehl-Dufay, L.', 'Papmehl-Dufay, L. 2005. Mellanneolitikum vid Ottenby kungsgård arkeologisk undersökning av RAÄ 40, Ås socken, Ölands sydspets, april-september 2004. Rapporter från Arkeologiska forskningslaboratoriet, 2 Stockholms Universitet. Stockholm', 'Mellanneolitikum vid Ottenby kungsgård  arkeologisk undersökning av RAÄ 40, Ås socken, Ölands sydspets, april-september 2004.  Rapporter från Arkeologiska forskningslaboratoriet, 2 Stockholms Universitet. Stockholm', '2005'),
+			(new_id + 118, 'Andersson, A. Grönngaard, T. J. & Svensson, M.', 'Andersson, A. Grönngaard, T. J. & Svensson, M. 2000. Mellanneolitisk palissadinhägnad och folkvandringstida boplats. Skåne, Västra Karaby sn, Västra Karaby 28:5, Dagstorp 17:12, VKB SU19. Arkeologisk undersökning. Riksantikvarieämbetet UV Syd rapport 1999:101. (Raä dnr: 321-1005-2006)', 'Mellanneolitisk palissadinhägnad och folkvandringstida boplats. Skåne, Västra Karaby sn, Västra Karaby 28:5, Dagstorp 17:12, VKB SU19. Arkeologisk undersökning. Riksantikvarieämbetet UV Syd rapport 1999:101. (Raä dnr: 321-1005-2006)', '2000'),
+			(new_id + 119, 'Welinder, Stig', 'Welinder, Stig 1990. Människor i Västeråstrakten för 1000 år sedan. Västerås kulturnämnds skriftserie, 22. Västerås.', 'Människor i Västeråstrakten för 1000 år sedan. Västerås kulturnämnds skriftserie, 22. Västerås.', '1990'),
+			(new_id + 120, 'Nilsson, Nicolas.', 'Nilsson, Nicolas. 2001. Mören-ett boplatsområde från sten- och järnålder, fornlämning Raä 341, 199:2, 116, 251, 336, Ljungby socken, Småland. Kalmar läns museums arkeologiska rapporter, 2001:4. E22-projektet ; 2001:4. Kalmar', 'Mören-ett boplatsområde från sten- och järnålder, fornlämning Raä 341, 199:2, 116, 251, 336, Ljungby socken, Småland. Kalmar läns museums arkeologiska rapporter, 2001:4. E22-projektet ; 2001:4. Kalmar', '2001'),
+			(new_id + 121, 'Andersson, C. & Hållans Stenholm, A-M.', 'Andersson, C. & Hållans Stenholm, A-M. 2006. Nabor i Norrsunda - bytomterna Valsta och Säby vid sjön Fysingen Arlandabanan : Uppland, Norrsunda socken, Vallstanäs, RAÄ 165 och RAÄ 167 : arkeologiska undersökningar . RAÄ UV Mitt rapport 2006:25', 'Nabor i Norrsunda - bytomterna Valsta och Säby vid sjön Fysingen  Arlandabanan : Uppland, Norrsunda socken, Vallstanäs, RAÄ 165 och RAÄ 167 : arkeologiska undersökningar . RAÄ UV Mitt rapport 2006:25', '2006'),
+			(new_id + 122, 'Meurers-Balke, J., Arnold, V., Hulthén, B., Johnen, N., Liermann, R., Löffler, R., Reichstein, H. & Strzoda, U.', 'Meurers-Balke, J., Arnold, V., Hulthén, B., Johnen, N., Liermann, R., Löffler, R., Reichstein, H. & Strzoda, U. 1985. Neukirchen-Bostholm, Kreis Schleswig-Flensburg. Ein Siedlungsplatz der Mittelneolitischen Trichterbecherkultur an der Flensburger Aussenförde. I: Offa. Band 42. s. 273-345. Neumünster', 'Neukirchen-Bostholm, Kreis Schleswig-Flensburg. Ein Siedlungsplatz der Mittelneolitischen Trichterbecherkultur an der Flensburger Aussenförde. I: Offa. Band 42. s. 273-345.  Neumünster', '1985'),
+			(new_id + 123, 'Artursson, M. Karlenby, L., Larsson, F. (red.).', 'Artursson, M. Karlenby, L., Larsson, F. (red.). 2011. Nibble: en bronsåldersmiljö i Uppland : särskild undersökning, 2007 : E18 sträckan Sagån-Enköping : Uppland, Tillinge socken, Tillinge-Nibble 1:9 & Tillinge-Mälby 5:1 : Riksantikvarieämbetet. [Sverige]: Riksantikvarieämbetets arkeologiska uppdragsverksamhet', 'Nibble: en bronsåldersmiljö i Uppland : särskild undersökning, 2007 : E18 sträckan Sagån-Enköping : Uppland, Tillinge socken, Tillinge-Nibble 1:9 & Tillinge-Mälby 5:1 : Riksantikvarieämbetet. [Sverige]: Riksantikvarieämbetets arkeologiska uppdragsverksamhet', '2011'),
+			(new_id + 124, 'Gustavsson, Kenneth.', 'Gustavsson, Kenneth. 1997. Otterböte. New light on a Bronze Age site in the Baltic. Theses and Papers in Archaeology B:4. Archaeological Research Laboratory, Stockholm University. Stockholm.', 'Otterböte. New light on a Bronze Age site in the Baltic. Theses and Papers in Archaeology B:4. Archaeological Research Laboratory, Stockholm University. Stockholm.', '1997'),
+			(new_id + 125, 'Gustavsson, Kenneth.', 'Gustavsson, Kenneth. 1997. Otterböte. New light on a Bronze Age site in the Baltic. Theses and Papers in Archaeology B:4. Archaeological Research Laboratory, Stockholm University. Stockholm.', 'Otterböte. New light on a Bronze Age site in the Baltic. Theses and Papers in Archaeology B:4. Archaeological Research Laboratory, Stockholm University. Stockholm. ', '1997'),
+			(new_id + 126, 'Janzon, Gunborg O.', 'Janzon, Gunborg O. 1989. Preliminär rapport från arkeologiska undersökningar vid Hellerö, Västra Ed socken, (Västerviks kommun, Kalmar län) Småland. Manuskript', 'Preliminär rapport från arkeologiska undersökningar vid Hellerö, Västra Ed socken, (Västerviks kommun, Kalmar län) Småland. Manuskript', '1989'),
+			(new_id + 127, 'Borna-Ahlkvist, H., Lindgren-Hertz, L. & Stålbom, U.', 'Borna-Ahlkvist, H., Lindgren-Hertz, L. & Stålbom, U. 1998. Pryssgården  från stenålder till medeltid : arkeologisk slutunderökning, RAÄ 166 och 167, Östra Eneby socken, Norrköpings kommun, Östergötland. Rapport+ bilagor. Riksantikvarieämbetet UV Linköping, 1998:13. Linköping', 'Pryssgården  från stenålder till medeltid : arkeologisk slutunderökning, RAÄ 166 och 167, Östra Eneby socken, Norrköpings kommun, Östergötland. Rapport+ bilagor. Riksantikvarieämbetet UV Linköping, 1998:13. Linköping', '1998'),
+			(new_id + 128, 'Molin, Fredrik.', 'Molin, Fredrik. 2008. Ramshäll  boplats från yngre stenålder samt lämningar från övergången bronsålder till äldsta järnålder : arkeologisk undersökning inför uppförande av nytt stjärnhus RAÄ 188, Ramshäll 1:1, Linköpings stad och kommun, Östergötland : arkeologisk slutundersökning. Riksantikvarieämbetet UV Öst rapport, 2008:46. Linköping', 'Ramshäll  boplats från yngre stenålder samt lämningar från övergången bronsålder till äldsta järnålder : arkeologisk undersökning inför uppförande av nytt stjärnhus RAÄ 188, Ramshäll 1:1, Linköpings stad och kommun, Östergötland : arkeologisk slutundersökning. Riksantikvarieämbetet UV Öst rapport, 2008:46. Linköping', '2008'),
+			(new_id + 129, 'Salomonsson, B.', 'Salomonsson, B. 1975. Rapport om ett boplatsfynd vid Kastanjegården, Malmö. I: Kring Malmöhus. Årsbok från Malmö Museum 1973 - 74 s. 21-34. Malmö', 'Rapport om ett boplatsfynd vid Kastanjegården, Malmö. I: Kring Malmöhus. Årsbok från Malmö Museum 1973 - 74 s. 21-34. Malmö', '1975'),
+			(new_id + 130, 'Andersson, K.', 'Andersson, K. 1970. Rapport över de arkeologiska undersökningarna väster om Dalby kyrka, Bårhustomten. 1965-66. Opubli. Rapport', 'Rapport över de arkeologiska undersökningarna väster om Dalby kyrka, Bårhustomten. 1965-66. Opubli. Rapport', '1970'),
+			(new_id + 131, 'Östlund, Olof, Palmbo, Frida & Jonsson, Mirjam.', 'Östlund, Olof, Palmbo, Frida & Jonsson, Mirjam. 2007. RAPPORT, Arkeologisk slutundersökning. Mötestation Kosjärv, Bondersbyn 2:2, Töre sn, Norrbottens län, Västerbotten. NORRBOTTENS MUSEUM, Dnr 384-2006. (RAÄ dnr 321-1159-2007)', 'RAPPORT, Arkeologisk slutundersökning. Mötestation Kosjärv, Bondersbyn 2:2, Töre sn, Norrbottens län, Västerbotten. NORRBOTTENS MUSEUM, Dnr 384-2006. (RAÄ dnr 321-1159-2007)', '2007'),
+			(new_id + 132, 'Andersson, K, Ekman, T, Persson, B.', 'Andersson, K, Ekman, T, Persson, B. 2000. Rapport. Husby i Glanshammar- makt och metall under yngre järnålder. UV Bergslagen. Dokumentation av fältarbetsfasen 2000:2. Arkeologisk undersökning. RAÄ dnr 321-2828-2005.- -', 'Rapport. Husby i Glanshammar- makt och metall under yngre järnålder. UV Bergslagen. Dokumentation av fältarbetsfasen 2000:2. Arkeologisk undersökning. RAÄ dnr 321-2828-2005.- -', '2000'),
+			(new_id + 133, 'Jacobsson, Bengt,', 'Jacobsson, Bengt, 2004. Rapportsammanställning, Sö. Överjärna sn, Linga 1:8, RAÄ 127 (RAÄ dnr 321-606-2005) - - Jacobsson, Bengt, 2004, Rapportsammanställning, RAÄ (RAÄ dnr 321-595-2005)', 'Rapportsammanställning, Sö. Överjärna sn, Linga 1:8, RAÄ 127 (RAÄ dnr 321-606-2005) - - Jacobsson, Bengt, 2004, Rapportsammanställning, RAÄ (RAÄ dnr 321-595-2005)', '2004'),
+			(new_id + 134, 'Wexell, Astrid.', 'Wexell, Astrid. 2005. Rapportsammanställning. Slutundersökning, Up, Söderby, Danmark sn, Söderby 2:2, RAÄ 98. Riksantikvarieämbetet, UV. (RAÄ dnr 321-2145-2005)', 'Rapportsammanställning. Slutundersökning, Up, Söderby, Danmark sn, Söderby 2:2, RAÄ 98. Riksantikvarieämbetet, UV. (RAÄ dnr 321-2145-2005)', '2005'),
+			(new_id + 135, 'Ericsson, T.', 'Ericsson, T. 2004. Rapportsammanställning. Undersökning Litslena Hällby RAÄ 237. Slutundersökning. Riksantikvarieämbetet. (RAÄ dnr 321-4531-2004).', 'Rapportsammanställning. Undersökning Litslena Hällby RAÄ 237. Slutundersökning. Riksantikvarieämbetet. (RAÄ dnr 321-4531-2004).', '2004'),
+			(new_id + 136, 'Ahlbeck, M. & Isaksson, M.', 'Ahlbeck, M. & Isaksson, M. 2007. Riksväg 73, slutundersökningar, RAÄ 661, 663, 664, 665 och 666, Östmo sn, Södermanland. Rapporter från Arkeologikonsult 2007:2037. (Raä dnr: 321-3945-2010)', 'Riksväg 73, slutundersökningar, RAÄ 661, 663, 664, 665 och 666, Östmo sn, Södermanland. Rapporter från Arkeologikonsult 2007:2037. (Raä dnr: 321-3945-2010)', '2007'),
+			(new_id + 137, 'Kaliff, A.', 'Kaliff, A. 1995. Ringeby en kult- och gravplats från yngre bronsåldern : arkeologisk undersökning RAÄ 6, Kvillinge socken, Norrköpings kommun, Östergötland. Del 1 och 2. Riksantikvarieämbetet UV Linköping, 1995:51. Linköping', 'Ringeby  en kult- och gravplats från yngre bronsåldern : arkeologisk undersökning RAÄ 6, Kvillinge socken, Norrköpings kommun, Östergötland. Del 1 och 2. Riksantikvarieämbetet  UV Linköping, 1995:51. Linköping ', '1995'),
+			(new_id + 138, 'Andersen, S. H.', 'Andersen, S. H. 1975. Ringkloster. En jysk indlandsboplads med Erteböllekultur. I: Kuml 1973-74. s. 11-108. København', 'Ringkloster. En jysk indlandsboplads med Erteböllekultur. I: Kuml 1973-74. s. 11-108. København', '1975'),
+			(new_id + 139, 'Forenius, Svante, Willim, Annika, Andersson, Daniel, Grandin, Lena och Stilborg, Ole.', 'Forenius, Svante, Willim, Annika, Andersson, Daniel, Grandin, Lena och Stilborg, Ole. 2007. Romartida blästbruk och sentida bebyggelse i Valbo RAÄ 412 och 413, Valbo sn, Gästrikland. Riksantikvarieämbetet, UV GAL, Geoarkeologiskt Laboratorium, Analysrapport 11-2007. Uppsala', 'Romartida blästbruk och sentida bebyggelse i Valbo  RAÄ 412 och 413, Valbo sn, Gästrikland. Riksantikvarieämbetet, UV GAL, Geoarkeologiskt Laboratorium, Analysrapport 11-2007. Uppsala', '2007'),
+			(new_id + 140, 'Schwabedissen, N.', 'Schwabedissen, N. 1972. Rosenhof. (Ostholstein), ein Ellerbek-Wohplatz am einstigen Ostseeufer. I: Arkäologisches Korrespondenzblatt, 2. Mainz', 'Rosenhof. (Ostholstein), ein Ellerbek-Wohplatz am einstigen Ostseeufer. I: Arkäologisches Korrespondenzblatt, 2.  Mainz', '1972'),
+			(new_id + 141, 'Eriksson, T. & Östling, A.', 'Eriksson, T. & Östling, A. 2005. Ryssgärdet i Onslunda. Ett fornlämningskomplex från senneolitikum till och med 1700-talet med tyngdpunkt i bronsålder. Väg E4, sträckan Uppsala-Mehedeby, Uppland, Tensta socken, Onslunda 5:1 och 3:1, RAÄ 435. Dnr: 423-1267-2003, 423-3434-2003 och 423-87-2004. Arkeologisk undersökning. Riksantikvarieämbetet UV GAL, dokumentation av fältarbetsfasen 2004:4. (Raä dnr: 321-3405-2010)', 'Ryssgärdet i Onslunda. Ett fornlämningskomplex från senneolitikum till och med 1700-talet med tyngdpunkt i bronsålder. Väg E4, sträckan Uppsala-Mehedeby, Uppland, Tensta socken, Onslunda 5:1 och 3:1, RAÄ 435. Dnr: 423-1267-2003, 423-3434-2003 och 423-87-2004. Arkeologisk undersökning. Riksantikvarieämbetet UV GAL, dokumentation av fältarbetsfasen 2004:4. (Raä dnr: 321-3405-2010)', '2005'),
+			(new_id + 142, 'Meurers-Balke, Jutta.', 'Meurers-Balke, Jutta. 1983. Siggeneben-Süd ein Fundplatz der frühen Trichterbecherkultur an der holsteinischen Ostseeküste. Offa Bd. 50. Neumünster', 'Siggeneben-Süd  ein Fundplatz der frühen Trichterbecherkultur an der holsteinischen Ostseeküste. Offa Bd. 50. Neumünster', '1983'),
+			(new_id + 143, 'Oldeberg, A.,', 'Oldeberg, A., 1960. Skälbyfyndet en boplatslämning från den yngre bronsåldern. Antikvariskt arkiv, 15. Stockholm', 'Skälbyfyndet  en boplatslämning från den yngre bronsåldern. Antikvariskt arkiv, 15. Stockholm', '1960'),
+			(new_id + 144, 'Björck, Niclas & Larsson, Fredrik et al.', 'Björck, Niclas & Larsson, Fredrik et al. 2005. Snåret. Aspekter på sten- brons- och järnålder i Vendel. Väg E4, sträckan Uppsala-Mehedeby, Uppland, Vendels socken, Fallsboda 1:2, Karby 29:5, RAÄ 291. Riksantikvarieämbetet UV GAL, rapport 2005:14. (Raä dnr: 321-1540-2010)', 'Snåret. Aspekter på sten- brons- och järnålder i Vendel. Väg E4, sträckan Uppsala-Mehedeby, Uppland, Vendels socken, Fallsboda 1:2, Karby 29:5, RAÄ 291. Riksantikvarieämbetet UV GAL, rapport 2005:14. (Raä dnr: 321-1540-2010)', '2005'),
+			(new_id + 145, 'Pettersson, L.', 'Pettersson, L. 2003. Sockengränsen och Kråkeslätt. Gravar och boplatslämningar från yngre bronsålder. Skåne, Gualöv och Ivetofta socknar, Väg E22, Gualöv-Bromölla, Gualöv 5:11 och Årup 1:1. Riksantikvarieämbetet, UV Syd, Daff 2003:5, Rapport 2003:36 (Dnr 423-3170-2002 och 429-3946-2002).', 'Sockengränsen och Kråkeslätt. Gravar och boplatslämningar från yngre bronsålder. Skåne, Gualöv och Ivetofta socknar, Väg E22, Gualöv-Bromölla, Gualöv 5:11 och Årup 1:1. Riksantikvarieämbetet, UV Syd, Daff 2003:5, Rapport 2003:36 (Dnr 423-3170-2002 och 429-3946-2002).', '2003'),
+			(new_id + 146, 'Petersson, M & Alexandersson, K.', 'Petersson, M & Alexandersson, K. 2003. Stenålder i Kalmar arkeologisk undersökning i kv. Havren, Djurängen. Kalmar läns museums arkeologiska rapporter, 2004:1', 'Stenålder i Kalmar  arkeologisk undersökning i kv. Havren, Djurängen. Kalmar läns museums arkeologiska rapporter, 2004:1 ', '2003'),
+			(new_id + 147, 'Ohlsson, E. & Hutlhén, B.,', 'Ohlsson, E. & Hutlhén, B., 1086. Stenåldersboplatsen på Malmahed  fornlämning 49 Malmahed, Lilla Malma socken, Södermanland : delundersökning 1981. Rapport - Riksantikvarieämbetet och Statens historiska museer. Undersökningsverksamheten, 1985:20. Stockholm', 'Stenåldersboplatsen på Malmahed  fornlämning 49 Malmahed, Lilla Malma socken, Södermanland : delundersökning 1981. Rapport - Riksantikvarieämbetet och Statens historiska museer. Undersökningsverksamheten, 1985:20. Stockholm', '1086'),
+			(new_id + 148, 'Bagge, A. & Kjellmark, K.', 'Bagge, A. & Kjellmark, K. 1939. Stenåldersboplatserna vid Siretorp i Blekinge. Monografier / Kungl. Vitterhets-, historie- och antikvitetsakademien, 26. Stockholm', 'Stenåldersboplatserna vid Siretorp i Blekinge. Monografier / Kungl. Vitterhets-, historie- och antikvitetsakademien, 26. Stockholm', '1939'),
+			(new_id + 149, 'Edgren, Torsten.', 'Edgren, Torsten. 1970. Studie över den snörkeramiska kulturens keramik i Finland. Finska Fornminnesföreningens Tidskrift 72. Helsingfors', 'Studie över den snörkeramiska kulturens keramik i Finland. Finska Fornminnesföreningens Tidskrift 72. Helsingfors', '1970'),
+			(new_id + 150, 'Strömberg, M.', 'Strömberg, M. 1975. Studien zu einem Gräberfeld in Löderup. Acta Archaeologica Lundensia. Series in 8o. No 10. Lund', 'Studien zu einem Gräberfeld in Löderup. Acta Archaeologica Lundensia. Series in 8o. No 10. Lund', '1975'),
+			(new_id + 151, 'Åkerlund, Agneta; Olsson, Eva; Gustafsson, Per & Miller, Urve (eds).', 'Åkerlund, Agneta; Olsson, Eva; Gustafsson, Per & Miller, Urve (eds).  2011. Södertörn : interdisciplinary investigations of Stone Age sites in eastern middle Sweden. The results from the investigations for the Grödinge line in the Södertörn peninsula. Riksantikvarieämbetet. Stockholm.', 'Södertörn : interdisciplinary investigations of Stone Age sites in eastern middle Sweden. The results from the investigations for the Grödinge line in the Södertörn peninsula. Riksantikvarieämbetet. Stockholm. ', '2011'),
+			(new_id + 152, 'Alexandersson, Kenneth et al.', 'Alexandersson, Kenneth et al. 2001. Söderåkra  ett boplatsområde från sten- och järnålder,fornlämning 284, 285 och 315, Söderåkra socken, Småland. Kalmar läns museums arkeologiska rapporter, 2001:8. E22-projektet ; 2001:8. Kalmar', 'Söderåkra  ett boplatsområde från sten- och järnålder,fornlämning 284, 285 och 315, Söderåkra socken, Småland. Kalmar läns museums arkeologiska rapporter, 2001:8. E22-projektet ; 2001:8. Kalmar', '2001'),
+			(new_id + 153, 'Burenhult, G.', 'Burenhult, G. 1984. The archaeology of Carrowmore environmental archaeology and the megalithic tradition at Carrowmore, Co. Sligo, Ireland. Theses and papers in North-European archaeology, 14. Stockholm', 'The archaeology of Carrowmore environmental archaeology and the megalithic tradition at Carrowmore, Co. Sligo, Ireland. Theses and papers in North-European archaeology, 14.  Stockholm', '1984'),
+			(new_id + 154, 'Janzon, Gunborg O.', 'Janzon, Gunborg O. 2009. The dolmen in Alvastra. KVHAA handlingar. Antikvariska serien 47. Stockholm', 'The dolmen in Alvastra. KVHAA handlingar. Antikvariska serien 47. Stockholm', '2009'),
+			(new_id + 155, 'Ohlsson, T.', 'Ohlsson, T. 1976. The Löddeköpinge Investigation I. The Settlement at Vikshögsvägen. I: MLUHM 1975-1976. s. 59-161. Lund', 'The Löddeköpinge Investigation I. The Settlement at Vikshögsvägen. I: MLUHM 1975-1976. s. 59-161. Lund', '1976'),
+			(new_id + 156, 'Magnus, Bente.', 'Magnus, Bente. 2008. The metal workshop at Bäckby, Västerås, Västmanland a Helgö in miniature. I: Excavations at Helgö. 17, Workshop, p. 3. S. 221-237. Stockholm.', 'The metal workshop at Bäckby, Västerås, Västmanland  a Helgö in miniature. I: Excavations at Helgö. 17, Workshop, p. 3. S. 221-237. Stockholm.', '2008'),
+			(new_id + 157, 'Rotea, M. & Wittenberger, M.', 'Rotea, M. & Wittenberger, M. 1999. The ritual complex of the Wietenberg Culture, Cluj-Napoca (Transylvania). Acta Musei Napocencis 36/1. s. 7-28. Cluj-Napoca', 'The ritual complex of the Wietenberg Culture, Cluj-Napoca (Transylvania). Acta Musei Napocencis 36/1. s. 7-28. Cluj-Napoca', '1999'),
+			(new_id + 158, 'Chami, Felix.', 'Chami, Felix. 1994. The Tanzanian Coast in the First Millenium AD. Studies in African Archaeology 7. Uppsala.', 'The Tanzanian Coast in the First Millenium AD. Studies in African Archaeology 7. Uppsala. ', '1994'),
+			(new_id + 159, 'Königsson, L-K, Königsson. E.S., Bendixen, E. & Possnert, G.', 'Königsson, L-K, Königsson. E.S., Bendixen, E. & Possnert, G. 1993. Topography and chronology of the Alby stone age settlement on Southeastern Öland, Sweden. I: Sources and resources studies in honour of Birgit Arrhenius. Red. Arwidsson & Arrhennius. Rixensart : Pact Belgium', 'Topography and chronology of the Alby stone age settlement on Southeastern Öland, Sweden. I:  Sources and resources  studies in honour of Birgit Arrhenius. Red. Arwidsson & Arrhennius. Rixensart : Pact Belgium', '1993'),
+			(new_id + 160, 'Jacobsson, B.', 'Jacobsson, B. 1999. Trelleborgen i Trelleborg arkeologiska undersökningar : förhistoriska boplatslämningar och gravar, vikingatida ringborg och medeltida bebyggelselämningar, Skåne, Trelleborg, kv Gröningen, kv Kråkvinkeln, Bryggaregatan och Svenstorpsgatan . Riksantikvarieämbetet UV Syd Rapport 1999:93. Lund', 'Trelleborgen i Trelleborg  arkeologiska undersökningar : förhistoriska boplatslämningar och gravar, vikingatida ringborg och medeltida bebyggelselämningar, Skåne, Trelleborg, kv Gröningen, kv Kråkvinkeln, Bryggaregatan och Svenstorpsgatan . Riksantikvarieämbetet UV Syd Rapport 1999:93. Lund ', '1999'),
+			(new_id + 161, 'Strömberg, M.', 'Strömberg, M. 1978. Tygapil i Valleberga en tidig bondeboplats med husrester. I: Ale : historisk tidskrift för Skåne, Halland och Blekinge.1978:1, s. 1-12. Lund', 'Tygapil i Valleberga  en tidig bondeboplats med husrester. I: Ale : historisk tidskrift för Skåne, Halland och Blekinge.1978:1, s. 1-12. Lund ', '1978'),
+			(new_id + 162, 'Ullberg-Loh, Karin, Munkenberg, Betty-Ann & Stilborg, Ole.', 'Ullberg-Loh, Karin, Munkenberg, Betty-Ann & Stilborg, Ole. 1993. Undersökning av gravplats  fornlämning 24, Lexby 3:11 och 6:19, Partille socken, Västergötland. Riksantikvarieämbetet, Byrån för arkeologiska undersökningar, UV Väst ; 1993:29. Kungsbacka', 'Undersökning av gravplats  fornlämning 24, Lexby 3:11 och 6:19, Partille socken, Västergötland. Riksantikvarieämbetet, Byrån för arkeologiska undersökningar, UV Väst ; 1993:29. Kungsbacka', '1993'),
+			(new_id + 163, 'Hallström, G.', 'Hallström, G. 1947. Undersökningar inom dämningsområdet för Nämforsens kraftverk sept. 1947. Rapport 1947. Riksantikvarieämbetet', 'Undersökningar inom dämningsområdet för Nämforsens kraftverk sept. 1947. Rapport 1947. Riksantikvarieämbetet', '1947'),
+			(new_id + 164, 'Kuper, R., Löhr, H., Lüning, J., & Stehli, P.', 'Kuper, R., Löhr, H., Lüning, J., & Stehli, P. 1974. Untersuchungen zur neolitischen Besiedlungen der Aldenhoverner Platte IV. Bonner Jahrbuch 174. s. 345-508. Bonn', 'Untersuchungen zur neolitischen Besiedlungen der Aldenhoverner Platte IV.  Bonner Jahrbuch 174. s. 345-508. Bonn', '1974'),
+			(new_id + 165, 'Bäck, Mathias & Romedahl, Helene.', 'Bäck, Mathias & Romedahl, Helene. 2006. UV BERGSLAGEN, RAPPORT 2006:22. ARKEOLOGISK UNDERSÖKNING. Björn Olssons bronsgjuteri i stormaktstidens Västerås, Västmanland, Västerås stad, Kvarteret Kleopatra 7 och 9, RAÄ 232. Dnr 423-1320-2005. UV Bergslagen. Örebro.', 'UV BERGSLAGEN, RAPPORT 2006:22. ARKEOLOGISK UNDERSÖKNING. Björn Olssons bronsgjuteri i stormaktstidens Västerås, Västmanland, Västerås stad, Kvarteret Kleopatra 7 och 9, RAÄ 232. Dnr 423-1320-2005. UV Bergslagen. Örebro.', '2006'),
+			(new_id + 166, 'Holback, T. J., Lindholm, P. och Runeson, H.,', 'Holback, T. J., Lindholm, P. och Runeson, H., 2004. UV Mitt, dokumentation av fältarbetsfasen 2004:1. Arkeologisk undersökning. Bjästamon. Ett kustbundet boplatskomplex från slutet av neolitikum. Botniabanan, Västernorrland. Ångermanland, Nätra socken, Bjästa 55:1, Eriksgården 1:1 m.fl., RAÄ 307, RAÄ 318 och RAÄ 321. Riksantikvarieämbetet UV Mitt. Stockholm.', 'UV Mitt, dokumentation av fältarbetsfasen 2004:1. Arkeologisk undersökning. Bjästamon. Ett kustbundet boplatskomplex från slutet av neolitikum. Botniabanan, Västernorrland. Ångermanland, Nätra socken, Bjästa 55:1, Eriksgården 1:1 m.fl., RAÄ 307, RAÄ 318 och RAÄ 321. Riksantikvarieämbetet UV Mitt. Stockholm. ', '2004'),
+			(new_id + 167, 'Annika Willim och Lena Grandin med bidrag av Ole Stilborg', 'Annika Willim och Lena Grandin med bidrag av Ole Stilborg 2008. UV Uppsala Rapport 2008:11. Geoarkeologisk analysrapport. Järnframställning och smide i Insjön. Arkeometallurgiska analyser. Dalarna, Åls socken, Övre Heden, Insjön. Riksantikvarieämbetet. Uppsala', 'UV Uppsala Rapport 2008:11. Geoarkeologisk analysrapport. Järnframställning och smide i Insjön. Arkeometallurgiska analyser. Dalarna, Åls socken, Övre Heden, Insjön. Riksantikvarieämbetet. Uppsala', '2008'),
+			(new_id + 168, 'Haltiner Nordström, Susanne & Pettersson, Claes B.', 'Haltiner Nordström, Susanne & Pettersson, Claes B. 2013. Vapensmedernas gårdar: arkeologiska undersökningar vid Smedjegatan : faktorismide, köpenskap och bebyggelse 1620-1950 : inför nybyggnation (bostäder, P-hus) inom RAÄ 50, kv Apeln 38 m.fl. samt Arkadien 4 & 11, Kristine församling, Jönköpings stad, Jönköpings län. Jönköping: Jönköpings läns museum', 'Vapensmedernas gårdar: arkeologiska undersökningar vid Smedjegatan : faktorismide, köpenskap och bebyggelse 1620-1950 : inför nybyggnation (bostäder, P-hus) inom RAÄ 50, kv Apeln 38 m.fl. samt Arkadien 4 & 11, Kristine församling, Jönköpings stad, Jönköpings län. Jönköping: Jönköpings läns museum', '2013'),
+			(new_id + 169, 'Eklund, Sanna.', 'Eklund, Sanna. 2005. Vaxmyra. Två boplatser vid en bäck. Välbevarade huslämningar och ett gravområde från äldre järnålder. SAU rapporter 8. Med bidrag av Ylva Bäckström, Kim Darmark, Sara Hagström, Helena Knutsson, C-G Ojala och Elisabet Pettersson. Uppsala.', 'Vaxmyra. Två boplatser vid en bäck. Välbevarade huslämningar och ett gravområde från äldre järnålder. SAU rapporter 8. Med bidrag av Ylva Bäckström, Kim Darmark, Sara Hagström, Helena Knutsson, C-G Ojala och Elisabet Pettersson. Uppsala. ', '2005'),
+			(new_id + 170, 'Kriig, Stefan och Thomasson, Joakim.', 'Kriig, Stefan och Thomasson, Joakim. 1999. Vikingatida och medeltida gårdslämningar i Säby en arkeologisk slutundersökning inför byggandet av Västkustbanan. Riksantikvarieämbetet Rapport / UV Syd, 1999:4. Lund', 'Vikingatida och medeltida gårdslämningar i Säby  en arkeologisk slutundersökning inför byggandet av Västkustbanan. Riksantikvarieämbetet Rapport / UV Syd, 1999:4. Lund', '1999'),
+			(new_id + 171, 'Sandén, Ulf.', 'Sandén, Ulf. 2007. Vintriediket Bunkeflo socken i Malmö stad, Skåne län : arkeologisk slutundersökning 1999 och schaktningsövervakning 2002. Rapport (Enheten för arkeologi, Malmö stad, Malmö kulturmiljö), 2007:062. Malmö', 'Vintriediket  Bunkeflo socken i Malmö stad, Skåne län : arkeologisk slutundersökning 1999 och schaktningsövervakning 2002. Rapport (Enheten för arkeologi, Malmö stad, Malmö kulturmiljö), 2007:062. Malmö', '2007'),
+			(new_id + 172, 'Larsson, T. B.', 'Larsson, T. B. 1993. Vistad. Kring en befäst gård i Östergötland och Östersjökontakter under yngre bronsålder. Studia Ar-chaeologica Universitatis Umensis 4. Umeå.', 'Vistad. Kring en befäst gård i Östergötland och Östersjökontakter under yngre bronsålder. Studia Ar-chaeologica Universitatis Umensis 4. Umeå.', '1993'),
+			(new_id + 173, 'Artursson, M. (red.).', 'Artursson, M. (red.). 2007. Vägar till Vætland : en bronsåldersbygd i nordöstra Skåne 2300-500 f. Kr. red. M. Artursson. Stockholm : Riksantikvarieämbetet', 'Vägar till Vætland : en bronsåldersbygd i nordöstra Skåne 2300-500 f. Kr. red. M. Artursson. Stockholm : Riksantikvarieämbetet', '2007'),
+			(new_id + 174, 'Ericsson-Borggren, T.', 'Ericsson-Borggren, T. 1993. Åhus 42:84 m fl. Åhus sn. Fornlämning 35. Skåne. Rapport. Kristianstads läns museum 1993:12. Kristianstad', 'Åhus 42:84 m fl. Åhus sn. Fornlämning 35. Skåne. Rapport. Kristianstads läns museum 1993:12. Kristianstad', '1993'),
+			(new_id + 175, 'Hanlon, Conleth, med bidrag av Tony Björk och Björn Nilsson.', 'Hanlon, Conleth, med bidrag av Tony Björk och Björn Nilsson. 2003. Årup. Boplats- och bebyggelselämningar från senpaleolitikum, tidigmesolitikum och yngre bronsålder. Skåne, Ivetofta socken. Väg E22 Gualöv-Bromölla, Årup 1:1. Dnr 423-2177-2002. Lund och Kristianstad', 'Årup. Boplats- och bebyggelselämningar från senpaleolitikum, tidigmesolitikum och yngre bronsålder. Skåne, Ivetofta socken. Väg E22 Gualöv-Bromölla, Årup 1:1. Dnr 423-2177-2002. Lund och Kristianstad', '2003'),
+			(new_id + 176, 'Carlsson, Christer.', 'Carlsson, Christer. 2003. Äldre bytomt, Orraryd RAÄ 55, Nöbbele socken, Växjö kommun : särskild arkeologisk undersökning. Rapport / Smålands museum, 2003:54. Växjö', 'Äldre bytomt, Orraryd  RAÄ 55, Nöbbele socken, Växjö kommun : särskild arkeologisk undersökning. Rapport / Smålands museum, 2003:54. Växjö', '2003'),
+			(new_id + 177, 'Torstensdotter Åhlin, Inger & Bergenstråhle, Ingrid.', 'Torstensdotter Åhlin, Inger & Bergenstråhle, Ingrid. 2000. Äldre järnålder på Klörups backar arkeologisk utredning och slutundersökning : Skåne, Västra Kärrtorps och Västra Alstads socknar (utredning) : Lilla Slågarps och Västra Alstads socknar, Klörup 10:16 och Sjörup 5:13, RAÄ 62 och 57 (slutundersökning). Riksantikvarieämbetet Rapport UV Syd, 2000:74. Lund', 'Äldre järnålder på Klörups backar  arkeologisk utredning och slutundersökning : Skåne, Västra Kärrtorps och Västra Alstads socknar (utredning) : Lilla Slågarps och Västra Alstads socknar, Klörup 10:16 och Sjörup 5:13, RAÄ 62 och 57 (slutundersökning).  Riksantikvarieämbetet Rapport  UV Syd, 2000:74. Lund', '2000'),
+			(new_id + 178, 'Berggren, Åsa & Celin, Ulf.', 'Berggren, Åsa & Celin, Ulf. 2004. Öresundsförbindelsen Burlöv 20C rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 36. Malmö', 'Öresundsförbindelsen Burlöv 20C  rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 36. Malmö', '2004'),
+			(new_id + 179, 'Björhem, Berit et al.', 'Björhem, Berit et al. 2005. Öresundsförbindelsen Fredriksberg 13A-D rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 23/24. Malmö', 'Öresundsförbindelsen Fredriksberg 13A-D  rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 23/24. Malmö', '2005'),
+			(new_id + 180, 'Tennander, Karin.', 'Tennander, Karin. 2005. Öresundsförbindelsen Fredriksberg 13E-F rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 25. Malmö', 'Öresundsförbindelsen Fredriksberg 13E-F  rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 25. Malmö ', '2005'),
+			(new_id + 181, 'Siech, Suzanne & Berggren, Åsa.', 'Siech, Suzanne & Berggren, Åsa. 2002. Öresundsförbindelsen Petersborg 6: rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 15. Malmö', 'Öresundsförbindelsen Petersborg 6: rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 15. Malmö', '2002'),
+			(new_id + 182, 'Kishonti, Ingela.', 'Kishonti, Ingela. 2006. Öresundsförbindelsen Södra Sallerup 15H rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 29. Malmö', 'Öresundsförbindelsen Södra Sallerup 15H  rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 29. Malmö', '2006'),
+			(new_id + 183, 'Rudin, Gun-Britt.', 'Rudin, Gun-Britt. 2002. Öresundsförbindelsen Lockarp 7A : rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 16. Malmö', 'Öresundsförbindelsen Lockarp 7A : rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 16. Malmö', '2002'),
+			(new_id + 184, 'Eliasson, Laila, Kishonti, Ingela & Rudebeck, Elisabeth.', 'Eliasson, Laila, Kishonti, Ingela & Rudebeck, Elisabeth. 2003. Öresundsförbindelsen Lockarp 7B : rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 17. Malmö', 'Öresundsförbindelsen Lockarp 7B : rapport över arkeologisk slutundersökning. Rapport / Malmö kulturmiljö, 17. Malmö', '2003'),
+			(new_id + 185, 'Jönsson, Lars & Kockum, Jan.', 'Jönsson, Lars & Kockum, Jan. 2004. Öresundsförbindelsen, Fosie by 10. RAPPORT ÖVER ARKEOLOGISK SLUTUNDERSÖKNING. RAPPORT NR 10. MALMÖ KULTURMILJÖ 2004. RAÄ Dnr 321-3323-2005', 'Öresundsförbindelsen, Fosie by 10. RAPPORT ÖVER ARKEOLOGISK SLUTUNDERSÖKNING. RAPPORT NR 10. MALMÖ KULTURMILJÖ 2004. RAÄ Dnr 321-3323-2005', '2004'),
+			(new_id + 186, 'Rostovanyi, Attilla & Hydén, Susanne.', 'Rostovanyi, Attilla & Hydén, Susanne. 2002. Öresundsförbindelsen. Svågertorp 8B-C : rapport över arkeologisk slutundersökning. Malmö: Malmö kulturmiljö', 'Öresundsförbindelsen. Svågertorp 8B-C : rapport över arkeologisk slutundersökning. Malmö: Malmö kulturmiljö', '2002'),
+			(new_id + 187, 'Forenius, S., Willim, A. & Grandin, L.', 'Forenius, S., Willim, A. & Grandin, L. 2005. Blästbruk under 1500 - 1600-tal i Östra Spång E4-projektet i Skåne, område V24:1, RAÄ 6:1, Östra Spång 6:1, Örkelljunga sn, Skåne. Analysrapport / Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL ; 2005:16. Uppsala', 'Blästbruk under 1500 - 1600-tal i Östra Spång  E4-projektet i Skåne, område V24:1, RAÄ 6:1, Östra Spång 6:1, Örkelljunga sn, Skåne. Analysrapport / Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL ; 2005:16. Uppsala', '2005'),
+			(new_id + 188, 'Salomonsson, B., Håkansson, H., & Johanson, G.', 'Salomonsson, B., Håkansson, H., & Johanson, G. 1972. Ett gravfynd från kv Bronsyxan, Malmö. I: Malmö Fornminnesförenings Årsbok 1972. Malmö fornminnesförening, Malmö, s.135-163', 'Ett gravfynd från kv Bronsyxan, Malmö. I: Malmö Fornminnesförenings Årsbok 1972. Malmö fornminnesförening, Malmö, s.135-163', '1972'),
+			(new_id + 189, 'Ekholm, Gunnar', 'Ekholm, Gunnar 1925. Gravfältet vid Gödåker. En preliminär redogörelse. I: Fornvännen. 1925. Årgången 20. s. 326–346. Stockholm', 'Gravfältet vid Gödåker. En preliminär redogörelse. I: Fornvännen. 1925. Årgången 20. s. 326–346. Stockholm', '1925'),
+			(new_id + 190, 'Stamm Forssblad, Ellen.', 'Stamm Forssblad, Ellen. 2004. Lockarp 8:4 rapport över arkeologisk slutundersökning 2001 : Lockarp sn, Malmö stad, Skåne. Malmö kulturmiljö. Malmö', 'Lockarp 8:4  rapport över arkeologisk slutundersökning 2001 : Lockarp sn, Malmö stad, Skåne. Malmö kulturmiljö. Malmö', '2004'),
+			(new_id + 191, 'Forenius, S., Willim, A., & Grandin, L.', 'Forenius, S., Willim, A., & Grandin, L. 2005. Medeltida blästbruk vid Bredabäck E4-projektet i Skåne, område E4:31. RAÄ 125, Värsjö 3:10, Skånes Fagerhults sn, Skåne. Analysrapport 12-2005 / Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL, Uppsala', 'Medeltida blästbruk vid Bredabäck E4-projektet i Skåne, område E4:31. RAÄ 125, Värsjö 3:10, Skånes Fagerhults sn, Skåne. Analysrapport 12-2005 / Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL, Uppsala ', '2005'),
+			(new_id + 192, 'Grandin, Lena', 'Grandin, Lena 2004. Metallhantering på en medeltida gård RAÄ 211, Sommaränge skog, Viksta sn, Uppland. Analysrapport / Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL ; 2004:7. Uppsala', 'Metallhantering på en medeltida gård RAÄ 211, Sommaränge skog, Viksta sn, Uppland. Analysrapport / Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL ; 2004:7. Uppsala ', '2004'),
+			(new_id + 193, 'Connelid, P. & Gisela, Ä', 'Connelid, P. & Gisela, Ä 2006. Rv 40, delen Brämhult-Rångedala. Arkeologiska och agrarhistoriska undersökningar. Västra Götalands län, RAÄ 119 i Toarps socken, RAÄ 226 och RAÄ 227 i Rångedala socken. UV Väst, Dokumentation av fältarbetsfasen 2006:10, Arkeologisk undersökning. Riksantikvarieämbetet. (RAÄ dnr 321-1622-2007).', 'Rv 40, delen Brämhult-Rångedala. Arkeologiska och agrarhistoriska undersökningar. Västra Götalands län, RAÄ 119 i Toarps socken, RAÄ 226 och RAÄ 227 i Rångedala socken. UV Väst, Dokumentation av fältarbetsfasen 2006:10, Arkeologisk undersökning. Riksantikvarieämbetet. (RAÄ dnr 321-1622-2007).', '2006'),
+			(new_id + 194, 'Artursson, M.', 'Artursson, M. 1999. Saxtorp. Boplatslämningar från tidigneolitikum-mellanneolitikum och romersk järnålder-folkvandringstid, Skåne, Saxtorp sn, Tågerup 1:1 och 1:3, Västkustbanan SU8 RAÄ 26. Arkeologisk undersökning. Riksantikvarieämbetet UV Syd rapport 1999./9. (Raä dnr: 321-1015-2006)', 'Saxtorp. Boplatslämningar från tidigneolitikum-mellanneolitikum och romersk järnålder-folkvandringstid, Skåne, Saxtorp sn, Tågerup 1:1 och 1:3, Västkustbanan SU8 RAÄ 26. Arkeologisk undersökning. Riksantikvarieämbetet UV Syd rapport 1999./9. (Raä dnr: 321-1015-2006)', '1999'),
+			(new_id + 195, 'Ohlsson, T.', 'Ohlsson, T. 1980. The Löddeköpinge Investigation II. The northern part of the Village. I: MLUHM 1979-1980. s. 68-111. Lund', 'The Löddeköpinge Investigation II. The northern part of the Village. I: MLUHM 1979-1980. s. 68-111. Lund', '1980'),
+			(new_id + 196, 'Meinander, Carl Fredrik.', 'Meinander, Carl Fredrik. 1953. Tjärnan. Ett boplatsfynd från yngre bronsåldern. I: Åländsk odling. Årsbok 1953. Ålands folkminnesförbund. S. 92-105. Mariehamn.', 'Tjärnan. Ett boplatsfynd från yngre bronsåldern. I: Åländsk odling. Årsbok 1953. Ålands folkminnesförbund. S. 92-105. Mariehamn. ', '1953'),
+			(new_id + 197, 'Häggström, L. (red.)', 'Häggström, L. (red.) 2002. Öggestorp och arkeologin 2002. Arkeologiska undersökningar i Öggestorp med anledning av planerad omläggning av Riksväg 31 - sammanställning av artiklar och texter publicerade 2002. Öggestorps socken i Jönköpings kommun, Jönköpings län. Jönköpings läns museum, arkeologisk rapport 2002:61. (RAÄ dnr 321-750-2003).', 'Öggestorp och arkeologin 2002. Arkeologiska undersökningar i Öggestorp med anledning av planerad omläggning av Riksväg 31 - sammanställning av artiklar och texter publicerade 2002. Öggestorps socken i Jönköpings kommun, Jönköpings län. Jönköpings läns museum, arkeologisk rapport 2002:61. (RAÄ dnr 321-750-2003). ', '2002'),
+			(new_id + 198, 'Ekholm, Gunnar', 'Ekholm, Gunnar 1927. Gödåker. De senaste bidragen till Upplands fornhistoria. I: Upplands fornminnesförenings tidskrift. Bd. 10. s. 120-130. Uppsala', 'Gödåker. De senaste bidragen till Upplands fornhistoria. I: Upplands fornminnesförenings tidskrift. Bd. 10. s. 120-130. Uppsala', '1927'),
+			(new_id + 199, 'Hulthén, B.', 'Hulthén, B. 2009. Appendix. The Pottery of the Battleaxe (Corded Ware) Culture. I: Larsson, Å.M. 2009. Breaking & making bodies and pots. Material and ritual practices in Sweden in the third Millenium BC. AUN 40. Uppsala', 'Appendix. The Pottery of the Battleaxe (Corded Ware) Culture. I: Larsson, Å.M. 2009. Breaking & making bodies and pots. Material and ritual practices in Sweden in the third Millenium BC. AUN 40. Uppsala', '2009'),
+			(new_id + 200, 'Brorsson, Torbjörn & Håkansson, Hannelore.', 'Brorsson, Torbjörn & Håkansson, Hannelore. 2001. Behind the Pottery: Signs of Contacts across the Baltic Sea. I:Novgorod: the Archaeology of a Russian Medieval City and its Hinterland. The British Museum Occasional Paper. Number 141. Ed. Brisbane & Gaimster. s. 51-58. London', 'Behind the Pottery: Signs of Contacts across the Baltic Sea. I:Novgorod: the Archaeology of a Russian Medieval City and its Hinterland. The British Museum Occasional Paper. Number 141. Ed. Brisbane & Gaimster. s. 51-58. London ', '2001'),
+			(new_id + 201, 'Having, Emma.', 'Having, Emma. 2001. Binga-Hossmo en vendeltida verkstads- och mötesplats. I: Magnusson, Gert & Selling, Susanne. (red.). 2001. Möre-historien om ett småland. Kalmar läns museum, Kalmar. s. 553-568.', 'Binga-Hossmo  en vendeltida verkstads- och mötesplats. I: Magnusson, Gert & Selling, Susanne. (red.). 2001. Möre-historien om ett småland. Kalmar läns museum,  Kalmar. s. 553-568.', '2001'),
+			(new_id + 202, 'Larsson, Åsa. M.', 'Larsson, Åsa. M. 2009. Breaking & Making bodies and pots. Material and ritual practices in Sweden in the third millenium BC. AUN 40. Uppsala', 'Breaking & Making bodies and pots. Material and ritual practices in Sweden in the third millenium BC. AUN 40. Uppsala', '2009'),
+			(new_id + 203, 'Brorsson, T.', 'Brorsson, T. 2000. Brorsson, T. 2000. Keramik från yngre järnålder och tidig medeltid. I: Svanberg, Fredrik, Söderberg, Bengt, Andersson, Eva & Brorsson, Torbjörn (red.). 2000. Arkeologiska studier kring Borgeby och Löddeköpinge. 2, Porten till Skåne : Löddeköpinge under järnålder och medeltid, Avd. för arkeologiska undersökningar, Riksantikvarieämbetet, Lund, s. 188-204.', 'Brorsson, T. 2000. Keramik från yngre järnålder och tidig medeltid. I: Svanberg, Fredrik, Söderberg, Bengt, Andersson, Eva & Brorsson, Torbjörn (red.). 2000. Arkeologiska studier kring Borgeby och Löddeköpinge. 2, Porten till Skåne : Löddeköpinge under järnålder och medeltid, Avd. för arkeologiska undersökningar, Riksantikvarieämbetet, Lund, s. 188-204. ', '2000'),
+			(new_id + 204, 'Brorsson, T. & Stanislawski, Blazej.', 'Brorsson, T. & Stanislawski, Blazej. 2000. Ceramika slowianska typu Feldberg i Fresendorf w Skanii, na tle produkcji garncarskiej wczesnosredniowiecznego Wolina. I: Materialy Zachodnio-pomorskie 45. s. 283-320. Muzeum Naradowe. Szczecin', 'Ceramika slowianska typu Feldberg i Fresendorf w Skanii, na tle produkcji garncarskiej wczesnosredniowiecznego Wolina. I: Materialy Zachodnio-pomorskie 45. s. 283-320. Muzeum Naradowe. Szczecin', '2000'),
+			(new_id + 205, 'Eriksson, T.', 'Eriksson, T. 2003. Dekorerad keramik i Apalle & Gjuterifynden i Apalle. I: Ullén, Inga. (red.). Arkeologi på väg: undersökningar för E18. Bronsåldersboplatsen vid Apalle i Uppland : Uppland, Övergrans socken, Apalle, RAÄ 260. Stockholm: Avd. för arkeologiska undersökningar (UV), Riksantikvarieämbetet, 85 - 146', 'Dekorerad keramik i Apalle & Gjuterifynden i Apalle. I: Ullén, Inga. (red.).  Arkeologi på väg: undersökningar för E18. Bronsåldersboplatsen vid Apalle i Uppland : Uppland, Övergrans socken, Apalle, RAÄ 260. Stockholm: Avd. för arkeologiska undersökningar (UV), Riksantikvarieämbetet,  85 - 146', '2003'),
+			(new_id + 206, 'Heimer, Olle & Ifverson, Patric.', 'Heimer, Olle & Ifverson, Patric. 2003. Delområde 8 och Amdala gård (Lockarps bytomt). MHM 12756, MK 67, Lockarps sn. Sammanfattning av slutundersökningarna 2001-2002. CITYTUNNELPROJEKTET. Sammanfattningar av undersökningarna 2000-2002. Malmö Kulturmiljö, Kulturförvaltningen 2003. (RAÄ Dnr 321-1462-2004)', 'Delområde 8 och Amdala gård (Lockarps bytomt). MHM 12756, MK 67, Lockarps sn. Sammanfattning av slutundersökningarna 2001-2002. CITYTUNNELPROJEKTET. Sammanfattningar av undersökningarna 2000-2002. Malmö Kulturmiljö, Kulturförvaltningen 2003. (RAÄ Dnr 321-1462-2004)', '2003'),
+			(new_id + 207, 'Herteig, A.', 'Herteig, A. 1982. Den vitenskaplige bearbeidelsen av keramikken fra Bryggen i Bergen. I: Hikuin nr. 8. s. 197-200; Lindahl, Anders. 1982. Några teknologiska aspekter på medeltida keramiska produkter. I: Hikuin nr. 8. s. 231-240.', 'Den vitenskaplige bearbeidelsen av keramikken fra Bryggen i Bergen. I: Hikuin nr. 8. s. 197-200; Lindahl, Anders. 1982. Några teknologiska aspekter på medeltida keramiska produkter. I: Hikuin nr. 8. s. 231-240.', '1982'),
+			(new_id + 208, 'Cullberg, K.', 'Cullberg, K. 1973. Ekehögen - Backa Röd - Valtersberg frågor om kronologi och kulturkontakter under yngre förromersk järnålder i Göteborgsområdet. Studier i nordisk arkeologi, 12. Göteborg', 'Ekehögen - Backa Röd - Valtersberg  frågor om kronologi och kulturkontakter under yngre förromersk järnålder i Göteborgsområdet. Studier i nordisk arkeologi, 12. Göteborg  ', '1973'),
+			(new_id + 209, 'Ericson-Lagerås, Karin.', 'Ericson-Lagerås, Karin. 1999. En gravgrupp från yngre bronsålder och boplatser från yngre bronsålder och yngre järnålder vid Rya. Arkeologisk slutundersökning, Västkustbanan 2:5. UV Syd Rapport 1999:3. Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar. Dnr 321-2719-2004. Lund', 'En gravgrupp från yngre bronsålder och boplatser från yngre bronsålder och yngre järnålder vid Rya. Arkeologisk slutundersökning, Västkustbanan 2:5. UV Syd Rapport 1999:3. Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar. Dnr 321-2719-2004. Lund', '1999'),
+			(new_id + 210, 'Eklöv Pettersson, Paul.', 'Eklöv Pettersson, Paul. 2011. En hållbar utveckling? -Hållbarheten för bronsålderns keramiska deglar. Master Uppsats. Lunds universitet', 'En hållbar utveckling? -Hållbarheten för bronsålderns keramiska deglar. Master Uppsats. Lunds universitet', '2011'),
+			(new_id + 211, 'Hulthén, B.', 'Hulthén, B. 1986. En keramisk "industrianläggning" från romersk järnålder på Augland, Kristianstad, Vest-Agder fylke i Syd-Norge. Keramikproduktionen. I: Universitetets Oldsaksamling. Årbok 1984/1985. s. 59-86. Oslo', 'En keramisk "industrianläggning" från romersk järnålder på Augland, Kristianstad, Vest-Agder fylke i Syd-Norge. Keramikproduktionen. I: Universitetets Oldsaksamling. Årbok 1984/1985. s. 59-86. Oslo', '1986'),
+			(new_id + 212, 'Toreld, Christina och Wranning, Per. (red.).', 'Toreld, Christina och Wranning, Per. (red.). 2005. Framgrävt förflutet från Fyllinge. 2, Förromersk järnålder i fokus: artiklar med avstamp i undersökningsresultaten 2001-2002 Halland, Snöstorps socken, Fyllinge 20:436, RAÄ 106. Arkeologiska rapporter från Hallands länsmuseer, 1400-8750 ; 2005:2. Halmstad', 'Framgrävt förflutet från Fyllinge. 2, Förromersk järnålder i fokus: artiklar med avstamp i undersökningsresultaten 2001-2002 Halland, Snöstorps socken, Fyllinge 20:436, RAÄ 106. Arkeologiska rapporter från Hallands länsmuseer, 1400-8750 ; 2005:2. Halmstad', '2005'),
+			(new_id + 213, 'Grandin, L., Andersson, D. och Willim, A.,', 'Grandin, L., Andersson, D. och Willim, A., 2007. Geoarkeologiskt Laboratorium, Analysrapport 9-2007. Ett mångfacetterat metallhantverk i Södra Kristineberg och Svängedammshagen. Arkeometallurgiska analyser av brons, järn, slagg, malm och teknisk keramik från yngre bronsålder och järnålder. Skåne, Malmö stad, Oxie socken. Med bidrag av O. Stilborg och E. Grönberg. Riksantikvarieämbetet UV Gal. Uppsala', 'Geoarkeologiskt Laboratorium, Analysrapport 9-2007. Ett mångfacetterat metallhantverk i Södra Kristineberg och Svängedammshagen. Arkeometallurgiska analyser av brons, järn, slagg, malm och teknisk keramik från yngre bronsålder och järnålder. Skåne, Malmö stad, Oxie socken. Med bidrag av O. Stilborg och E. Grönberg.  Riksantikvarieämbetet UV Gal. Uppsala', '2007'),
+			(new_id + 214, 'Andersson, Gunnar & Skyllberg, Eva. (red.).', 'Andersson, Gunnar & Skyllberg, Eva. (red.). 2008. Gestalter och gestaltningar om tid, rum och händelser på Lunda. Skrifter / Riksantikvarieämbetet, Arkeologiska undersökningar 72. Stockholm', 'Gestalter och gestaltningar  om tid, rum och händelser på Lunda. Skrifter / Riksantikvarieämbetet, Arkeologiska undersökningar 72. Stockholm ', '2008'),
+			(new_id + 215, 'Bergold, Helmut & Bäck, Mattias.', 'Bergold, Helmut & Bäck, Mattias. 2007. Grytgjutare i Västerås fragment av kvarteret Kleopatras historia. UV Bergslagen, Avdelningen för arkeologiska undersökningar, Riksantikvarieämbetet. Örebro', 'Grytgjutare i Västerås  fragment av kvarteret Kleopatras historia. UV Bergslagen, Avdelningen för arkeologiska undersökningar, Riksantikvarieämbetet. Örebro', '2007'),
+			(new_id + 216, 'Stilborg, O.', 'Stilborg, O. 2005. Gårdens kruka och gravens urna. I Lagerås, P. och Strömberg, B. red. Bronsåldersbygd 2300-500 f.Kr. Skånska spar – arkeologi längs Västkustbanan. Riksantikvarieämbetet UV-Syd. p 444-495', 'Gårdens kruka och gravens urna. I Lagerås, P. och Strömberg, B. red. Bronsåldersbygd 2300-500 f.Kr. Skånska spar – arkeologi längs Västkustbanan. Riksantikvarieämbetet UV-Syd. p 444-495', '2005'),
+			(new_id + 217, 'Roslund, Mats.', 'Roslund, Mats. 2001. Gäster i huset kulturell överföring mellan slaver och skandinaver 900 till 1300. Skrifter / utgivna av Vetenskapssocieteten i Lund, 92. Lund', 'Gäster i huset  kulturell överföring mellan slaver och skandinaver 900 till 1300. Skrifter / utgivna av Vetenskapssocieteten i Lund, 92. Lund', '2001'),
+			(new_id + 218, 'Hulthén, B.', 'Hulthén, B. 1985. Hair-tempered pottery in Ångermanland. I: Red. Backe, M. 1985. In honorem Evert Baudou. Archaeology and environment 4. Umeå. s. 247-258.', 'Hair-tempered pottery in Ångermanland. I:  Red. Backe, M. 1985. In honorem Evert Baudou. Archaeology and environment 4. Umeå. s. 247-258.', '1985'),
+			(new_id + 219, 'Hallgren, Fredrik.', 'Hallgren, Fredrik. 2008. Identitet i praktik. Lokala, regionala och överregionala sociala sammanhang inom nordlig trattbägarkultur. Coast to coast-book 17. Uppsala', 'Identitet i praktik. Lokala, regionala och överregionala sociala sammanhang inom nordlig trattbägarkultur. Coast to coast-book 17.  Uppsala', '2008'),
+			(new_id + 220, 'Brorsson, T.', 'Brorsson, T. 1998. In the workshop of the Viking Age goldsmith. Gold- and silverwork at Borgeby in Scania, southern Sweden. I: Fornvännen 93 (1998). Stockholm', 'In the workshop of the Viking Age goldsmith. Gold- and silverwork at Borgeby in Scania, southern Sweden. I: Fornvännen 93 (1998). Stockholm', '1998'),
+			(new_id + 221, 'Lindahl, A.', 'Lindahl, A. 1986. Information through sherds : a case study of the early glazed earthenware from Dalby, Scania, Lund :: Institute of Archaeology, Univ. [Historiska museet] ;', 'Information through sherds : a case study of the early glazed earthenware from Dalby, Scania, Lund :: Institute of Archaeology, Univ. [Historiska museet] ;', '1986'),
+			(new_id + 222, 'Hjärthner-Holdar, E & Lindahl, A.', 'Hjärthner-Holdar, E & Lindahl, A. 1993. Järnets och järnmetallurgins introduktion i Sverige. AUN 16. Uppsala.', 'Järnets och järnmetallurgins introduktion i Sverige. AUN 16. Uppsala. ', '1993'),
+			(new_id + 223, 'Carlsson, Ronnie (red.).', 'Carlsson, Ronnie (red.). 1993. Kastelholms slott dateringen av Kastelholms slott. Museibyrån, 1993:1. Lic. avh. Uppsala-Mariehamn ', 'Kastelholms slott  dateringen av Kastelholms slott. Museibyrån, 1993:1. Lic. avh. Uppsala-Mariehamn  ', '1993'),
+			(new_id + 224, 'Augustsson, J.-E.', 'Augustsson, J.-E. 1985. Keramik i Halmstad ca 1322-1619: produktion, distribution, funktion = [Pottery in Halmstad, approx. 1322-1619] : [manufacturing, distribution, function]. Diss. Lund : Univ.', 'Keramik i Halmstad ca 1322-1619: produktion, distribution, funktion = [Pottery in Halmstad, approx. 1322-1619] : [manufacturing, distribution, function]. Diss. Lund : Univ.', '1985'),
+			(new_id + 225, 'Bergenstråhle, Ingrid & Stilborg, Ole.', 'Bergenstråhle, Ingrid & Stilborg, Ole. 2002. Klörup romartida bägare och bostäder. I: red. Anne Carlie. Skånska regioner. S. 555-595. Skrifter / Riksantikvarieämbetet, Arkeologiska undersökningar 40. Stockholm', 'Klörup  romartida bägare och bostäder. I: red. Anne Carlie. Skånska regioner. S. 555-595. Skrifter / Riksantikvarieämbetet, Arkeologiska undersökningar 40. Stockholm', '2002'),
+			(new_id + 226, 'Eriksson, T.', 'Eriksson, T. 2009. Kärl och social gestik. Keramik i Mälardalen 1500 BC–400 AD. AUN 41. Riksantikvarieämbetet Arkeologiska undersökningar Skrifter No 76. Uppsala.', 'Kärl och social gestik. Keramik i Mälardalen 1500 BC–400 AD. AUN 41. Riksantikvarieämbetet Arkeologiska undersökningar Skrifter No 76. Uppsala.', '2009'),
+			(new_id + 227, 'Eriksson, T.', 'Eriksson, T. 2009. Kärl och social gestik: keramik i Mälardalen 1500 BC-400 AD. Diss. Uppsala : Uppsala universitet', 'Kärl och social gestik: keramik i Mälardalen 1500 BC-400 AD. Diss. Uppsala : Uppsala universitet', '2009'),
+			(new_id + 228, 'Hjärthner-Holdar, Eva, Eriksson, Thomas & Östling, Anna. (red.).', 'Hjärthner-Holdar, Eva, Eriksson, Thomas & Östling, Anna. (red.). 2008. Mellan himmel och jord. Ryssgärdet, en guldskimrande bronsåldersmiljö i centrala Uppland. Volym 5. Arkeologi E4 Uppland – studier. S. 173–188. Riksantikvarieämbetet, UV GAL. Uppsala', 'Mellan himmel och jord. Ryssgärdet, en guldskimrande bronsåldersmiljö i centrala Uppland. Volym 5. Arkeologi E4 Uppland – studier. S. 173–188. Riksantikvarieämbetet, UV GAL. Uppsala', '2008'),
+			(new_id + 229, 'Magnusson, Gert & Selling, Susanne (red.).', 'Magnusson, Gert & Selling, Susanne (red.). 2001. Möre. Historien om ett småland : E22-projektet. Kalmar', 'Möre. Historien om ett småland : E22-projektet. Kalmar', '2001'),
+			(new_id + 230, 'Hulthén, B.', 'Hulthén, B. 1977. On ceramic technology during the scanian Neolithic and Bronze Age. Theses and Papers in North-European Archaeology 6. Stockholm', 'On ceramic technology during the scanian Neolithic and Bronze Age. Theses and Papers in North-European Archaeology 6. Stockholm', '1977'),
+			(new_id + 231, 'Hulthén, B.', 'Hulthén, B. 1991. On ceramic ware in northern Scandinavia during the Neolithic, Bronze and Early Iron Age. Archaeology and Environment 8. Umeå.', 'On ceramic ware in northern Scandinavia during the Neolithic, Bronze and Early Iron Age. Archaeology and Environment 8. Umeå. ', '1991'),
+			(new_id + 232, 'Gustavsson, Kenneth.', 'Gustavsson, Kenneth. 1997. Otterböte. New light on a Bronze Age Site in the Baltic. Thesis and Papers in Archaeology B:4. Stockholm', 'Otterböte. New light on a Bronze Age Site in the Baltic. Thesis and Papers in Archaeology B:4. Stockholm', '1997'),
+			(new_id + 233, 'Jönsson, Lars & Brorsson, Torbjörn.', 'Jönsson, Lars & Brorsson, Torbjörn. 2003. Oxie i sydvästra Skåne. En plats med centrala funktioner. I: Red. Anglert & Thomasson. Uppåkrastudier 8. Landskapsarkeologi och tidig medeltid. Acta archaeologica Lundensia. Series in 8o, 41. Lund.', 'Oxie i sydvästra Skåne. En plats med centrala funktioner. I: Red. Anglert & Thomasson. Uppåkrastudier 8. Landskapsarkeologi och tidig medeltid. Acta archaeologica Lundensia. Series in 8o, 41. Lund. ', '2003'),
+			(new_id + 234, 'Welinder, S.', 'Welinder, S. 1993. Pots, females and food. I: Current Swedish archaeology / The Swedish Archaeological Society 1, s. 165-169. Stockholm', 'Pots, females and food. I: Current Swedish archaeology / The Swedish Archaeological Society 1, s. 165-169. Stockholm', '1993'),
+			(new_id + 235, 'Brorsson, T.', 'Brorsson, T. 2004. Pottery from Early Viking Age Graves in the Baltic Region. Towards the Interpretation of a society. IN: Bodendenkmalpflege in Mecklenburg-Vorpommern, Jahrbuch 2003-51. s. 361-373. Lübstorf', 'Pottery from Early Viking Age Graves in the Baltic Region. Towards the Interpretation of a society. IN: Bodendenkmalpflege in Mecklenburg-Vorpommern, Jahrbuch 2003-51. s. 361-373. Lübstorf', '2004'),
+			(new_id + 236, 'Lindahl, Anders & Mategna, Edward.', 'Lindahl, Anders & Mategna, Edward. 1995. Present and Past: ceramics and homesteads. Studies in African Archaeology 11. Uppsala', 'Present and Past: ceramics and homesteads. Studies in African Archaeology 11. Uppsala', '1995'),
+			(new_id + 237, 'Stilborg, O. & Grönberg, E.', 'Stilborg, O. & Grönberg, E. 2006. Produktion och konsumtion. Studier av yngre rödgods från Kv. Apeln och Kv. Dromedaren ca 1630-1850. KFL06/0614. Lund', 'Produktion och konsumtion. Studier av yngre rödgods från Kv. Apeln och Kv. Dromedaren ca 1630-1850. KFL06/0614. Lund', '2006'),
+			(new_id + 238, 'Ekelöf, E. & Hallgren, B.', 'Ekelöf, E. & Hallgren, B. 1956. RAÄ rapport över inventeringen av lokal 825 i Los sn, Hälsingland. Opubl.', 'RAÄ rapport över inventeringen av lokal 825 i Los sn, Hälsingland. Opubl. ', '1956'),
+			(new_id + 239, 'Papmehl-Dufay, Ludvig.', 'Papmehl-Dufay, Ludvig. 2006. Shaping an indentity. Pitted Ware pottery and potters in southeast Sweden. Thesis and Papers in Scientific Archaeology 7. Stockholm', 'Shaping an indentity. Pitted Ware pottery and potters in southeast Sweden. Thesis and Papers in Scientific Archaeology 7. Stockholm', '2006'),
+			(new_id + 240, 'Stilborg, O.', 'Stilborg, O. 1997. Shards of Iron Age communications: a ceramological study of internal structure and external contacts in the Gudme-Lundeborg area, Funen during the late Roman Iron Age. Diss. Lund : Univ.', 'Shards of Iron Age communications: a ceramological study of internal structure and external contacts in the Gudme-Lundeborg area, Funen during the late Roman Iron Age. Diss. Lund : Univ.', '1997'),
+			(new_id + 241, 'Svensson, Mac (red.).', 'Svensson, Mac (red.). 2003. Skånska spår - arkeologi längs Västkustbanan 1. I det neolitiska rummet. Riksantikvarieämbetet, UV Syd. Lund', 'Skånska spår - arkeologi längs Västkustbanan 1. I det neolitiska rummet. Riksantikvarieämbetet, UV Syd. Lund ', '2003'),
+			(new_id + 242, 'Sinclair, P.', 'Sinclair, P. 1987. Space, time and social formation a territorial approach to the archaeology and anthropology of Zimbabwe and Mozambique c 0-1700 AD. AUN 9. Uppsala', 'Space, time and social formation a territorial approach to the archaeology and anthropology of Zimbabwe and Mozambique c 0-1700 AD. AUN 9. Uppsala', '1987'),
+			(new_id + 243, 'Gustavsson, P. & Spång, L-G.', 'Gustavsson, P. & Spång, L-G. 2007. Stenålderns stationer arkeologi i Botniabanans spår. Arkiv för norrländsk hembygdsforskning, 28. Stockholm: Riksantikvarieämbetet; Härnösand: Murberget, Länsmuseet Västernorrland', 'Stenålderns stationer  arkeologi i Botniabanans spår. Arkiv för norrländsk hembygdsforskning, 28. Stockholm: Riksantikvarieämbetet; Härnösand: Murberget, Länsmuseet Västernorrland', '2007'),
+			(new_id + 244, 'Olsson, E & Hulthén, B.', 'Olsson, E & Hulthén, B. 1986. Stenåldersboplatsen på Malmahed. Riksantikvarieämbetet Rapport UV 1985:20. Stockholm', 'Stenåldersboplatsen på Malmahed. Riksantikvarieämbetet Rapport UV 1985:20. Stockholm', '1986'),
+			(new_id + 245, 'Nicklasson, Påvel.', 'Nicklasson, Påvel. 2001. Strävsamma bönder och sturska stormän: Stafsinge och Halland från bronsålder till medeltid. Acta archaeologica Lundensia. Series in 8o, 35. Lund', 'Strävsamma bönder och sturska stormän: Stafsinge och Halland från bronsålder till medeltid. Acta archaeologica Lundensia. Series in 8o, 35. Lund', '2001'),
+			(new_id + 246, 'Nylén, Erik, Lund Hansen, Ulla & Manneke, Peter', 'Nylén, Erik, Lund Hansen, Ulla & Manneke, Peter 2005. The Havor hoard: the gold, the bronzes, the fort. Stockholm: Kungl. Vitterhets historie och antikvitets akademien', 'The Havor hoard: the gold, the bronzes, the fort. Stockholm: Kungl. Vitterhets historie och antikvitets akademien', '2005'),
+			(new_id + 247, 'Brorsson, T.', 'Brorsson, T. 2003. The Slavonic Feldberg and Fresendorf Pottery in Scania. I: Centrality - regionality the social structure of southern Sweden during the Iron Age. ed. Hårdh, B. & Larsson, L. s. 223-234. Uppåkrastudier 7. Acta archaeologica Lundensia. Series in 8o, 40. Stockholm-Lund.', 'The Slavonic Feldberg and Fresendorf Pottery in Scania. I: Centrality - regionality  the social structure of southern Sweden during the Iron Age. ed.  Hårdh, B. & Larsson, L. s. 223-234. Uppåkrastudier 7. Acta archaeologica Lundensia. Series in 8o, 40. Stockholm-Lund.', '2003'),
+			(new_id + 248, 'Selling, D.', 'Selling, D. 1955. Wikingerzeitliche und frühmittelalterliche Keramik in Schweden. Stockholm; red. Arwidsson, G. 1984. Birka Untersuchungen und Studien 2. Systematische Analysen der Gräberfunde', 'Wikingerzeitliche und frühmittelalterliche Keramik in Schweden. Stockholm; red. Arwidsson, G. 1984. Birka  Untersuchungen und Studien 2. Systematische Analysen der Gräberfunde', '1955'),
+			(new_id + 249, 'Larsson, Thomas B. & Hulthén, Birgitta.', 'Larsson, Thomas B. & Hulthén, Birgitta. 2004. Vistad ’88 revisited. Ceramological Analyses and Lusatian Connections. Including independent contributions by Monica Carlsson, Eva Hjärthner-Holdar and Lars Karris. Archaeology and Environment 17. Umeå.', 'Vistad ’88 revisited. Ceramological Analyses and Lusatian Connections. Including independent contributions by Monica Carlsson, Eva Hjärthner-Holdar and Lars Karris. Archaeology and Environment 17. Umeå.', '2004'),
+			(new_id + 250, 'Brorsson, T.', 'Brorsson, T. 1996. Östersjökeramik som arkeologiskt begrepp en undersökning av den vikingatida/tidigmedeltida keramiken från Löddeköpinge 90:1. D-uppsats, Lund', 'Östersjökeramik som arkeologiskt begrepp  en undersökning av den vikingatida/tidigmedeltida keramiken från Löddeköpinge 90:1. D-uppsats, Lund', '1996'),
+			(new_id + 251, 'Brorsson, T.', 'Brorsson, T. 1996. Östersjökeramik som arkeologiskt begrepp en undersökning av den vikingatida/tidigmedeltida keramiken från Löddeköpinge 90:1. D-uppsats, Lund', 'Östersjökeramik som arkeologiskt begrepp  en undersökning av den vikingatida/tidigmedeltida keramiken från Löddeköpinge 90:1. D-uppsats, Lund ', '1996'),
+			(new_id + 252, 'Hulthén, B.', 'Hulthén, B. 1991. On ceramic ware in northern Scandinavia during the Neolithic, Bronze and Early Iron Age. Archaeology and Environment 8. Umeå.', ' On ceramic ware in northern Scandinavia during the Neolithic, Bronze and Early Iron Age. Archaeology and Environment 8. Umeå. ', '1991'),
+			(new_id + 253, 'Sinclair, P., Törnblom, M., Bohm, C., Sigvallius, B. & Hulthén, B.', 'Sinclair, P., Törnblom, M., Bohm, C., Sigvallius, B. & Hulthén, B. 1988. Analyses of slag, iron, ceramics and animal bones från excavations in Mozambique. Studies in African Archaeology 2. Eduardo Mondlane University, Mozambique. Central Board of National Antiquities, Sweden. Maputo-Stockholm', 'Analyses of slag, iron, ceramics and animal bones från excavations in Mozambique. Studies in African Archaeology 2. Eduardo Mondlane University, Mozambique. Central Board of National Antiquities, Sweden. Maputo-Stockholm', '1988'),
+			(new_id + 254, 'Häringe, Kajsa', 'Häringe, Kajsa 1991. Gödåker. Ett uppländskt gravfält från romersk järnålder. Uppsats C/20 p. Inst. för Arkeologi. Uppsala Universitet. HT 1991. Uppsala.', 'Gödåker. Ett uppländskt gravfält från romersk järnålder. Uppsats C/20 p. Inst. för Arkeologi. Uppsala Universitet. HT 1991. Uppsala.', '1991'),
+			(new_id + 255, 'Brorsson, T.', 'Brorsson, T. 2000. Keramik från yngre järnålder och tidig medeltid. I: Svanberg, Fredrik, Söderberg, Bengt, Andersson, Eva & Brorsson, Torbjörn (red.). 2000. Arkeologiska studier kring Borgeby och Löddeköpinge. 2, Porten till Skåne : Löddeköpinge under järnålder och medeltid, Avd. för arkeologiska undersökningar, Riksantikvarieämbetet, Lund, s. 188-204.', 'Keramik från yngre järnålder och tidig medeltid. I: Svanberg, Fredrik, Söderberg, Bengt, Andersson, Eva & Brorsson, Torbjörn (red.). 2000. Arkeologiska studier kring Borgeby och Löddeköpinge. 2, Porten till Skåne : Löddeköpinge under järnålder och medeltid, Avd. för arkeologiska undersökningar, Riksantikvarieämbetet, Lund, s. 188-204. ', '2000'),
+			(new_id + 256, 'Hulthén, B.', 'Hulthén, B. 1978. Keramiktillverkning i kv. Tankbåten i Ystad. I: Ystads Fornminnesförenings skrift nr XXII. Ystad.', 'Keramiktillverkning i kv. Tankbåten i Ystad.  I: Ystads Fornminnesförenings skrift nr XXII. Ystad. ', '1978'),
+			(new_id + 257, 'Carlie, Lennart. (red.).', 'Carlie, Lennart. (red.). 2004. Landskap i förändring Vol. 6 Hållplatser i det förgångna artiklar med avstamp i de arkeologiska undersökningarna för Västkustbanans dubbelspår förbi Falkenberg i Halland. Hallands länsmuseer : Landsantikvarien : Riksantikvarieämbetet, 2004. Halmstad', 'Landskap i förändring Vol. 6 Hållplatser i det förgångna  artiklar med avstamp i de arkeologiska undersökningarna för Västkustbanans dubbelspår förbi Falkenberg i Halland. Hallands länsmuseer : Landsantikvarien : Riksantikvarieämbetet, 2004. Halmstad', '2004'),
+			(new_id + 258, 'Brorsson, T.', 'Brorsson, T. 2003. The Slavonic Feldberg and Fresendorf Pottery in Scania. I: Hårdh, B. & Larsson, L. 2003. Centrality - regionality the social structure of southern Sweden during the Iron Age. Uppåkrastudier 7. Acta archaeologica Lundensia. Series in 8o, 40. Stockholm-Lund. s. 223-234.', 'The Slavonic Feldberg and Fresendorf Pottery in Scania. I: Hårdh, B. & Larsson, L. 2003. Centrality - regionality  the social structure of southern Sweden during the Iron Age. Uppåkrastudier 7. Acta archaeologica Lundensia. Series in 8o, 40. Stockholm-Lund. s. 223-234.', '2003'),
+			(new_id + 259, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 1984. 33. Keramik. I: red. Arwidsson, G. 1984. Birka Untersuchungen und Studien 2. Systematische Analysen der Gräberfunde. S. 249-262. KVHAA. Stockholm.', '33. Keramik. I: red. Arwidsson, G. 1984. Birka  Untersuchungen und Studien 2. Systematische Analysen der Gräberfunde. S. 249-262. KVHAA. Stockholm.', '1984'),
+			(new_id + 260, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 2008. 8.5. Vem offrade i kärret? Keramiken ger svar? Ceramologisk undersökning av keramik från fyndlokalerna vid Skogsmossen i Fellingsbro sn, Västmanland. I: Hallgren, Fredrik. 2008. Identitet i praktik. Lokala, regionala och överregionala sociala sammanhang inom nordlig trattbägarkultur. Coast to coast-book 17. s. 176-188. Uppsala', '8.5. Vem offrade i kärret? Keramiken ger svar? Ceramologisk undersökning av keramik från fyndlokalerna vid Skogsmossen i Fellingsbro sn, Västmanland. I: Hallgren, Fredrik. 2008. Identitet i praktik. Lokala, regionala och överregionala sociala sammanhang inom nordlig trattbägarkultur. Coast to coast-book 17. s. 176-188. Uppsala', '2008'),
+			(new_id + 261, 'Stilborg, O.', 'Stilborg, O. 1989. A report of the technological analysis of some sherds from the Chachapoya district, Peru (I. Schjellerup,Etnograf. Avd. NM).', 'A report of the technological analysis of some sherds from the Chachapoya district, Peru (I. Schjellerup,Etnograf. Avd. NM).', '1989'),
+			(new_id + 262, 'Ole Stilborg, Emma Grönberg.', 'Ole Stilborg, Emma Grönberg. 2003. Almhovs kärl - för levande eller döda?. KFL 03/0618', 'Almhovs kärl - för levande eller döda?. KFL 03/0618', '2003'),
+			(new_id + 263, 'Lindahl, A.', 'Lindahl, A. 2006. Amphorae from Caronia and Caronia Marina, Provincia di Messina, Sicily. Thin Section Analyses. KFL Rapport 06/0511. Lund', 'Amphorae from Caronia and Caronia Marina, Provincia di Messina, Sicily. Thin Section Analyses. KFL Rapport 06/0511. Lund', '2006'),
+			(new_id + 264, 'Stilborg, O.', 'Stilborg, O. 2000. Analys av teknisk keramik från ett gjuteriplats inom RAÄ 307 Bäckby i Lundby sn (Västerås),Västmanland. KFL', 'Analys av teknisk keramik från ett gjuteriplats inom RAÄ 307 Bäckby i Lundby sn (Västerås),Västmanland. KFL', '2000'),
+			(new_id + 265, 'Brorsson, Torbjörn.', 'Brorsson, Torbjörn. 2005. Analys av östersjökeramik från Lockarps bytomt, Lockarps sn, Malmö', 'Analys av östersjökeramik från Lockarps bytomt, Lockarps sn, Malmö', '2005'),
+			(new_id + 266, 'Torbjörn Brorsson.', 'Torbjörn Brorsson. 2005. Analys av östersjökeramik med bottenmärken. Vintriediket, Bunkeflo sn, Malmö. KFL 05/0106', 'Analys av östersjökeramik med bottenmärken. Vintriediket, Bunkeflo sn, Malmö. KFL 05/0106', '2005'),
+			(new_id + 267, 'Stilborg, O.', 'Stilborg, O. 1997. Analyse af mellemneolitisk keramik fra Limensgård og Grødbygård på Bornholm (P.O.Nielsen,NM,DK)', 'Analyse af mellemneolitisk keramik fra Limensgård og Grødbygård på Bornholm (P.O.Nielsen,NM,DK)', '1997'),
+			(new_id + 268, 'Stilborg, O.', 'Stilborg, O. 2006. Analyser av keramik från Ryssgärdet. Onslunda 5:1 och 3:1, RAÄ 435, Tensta sn, Uppland KFL rapport 06/1218. (UV-GAL) 22s', 'Analyser av keramik från Ryssgärdet. Onslunda 5:1 och 3:1, RAÄ 435, Tensta sn, Uppland KFL rapport 06/1218. (UV-GAL) 22s', '2006'),
+			(new_id + 269, 'Brorsson, Torbjörn.', 'Brorsson, Torbjörn. 2003. Analyser av neolitisk keramik från Järrestad, Järrestad sn., Skåne. KFL rapport 03/0309. Stencil', 'Analyser av neolitisk keramik från Järrestad, Järrestad sn., Skåne. KFL rapport 03/0309. Stencil', '2003'),
+			(new_id + 270, 'Ole Stilborg.', 'Ole Stilborg. 2002. Annelövkeramik i graven. på gravplatsen och i religionen. Keramik från yngre bronsåldersgravar på gravplatsen Annelöv 38:1, Annelöv sn. Skåne, VKB SU 13. KFL 02/0219', 'Annelövkeramik i graven. på gravplatsen och i religionen. Keramik från yngre bronsåldersgravar på gravplatsen Annelöv 38:1, Annelöv sn. Skåne, VKB SU 13. KFL 02/0219', '2002'),
+			(new_id + 271, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 1997. Appendix 2. The Otterböte pottery - a ceramicological study. I: Gustavsson, Kenneth. 1997. Otterböte. New light on a Bronze Age site in the Baltic. s. 145-154. Theses and Papers in Archaeology B:4. Archaeological Research Laboratory, Stockholm University. Stockholm.', 'Appendix 2. The Otterböte pottery - a ceramicological study. I: Gustavsson, Kenneth. 1997. Otterböte. New light on a Bronze Age site in the Baltic. s. 145-154. Theses and Papers in Archaeology B:4. Archaeological Research Laboratory, Stockholm University. Stockholm. ', '1997'),
+			(new_id + 272, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 1997. Appendix 3. Investigation of Bronze Age pottery from Bornholm, Denmark I: Gustavsson, Kenneth. 1997. Otterböte. New light on a Bronze Age site in the Baltic. s. 155-157. Theses and Papers in Archaeology B:4. Archaeological Research Laboratory, Stockholm University. Stockholm.', 'Appendix 3. Investigation of Bronze Age pottery from Bornholm, Denmark I: Gustavsson, Kenneth. 1997. Otterböte. New light on a Bronze Age site in the Baltic. s. 155-157. Theses and Papers in Archaeology B:4. Archaeological Research Laboratory, Stockholm University. Stockholm. ', '1997'),
+			(new_id + 273, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 1997. Appendix 8. A Late-breaking event. A new find in Poland. I: Gustavsson, K. 1997, Otterböte. New light on a Bronze Age Site in the Baltic. Stockholm', 'Appendix 8. A Late-breaking event. A new find in Poland. I: Gustavsson, K. 1997, Otterböte. New light on a Bronze Age Site in the Baltic. Stockholm', '1997'),
+			(new_id + 274, 'Lindahl, A.', 'Lindahl, A. 1985. Appendix I: Augustsson, J-E. 1985. Keramik i Halmstad ca. 1322-1619. Produktion - Distribution - Funktion. Halland Länsmuseers Skriftserie No 2. Lund, s. 141-153.', 'Appendix I: Augustsson, J-E. 1985. Keramik i Halmstad ca. 1322-1619. Produktion - Distribution - Funktion. Halland Länsmuseers Skriftserie No 2. Lund, s. 141-153.', '1985'),
+			(new_id + 275, 'Hulthén, B.', 'Hulthén, B. 1985. Appendix II. The pottery from Karlsfält. I: Acta Archaeologica. Vol,. 54. 1983. s. 50-57. Köbenhavn.', 'Appendix II. The pottery from Karlsfält. I: Acta Archaeologica. Vol,. 54. 1983. s. 50-57. Köbenhavn.', '1985'),
+			(new_id + 276, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 1984. Appendix III: Teknologisk undersökning av keramiska artefakter från Löddesborg, Löddeköpinge sn, Skåne. I: Jennbert, Kristina. Den produktiva gåvan. Tradition och innovation i Sydskandinavien för omkring 5300 år sedan. Acta Archaeologica Lundensia. Series in 4o. No 16. Lund', 'Appendix III: Teknologisk undersökning av keramiska artefakter från Löddesborg, Löddeköpinge sn, Skåne. I: Jennbert, Kristina. Den produktiva gåvan. Tradition och innovation i Sydskandinavien för omkring 5300 år sedan. Acta Archaeologica Lundensia. Series in 4o. No 16. Lund', '1984'),
+			(new_id + 277, 'Hulthén, B. & Olsson, S.', 'Hulthén, B. & Olsson, S. 1983. Appendix. The Asine pottery: a technological study. I: Wells, B., 1983. Asine II results of the excavations east of the Acropolis 1970-1974 Fasc. 4 The protogeometric period. Skrifter / utgivna av Svenska institutet i Athen. 4o ; 24. s. 137148. Stockholm-Athen', 'Appendix. The Asine pottery: a technological study. I: Wells, B., 1983. Asine II  results of the excavations east of the Acropolis 1970-1974 Fasc. 4 The protogeometric period. Skrifter / utgivna av Svenska institutet i Athen. 4o ; 24. s. 137148. Stockholm-Athen', '1983'),
+			(new_id + 278, 'Hulthén, B.', 'Hulthén, B. 2009. Appendix. The pottery of the Battle Axe (Corded ware) culture. Craft and vessel function versus the nature of contacts. I: Larsson, Åsa. M. 2009. Breaking & Making bodies and pots. Material and ritual practices in Sweden in the third millenium BC. AUN 40. Uppsala', 'Appendix. The pottery of the Battle Axe (Corded ware) culture. Craft and vessel function versus the nature of contacts. I: Larsson, Åsa. M. 2009. Breaking & Making bodies and pots. Material and ritual practices in Sweden in the third millenium BC. AUN 40. Uppsala', '2009'),
+			(new_id + 279, 'Englund, L-E., Larsson, L., Stilborg, O. & Hjärthner-Holdar, E.', 'Englund, L-E., Larsson, L., Stilborg, O. & Hjärthner-Holdar, E. 1999. Arkeometallurgisk analys av slagger och järn från järnhantverket i Binga.  Hossmo sn, Småland. Geoarkeologiskt Laboratorium, Analysrapport 3-1999. Uppsala', 'Arkeometallurgisk analys av slagger och järn från järnhantverket i Binga.  Hossmo sn, Småland. Geoarkeologiskt Laboratorium, Analysrapport 3-1999. Uppsala', '1999'),
+			(new_id + 280, 'Stilborg, Ole.', 'Stilborg, Ole. 2006. Asbestkeramik från Kosjärv. Kosjärv, Bondersbyn 2:2, Töre sn, Kalix, Norrbotten. KFL 06/1128. Stencil', 'Asbestkeramik från Kosjärv. Kosjärv, Bondersbyn 2:2, Töre sn, Kalix, Norrbotten. KFL 06/1128. Stencil', '2006'),
+			(new_id + 281, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 1995. Ceramics and clays at ancient Högom a ceramological study. KVHAA Antikvariskt arkiv, 77. Stockholm', 'Ceramics and clays at ancient Högom  a ceramological study. KVHAA Antikvariskt arkiv, 77. Stockholm', '1995'),
+			(new_id + 282, 'Grönberg, E. & Stilborg, O.', 'Grönberg, E. & Stilborg, O. 2006. Charlottendal, KFL Rapport 06/0620. Lund', 'Charlottendal, KFL Rapport 06/0620. Lund', '2006'),
+			(new_id + 283, 'Lindahl, Anders & Stilborg, Ole.', 'Lindahl, Anders & Stilborg, Ole. 2004. En region utan keramik? Öggestorp, Öggestorp sn. Dnr 357/89, 124/02 och Kv. Elektronen, Hakarps sn. Dnr 399/99, 139/00, Jönköpings kommun, Jönköpings län. KFL rapport 04/0827. Lund', 'En region utan keramik? Öggestorp, Öggestorp sn. Dnr 357/89, 124/02 och Kv. Elektronen, Hakarps sn. Dnr 399/99, 139/00, Jönköpings kommun, Jönköpings län. KFL rapport 04/0827. Lund', '2004'),
+			(new_id + 284, 'Anders Lindahl, Ole Stilborg.', 'Anders Lindahl, Ole Stilborg. 2002. En tegelugn i Selånger. KFL 02/0828', 'En tegelugn i Selånger. KFL 02/0828', '2002'),
+			(new_id + 285, 'Stilborg, Ole.', 'Stilborg, Ole. 2000. Ertebölle pottery from Soldattorpet (LUHM). 1s', 'Ertebölle pottery from Soldattorpet (LUHM). 1s', '2000'),
+			(new_id + 286, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 1991. Excursus. Investigation of bottom-marked ceramic vessels from southern Gotland. I: Trotzig, G. 1991. Craftsmanship and function. A study of metal vessels found in Viking Age tombs on the island of Gotland, Sweden. Monographs - Museum of National Antiquities/Stockholm, 1. s. 173-181. Stockholm', 'Excursus. Investigation of bottom-marked ceramic vessels from southern Gotland. I: Trotzig, G. 1991. Craftsmanship and function. A study of metal vessels found in Viking Age tombs on the island of Gotland, Sweden. Monographs - Museum of National Antiquities/Stockholm, 1. s. 173-181. Stockholm', '1991'),
+			(new_id + 287, 'Stilborg, Ole & Lindahl, Anders.', 'Stilborg, Ole & Lindahl, Anders. 2005. Fyllinges ugnar. Olika sätt - olika hantverkare eller experiment. I: red. Christina Toreld och Per Wranning. Framgrävt förflutet från Fyllinge. 2, Förromersk järnålder i fokus: artiklar med avstamp i undersökningsresultaten 2001-2002 Halland, Snöstorps socken, Fyllinge 20:436, RAÄ 106. Arkeologiska rapporter från Hallands länsmuseer, 1400-8750 ; 2005:2. Halmstad', 'Fyllinges ugnar. Olika sätt - olika hantverkare eller experiment. I: red. Christina Toreld och Per Wranning. Framgrävt förflutet från Fyllinge. 2, Förromersk järnålder i fokus: artiklar med avstamp i undersökningsresultaten 2001-2002 Halland, Snöstorps socken, Fyllinge 20:436, RAÄ 106. Arkeologiska rapporter från Hallands länsmuseer, 1400-8750 ; 2005:2. Halmstad', '2005'),
+			(new_id + 288, 'Ole Stilborg.', 'Ole Stilborg. 2005. Gjutning på kriminalanstalten i Skänninge. KFL 05/0214', 'Gjutning på kriminalanstalten i Skänninge. KFL 05/0214', '2005'),
+			(new_id + 289, 'Stilborg, Ole.', 'Stilborg, Ole. 2007. Gravurnor från Kvarnbacken. Vadstena, Östergötland. KFL Rapport 07/05/20. Lund', 'Gravurnor från Kvarnbacken. Vadstena, Östergötland. KFL Rapport 07/05/20. Lund', '2007'),
+			(new_id + 290, 'Stilborg, Ole.', 'Stilborg, Ole. 2008. Grytgjutformar i Jönköping. En analys av ett keramiskt hantverk, dess rötter och utveckling. KFL Rapport 08/1210. Lund', 'Grytgjutformar i Jönköping. En analys av ett keramiskt hantverk, dess rötter och utveckling. KFL Rapport 08/1210. Lund', '2008'),
+			(new_id + 291, 'Lindahl, Anders & Stilborg, Ole.', 'Lindahl, Anders & Stilborg, Ole. 2007. Grytgjutning i kv. Kleopatra, Västerås. KFL Rapport 07/0330. Stencil', 'Grytgjutning i kv. Kleopatra, Västerås. KFL Rapport 07/0330. Stencil', '2007'),
+			(new_id + 292, 'Stilborg, Ole.', 'Stilborg, Ole. 2008. Gödåker, Dragby, Kyrsta, Vaxmyra & Håga. Studier av keramik från Uppland. KFL Rapport 08/0403. Lund; Stilborg, Ole. 2009. Bilaga 2. Gödåker, Dragby, Kyrsta, Vaxmyra och Håga - Studier av keramik från Uppland. I: Eriksson, Thomas. 2009.Kärl och social gestik. Keramik i Mälardalen 1500 BC-400 AD. AUN 41. Uppsala; KFL 20080403', 'Gödåker, Dragby, Kyrsta, Vaxmyra & Håga. Studier av keramik från Uppland. KFL Rapport 08/0403. Lund; Stilborg, Ole. 2009. Bilaga 2. Gödåker, Dragby, Kyrsta, Vaxmyra och Håga - Studier av keramik från Uppland. I: Eriksson, Thomas. 2009.Kärl och social gestik. Keramik i Mälardalen 1500 BC-400 AD. AUN 41. Uppsala; KFL 20080403', '2008'),
+			(new_id + 293, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 2006. Helgö. Moulds and routes. Ceramological investigations of distribution, ceramics craft and raw materials. Monographs on ceramics 3. KFL. Lund', 'Helgö. Moulds and routes. Ceramological investigations of distribution, ceramics craft and raw materials. Monographs on ceramics 3. KFL. Lund', '2006'),
+			(new_id + 294, 'Hulthén, B.', 'Hulthén, B. 1975. Herstellungstechnik und Formanalyse der Keramik aus Löderup 15. I: Strömberg, M., 1975. Studien zu einem Gräberfeld in Löderup. Acta Archaeologica Lundensia. Series in 8o. No 10. s. 279-316. Lund', 'Herstellungstechnik und Formanalyse der Keramik aus Löderup 15. I: Strömberg, M., 1975. Studien zu einem Gräberfeld in Löderup. Acta Archaeologica Lundensia. Series in 8o. No 10. s. 279-316. Lund', '1975'),
+			(new_id + 295, 'Stilborg, O.', 'Stilborg, O. 2005. Hushållets kärl. En funktionsstudie av Kristinebergs yngre bronsålders- och äldre järnålderskeramik (Oxie 15:1). KFL RAPPORT 05/0329. stencil', 'Hushållets kärl. En funktionsstudie av Kristinebergs yngre bronsålders- och äldre järnålderskeramik (Oxie 15:1). KFL RAPPORT 05/0329. stencil', '2005'),
+			(new_id + 296, 'Stilborg, O.', 'Stilborg, O. 2005. Hushållets kärl. En funktions-studie av Kristinebergs yngre bronsålders- och äldre järnålderskeramik (Oxie 15:1). KFL RAPPORT 05/0329. stencil', 'Hushållets kärl. En funktions-studie av Kristinebergs yngre bronsålders- och äldre järnålderskeramik (Oxie 15:1). KFL RAPPORT 05/0329. stencil', '2005'),
+			(new_id + 297, 'Brorsson, T.', 'Brorsson, T. 1999. I: Jacobsson, B. 1999. Trelleborgen i Trelleborg arkeologiska undersökningar : förhistoriska boplatslämningar och gravar, vikingatida ringborg och medeltida bebyggelselämningar, Skåne, Trelleborg, kv Gröningen, kv Kråkvinkeln, Bryggaregatan och Svenstorpsgatan . Riksantikvarieämbetet UV Syd Rapport 1999:93. Lund, s.52', 'I: Jacobsson, B. 1999. Trelleborgen i Trelleborg  arkeologiska undersökningar : förhistoriska boplatslämningar och gravar, vikingatida ringborg och medeltida bebyggelselämningar, Skåne, Trelleborg, kv Gröningen, kv Kråkvinkeln, Bryggaregatan och Svenstorpsgatan . Riksantikvarieämbetet UV Syd Rapport 1999:93. Lund, s.52 ', '1999'),
+			(new_id + 298, 'Håkansson, Hannelore & Hulthén, Birgitta.', 'Håkansson, Hannelore & Hulthén, Birgitta. 1988. Identification of diatoms in neolithic pottery. I: Diatom research. Vol. 3 (1), s. 39-45.', 'Identification of diatoms in neolithic pottery. I: Diatom research. Vol. 3 (1), s. 39-45.', '1988'),
+			(new_id + 299, 'Lindahl, A.', 'Lindahl, A. 1986. Information through sherds: a case study of the early glazed earthenware from Dalby, Scania, Lund: Institute of Archaeology, Univ. [Historiska museet]', 'Information through sherds: a case study of the early glazed earthenware from Dalby, Scania, Lund: Institute of Archaeology, Univ. [Historiska museet]', '1986'),
+			(new_id + 300, 'Torbjörn Brorsson, Emma Grönberg.', 'Torbjörn Brorsson, Emma Grönberg. 2006. Kakel från Karlskrona Kakelfabrik och rålera från Upsala-Ekeby – en pilotstudie av råmaterial och tillverkningsteknik. KFL 06/0214', 'Kakel från Karlskrona Kakelfabrik och rålera från Upsala-Ekeby – en pilotstudie av råmaterial och tillverkningsteknik. KFL 06/0214', '2006'),
+			(new_id + 301, 'Stilborg, O.', 'Stilborg, O. 1998. Keramik från Backa, Leornardsberg och Ö. Ve, Värmland. Stencil KFL.', 'Keramik från Backa, Leornardsberg och Ö. Ve, Värmland. Stencil KFL.', '1998'),
+			(new_id + 302, 'Anders Lindahl, Emma Ramstedt.', 'Anders Lindahl, Emma Ramstedt. 2001. Keramiken från Hästholmen. En stenåldersboplats i Flötefjörden, Stora Le, Holmedahls sn, Värmland. KFL 01/0509. Lund', 'Keramiken från Hästholmen. En stenåldersboplats i Flötefjörden, Stora Le, Holmedahls sn, Värmland. KFL 01/0509. Lund', '2001'),
+			(new_id + 303, 'Stilborg, O.', 'Stilborg, O. 2006. Keramiken i ”moränen”. Lisseläng 2 & Millingsmossen 1, Ösmo sn, Södermanland. KFL rapport 06/1105. (AK) 9s', 'Keramiken i ”moränen”. Lisseläng 2 & Millingsmossen 1, Ösmo sn, Södermanland. KFL rapport 06/1105. (AK) 9s', '2006'),
+			(new_id + 304, 'Stilborg, O.', 'Stilborg, O. 2001. Keramiken i ett neolitiskt lokalsamhälle – tradition och variation. Keramik från SU8, SU9, Saxtorp sn; SU17, Su 19 och SU 21, Dagstorp m.fl. sn., Skåne KFL RAPPORT 01/10/12 (UV-Syd) 36s', 'Keramiken i ett neolitiskt lokalsamhälle – tradition och variation. Keramik från SU8, SU9, Saxtorp sn; SU17, Su 19 och SU 21, Dagstorp m.fl. sn., Skåne KFL RAPPORT 01/10/12 (UV-Syd) 36s', '2001'),
+			(new_id + 305, 'Stilborg, Ole.', 'Stilborg, Ole. 2000. Keramiken på Klörup-Aggarp. Hantverk och boplatsstruktur. KFLRAPPORT 00/09/14. Lund; Stilborg, Ole. 2000. Keramiken på Klörup-Aggarp - Hantverk och boplatsstruktur. KFL rapport 00/09/14. Lund', 'Keramiken på Klörup-Aggarp. Hantverk och boplatsstruktur. KFLRAPPORT 00/09/14. Lund; Stilborg, Ole. 2000. Keramiken på Klörup-Aggarp - Hantverk och boplatsstruktur. KFL rapport 00/09/14. Lund', '2000'),
+			(new_id + 306, 'Stilborg, Ole.', 'Stilborg, Ole. 1999. Keramiken på verkstadsområdet. Analys av teknisk keramik från ett verkstadsområde inom RAÄ 33 Husby i Glanshammars sn., Närke. KFL. Stencil', 'Keramiken på verkstadsområdet. Analys av teknisk keramik från ett verkstadsområde inom RAÄ 33 Husby i Glanshammars sn., Närke. KFL. Stencil', '1999'),
+			(new_id + 307, 'Hulthén, B.', 'Hulthén, B. 2000. Keramikhantverket under sen bronsålder - tidig järnålder i Grevie socken, Skåne. Rapport / UV Syd, 2000:31:2. Lund', 'Keramikhantverket under sen bronsålder - tidig järnålder i Grevie socken, Skåne. Rapport / UV Syd, 2000:31:2. Lund', '2000'),
+			(new_id + 308, 'Stilborg, Ole.', 'Stilborg, Ole. 1995. Keramiktechnologische Untersuchungen. I: Lund Hansen, Ulla et al. 1995. Himlingøje - Seeland - Europa. Ein Gräberfeld der jüngeren römischen Kaiserzeit auf Seeland, seine Bedeutung und internationalen Beziehungen. Nordiske fortidsminder. Serie B - in quarto, 13. s. 365-370. Köbenhavn', 'Keramiktechnologische Untersuchungen. I: Lund Hansen, Ulla et al. 1995. Himlingøje - Seeland - Europa. Ein Gräberfeld der jüngeren römischen Kaiserzeit auf Seeland, seine Bedeutung und internationalen Beziehungen. Nordiske fortidsminder. Serie B - in quarto, 13. s. 365-370. Köbenhavn ', '1995'),
+			(new_id + 309, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 2000. KERAMIKTILLVERKNING I DET TIDIGMEDELTIDA SIGTUNA. EN CERAMOLOGISK STUDIE.' , 'KERAMIKTILLVERKNING I DET TIDIGMEDELTIDA SIGTUNA. EN CERAMOLOGISK STUDIE. ', '2000'),
+			(new_id + 310, 'Stilborg, Ole.', 'Stilborg, Ole. 2008. Krukor & Kakelugnar. Produktionen på krukmakeriet på Kv. Diplomaten, Jönköping ca 1730-1800. KFL Rapport 08/1022. Lund', 'Krukor & Kakelugnar. Produktionen på krukmakeriet på Kv. Diplomaten, Jönköping ca 1730-1800. KFL Rapport 08/1022. Lund', '2008'),
+			(new_id + 311, 'red. Schmidt Sabo, Katalin.', 'red. Schmidt Sabo, Katalin. 1998. Kyrkheddinge bytomt särskild arkeologisk undersökning 1995. Riksantikvarieämbetet Rapport UV Syd, 1998:5. Lund', 'Kyrkheddinge bytomt  särskild arkeologisk undersökning 1995. Riksantikvarieämbetet Rapport UV Syd, 1998:5. Lund', '1998'),
+			(new_id + 312, 'Ole Stilborg.', 'Ole Stilborg. 2005. Kättsta. Grav- och boplatskeramik från yngre bronsålder och äldre järnålder. KFL 05/1128; Ole Stilborg 2009. Bilaga 1. I: Eriksson, T. 2009. Kärl och social gestik. Keramik i Mälardalen 1500 BC-400 AD. AUN 41. Uppsala; Stilborg, O. 2005. Kättsta. Grav- och boplatskeramik från yngre bronsålder och äldre järnålder. KFL rapport 05/1128. Lund (stencil)', 'Kättsta. Grav- och boplatskeramik från yngre bronsålder och äldre järnålder. KFL 05/1128; Ole Stilborg 2009. Bilaga 1. I: Eriksson, T. 2009. Kärl och social gestik. Keramik i Mälardalen 1500 BC-400 AD. AUN 41. Uppsala; Stilborg, O. 2005. Kättsta. Grav- och boplatskeramik från yngre bronsålder och äldre järnålder. KFL rapport 05/1128. Lund (stencil)', '2005'),
+			(new_id + 313, 'Laet, S.J. de, Hulthén, B. & Doorselaer, A. van.,', 'Laet, S.J. de, Hulthén, B. & Doorselaer, A. van., 1977. La Céramique. I: Heinzelin, J. de., Haesaerts, P. & Laet, S. J. de. 1977. Le Gué du Plantin (Neufvilles, Hainaut), site néolithique et romain. Dissertationes Archaeologicae Gandenses. Vol. XVII. s. 98-123. Brugge.', 'La Céramique. I: Heinzelin, J. de., Haesaerts, P. & Laet, S. J. de. 1977. Le Gué du Plantin (Neufvilles, Hainaut), site néolithique et romain. Dissertationes Archaeologicae Gandenses. Vol. XVII. s. 98-123. Brugge.', '1977'),
+			(new_id + 314, 'Lindahl, A.', 'Lindahl, A. 2000. Laborativa analyser av keramik från Hellum, Barmer och Kragelund. Tre medeltida keramikugnar i Danmark. KFL 00/0928', 'Laborativa analyser av keramik från Hellum, Barmer och Kragelund. Tre medeltida keramikugnar i Danmark. KFL 00/0928', '2000'),
+			(new_id + 315, 'Anders Lindahl.', 'Anders Lindahl. 2004. Laboratory analysis of pottery from Lao Pako, Vientiane Province, Lao PDR. KFL 04/0924', 'Laboratory analysis of pottery from Lao Pako, Vientiane Province, Lao PDR. KFL 04/0924', '2004'),
+			(new_id + 316, 'Brorsson, T. & Hulthén, B.', 'Brorsson, T. & Hulthén, B. 2007. Leran och elden en studie av keramiken från Vætland. I: Vägar till Vætland : en bronsåldersbygd i nordöstra Skåne 2300-500 f. Kr. red. M. Artursson. S. 265-293.Stockholm : Riksantikvarieämbetet', 'Leran och elden  en studie av keramiken från Vætland. I:  Vägar till Vætland : en bronsåldersbygd i nordöstra Skåne 2300-500 f. Kr. red. M. Artursson. S. 265-293.Stockholm : Riksantikvarieämbetet', '2007'),
+			(new_id + 317, 'Stilborg, O.', 'Stilborg, O. 2003. Lilla Tvären. Att göra keramik och slänga skärvor. Lilla Tvären 4:1 m.fl., Västra stadsdelarna, Ystad kn. KFLRAPPORT 03/0319 (UV-Syd) 9s', 'Lilla Tvären. Att göra keramik och slänga skärvor. Lilla Tvären 4:1 m.fl., Västra stadsdelarna, Ystad kn. KFLRAPPORT 03/0319 (UV-Syd) 9s', '2003'),
+			(new_id + 318, 'Stilborg, Ole.', 'Stilborg, Ole. 1997. Lockarp 7B – att använda rätt lera till rätt ändamål. KFL', 'Lockarp 7B – att använda rätt lera till rätt ändamål. KFL', '1997'),
+			(new_id + 319, 'Stilborg, Ole & Ramstedt, Emma.', 'Stilborg, Ole & Ramstedt, Emma. 2000. Lågtemperaturugnar i Malmö. KFL rapport 00/0719. Lund', 'Lågtemperaturugnar i Malmö. KFL rapport 00/0719. Lund', '2000'),
+			(new_id + 320, 'Hulthén, B.', 'Hulthén, B. 2008. Middle Neolithic burial traditions in an Alvastra ceramics context. A ceramological investigation of pottery from the Alvastra dolmen. Monographs on Ceramics 4. Lund', 'Middle Neolithic burial traditions in an Alvastra ceramics context. A ceramological investigation of pottery from the Alvastra dolmen. Monographs on Ceramics 4. Lund', '2008'),
+			(new_id + 321, 'Torbjörn Brorsson.', 'Torbjörn Brorsson. 2005. Mikroskopering av keramik och rålera från Lynga, Halland. KFL 05/0117', 'Mikroskopering av keramik och rålera från Lynga, Halland. KFL 05/0117', '2005'),
+			(new_id + 322, 'Stilborg, Ole.', 'Stilborg, Ole. 2008. MNA III-trattbägarkeramik från Hylllie. KFL Rapport 08/0120. Lund', 'MNA III-trattbägarkeramik från Hylllie. KFL Rapport 08/0120. Lund', '2008'),
+			(new_id + 323, 'Stilborg, O.', 'Stilborg, O. 1998. Pottery production at the Apalle Settlement (Fornl. 260, Övergran sn., Uppland).', 'Pottery production at the Apalle Settlement (Fornl. 260, Övergran sn., Uppland).', '1998'),
+			(new_id + 324, 'Stilborg, O.', 'Stilborg, O. 1989. Randskår,Tegl,Frise og Lerklining fra Murlo,Poggio Civitate (A. Ratje,Inst. för Forhist. og Klass. Ark. KBH. Univ.)', 'Randskår,Tegl,Frise og Lerklining fra Murlo,Poggio Civitate (A. Ratje,Inst. för Forhist. og Klass. Ark. KBH. Univ.)', '1989'),
+			(new_id + 325, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 1998. Rapport angående undersökning av bronsålderskeramik från Rya, Kvistofta sn i nordvästra Skåne. Stencil', 'Rapport angående undersökning av bronsålderskeramik från Rya, Kvistofta sn i nordvästra Skåne. Stencil', '1998'),
+			(new_id + 326, 'Stilborg, O.', 'Stilborg, O. 1995. Rapport om teknologisk analys av sen bronsålderskeramik från fornl. 6, Ringeby. Kaliff, A. (red.). Ringeby. En kult- och gravplatsfrån yngre bronsålder. Rapport UV Linköping 1995:51. Linköping.', 'Rapport om teknologisk analys av sen bronsålderskeramik från fornl. 6, Ringeby. Kaliff, A. (red.). Ringeby. En kult- och gravplatsfrån yngre bronsålder. Rapport UV Linköping 1995:51. Linköping.', '1995'),
+			(new_id + 327, 'Stilborg, O.', 'Stilborg, O. 1991. Rapport över undersökning av keramik från Lexby, Partille sn, Västergötland', 'Rapport över undersökning av keramik från Lexby, Partille sn, Västergötland ', '1991'),
+			(new_id + 328, 'Hulthén, B.', 'Hulthén, B. 1975. Rapport över undersökning av keramikskärvor från Kastanjegården och kvarteret Bronsyxan i Malmö.I: Kring Malmöhus. Årsbok från Malmö Museum 1973 - 74 s. 35-42. Malmö', 'Rapport över undersökning av keramikskärvor från Kastanjegården och kvarteret Bronsyxan i Malmö.I: Kring Malmöhus. Årsbok från Malmö Museum 1973 - 74 s. 35-42. Malmö', '1975'),
+			(new_id + 329, 'Stilborg, O.', 'Stilborg, O. 1990. Report of thin section analysis of six ceramic fragments from El Pichao, Argentine (S.Sjödin,Göteborgs Univ.)', 'Report of thin section analysis of six ceramic fragments from El Pichao, Argentine (S.Sjödin,Göteborgs Univ.)', '1990'),
+			(new_id + 330, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 1988. Report on a pilot investigation of ceramics from Mozambique and Zimbabwe. I: Sinclair, P., Törnblom, M., Bohm, C., Sigvallius, B. & Hulthén, B. 1988. Analyses of slag, iron, ceramics and animal bones från excavations in Mozambique. Studies in African Archaeology 2. Eduardo Mondlane University, Mozambique. Central Board of National Antiquities, Sweden. Maputo-Stockholm', 'Report on a pilot investigation of ceramics from Mozambique and Zimbabwe. I: Sinclair, P., Törnblom, M., Bohm, C., Sigvallius, B. & Hulthén, B. 1988. Analyses of slag, iron, ceramics and animal bones från excavations in Mozambique. Studies in African Archaeology 2. Eduardo Mondlane University, Mozambique. Central Board of National Antiquities, Sweden. Maputo-Stockholm', '1988'),
+			(new_id + 331, 'Stilborg, Ole.', 'Stilborg, Ole. 2006. Rörstrand och Marieberg. Fyra kakelugnar från slutet av 1700-talet. KFL rapport. Lund', 'Rörstrand och Marieberg. Fyra kakelugnar från slutet av 1700-talet. KFL rapport. Lund', '2006'),
+			(new_id + 332, 'Lindahl, A.', 'Lindahl, A. 1993. s. 114-120. I: Hjärthner-Holdar, E & Lindahl, A. 1993. Järnets och järnmetallurgins introduktion i Sverige. AUN 16. Uppsala.', 's. 114-120. I: Hjärthner-Holdar, E & Lindahl, A. 1993. Järnets och järnmetallurgins introduktion i Sverige. AUN 16. Uppsala. ', '1993'),
+			(new_id + 333, 'Lindahl, A.', 'Lindahl, A. 1988. s. 125-138. I: Wyszomirska, Bozena. 1988. Ekonomisk stabilitet vid kusten. Nymölla III. En tidigneoliitisk bosättning med fångstekonomi i nordöstra Skåne. Acta Archaeologica Lundensia. Series in 8o Nr 17. Stockholm-Lund.', 's. 125-138. I: Wyszomirska, Bozena. 1988. Ekonomisk stabilitet vid kusten. Nymölla III. En tidigneoliitisk bosättning med fångstekonomi i nordöstra Skåne. Acta Archaeologica Lundensia. Series in 8o Nr 17. Stockholm-Lund.', '1988'),
+			(new_id + 334, 'Lindahl, A.', 'Lindahl, A. 1982. s. 142-144. I: Red,. Dahlbäck, G. et al. 1982. Helgeandsholmen. 1000 år i Stockholms ström. Monografier / utgivna av Stockholms kommun, 48. Stockholm', 's. 142-144. I: Red,. Dahlbäck, G. et al. 1982. Helgeandsholmen. 1000 år i Stockholms ström. Monografier / utgivna av Stockholms kommun, 48. Stockholm', '1982'),
+			(new_id + 335, 'Lindahl, A.', 'Lindahl, A. 1994. s. 83-89. I: Chami, Felix. 1994. The Tanzanian Coast in the First Millenium AD. Studies in African Archaeology 7. Uppsala.', 's. 83-89. I: Chami, Felix. 1994. The Tanzanian Coast in the First Millenium AD. Studies in African Archaeology 7. Uppsala. ', '1994'),
+			(new_id + 336, 'Stilborg, O.', 'Stilborg, O. 2000. Senneolitisk keramik från Mören och Söderåkra. KFL rapport 00/0310. Lund', 'Senneolitisk keramik från Mören och Söderåkra. KFL rapport 00/0310. Lund', '2000'),
+			(new_id + 337, 'Brorsson, Torbjörn.', 'Brorsson, Torbjörn. 2003. Skärvor av bronsåldern - analys av keramik från Orraryds bytomt.KFL Rapport 03/1027. Lund', 'Skärvor av bronsåldern - analys av keramik från Orraryds bytomt.KFL Rapport 03/1027. Lund', '2003'),
+			(new_id + 338, 'Stilborg, O.', 'Stilborg, O. 2004. Spridda skärvor och gravar. Tannefors 1:107, RAÄ 17, 18 19 och RAÄ 267 (Vårdsbergs sn, Linköpings stad) KFL rapport 04/0618. (UV-Öst) 18s', 'Spridda skärvor och gravar. Tannefors 1:107, RAÄ 17, 18 19 och RAÄ 267 (Vårdsbergs sn, Linköpings stad) KFL rapport 04/0618. (UV-Öst) 18s', '2004'),
+			(new_id + 339, 'Stilborg, O.', 'Stilborg, O. 2001. Stafsinge 116. Keramiken från en bronsåldersgård. KFL RAPPORT 01/03/09 (Hallands Länsmuseer) 15s', 'Stafsinge 116. Keramiken från en bronsåldersgård. KFL RAPPORT 01/03/09 (Hallands Länsmuseer) 15s', '2001'),
+			(new_id + 340, 'Stilborg, O.', 'Stilborg, O. 2005. Stridsyxekeramik i Sydsverige. KFL Rapport 05/1021.', 'Stridsyxekeramik i Sydsverige. KFL Rapport 05/1021. ', '2005'),
+			(new_id + 341, 'Brorsson, T.', 'Brorsson, T. 2006. Studie av råmaterialet till den neolitiska keramiken från Bjästamon, RAÄ 307, 318 och 321, Nätra sn. Ångermanland. KFL rapport 06/0311. Lund', 'Studie av råmaterialet till den neolitiska keramiken från Bjästamon, RAÄ 307, 318 och 321, Nätra sn. Ångermanland. KFL rapport 06/0311. Lund', '2006'),
+			(new_id + 342, 'Stilborg, Ole.', 'Stilborg, Ole. 2006. Svartgods i Skänninge och Linköping. KFL Rapport 06/0427. Lund', 'Svartgods i Skänninge och Linköping. KFL Rapport 06/0427. Lund', '2006'),
+			(new_id + 343, 'Lindahl, A.', 'Lindahl, A. 1988. Taktegelanalys s. 515-540. I: red. Carlsson, Ronnie. 1988. Kastelholms slott arkeologiska undersökningar 1982 och 1983; KS 1-KS 14. Museibyrån, Kastelholm 1988:1. Mariehamn', 'Taktegelanalys s. 515-540. I: red. Carlsson, Ronnie. 1988. Kastelholms slott  arkeologiska undersökningar 1982 och 1983; KS 1-KS 14. Museibyrån, Kastelholm 1988:1. Mariehamn', '1988'),
+			(new_id + 344, 'Olsson, S.', 'Olsson, S. 1982. Technologische Untersuchung von Keramik aus Ingelstorp. I: Strömberg, M., 1982. Ingelstorp. Zur Siedlungsentwicklung eines südschwedisches Dorfes. Acta Archaeologica Lundensia. Series in 4o. No 14. s. 223-228. Lund', 'Technologische Untersuchung von Keramik aus Ingelstorp. I: Strömberg, M., 1982. Ingelstorp. Zur Siedlungsentwicklung eines südschwedisches Dorfes. Acta Archaeologica Lundensia. Series in 4o. No 14. s. 223-228. Lund', '1982'),
+			(new_id + 345, 'Brorsson, Torbjörn.', 'Brorsson, Torbjörn. 2005. Tegel och bränd lera från torpet Näsan, Björklinge sn. Uppland - en undersökning av råmaterialet. KFL Rapport 05/0309. Lund', 'Tegel och bränd lera från torpet Näsan, Björklinge sn. Uppland - en undersökning av råmaterialet. KFL Rapport 05/0309. Lund', '2005'),
+			(new_id + 346, 'Stilborg, O.', 'Stilborg, O. 2006. Teknisk keramik från Lunda. KFL Rapport 06/0216. Lund', 'Teknisk keramik från Lunda. KFL Rapport 06/0216. Lund', '2006'),
+			(new_id + 347, 'Stilborg, Ole.', 'Stilborg, Ole. 2008. Teknisk keramik från Nibble. Nibble, Tillinge sn, Uppland. KFL Rapport 08/0923. Lund', 'Teknisk keramik från Nibble. Nibble, Tillinge sn, Uppland. KFL Rapport 08/0923. Lund', '2008'),
+			(new_id + 348, 'Stilborg, O.', 'Stilborg, O. 2007. Teknisk keramik på Kristineberg. KFL Rapport 07/1031. Stencil', 'Teknisk keramik på Kristineberg. KFL Rapport 07/1031. Stencil', '2007'),
+			(new_id + 349, 'Stilborg, Ole.', 'Stilborg, Ole. 2007. Teknisk keramik på området Kungsbro Motorcykel, Linköping. KFL 07/0906. Stencil', 'Teknisk keramik på området Kungsbro Motorcykel, Linköping. KFL 07/0906. Stencil', '2007'),
+			(new_id + 350, 'Stilborg, Ole.', 'Stilborg, Ole. 2004. Teknisk keramik. Sommaränge Skog 5.1, Viksta sn, Uppland. E4:137, Skånes-Fagerhult sn, Skåne. Ö. Spång, Örkeljunga sn, Skåne. Öggestorp, Öggestorp sn, Småland. KFL rapport 041208. Lund', 'Teknisk keramik. Sommaränge Skog 5.1, Viksta sn, Uppland. E4:137, Skånes-Fagerhult sn, Skåne. Ö. Spång, Örkeljunga sn, Skåne. Öggestorp, Öggestorp sn, Småland. KFL rapport 041208. Lund', '2004'),
+			(new_id + 351, 'Stilborg, O.', 'Stilborg, O. 1993. Teknologisk undersökning av keramik, ugnsvägg och rålera från Skummeslöv, Skummeslöv sn, Halland', 'Teknologisk undersökning av keramik, ugnsvägg och rålera från Skummeslöv, Skummeslöv sn, Halland ', '1993'),
+			(new_id + 352, 'Hulthén, Birgitta.', 'Hulthén, Birgitta. 1998. The Alvastra Pile Dwelling Pottery. An attempt to trace the society behind the sherds. The Musuem of National Antiquities. Monographs 5. Stockholm', 'The Alvastra Pile Dwelling Pottery. An attempt to trace the society behind the sherds. The Musuem of National Antiquities. Monographs 5. Stockholm', '1998'),
+			(new_id + 353, 'Hulthén, B.', 'Hulthén, B. 1984. The Carrowmore pottery, a technological study. I: Burenhult, G., 1984. The archaeology of Carrowmore environmental archaeology and the megalithic tradition at Carrowmore, Co. Sligo, Ireland. Theses and papers in North-European archaeology, 14. s. 202-209. Stockholm', 'The Carrowmore pottery, a technological study. I: Burenhult, G., 1984. The archaeology of Carrowmore  environmental archaeology and the megalithic tradition at Carrowmore, Co. Sligo, Ireland. Theses and papers in North-European archaeology, 14. s. 202-209. Stockholm', '1984'),
+			(new_id + 354, 'Brorsson, T.', 'Brorsson, T. 2003. The Slavonic Feldberg and Fresendorf Pottery in Scania. I: Centrality - regionality the social structure of southern Sweden during the Iron Age. ed. Hårdh, B. & Larsson, L. s. 223-234. Uppåkrastudier 7. Acta archaeologica Lundensia. Series in 8o, 40. Stockholm-Lund.', 'The Slavonic Feldberg and Fresendorf Pottery in Scania. I: Centrality - regionality  the social structure of southern Sweden during the Iron Age. ed.  Hårdh, B. & Larsson, L. s. 223-234. Uppåkrastudier 7. Acta archaeologica Lundensia. Series in 8o, 40. Stockholm-Lund.', '2003'),
+			(new_id + 355, 'Ole Stilborg.', 'Ole Stilborg. 2004. Tidig keramik på Hisingen, Torslanda 110, Almhult, Hisingen, Torslanda kommun. KFL 04/0220', 'Tidig keramik på Hisingen, Torslanda 110, Almhult, Hisingen, Torslanda kommun. KFL 04/0220', '2004'),
+			(new_id + 356, 'Stilborg, Ole.', 'Stilborg, Ole. 2009. Tio små skärvor från Kv. Havren., Kalmar. SYK & GRK-keramik. KFL Rapport09/0202. Lund', 'Tio små skärvor från Kv. Havren., Kalmar. SYK & GRK-keramik. KFL Rapport09/0202. Lund', '2009'),
+			(new_id + 357, 'Stilborg, Ole.', 'Stilborg, Ole. 2007. Traditionella tidigneolitiska trattbägare och multikulturella senneolitiska kärl. Veta 5:5, Veta sn; Ramshäll 1:1, Linköping; Kimstad RAÄ 258, Kimstad sn, Östergötland. KFL Rapport 07/0222. Lund', 'Traditionella tidigneolitiska trattbägare och multikulturella senneolitiska kärl. Veta 5:5, Veta sn; Ramshäll 1:1, Linköping; Kimstad RAÄ 258, Kimstad sn, Östergötland. KFL Rapport 07/0222. Lund', '2007'),
+			(new_id + 358, 'Grönberg, Emma.', 'Grönberg, Emma. 2005. Två prover från Västerbotten. KFL rapport 05/0704. Lund', 'Två prover från Västerbotten. KFL rapport 05/0704. Lund', '2005'),
+			(new_id + 359, 'Stilborg, O.', 'Stilborg, O. 2004. Tärskemagret keramik fra Valby. KFL rapport 04/0415. Lund', 'Tärskemagret keramik fra Valby. KFL rapport 04/0415. Lund', '2004'),
+			(new_id + 360, 'Stilborg, Ole.', 'Stilborg, Ole. 2005. Ugnar och bränd lera på Lövstaholm. KFL Rapport 05/1005. Lund', 'Ugnar och bränd lera på Lövstaholm. KFL Rapport 05/1005. Lund', '2005'),
+			(new_id + 361, 'Stilborg, Ole.', 'Stilborg, Ole. 2008. Ugnar vid Insjön, Dalarna & Ugnar i Ledsjö, Vg. KFL Rapport 08/0610. Lund', 'Ugnar vid Insjön, Dalarna & Ugnar i Ledsjö, Vg. KFL Rapport 08/0610. Lund', '2008'),
+			(new_id + 362, 'Stilborg, Ole.', 'Stilborg, Ole. 2008. Ugnar vid Insjön, Dalarna & ugnar i Lesjö, Vg. KFL rapport 08/0610.', 'Ugnar vid Insjön, Dalarna & ugnar i Lesjö, Vg. KFL rapport 08/0610. ', '2008'),
+			(new_id + 363, 'Stilborg, Ole.', 'Stilborg, Ole. 2007. Ugnarna i Valbo, Gästrikland. Ässjefodringar och annan teknisk keramik från Smedsbo. KFL Rapport 07/0615. Lund', 'Ugnarna i Valbo, Gästrikland. Ässjefodringar och annan teknisk keramik från Smedsbo. KFL Rapport 07/0615. Lund', '2007'),
+			(new_id + 364, 'Lindahl, Anders & Stilborg, Ole.', 'Lindahl, Anders & Stilborg, Ole. 2006. Ugnsanläggning, keramik och bergart. Lilla Ulvgryt och Bengtstorp, Närke. KFL rapport 06/1027. Lund', 'Ugnsanläggning, keramik och bergart. Lilla Ulvgryt och Bengtstorp, Närke. KFL rapport 06/1027. Lund', '2006'),
+			(new_id + 365, 'Stilborg, Ole.', 'Stilborg, Ole. 2006. Ugnsväggar och härdfodring. Gråfjell, Hamnsundhelleren, Ullshelleren, Norge och Segerstorp, Sverige. KFL Rapport 06/08/04. Lund', 'Ugnsväggar och härdfodring. Gråfjell, Hamnsundhelleren, Ullshelleren, Norge och Segerstorp, Sverige. KFL Rapport 06/08/04. Lund', '2006'),
+			(new_id + 366, 'Brorsson, Torbjörn.', 'Brorsson, Torbjörn. 1997. Undersökning av keramik från RAÄ 13 i Norra Nöbbelöv sn, Skåne. KFL.', 'Undersökning av keramik från RAÄ 13 i Norra Nöbbelöv sn, Skåne. KFL.', '1997'),
+			(new_id + 367, 'Lindahl, Anders & Brorsson, Torbjörn.', 'Lindahl, Anders & Brorsson, Torbjörn. 1998. Undersökning av keramik och lerprov från Gamla Uppsala, Uppland. KFL 1998/1008', 'Undersökning av keramik och lerprov från Gamla Uppsala, Uppland. KFL 1998/1008', '1998'),
+			(new_id + 368, 'Stilborg, Ole.', 'Stilborg, Ole. 1997. Undersökning av lerprover och keramikskärvor från RAÄ 106, Skrea 13:3, Skrea sn., Halland. KFL.', 'Undersökning av lerprover och keramikskärvor från RAÄ 106, Skrea 13:3, Skrea sn., Halland. KFL.', '1997'),
+			(new_id + 369, 'Hulthén, B.', 'Hulthén, B. 1983. Untersuchungen zur Keramik des frühneolitischen Fundplatzes Siggeneben-Süd. In Meures-Balke, J. 1983.: Siggeneben-Süd. Ein Fundplatz der frähen Trichter-becherkultur an der holsteinischen Ostseekäste. Offa-bächer, Band 50. Neumän-ster.', 'Untersuchungen zur Keramik des frühneolitischen Fundplatzes Siggeneben-Süd. In Meures-Balke, J. 1983.: Siggeneben-Süd. Ein Fundplatz der frähen Trichter-becherkultur an der holsteinischen Ostseekäste. Offa-bächer, Band 50. Neumän-ster.', '1983'),
+			(new_id + 370, 'Kresten, P., Hjärthner-Holdar, E. & Stilborg, O.', 'Kresten, P., Hjärthner-Holdar, E. & Stilborg, O. 2000. Vendeltida metallurgi i Dagstorp, Skåne Västkustbanan SU 21, Dagstorp 1:2-3, 5:31, Dagstorp sn, Skåne. Analysrapport / Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL ; 2000:5. Uppsala', 'Vendeltida metallurgi i Dagstorp, Skåne  Västkustbanan SU 21, Dagstorp 1:2-3, 5:31, Dagstorp sn, Skåne. Analysrapport / Riksantikvarieämbetet, Avdelningen för arkeologiska undersökningar, UV GAL ; 2000:5. Uppsala', '2000'),
+			(new_id + 371, 'Ole Stilborg.', 'Ole Stilborg. 2005. Vid vatten, sten och jord. Analyser av keramikoffer vid Käringsjön, Hunehall/Arlösa och på Brogården, Halland. KFL 05/0608', 'Vid vatten, sten och jord. Analyser av keramikoffer vid Käringsjön, Hunehall/Arlösa och på Brogården, Halland. KFL 05/0608', '2005'),
+			(new_id + 372, 'Stilborg, O.', 'Stilborg, O. 2006. Västervång. 1000 års brukskeramik KFL rapport 06/0814. (UV-Syd) 18s', 'Västervång. 1000 års brukskeramik KFL rapport 06/0814. (UV-Syd) 18s', '2006'),
+			(new_id + 373, 'Stilborg, O.', 'Stilborg, O. 2008. A technological study of crucibles from Helgö and Bäckby. I: Excavations at Helgö. 17, Workshop, p. 3. S. [209]-220. Stockholm', 'A technological study of crucibles from Helgö and Bäckby. I: Excavations at Helgö. 17, Workshop, p. 3. S. [209]-220. Stockholm', '2008'),
+			(new_id + 374, 'Stilborg, O.', 'Stilborg, O. 2003. Late Iron Age metal Craft Ceramics at Uppåkra. I: Hårdh, B. (red.). 2003. Uppåkrastudier, 9. Fler fynd i centrum : materialstudier i och kring Uppåkra. Acta archaeologica Lundensia. Series in 8o, 45. s. 137-164. Lund', 'Late Iron Age metal Craft Ceramics at Uppåkra. I: Hårdh, B. (red.). 2003. Uppåkrastudier, 9. Fler fynd i centrum : materialstudier i och kring Uppåkra. Acta archaeologica Lundensia. Series in 8o, 45. s. 137-164. Lund', '2003'),
+			(new_id + 375, 'Brorsson, T.', 'Brorsson, T. 2003. The Slavonic Feldberg and Fresendorf Pottery in Scania. I: Hårdh, B. & Larsson, L. 2003. Centrality - regionality the social structure of southern Sweden during the Iron Age. Uppåkrastudier 7. Acta archaeologica Lundensia. Series in 8o, 40. Stockholm-Lund. s. 223-234.', 'The Slavonic Feldberg and Fresendorf Pottery in Scania. I: Hårdh, B. & Larsson, L. 2003. Centrality - regionality  the social structure of southern Sweden during the Iron Age. Uppåkrastudier 7. Acta archaeologica Lundensia. Series in 8o, 40. Stockholm-Lund. s. 223-234.', '2003')
+		) insert into tbl_biblio (biblio_id, authors, full_reference, title, year)
+        select a.biblio_id, a.authors, a.full_reference, a.title, a.year
+        from new_biblio a;
+
+		new_id = 12;
+        with new_dataset_masters (master_set_id, master_name, master_notes, url) as (values
+			(new_id + 0, 'The Laboratory for Ceramic Research (Lund/KFL)', 'Data created by staff at the Laboratory for Ceramic Research at Lund University, Sweden.', 'http://www.geology.lu.se/research/laboratories-equipment/the-laboratory-for-ceramic-research')
+        ) insert into tbl_dataset_masters (master_set_id, master_name, master_notes, url)
+        select a.master_set_id, a.master_name, a.master_notes, a.url
+        from new_dataset_masters a;
+
+		new_id = 16;
+		with new_unit (unit_id, description, unit_abbrev, unit_name) as (values
+			(new_id + 0, 'Distance measure in 1/100 metres', 'cm', 'centimetres')
+		) insert into tbl_units (unit_id, description, unit_abbrev, unit_name)
+		select a.unit_id, a.description, a.unit_abbrev, a.unit_name
+		from new_unit a;
+
+		new_id = 34;
+		with new_dimensions (dimension_id, dimension_abbrev, dimension_description, dimension_name, unit_id, method_group_id) as (values
+			(new_id + 0, 'Sherd thickness', 'Thickness of a sherd of burnt clay, measured in millimeters', 'Sherd thickness (mm)', '10', '14'),
+			(new_id + 1, 'Base minimum', 'Vessel base diameter in centimeters, minimum size measurement', 'Base diameter (cm) minimum', '16', '14'),
+			(new_id + 2, 'Base maximum', 'Vessel base diameter in centimeters, maximum size measurement', 'Base diameter (cm) maximum', '16', '14'),
+			(new_id + 3, 'Rim minimum', 'Vessel rim diameter in centimeters, minimum size measurement', 'Rim diameter (cm) minimum', '16', '14'),
+			(new_id + 4, 'Rim maximum', 'Vessel rim diameter in centimeters, maximum size measurement', 'Rim diameter (cm) maximum', '16', '14'),
+			(new_id + 5, 'Sherd minimum', 'Vessel sherd thickness in millimeters, minimum size measurement', 'Sherd thickness (mm) minimum', '10', '14'),
+			(new_id + 6, 'Sherd maximum', 'Vessel sherd thickness in millimeters, maximum size measurement', 'Sherd thickness (mm) maximum', '10', '14'),
+			(new_id + 7, 'Height minimum', 'Vessel height in centimeters, minimum', 'Vessel height (cm) minimum', '16', '14'),
+			(new_id + 8, 'Height maximum', 'Vessel height in centimeters, maximum', 'Vessel height (cm) maximum', '16', '14')
+		) insert into tbl_dimensions (dimension_id, dimension_abbrev, dimension_description, dimension_name, unit_id, method_group_id)
+		select a.dimension_id, a.dimension_abbrev, a.dimension_description, a.dimension_name, a.unit_id::int, a.method_group_id::int
+		from new_dimensions a;
+
+		new_id = 551;
+		with new_feature_types (feature_type_id, feature_type_name, feature_type_description) as (values
+			(new_id + 0, 'Settlement site', 'A site previously inhabited where worked objects, raw material, refuse and/or remains from buildings are left.'),
+			(new_id + 1, 'Settlement site and monastery', NULL),
+			(new_id + 2, 'Settlement site and wetlands', NULL),
+			(new_id + 3, 'Setlement site and iron production site', NULL),
+			(new_id + 4, 'Grave/burial and settlement site', NULL),
+			(new_id + 5, 'Crafts site', NULL),
+			(new_id + 6, 'Iron production site', NULL),
+			(new_id + 7, 'Tiled kiln factory', NULL),
+			(new_id + 8, 'Monastery', NULL),
+			(new_id + 9, 'Cult site', 'A vague term which alludes to the site having a religous/ceremonial character.'),
+			(new_id + 10, 'Church', NULL),
+			(new_id + 11, 'Trading site', NULL),
+			(new_id + 12, 'Palisade', NULL),
+			(new_id + 13, 'Pile dwelling', NULL),
+			(new_id + 14, 'Unprocessed clay', NULL),
+			(new_id + 15, 'Heap of fire-cracked stones', 'A heap of stones that have cracked and weathered due to heating.'),
+			(new_id + 16, 'City layer', 'A cultural layer of a city character.'),
+			(new_id + 17, 'Brick kiln', NULL),
+			(new_id + 18, 'Settlement site?', NULL),
+			(new_id + 19, 'Grave/burial?', NULL),
+			(new_id + 20, 'Trading site/Settlement site', NULL),
+			(new_id + 21, 'Hoard', 'A collection of items intentionally deposited in the ground'),
+			(new_id + 22, 'Surface find', 'Object found exposed in the surface layer without any connection to its original context.')
+		) insert into tbl_feature_types (feature_type_id, feature_type_name, feature_type_description)
+		select a.feature_type_id, a.feature_type_name, a.feature_type_description
+		from new_feature_types a;
+
+		new_id = 390;
+		with new_relative_ages (relative_age_id, relative_age_type_id, relative_age_name, description, cal_age_older, cal_age_younger, location_id, abbreviation) as (values
+			(new_id + 0, 1, 'Quaternary ', 'Geologic period.', '2700000', NULL, NULL, 'Quaternary'),
+			(new_id + 1, 1, 'Mesolithic S Scandinavia', 'Mesolithic period as defined in BugsCEP.', '12950', '5100', NULL, 'Mesolithic'),
+			(new_id + 2, 1, 'Mesolithic N Scandinavia', 'Mesolithic period as defined in BugsCEP.', '12950', '5100', NULL, 'Mesolithic'),
+			(new_id + 3, 1, 'Neolithic S Scandinavia', 'Neolithic period as defined in BugsCEP.', '5100', '3750', NULL, 'Neolithic'),
+			(new_id + 4, 1, 'Neolithic N Scandinavia', 'Neolithic period as defined in BugsCEP.', '5100', '3750', NULL, 'Neolithic'),
+			(new_id + 5, 1, 'Early neolithic S Scandinavia', 'Early neolithic for S Scandinavia as defined by T.Douglas Price (2016).', '5950', '5250', NULL, 'Neolithic'),
+			(new_id + 6, 1, 'Middle neolithic S Scandinavia', 'Middle neolithic for S Scandinavia as defined by T.Douglas Price (2016).', '5250', '4350', NULL, 'Neolithic'),
+			(new_id + 7, 1, 'Late neolithic S Scandinavia', 'Late neolithic for S Scandinavia as defined by T.Douglas Price (2016).', '4350', '3750', NULL, 'Neolithic'),
+			(new_id + 8, 1, 'Epineolithic N Sweden ', 'Epineolithic for northern Sweden as defined by E. Baudou (1993).', '3950', '2750', NULL, 'Epineolithic'),
+			(new_id + 9, 1, 'Bronze Age Scandinavia', 'Bronze age period as defined in BugsCEP.', '3750', '2450', NULL, 'Bronze Age'),
+			(new_id + 10, 1, 'Early Bronze Age Scandinavia', 'Early Bronze Age as defined by T. Douglas Price (2016).', '3750', '3050', NULL, 'Bronze Age'),
+			(new_id + 11, 1, 'Late Bronze Age Scandinavia', 'Late Bronze Age as defined by T. Douglas Price (2016).', '3050', '2450', NULL, 'Bronze Age'),
+			(new_id + 12, 1, 'Bronze age Period I', 'The southern Scandinavian Bronze Age periods, from T. Douglas Price (2016).', '3750', '3450', NULL, 'Bronze Age I'),
+			(new_id + 13, 1, 'Bronze age Period II', 'The southern Scandinavian Bronze Age periods, from T. Douglas Price (2016).', '3450', '3250', NULL, 'Bronze Age II'),
+			(new_id + 14, 1, 'Bronze age Period III', 'The southern Scandinavian Bronze Age periods, from T. Douglas Price (2016).', '3250', '3050', NULL, 'Bronze Age III'),
+			(new_id + 15, 1, 'Bronze age Period IV', 'The southern Scandinavian Bronze Age periods, from T. Douglas Price (2016).', '3050', '2850', NULL, 'Bronze Age IV'),
+			(new_id + 16, 1, 'Bronze age Period V', 'The southern Scandinavian Bronze Age periods, from T. Douglas Price (2016).', '2850', '2550', NULL, 'Bronze Age V'),
+			(new_id + 17, 1, 'Bronze age Period VI', 'The southern Scandinavian Bronze Age periods, from T. Douglas Price (2016).', '2550', '2450', NULL, 'Bronze Age VI'),
+			(new_id + 18, 1, 'Early Iron Age', 'Early Iron Age as defined by T. Douglas Price (2016).', '2450', '1550', NULL, 'Iron Age'),
+			(new_id + 19, 1, 'Late Iron Age', 'Late Iron Age as defined by T. Douglas Price (2016).', '1550', '1150', NULL, 'Iron Age'),
+			(new_id + 20, 1, 'Pre Roman Iron Age', 'Pre Roman Iron Age as defined in BugsCEP.', '2450', '1950', NULL, 'Pre-Roman '),
+			(new_id + 21, 1, 'Roman Iron Age', 'Roman Iron Age as defined in BugsCEP.', '1950', '1550', NULL, 'Roman '),
+			(new_id + 22, 1, 'Migration period Scandinavia', 'Migration period in Scandinavia as defined by T. Douglas Price (2016).', '1550', '1400', NULL, 'Migration'),
+			(new_id + 23, 1, 'Vendel period Scandinavia', 'Vendel period in Scandinavia as defined by T. Douglas Price (2016).', '1400', '1150', NULL, 'Vendel'),
+			(new_id + 24, 1, 'Medieval Scandinavia', NULL, '900', '450', NULL, 'Medieval'),
+			(new_id + 25, 1, 'Metal Age N Scandinavia', 'Metal Age as defined by E. Baudou (1993).', '2950', '550', NULL, 'Metal Age'),
+			(new_id + 26, 1, 'Early Metal Age N Scandinavia', 'Early metal Age as defined by E. Baudou (1993).', '2950', '1850', NULL, 'Metal Age'),
+			(new_id + 27, 1, 'Late Metal Age N Scandinavia', 'Late metal Age as defined by E. Baudou (1993).', '1850', '550', NULL, 'Metal Age'),
+			(new_id + 28, 2, 'Early Modern', 'Early modern as defined by BugsCEP.', '450', '200', NULL, 'Early modern'),
+			(new_id + 29, 2, 'Modern', 'Modern as defined by BugsCEP.', '200', '0', NULL, 'Modern'),
+			(new_id + 30, 2, 'Pre-Columbian South America', 'Pre-Columbian as defined by BugsCEP.', NULL, '450', NULL, 'Pre-Columbian'),
+			(new_id + 31, 1, 'Inca', 'Period of the Inca empire in South America, as defined by Chepstow et. al. 2009.', '550', '418', 169, 'Inca'),
+			(new_id + 32, 1, 'Early neolithic Belgium', 'Early neolithic period in modern day Belgium, as defined by Golitko (2010) and Sarunas (2002).', '7250', '5950', 21, 'Neolithic'),
+			(new_id + 33, 1, 'Medieval Belgium', 'Medieval period in modern day Belgium.', '1550', '450', 21, 'Medieval'),
+			(new_id + 34, 1, 'Viking Age N England', 'N English Viking age as defined by BugsCEP', '1150', '780', 240, 'Viking Age'),
+			(new_id + 35, 1, 'Viking Age S England', 'S English Viking age as defined by BugsCEP', '1150', '870', 240, 'Viking Age'),
+			(new_id + 36, 1, 'Early Medieval Britain', 'From PeriodO which in turn is based on chronology by Spring (2013), from breakdown of roman rule until Norman invasion.', '1540', '885', NULL, 'Medieval'),
+			(new_id + 37, 1, 'Medieval N England', 'N English medieval period as defined by BugsCEP.', '780', '400', 240, 'Medieval'),
+			(new_id + 38, 1, 'Medieval S England', 'S English medieval period as defined by BugsCEP.', '870', '475', 240, 'Medieval'),
+			(new_id + 39, 1, 'Mesolithic Germany', 'Mesolithic period in Germany as defined by BugsCEP.', '12950', '7450', 82, 'Mesolithic'),
+			(new_id + 40, 1, 'Early neolithic Germany', 'Early neolithic as defined by PeriodO: http://n2t.net/ark:/99152/p0qhb66q5vq (20170424)', '7550', '6750', 82, 'Neolithic'),
+			(new_id + 41, 1, 'Middle neolithic Germany', 'Middle neolithic as defined by PeriodO: http://n2t.net/ark:/99152/p0qhb66wng7 (20170424)', '6750', '6200', 82, 'Neolithic'),
+			(new_id + 42, 1, 'Iron Age Germany', 'Iron Age in Germany as defined by BugsCEP.', '2600', '870', 82, 'Iron Age'),
+			(new_id + 43, 1, 'Viking Age Germany', 'Viking Age period in modern day Germany as defined by BugsCEP.', '1150', '870', 82, 'Viking Age'),
+			(new_id + 44, 1, 'Medieval Germany', 'Medieval period in modern day Germany as defined by BugsCEP.', '870', '400', 82, 'Medieval'),
+			(new_id + 45, 1, 'Medieval Iceland', 'Medieval periond in Iceland as defined by BugsCEP.', '850', '200', 100, 'Medieval'),
+			(new_id + 46, 1, 'Middle neolithic Ireland', 'Middle neolithic in modern day Ireland as used by Whitehouse et. al. (2014).', '5550', '5050', 1, 'Neolithic'),
+			(new_id + 47, 1, 'Late Iron Age Lithuania', 'Late Iron Age in Lithuania as used by Migle et. al. (2009).', '1150', '700', 125, 'Iron Age'),
+			(new_id + 48, 1, 'Mycenaean', 'Mycenaean period in Greece, PeriodO: http://n2t.net/ark:/99152/p08m57h97b5 (20170424)', '3550', '3010', 85, 'Mycenaean'),
+			(new_id + 49, 1, 'Protogeometric', 'A cultural ceramic period in Greece, PeriodO: http://n2t.net/ark:/99152/p083p5r65wd', '2950', '2850', 85, 'Protogeometric'),
+			(new_id + 50, 1, 'Iron Age S Europe', 'Iron Age in southern Europe as defined by C. Gillis in Dawn of Europe (2004).', '3050', '1350', NULL, 'Iron Age'),
+			(new_id + 51, 1, 'Mesolithic Netherlands', 'Mesolithic in Netherlands as defined by PeriodO: http://n2t.net/ark:/99152/p0qhb66hzfs (20170425)', '10750', '7250', 152, 'Mesolithic'),
+			(new_id + 52, 1, 'Early neolithic Netherlands', 'Early neolithic period in modern day Netherlands as defined by PeriodO: http://n2t.net/ark:/99152/p0qhb66n38q (20170425)', '7250', '6150', 152, 'Neolithic'),
+			(new_id + 53, 1, 'Medieval Netherlands', 'Medieval period in modern day Netherlands as defined by PeriodO: http://n2t.net/ark:/99152/p0qhb664bxt (20170425)', '1500', '450', 152, 'Medieval'),
+			(new_id + 54, 1, 'Medieval Norway', 'Medieval period in modern day Norway as defined by PeriodO: http://n2t.net/ark:/99152/p0zj6g8qpxx (20170425)', '900', '413', 162, 'Medieval'),
+			(new_id + 55, 1, 'Early neolithic Poland', 'Early neolithic period in modern day Poland as defined by Sarunas (2002).', '7450', '6550', 172, 'Neolithic'),
+			(new_id + 56, 1, 'Middle neolithic Poland', 'Middle neolithic period in modern day Poland as defined by Sarunas (2002).', '6550', '5150', 172, 'Neolithic'),
+			(new_id + 57, 1, 'Bronze Age Poland', 'Bronze age period in modern day Poland as defined by BugsCEP.', '3750', '2600', 172, 'Bronze Age'),
+			(new_id + 58, 1, 'Hallstatt C', 'The European Hallstatt C period as defined by Period O: http://n2t.net/ark:/99152/p08m57hbzjk (20170425).', '2750', '2550', 1644, 'Hallstatt'),
+			(new_id + 59, 1, 'Viking Age Poland', 'The Viking age period in modern day Poland as defined by BugsCEP.', '1150', '900', 172, 'Viking Age'),
+			(new_id + 60, 1, 'Viking Age Russia', 'The Viking age period in modern day Russia as defined by BugsCEP.', '1150', '900', 178, 'Viking Age'),
+			(new_id + 61, 1, 'Medieval Russia', 'Medieval period in modern day Russia as defined by Janet Martin (2007).', '970', '366', 178, 'Medieval'),
+			(new_id + 62, 2, 'Post Reformation', NULL, '450', NULL, NULL, 'Post Reformation'),
+			(new_id + 63, 13, 'CAL_PERIOD_1000-975_BP', 'Calendar date range', '950', '925', NULL, '1000 - 975 BP'),
+			(new_id + 64, 13, 'CAL_PERIOD_1900-1500_BP', 'Calendar date range', '1850', '1450', NULL, '1900 - 1500 BP'),
+			(new_id + 65, 13, 'CAL_PERIOD_975-950_BP', 'Calendar date range', '925', '900', NULL, '975 - 950 BP'),
+			(new_id + 66, 13, 'CAL_PERIOD_950-925_BP', 'Calendar date range', '900', '875', NULL, '950 - 925 BP'),
+			(new_id + 67, 13, 'CAL_PERIOD_925-900_BP', 'Calendar date range', '875', '850', NULL, '925 - 900 BP'),
+			(new_id + 68, 13, 'CAL_PERIOD_900-875_BP', 'Calendar date range', '850', '825', NULL, '900 - 875 BP'),
+			(new_id + 69, 13, 'CAL_PERIOD_900-870_BP', 'Calendar date range', '850', '820', NULL, '900 - 870 BP'),
+			(new_id + 70, 13, 'CAL_PERIOD_900-850_BP', 'Calendar date range', '850', '800', NULL, '900 - 850 BP'),
+			(new_id + 71, 13, 'CAL_PERIOD_900-800_BP', 'Calendar date range', '850', '750', NULL, '900 - 800 BP'),
+			(new_id + 72, 13, 'CAL_PERIOD_875-850_BP', 'Calendar date range', '825', '800', NULL, '875 - 850 BP'),
+			(new_id + 73, 13, 'CAL_PERIOD_870-830_BP', 'Calendar date range', '820', '780', NULL, '870 - 830 BP'),
+			(new_id + 74, 13, 'CAL_PERIOD_1885-1706_BP', 'Calendar date range', '1835', '1656', NULL, '1885 - 1706 BP'),
+			(new_id + 75, 13, 'CAL_PERIOD_825-775_BP', 'Calendar date range', '775', '725', NULL, '825 - 775 BP'),
+			(new_id + 76, 13, 'CAL_PERIOD_800-775_BP', 'Calendar date range', '750', '725', NULL, '800 - 775 BP'),
+			(new_id + 77, 13, 'CAL_PERIOD_800-750_BP', 'Calendar date range', '750', '700', NULL, '800 - 750 BP'),
+			(new_id + 78, 13, 'CAL_PERIOD_800-600_BP', 'Calendar date range', '750', '550', NULL, '800 - 600 BP'),
+			(new_id + 79, 13, 'CAL_PERIOD_800-350_BP', 'Calendar date range', '750', '300', NULL, '800 - 350 BP'),
+			(new_id + 80, 13, 'CAL_PERIOD_3200-2800_BP', 'Calendar date range', '3150', '2750', NULL, '3200 - 2800 BP'),
+			(new_id + 81, 13, 'CAL_PERIOD_800-700_BP', 'Calendar date range', '750', '650', NULL, '800 - 700 BP'),
+			(new_id + 82, 13, 'CAL_PERIOD_775-750_BP', 'Calendar date range', '725', '700', NULL, '775 - 750 BP'),
+			(new_id + 83, 13, 'CAL_PERIOD_700-500_BP', 'Calendar date range', '650', '450', NULL, '700 - 500 BP'),
+			(new_id + 84, 13, 'CAL_PERIOD_700-381_BP', 'Calendar date range', '650', '331', NULL, '700 - 381 BP'),
+			(new_id + 85, 13, 'CAL_PERIOD_600-400_BP', 'Calendar date range', '550', '350', NULL, '600 - 400 BP'),
+			(new_id + 86, 13, 'CAL_PERIOD_500-400_BP', 'Calendar date range', '450', '350', NULL, '500 - 400 BP'),
+			(new_id + 87, 13, 'CAL_PERIOD_500-300_BP', 'Calendar date range', '450', '250', NULL, '500 - 300 BP'),
+			(new_id + 88, 13, 'CAL_PERIOD_400-300_BP', 'Calendar date range', '350', '250', NULL, '400 - 300 BP'),
+			(new_id + 89, 13, 'CAL_PERIOD_370-150_BP', 'Calendar date range', '320', '100', NULL, '370 - 150 BP'),
+			(new_id + 90, 13, 'CAL_PERIOD_300-200_BP', 'Calendar date range', '250', '150', NULL, '300 - 200 BP'),
+			(new_id + 91, 13, 'CAL_PERIOD_270-200_BP', 'Calendar date range', '220', '150', NULL, '270 - 200 BP'),
+			(new_id + 92, 13, 'CAL_PERIOD_100-0_BP', 'Calendar date range', '50', '-50', NULL, '100 - 0 BP'),
+			(new_id + 93, 13, 'CAL_PERIOD_1800-1300_BP', 'Calendar date range', '1750', '1250', NULL, '1800 - 1300 BP'),
+			(new_id + 94, 13, 'CAL_PERIOD_4100-3700_BP', 'Calendar date range', '4050', '3650', NULL, '4100 - 3700 BP'),
+			(new_id + 95, 13, 'CAL_PERIOD_4800-4100_BP', 'Calendar date range', '4750', '4050', NULL, '4800 - 4100 BP'),
+			(new_id + 96, 13, 'CAL_PERIOD_1700-1400_BP', 'Calendar date range', '1650', '1350', NULL, '1700 - 1400 BP'),
+			(new_id + 97, 13, 'CAL_PERIOD_5200-4800_BP', 'Calendar date range', '5150', '4750', NULL, '5200 - 4800 BP'),
+			(new_id + 98, 13, 'CAL_PERIOD_5500-4800_BP', 'Calendar date range', '5450', '4750', NULL, '5500 - 4800 BP'),
+			(new_id + 99, 13, 'CAL_PERIOD_6000-5200_BP', 'Calendar date range', '5950', '5150', NULL, '6000 - 5200 BP'),
+			(new_id + 100, 13, 'CAL_PERIOD_8000_5900_BP', 'Calendar date range', '7950', '5850', NULL, '8000 - 5900 BP'),
+			(new_id + 101, 13, 'CAL_PERIOD_1400_1000_BP', 'Calendar date range', '1350', '950', NULL, '1400 - 1000 BP'),
+			(new_id + 102, 13, 'CAL_PERIOD_1370-1000_BP', 'Calendar date range', '1320', '950', NULL, '1370 - 1000 BP'),
+			(new_id + 103, 13, 'CAL_PERIOD_1200-1100_BP', 'Calendar date range', '1150', '1050', NULL, '1200 - 1100 BP'),
+			(new_id + 104, 13, 'CAL_PERIOD_1150-1050_BP', 'Calendar date range', '1100', '1000', NULL, '1150 - 1050 BP'),
+			(new_id + 105, 13, 'CAL_PERIOD_1100-1000_BP', 'Calendar date range', '1050', '950', NULL, '1100 - 1000 BP'),
+			(new_id + 106, 13, 'CAL_PERIOD_1020-1000_BP', 'Calendar date range', '970', '950', NULL, '1020 - 1000 BP'),
+			(new_id + 107, 1, 'Iron Age Sweden', 'Iron Age Sweden as defined by T. Douglas Price (2016).', '2450', '1150', NULL, 'Iron Age'),
+			(new_id + 108, 1, 'Bronze Age Period II - VI', 'Bronze Age Period II - VI', '3450', '2450', NULL, 'Bronze Age II - VI'),
+			(new_id + 109, 1, 'Mesolithic  - Early Neolithic Scandinavia', 'South Scandinavian Mesolithic period - early Neolithic', '12950', '5250', NULL, 'Mesolithic - Neolithic'),
+			(new_id + 110, 1, 'Middle Neolithic - Late Neolithic', 'South Scandinavian middle Neolithic - late Neolithic', '5250', '3750', NULL, 'Neolithic'),
+			(new_id + 111, 1, 'Viking Age - early Medieval N England', 'Viking Age period to early Medieval period in modern day Northern England', '1150', '400', NULL, 'Viking - Medieval'),
+			(new_id + 112, 1, 'Viking Age - early Medieval S England', 'Viking Age period to early Medieval period in modern day Southern England', '1150', '475', NULL, 'Viking - Medieval'),
+			(new_id + 113, 1, 'Mesolithic - Early Neolithic Netherlands', 'Mesolithic period to early Neolithic in modern day Netherlands', '10750', '6150', NULL, 'Mesolithic - Neolithic'),
+			(new_id + 114, 1, 'Bronze Age Period III - VI', 'Bronze Age Period III - VI', '3250', '2450', NULL, 'Bronze Age III - VI'),
+			(new_id + 115, 1, 'Bronze Age Period I - II', 'Bronze Age Period I - II', '3750', '3250', NULL, 'Bronze Age I - II'),
+			(new_id + 116, 1, 'Bronze Age Period III - V', 'Bronze Age Period III - V', '3250', '2550', NULL, 'Bronze Age III - VI'),
+			(new_id + 117, 1, 'Bronze Age Period II - IV', 'Bronze Age Period II - IV', '3450', '2850', NULL, 'Bronze Age II - IV'),
+			(new_id + 118, 1, 'Bronze Age Period IV - V', 'Bronze Age Period IV - V', '3050', '2550', NULL, 'Bronze Age IV - V'),
+			(new_id + 119, 1, 'Bronze Age Period IV - VI', 'Bronze Age Period IV - VI', '3050', '2450', NULL, 'Bronze Age IV - VI'),
+			(new_id + 120, 1, 'Bronze Age Period VI - Pre Roman Iron Age', 'Bronze Age Period VI - Pre Roman Iron Age', '2550', '1950', NULL, 'Bronze Age - Pre-Roman'),
+			(new_id + 121, 1, 'Bronze Age Period VI - Roman Iron Age', 'Bronze Age Period VI - Roman Iron Age', '2550', '1550', NULL, 'Bronze Age - Pre-Roman'),
+			(new_id + 122, 1, 'Bronze Age Period V - VI', 'Bronze Age Period V - VI', '2850', '2450', NULL, 'Bronze Age V - VI'),
+			(new_id + 123, 1, 'Bronze Age Period V - Pre Roman Iron Age', 'Bronze Age Period V - Pre Roman Iron Age', '2850', '1950', NULL, 'Bronze Age - Pre-Roman'),
+			(new_id + 124, 1, 'Migration Period  - Vendel Period', 'Migration Period - Vendel Period', '1550', '1150', NULL, 'Migration - Vendel'),
+			(new_id + 125, 1, 'Pre Roman - Roman Iron Age', 'Pre Roman Iron Age to Roman Iron Age', '2450', '1550', NULL, 'Pre-Roman - Roman Iron Age'),
+			(new_id + 126, 1, 'Mesolithic - Neolithic N Sweden', 'Mesolithic - Neolithic in modern day Northern Sweden', '12950', '3750', NULL, 'Mesolithic - Neolithic'),
+			(new_id + 127, 1, 'Roman Iron Age - Migration Period', 'Roman Iron Age - Migration Period', '1950', '1400', NULL, 'Roman Iron Age - Migration'),
+			(new_id + 128, 1, 'Roman Iron Age - Vendel Period', 'Roman Iron Age - Vendel Period', '1950', '1150', NULL, 'Roman Iron Age - Vendel'),
+			(new_id + 129, 1, 'Late Neolithic - Early Bronze Age S Scandinavia', 'Late Neolithic - Early Bronze Age S Scandinavia', '4350', '3050', NULL, 'Neolithic - Bronze Age'),
+			(new_id + 130, 1, 'Neolithic - Early Bronze Age N Scandinavia', 'Neolithic - Early Bronze Age N Scandinavia', '5100', '3050', NULL, 'Neolithic - Bronze Age'),
+			(new_id + 131, 1, 'Early Neolithic - Middle Neolithic S Scandinavia', 'Early Neolithic - Middle Neolithic S Scandinavia', '5950', '4350', NULL, 'Neolithic'),
+			(new_id + 132, 1, 'Viking Age - Medieval Period Scandinavia', 'Viking Age - Medieval Period Scandinavia', '1150', '450', NULL, 'Viking - Medieval'),
+			(new_id + 133, 1, 'Late Bronze Age - Pre Roman Iron Age Scandinavia', 'Late Bronze Age - Pre Roman Iron Age Scandinavia', '3050', '1950', NULL, 'Bronze Age - Pre-Roman'),
+			(new_id + 134, 1, 'Pre Roman Iron Age - Migration Period', 'Pre Roman Iron Age - Migration Period', '2350', '1400', NULL, 'Pre-Roman - Migration'),
+			(new_id + 135, 1, 'Mesolithic - Early Neolithic Germany', 'Mesolithic - Early Neolithic Germany as defined by BugsCEP', '12950', '5950', NULL, 'Mesolithic - Neolithic'),
+			(new_id + 136, 1, 'Viking Age - Medieval Period Germany', 'Viking Age - Medieval Period Germany', '1150', '400', NULL, 'Viking - Medieval')
+		) insert into tbl_relative_ages (relative_age_id, relative_age_type_id, relative_age_name, description, cal_age_older, cal_age_younger, location_id, abbreviation)
+		select relative_age_id, relative_age_type_id, relative_age_name, description, cal_age_older::numeric, cal_age_younger::numeric, location_id, abbreviation
+		from new_relative_ages;
+
+		new_id = 26;
+		with new_s_g_description_types (sample_group_description_type_id, type_name, type_description) as (values
+			(new_id + 0, 'Tuyere', 'A tube, nozzle or pipe used for blowing air into a furnace or hearth'),
+			(new_id + 1, 'Crucible', 'Fireproof container used for smelting metal or glass.'),
+			(new_id + 2, 'Figurine', 'Any kind of figurine made out various materials'),
+			(new_id + 3, 'Mould', 'Any type of of mold used in in the production of metal and glass work'),
+			(new_id + 4, 'Soil sample', 'Any form of sample of soil used in various types of analyses'),
+			(new_id + 5, 'Glazed tile', 'Earthenware tiles with any form of glazing '),
+			(new_id + 6, 'Tiled kiln/Kachelofen', 'A specific type of tiled kiln/oven, common to areas such as Germany, Sweden and Scandinavia. The kiln is decorated with glazed tiles, ranging from pure white to decorated ones.  '),
+			(new_id + 7, 'Vessel', 'Any type of container for the storage or utilisation of products, especially food or drink.'),
+			(new_id + 8, 'Vessel?', 'Denotes uncertainty in the identification'),
+			(new_id + 9, 'Unprocessed clay vessel?', 'Denotes uncertainty in the identification. Possibly vessel made from unprocessed clay.'),
+			(new_id + 10, 'Lamp', 'Any kind of lamp made out of various materials.'),
+			(new_id + 11, 'Clay block', 'Block of clay.'),
+			(new_id + 12, 'Clay block?', 'Denotes uncertainty in the identification.'),
+			(new_id + 13, 'Daub', 'A mixture of clay, sand, dung and straw used in building construction'),
+			(new_id + 14, 'Clay slab', 'Slab of clay.'),
+			(new_id + 15, 'Mortar', 'Refers to non-modern mortar which was made of materials such as mud, clay, lime and pitch.'),
+			(new_id + 16, 'Undefined', 'The original objects nature has not been identified'),
+			(new_id + 17, 'Unprocessed clay', 'Refers to clay which hasn''t been processed'),
+			(new_id + 18, 'Slate', 'A fine-grained type of metamorphic rock. '),
+			(new_id + 19, 'Slag', 'The by-product of metal production after metal has been extracted from the ore. Usually consists of a mixture of metal oxides and silicon dioxides'),
+			(new_id + 20, 'Spindle & whorl', 'A straight spike used for spinning textile fibers, it is usually weighted by a disc called the ''whorl''.'),
+			(new_id + 21, 'Brick', 'Bricks made from mud or clay bearing earth'),
+			(new_id + 22, 'Brick?', 'Denotes uncertainty in the identification'),
+			(new_id + 23, 'Kiln wall', 'Walling from a type of oven (thermally insulated chamber) for heating in the context of production or industry. E.g. brick kiln, pottery kiln. A large variety of types exist and there is some overlap in definitions between oven, kiln and furnace.'),
+			(new_id + 24, 'Tile', 'Different types of ceramic tiles'),
+			(new_id + 25, 'Excavation area', 'Any type of identification for excavation areas at an archaeological site.')
+		) insert into tbl_sample_group_description_types (sample_group_description_type_id, type_name, type_description)
+		select a.sample_group_description_type_id, a.type_name, a.type_description
+		from new_s_g_description_types a;
+
+		new_id = 16;
+		with new_sample_type (sample_type_id, type_name, description) as (values
+			(new_id + 0, 'Ceramic sherd', 'A sherd originating from any type of ceramic object')
+		) insert into tbl_sample_types (sample_type_id, type_name, description)
+		select a.sample_type_id, a.type_name, a.description
+		from new_sample_type a;
+
+		new_id = 1;
+		with new_ceramics_lookup (ceramics_lookup_id, name, method_id, description) as (values
+			(new_id + 0, 'Clay: Coarseness', 70, 'Estimate of the fraction size in the clay of a ceramic. Measured on a scale of 0 - 5.'),
+			(new_id + 1, 'Clay: Sorting', 70, 'Whether the clay in a ceramic object is sorted or unsorted.'),
+			(new_id + 2, 'Clay: Silt', 70, 'Estimate of the amount of silt fraction material in a clay of a ceramic object. Measured on a scale of 0 - 5.'),
+			(new_id + 3, 'Clay: Sand', 70, 'Estimate of the amount of sand fraction material in the clay of a ceramic object. Measured on a scale of 0 - 5.'),
+			(new_id + 4, 'Clay: Calcarbon', 70, 'Estimate of the amount of Calcium carbonate in the clay of a cerami object. Measured on a scale of 0 - 5.'),
+			(new_id + 5, 'Clay: Ironoxide', 70, 'Estimate of the amount of ironoxide in the clay of a ceramic object. Measured on a scale of 0 - 5.'),
+			(new_id + 6, 'Clay: Limonite', 70, 'Estimate of the amount of limonite in the clay of a ceramic object. Measured on a scale of 0 - 5.'),
+			(new_id + 7, 'Clay: Mica', 70, 'Estimate of the amount of mica in the clay of a ceramic object. Measured on a scale of 0 - 5. '),
+			(new_id + 8, 'Clay: Fossil', 70, 'Estimate of the amount of fossils in the clay of a ceramic object. Measured on a scale of 0 - 5. '),
+			(new_id + 9, 'Clay: Spongie', 70, 'Estimate of the amount of spongie in the clay of a ceramic object. Measured on a scale of 0 - 5.'),
+			(new_id + 10, 'Clay: Diatome', 70, 'Estimate of the amount of diatomes in the clay of a ceramic object. Measured on a scale of 0 - 5.'),
+			(new_id + 11, 'Clay: Organic', 70, 'Estimate of the amount of organic material in the clay of a ceramic object. Measured on a scale of 0 - 5.'),
+			(new_id + 12, 'Clay: Ore', 70, 'Estimate of the amount of ore in the clay of a ceramic object. Measured on a scale of 0 - 5.'),
+			(new_id + 13, 'Tempering: Granite', 70, 'Whether the main temper of a ceramic object consists of crushed granite/gneiss or not.'),
+			(new_id + 14, 'Tempering: Rock', 70, 'Whether the main temper of a ceramic object consists of an unspecified crushed rock or not.'),
+			(new_id + 15, 'Tempering: Sand', 70, 'Whether the main temper of a ceramic object consists of sand or not.'),
+			(new_id + 16, 'Tempering: Chamotte', 70, 'Whether the main temper of a ceramic object consists of crushed ceramics or not.'),
+			(new_id + 17, 'Tempering: Asbestos', 70, 'Whether the main temper of a ceramic object consists of crushed asbestos or not. '),
+			(new_id + 18, 'Tempering: Calcarbon', 70, 'Whether the main temper of a ceramic object consists of calcium carbonate rich materials or not.'),
+			(new_id + 19, 'Tempering: Bone', 70, 'Whether the main temper of a ceramic object consists of bones or not.'),
+			(new_id + 20, 'Tempering: Organic', 70, 'Whether the main temper of a ceramic object consists of organic material or not.'),
+			(new_id + 21, 'Tempering: Natural', 70, 'Whether the clay of a ceramic object is naturally" tempered, i. e. didn''t need any added tempering. "'),
+			(new_id + 22, 'Tempering: Accessory', 70, 'Whether there are other material in the ceramic object which isn''t part of the main tempering. In some cases it specifies what the organic material is.'),
+			(new_id + 23, 'Tempering: Max Grain Size', 70, 'The maximum grain size occuring in the ceramic tempering.'),
+			(new_id + 24, '% - Tempering', 70, 'The amount of tempering in the ceramic material, measured in percent.'),
+			(new_id + 25, 'Firing temperature(min)', 71, 'Measurment of the original firing temperature of the ceramic material.'),
+			(new_id + 26, 'Melting point', 71, 'Measurment of the melting point of a ceramic material.'),
+			(new_id + 27, 'Firing atmosphere', 71, 'Type and quality of kiln air during firing process, e.g. oxidation, reduction.')
+		) insert into tbl_ceramics_lookup (ceramics_lookup_id, name, method_id, description)
+		select a.ceramics_lookup_id, a.name, a.method_id, a.description
+		from new_ceramics_lookup a;
+
+		perform sead_utility.sync_sequence('public', 'tbl_locations');
         perform sead_utility.sync_sequence('public', 'tbl_methods');
+		perform sead_utility.sync_sequence('public', 'tbl_contacts');
+        perform sead_utility.sync_sequence('public', 'tbl_alt_ref_types');
+		perform sead_utility.sync_sequence('public', 'tbl_biblio');
+		perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
+		perform sead_utility.sync_sequence('public', 'tbl_units');
+		perform sead_utility.sync_sequence('public', 'tbl_dimensions');
+		perform sead_utility.sync_sequence('public', 'tbl_feature_types');
+		perform sead_utility.sync_sequence('public', 'tbl_relative_ages');
+		perform sead_utility.sync_sequence('public', 'tbl_sample_group_description_types');
+		perform sead_utility.sync_sequence('public', 'tbl_sample_types');
+		perform sead_utility.sync_sequence('public', 'tbl_ceramics_lookup');
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
