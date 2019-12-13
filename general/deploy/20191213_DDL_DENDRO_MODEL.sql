@@ -33,7 +33,7 @@ begin
 
         create table if not exists  tbl_dendro (
 
-            dendro_id primary key,
+            dendro_id serial primary key,
             analysis_entity_id integer not null,
             measurement_value character varying collate pg_catalog."default" not null,
             date_updated timestamp with time zone default now(),
