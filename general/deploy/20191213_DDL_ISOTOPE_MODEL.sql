@@ -77,7 +77,8 @@ begin
         create table if not exists public.tbl_isotope_value_specifiers
         (
             isotope_value_specifier_id int primary key not null,
-            decription text not null,
+            name character varying not null,
+            description text not null,
             date_updated timestamp with time zone default now()
         );
 
