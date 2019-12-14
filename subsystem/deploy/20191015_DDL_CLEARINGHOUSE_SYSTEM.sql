@@ -13,19 +13,29 @@ Notes          Use --single-transactin on execute!
 set client_min_messages to warning;
 -- set autocommit off;
 -- begin;
+
+drop schema if exists clearing_house cascade;
+
 create schema if not exists clearing_house authorization clearinghouse_worker;
 
 alter user clearinghouse_worker createdb;
 
-grant usage on schema public, sead_utility to clearinghouse_worker;
-grant all privileges on all tables in schema public, sead_utility to clearinghouse_worker;
+grant usage                           on schema public, sead_utility to clearinghouse_worker;
+grant all privileges on all tables    in schema public, sead_utility to clearinghouse_worker;
 grant all privileges on all sequences in schema public, sead_utility to clearinghouse_worker;
-grant execute on all functions in schema public, sead_utility to clearinghouse_worker;
+grant execute        on all functions in schema public, sead_utility to clearinghouse_worker;
 
-alter default privileges in schema public, sead_utility
-grant all privileges on tables to clearinghouse_worker;
-alter default privileges in schema public, sead_utility
-grant all privileges on sequences to clearinghouse_worker;
+alter default privileges in schema public, sead_utility grant all privileges on tables to clearinghouse_worker;
+alter default privileges in schema public, sead_utility grant all privileges on sequences to clearinghouse_worker;
+
+alter default privileges in schema clearing_house grant select        on tables    to public, sead_read, sead_write;
+alter default privileges in schema clearing_house grant select, usage on sequences to public, sead_read, sead_write;
+alter default privileges in schema clearing_house grant execute       on functions to public, sead_read, sead_write;
+
+-- set search_path = clearing_house, pg_catalog;
+
+set role clearinghouse_worker;
+
 /*****************************************************************************************************************************
 **	Function	fn_DD2DMS
 **	Who			Roger Mähler
