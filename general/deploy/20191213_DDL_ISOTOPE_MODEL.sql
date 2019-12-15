@@ -126,6 +126,7 @@ begin
         alter table public.tbl_isotopes owner to sead_master;
         alter table public.tbl_isotope_types owner to sead_master;
         alter table public.tbl_isotope_measurements owner to sead_master;
+        alter table public.tbl_isotope_value_specifiers owner to sead_master;
 
         grant select on table public.tbl_isotope_standards, public.tbl_isotopes, public.tbl_isotope_types, public.tbl_isotope_measurements
             to humlab_read, clearinghouse_worker, sead_read;
