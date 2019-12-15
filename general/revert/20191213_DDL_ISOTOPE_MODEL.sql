@@ -5,6 +5,6 @@ BEGIN;
     drop table if exists public.tbl_isotope_standards;
     drop table if exists public.tbl_isotopes;
     drop table if exists public.tbl_isotope_types;
-    drop table if exists public.tbl_isotope_measurments;
+    drop table if exists public.tbl_isotope_measurements;
 
 COMMIT;

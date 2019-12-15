@@ -1091,8 +1091,8 @@ begin
 			(new_id + 22, 'Tempering: Accessory', 70, 'Whether there are other material in the ceramic object which isn''t part of the main tempering. In some cases it specifies what the organic material is.'),
 			(new_id + 23, 'Tempering: Max Grain Size', 70, 'The maximum grain size occuring in the ceramic tempering.'),
 			(new_id + 24, '% - Tempering', 70, 'The amount of tempering in the ceramic material, measured in percent.'),
-			(new_id + 25, 'Firing temperature(min)', 71, 'Measurment of the original firing temperature of the ceramic material.'),
-			(new_id + 26, 'Melting point', 71, 'Measurment of the melting point of a ceramic material.'),
+			(new_id + 25, 'Firing temperature(min)', 71, 'measurement of the original firing temperature of the ceramic material.'),
+			(new_id + 26, 'Melting point', 71, 'measurement of the melting point of a ceramic material.'),
 			(new_id + 27, 'Firing atmosphere', 71, 'Type and quality of kiln air during firing process, e.g. oxidation, reduction.')
 		) insert into tbl_ceramics_lookup (ceramics_lookup_id, name, method_id, description)
 		select a.ceramics_lookup_id, a.name, a.method_id, a.description

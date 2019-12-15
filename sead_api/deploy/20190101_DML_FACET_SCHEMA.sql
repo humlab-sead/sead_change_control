@@ -104,7 +104,7 @@ begin
 			('tbl_identification_levels', 'identification_level_id', 146, FALSE),
 			('tbl_image_types', 'image_type_id', 16, FALSE),
 			('tbl_imported_taxa_replacements', 'imported_taxa_replacement_id', 22, FALSE),
-			('tbl_isotope_measurments', 'isotope_measurment_id', 165, FALSE),
+			('tbl_isotope_measurements', 'isotope_measurement_id', 165, FALSE),
 			('tbl_isotopes', 'isotope_id', 166, FALSE),
 			('tbl_isotope_standards', 'isotope_standard_id', 167, FALSE),
 			('tbl_isotope_types', 'isotope_type_id', 168, FALSE),

@@ -46,17 +46,17 @@ begin
             );
         end if;
 
-        if sead_utility.table_exists('public'::text, 'tbl_isotope_measurments'::text) = FALSE THEN
+        if sead_utility.table_exists('public'::text, 'tbl_isotope_measurements'::text) = FALSE THEN
 
-            create table if not exists public.tbl_isotope_measurments
+            create table if not exists public.tbl_isotope_measurements
             (
-                isotope_measurment_id serial primary key,
+                isotope_measurement_id serial primary key,
                 isotope_standard_id integer NULL,
                 method_id integer NULL,
                 isotope_type_id integer NULL,
                 date_updated timestamp with time zone default now(),
 
-                constraint fk_isotope_measurments_isotope_standard_id foreign key (isotope_standard_id)
+                constraint fk_isotope_measurements_isotope_standard_id foreign key (isotope_standard_id)
                     references public.tbl_isotope_standards (isotope_standard_id) match simple
                     on update no action
                     on delete no action,
@@ -88,9 +88,9 @@ begin
             (
                 isotope_id serial primary key,
                 analysis_entity_id integer NOT NULL,
-                isotope_measurment_id integer NOT NULL,
+                isotope_measurement_id integer NOT NULL,
                 isotope_standard_id integer NULL,
-                measurment_value text NULL,
+                measurement_value text NULL,
                 unit_id int not NULL,
                 isotope_value_specifier_id int not NULL,
                 date_updated timestamp with time zone default now(),
@@ -105,8 +105,8 @@ begin
                     on update no action
                     on delete no action,
 
-                constraint fk_isotopes_isotope_measurment_id foreign key (isotope_measurment_id)
-                    references public.tbl_isotope_measurments (isotope_measurment_id) match simple
+                constraint fk_isotopes_isotope_measurement_id foreign key (isotope_measurement_id)
+                    references public.tbl_isotope_measurements (isotope_measurement_id) match simple
                     on update no action
                     on delete no action,
 
@@ -125,9 +125,9 @@ begin
         alter table public.tbl_isotope_standards owner to sead_master;
         alter table public.tbl_isotopes owner to sead_master;
         alter table public.tbl_isotope_types owner to sead_master;
-        alter table public.tbl_isotope_measurments owner to sead_master;
+        alter table public.tbl_isotope_measurements owner to sead_master;
 
-        grant select on table public.tbl_isotope_standards, public.tbl_isotopes, public.tbl_isotope_types, public.tbl_isotope_measurments
+        grant select on table public.tbl_isotope_standards, public.tbl_isotopes, public.tbl_isotope_types, public.tbl_isotope_measurements
             to humlab_read, clearinghouse_worker, sead_read;
 
         comment on table tbl_isotope_standards IS 'Type=lookup';
