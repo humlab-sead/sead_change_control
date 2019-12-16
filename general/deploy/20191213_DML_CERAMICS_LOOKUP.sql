@@ -824,7 +824,7 @@ begin
         select a.biblio_id, a.authors, a.full_reference, a.title, a.year
         from new_biblio a;
 
-		new_id = 12;
+		new_id = 3;
         with new_dataset_masters (master_set_id, master_name, master_notes, url) as (values
 			(new_id + 0, 'The Laboratory for Ceramic Research (Lund/KFL)', 'Data created by staff at the Laboratory for Ceramic Research at Lund University, Sweden.', 'http://www.geology.lu.se/research/laboratories-equipment/the-laboratory-for-ceramic-research')
         ) insert into tbl_dataset_masters (master_set_id, master_name, master_notes, url)
