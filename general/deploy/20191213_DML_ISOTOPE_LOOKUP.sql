@@ -17,14 +17,6 @@ declare new_id int;
 begin
 
     begin
-        perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
-        perform sead_utility.sync_sequence('public', 'tbl_sample_location_types');
-        perform sead_utility.sync_sequence('public', 'tbl_data_types');
-        perform sead_utility.sync_sequence('public', 'tbl_isotope_value_specifiers');
-        perform sead_utility.sync_sequence('public', 'tbl_isotope_types');
-        perform sead_utility.sync_sequence('public', 'tbl_contacts');
-        perform sead_utility.sync_sequence('public', 'tbl_biblio');
-        perform sead_utility.sync_sequence('public', 'tbl_locations');
 
         new_id = 11;
         with new_dataset_masters (master_set_id, contact_id, master_name, master_note, url) as (values
@@ -351,13 +343,13 @@ begin
             on a.location_id = b.location_id
         where b.location_id is null*/;
 
-        perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
-        perform sead_utility.sync_sequence('public', 'tbl_sample_location_types');
-        perform sead_utility.sync_sequence('public', 'tbl_data_types');
-        perform sead_utility.sync_sequence('public', 'tbl_isotope_types');
-        perform sead_utility.sync_sequence('public', 'tbl_contacts');
-        perform sead_utility.sync_sequence('public', 'tbl_biblio');
-        perform sead_utility.sync_sequence('public', 'tbl_locations');
+        -- perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
+        -- perform sead_utility.sync_sequence('public', 'tbl_sample_location_types');
+        -- perform sead_utility.sync_sequence('public', 'tbl_data_types');
+        -- perform sead_utility.sync_sequence('public', 'tbl_isotope_types');
+        -- perform sead_utility.sync_sequence('public', 'tbl_contacts');
+        -- perform sead_utility.sync_sequence('public', 'tbl_biblio');
+        -- perform sead_utility.sync_sequence('public', 'tbl_locations');
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
