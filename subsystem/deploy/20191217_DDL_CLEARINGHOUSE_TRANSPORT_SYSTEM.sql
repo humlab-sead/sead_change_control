@@ -1,8 +1,9 @@
+
 /***************************************************************************
 Author         roger
-Date           
-Description    
-Prerequisites  
+Date
+Description
+Prerequisites
 Reviewer
 Approver
 Idempotent     YES
@@ -36,6 +37,15 @@ begin
         execute_date timestamp
     );
 
+end $$ language plpgsql;
+
+create or replace function clearing_house_commit.commit_submission(p_submission_id int)
+	returns void
+as $$
+begin
+	update clearing_house.tbl_clearinghouse_submissions
+		set submission_state_id = 4
+	where submission_id = p_submission_id;
 end $$ language plpgsql;
 
 /*********************************************************************************************************************************
@@ -226,8 +236,10 @@ create or replace function clearing_house_commit.get_next_id(
     p_reset_id boolean = FALSE
 ) returns int as $$
 declare
-    v_next_id       int = 0;
-    v_sequence_name character varying;
+    v_next_id               int = 0;
+    v_sequence_name         character varying;
+    v_transport_id_sql      text = '';
+    v_next_transport_id     int = 0;
 begin
 
     if p_reset_id is TRUE then
@@ -241,7 +253,90 @@ begin
     v_sequence_name = pg_get_serial_sequence(p_table_name, p_column_name);
     v_next_id = nextval(v_sequence_name);
 
+    -- Find MAX assigned id from transport_system (pending insert)
+    v_transport_id_sql = format(
+        'select coalesce(max(transport_id), 0) + 1 from clearing_house.%s',
+        case when p_table_name not like '%.%' then p_table_name else split_part(p_table_name, '.', 2) end
+    );
+
+    execute v_transport_id_sql into v_next_transport_id;
+
+    v_next_id = GREATEST(v_next_id, v_next_transport_id);
+
     return v_next_id;
+
+end $$ language plpgsql;
+
+
+create or replace function clearing_house_commit.allocate_sequence_ids()
+returns void as
+$$
+declare
+  v_data record;
+  v_sql text;
+  v_max_transport_id int;
+  v_max_pk_value int;
+  v_sequence_name character varying;
+begin
+
+	for v_data in (
+
+		with clearinghouse_pk_columns as (
+
+			select table_name_underscored as tablename, st.column_name as columnname
+			from clearing_house.tbl_clearinghouse_submission_xml_content_tables cxt
+			join clearing_house.tbl_clearinghouse_submission_tables ct using (table_id)
+			join clearing_house.fn_dba_get_sead_public_db_schema() st on st.table_name = ct.table_name_underscored
+			where TRUE
+			  and st.table_schema = 'public'
+			  and 'YES' in (st.is_pk)
+			group by table_name_underscored, column_name
+
+		), sead_sequence_columns as (
+
+			with sequences as (
+				select oid, relname as sequencename
+				from pg_class
+				where relkind = 'S'
+			)
+				select sch.nspname as schemaname, tab.relname as tablename, col.attname as columnname, col.attnum as columnnumber, seqs.sequencename
+				from pg_attribute col
+				join pg_class tab on col.attrelid = tab.oid
+				join pg_namespace sch on tab.relnamespace = sch.oid
+				left join pg_attrdef def on tab.oid = def.adrelid and col.attnum = def.adnum
+				left join pg_depend deps on def.oid = deps.objid and deps.deptype = 'n'
+				left join sequences seqs on deps.refobjid = seqs.oid
+				where sch.nspname = 'public'
+				  and col.attnum > 0
+				  and seqs.sequencename is not null
+				order by sch.nspname, tab.relname, col.attnum
+
+		) select *
+		  from clearinghouse_pk_columns
+		  join sead_sequence_columns using (tablename, columnname)
+
+	) Loop
+
+		v_sql := format('select max(transport_id) from clearing_house.%s', v_data.tablename);
+
+		execute v_sql into v_max_transport_id;
+
+		v_sql := format('select max(%s) from public.%s', v_data.columnname, v_data.tablename);
+
+		execute v_sql into v_max_pk_value;
+
+		if coalesce(v_max_transport_id, 0) > coalesce(v_max_pk_value,0) then
+
+			v_sequence_name = pg_get_serial_sequence(format('%s', v_data.tablename), v_data.columnname);
+
+			raise info 'Adjusting sequence % on %.% to % (was %)',
+				v_sequence_name, v_data.tablename, v_data.columnname, v_max_transport_id, v_max_pk_value;
+
+			perform setval(v_seq_id, v_next_id);
+
+		end if;
+
+	End Loop;
 
 end $$ language plpgsql;
 
@@ -335,7 +430,7 @@ begin
                 continue;
             end if;
 
-            v_next_id = clearing_house_commit.get_next_id(p_schema_name, v_table_name, v_pk_name, TRUE);
+            v_next_id = clearing_house_commit.get_next_id(p_schema_name, v_table_name, v_pk_name, FALSE);
 
             raise notice 'UPDATING: % (% rows, using % as first id )', v_table_name, v_count, v_next_id;
 
@@ -478,7 +573,6 @@ begin
 
 end $$ language plpgsql;
 
-
 create or replace function clearing_house_commit.generate_copy_in_script(
     p_submission_id int,
     p_entity_name text,
@@ -495,29 +589,24 @@ begin
  ** #ENTITY#
  ************************************************************************************************************************************/
 
-do \$\$ begin
-    raise notice ''Deploying %...'', ''#ENTITY#'';
-    drop table if exists clearing_house_commit.temp_#TABLE#;
-    create table clearing_house_commit.temp_#TABLE# as select * from public.#TABLE# where FALSE;
-end \$\$ language plpgsql;
+\\echo ''Deploying #ENTITY#'';
+
+drop table if exists clearing_house_commit.temp_#TABLE#;
+create table clearing_house_commit.temp_#TABLE# as select * from public.#TABLE# where FALSE;
 
 \\copy clearing_house_commit.temp_#TABLE# from program ''zcat -qac #DIR#/submission_#ID#_#ENTITY#.gz'' with (FORMAT text, DELIMITER E''\t'', ENCODING ''utf-8'');
 
-do \$\$ begin
+delete from public.#TABLE#
+    where #PK# in (select #PK# from clearing_house_commit.temp_#TABLE#);
 
-    delete from public.#TABLE#
-        where #PK# in (select #PK# from clearing_house_commit.temp_#TABLE#);
+insert into public.#TABLE#
+    select *
+    from clearing_house_commit.temp_#TABLE#
+    /* on conflict (v_pk_name) update set list-of-all-fields */;
 
-    insert into public.#TABLE#
-        select *
-        from clearing_house_commit.temp_#TABLE#
-        /* on conflict (v_pk_name) update set list-of-all-fields */;
+select clearing_house_commit.reset_serial_id(''public'', ''#TABLE#'', ''#PK#'');
 
-    perform clearing_house_commit.reset_serial_id(''public'', ''#TABLE#'', ''#PK#'');
-
-    drop table if exists clearing_house_commit.temp_#TABLE#;
-
-end \$\$ language plpgsql;
+drop table if exists clearing_house_commit.temp_#TABLE#;
 ';
 
     v_sql = replace(v_sql, '#TABLE#', p_table_name);
@@ -582,9 +671,6 @@ begin
 
 end $xyz$ language plpgsql;
 
-
-
 select clearing_house_commit.generate_sead_tables();
 select clearing_house_commit.generate_resolve_functions('public', false);
-
 -- commit;
