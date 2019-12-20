@@ -300,16 +300,16 @@ commit;
 
 set search_path = public, pg_catalog;
 
+-- drop function facet.method_measured_values(p_dataset_method_id int, p_prep_method_id int);
 create or replace function facet.method_measured_values(p_dataset_method_id int, p_prep_method_id int)
 returns table (
-    physical_sample_id int,
-    -- analysis_entity_id int,
+    analysis_entity_id int,
     measured_value numeric(20,10)
 ) as $$
 begin
 
     return query
-        select distinct ae.physical_sample_id, /* mv.analysis_entity_id, */ mv.measured_value
+        select mv.analysis_entity_id, mv.measured_value
         from tbl_measured_values mv
         join tbl_analysis_entities ae using (analysis_entity_id)
         join tbl_datasets ds using (dataset_id)
