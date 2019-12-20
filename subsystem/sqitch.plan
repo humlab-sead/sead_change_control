@@ -2,7 +2,7 @@
 %project=subsystem
 %uri=https://github.com/humlab-sead/subsystem
 
-20191015_DDL_CLEARINGHOUSE_SYSTEM 2019-10-15T15:37:56Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse Transport System.
-20191015_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM 2019-10-15T08:56:34Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse Transport System.
+20191217_DDL_CLEARINGHOUSE_SYSTEM 2019-10-15T15:37:56Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse Transport System.
+20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM [20191217_DDL_CLEARINGHOUSE_SYSTEM] 2019-12-15T08:56:34Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse Transport System.
 
 @2019.12 2019-12-13T11:54:22Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
