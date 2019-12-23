@@ -1,0 +1,7 @@
+-- Revert submissions:20191220_DML_SUBMISSION_DENDRO_ARCHEOLOGY_003_COMMIT from pg
+
+BEGIN;
+
+-- XXX Add DDLs here.
+
+COMMIT;
