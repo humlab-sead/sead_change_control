@@ -39,7 +39,6 @@
 20190513_DML_DATA_TYPE_ADD_TYPES_CALENDER_DATES 2019-05-13T13:37:26Z Roger Mähler <roger.mahler@umu.se> # Add Calender Dates
 
 20191012_DML_ASSOCIATION_TYPE_UPDATES 2019-10-12T17:11:01Z Roger Mähler <roger.mahler@umu.se> # Association type updates (from bugs)
-20180222_DML_ECOCODE_ADD_SYSTEM_4 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
 
 20191212_DML_ADD_RECORD_TYPE 2019-12-12T07:54:59Z Roger Mähler <roger.mahler@umu.se> # Add missing record types
 20191212_DML_UPDATE_SAMPLE_ALT_REFS 2019-12-12T13:29:25Z Roger Mähler <roger.mahler@umu.se> # Update insert into tbl_alt_ref_types (alt_ref_type_id, alt_ref_type, description)
@@ -52,11 +51,17 @@
 20191213_DML_DENDRO_LOOKUP 2019-04-08T10:16:55Z Roger Mähler <roger.mahler@umu.se> # Add dendrochronology lookup data
 20191213_DML_ISOTOPE_LOOKUP 2019-10-12T15:10:14Z Roger Mähler <roger.mahler@umu.se> # Isotope lookup data
 
+20191219_DML_METHODS_UPDATE 2019-12-19T13:34:03Z Roger <roger.mahler@umu.se> # Methods updates
+
 @2019.12 2019-12-13T11:52:06Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
 # Doesn't work, fk-error on analysis entity id, this is DATA not LOOKUP???
 # 20170911_DML_ANALYSIS_ENTITY_ADD_AGES 2019-04-17T09:11:46Z Roger Mähler <roger.mahler@umu.se> # Add modelled "official" ages for 889 bugs samples
+
 # Not implemented or confirmed
 # 20190425_DDL_SCHEMA_ADD_MISSING_FOREIGN_KEYS 2019-04-25T12:36:40Z Roger Mähler <roger.mahler@umu.se> # Add missing FK in public schema
 # 20190415_DML_SPECIES_DELETE_DUPLICATES 2019-04-15T14:37:52Z Roger Mähler <roger.mahler@umu.se> # Delete species associations types marked as duplicates
+
+# Removed. Causes Conflict With Bugs Import
+# 20180222_DML_ECOCODE_ADD_SYSTEM_4 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
 
