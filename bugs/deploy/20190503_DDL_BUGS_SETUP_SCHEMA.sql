@@ -64,6 +64,12 @@ begin
         alter table bugs_import.id_based_translations owner to sead_master;
         alter table bugs_import.bugs_type_translations owner to sead_master;
 
+        create index idx_bugs_trace_bugs_table_bugs_identifier
+            on bugs_import.bugs_trace (bugs_table, bugs_identifier);
+
+        create index idx_bugs_trace_bugs_table_sead_table_bugs_identifier
+            on bugs_import.bugs_trace (bugs_table, sead_table, bugs_identifier);
+
         create index idx_bugs_trace_sead_table_sead_reference_id
             on bugs_import.bugs_trace (sead_table, sead_reference_id);
 
