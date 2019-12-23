@@ -2,9 +2,12 @@
 %project=submissions
 %uri=https://github.com/humlab-sead/submissions
 
+20191220_DML_SUBMISSION_CERAMICS_001_COMMIT 2019-12-20T22:14:00Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {1}.
+20191220_DML_SUBMISSION_DENDRO_BUILDING_002_COMMIT 2019-12-20T22:14:11Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {2}.
+20191220_DML_SUBMISSION_DENDRO_ARCHEOLOGY_003_COMMIT 2019-12-20T22:14:20Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {3}.
+20191220_DML_SUBMISSION_ISOTOPE_004_COMMIT 2019-12-20T22:14:31Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {4}.
 
-20190624_DML_SUBMISSION_DENDRO_ARKEO_002_COMMIT 2019-06-24T13:07:26Z Roger Mähler <roger.mahler@umu.se> # Add Calender Dates
-20190627_DML_SUBMISSION_DENDRO_BYGG_003_COMMIT 2019-06-27T12:36:06Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {3}.
+@2019.12 2019-12-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
-@2019.12 2019-12-13T11:53:56Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
+20191221_DML_SUBMISSION_BUGS_20190303_COMMIT 2019-12-21T14:25:16Z Roger <roger.mahler@umu.se> # Initial Bugs Import
