@@ -332,7 +332,7 @@ begin
 			raise info 'Adjusting sequence % on %.% to % (was %)',
 				v_sequence_name, v_data.tablename, v_data.columnname, v_max_transport_id, v_max_pk_value;
 
-			perform setval(v_seq_id, v_next_id);
+			perform setval(v_sequence_name, v_max_transport_id);
 
 		end if;
 

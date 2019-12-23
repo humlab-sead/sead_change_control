@@ -1,0 +1,7 @@
+-- Revert submissions:20191221_DML_SUBMISSION_BUGS_20190303_COMMIT from pg
+
+BEGIN;
+
+-- XXX Add DDLs here.
+
+COMMIT;
