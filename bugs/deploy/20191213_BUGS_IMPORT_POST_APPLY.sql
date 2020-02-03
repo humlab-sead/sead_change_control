@@ -32,6 +32,14 @@ begin
     update tbl_ecocode_groups set ecocode_system_id = 3 where abbreviation = 'HRa';
     update tbl_ecocode_groups set ecocode_system_id = 3 where abbreviation = 'HTy';
 
+    insert into tbl_dataset_submissions (dataset_id, submission_type_id, contact_id, date_submitted, notes)
+    	select d.dataset_id, 5, 1, d.date_updated, 'Single dataset from another database submission into SEAD'
+    	from tbl_datasets d
+    	left join tbl_dataset_submissions s using (dataset_id)
+    	where TRUE
+    	  and s.dataset_submission_id is null
+    	  and d.master_set_id = 1;
+
 end;
 $$;
 
