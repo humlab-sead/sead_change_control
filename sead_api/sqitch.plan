@@ -17,3 +17,5 @@
 
 
 20200120_DML_ADD_DOMAIN_FACETS 2020-01-30T15:55:11Z Roger Mähler <roger.mahler@umu.se> # New domain facets
+20200203_DML_ADD_DOMAIN_ASSOCS 2020-02-03T13:47:15Z Roger Mähler <roger.mahler@umu.se> # New domain facets associations
+20200203_DDL_ADD_DOMAIN_TABLE 2020-02-03T13:48:27Z Roger Mähler <roger.mahler@umu.se> # New domain facets table
