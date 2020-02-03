@@ -15,3 +15,5 @@
 20180613_DDL_AUDIT_DEPLOY_AUDIT_SYSTEM 2019-04-09T08:53:03Z Roger Mähler <roger.mahler@umu.se> # https://github.com/2ndQuadrant/audit-trigger
 
 @2019.12 2019-12-13T11:55:09Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
+
+20200109_DML_DEPS_UTILITY 2020-01-09T14:26:58Z Roger Mähler <roger.mahler@umu.se> # Table dependency function
