@@ -68,3 +68,4 @@
 
 20191222_DML_DATASET_SUBMISSION_UPDATE 2019-12-23T17:24:03Z Roger Mähler <roger.mahler@umu.se> # Dataset sumbmission updates
 20200203_DML_ADD_YEAR_TYPES 2020-02-03T13:40:32Z Roger Mähler <roger.mahler@umu.se> # New year types
+20200203_DML_METHOD_UPDATE 2020-02-03T14:50:51Z Roger Mähler <roger.mahler@umu.se> # Remove newline in description
