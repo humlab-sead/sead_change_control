@@ -55,6 +55,14 @@
 
 @2019.12 2019-12-13T11:52:06Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
+20200203_DML_ADD_YEAR_TYPES 2020-02-03T13:40:32Z Roger Mähler <roger.mahler@umu.se> # New year types
+20200203_DML_METHOD_UPDATE 2020-02-03T14:50:51Z Roger Mähler <roger.mahler@umu.se> # Remove newline in description
+20200210_DML_MAL_QOS_UPDATE_01 2020-02-09T10:53:43Z Roger Mähler <roger.mahler@umu.se> # MAL dataset update mainly regarding geographical and macrofossil data
+
+@2020.01 2020-01-29T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2020 January release
+
+20191222_DML_DATASET_SUBMISSION_UPDATE 2019-12-23T17:24:03Z Roger Mähler <roger.mahler@umu.se> # Dataset sumbmission updates
+
 # Doesn't work, fk-error on analysis entity id, this is DATA not LOOKUP???
 # 20170911_DML_ANALYSIS_ENTITY_ADD_AGES 2019-04-17T09:11:46Z Roger Mähler <roger.mahler@umu.se> # Add modelled "official" ages for 889 bugs samples
 
@@ -65,7 +73,3 @@
 # Removed. Causes Conflict With Bugs Import
 # 20180222_DML_ECOCODE_ADD_SYSTEM_4 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
 
-
-20191222_DML_DATASET_SUBMISSION_UPDATE 2019-12-23T17:24:03Z Roger Mähler <roger.mahler@umu.se> # Dataset sumbmission updates
-20200203_DML_ADD_YEAR_TYPES 2020-02-03T13:40:32Z Roger Mähler <roger.mahler@umu.se> # New year types
-20200203_DML_METHOD_UPDATE 2020-02-03T14:50:51Z Roger Mähler <roger.mahler@umu.se> # Remove newline in description
