@@ -17,10 +17,6 @@ begin
 
     begin
 
-        if sead_utility.column_exists('public'::text, 'table_name'::text, 'column_name'::text) = TRUE then
-            raise exception SQLSTATE 'GUARD';
-        end if;
-
         update tbl_methods
         	set description = regexp_replace(description, 'use\.\w*(\n+)\w*See', 'use. See')
         where regexp_replace(description, 'use\.\w*(\n+)\w*See', 'use. See') ~* '.*use\.\w*(\n+)\w*See.*';

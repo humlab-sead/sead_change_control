@@ -15,8 +15,10 @@
 
 @2019.12 2019-12-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
+20200203_DML_FACET_UI_ELEMENTS_UPDATE 2020-02-03T15:49:17Z Roger Mähler <roger.mahler@umu.se> # Change displayed name and sort order
+
+@2020.01 2020-01-29T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2020 January release
 
 20200120_DML_ADD_DOMAIN_FACETS 2020-01-30T15:55:11Z Roger Mähler <roger.mahler@umu.se> # New domain facets
 20200203_DML_ADD_DOMAIN_ASSOCS 2020-02-03T13:47:15Z Roger Mähler <roger.mahler@umu.se> # New domain facets associations
 20200203_DDL_ADD_DOMAIN_TABLE 2020-02-03T13:48:27Z Roger Mähler <roger.mahler@umu.se> # New domain facets table
-20200203_DML_FACET_UI_ELEMENTS_UPDATE 2020-02-03T15:49:17Z Roger Mähler <roger.mahler@umu.se> # Change displayed name and sort order

@@ -69,6 +69,7 @@ Example:
 
 ```bash
 ./docker-sqitch.sh add --change-name 20191125_DML_CERAMICS_LOOKUP --note "Ceramics lookup data" --chdir ./general
+./docker-sqitch.sh add --change-name 20191222_DML_DATASET_SUBMISSION_UPDATE --note "Dataset sumbmission updates" -C ./general
 ```
 
 Task templates locations:
