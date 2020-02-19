@@ -40,6 +40,9 @@ begin
     	  and s.dataset_submission_id is null
     	  and d.master_set_id = 1;
 
+
+    update tbl_ecocode_definitions set ecocode_group_id = 2 where ecocode_group_id is null;
+
 end;
 $$;
 
