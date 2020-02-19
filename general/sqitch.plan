@@ -73,3 +73,4 @@
 # Removed. Causes Conflict With Bugs Import
 # 20180222_DML_ECOCODE_ADD_SYSTEM_4 2019-04-15T08:40:33Z Roger Mähler <roger.mahler@umu.se> # Add system id 4.
 
+20200219_DML_SITE_LOCATIONS_UPDATE 2020-02-19T09:39:34Z Roger Mähler <roger.mahler@umu.se> # MAL QoS: Removed 2 site locations
