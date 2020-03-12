@@ -94,7 +94,7 @@ create_target() {
     createdb --echo --owner=sead_master --host=$dbhost --username=$dbuser --no-password --encoding="UTF8" -T "$source_db" "$target_db"
     # > /dev/null
     if [ $? -ne 0 ];  then
-        echo "fatal: sync failed!" >&2
+        echo "fatal: create failed!" >&2
         exit 64
     fi
 }
