@@ -11,26 +11,42 @@
 **  Idempotent              YES
 **/
 
-create or replace function sead_utility.sync_sequences() returns void language plpgsql as $$
+CREATE OR REPLACE FUNCTION sead_utility.sync_sequences(
+	)
+    RETURNS void
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE
+AS $BODY$
 declare
 	sql record;
 begin
+
 	for sql in
-        select 'select setval(' || quote_literal(quote_ident(pgt.schemaname) || '.'|| quote_ident(s.relname)) ||
-                ', max(' || quote_ident(c.attname) || ') ) from ' || quote_ident(pgt.schemaname) || '.' || quote_ident(t.relname) || ';' as fix_query
-		from pg_class as s, pg_depend as d, pg_class as t, pg_attribute as c, pg_tables as pgt
+		select format('select setval(''%I.%I'', coalesce(max(%I), 1)) from %I.%I;', pgt.schemaname, s.relname, c.attname, pgt.schemaname, t.relname) as fix_query
+		from pg_class as s
+		join pg_namespace ns
+		  on s.relnamespace = ns.oid
+		join pg_depend as d
+		  on s.oid = d.objid
+		join pg_class as t
+		  on d.refobjid = t.oid
+		join pg_attribute as c
+		  on d.refobjid = c.attrelid
+		 and d.refobjsubid = c.attnum
+		join pg_tables as pgt
+		  on t.relname = pgt.tablename
+		 and pgt.schemaname = ns.nspname
 		where s.relkind = 'S'
-		  and s.oid = d.objid
-		  and d.refobjid = t.oid
-		  and d.refobjid = c.attrelid
-		  and d.refobjsubid = c.attnum
-		  and t.relname = pgt.tablename
-		order by s.relname
+		order by pgt.schemaname, t.relname, c.attname
+
     loop
-		execute sql.fix_query;
+		-- execute sql.fix_query;
+		raise notice '%', sql.fix_query;
 	end loop;
 end;
-$$;
+$BODY$;
 
 create or replace function sead_utility.sync_sequence(p_schema_name character varying, p_table_name character varying, p_column_name character varying = NULL) returns void language plpgsql as $$
 declare
