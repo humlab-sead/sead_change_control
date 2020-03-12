@@ -42,8 +42,8 @@ begin
 		order by pgt.schemaname, t.relname, c.attname
 
     loop
-		-- execute sql.fix_query;
-		raise notice '%', sql.fix_query;
+		execute sql.fix_query;
+		--raise notice '%', sql.fix_query;
 	end loop;
 end;
 $BODY$;
