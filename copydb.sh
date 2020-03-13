@@ -4,9 +4,16 @@ source_db="sead_production"
 target_db=""
 drop_if_exists=no
 sync_sequences=no
+dbhost=""
+dbuser=""
 
-dbhost=`cat ~/vault/.default.sead.server`
-dbuser=`cat  ~/vault/.default.sead.username`
+if [ -f "~/vault/.default.sead.server" ]; then
+    dbhost=`cat ~/vault/.default.sead.server`
+fi
+
+if [ -f "~/vault/.default.sead.username" ]; then
+    dbuser=`cat  ~/vault/.default.sead.username`
+fi
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
