@@ -8,3 +8,4 @@
 @2019.12 2019-12-13T11:51:00Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
 20191213_BUGS_IMPORT_POST_APPLY 2019-12-13T14:27:35Z Roger Mähler <roger.mahler@umu.se> # Script that must be applied after each import
+20200313_DML_BUGSDATA_20200219 2020-03-13T14:12:24Z Roger Mähler <roger.mahler@umu.se> # Incremental bugs update
