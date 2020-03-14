@@ -7,11 +7,11 @@ sync_sequences=no
 dbhost=""
 dbuser=""
 
-if [ -f "~/vault/.default.sead.server" ]; then
+if [ -f ~/vault/.default.sead.server ]; then
     dbhost=`cat ~/vault/.default.sead.server`
 fi
 
-if [ -f "~/vault/.default.sead.username" ]; then
+if [ -f ~/vault/.default.sead.username ]; then
     dbuser=`cat  ~/vault/.default.sead.username`
 fi
 
@@ -70,7 +70,8 @@ dbexec() {
 kickout() {
     echo "Kicking out users from $1..."
     xsql="select pg_terminate_backend(pid) from pg_stat_activity where datname = '$1' and pid <> pg_backend_pid();"
-    psql -bqw -h $dbhost -U $dbuser -c "$xsql" "postgres" > /dev/null 2>&1
+    psql -bqw -h $dbhost -U $dbuser -c "$xsql" "postgres"
+    #> /dev/null 2>&1
     if [ $? -ne 0 ];  then
         echo "fatal: kickout failed! Deploy aborted." >&2
         exit 64
