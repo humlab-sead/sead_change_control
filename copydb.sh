@@ -3,6 +3,7 @@
 source_db="sead_production"
 target_db=""
 drop_if_exists=no
+allow_deploy_to_production=no
 sync_sequences=no
 dbhost=""
 dbuser=""
@@ -29,6 +30,9 @@ do
         --force)
             drop_if_exists=yes; shift
         ;;
+        --allow-production)
+            allow_deploy_to_production=yes; shift
+        ;;
         --sync-sequences)
             sync_sequences=yes; shift
         ;;
@@ -43,19 +47,22 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 function usage()
 {
-    echo "usage: setup_target_db [--source dbname] [--force] --target dbname"
+    echo "usage: copydb [--source dbname] [--force] --target dbname"
     echo "Creates new databse using source as template. Source defaults to production."
     echo ""
     echo "   --source                  source database name"
     echo "   --target                  target database name"
     echo "   --force                   drop target if exists"
     echo "   --sync-sequences          sync sequences in target after create"
+    echo "   --allow-production        allow deploy to production"
     echo ""
 }
 
 if [ "$target_db" == "sead_production" ]; then
-    echo "fatal: you are not allowed to target production!"
-    exit 64
+    if [ "$allow_deploy_to_production" != "yes" ]; then 
+        echo "fatal: you are not allowed to target production!"
+        exit 64
+    fi
 fi
 
 if [ "$target_db" == "" ]; then
