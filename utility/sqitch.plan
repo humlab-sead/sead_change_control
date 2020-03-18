@@ -18,3 +18,4 @@
 
 20200109_DML_DEPS_UTILITY 2020-01-09T14:26:58Z Roger Mähler <roger.mahler@umu.se> # Table dependency function
 20190407_DDL_UTILITY_SYNC_ALL_SEQUENCES [20190407_DDL_UTILITY_SYNC_ALL_SEQUENCES@2019.12] 2020-03-12T11:42:27Z Roger Mähler <roger.mahler@umu.se> # Bug fix
+@2020.02 2020-03-15T08:38:01Z Roger Mähler <roger.mahler@umu.se> # 2020 February release

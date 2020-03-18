@@ -14,4 +14,7 @@
 
 @2020.01 2020-01-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2020 January release
 
-20200313_DML_BUGS_UPDATE_20200219 2020-03-13T14:12:24Z Roger Mähler <roger.mahler@umu.se> # Incremental bugs update
+20200313_DML_BUGS_IMPORT_PUBLIC_20200219 2020-03-13T14:12:24Z Roger Mähler <roger.mahler@umu.se> # Incremental bugs update
+20200315_DML_BUGS_IMPORT_TRACE_20200219 2020-03-15T15:27:24Z Roger Mähler <roger.mahler@umu.se> # BugsCEP update (bugs_import schema)
+
+@2020.02 2020-03-15T08:33:40Z Roger Mähler <roger.mahler@umu.se> # 2020 February release
