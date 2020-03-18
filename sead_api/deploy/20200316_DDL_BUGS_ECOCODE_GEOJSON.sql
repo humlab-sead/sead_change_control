@@ -17,7 +17,7 @@ begin
 
     begin
 
-        perform sead_utility.fn_generate_ecocode_crosstab_function(2, 2);
+        perform sead_utility.fn_generate_ecocode_crosstab_function(2, 2, FALSE);
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
