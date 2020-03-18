@@ -8,3 +8,6 @@
 @2019.12 2019-12-13T11:51:00Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
 20191213_BUGS_IMPORT_POST_APPLY 2019-12-13T14:27:35Z Roger Mähler <roger.mahler@umu.se> # Script that must be applied after each import
+@2020.02 2020-03-15T08:30:03Z Roger Mähler <roger.mahler@umu.se> # 2020 February release
+
+20200316_DDL_BUGS_2020.02_POST_APPLY 2020-03-16T14:24:34Z Roger Mähler <roger.mahler@umu.se> # Post applies after nugs import
