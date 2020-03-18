@@ -332,13 +332,43 @@ begin
     /* REST api views */
 
     v_udf_sql = format('
-        create or replace view postgrest_api.ecocode_dating_geojson_%1$s_%2$s_sum as
-            select ecocode_json
-            from sead_utility.fn_ecocode_dating_geojson_%1$s_%2$s(1, ''sum'');
 
-        create or replace view postgrest_api.ecocode_dating_geojson_%1$s_%2$s_count as
-            select ecocode_json
-            from sead_utility.fn_ecocode_dating_geojson_%1$s_%2$s(1, ''count'');
+        /* Public API: /rpc/fn_ecocode_dating_geojson_x_y_sum */
+        drop function if exists  postgrest_api.fn_ecocode_dating_geojson_%1$s_%2$s_sum;
+        create or replace function postgrest_api.fn_ecocode_dating_geojson_%1$s_%2$s_sum() returns json language sql
+        as $body$
+         	select ecocode_json
+          	from sead_utility.fn_ecocode_dating_geojson_%1$s_%2$s(1, ''sum''::text);
+        $body$;
+
+        grant all on function postgrest_api.fn_ecocode_dating_geojson_%1$s_%2$s_sum() to humlab_admin;
+        grant execute on function postgrest_api.fn_ecocode_dating_geojson_%1$s_%2$s_sum() to public;
+
+        /* Public API: /rpc/fn_ecocode_dating_geojson_x_y_count */
+        drop function if exists  postgrest_api.fn_ecocode_dating_geojson_%1$s_%2$s_count;
+        create or replace function postgrest_api.fn_ecocode_dating_geojson_%1$s_%2$s_count() returns json language sql
+        as $body$
+         	select ecocode_json
+          	from sead_utility.fn_ecocode_dating_geojson_%1$s_%2$s(1, ''count''::text);
+        $body$;
+
+        grant all on function postgrest_api.fn_ecocode_dating_geojson_%1$s_%2$s_sum() to humlab_admin;
+        grant execute on function postgrest_api.fn_ecocode_dating_geojson_%1$s_%2$s_sum() to public;
+
+
+        /* Public API: /ecocode_dating_geojson_x_y_count DEPRECATED (creates invalid GeoJSON caused by a wrapped JSON) */
+        drop view if exists postgrest_api.ecocode_dating_geojson_%1$s_%2$s_sum;
+        drop view if exists postgrest_api.ecocode_dating_geojson_%1$s_%2$s_count;
+        -- create or replace view postgrest_api.ecocode_dating_geojson_%1$s_%2$s_sum as
+        --     select ecocode_json
+        --     from sead_utility.fn_ecocode_dating_geojson_%1$s_%2$s(1, ''sum'');
+        -- create or replace view postgrest_api.ecocode_dating_geojson_%1$s_%2$s_count as
+        --     select ecocode_json
+        --     from sead_utility.fn_ecocode_dating_geojson_%1$s_%2$s(1, ''count'');
+        -- grant select on table postgrest_api.ecocode_dating_geojson_%1$s_%2$s_sum to public;
+        ---grant select on table postgrest_api.ecocode_dating_geojson_%1$s_%2$s_count to public;
+
+
     ', p_ecocode_system_id, p_ecocode_group_id);
 
     if p_dry_run = TRUE then
@@ -357,9 +387,6 @@ begin
         grant execute on function sead_utility.fn_ecocode_crosstab_%1$s_%2$s(int, text) to public;
         grant execute on function sead_utility.fn_ecocode_dating_%1$s_%2$s(int, text) to public;
         grant execute on function sead_utility.fn_ecocode_dating_geojson_%1$s_%2$s(int, text) to public;
-
-        grant select on table postgrest_api.ecocode_dating_geojson_%1$s_%2$s_sum to public;
-        grant select on table postgrest_api.ecocode_dating_geojson_%1$s_%2$s_count to public;
 
         grant usage on schema sead_utility, public to postgrest_anon;
         grant select on all tables in schema sead_utility to postgrest_anon;
