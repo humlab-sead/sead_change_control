@@ -291,7 +291,7 @@ begin
         UPDATE tbl_sample_groups SET site_id = 327, sample_group_name = 'Raä 1639' WHERE sample_group_id = 725;
         UPDATE tbl_sample_groups SET site_id = 321, sample_group_name = 'Raä 1636' WHERE sample_group_id = 745;
 
-        / tbl_sites */
+        /* tbl_sites */
         UPDATE tbl_sites SET altitude = 25 WHERE site_id = 381;
         UPDATE tbl_sites SET altitude = 60 WHERE site_id = 390;
         UPDATE tbl_sites SET altitude = 90 WHERE site_id = 397;
