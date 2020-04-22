@@ -70,3 +70,4 @@
 
 20200422_DML_MAL_QOS_UPDATE_02 2020-04-22T14:28:50Z Roger Mähler <roger.mahler@umu.se> # MAL dataset Quality Assurance (part #2)
 20200422_DML_MAL_TAXA_SP_SPP_QOS_UPDATE 2020-04-22T14:51:08Z Roger Mähler <roger.mahler@umu.se> # tbl_taxa_tree_master doublettes of sp. and spp.
+20200422_UPDATE_BUGS_REFERENCES_YEAR 2020-04-22T15:19:18Z Roger Mähler <roger.mahler@umu.se> # Update erroneous year in BugsCEP references
