@@ -402,8 +402,10 @@ begin
 		) as v(sequence_id, table_or_udf_name, udf_call_arguments, alias)
 		left join facet.table t using (table_or_udf_name);
 
-	insert into facet.facet_clause (facet_id, clause)
-		select i_facet_id, (v ->> 'clause')::text
+	insert into facet.facet_clause (facet_id, clause, enforce_constraint)
+		select i_facet_id,
+                (v ->> 'clause')::text,
+                (v ->> 'enforce_constraint')::bool
 		from jsonb_array_elements(j_facet -> 'clauses') as v;
 
 	return j_facet;
@@ -454,7 +456,8 @@ create or replace function facet.export_facets_to_json()
 
 		json_clause_template = $_$
 				{
-					"clause": "%s"
+					"clause": "%s",
+				    "enforce_constraint": %s,
 				}$_$;
 
 		json_facets = null;
@@ -480,7 +483,11 @@ create or replace function facet.export_facets_to_json()
 			WHERE facet_id = r_facet.facet_id
 			GROUP BY facet_id;
 
-			SELECT string_agg(format(json_clause_template, clause), ',')
+			SELECT string_agg(
+                        format(json_clause_template,
+                            clause,
+                            case when enforce_constraint = TRUE then 'true' else 'false' end
+                        ), ',')
 				INTO json_clause
 			FROM facet.facet_clause
 			WHERE facet_id = r_facet.facet_id
