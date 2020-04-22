@@ -23,6 +23,9 @@
 20200316_DDL_BUGS_ECOCODE_GEOJSON 2020-03-16T14:37:27Z Roger Mähler <roger.mahler@umu.se> # GeoJSON export for Bugs Ecocodes ecocode_system_id 2
 @2020.02 2020-03-16T14:47:53Z Roger Mähler <roger.mahler@umu.se> # @2020.02 release
 
-# 20200120_DML_ADD_DOMAIN_FACETS 2020-01-30T15:55:11Z Roger Mähler <roger.mahler@umu.se> # New domain facets
-# 20200203_DML_ADD_DOMAIN_ASSOCS 2020-02-03T13:47:15Z Roger Mähler <roger.mahler@umu.se> # New domain facets associations
-# 20200203_DDL_ADD_DOMAIN_TABLE 2020-02-03T13:48:27Z Roger Mähler <roger.mahler@umu.se> # New domain facets table
+20200120_DML_ADD_DOMAIN_FACETS 2020-01-30T15:55:11Z Roger Mähler <roger.mahler@umu.se> # New domain facets
+20200203_DML_ADD_DOMAIN_ASSOCS 2020-02-03T13:47:15Z Roger Mähler <roger.mahler@umu.se> # New domain facets associations
+20200203_DDL_ADD_DOMAIN_TABLE 2020-02-03T13:48:27Z Roger Mähler <roger.mahler@umu.se> # New domain facets table
+@2020.03 2020-04-16T17:31:05Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
+
+20200422_DML_FACET_GRAPH_REROUTE 2020-04-22T11:18:02Z Roger Mähler <roger.mahler@umu.se> # Relative dates rerouted from samples to analysis
