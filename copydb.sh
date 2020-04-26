@@ -48,7 +48,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 function usage()
 {
     echo "usage: copydb [--source dbname] [--force] --target dbname"
-    echo "Creates new databse using source as template. Source defaults to production."
+    echo "Creates new database using source as template. Source defaults to production."
     echo ""
     echo "   --source                  source database name"
     echo "   --target                  target database name"
@@ -59,7 +59,7 @@ function usage()
 }
 
 if [ "$target_db" == "sead_production" ]; then
-    if [ "$allow_deploy_to_production" != "yes" ]; then 
+    if [ "$allow_deploy_to_production" != "yes" ]; then
         echo "fatal: you are not allowed to target production!"
         exit 64
     fi
