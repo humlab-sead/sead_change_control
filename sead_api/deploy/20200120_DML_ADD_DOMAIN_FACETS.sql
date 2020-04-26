@@ -29,39 +29,13 @@ begin
     set check_function_bodies = false;
     set client_min_messages = warning;
 
-    if sead_utility.column_exists('facet', 'result_field', 'datatype') <> TRUE then
-
-        alter table facet.result_field
-            add column datatype varchar(40) not null default('text');
-
-        update facet.result_field set datatype = 'text' where result_field_id = 1; -- sitename, tbl_sites.site_name
-        update facet.result_field set datatype = 'text' where result_field_id = 2; -- record_type, tbl_record_types.record_type_name
-        update facet.result_field set datatype = 'int' where result_field_id = 3; -- analysis_entities, tbl_analysis_entities.analysis_entity_id
-        update facet.result_field set datatype = 'int' where result_field_id = 4; -- site_link, tbl_sites.site_id
-        update facet.result_field set datatype = 'int' where result_field_id = 5; -- site_link_filtered, tbl_sites.site_id
-        update facet.result_field set datatype = 'text' where result_field_id = 6; -- aggregate_all_filtered, 'Aggregated'::text
-        update facet.result_field set datatype = 'int' where result_field_id = 7; -- sample_group_link, tbl_sample_groups.sample_group_id
-        update facet.result_field set datatype = 'int' where result_field_id = 8; -- sample_group_link_filtered, tbl_sample_groups.sample_group_id
-        update facet.result_field set datatype = 'text' where result_field_id = 9; -- abundance, tbl_abundances.abundance
-        update facet.result_field set datatype = 'int' where result_field_id = 10; -- taxon_id, tbl_abundances.taxon_id
-        update facet.result_field set datatype = 'text' where result_field_id = 11; -- dataset, tbl_datasets.dataset_name
-        update facet.result_field set datatype = 'int' where result_field_id = 12; -- dataset_link, tbl_datasets.dataset_id
-        update facet.result_field set datatype = 'int' where result_field_id = 13; -- dataset_link_filtered, tbl_datasets.dataset_id
-        update facet.result_field set datatype = 'text' where result_field_id = 14; -- sample_group, tbl_sample_groups.sample_group_name
-        update facet.result_field set datatype = 'text' where result_field_id = 15; -- methods, tbl_methods.method_name
-        update facet.result_field set datatype = 'int' where result_field_id = 18; -- category_id, category_id
-        update facet.result_field set datatype = 'text' where result_field_id = 19; -- category_name, category_name
-        update facet.result_field set datatype = 'decimal' where result_field_id = 20; -- latitude_dd, latitude_dd
-        update facet.result_field set datatype = 'decimal' where result_field_id = 21; -- longitude_dd, longitude_dd
-
-    end if;
-
     insert into facet.facet_group(
 	    facet_group_id, facet_group_key, display_title, description, is_applicable, is_default)
      values (999, 'DOMAIN', 'Domain facets', 'DOMAIN', false, false)
         on conflict (facet_group_id) do nothing;
 
     delete from  facet.facet_children;
+    
     /*
     select master_set_id, array_agg(distinct ds.method_id)
     from public.tbl_datasets ds
@@ -290,14 +264,6 @@ $facets$;
 
 	perform facet.create_or_update_facet(v.facet::jsonb)
 	from jsonb_array_elements(j_facets) as v(facet);
-
-    /* Add new column that enforces that facets withot picks are involved in query */
-	if sead_utility.column_exists('facet', 'result_field', 'datatype') <> TRUE then
-
-        alter table facet.facet_clause
-            add column enforce_constraint bool not null default(FALSE);
-
-    end if;
 
     update facet.facet_clause
         set enforce_constraint = TRUE
