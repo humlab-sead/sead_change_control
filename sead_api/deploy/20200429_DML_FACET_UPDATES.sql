@@ -61,6 +61,30 @@ begin
                 "clauses": [ {
                     "clause": "region.location_type_id in (2, 7, 14, 16, 18)"
                 } ]
+            },
+            {
+                "facet_id": 34,
+                "facet_code": "activeseason",
+                "display_title": "Insect activity seasons",
+                "description": "Insect activity seasons",
+                "facet_group_id":"2",
+                "facet_type_id": 1,
+                "category_id_expr": "tbl_seasons.season_id",
+                "category_name_expr": "tbl_seasons.season_name",
+                "sort_expr": "tbl_seasons.season_type ",
+                "is_applicable": true,
+                "is_default": false,
+                "aggregate_type": "count",
+                "aggregate_title": "Number of samples",
+                "aggregate_facet_code": "result_facet",
+                "tables": [
+                {
+                    "sequence_id": 1,
+                    "table_name": "tbl_seasons",
+                    "udf_call_arguments": null,
+                    "alias":  null
+                } ],
+                "clauses": [  ]
             }
 
         ]
