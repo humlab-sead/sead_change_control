@@ -31,3 +31,4 @@
 @2020.03 2020-04-16T17:31:05Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
 
 20200429_DML_FACET_UPDATES 2020-04-29T16:51:56Z Roger Mähler <roger.mahler@umu.se> # Updates to facet specifications
+20200429_DDL_UDF_FACET_UPDATE 2020-04-30T08:16:18Z Roger Mähler <roger.mahler@umu.se> # Better handling of updates to an existing facet
