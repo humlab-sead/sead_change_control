@@ -32,3 +32,8 @@
 
 20200429_DML_FACET_UPDATES 2020-04-29T16:51:56Z Roger Mähler <roger.mahler@umu.se> # Updates to facet specifications
 20200429_DDL_UDF_FACET_UPDATE 2020-04-30T08:16:18Z Roger Mähler <roger.mahler@umu.se> # Better handling of updates to an existing facet
+20200507_DDL_RESULT_FIELD_UPDATE 2020-05-08T08:20:54Z Roger Mähler <roger.mahler@umu.se> # Add not null constraint on table_name
+20200507_DDL_FACET_ABUNDANCE_UPDATE 2020-05-08T08:21:32Z Roger Mähler <roger.mahler@umu.se> # Rewrite of helper view
+20200507_DDL_FACET_GRAPH_UPDATE 2020-05-08T08:23:48Z Roger Mähler <roger.mahler@umu.se> # Add missing edge
+20200507_DDL_FACET_SCHEMA_UPDATE 2020-05-08T08:49:47Z Roger Mähler <roger.mahler@umu.se> # Scema improvements / cleanups
+20201221_DDL_ECL_RESTAPI_VIEWS 2020-12-21T19:55:03Z Roger Mähler <roger.mahler@umu.se> # New views for ECL REST AOI
