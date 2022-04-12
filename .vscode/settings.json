@@ -4,5 +4,25 @@
     // "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe",
     "vscode-postgres.defaultConnection": "seadserv.humlab.umu.se",
 	"vscode-postgres.defaultDatabase": "sead_staging",
-	"vscode-postgres.prettyPrintJSONfields": true
+    "vscode-postgres.prettyPrintJSONfields": true,
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#b68f64",
+        "activityBar.activeBorder": "#bee0d0",
+        "activityBar.background": "#b68f64",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#bee0d0",
+        "activityBarBadge.foreground": "#15202b",
+        "statusBar.background": "#9d764a",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#b68f64",
+        "titleBar.activeBackground": "#9d764a",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#9d764a99",
+        "titleBar.inactiveForeground": "#e7e7e799",
+        "sash.hoverBorder": "#b68f64",
+        "statusBarItem.remoteBackground": "#9d764a",
+        "statusBarItem.remoteForeground": "#e7e7e7"
+    },
+    "peacock.remoteColor": "#9d764a"
 }
