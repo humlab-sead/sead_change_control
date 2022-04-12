@@ -1,8 +1,6 @@
 {
     "terminal.integrated.copyOnSelection": true,
-    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
-    // "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe",
-    "vscode-postgres.defaultConnection": "seadserv.humlab.umu.se",
+    "vscode-postgres.defaultConnection": "humlabseadserv.srv.its.umu.se",
 	"vscode-postgres.defaultDatabase": "sead_staging",
     "vscode-postgres.prettyPrintJSONfields": true,
     "workbench.colorCustomizations": {
