@@ -19,8 +19,8 @@ begin
 
         /* Result fields must have a table_name */
         update facet.result_field
-            set table_name = 'tbl_sites' where table_name is null
-        from facet.result_field
+            set table_name = 'tbl_sites'
+        where table_name is null;
 
         alter table facet.result_field
             alter column table_name
