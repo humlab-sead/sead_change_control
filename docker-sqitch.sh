@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+if [ -f .env ] ; then
+    # export $(cat .env | xargs)
+    set -o allexport
+    source .env
+    set +o allexport
+fi
+
 # Determine which Docker image to run.
 SQITCH_IMAGE=${SQITCH_IMAGE:=sqitch/sqitch:latest}
 
