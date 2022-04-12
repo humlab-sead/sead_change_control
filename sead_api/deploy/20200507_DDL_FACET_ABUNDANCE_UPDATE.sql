@@ -20,7 +20,7 @@ begin
         /* Review/rewrite of facet helper view */
         drop view facet.view_abundance;
 
-        create or replace facet.view_abundance
+        create or replace view facet.view_abundance as
             with analysis as (
                 select analysis_entity_id, method_name
                 from tbl_analysis_entities
