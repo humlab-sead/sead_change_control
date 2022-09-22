@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# Creates a copy of a source database.
+
+source .env
 
 source_db="sead_production"
 target_db=""
@@ -45,22 +49,31 @@ done
 
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
+echo_error() {
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
+}
+
 function usage()
 {
-    echo "usage: copydb [--source dbname] [--force] --target dbname"
+    echo "usage: copy-database [--source dbname] --target dbname [--force]"
     echo "Creates new database using source as template. Source defaults to production."
     echo ""
     echo "   --source                  source database name"
     echo "   --target                  target database name"
     echo "   --force                   drop target if exists"
     echo "   --sync-sequences          sync sequences in target after create"
-    echo "   --allow-production        allow deploy to production"
+    echo "   --allow-production        explicitly allow deploy to production"
     echo ""
 }
 
+if [ "$target_db" == "$source_db" ]; then
+        echo_error "fatal: source and target cannot be the same!"
+        exit 64
+fi
+
 if [ "$target_db" == "sead_production" ]; then
     if [ "$allow_deploy_to_production" != "yes" ]; then
-        echo "fatal: you are not allowed to target production!"
+        echo_error "fatal: you are not allowed to target production!"
         exit 64
     fi
 fi
@@ -70,17 +83,26 @@ if [ "$target_db" == "" ]; then
     exit 64
 fi
 
+##############################################################################
+# Execute SQL statement on target_db.
+# Globals: dbhost, dbuser, target_db
+# Arguments: SQL statement
+##############################################################################
 dbexec() {
     psql -bqw -h $dbhost -U $dbuser -c "$1" $target_db
 }
 
+##############################################################################
+# Kicks out users connect to database.
+# Globals: dbhost, dbuser
+##############################################################################
 kickout() {
     echo "Kicking out users from $1..."
     xsql="select pg_terminate_backend(pid) from pg_stat_activity where datname = '$1' and pid <> pg_backend_pid();"
     psql -bqw -h $dbhost -U $dbuser -c "$xsql" "postgres"
     #> /dev/null 2>&1
     if [ $? -ne 0 ];  then
-        echo "fatal: kickout failed! Deploy aborted." >&2
+        echo_error "fatal: kickout failed! Deploy aborted." >&2
         exit 64
     fi
 }
@@ -91,11 +113,15 @@ sync_sequences() {
     psql -bqw -h $dbhost -U $dbuser -c "$xsql" "$1"
     #> /dev/null 2>&1
     if [ $? -ne 0 ];  then
-        echo "fatal: sync failed!" >&2
+        echo_error "fatal: sync failed!" >&2
         exit 64
     fi
 }
 
+##############################################################################
+# Drops database.
+# Globals: dbhost, dbuser, target_db
+##############################################################################
 drop_target() {
     kickout $target_db
     echo "Dropping ${target_db} if exists..."
@@ -103,13 +129,17 @@ drop_target() {
     # > /dev/null 2>&1
 }
 
+##############################################################################
+# Creates target database as a copy of source database
+# Globals: dbhost, dbuser, source_db, target_db
+##############################################################################
 create_target() {
     kickout $source_db
     echo "Creating database $target_db..."
     createdb --echo --owner=sead_master --host=$dbhost --username=$dbuser --no-password --encoding="UTF8" -T "$source_db" "$target_db"
     # > /dev/null
     if [ $? -ne 0 ];  then
-        echo "fatal: create failed!" >&2
+        echo_error "fatal: create failed!" >&2
         exit 64
     fi
 }

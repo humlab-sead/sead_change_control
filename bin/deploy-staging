@@ -23,7 +23,8 @@ log_file=`date "+%Y%m%d%H%M%S"`_"deploy_${target_db_name}_${source_type}.log"
 
 deploy_tag=
 
-sqitch_projects="utility general bugs security subsystem sead_api"
+# sqitch_projects="utility general bugs security subsystem sead_api"
+sqitch_projects=$(find . -type d -exec test -e {}/deploy \; -print)
 
 if [[ -f "$dothostfile" ]]; then
     dbhost=`cat $dothostfile`
@@ -33,7 +34,7 @@ if [[ -f "$dotuserfile" ]]; then
 fi
 
 usage_message=$(cat <<EOF
-usage: deploy_staging OPTIONS...
+usage: deploy-staging OPTIONS...
 
     --host SERVERNAME               Target server (${dbhost})
     --user USERNAME                 User on target server (${dbuser})
@@ -120,8 +121,8 @@ function usage() {
 
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-if [ "$dbhost" != "seadserv.humlab.umu.se" ]; then
-    echo "This script can for now only be run on 130.239.1.181";
+if [ "$dbhost" != "humlabseadserv.srv.its.umu.se" ]; then
+    echo "This script can for now only be run on humlabseadserv.srv.its.umu.se";
     exit 64
 fi
 
@@ -329,19 +330,13 @@ function setup_new_target_database() {
 }
 
 if [ "$create_database" == "YES" ]; then
-
     echo "Setting up a new database..."
-
     setup_new_target_database
-
 else
-
     echo "Using existing database ${target_db_name}..."
-
 fi
 
 if [ "$deploy_tag" == "" ]; then
-
     echo "Skipping change deploy (not requested)"
     exit 0
 fi
@@ -361,7 +356,7 @@ fi
 for sqitch_project in $sqitch_projects; do
 
     echo "sqitch deploy --target ${deploy_target_uri} --mode change --no-verify -C ./$sqitch_project" $deploy_tag
-    sqitch deploy --target ${deploy_target_uri} --mode change --no-verify -C ./$sqitch_project $deploy_tag
+    sqitch deploy --target ${deploy_target_uri} --mode change --no-verify -C $sqitch_project $deploy_tag
     if [ $? -ne 0 ];  then
         echo "FAILURE: sqitch deploy FAILED! DB is in an undefined state." >&2
         exit 64
