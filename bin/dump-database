@@ -1,0 +1,27 @@
+#!/bin/bash
+
+source .env
+
+dbsource=$1
+dbhost=$(hostname -A)
+dbuser="humlab_admin"
+
+echo_error() {
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
+}
+
+function usage()
+{
+    echo "usage: dump-database dbname"
+    exit 64
+}
+
+if [ "$dbsource" == "" ]; then
+    usage
+fi
+
+pg_dump --file=${dbsource}_$(date +'%Y%m%d_%H%M%S').sql --format=p \
+        --create --clean \
+        --dbname=$dbsource --username=$dbuser \
+        --host=humlabseadserv.srv.its.umu.se \
+        --if-exists --blobs --no-tablespaces

@@ -129,6 +129,20 @@ drop_target() {
     # > /dev/null 2>&1
 }
 
+drop_target_with_force() {
+    # This works for Postgresql version >= 13
+    echo "Dropping ${target_db} if exists..."
+    dbexec "drop database ${target_db} with (force);"
+}
+
+drop_target_with_force2() {
+    echo "Dropping ${target_db} if exists..."
+    dbexec "alter database  ${target_db} connection limit 0;"
+    # dbexec "update pg_database set datallowconn = 'false' where datname = '${target_db}';"
+    kickout $target_db
+    drop_target
+}
+
 ##############################################################################
 # Creates target database as a copy of source database
 # Globals: dbhost, dbuser, source_db, target_db
@@ -145,7 +159,7 @@ create_target() {
 }
 
 if [ "$drop_if_exists" == "yes" ]; then
-    drop_target
+    drop_target_with_force2
 fi
 
 create_target

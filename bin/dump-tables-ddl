@@ -1,0 +1,74 @@
+#!/bin/bash
+
+export PGCLIENTENCODING=UTF8
+
+dothostfile=~/vault/.default.sead.server
+dotuserfile=~/vault/.default.sead.username
+
+target_db_name=
+
+log_file=`date "+%Y%m%d%H%M%S"`_"deploy_${target_db_name}_${source_type}.log"
+
+dbname=sead_staging
+
+if [[ -f "$dothostfile" ]]; then
+    dbhost=`cat $dothostfile`
+fi
+if [[ -f "$dotuserfile" ]]; then
+    dbuser=`cat $dotuserfile`
+fi
+
+usage_message=$(cat <<EOF
+usage: xyz OPTIONS...
+
+    --host SERVERNAME               Target server (${dbhost})
+    --user USERNAME                 User on target server (${dbuser})
+    --dbname DBNAME                 Target database name. Mandatory.
+
+EOF
+)
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --host)
+            dbhost="$2"; shift; shift
+        ;;
+        --user)
+            dbuser="$2"; shift; shift
+        ;;
+        --dbname)
+            dbname="$2"; shift; shift
+        ;;
+        *)
+            POSITIONAL+=("$1") # save it in an array for later
+            shift
+        ;;
+    esac
+done
+
+tables_sql="select string_agg(tablename, ' ') from pg_tables where schemaname = 'public'"
+
+public_tables=`psql --host=$dbhost --username=$dbuser --no-password --dbname=$dbname -tAc "$tables_sql"`
+
+for dbtable in $public_tables
+do
+    pg_dump --schema-only \
+        --no-owner \
+        --schema-only \
+        --no-privileges \
+        --format=p \
+        --table=$dbtable \
+        --username=$dbuser \
+        --dbname=$dbname \
+        --schema=public \
+        --host=$dbhost \
+        --no-comments \
+        --no-security-labels \
+        --no-tablespaces \
+        --file=a.sql
+done
+

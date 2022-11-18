@@ -1,0 +1,15 @@
+#!/bin/bash
+
+pg_dump --schema-only \
+    --no-owner \
+    --schema-only \
+    --no-privileges \
+    --format=p \
+    --username=humlab_admin \
+    --dbname=sead_staging \
+    --schema=public \
+    --host=seadserv.humlab.umu.se \
+    --no-comments \
+    --no-security-labels \
+    --no-tablespaces \
+    --file=sead_staging_public.sql
