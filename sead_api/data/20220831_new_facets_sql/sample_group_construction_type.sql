@@ -1,9 +1,14 @@
 -- Active: 1661931903212@@humlabseadserv.srv.its.umu.se@5432@sead_staging@public
+select group_description, count(distinct analysis_entity_id)
+from tbl_sites s
+join tbl_sample_groups sg using (site_id)
+join tbl_sample_group_descriptions sgd using (sample_group_id)
+join tbl_sample_group_description_types sgdt using (sample_group_description_type_id)
+join tbl_physical_samples ps using (sample_group_id)
+join tbl_analysis_entities ae using (physical_sample_id)
+where sgd.sample_group_description_type_id = 60
+group by group_description;
 
-SELECT DISTINCT sgd.group_description
-FROM tbl_sites s
-join tbl_sample_groups sg on s.site_id = sg.site_id
-join tbl_sample_group_descriptions sgd on sg.sample_group_id = sgd.sample_group_id
-join tbl_sample_group_description_types sgdt on sgdt.sample_group_description_type_id = sgd.sample_group_description_type_id
-join tbl_physical_samples ps on sg.sample_group_id = ps.sample_group_id
-Where sgd.sample_group_description_type_id = 60
+select *
+from facet.facet
+where facet_id < 1000;
