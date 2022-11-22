@@ -36,7 +36,7 @@ begin
             j_clauses = j_facet -> 'clauses';
 
             i_facet_id = (j_facet ->> 'facet_id')::int;
-            s_facet_code = (j_facet ->> 'facet_code')::int;
+            s_facet_code = (j_facet ->> 'facet_code')::text;
             if i_facet_id is null then
                 i_facet_id = (select coalesce(max(facet_id),0)+1 from facet.facet);
             else
