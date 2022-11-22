@@ -20,7 +20,7 @@ begin
         /* Add missing relation */
         insert into facet.table_relation (source_table_id, target_table_id, weight, source_column_name, target_column_name)
             with  new_edges(source_table, target_table, column_name) as ( values
-                ('tbl_dataset_methods'       , 'tbl_methods'            , 'method_id')
+                ('tbl_dataset_methods', 'tbl_methods', 'method_id')
             ) select t1.table_id as source_table_id,
                     t2.table_id as target_table_id,
                     20 as weight,
