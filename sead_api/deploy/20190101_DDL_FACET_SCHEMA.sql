@@ -402,10 +402,9 @@ begin
 		) as v(sequence_id, table_or_udf_name, udf_call_arguments, alias)
 		left join facet.table t using (table_or_udf_name);
 
-	insert into facet.facet_clause (facet_id, clause, enforce_constraint)
+	insert into facet.facet_clause (facet_id, clause)
 		select i_facet_id,
-                (v ->> 'clause')::text,
-                (v ->> 'enforce_constraint')::bool
+                (v ->> 'clause')::text
 		from jsonb_array_elements(j_facet -> 'clauses') as v;
 
 	return j_facet;
