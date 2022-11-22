@@ -42,14 +42,14 @@ Locations of `sqitch.conf`:
 
 | Project       | Description   |
 | ------------- | ------------- |
-| ./general     | Main repository for schema and data change requests (CR) |
-| ./utility     | Repository for generic utility objects |
-| ./sead_api    | Repository for CR related to external API |
 | ./bugs        | CRs related to Bugs import |
-| ./report      | Report related CRs (e.g. Clearinghouse, SuperSEAD) |
+| ./general     | Main repository for schema and data change requests (CR) |
+| ./sead_api    | Repository for CR related to external API |
 | ./security    | Changes related to roles and privileges |
-| ./subsystem   | Changes related to subsystems |
 | ./submissions | Commited Clearinghouse submissions |
+| ./subsystem   | Changes related to subsystems |
+| ./utility     | Repository for generic utility objects |
+| (./report)    | Report related CRs (e.g. Clearinghouse, SuperSEAD) |
 
 Use `sqitch init` to create a new project:
 
@@ -62,14 +62,14 @@ sqitch init xyz --uri https://github.com/humlab-sead/xyz --engine pg -C xyz
 Use `sqitch add` (or possibly `docker-sqitch.sh` depending on install) with task naming convention `yyyymmdd_[DML|DDL]_ENTITY_DESCRIPTION`:
 
 ```bash
-docker-sqitch.sh add --change-name yyyymmdd_DXL_ENTITY_DESCRIPTION --note "a note" --chdir ./project-path
+sqitch add --change-name yyyymmdd_DXL_ENTITY_DESCRIPTION --note "a note" --chdir ./project-path
 ```
 
 Example:
 
 ```bash
-./docker-sqitch.sh add --change-name 20191125_DML_CERAMICS_LOOKUP --note "Ceramics lookup data" --chdir ./general
-./docker-sqitch.sh add --change-name 20191222_DML_DATASET_SUBMISSION_UPDATE --note "Dataset sumbmission updates" -C ./general
+sqitch add --change-name 20191125_DML_CERAMICS_LOOKUP --note "Ceramics lookup data" --chdir ./general
+sqitch add --change-name 20191222_DML_DATASET_SUBMISSION_UPDATE --note "Dataset sumbmission updates" -C ./general
 ```
 
 Task templates locations:
@@ -122,7 +122,7 @@ sqitch rebase --upto "some-point" --log-only --target "a-target" --chdir "a-sub-
 If squitch says `fe_sendauth: no password supplied` then you need to set SQITCH_PASSWORD or properly configure .pgpass.
 
  ```bash
- $ ./docker-sqitch.sh status --target my-targetg -C ./my-project
+ $ sqitch status --target my-targetg -C ./my-project
 fe_sendauth: no password supplied
 
 export SQITCH_PASSWORD=password
