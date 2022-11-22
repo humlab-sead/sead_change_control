@@ -17,6 +17,8 @@ begin
 
     begin
 
+        drop view if exists "postgrest_api"."qse_dendro_dating";
+
         create or replace view "postgrest_api"."qse_dendro_dating" as
         select distinct ps.physical_sample_id,
             ae.analysis_entity_id,
