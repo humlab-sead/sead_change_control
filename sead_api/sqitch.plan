@@ -30,10 +30,22 @@
 
 @2020.03 2020-04-16T17:31:05Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
 
-20200429_DML_FACET_UPDATES 2020-04-29T16:51:56Z Roger Mähler <roger.mahler@umu.se> # Updates to facet specifications
 20200429_DDL_UDF_FACET_UPDATE 2020-04-30T08:16:18Z Roger Mähler <roger.mahler@umu.se> # Better handling of updates to an existing facet
+20200429_DML_FACET_UPDATES 2020-04-29T16:51:56Z Roger Mähler <roger.mahler@umu.se> # Updates to facet specifications
 20200507_DDL_RESULT_FIELD_UPDATE 2020-05-08T08:20:54Z Roger Mähler <roger.mahler@umu.se> # Add not null constraint on table_name
 20200507_DDL_FACET_ABUNDANCE_UPDATE 2020-05-08T08:21:32Z Roger Mähler <roger.mahler@umu.se> # Rewrite of helper view
 20200507_DDL_FACET_GRAPH_UPDATE 2020-05-08T08:23:48Z Roger Mähler <roger.mahler@umu.se> # Add missing edge
 20200507_DDL_FACET_SCHEMA_UPDATE 2020-05-08T08:49:47Z Roger Mähler <roger.mahler@umu.se> # Scema improvements / cleanups
 20201221_DDL_ECL_RESTAPI_VIEWS 2020-12-21T19:55:03Z Roger Mähler <roger.mahler@umu.se> # New views for ECL REST AOI
+
+20221121_DML_QSE_DENDRO_DATING 2022-11-21T15:37:40Z Roger Mähler <roger.mahler@umu.se> # Dendro dating reporting view (JvB)
+
+@2020.03-extra 2020-04-16T17:31:05Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
+
+@2022.10 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 October release
+
+20220831_DDL_NEW_DENDRO_FACETS 2022-08-31T08:15:42Z Roger Mähler <roger.mahler@umu.se> # New dendro facets (see issue #91)
+20180501_DDL_RESTAPI_GENERATE_SCHEMA  2022-09-22T14:21:29Z Roger Mähler <roger.mahler@umu.se> # Make UDFs, add refresh
+20220923_DDL_FACET_SCHEMA_UPDATE 2022-09-23T09:36:32Z Roger Mähler <roger.mahler@umu.se> # Changes table FK constraints to cascade
+20221117_DML_RESTAPI_GENERATE_SCHEMA 2022-11-17T09:36:32Z Roger Mähler <roger.mahler@umu.se> # Refresh REST API schema
+20221121_DDL_UDF_DELETE_FACET 2022-11-21T11:45:24Z Roger Mähler <roger.mahler@umu.se> # Delete facet UDF
