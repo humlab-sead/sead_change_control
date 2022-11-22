@@ -45,6 +45,7 @@ tbl_chronologies: kopplas på Sample group ID
 
 begin;
 
+drop view if exists postgrest_default_api.results_chronology_temp;
 drop table if exists results_chronology_temp;
 
 create table results_chronology_temp (
@@ -63,10 +64,10 @@ create table results_chronology_temp (
     "AgeTo" varchar
 );
 
-\copy results_chronology_temp ("identifier","Chosen_C14","Chosen_OtherRadio","Chosen_Calendar","Chosen_Period","AgeFrom","AgeTo") from program 'csvcut --delimiter ";" --columns identifier,Chosen_C14,Chosen_OtherRadio,Chosen_Calendar,Chosen_Period,AgeFrom,AgeTo bugs/deploy/20220916_DDL_RESULTS_CHRONOLOGY/archeological_sites.csv'  with ( format csv,  header, quote '"', delimiter ',',  encoding 'utf-8' );
+\copy results_chronology_temp ("identifier","Chosen_C14","Chosen_OtherRadio","Chosen_Calendar","Chosen_Period","AgeFrom","AgeTo") from 'deploy/20220916_DDL_RESULTS_CHRONOLOGY/archeological_sites_csvcut.csv'  with ( format csv,  header, quote '"', delimiter ',',  encoding 'utf-8' );
 update results_chronology_temp set "source" = 'archeological_sites' where "source" is null;
 
-\copy results_chronology_temp ("identifier","Chosen_C14","Chosen_OtherRadio","Chosen_Calendar","Chosen_Period","AgeFrom","AgeTo") from program 'csvcut --delimiter ";" --columns identifier,Chosen_C14,Chosen_OtherRadio,Chosen_Calendar,Chosen_Period,AgeFrom,AgeTo bugs/deploy/20220916_DDL_RESULTS_CHRONOLOGY/stratigraphic_sequences.csv'  with ( format csv,  header, quote '"', delimiter ',',  encoding 'utf-8' );
+\copy results_chronology_temp ("identifier","Chosen_C14","Chosen_OtherRadio","Chosen_Calendar","Chosen_Period","AgeFrom","AgeTo") from 'deploy/20220916_DDL_RESULTS_CHRONOLOGY/stratigraphic_sequences_csvcut.csv'  with ( format csv,  header, quote '"', delimiter ',',  encoding 'utf-8' );
 update results_chronology_temp set "source" = 'stratigraphic_sequences' where "source" is null;
 
 /* Explode componded keys */
@@ -191,7 +192,7 @@ do $$
 
         if missing_count_sheets > 0 then
             raise notice 'error: unknown count sheet codes detected. Import prohibited!';
-            raise notice 'WARNING: ROLLBACK IS DISABLED!';
+            raise notice 'warning: error encountered but ROLLBACK IS DISABLED!';
             /* NOTE! Check is disabled during development */
             -- raise exception SQLSTATE 'GUARD';
             -- select site_name, count_sheet_code, string_agg(sample_name, ', ')
@@ -210,7 +211,7 @@ with physical_sample as (
 	select sample_group_id, sample_name, physical_sample_id
 	from tbl_physical_samples
 ) update results_chronology_temp d
-	set physical_sample_id = t.sample_group_id
+	set physical_sample_id = t.physical_sample_id
   from physical_sample t
   where t.sample_group_id = d.sample_group_id
     and (
@@ -287,8 +288,13 @@ begin
     declare v_chosen_calendar int;
     declare v_chosen_period int;
     declare v_analysis_entity_id int;
+    declare v_dating_specifier text;
     begin
         v_now = now();
+
+        /* add text column that specifies how age was selected (semicolon seperated string) */
+        alter table tbl_analysis_entity_ages
+            add column if not exists dating_specifier text;
 
         /* Add a new project */
 
@@ -319,10 +325,6 @@ begin
 
             /* Create a dataset for each count sheet */
 
-            /*
-            age-from/to ska in i analysis_entity_ages (en ny post per rad i excel)
-            */
-
             -- raise notice 'Count sheet: %', v_count_sheet_code;
 
             v_dataset_name = format('simpledate_', v_count_sheet_code);
@@ -341,8 +343,17 @@ begin
             insert into tbl_dataset_contacts(contact_id, contact_type_id, dataset_id)
                 values (1, 6, v_dataset_id);
 
-            for v_sample_group_id, v_physical_sample_id, v_age_from, v_age_to, v_chosen_c14, v_chosen_otherradio, v_chosen_calendar, v_chosen_period in (
-                select sample_group_id, physical_sample_id, "AgeFrom"::int, "AgeTo"::int, "Chosen_C14"::int,"Chosen_OtherRadio"::int,"Chosen_Calendar"::int,"Chosen_Period"::int
+            for v_sample_group_id, v_physical_sample_id, v_age_from, v_age_to, v_dating_specifier in (
+                select  sample_group_id,
+                        physical_sample_id,
+                        "AgeFrom"::int,
+                        "AgeTo"::int,
+                        array_to_string(Array[
+                                case when "Chosen_C14"::int = 1 then 'Chosen_C14' else null end,
+                                case when "Chosen_OtherRadio"::int = 1 then 'Chosen_OtherRadio' else null end,
+                                case when "Chosen_Calendar"::int = 1 then 'Chosen_Calendar' else null end,
+                                case when "Chosen_Period"::int = 1 then 'Chosen_Period' else null end
+                            ], ';', null)
                 from results_chronology_temp
                 where count_sheet_code = v_count_sheet_code
                 order by count_sheet_code
@@ -353,9 +364,8 @@ begin
                     values (v_physical_sample_id, v_dataset_id)
                         returning analysis_entity_id into v_analysis_entity_id;
 
-                insert into tbl_analysis_entity_ages(analysis_entity_id, age, age_older, age_younger, chronology_id)
-                    values (v_analysis_entity_id, null, v_age_from, v_age_to, null);
-
+                insert into tbl_analysis_entity_ages(analysis_entity_id, age, age_older, age_younger, chronology_id, dating_specifier)
+                    values (v_analysis_entity_id, null, v_age_from, v_age_to, null, v_dating_specifier);
 
             end loop;
 
@@ -365,4 +375,5 @@ begin
     end;
 end $$;
 
-rollback;
+commit;
+
