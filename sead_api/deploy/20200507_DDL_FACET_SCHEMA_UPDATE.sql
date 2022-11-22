@@ -17,6 +17,10 @@ begin
 
     begin
 
+        if sead_utility.column_exists('facet'::text, 'result_specification'::text, 'specification_key'::text) = TRUE then
+            raise exception SQLSTATE 'GUARD';
+        end if;
+
         alter table facet.result_view_type
             add column if not exists result_facet_code varchar(40) not null default(''),
             add column if not exists sql_compiler varchar(80) not null default(''),
