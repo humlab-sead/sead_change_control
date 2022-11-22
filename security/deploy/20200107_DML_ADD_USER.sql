@@ -12,18 +12,24 @@
 *****************************************************************************************************************/
 SELECT pg_reload_conf();
 
-drop user if exists love_eriksson;
+do $$
+begin
+    if (select count(*) from pg_roles where rolname='love_eriksson') = 0 then
+        --drop user if exists love_eriksson;
 
-create user love_eriksson
-	with login nosuperuser inherit nocreatedb nocreaterole noreplication valid until '2020-06-01';
+        create user love_eriksson
+            with login nosuperuser inherit nocreatedb nocreaterole noreplication valid until '2020-06-01';
 
-grant connect on database sead_staging, sead_production, sead_master_8, sead_master_9 to love_eriksson;
-alter user love_eriksson with encrypted password 'password';
+    end if;
 
-grant sead_read to love_eriksson;
+    grant connect on database sead_staging, sead_production, sead_master_8, sead_master_9 to love_eriksson;
+    alter user love_eriksson with encrypted password 'password';
 
+    grant sead_read to love_eriksson;
 
-begin;
+end $$
+;
+
 do $$
 declare
     p_username text;
