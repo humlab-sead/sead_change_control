@@ -13,7 +13,7 @@
                 ecocode tables loaded by previous version of this script in a temp DB with ONLY
                 this ecocode system loaded data.
 
-                1) Create a new temp DB with copydb.sh
+                1) Create a new temp DB with `copy-database`
                 2) Delete existing ecocodes.
 
                     delete from tbl_ecocodes;
@@ -47,11 +47,11 @@ declare
 	v_ecocode_definition_id integer;
 begin
     begin
-	
+
 		perform sead_utility.sync_sequence('public', 'tbl_ecocodes', 'ecocode_id');
 		perform sead_utility.sync_sequence('public', 'tbl_ecocode_groups', 'ecocode_group_id');
 		perform sead_utility.sync_sequence('public', 'tbl_ecocode_definitions', 'ecocode_definition_id');
-		
+
 		if (select count(*) from tbl_ecocode_systems where ecocode_system_id = v_ecocode_system_id) = 1 then
 			raise exception SQLSTATE 'GUARD';
 		end if;
