@@ -99,7 +99,7 @@ dbexec() {
 kickout() {
     echo "Kicking out users from $1..."
     xsql="select pg_terminate_backend(pid) from pg_stat_activity where datname = '$1' and pid <> pg_backend_pid();"
-    psql -bqw -h $dbhost -U $dbuser -c "$xsql" "postgres"
+    psql -bqw -h $dbhost -U $dbuser -c "$xsql" "postgres" &> /dev/null
     #> /dev/null 2>&1
     if [ $? -ne 0 ];  then
         echo_error "fatal: kickout failed! Deploy aborted." >&2
@@ -110,7 +110,7 @@ kickout() {
 sync_sequences() {
     echo "Syncing sequences in $1..."
     xsql="select sead_utility.sync_sequences();"
-    psql -bqw -h $dbhost -U $dbuser -c "$xsql" "$1"
+    psql -bqw -h $dbhost -U $dbuser -c "$xsql" "$1" &> /dev/null
     #> /dev/null 2>&1
     if [ $? -ne 0 ];  then
         echo_error "fatal: sync failed!" >&2
@@ -125,19 +125,19 @@ sync_sequences() {
 drop_target() {
     kickout $target_db
     echo "Dropping ${target_db} if exists..."
-    dropdb --echo --host=$dbhost --username=$dbuser --no-password "$target_db"
+    dropdb --echo --host=$dbhost --username=$dbuser --no-password "$target_db" &> /dev/null
     # > /dev/null 2>&1
 }
 
 drop_target_with_force() {
     # This works for Postgresql version >= 13
     echo "Dropping ${target_db} if exists..."
-    dbexec "drop database ${target_db} with (force);"
+    dbexec "drop database ${target_db} with (force);" &> /dev/null
 }
 
 drop_target_with_force2() {
     echo "Dropping ${target_db} if exists..."
-    dbexec "alter database  ${target_db} connection limit 0;"
+    dbexec "alter database  ${target_db} connection limit 0;" &> /dev/null
     # dbexec "update pg_database set datallowconn = 'false' where datname = '${target_db}';"
     kickout $target_db
     drop_target
@@ -150,7 +150,7 @@ drop_target_with_force2() {
 create_target() {
     kickout $source_db
     echo "Creating database $target_db..."
-    createdb --echo --owner=sead_master --host=$dbhost --username=$dbuser --no-password --encoding="UTF8" -T "$source_db" "$target_db"
+    createdb --echo --owner=sead_master --host=$dbhost --username=$dbuser --no-password --encoding="UTF8" -T "$source_db" "$target_db" &> /dev/null
     # > /dev/null
     if [ $? -ne 0 ];  then
         echo_error "fatal: create failed!" >&2
