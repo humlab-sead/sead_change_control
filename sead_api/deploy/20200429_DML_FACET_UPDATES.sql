@@ -13,6 +13,7 @@
 begin;
 do $$
 declare s_facets text;
+declare s_aggregate_facets text;
 declare j_facets jsonb;
 begin
 
@@ -20,8 +21,7 @@ begin
 
         set search_path = facet, pg_catalog;
         set client_encoding = 'UTF8';
-
-		s_facets = $facets$
+        s_aggregate_facets = $aggregate_facets$
         [
             {
                 "facet_id": 1,
@@ -59,6 +59,88 @@ begin
                     } ],
                 "clauses": [  ]
             },
+            {
+                "facet_id": 32,
+                "facet_code": "abundances_all_helper",
+                "display_title": "Abundances",
+                "description": "Abundances",
+                "facet_group_id":"4",
+                "facet_type_id": 2,
+                "category_id_expr": "facet.view_abundance.abundance",
+                "category_name_expr": "facet.view_abundance.abundance",
+                "sort_expr": "facet.view_abundance.abundance",
+                "is_applicable": false,
+                "is_default": false,
+                "aggregate_type": "",
+                "aggregate_title": "Number of samples",
+                "aggregate_facet_code": "result_facet",
+                "tables": [
+                    {
+                        "sequence_id": 1,
+                        "table_name": "facet.view_abundance",
+                        "udf_call_arguments": null,
+                        "alias":  null
+                    } ],
+                "clauses": [
+                    {
+                        "clause": "facet.view_abundance.abundance is not null",
+                        "enforce_constraint": true
+                    } ]
+            },
+            {
+                "facet_id": 40,
+                "facet_code": "result_datasets",
+                "display_title": "Datasets",
+                "description": "Datasets",
+                "facet_group_id":"99",
+                "facet_type_id": 1,
+                "category_id_expr": "tbl_datasets.dataset_id",
+                "category_name_expr": "tbl_datasets.dataset_name",
+                "sort_expr": "tbl_datasets.dataset_name",
+                "is_applicable": false,
+                "is_default": false,
+                "aggregate_type": "count",
+                "aggregate_title": "Number of datasets",
+                "aggregate_facet_code": null,
+                "tables": [
+                    {
+                        "sequence_id": 1,
+                        "table_name": "tbl_datasets",
+                        "udf_call_arguments": null,
+                        "alias":  null
+                    } ],
+                "clauses": [  ]
+            },
+            {
+                "facet_id": 19,
+                "facet_code": "sites_helper",
+                "display_title": "Site",
+                "description": "Report helper",
+                "facet_group_id":"2",
+                "facet_type_id": 1,
+                "category_id_expr": "tbl_sites.site_id",
+                "category_name_expr": "tbl_sites.site_name",
+                "sort_expr": "tbl_sites.site_name",
+                "is_applicable": false,
+                "is_default": true,
+                "aggregate_type": "count",
+                "aggregate_title": "Number of samples",
+                "aggregate_facet_code": "result_facet",
+                "tables": [
+                    {
+                        "sequence_id": 1,
+                        "table_name": "tbl_sites",
+                        "udf_call_arguments": null,
+                        "alias":  null
+                    } ],
+                "clauses": [  ]
+            }
+        ]
+$aggregate_facets$;
+
+		s_facets = $facets$
+        [
+
             {
                 "facet_id": 3,
                 "facet_code": "tbl_denormalized_measured_values_33_0",
@@ -286,30 +368,6 @@ begin
                 "category_name_expr": "tbl_sites.site_name",
                 "sort_expr": "tbl_sites.site_name",
                 "is_applicable": true,
-                "is_default": true,
-                "aggregate_type": "count",
-                "aggregate_title": "Number of samples",
-                "aggregate_facet_code": "result_facet",
-                "tables": [
-                    {
-                        "sequence_id": 1,
-                        "table_name": "tbl_sites",
-                        "udf_call_arguments": null,
-                        "alias":  null
-                    } ],
-                "clauses": [  ]
-            },
-            {
-                "facet_id": 19,
-                "facet_code": "sites_helper",
-                "display_title": "Site",
-                "description": "Report helper",
-                "facet_group_id":"2",
-                "facet_type_id": 1,
-                "category_id_expr": "tbl_sites.site_id",
-                "category_name_expr": "tbl_sites.site_name",
-                "sort_expr": "tbl_sites.site_name",
-                "is_applicable": false,
                 "is_default": true,
                 "aggregate_type": "count",
                 "aggregate_title": "Number of samples",
@@ -608,34 +666,6 @@ begin
                 "clauses": [  ]
             },
             {
-                "facet_id": 32,
-                "facet_code": "abundances_all_helper",
-                "display_title": "Abundances",
-                "description": "Abundances",
-                "facet_group_id":"4",
-                "facet_type_id": 2,
-                "category_id_expr": "facet.view_abundance.abundance",
-                "category_name_expr": "facet.view_abundance.abundance",
-                "sort_expr": "facet.view_abundance.abundance",
-                "is_applicable": false,
-                "is_default": false,
-                "aggregate_type": "",
-                "aggregate_title": "Number of samples",
-                "aggregate_facet_code": "result_facet",
-                "tables": [
-                    {
-                        "sequence_id": 1,
-                        "table_name": "facet.view_abundance",
-                        "udf_call_arguments": null,
-                        "alias":  null
-                    } ],
-                "clauses": [
-                    {
-                        "clause": "facet.view_abundance.abundance is not null",
-                        "enforce_constraint": true
-                    } ]
-            },
-            {
                 "facet_id": 33,
                 "facet_code": "abundances_all",
                 "display_title": "Abundances",
@@ -840,30 +870,6 @@ begin
                     {
                         "sequence_id": 2,
                         "table_name": "tbl_methods",
-                        "udf_call_arguments": null,
-                        "alias":  null
-                    } ],
-                "clauses": [  ]
-            },
-            {
-                "facet_id": 40,
-                "facet_code": "result_datasets",
-                "display_title": "Datasets",
-                "description": "Datasets",
-                "facet_group_id":"99",
-                "facet_type_id": 1,
-                "category_id_expr": "tbl_datasets.dataset_id",
-                "category_name_expr": "tbl_datasets.dataset_name",
-                "sort_expr": "tbl_datasets.dataset_name",
-                "is_applicable": false,
-                "is_default": false,
-                "aggregate_type": "count",
-                "aggregate_title": "Number of datasets",
-                "aggregate_facet_code": null,
-                "tables": [
-                    {
-                        "sequence_id": 1,
-                        "table_name": "tbl_datasets",
                         "udf_call_arguments": null,
                         "alias":  null
                     } ],
@@ -1271,10 +1277,16 @@ begin
 
 $facets$;
 
+        /* Add aggregate facets */
+        j_facets = s_aggregate_facets::jsonb;
+        perform facet.create_or_update_facet(v.facet::jsonb)
+            from jsonb_array_elements(j_facets) as v(facet);
+
+        /* Add normal facets */
         j_facets = s_facets::jsonb;
 
         perform facet.create_or_update_facet(v.facet::jsonb)
-        from jsonb_array_elements(j_facets) as v(facet);
+            from jsonb_array_elements(j_facets) as v(facet);
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
