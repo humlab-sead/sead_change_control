@@ -170,4 +170,47 @@ begin;
     end;
     $$ language plpgsql volatile;
 
+    create or replace function sead_utility.set_fk_is_deferrable(p_schema text, p_is_deferrable boolean, dry_run boolean=FALSE)
+        returns void as $$
+    declare
+        v_sql text;
+        r record;
+    begin
+
+        for r in
+            select distinct tc.table_schema, tc.table_name, tc.constraint_name
+            from information_schema.table_constraints AS tc
+            join information_schema.key_column_usage AS kcu
+              on tc.constraint_name = kcu.constraint_name
+             and tc.table_schema = kcu.table_schema
+            join information_schema.constraint_column_usage AS ccu
+              on ccu.constraint_name = tc.constraint_name
+             and ccu.table_schema = tc.table_schema
+            where tc.table_schema = p_schema
+             and tc.constraint_type = 'FOREIGN KEY'
+             and tc.is_deferrable = case when p_is_deferrable = TRUE then 'NO' else 'YES' end
+        loop
+            if p_is_deferrable = TRUE then
+                v_sql = format('alter table %s."%s" alter constraint "%s" deferrable;', -- initially immediate
+                    r.table_schema,
+                    r.table_name,
+                    r.constraint_name
+                );
+            else
+                v_sql = format('alter table %s."%s" alter constraint "%s" not deferrable;',
+                    r.table_schema,
+                    r.table_name,
+                    r.constraint_name
+                );
+            end if;
+            if not dry_run then
+                execute v_sql;
+	            raise notice '%', v_sql;
+            else
+	            raise notice '%', v_sql;
+			end if;
+        end loop;
+    end $$ language plpgsql;
+
+
 commit;
