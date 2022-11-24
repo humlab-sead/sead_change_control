@@ -18,13 +18,16 @@ source_type=
 source_name=
 conflict_resolution=rename
 create_snapshot=NO
+dry_run=NO
+display_status=NO
 
-log_file=`date "+%Y%m%d%H%M%S"`_"deploy_${target_db_name}_${source_type}.log"
+target_tag=
 
-deploy_tag=
+# sqitch_projects="utility general security subsystem sead_api"
+default_projects="utility security general sead_api subsystem submissions"
+sqitch_projects=$(find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy \; -print)
 
-# sqitch_projects="utility general bugs security subsystem sead_api"
-sqitch_projects=$(find . -type d -exec test -e {}/deploy \; -print)
+default_server="humlabseadserv.srv.its.umu.se"
 
 if [[ -f "$dothostfile" ]]; then
     dbhost=`cat $dothostfile`
@@ -41,6 +44,7 @@ usage: deploy-staging OPTIONS...
     --target-db-name DBNAME         Target database name. Mandatory.
     --create-database               Create a fresh database from given source.
     --create-snapshot               Create snapshot of database.
+    --dry-run                       Create snapshot of database.
     --source-type [db|dump]         Source type i.e. a database name or a dump filename.
                                     Mandatory if "--create" is specified, else ignored.
     --source [DBNAME|FILE]          Name of source database or dump file depending on source type
@@ -74,8 +78,14 @@ do
         --create-snapshot)
             create_snapshot="YES"; shift;
         ;;
+        --dry-run)
+            dry_run="YES"; shift;
+        ;;
         --create-database)
             create_database="YES"; shift;
+        ;;
+        --display-status)
+            display_status="YES"; shift;
         ;;
         --source)
             source_name="$2";
@@ -99,11 +109,8 @@ do
             shift; shift
         ;;
         --deploy-to-tag)
-            deploy_tag="--to $2"; shift; shift
+            target_tag="$2"; shift; shift
         ;;
-        # --deploy-change)
-        #     deploy_tag="$2"; shift; shift
-        # ;;
         --on-conflict)
             conflict_resolution="$2"; shift; shift;
         ;;
@@ -119,21 +126,8 @@ function usage() {
     echo "$usage_message"
 }
 
-set -- "${POSITIONAL[@]}" # restore positional parameters
-
-if [ "$dbhost" != "humlabseadserv.srv.its.umu.se" ]; then
-    echo "This script can for now only be run on humlabseadserv.srv.its.umu.se";
-    exit 64
-fi
-
-
-if [ "$create_snapshot" == "YES" ]; then
-
-    if [ "$create_database" == "YES" ]; then
-        echo "error: cannot create snapshot AND database at the same time"
-        usage
-        exit 64
-    fi
+function create_snapshot()
+{
 
     if [ "${source_name}" == "" ]; then
         echo "error: you must specify source database name";
@@ -141,7 +135,7 @@ if [ "$create_snapshot" == "YES" ]; then
         exit 64
     fi
 
-    if [ "${target_db_name}" != "" ] || [ "${deploy_tag}" != "" ]  || [ "${source_type}" == "dump" ] ; then
+    if [ "${target_db_name}" != "" ] || [ "${target_tag}" != "" ]  || [ "${source_type}" == "dump" ] ; then
         echo "error: invalid options for snapshot";
         usage
         exit 64
@@ -149,114 +143,141 @@ if [ "$create_snapshot" == "YES" ]; then
 
     snapshot_name=./starting_point/${source_name}_`date "+%Y%m%d"`.sql
 
-    echo "pg_dump -C -c --if-exists -d "${source_name}" -h "$dbhost" -F p -U $dbuser -f $snapshot_name"
-
-    pg_dump -C -c --if-exists -d "${source_name}" -h "$dbhost" -F p -U $dbuser -f $snapshot_name
-
-    gzip $snapshot_name
-
-    exit 64
-fi
-
-function dbexec() {
-    db_name=$1
-    sql=$2
-    echo $sql >> $log_file
-    psql -v ON_ERROR_STOP=1 --host=$dbhost --username=$dbuser --no-password --dbname=$db_name --command "$sql" >> $log_file
-    if [ $? -ne 0 ];  then
-        echo "FATAL: psql command failed! Deploy aborted." >&2
-        exit 64
+    if [ "$dry_run" == "YES" ]; then
+        echo pg_dump -C -c --if-exists -d "${source_name}" -h "$dbhost" -F p -U $dbuser -f $snapshot_name
+    else
+        pg_dump -C -c --if-exists -d "${source_name}" -h "$dbhost" -F p -U $dbuser -f $snapshot_name
+        gzip $snapshot_name
     fi
 }
 
-if [ "$create_database" == "YES"  ] && [ "${source_type}" != "db" ] && [ "${source_type}" != "dump" ]; then
-    echo "error: you need to specify a db source type (db or dump) for new database";
-    usage
-    exit 64
-fi
+set -- "${POSITIONAL[@]}" # restore positional parameters
 
-if [ "$target_db_name" == "" ]; then
-    echo "error: you need to specify a target database";
-    usage
-    exit 64
-fi
 
-if [ "$target_db_name" == "sead_production" ]; then
-    echo "Not allowed: You are not allowed to deploy directly to sead_production!";
-    usage
-    exit 64
-fi
+function verify_options()
+{
 
-if [ "$create_database" == "NO" ]; then
+    if [ "$dbhost" != "$default_server" ]; then
+        echo "error: this script can for now only be run on $default_server";
+        exit 64
+    fi
 
-    echo "notice: a new target database will not be create since --create-target is not requested";
-    echo "  ==> Settings "source-db", "source-sql-file" and "source-type" is ignored.";
-
-elif [ "$create_database" == "YES" ]; then
-
-	if [ "${source_type}" == "" ]; then
-        echo "error: source type must be specified when --create  is specified"
+    if [ "$create_snapshot" == "YES" ] && [ "$create_database" == "YES" ]; then
+        echo "error: cannot create snapshot AND database at the same time"
         usage
         exit 64
     fi
 
-    if [ "${source_name}" == "" ]; then
-        echo "error: source ${source_type} name not specified"
+    if [ "$create_snapshot" == "YES" ]; then
+        return
+    fi
+
+    if [ "$target_db_name" == "" ]; then
+        echo "error: you need to specify a target database";
         usage
         exit 64
     fi
 
-fi
-
-if [ "$SQITCH_USERNAME" == "" ]; then
-    export SQITCH_USERNAME=${dbuser}
-fi
-
-if [ "$SQITCH_USERNAME" == "" ]; then
-    echo "error: username not specified"
-    usage
-    exit 64
-fi
-
-if [ "$SQITCH_PASSWORD" == "" ]; then
-    if [ -f "${dotsqitchfile}" ]; then
-        echo "info: using credentials found in vault"
-        source "${dotsqitchfile}"
-    else
-        echo "error: password not specified (SQITCH_PASSWORD not defined and ${dotsqitchfile} not found)"
+    if [ "$target_db_name" == "sead_production" ]; then
+        echo "error: you are not allowed to deploy directly to sead_production!";
         usage
         exit 64
     fi
-fi
 
-git pull
+    if [ "$create_database" == "NO" ]; then
 
-deprecated_name=${target_db_name}_`date "+%Y%m%d%H%M%S"`
+        echo "notice: using existing target database $target_db_name";
+        echo "  ==> Settings "source-db", "source-sql-file" and "source-type" is ignored.";
+
+        if [ "${source_type}" != "" ]; then
+            echo "notice: ignoring option --source-type $source_type (using existing db)";
+        fi
+
+        if [ "${source_name}" != "" ]; then
+            echo "notice: ignoring option --source $source_name (using existing db)";
+        fi
+
+    elif [ "$create_database" == "YES" ]; then
+
+        if [ "${source_type}" != "db" ] && [ "${source_type}" != "dump" ]; then
+            echo "error: you need to specify a db source type (db or dump) for new database";
+            usage
+            exit 64
+        fi
+
+        if [ "${source_type}" == "" ]; then
+            echo "error: source type must be specified when --create  is specified"
+            usage
+            exit 64
+        fi
+
+        if [ "${source_name}" == "" ]; then
+            echo "error: source ${source_type} name not specified"
+            usage
+            exit 64
+        fi
+
+    fi
+
+}
+
+function setup_credentials()
+{
+
+    if [ "$SQITCH_USERNAME" == "" ]; then
+        export SQITCH_USERNAME=${dbuser}
+    fi
+
+    if [ "$SQITCH_USERNAME" == "" ]; then
+        echo "error: username not specified"
+        usage
+        exit 64
+    fi
+
+    if [ "$SQITCH_PASSWORD" == "" ]; then
+        if [ -f "${dotsqitchfile}" ]; then
+            echo "info: using credentials found in vault"
+            source "${dotsqitchfile}"
+        else
+            echo "error: password not specified (SQITCH_PASSWORD not defined and ${dotsqitchfile} not found)"
+            usage
+            exit 64
+        fi
+    fi
+}
 
 function dbexec() {
     db_name=$1
     sql=$2
-    echo $sql >> $log_file
-    psql -v ON_ERROR_STOP=1 --host=$dbhost --username=$dbuser --no-password --dbname=$db_name --command "$sql" >> $log_file
-    if [ $? -ne 0 ];  then
-        echo "FATAL: psql command failed! Deploy aborted." >&2
-        exit 64
+    if [ "$dry_run" == "YES" ]; then
+        echo psql -v ON_ERROR_STOP=1 --host=$dbhost --username=$dbuser --no-password --dbname=$db_name --command "$sql"
+    else
+        echo $sql >> $log_file
+        psql -v ON_ERROR_STOP=1 --host=$dbhost --username=$dbuser --no-password --dbname=$db_name --command "$sql" >> $log_file
+        if [ $? -ne 0 ];  then
+            echo "fatal: psql command failed! Deploy aborted." >&2
+            exit 64
+        fi
     fi
 }
 
 function dbexecgz() {
     db_name=$1
     gz_file=$2
-    echo "Executing file $gz_file..." >> $log_file
-    zcat $gz_file | psql -v ON_ERROR_STOP=1 --host=$dbhost --username=$dbuser --no-password --dbname=$db_name >> $log_file
-    if [ $? -ne 0 ];  then
-        echo "FATAL: psql command failed! Deploy aborted." >&2
-        exit 64
+    if [ "$dry_run" == "YES" ]; then
+        echo "info: executing file $gz_file on $db_name..."
+    else
+        echo "info: executing file $gz_file..." >> $log_file
+        zcat $gz_file | psql -v ON_ERROR_STOP=1 --host=$dbhost --username=$dbuser --no-password --dbname=$db_name >> $log_file
+        if [ $? -ne 0 ];  then
+            echo "fatal: psql command failed! Deploy aborted." >&2
+            exit 64
+        fi
     fi
 }
 
 function kick_out_users() {
-    echo "Kicking out users..."
+    echo "info: kicking out users from ${source_name} and ${target_db_name}..."
     sql=$(cat <<____EOF
         select pg_terminate_backend(pg_stat_activity.pid)
         from pg_stat_activity
@@ -264,33 +285,41 @@ function kick_out_users() {
           and pid <> pg_backend_pid();
 ____EOF
     )
-    dbexec "postgres" "$sql" >& /dev/null >> $log_file
+    dbexec "postgres" "$sql" >& /dev/null
 }
 
-kick_out_users
+function setup_target() {
 
-function setup_new_target_database() {
+    if [ "$create_database" != "YES" ]; then
+        echo "info: using existing database ${target_db_name}..."
+        return
+    fi
+
+    echo "info: setting up a new database ${target_db_name}..."
 
     target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_db_name}'" )"
 
 	if [ "$target_db_exists" = "1" ]
 	then
 
-	    echo "Database exists..."
-
 	    if [ "$conflict_resolution" == "rename" ]; then
 
-		    echo "Renaming ${target_db_name} to ${deprecated_name}..."
+            deprecated_name=${target_db_name}_`date "+%Y%m%d%H%M%S"`
+
+		    echo "info:  renaming ${target_db_name} to ${deprecated_name}..."
+
 		    sql="alter database ${target_db_name} rename to ${deprecated_name};"
 		    dbexec "postgres" "$sql"
 
 	    elif [ "$conflict_resolution" == "drop" ]; then
 
+		    echo "info:  dropping ${target_db_name}..."
+
 		    sql="drop database if exists ${target_db_name};"
 		    dbexec "postgres" "$sql"
 
 	    else
-		    echo "error: target database ${target_db_name} exists. Drop database or use --on-conflict [drop|rename] to resolve"
+		    echo "error:  target database ${target_db_name} exists. Drop database or use --on-conflict [drop|rename] to resolve"
 		    exit 64
 	    fi
 	fi
@@ -298,68 +327,134 @@ function setup_new_target_database() {
 	if [ "${source_type}" == "db" ]; then
 
 	    if [ "${source_name}" == "" ]; then
-		    echo "error: source database not specified"
+		    echo "error:  source database not specified"
 		    usage
 		    exit 64
 	    fi
 
-	    echo "Creating database ${target_db_name} using template ${source_name}..."
+	    echo "info:  creating database ${target_db_name} using template ${source_name}..."
 	    dbexec "postgres" "create database ${target_db_name} with template ${source_name} owner sead_master;"
 
 	elif [ "${source_type}" == "dump" ]; then
 
 	    if [ "${source_name}" == "" ]; then
-		    echo "error: source sql.gz file not specified"
+		    echo "error:  source sql.gz file not specified"
 		    usage
 		    exit 64
 	    fi
 
-	    echo "Creating database ${target_db_name}..."
+	    echo "info:  creating database ${target_db_name} using dump \"$source_name\"..."
 	    dbexec "postgres" "create database ${target_db_name} owner sead_master;"
 
 	    dbexec "$target_db_name" "drop schema if exists public;"
 
-	    echo "Applying source SQL script..."
+	    echo "info:  applying source SQL script..."
 	    dbexecgz "$target_db_name" "$source_name"
 
-	    echo "Applying default permissions..."
+	    echo "info:  applying default permissions..."
         # FIXME: Loop and apply all gz-files found in starting_point/
 	    dbexecgz "${target_db_name}" "./starting_point/role_permissions.sql.gz"
 
 	fi
 }
 
-if [ "$create_database" == "YES" ]; then
-    echo "Setting up a new database..."
-    setup_new_target_database
-else
-    echo "Using existing database ${target_db_name}..."
-fi
 
-if [ "$deploy_tag" == "" ]; then
-    echo "Skipping change deploy (not requested)"
-    exit 0
-fi
+function deploy_projects()
+{
+    if [ "$target_tag" == "" ]; then
+        echo "error: target deploy tag not specified"
+        exit 0
+    fi
 
-if [ "$deploy_tag" == "--to latest" ]; then
-    deploy_tag=
-fi
+    if [ "$target_tag" == "latest" ]; then
+        target_tag=
+    fi
 
-target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_db_name}'" )"
-deploy_target_uri="db:pg://${dbuser}@${dbhost}/${target_db_name}"
+    target_tag_option=
+    if [ "$target_tag" != "" ]; then
+        target_tag_option="--to $target_tag"
+    fi
 
-if [ "$target_db_exists" != "1" ]; then
-    echo "error: Target ${target_db_name} does not exist"
+    target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_db_name}'" )"
+
+    if [ "$target_db_exists" != "1" ]; then
+        echo "error: target ${target_db_name} does not exist"
+        exit 64
+    fi
+
+    target_uri="db:pg://${dbuser}@${dbhost}/${target_db_name}"
+
+    for sqitch_project in $sqitch_projects; do
+
+        if [ "$target_tag" != "" ]; then
+
+            grep -e "^$target_tag " $sqitch_project/sqitch.plan
+
+            tag_line=$(grep -e "^$target_tag " $sqitch_project/sqitch.plan)
+            echo "$tag_line"
+
+            if [ "$tag_line" == "" ]; then
+                echo "info: skipping $sqitch_project (has no tag $target_tag)"
+                continue
+            fi
+
+        fi
+
+        echo "info: deploying $sqitch_project to $target_tag"
+
+        if [ $dry_run == "YES" ]; then
+            echo "info: sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project" $target_tag_option ;
+        else
+            sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project $target_tag_option # >> $log_file
+        fi
+
+        if [ $? -ne 0 ];  then
+            echo "failure: sqitch deploy FAILED! DB is in an undefined state." >&2
+            exit 64
+        fi
+
+    done
+
+    # less $log_file
+}
+
+function display_project_status()
+{
+    echo "info: Changes not deployed in \"$target_db_name\":"
+    target_uri="db:pg://${dbuser}@${dbhost}/${target_db_name}"
+
+    for sqitch_project in $sqitch_projects; do
+        echo "info: pending CRs \"$sqitch_project\": "
+
+        sqitch status --target ${target_uri} -C $sqitch_project \
+            | grep -v "^#" \
+            | grep -v '^[[:space:]]*$$' \
+            | grep -v "^Undeployed change" \
+            | grep -v "^No changes deployed" \
+            | grep -v "^Nothing to deploy";
+        echo ;
+    done
+}
+
+mkdir -p logs
+
+log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${target_db_name}_${source_type}.log"
+
+if [ "$display_status" == "YES" ]; then
+    display_project_status
     exit 64
 fi
 
-for sqitch_project in $sqitch_projects; do
+if [ "$create_snapshot" == "YES" ]; then
+    create_snapshot
+    exit 64
+fi
 
-    echo "sqitch deploy --target ${deploy_target_uri} --mode change --no-verify -C ./$sqitch_project" $deploy_tag
-    sqitch deploy --target ${deploy_target_uri} --mode change --no-verify -C $sqitch_project $deploy_tag
-    if [ $? -ne 0 ];  then
-        echo "FAILURE: sqitch deploy FAILED! DB is in an undefined state." >&2
-        exit 64
-    fi
-done
+git pull &> /dev/null
 
+verify_options
+setup_credentials
+kick_out_users
+
+setup_target
+deploy_projects
