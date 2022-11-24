@@ -46,4 +46,9 @@ begin
 end;
 $$;
 
+do $$
+begin
+    perform bugs_import.post_import_updates();
+end $$ language plpgsql;
+
 commit;
