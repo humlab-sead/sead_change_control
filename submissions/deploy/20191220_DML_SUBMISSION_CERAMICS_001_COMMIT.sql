@@ -9,7 +9,6 @@ Idempotent     NO
 Notes          Use --single-transaction on execute!
 ***************************************************************************/
 \echo 'This submission is DEPRECATED (replaced by 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT)';
-exist
 
 -- -- set constraints all deferred;
 -- set client_min_messages to warning;
