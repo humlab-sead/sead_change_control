@@ -62,10 +62,10 @@
 @2020.01 2020-01-29T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2020 January release
 
 20200219_DML_SITE_LOCATIONS_UPDATE 2020-02-19T09:39:34Z Roger Mähler <roger.mahler@umu.se> # MAL QoS: Removed 2 site locations
-20200315_DML_ECOCODE_ADD_SYSTEM_4 2020-03-15T08:45:51Z Roger Mähler <roger.mahler@umu.se> # Ecocode system 4 (reworked)
 
 @2020.02 2020-03-15T08:25:41Z Roger Mähler <roger.mahler@umu.se> # 2020 February release
 
+20200315_DML_ECOCODE_ADD_SYSTEM_4 2020-03-15T08:45:51Z Roger Mähler <roger.mahler@umu.se> # Ecocode system 4 (reworked)
 20191222_DML_DATASET_SUBMISSION_UPDATE 2019-12-23T17:24:03Z Roger Mähler <roger.mahler@umu.se> # Dataset sumbmission updates
 20200422_DML_MAL_QOS_UPDATE_02 2020-04-22T14:28:50Z Roger Mähler <roger.mahler@umu.se> # MAL dataset Quality Assurance (part #2)
 20200422_DML_MAL_TAXA_SP_SPP_QOS_UPDATE 2020-04-22T14:51:08Z Roger Mähler <roger.mahler@umu.se> # tbl_taxa_tree_master doublettes of sp. and spp.
@@ -73,6 +73,7 @@
 
 @2020.03 2020-04-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
 
+20220916_DDL_RESULTS_CHRONOLOGY 2022-09-16T13:35:07Z Roger Mähler <roger.mahler@umu.se> # Add chronology dating data to Bugs physical samples.
 20220922_DDL_CHRONOLOGY_SCHEMA_CHANGES 2022-09-22T12:25:39Z Roger Mähler <roger.mahler@umu.se> # Changes to chronology tables.
 20220923_DDL_DEPRECATE_CHRON_CONTROLS 2022-09-23T07:51:38Z Roger Mähler <roger.mahler@umu.se> # Deprecate chronology controls tables.
 
