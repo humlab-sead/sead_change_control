@@ -28,6 +28,18 @@ BEGIN;
 
 Do $$
 Begin
+
+    create schema if not exists postgrest_api authorization seadwrite;
+
+    grant all on schema postgrest_api to johan;
+    grant usage on schema postgrest_api to postgrest;
+    grant usage on schema postgrest_api to postgrest_anon;
+    grant all on schema postgrest_api to seadwrite;
+
+End $$ language plpgsql;
+
+Do $$
+Begin
     If Not Exists (Select From pg_catalog.pg_roles Where rolname = 'anonymous_rest_user') Then
         Create Role anonymous_rest_user nologin;
         Grant anonymous_rest_user to humlab_admin, humlab_read;
