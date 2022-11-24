@@ -3,14 +3,17 @@ SHELL := /bin/bash
 RED=\033[0;31m
 NO_COLOR=\033[0m
 
+DEFAULT_SERVER := humlabseadserv.srv.its.umu.se
 TARGET_DATABASES_ALL := $(shell grep "\[target" sqitch.conf | grep -oP "\".*\"")
 
+default_projects := utility security general sead_api subsystem submissions
+
 ifeq ($(projects),)
-projects := $(shell find . -type d -exec test -e {}/deploy \; -print)
+projects := $(shell find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy \; -print)
 endif
 
 ifeq ($(target_databases),)
-target_databases := production
+target_databases := staging production
 endif
 
 ifeq ($(target_databases),ALL)
@@ -36,15 +39,15 @@ help:
 	@echo "  make status                             Show deploy status for production database and all sqitch projects"
 	@echo "    make status target_databases=ALL      Show deploy status for all databases"
 	@echo "    make status target_databases=staging  Show deploy status for database staging"
-	@echo "    make status projects=general    Show deploy status for project general"
+	@echo "    make status projects=general    		 Show deploy status for project general"
 	@echo
 	@echo "  make show-config                        Show sqitch config"
 	@echo
 
-.PHONY: deploy-staging-to-production
+.PHONY: create-staging-from-scratch
 create-staging-from-scratch: are-you-sure
 	@echo "Create sead_staging based on sead_master_9_public..."
-	@echo ./bin/deploy-staging.sh ....not impemented...
+	@./bin/deploy-staging ....not impemented...
 	@echo "Done!"
 
 .PHONY: deploy-staging-to-production
@@ -53,7 +56,6 @@ deploy-staging-to-production: are-you-really-sure
 	@echo ./bin/copy-database --source sead_staging --target sead_production --force --allow-production
 	@echo "Done!"
 
-# @2020.02
 .PHONY: tag-all
 tag-all: are-you-really-sure
 	@if [[ "$(tag)" == "" || "$(description)" == "" ]] ; then \
@@ -64,16 +66,26 @@ tag-all: are-you-really-sure
 		echo sqitch tag --tag \"$(tag)\" --plan-file $${project}/sqitch.plan --note \"$(description)\" ; \
 	 done
 
+apa:
+	@echo $(warning $(sort $(projects))) ;
+
 .PHONY: status
 .ONESHELL: status
 status:
-	@for database in $(target_databases); do \
-		for project in $(projects); do \
-			sqitch status --target $$database -C $$project ; \
+	@for target_database in $(target_databases); do \
+		echo "Changes not deployed in \"$$target_database\":" ; \
+		for project in $(sort $(projects)); do \
+			echo "  $$project: " ; \
+			sqitch status --target $$target_database -C $$project \
+				| grep -v "^#" \
+				| grep -v '^[[:space:]]*$$' \
+				| grep -v "^Undeployed change" \
+				| grep -v "^No changes deployed" \
+				| grep -v "^Nothing to deploy"; \
 			echo ; \
 		done \
 	done
-# --show-changes
+
 show-config:
 	@sqitch config -l
 
@@ -94,8 +106,8 @@ clean-repository-guard:
 		exit 65
 	fi
 
-psql:
-	psql -h humlabseadserv.srv.its.umu.se -d sead_staging -U humlab_admin
+psql-staging:
+	psql -h $(DEFAULT_SERVER) -d sead_staging -U humlab_admin
 
 # .PHONY: ask-for-password
 # .ONESHELL: ask-for-password
@@ -109,3 +121,44 @@ psql:
 # 	fi
 
 # | grep -v 'Change:\|By:\|Name:'
+
+
+SQITCH_TARGET := staging-test
+deploy-@2020.03-staging-test:
+	@bin/copy-database --source sead_production --target sead_staging_test --force
+	@sqitch deploy --target $(SQITCH_TARGET) -C ./utility --to @2020.03 --no-verify
+	@sqitch deploy --target $(SQITCH_TARGET) -C ./security --to @2020.03 --no-verify
+	@sqitch deploy --target $(SQITCH_TARGET) -C ./general --to @2020.03 --no-verify
+	@sqitch deploy --target $(SQITCH_TARGET) -C ./sead_api --to @2020.03-extra --no-verify
+	@sqitch deploy --target $(SQITCH_TARGET) -C ./subsystem --to @2020.03 --no-verify
+	@sqitch deploy --target $(SQITCH_TARGET) -C ./submissions --to @2020.03 --no-verify
+	@pg-diff -f compare/config.json -c development @2020.03-staging-vs-staging-test
+
+
+deploy-@2022.10-staging-test: deploy-@2020.03-staging-test
+	@for project in $(default_projects); do \
+		echo sqitch deploy --target $(SQITCH_TARGET) -C ./utility --to @2022.10 --no-verify ; \
+	done
+
+
+install-pg-diff:
+	@mkdir -p ~/.npm/lib/bin \
+		&& npm config set prefix "~/.npm/lib" \
+		&& npm install --global pg-diff-cli \
+		&& echo "please make sure ~/.npm/lib/bin is added to path"
+
+TARGET_STAGING_DATABASE=sead_staging_incremental_deploy
+
+staging_@2019.12:
+	@./bin/deploy-staging --create-database --on-conflict drop \
+		--source-type dump --source ./starting_point/sead_master_9_public.sql.gz \
+			--target-db-name $(TARGET_STAGING_DATABASE) --deploy-to-tag @2019.12
+
+staging_@2020.01: staging_@2019.12
+	@./bin/deploy-staging --target-db-name $(TARGET_STAGING_DATABASE) --deploy-to-tag @2020.01
+
+staging_@2020.02: staging_@2020.01
+	@./bin/deploy-staging --target-db-name $(TARGET_STAGING_DATABASE) --deploy-to-tag @2020.02
+
+psql-@2020.02:
+	psql -h $(DEFAULT_SERVER) -d $(TARGET_STAGING_DATABASE) -U humlab_admin
