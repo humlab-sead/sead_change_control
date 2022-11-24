@@ -1,17 +1,20 @@
 /***************************************************************************
 Author         roger
-Date           
-Description    
-Prerequisites  
+Date
+Description
+Prerequisites
 Reviewer
 Approver
 Idempotent     NO
 Notes          Use --single-transaction on execute!
 ***************************************************************************/
-set constraints all deferred;
 set client_min_messages to warning;
 \set autocommit off;
+
 begin;
+
+set constraints all deferred;
+
 \cd /repo/submissions/deploy
 
 
