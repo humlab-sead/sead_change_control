@@ -102,6 +102,8 @@ do
                     source_name=${default_source_dump_file}
                 elif [ "$source_type" == "db" ]; then
                     source_name=${default_source_db_name}
+                elif [ "$source_type" == "database" ]; then
+                    source_name=${default_source_db_name}
                 else
                     echo "error: source-type must be db or dump"
                 fi
@@ -359,8 +361,12 @@ function setup_target() {
 }
 
 
-function deploy_projects()
+function deploy_to_tag()
 {
+    # Deploys all project to specified release tag
+    # TODO: Releases all previous tags up unitl to target tag project by project.
+    #       This must be changed so that a release are made tag-by-tag over all projects
+
     if [ "$target_tag" == "" ]; then
         echo "error: target deploy tag not specified"
         exit 0
@@ -457,4 +463,4 @@ setup_credentials
 kick_out_users
 
 setup_target
-deploy_projects
+deploy_to_tag
