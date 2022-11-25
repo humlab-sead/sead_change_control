@@ -21,15 +21,13 @@
 
 20191012_DDL_ECOCODE_GEOJSON_EXPORT [20191012_DDL_ECOCODE_GEOJSON_EXPORT@2020.01] 2020-03-16T13:02:56Z Roger Mähler <roger.mahler@umu.se> # Loves bugfixes
 20200316_DDL_BUGS_ECOCODE_GEOJSON 2020-03-16T14:37:27Z Roger Mähler <roger.mahler@umu.se> # GeoJSON export for Bugs Ecocodes ecocode_system_id 2
+
 @2020.02 2020-03-16T14:47:53Z Roger Mähler <roger.mahler@umu.se> # @2020.02 release
 
 20200203_DDL_ADD_DOMAIN_TABLE 2020-02-03T13:48:27Z Roger Mähler <roger.mahler@umu.se> # New domain facets table
 20200120_DML_ADD_DOMAIN_FACETS 2020-01-30T15:55:11Z Roger Mähler <roger.mahler@umu.se> # New domain facets
 20200203_DML_ADD_DOMAIN_ASSOCS 2020-02-03T13:47:15Z Roger Mähler <roger.mahler@umu.se> # New domain facets associations
 20200422_DML_FACET_GRAPH_REROUTE 2020-04-22T11:18:02Z Roger Mähler <roger.mahler@umu.se> # Relative dates rerouted from samples to analysis
-
-@2020.03 2020-04-16T17:31:05Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
-
 20200429_DDL_UDF_FACET_UPDATE 2020-04-30T08:16:18Z Roger Mähler <roger.mahler@umu.se> # Better handling of updates to an existing facet
 20200429_DML_FACET_UPDATES 2020-04-29T16:51:56Z Roger Mähler <roger.mahler@umu.se> # Updates to facet specifications
 20200507_DDL_RESULT_FIELD_UPDATE 2020-05-08T08:20:54Z Roger Mähler <roger.mahler@umu.se> # Add not null constraint on table_name
@@ -40,7 +38,7 @@
 
 20221121_DML_QSE_DENDRO_DATING 2022-11-21T15:37:40Z Roger Mähler <roger.mahler@umu.se> # Dendro dating reporting view (JvB)
 
-@2020.03-extra 2020-04-16T17:31:05Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
+@2020.03 2020-04-16T17:31:05Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
 
 @2022.10 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 October release
 
