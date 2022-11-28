@@ -454,8 +454,7 @@ create or replace function facet.export_facets_to_json()
 
 		json_clause_template = $_$
 				{
-					"clause": "%s",
-				    "enforce_constraint": %s,
+					"clause": "%s"
 				}$_$;
 
 		json_facets = null;
@@ -481,11 +480,7 @@ create or replace function facet.export_facets_to_json()
 			WHERE facet_id = r_facet.facet_id
 			GROUP BY facet_id;
 
-			SELECT string_agg(
-                        format(json_clause_template,
-                            clause,
-                            case when enforce_constraint = TRUE then 'true' else 'false' end
-                        ), ',')
+			SELECT string_agg(format(json_clause_template, clause), ',')
 				INTO json_clause
 			FROM facet.facet_clause
 			WHERE facet_id = r_facet.facet_id
