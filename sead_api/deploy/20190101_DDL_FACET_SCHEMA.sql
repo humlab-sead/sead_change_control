@@ -403,8 +403,7 @@ begin
 		left join facet.table t using (table_or_udf_name);
 
 	insert into facet.facet_clause (facet_id, clause)
-		select i_facet_id,
-                (v ->> 'clause')::text
+		select i_facet_id, (v ->> 'clause')::text
 		from jsonb_array_elements(j_facet -> 'clauses') as v;
 
 	return j_facet;
