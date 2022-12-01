@@ -17,8 +17,8 @@ begin
 
     begin
 
-        insert into tbl_alt_ref_types (alt_ref_type_id, alt_ref_type, description)
-        	values (12, 'Bugs sample code', 'Unique identifier for (physical) samples in the BugsCEP database')
+        insert into tbl_alt_ref_types (alt_ref_type_id, alt_ref_type, description, date_updated)
+        	values (12, 'Bugs sample code', 'Unique identifier for (physical) samples in the BugsCEP database', '2019-12-20 13:45:51.878824+00')
                 on conflict do nothing;
 
         -- insert into tbl_sample_alt_refs (alt_ref, physical_sample_id, alt_ref_type_id)

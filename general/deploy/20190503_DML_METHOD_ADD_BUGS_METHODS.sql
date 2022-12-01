@@ -35,8 +35,8 @@ begin
                 (161, 'Th230/U234',3,'U-Series Th230/U234',19,15,'Dating based on the radioactive decay of uranium-234 to thorium-230, and the degree to which secular equilibrium has been restored between these'),
                 (164, 'Fis-Track',3,'Fission-Track',19,15,'Dating based on the trails left in some glassy minerals as a result of the radioactive decay of uranium.')
         )
-        insert into tbl_methods (method_abbrev_or_alt_name, method_group_id, method_name, record_type_id, unit_id, description)
-            select n.method_abbrev_or_alt_name, n.method_group_id, n.method_name, n.record_type_id, n.unit_id, n.description
+        insert into tbl_methods (method_abbrev_or_alt_name, method_group_id, method_name, record_type_id, unit_id, description, date_updated)
+            select n.method_abbrev_or_alt_name, n.method_group_id, n.method_name, n.record_type_id, n.unit_id, n.description, '2019-12-20 13:45:51.516907+00'
             from new_methods n
             /*left join tbl_methods x using (method_abbrev_or_alt_name)
             where x.method_name is null*/;

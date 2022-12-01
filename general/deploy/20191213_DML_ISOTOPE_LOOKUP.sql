@@ -21,8 +21,8 @@ begin
         new_id = 11;
         with new_dataset_masters (master_set_id, contact_id, master_name, master_note, url) as (values
             (11, 999999, 'Sample data Isotopes', 'Sample data for implementing isotope data in to SEAD', '')
-        ) insert into tbl_dataset_masters (master_set_id, master_name, url)
-        select a.master_set_id, a.master_name, a.url
+        ) insert into tbl_dataset_masters (master_set_id, master_name, url, date_updated)
+        select a.master_set_id, a.master_name, a.url, '2019-12-20 13:45:52.703453+00'
         from new_dataset_masters a
         /*left join tbl_dataset_masters b
             on a.master_set_id = b.master_set_id
@@ -32,8 +32,8 @@ begin
         with new_sample_location_types (sample_location_type_id, location_type, location_type_description) as (values
         	(new_id + 0, 'cheramic part', 'Description of what part of ceramic vessel/structure were sampled'),
 	        (new_id + 1, 'sample position', 'Describes what substance and/or more accurate information on where on the ceramic part the sample came from (e.g. charred deposit from inside the vessel)')
-        ) insert into tbl_sample_location_types (sample_location_type_id, location_type, location_type_description)
-        select a.sample_location_type_id, a.location_type, a.location_type_description
+        ) insert into tbl_sample_location_types (sample_location_type_id, location_type, location_type_description, date_updated)
+        select a.sample_location_type_id, a.location_type, a.location_type_description, '2019-12-20 13:45:52.703453+00'
         from new_sample_location_types a
         /*left join tbl_sample_location_types b
             on a.sample_location_type_id = b.sample_location_type_id
@@ -42,8 +42,8 @@ begin
         new_id = 46;
         with new_data_types (data_type_id, data_type_group_id, data_type_name, definition) as (values
             (new_id + 0, 1, 'Mixed-method dependent', 'Multiple datatypes from one method. (e.g. multiple isotope types from masspectrometry)')
-        ) insert into tbl_data_types (data_type_id, data_type_group_id, data_type_name, definition)
-        select a.data_type_id, a.data_type_group_id, a.data_type_name, a.definition
+        ) insert into tbl_data_types (data_type_id, data_type_group_id, data_type_name, definition, date_updated)
+        select a.data_type_id, a.data_type_group_id, a.data_type_name, a.definition, '2019-12-20 13:45:52.703453+00'
         from new_data_types a
         /*left join tbl_data_types b
             on a.data_type_id = b.data_type_id
@@ -55,15 +55,15 @@ begin
         	(2, 'Detected', 'Isotope/lipid detected in the sample, represented by text.'),
         	(3, 'Detected, less than', 'Isotope/lipid detected in the sample, amount below threshold (i.e isotope detected <0.3)'),
         	(4, 'Non detected', 'Isotope/lipid might be present in the sample, but not detected.')
-        ) insert into tbl_isotope_value_specifiers (isotope_value_specifier_id, name, description)
-        select a.isotope_value_specifier_id, a.name, a.description
+        ) insert into tbl_isotope_value_specifiers (isotope_value_specifier_id, name, description, date_updated)
+        select a.isotope_value_specifier_id, a.name, a.description, '2019-12-20 13:45:52.703453+00'
         from new_isotope_value_specifiers a
         /*left join tbl_isotope_value_specifiers b
             on a.isotope_value_specifier_id = b.isotope_value_specifier_id
         where b.isotope_value_specifier_id is null*/;
 
-        insert into tbl_isotope_standards (isotope_standard_id)
-            values (1)
+        insert into tbl_isotope_standards (isotope_standard_id, date_updated)
+            values (1, '2019-12-20 13:45:52.703453+00')
                 on conflict do nothing;
 
         with new_isotope_types(isotope_type_id, designation, abbreviation, atomic_number, description) as (values
@@ -231,8 +231,8 @@ begin
             (162, 'C/S', 'C/S', NULL, 'Ratio of Carbon and Sulfur in sample'),
             (163, 'Plant signal (ALK)', 'Plant signal (ALK)', NULL, 'Presence of plant biomarkers of type ALK'),
             (164, 'Plant signal (LCFA)', 'Plant signal (LCFA)', NULL, 'Presence of plant biomarkers of type LCFA')
-        ) insert into tbl_isotope_types (isotope_type_id, designation, abbreviation, atomic_number, description)
-        select a.isotope_type_id, a.designation, a.abbreviation, a.atomic_number, a.description
+        ) insert into tbl_isotope_types (isotope_type_id, designation, abbreviation, atomic_number, description, date_updated)
+        select a.isotope_type_id, a.designation, a.abbreviation, a.atomic_number, a.description, '2019-12-20 13:45:52.703453+00'
         from new_isotope_types a
         /*left join tbl_isotope_types b
             on a.isotope_type_id = b.isotope_type_id
@@ -242,8 +242,8 @@ begin
         with new_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, phone_number) as (values
             (new_id + 0, 'BioArCh, Department of Archaeology, University of York, Heslington, York YO10 5DD, UK', '', 'Josie', 'Thomas', 'josie.thomas@york.ac.uk', 'https://archaeologydataservice.ac.uk/archives/view/idopea_ahrc_2018/', '+44 1904 328802'),
             (new_id + 1, 'Environmental Archaeology Lab, Umeå University', '', 'Mats', 'Eriksson', 'mats.eriksson@umu.se', 'https://archaeologydataservice.ac.uk/archives/view/idopea_ahrc_2018/', '+46 907866741')
-        ) insert into tbl_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, phone_number)
-        select a.contact_id, a.address_1, a.address_2, a.first_name, a.last_name, a.email, a.url, a.phone_number
+        ) insert into tbl_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, phone_number, date_updated)
+        select a.contact_id, a.address_1, a.address_2, a.first_name, a.last_name, a.email, a.url, a.phone_number, '2019-12-20 13:45:52.703453+00'
         from new_contacts a
         /*left join tbl_contacts b
             on a.contact_id = b.contact_id
@@ -311,8 +311,8 @@ begin
                 'Radiocarbon dating, Bone collagen, Nitrogen',
                 'https://reader.elsevier.com/reader/sd/pii/S0305440309004336'
             )
-        ) insert into tbl_biblio (biblio_id, authors, year, title, full_reference, doi, notes, url)
-        select a.biblio_id, a.authors, a.year, a.title, a.full_reference, a.doi, a.notes, a.url
+        ) insert into tbl_biblio (biblio_id, authors, year, title, full_reference, doi, notes, url, date_updated)
+        select a.biblio_id, a.authors, a.year, a.title, a.full_reference, a.doi, a.notes, a.url, '2019-12-20 13:45:52.703453+00'
         from new_biblio a
         /*left join tbl_biblio b
             on a.biblio_id = b.biblio_id
@@ -336,8 +336,8 @@ begin
         	(new_id + 13, 'Yamanashi prefecture',	2,	35.57004815,	138.6572887),
         	(new_id + 14, 'Akita prefecture',	    2,	39.692085,	    140.343581),
         	(new_id + 15, 'Fukui prefecture',	    2,	35.8196589,	    136.1408376)
-        ) insert into tbl_locations (location_id, location_name, location_type_id)
-        select a.location_id, a.location_name, a.location_type_id
+        ) insert into tbl_locations (location_id, location_name, location_type_id, date_updated)
+        select a.location_id, a.location_name, a.location_type_id, '2019-12-20 13:45:52.703453+00'
         from new_locations a
         /*left join tbl_locations b
             on a.location_id = b.location_id

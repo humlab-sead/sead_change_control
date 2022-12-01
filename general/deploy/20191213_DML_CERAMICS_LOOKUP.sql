@@ -14,6 +14,7 @@
 begin;
 do $$
 declare new_id int;
+declare d_date_updated text;
 begin
 
     begin
@@ -30,6 +31,8 @@ begin
 		perform sead_utility.sync_sequence('public', 'tbl_sample_group_description_types');
 		perform sead_utility.sync_sequence('public', 'tbl_sample_types');
 		perform sead_utility.sync_sequence('public', 'tbl_ceramics_lookup');
+
+        d_date_updated = '2019-12-20 13:45:52.481448+00';
 
 		new_id = 3911;
         with new_locations (location_id, location_name, location_type_id) as (values
@@ -404,8 +407,8 @@ begin
 			(new_id + 368, 'Övergran socken', 2),
 			(new_id + 369, 'Överjärna socken', 2),
 			(new_id + 370, 'Germany/Belgium?', 1)
-        ) insert into tbl_locations (location_id, location_name, location_type_id)
-        select a.location_id, a.location_name, a.location_type_id
+        ) insert into tbl_locations (location_id, location_name, location_type_id, date_updated)
+        select a.location_id, a.location_name, a.location_type_id, '2019-12-20 13:45:52.481448+00'
         from new_locations a;
 
         new_id =  171;
@@ -413,8 +416,8 @@ begin
 			(new_id + 0, 'A piece of the ceramic sherd is cut off, fastened to a microscope slide, ground down to 0,03 mm, and polished. The tempering grains and clay is then studied under a microscope to determine clay content, fraction size, sorting and tempering content. These are all determined ocularly. The max grain size and total percent tempering is determined by marking the tempering grains in a photograph projected from the camera connected to the microscope and calculating in the program.', 'Petrographic', 9, 'Petrographic microscopy', 21),
 			(new_id + 1, 'A raw clay sample and a sample of the ceramic sherd, or archaeological sample, is heated in a lab oven in 100 °C intervals, for a total of 30 minutes, up to 1000 °C. The colour change during and after heating is noted and compared to the Munsell Colour Chart to determine the firing temperature and firing atmosphere of the archaeological sample. The samples are then once more heated above 1000 °C, in 50 °C intervals, until they reach their melting point. The assumption for the thermal analysis is that the colour change of the ceramic sample doesn''t occur until after the original firing temperature has been reached.', 'Thermal', 9, 'Thermal analysis', 21),
 			(new_id + 2, 'Collection of ceramic samples by unspecified means', 'Ceramics', 13, 'Ceramics collection', 21)
-		) insert into tbl_methods (method_id, description, method_abbrev_or_alt_name, method_group_id, method_name, record_type_id)
-        select a.method_id, a.description, a.method_abbrev_or_alt_name, a.method_group_id, a.method_name, a.record_type_id
+		) insert into tbl_methods (method_id, description, method_abbrev_or_alt_name, method_group_id, method_name, record_type_id, date_updated)
+        select a.method_id, a.description, a.method_abbrev_or_alt_name, a.method_group_id, a.method_name, a.record_type_id, '2019-12-20 13:45:52.481448+00'
         from new_methods a;
 
 		new_id = 70;
@@ -429,8 +432,8 @@ begin
 			(new_id + 7, 'The Laboratory for Ceramic Research', 'Lund University', 3911, NULL, 'Torbjörn', 'Brosson', NULL),
 			(new_id + 8, 'The Laboratory for Ceramic Research', 'Lund University', 3911, NULL, 'Thomas', 'Eriksson', NULL),
 			(new_id + 9, 'The Laboratory for Ceramic Research', 'Lund University', 3911, NULL, 'KFL', NULL, 'http://www.geology.lu.se/research/laboratories-equipment/the-laboratory-for-ceramic-research')
-        ) insert into tbl_contacts (contact_id, address_1, address_2, location_id, email, first_name, last_name, url)
-        select a.contact_id, a.address_1, a.address_2, a.location_id, a.email, a.first_name, a.last_name, a.url
+        ) insert into tbl_contacts (contact_id, address_1, address_2, location_id, email, first_name, last_name, url, date_updated)
+        select a.contact_id, a.address_1, a.address_2, a.location_id, a.email, a.first_name, a.last_name, a.url, '2019-12-20 13:45:52.481448+00'
         from new_contacts a;
 
         new_id =  9;
@@ -438,8 +441,8 @@ begin
 			(new_id + 0, 'Museum subnumber', 'Local identification used by a museum.'),
 			(new_id + 1, 'Find number', 'Identification used in the field for artifacts'),
 			(new_id + 2, 'Compound ID', 'SEAD identification made by concatenating two, or more, existing identifications')
-        ) insert into tbl_alt_ref_types (alt_ref_type_id, alt_ref_type, description)
-        select a.alt_ref_type_id, a.alt_ref_type, a.description
+        ) insert into tbl_alt_ref_types (alt_ref_type_id, alt_ref_type, description, date_updated)
+        select a.alt_ref_type_id, a.alt_ref_type, a.description, '2019-12-20 13:45:52.481448+00'
         from new_alt_ref_type a;
 
 		new_id =  6297;
@@ -820,22 +823,22 @@ begin
 			(new_id + 373, 'Stilborg, O.', 'Stilborg, O. 2008. A technological study of crucibles from Helgö and Bäckby. I: Excavations at Helgö. 17, Workshop, p. 3. S. [209]-220. Stockholm', 'A technological study of crucibles from Helgö and Bäckby. I: Excavations at Helgö. 17, Workshop, p. 3. S. [209]-220. Stockholm', '2008'),
 			(new_id + 374, 'Stilborg, O.', 'Stilborg, O. 2003. Late Iron Age metal Craft Ceramics at Uppåkra. I: Hårdh, B. (red.). 2003. Uppåkrastudier, 9. Fler fynd i centrum : materialstudier i och kring Uppåkra. Acta archaeologica Lundensia. Series in 8o, 45. s. 137-164. Lund', 'Late Iron Age metal Craft Ceramics at Uppåkra. I: Hårdh, B. (red.). 2003. Uppåkrastudier, 9. Fler fynd i centrum : materialstudier i och kring Uppåkra. Acta archaeologica Lundensia. Series in 8o, 45. s. 137-164. Lund', '2003'),
 			(new_id + 375, 'Brorsson, T.', 'Brorsson, T. 2003. The Slavonic Feldberg and Fresendorf Pottery in Scania. I: Hårdh, B. & Larsson, L. 2003. Centrality - regionality the social structure of southern Sweden during the Iron Age. Uppåkrastudier 7. Acta archaeologica Lundensia. Series in 8o, 40. Stockholm-Lund. s. 223-234.', 'The Slavonic Feldberg and Fresendorf Pottery in Scania. I: Hårdh, B. & Larsson, L. 2003. Centrality - regionality  the social structure of southern Sweden during the Iron Age. Uppåkrastudier 7. Acta archaeologica Lundensia. Series in 8o, 40. Stockholm-Lund. s. 223-234.', '2003')
-		) insert into tbl_biblio (biblio_id, authors, full_reference, title, year)
-        select a.biblio_id, a.authors, a.full_reference, a.title, a.year
+		) insert into tbl_biblio (biblio_id, authors, full_reference, title, year, date_updated)
+        select a.biblio_id, a.authors, a.full_reference, a.title, a.year, '2019-12-20 13:45:52.481448+00'
         from new_biblio a;
 
 		new_id = 3;
         with new_dataset_masters (master_set_id, master_name, master_notes, url) as (values
 			(new_id + 0, 'The Laboratory for Ceramic Research (Lund/KFL)', 'Data created by staff at the Laboratory for Ceramic Research at Lund University, Sweden.', 'http://www.geology.lu.se/research/laboratories-equipment/the-laboratory-for-ceramic-research')
-        ) insert into tbl_dataset_masters (master_set_id, master_name, master_notes, url)
-        select a.master_set_id, a.master_name, a.master_notes, a.url
+        ) insert into tbl_dataset_masters (master_set_id, master_name, master_notes, url, date_updated)
+        select a.master_set_id, a.master_name, a.master_notes, a.url, '2019-12-20 13:45:52.481448+00'
         from new_dataset_masters a;
 
 		new_id = 16;
 		with new_unit (unit_id, description, unit_abbrev, unit_name) as (values
 			(new_id + 0, 'Distance measure in 1/100 metres', 'cm', 'centimetres')
-		) insert into tbl_units (unit_id, description, unit_abbrev, unit_name)
-		select a.unit_id, a.description, a.unit_abbrev, a.unit_name
+		) insert into tbl_units (unit_id, description, unit_abbrev, unit_name, date_updated)
+		select a.unit_id, a.description, a.unit_abbrev, a.unit_name, '2019-12-20 13:45:52.481448+00'
 		from new_unit a;
 
 		new_id = 34;
@@ -849,8 +852,8 @@ begin
 			(new_id + 6, 'Sherd maximum', 'Vessel sherd thickness in millimeters, maximum size measurement', 'Sherd thickness (mm) maximum', '10', '14'),
 			(new_id + 7, 'Height minimum', 'Vessel height in centimeters, minimum', 'Vessel height (cm) minimum', '16', '14'),
 			(new_id + 8, 'Height maximum', 'Vessel height in centimeters, maximum', 'Vessel height (cm) maximum', '16', '14')
-		) insert into tbl_dimensions (dimension_id, dimension_abbrev, dimension_description, dimension_name, unit_id, method_group_id)
-		select a.dimension_id, a.dimension_abbrev, a.dimension_description, a.dimension_name, a.unit_id::int, a.method_group_id::int
+		) insert into tbl_dimensions (dimension_id, dimension_abbrev, dimension_description, dimension_name, unit_id, method_group_id, date_updated)
+		select a.dimension_id, a.dimension_abbrev, a.dimension_description, a.dimension_name, a.unit_id::int, a.method_group_id::int, '2019-12-20 13:45:52.481448+00'
 		from new_dimensions a;
 
 		new_id = 551;
@@ -878,8 +881,8 @@ begin
 			(new_id + 20, 'Trading site/Settlement site', NULL),
 			(new_id + 21, 'Hoard', 'A collection of items intentionally deposited in the ground'),
 			(new_id + 22, 'Surface find', 'Object found exposed in the surface layer without any connection to its original context.')
-		) insert into tbl_feature_types (feature_type_id, feature_type_name, feature_type_description)
-		select a.feature_type_id, a.feature_type_name, a.feature_type_description
+		) insert into tbl_feature_types (feature_type_id, feature_type_name, feature_type_description, date_updated)
+		select a.feature_type_id, a.feature_type_name, a.feature_type_description, '2019-12-20 13:45:52.481448+00'
 		from new_feature_types a;
 
 		new_id = 390;
@@ -1021,8 +1024,8 @@ begin
 			(new_id + 134, 1, 'Pre Roman Iron Age - Migration Period', 'Pre Roman Iron Age - Migration Period', '2350', '1400', NULL, 'Pre-Roman - Migration'),
 			(new_id + 135, 1, 'Mesolithic - Early Neolithic Germany', 'Mesolithic - Early Neolithic Germany as defined by BugsCEP', '12950', '5950', NULL, 'Mesolithic - Neolithic'),
 			(new_id + 136, 1, 'Viking Age - Medieval Period Germany', 'Viking Age - Medieval Period Germany', '1150', '400', NULL, 'Viking - Medieval')
-		) insert into tbl_relative_ages (relative_age_id, relative_age_type_id, relative_age_name, description, cal_age_older, cal_age_younger, location_id, abbreviation)
-		select relative_age_id, relative_age_type_id, relative_age_name, description, cal_age_older::numeric, cal_age_younger::numeric, location_id, abbreviation
+		) insert into tbl_relative_ages (relative_age_id, relative_age_type_id, relative_age_name, description, cal_age_older, cal_age_younger, location_id, abbreviation, date_updated)
+		select relative_age_id, relative_age_type_id, relative_age_name, description, cal_age_older::numeric, cal_age_younger::numeric, location_id, abbreviation, '2019-12-20 13:45:52.481448+00'
 		from new_relative_ages;
 
 		new_id = 26;
@@ -1053,15 +1056,15 @@ begin
 			(new_id + 23, 'Kiln wall', 'Walling from a type of oven (thermally insulated chamber) for heating in the context of production or industry. E.g. brick kiln, pottery kiln. A large variety of types exist and there is some overlap in definitions between oven, kiln and furnace.'),
 			(new_id + 24, 'Tile', 'Different types of ceramic tiles'),
 			(new_id + 25, 'Excavation area', 'Any type of identification for excavation areas at an archaeological site.')
-		) insert into tbl_sample_group_description_types (sample_group_description_type_id, type_name, type_description)
-		select a.sample_group_description_type_id, a.type_name, a.type_description
+		) insert into tbl_sample_group_description_types (sample_group_description_type_id, type_name, type_description, date_updated)
+		select a.sample_group_description_type_id, a.type_name, a.type_description, '2019-12-20 13:45:52.481448+00'
 		from new_s_g_description_types a;
 
 		new_id = 16;
 		with new_sample_type (sample_type_id, type_name, description) as (values
 			(new_id + 0, 'Ceramic sherd', 'A sherd originating from any type of ceramic object')
-		) insert into tbl_sample_types (sample_type_id, type_name, description)
-		select a.sample_type_id, a.type_name, a.description
+		) insert into tbl_sample_types (sample_type_id, type_name, description, date_updated)
+		select a.sample_type_id, a.type_name, a.description, '2019-12-20 13:45:52.481448+00'
 		from new_sample_type a;
 
 		new_id = 1;
@@ -1094,8 +1097,8 @@ begin
 			(new_id + 25, 'Firing temperature(min)', 71, 'measurement of the original firing temperature of the ceramic material.'),
 			(new_id + 26, 'Melting point', 71, 'measurement of the melting point of a ceramic material.'),
 			(new_id + 27, 'Firing atmosphere', 71, 'Type and quality of kiln air during firing process, e.g. oxidation, reduction.')
-		) insert into tbl_ceramics_lookup (ceramics_lookup_id, name, method_id, description)
-		select a.ceramics_lookup_id, a.name, a.method_id, a.description
+		) insert into tbl_ceramics_lookup (ceramics_lookup_id, name, method_id, description, date_updated)
+		select a.ceramics_lookup_id, a.name, a.method_id, a.description, '2019-12-20 13:45:52.481448+00'
 		from new_ceramics_lookup a;
 
 		perform sead_utility.sync_sequence('public', 'tbl_locations');

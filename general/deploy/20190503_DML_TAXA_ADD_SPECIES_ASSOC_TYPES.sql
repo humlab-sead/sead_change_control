@@ -43,8 +43,8 @@ begin
 		        ('on burnt ground with'),
 		        ('is endoparasite of pupae of')
         )
-        insert into tbl_species_association_types (association_type_name)
-            select association_type_name
+        insert into tbl_species_association_types (association_type_name, date_updated)
+            select association_type_name, '2019-12-20 13:45:51.442946+00'
             from new_species_association_types n
             left join tbl_species_association_types x using (association_type_name)
             where x.association_type_id is null

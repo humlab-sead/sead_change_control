@@ -27,8 +27,8 @@ begin
                 ('UBA', 'Belfast', 243),
                 ('VERA', 'Institut für Radiumforschung und Kernphysik', 14)
         )
-        insert into tbl_dating_labs (international_lab_id, lab_name, country_id)
-            select international_lab_id, n.lab_name, n.country_id
+        insert into tbl_dating_labs (international_lab_id, lab_name, country_id, date_updated)
+            select international_lab_id, n.lab_name, n.country_id, '2019-12-20 13:45:51.591431+00'
             from new_dating_labs n
             left join tbl_dating_labs x using (international_lab_id)
             where x.lab_name is null;
