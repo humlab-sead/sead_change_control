@@ -1,0 +1,488 @@
+
+{
+    "development": {
+        "sourceClient": {
+            "host": "humlabseadserv.srv.its.umu.se",
+            "port": "5432",
+            "database": "sead_staging",
+            "user": "humlab_admin",
+            "applicationName": "pg-diff-cli"
+        },
+        "targetClient": {
+            "host": "humlabseadserv.srv.its.umu.se",
+            "port": "5432",
+            "database": "sead_staging_test_202002",
+            "user": "humlab_admin",
+            "applicationName": "pg-diff-cli"
+        },
+        "compareOptions": {
+            "author": "Roger Mähler",
+            "outputDirectory": "./output",
+            "getAuthorFromGit": false,
+            "schemaCompare": {
+                "namespaces": [
+                    "public"
+                ],
+                "dropMissingTable": false,
+                "dropMissingView": false,
+                "dropMissingFunction": false,
+                "dropMissingAggregate": false,
+                "roles": ["humlab_admin"]
+            },
+            "dataCompare": {
+                "enable": true,
+                "tables": [
+                    
+                        {
+                            "tableSchema": "public", "tableName": "tbl_abundance_elements", "tableKeyFields": [ "abundance_element_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_abundance_ident_levels", "tableKeyFields": [ "abundance_ident_level_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_abundance_modifications", "tableKeyFields": [ "abundance_modification_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_abundances", "tableKeyFields": [ "abundance_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_activity_types", "tableKeyFields": [ "activity_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_age_types", "tableKeyFields": [ "age_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_aggregate_datasets", "tableKeyFields": [ "aggregate_dataset_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_aggregate_order_types", "tableKeyFields": [ "aggregate_order_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_aggregate_sample_ages", "tableKeyFields": [ "aggregate_sample_age_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_aggregate_samples", "tableKeyFields": [ "aggregate_sample_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_alt_ref_types", "tableKeyFields": [ "alt_ref_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_analysis_entities", "tableKeyFields": [ "analysis_entity_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_analysis_entity_ages", "tableKeyFields": [ "analysis_entity_age_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_analysis_entity_dimensions", "tableKeyFields": [ "analysis_entity_dimension_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_analysis_entity_prep_methods", "tableKeyFields": [ "analysis_entity_prep_method_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_biblio", "tableKeyFields": [ "biblio_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_ceramics", "tableKeyFields": [ "ceramics_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_ceramics_lookup", "tableKeyFields": [ "ceramics_lookup_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_ceramics_measurements", "tableKeyFields": [ "ceramics_measurement_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_chron_controls", "tableKeyFields": [ "chron_control_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_chron_control_types", "tableKeyFields": [ "chron_control_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_chronologies", "tableKeyFields": [ "chronology_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_colours", "tableKeyFields": [ "colour_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_contacts", "tableKeyFields": [ "contact_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_contact_types", "tableKeyFields": [ "contact_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_coordinate_method_dimensions", "tableKeyFields": [ "coordinate_method_dimension_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dataset_contacts", "tableKeyFields": [ "dataset_contact_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dataset_masters", "tableKeyFields": [ "master_set_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dataset_methods", "tableKeyFields": [ "dataset_method_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_datasets", "tableKeyFields": [ "dataset_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dataset_submissions", "tableKeyFields": [ "dataset_submission_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dataset_submission_types", "tableKeyFields": [ "submission_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_data_type_groups", "tableKeyFields": [ "data_type_group_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_data_types", "tableKeyFields": [ "data_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dating_labs", "tableKeyFields": [ "dating_lab_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dating_material", "tableKeyFields": [ "dating_material_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dating_uncertainty", "tableKeyFields": [ "dating_uncertainty_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dendro", "tableKeyFields": [ "dendro_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dendro_date_notes", "tableKeyFields": [ "dendro_date_note_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dendro_dates", "tableKeyFields": [ "dendro_date_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dendro_lookup", "tableKeyFields": [ "dendro_lookup_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dendro_measurements", "tableKeyFields": [ "dendro_measurement_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_dimensions", "tableKeyFields": [ "dimension_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_ecocode_definitions", "tableKeyFields": [ "ecocode_definition_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_ecocode_groups", "tableKeyFields": [ "ecocode_group_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_ecocodes", "tableKeyFields": [ "ecocode_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_ecocode_systems", "tableKeyFields": [ "ecocode_system_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_error_uncertainties", "tableKeyFields": [ "error_uncertainty_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_features", "tableKeyFields": [ "feature_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_feature_types", "tableKeyFields": [ "feature_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_geochronology", "tableKeyFields": [ "geochron_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_geochron_refs", "tableKeyFields": [ "geochron_ref_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_horizons", "tableKeyFields": [ "horizon_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_identification_levels", "tableKeyFields": [ "identification_level_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_image_types", "tableKeyFields": [ "image_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_imported_taxa_replacements", "tableKeyFields": [ "imported_taxa_replacement_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_isotope_measurements", "tableKeyFields": [ "isotope_measurement_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_isotopes", "tableKeyFields": [ "isotope_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_isotope_standards", "tableKeyFields": [ "isotope_standard_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_isotope_types", "tableKeyFields": [ "isotope_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_isotope_value_specifiers", "tableKeyFields": [ "isotope_value_specifier_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_languages", "tableKeyFields": [ "language_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_lithology", "tableKeyFields": [ "lithology_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_locations", "tableKeyFields": [ "location_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_location_types", "tableKeyFields": [ "location_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_mcrdata_birmbeetledat", "tableKeyFields": [ "mcrdata_birmbeetledat_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_mcr_names", "tableKeyFields": [ "taxon_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_mcr_summary_data", "tableKeyFields": [ "mcr_summary_data_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_measured_value_dimensions", "tableKeyFields": [ "measured_value_dimension_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_measured_values", "tableKeyFields": [ "measured_value_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_method_groups", "tableKeyFields": [ "method_group_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_methods", "tableKeyFields": [ "method_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_modification_types", "tableKeyFields": [ "modification_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_physical_sample_features", "tableKeyFields": [ "physical_sample_feature_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_physical_samples", "tableKeyFields": [ "physical_sample_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_projects", "tableKeyFields": [ "project_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_project_stages", "tableKeyFields": [ "project_stage_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_project_types", "tableKeyFields": [ "project_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_rdb", "tableKeyFields": [ "rdb_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_rdb_codes", "tableKeyFields": [ "rdb_code_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_rdb_systems", "tableKeyFields": [ "rdb_system_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_record_types", "tableKeyFields": [ "record_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_relative_age_refs", "tableKeyFields": [ "relative_age_ref_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_relative_ages", "tableKeyFields": [ "relative_age_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_relative_age_types", "tableKeyFields": [ "relative_age_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_relative_dates", "tableKeyFields": [ "relative_date_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_alt_refs", "tableKeyFields": [ "sample_alt_ref_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_colours", "tableKeyFields": [ "sample_colour_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_coordinates", "tableKeyFields": [ "sample_coordinate_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_descriptions", "tableKeyFields": [ "sample_description_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_description_sample_group_contexts", "tableKeyFields": [ "sample_description_sample_group_context_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_description_types", "tableKeyFields": [ "sample_description_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_dimensions", "tableKeyFields": [ "sample_dimension_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_group_coordinates", "tableKeyFields": [ "sample_group_position_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_group_descriptions", "tableKeyFields": [ "sample_group_description_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_group_description_types", "tableKeyFields": [ "sample_group_description_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_group_description_type_sampling_contexts", "tableKeyFields": [ "sample_group_description_type_sampling_context_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_group_dimensions", "tableKeyFields": [ "sample_group_dimension_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_group_images", "tableKeyFields": [ "sample_group_image_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_group_notes", "tableKeyFields": [ "sample_group_note_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_group_references", "tableKeyFields": [ "sample_group_reference_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_groups", "tableKeyFields": [ "sample_group_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_group_sampling_contexts", "tableKeyFields": [ "sampling_context_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_horizons", "tableKeyFields": [ "sample_horizon_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_images", "tableKeyFields": [ "sample_image_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_locations", "tableKeyFields": [ "sample_location_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_location_types", "tableKeyFields": [ "sample_location_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_location_type_sampling_contexts", "tableKeyFields": [ "sample_location_type_sampling_context_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_notes", "tableKeyFields": [ "sample_note_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sample_types", "tableKeyFields": [ "sample_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_season_or_qualifier", "tableKeyFields": [ "season_or_qualifier_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_seasons", "tableKeyFields": [ "season_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_season_types", "tableKeyFields": [ "season_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_site_images", "tableKeyFields": [ "site_image_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_site_locations", "tableKeyFields": [ "site_location_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_site_natgridrefs", "tableKeyFields": [ "site_natgridref_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_site_other_records", "tableKeyFields": [ "site_other_records_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_site_preservation_status", "tableKeyFields": [ "site_preservation_status_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_site_references", "tableKeyFields": [ "site_reference_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_sites", "tableKeyFields": [ "site_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_species_associations", "tableKeyFields": [ "species_association_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_species_association_types", "tableKeyFields": [ "association_type_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxa_common_names", "tableKeyFields": [ "taxon_common_name_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxa_images", "tableKeyFields": [ "taxa_images_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxa_measured_attributes", "tableKeyFields": [ "measured_attribute_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxa_reference_specimens", "tableKeyFields": [ "taxa_reference_specimen_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxa_seasonality", "tableKeyFields": [ "seasonality_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxa_synonyms", "tableKeyFields": [ "synonym_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxa_tree_authors", "tableKeyFields": [ "author_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxa_tree_families", "tableKeyFields": [ "family_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxa_tree_genera", "tableKeyFields": [ "genus_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxa_tree_master", "tableKeyFields": [ "taxon_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxa_tree_orders", "tableKeyFields": [ "order_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxonomic_order", "tableKeyFields": [ "taxonomic_order_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxonomic_order_biblio", "tableKeyFields": [ "taxonomic_order_biblio_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxonomic_order_systems", "tableKeyFields": [ "taxonomic_order_system_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_taxonomy_notes", "tableKeyFields": [ "taxonomy_notes_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_temperatures", "tableKeyFields": [ "record_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_tephra_dates", "tableKeyFields": [ "tephra_date_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_tephra_refs", "tableKeyFields": [ "tephra_ref_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_tephras", "tableKeyFields": [ "tephra_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_text_biology", "tableKeyFields": [ "biology_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_text_distribution", "tableKeyFields": [ "distribution_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_text_identification_keys", "tableKeyFields": [ "key_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_units", "tableKeyFields": [ "unit_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_updates_log", "tableKeyFields": [ "updates_log_id" ]
+                        },
+                        {
+                            "tableSchema": "public", "tableName": "tbl_years_types", "tableKeyFields": [ "years_type_id" ]
+                        }
+                        
+                    
+                ]
+            }
+        },
+        "migrationOptions": {
+            "patchesDirectory": "db_migration",
+            "historyTableName": "migrations",
+            "historyTableSchema": "public"
+        }
+    }
+}

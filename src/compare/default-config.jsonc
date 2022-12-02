@@ -1,0 +1,53 @@
+{
+    "development": { //At least one configuration must exists, but you can have many
+        "sourceClient": { //Specify here connection to the source database
+            "host": "localhost", //Ip address or hostname
+            "port": 5432, //Server port
+            "database": "my-source-db", //Database name
+            "user": "postgres", //Username to access to database, better to have admin rights to access to pg_catalog schema
+            "password": "put-password-here", //Password to access to database
+            "applicationName": "pg-diff-cli" //Custom string to better identify application session connected to PostgreSQL server
+        },
+        "targetClient": { //Specify here connection to the target database
+            "host": "localhost",
+            "port": 5432,
+            "database": "my-target-db",
+            "user": "postgres",
+            "password": "put-password-here",
+            "applicationName": "pg-diff-cli"
+        },
+        "compareOptions": { //This section is mandatory
+            "author": "your-name-or-nickname-or-anything-else", //This option is mandatory but the string can be empty
+            "outputDirectory": "sqlscripts", //Absolute or relative directory path where save sql patches, in case of invalid values (like null, empty string, not a string) the current working directory will be used
+            "getAuthorFromGit": false, //If true will ignore "author" and try to get the it from your GIT CONFIG (firstly from local project config, then from global config)
+            "schemaCompare": {
+                "namespaces": ["public", "other-namespace"], //Simple string containing just one schema name or an array of comma-separated schema names for which retrieve objects to be compared, if assign null or any other invalid object it will retrieve automatically all available schemas from database
+                "dropMissingTable": false, //When true will detect tables that exists only on target database, in case a DROP statement will be generated
+                "dropMissingView": false, //When true will detect view and materialized view that exists only on target database, in case a DROP statement will be generated
+                "dropMissingFunction": false, //When true will detect function that exists only on target database, in case a DROP statement will be generated
+                "dropMissingAggregate": false, //When true will detect aggregate that exists only on target database, in case a DROP statement will be generated
+                "roles": [] //List of comma-separated role names for which retrieve GRANT and REVOKE permissions to database objects. If empty the patch will not contains any permission statement
+            },
+            "dataCompare": { //This option is mandatory
+                "enable": true, //False to disable record comparing
+                "tables": [ //This option is mandatory in case the above "enable" is true
+                    {
+                        "tableName": "my-table-name", //The name of the table without schema
+                        "tableSchema": "public or any-other-namespace", //The name of the schema where table exists, if not specified "public" will be used instead
+                        "tableKeyFields": ["list-of-key-fields-name"], //The comma-separated list of fields name that can be used to identify rows uniquely
+                    },
+                    {
+                        "tableName": "my-other-table-name",
+                        "tableSchema": "public or any-other-namespace",
+                        "tableKeyFields": ["list-of-key-fields-name"],
+                    }
+                ]
+            }
+        },
+        "migrationOptions": { //This section is mandatory only if you want to use our migration strategy
+            "patchesDirectory": "db_migration", //Folder where to retrieve sql script patches
+            "historyTableName": "migrations", //This is the table name where to save "migrations history"
+            "historyTableSchema": "public" //This is the schema name where to create a "migrations history" table
+        }
+    }
+}

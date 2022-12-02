@@ -1,0 +1,57 @@
+ {
+    "development": {
+        "sourceClient": {
+            "host": "humlabseadserv.srv.its.umu.se",
+            "port": 5432,
+            "database": "sead_staging",
+            "user": "humlab_admin",
+            "applicationName": "pg-diff-cli"
+        },
+        "targetClient": {
+            "host": "humlabseadserv.srv.its.umu.se",
+            "port": 5432,
+            "database": "sead_staging_test",
+            "user": "humlab_admin",
+            "applicationName": "pg-diff-cli"
+        },
+        "compareOptions": {
+            "author": "Roger Mähler",
+            "outputDirectory": "compare/output",
+            "getAuthorFromGit": false,
+            "schemaCompare": {
+                "namespaces": [
+                    "bugs_import",
+                    "clearing_house",
+                    "clearing_house_commit",
+                    "facet",
+                    "postgrest_api",
+                    "postgrest_default_api",
+                    "public",
+                    "sead_utility"
+                ],
+                "dropMissingTable": false,
+                "dropMissingView": false,
+                "dropMissingFunction": false,
+                "dropMissingAggregate": false,
+                "roles": ["humlab_admin"]
+            },
+            "dataCompare": {
+                "enable": true,
+                "tables": [
+                    {
+                        "tableName": "facet",
+                        "tableSchema": "facet",
+                        "tableKeyFields": [
+                            "facet_id"
+                        ]
+                    }
+                ]
+            }
+        },
+        "migrationOptions": {
+            "patchesDirectory": "db_migration",
+            "historyTableName": "migrations",
+            "historyTableSchema": "public"
+        }
+    }
+}
