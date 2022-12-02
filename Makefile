@@ -5,6 +5,10 @@ NO_COLOR=\033[0m
 
 DEFAULT_SERVER := humlabseadserv.srv.its.umu.se
 TARGET_DATABASES_ALL := $(shell grep "\[target" sqitch.conf | grep -oP "\".*\"")
+SOURCE_STARTING_POINT := ./starting_point/sead_master_9_public.sql.gz
+TARGET_RELEASE := @2020.03
+
+known_release_tags=$(shell grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
 
 default_projects := utility security general sead_api subsystem submissions
 
@@ -129,7 +133,7 @@ deploy-@2020.03-staging-test:
 	@sqitch deploy --target $(SQITCH_TARGET) -C ./utility --to @2020.03 --no-verify
 	@sqitch deploy --target $(SQITCH_TARGET) -C ./security --to @2020.03 --no-verify
 	@sqitch deploy --target $(SQITCH_TARGET) -C ./general --to @2020.03 --no-verify
-	@sqitch deploy --target $(SQITCH_TARGET) -C ./sead_api --to @2020.03-extra --no-verify
+	@sqitch deploy --target $(SQITCH_TARGET) -C ./sead_api --to @2020.03 --no-verify
 	@sqitch deploy --target $(SQITCH_TARGET) -C ./subsystem --to @2020.03 --no-verify
 	@sqitch deploy --target $(SQITCH_TARGET) -C ./submissions --to @2020.03 --no-verify
 	@pg-diff -f compare/config.json -c development @2020.03-staging-vs-staging-test
@@ -149,16 +153,43 @@ install-pg-diff:
 
 TARGET_STAGING_DATABASE=sead_staging_incremental_deploy
 
-staging_@2019.12:
-	@./bin/deploy-staging --create-database --on-conflict drop \
-		--source-type dump --source ./starting_point/sead_master_9_public.sql.gz \
-			--target-db-name $(TARGET_STAGING_DATABASE) --deploy-to-tag @2019.12
+# staging_@2019.12:
+# 	@./bin/deploy-staging --create-database --on-conflict drop \
+# 		--source-type dump --source $(ST) \
+# 			--target-db-name $(TARGET_STAGING_DATABASE) --deploy-to-tag @2019.12
 
-staging_@2020.01: staging_@2019.12
-	@./bin/deploy-staging --target-db-name $(TARGET_STAGING_DATABASE) --deploy-to-tag @2020.01
+# staging_@2020.01: staging_@2019.12
+# 	@./bin/deploy-staging --target-db-name $(TARGET_STAGING_DATABASE) --deploy-to-tag @2020.01
 
-staging_@2020.02: staging_@2020.01
-	@./bin/deploy-staging --target-db-name $(TARGET_STAGING_DATABASE) --deploy-to-tag @2020.02
+# staging_@2020.02: staging_@2020.01
+# 	@./bin/deploy-staging --target-db-name $(TARGET_STAGING_DATABASE) --deploy-to-tag @2020.02
 
-psql-@2020.02:
-	psql -h $(DEFAULT_SERVER) -d $(TARGET_STAGING_DATABASE) -U humlab_admin
+# staging_@2020.03: staging_@2020.02
+# 	@./bin/deploy-staging --target-db-name $(TARGET_STAGING_DATABASE) --deploy-to-tag @2020.03
+
+# psql-@2020.02:
+# 	psql -h $(DEFAULT_SERVER) -d $(TARGET_STAGING_DATABASE) -U humlab_admin
+
+TARGET_RELEASE := @2019.12
+target_prefix="sead_staging_test"
+staging_databases:
+	@source_type=dump; \
+	 source_db_name=$(SOURCE_STARTING_POINT); \
+	 for current_tag in $(known_release_tags); do \
+		target_db_name="$(target_prefix)_`echo $$current_tag | sed 's/\.//g' | sed 's/\@//g'`"; \
+		./bin/deploy-staging --create-database --on-conflict drop \
+				--source-type $$source_type --source $$source_db_name \
+					--target-db-name $$target_db_name --deploy-to-tag $$current_tag; \
+		source_db_name="$$target_db_name"; \
+		source_type="db";\
+	 	if [ "$$current_tag" == "$(TARGET_RELEASE)" ]; then \
+			break; \
+		fi; \
+	done
+
+db-diff:
+	@pushd . \
+	 && cd src/sead_utility \
+	 && poetry run python compare_options.py public.json -h $(DEFAULT_SERVER) -u humlab_admin \
+		-s public -sd sead_staging -td sead_staging_test_202002 -o ./output -r humlab_admin -dc \
+	 && popd \
