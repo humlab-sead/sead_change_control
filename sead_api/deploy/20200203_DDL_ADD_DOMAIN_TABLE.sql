@@ -23,9 +23,9 @@ begin
                 add column enforce_constraint bool not null default(FALSE);
         end if;
 
-        if sead_utility.column_exists('facet'::text, 'facet_children'::text, 'facet_code'::text) = TRUE then
-            raise exception SQLSTATE 'GUARD';
-        end if;
+        -- if sead_utility.column_exists('facet'::text, 'facet_children'::text, 'facet_code'::text) = TRUE then
+        --     raise exception SQLSTATE 'GUARD';
+        -- end if;
 
     	drop table if exists facet.facet_children;
 
