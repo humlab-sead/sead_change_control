@@ -25,25 +25,21 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 begin;
-do $$
-begin
 
-    begin
-
-        if sead_utility.column_exists('public'::text, 'table_name'::text, 'column_name'::text) = TRUE then
-            raise exception SQLSTATE 'GUARD';
-        end if;
-
-        create table public.tbl_temperatures (
-            record_id integer serial primary key,
-            years_bp integer not null,
-            d180_gisp2 numeric
-        );
+create table if not exists public.tbl_temperatures (
+    record_id serial primary key,
+    years_bp integer not null,
+    d180_gisp2 numeric
+);
 
 
-        alter table public.tbl_temperatures owner to seadwrite;
+alter table public.tbl_temperatures owner to seadwrite;
 
-        copy public.tbl_temperatures (record_id, years_bp, d180_gisp2) FROM stdin;
+grant select on table public.tbl_temperatures to postgrest_anon;
+grant all on table public.tbl_temperatures to sead_master;
+grant select on table public.tbl_temperatures to sead_ro;
+
+copy public.tbl_temperatures (record_id, years_bp, d180_gisp2) FROM stdin;
 6235	50	-34.97
 6236	100	-35.17
 6237	150	-35.16
@@ -2124,17 +2120,9 @@ begin
 8312	103900	-38.09
 \.
 
-        -- select pg_catalog.setval('public.tbl_temperatures_record_id_seq', 8312, true);
-        perform sead_utility.sync_sequence('public', 'tbl_temperatures', 'record_id');
-
-        grant select on table public.tbl_temperatures to postgrest_anon;
-        grant all on table public.tbl_temperatures to sead_master;
-        grant select on table public.tbl_temperatures to sead_ro;
-
-
-    exception when sqlstate 'GUARD' then
-        raise notice 'ALREADY EXECUTED';
-    end;
-
-end $$;
 commit;
+
+-- do $$
+-- begin
+--     perform sead_utility.sync_sequence('public', 'tbl_temperatures', 'record_id');
+-- end $$ language plpgsql;
