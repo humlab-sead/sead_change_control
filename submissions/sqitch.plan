@@ -4,18 +4,22 @@
 
 20190503_DDL_BUGS_SETUP_SCHEMA 2019-05-04T14:30:13Z Roger Mähler <roger.mahler@umu.se> # Bugs import schema
 20190503_DDL_BUGS_ADD_TRANSLATIONS 2019-05-04T14:31:03Z Roger Mähler <roger.mahler@umu.se> # Add bugs import value translations
+20191221_DDL_UDF_BUGS_IMPORT_POST_APPLY 2022-12-02T09:49:50Z Roger Mähler <roger.mahler@umu.se> # UDF for Bugs import updates after import
+
+20191221_DML_SUBMISSION_BUGS_20190303_COMMIT 2019-12-21T14:25:16Z Roger <roger.mahler@umu.se> # Initial Bugs Import
 
 20191220_DML_SUBMISSION_CERAMICS_001_COMMIT 2019-12-20T22:14:00Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {1}.
 20191220_DML_SUBMISSION_DENDRO_BUILDING_002_COMMIT 2019-12-20T22:14:11Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {2}.
 20191220_DML_SUBMISSION_DENDRO_ARCHEOLOGY_003_COMMIT 2019-12-20T22:14:20Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {3}.
 20191220_DML_SUBMISSION_ISOTOPE_004_COMMIT 2019-12-20T22:14:31Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {4}.
 
-@2019.12 2019-12-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
-
-20191221_DML_SUBMISSION_BUGS_20190303_COMMIT 2019-12-21T14:25:16Z Roger <roger.mahler@umu.se> # Initial Bugs Import
 20191221_DML_SUBMISSION_BUGS_20190303_POST_APPLY 2019-12-13T14:27:35Z Roger Mähler <roger.mahler@umu.se> # Script that must be applied after each import
 
+@2019.12 2019-12-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
+
+
 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT 2020-01-09T08:37:53Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {5}.
+
 
 @2020.01 2020-01-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2020 January release
 
@@ -26,3 +30,4 @@
 @2020.02 2020-03-15T08:33:40Z Roger Mähler <roger.mahler@umu.se> # 2020 February release
 @2020.03 2022-11-18T10:25:44Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
 @2022.10 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 October release
+
