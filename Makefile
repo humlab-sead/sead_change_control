@@ -171,8 +171,19 @@ TARGET_STAGING_DATABASE=sead_staging_incremental_deploy
 # 	psql -h $(DEFAULT_SERVER) -d $(TARGET_STAGING_DATABASE) -U humlab_admin
 
 TARGET_RELEASE := @2019.12
+
 target_prefix="sead_staging_test"
-staging_databases:
+
+staging_databases: staging_databases_prepare staging_databases_create staging_databases_cleanup
+	@echo "Done!"
+
+staging_databases_prepare:
+	@gunzip -f -k submissions/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/*.gz
+
+staging_databases_cleanup:
+	@rm -f submissions/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/*.sql
+
+staging_databases_create:
 	@source_type=dump; \
 	 source_db_name=$(SOURCE_STARTING_POINT); \
 	 for current_tag in $(known_release_tags); do \
