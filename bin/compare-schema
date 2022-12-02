@@ -1,0 +1,133 @@
+#!/bin/bash
+
+export PGCLIENTENCODING=UTF8
+
+dothostfile=~/vault/.default.sead.server
+dotuserfile=~/vault/.default.sead.username
+
+ROOT_FOLDER=`pwd`
+
+UTILITY_FOLDER=${ROOT_FOLDER}/src/sead_utility
+COMPARE_FOLDER=${ROOT_FOLDER}/src/compare
+OUTPUT_FOLDER=${ROOT_FOLDER}/output
+
+source .env
+
+dbhost=$DEFAULT_HOST
+dbuser=$DEFAULT_USER
+
+if [ "$dbhost" == "" ] && [[ -f "$dothostfile" ]]; then
+    dbhost=`cat $dothostfile`
+fi
+if [ "$dbuser" == "" ] && [[ -f "$dotuserfile" ]]; then
+    dbuser=`cat $dotuserfile`
+fi
+
+source_database=
+target_database=
+compare_data=
+
+usage_message=$(cat <<EOF
+usage: compare-schema db1 db2 schema_name OPTIONS...
+
+    --host SERVERNAME               Target server (${dbhost})
+    --user USERNAME                 User on target server (${dbuser})
+    --source-db-name DBNAME         Source database name.
+    --target-db-name DBNAME         Target database name.
+    --compare-data                  Compare data.
+EOF
+)
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --host)
+            dbhost="$2"; shift; shift
+        ;;
+        --user)
+            dbuser="$2"; shift; shift
+        ;;
+        --source-db-name)
+            source_database="$2"; shift; shift
+        ;;
+        --target-db-name)
+            target_database="$2"; shift; shift
+        ;;
+        --compare-data)
+            compare_data="-dc"; shift;
+        ;;
+        *)
+            POSITIONAL+=("$1") # save it in an array for later
+            shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+source_database=$1
+target_database=$2
+schema=$3
+
+function usage() {
+    echo "$usage_message"
+}
+
+if [ "$source_database" == "" ]; then
+    usage
+    exit 64
+fi
+
+if [ "$target_database" == "" ]; then
+    usage
+    exit 64
+fi
+
+if [ "$schema" == "" ]; then
+    usage
+    exit 64
+fi
+
+# function generate_options()
+# {
+#     source_database=$1
+#     target_database=$2
+#     schema=$3
+
+#     options_filename=${source_database}_${target_database}_${schema}.json
+
+# 	pushd .
+# 	cd ${UTILITY_FOLDER}
+
+# 	poetry run python compare_options.py ${OUTPUT_FOLDER}/${options_filename} -h ${DEFAULT_HOST} -u ${DEFAULT_USER}
+# 		-s $schema -sd $source_database -td $target_database -o ${OUTPUT_FOLDER} -r humlab_admin -dc \
+
+# 	popd
+# }
+
+
+function compare_schema()
+{
+    p_source_database=$1
+    p_target_database=$2
+    p_schema=$3
+    p_data_compare=$4
+    options_filename=${p_source_database}_${p_target_database}_${p_schema}.json
+
+	pushd .
+
+	cd ${UTILITY_FOLDER}
+
+	poetry run python compare_options.py ${OUTPUT_FOLDER}/${options_filename} -h ${DEFAULT_HOST} -u ${DEFAULT_USER} \
+		-s $p_schema -sd $p_source_database -td $p_target_database -o ${OUTPUT_FOLDER} -r humlab_admin $p_data_compare
+
+	popd
+
+    pg-diff -f ${OUTPUT_FOLDER}/${options_filename} -c development  ${p_source_database}_${p_target_database}_${p_schema}
+
+}
+
+compare_schema $source_database $target_database $schema
