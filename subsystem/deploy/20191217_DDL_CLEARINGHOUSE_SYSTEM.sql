@@ -1,9 +1,9 @@
 
 /***************************************************************************
 Author         roger
-Date           
-Description    
-Prerequisites  
+Date
+Description
+Prerequisites
 Reviewer
 Approver
 Idempotent     YES
@@ -37,7 +37,7 @@ set role clearinghouse_worker;
 **	Used By     DEPREACTED - NOT USED
 **	Revisions
 ******************************************************************************************************************************/
-Create Or Replace Function clearing_house.fn_DD2DMS(
+create or replace function clearing_house.fn_DD2DMS(
 	p_dDecDeg       IN float,
     p_sDegreeSymbol IN varchar(1) = 'd',
     p_sMinuteSymbol IN varchar(1) = 'm',
@@ -66,7 +66,7 @@ End $$ Language plpgsql;
 **              previously: lower(Left(p_token, 1) || regexp_replace(substring(p_token from 2), E'([A-Z])', E'\_\\1','g'));
 ******************************************************************************************************************************/
 -- Select fn_pascal_case_to_underscore('c14AgeOlder'), clearing_house.fn_pascal_case_to_underscore('address1');
-Create Or Replace Function clearing_house.fn_pascal_case_to_underscore(p_token character varying(255))
+create or replace function clearing_house.fn_pascal_case_to_underscore(p_token character varying(255))
 Returns character varying(255) As $$
 Begin
     return lower(regexp_replace(p_token,'([[:lower:]]|[0-9])([[:upper:]]|[0-9]$)','\1_\2','g'));
@@ -84,7 +84,7 @@ End $$ Language plpgsql;
 -- Select fn_pascal_case_to_underscore('RogerMahler')
 create or replace function clearing_house.fn_java_type_to_postgresql(s_type_name character varying)
     returns character varying language 'plpgsql'
-AS $BODY$
+as $BODY$
 Begin
 	If (lower(s_type_name) in ('java.util.date', 'java.sql.date')) Then
 		return 'date';
@@ -146,7 +146,7 @@ end $$ language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 -- Select clearing_house.fn_get_entity_type_for('tbl_sites')
-Create Or Replace Function clearing_house.fn_get_entity_type_for(p_table_name character varying(255))
+create or replace function clearing_house.fn_get_entity_type_for(p_table_name character varying(255))
 Returns int As $$
 Declare
     table_entity_type_id int;
@@ -173,7 +173,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Select * from clearing_house.tbl_clearinghouse_submissions where not xml is null
 -- Select clearing_house.xml_transfer_bulk_upload(1)
-Create Or Replace Function clearing_house.xml_transfer_bulk_upload(p_submission_id int = null, p_xml_id int = null, p_upload_user_id int = 4)
+create or replace function clearing_house.xml_transfer_bulk_upload(p_submission_id int = null, p_xml_id int = null, p_upload_user_id int = 4)
 Returns int As $$
 Begin
 	p_xml_id = Coalesce(p_xml_id, (Select Max(ID) from clearing_house.tbl_clearinghouse_xml_temp));
@@ -812,7 +812,7 @@ End $$ Language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 -- Select clearing_house.fn_truncate_all_entity_tables()
-Create Or Replace Function clearing_house.fn_truncate_all_entity_tables()
+create or replace function clearing_house.fn_truncate_all_entity_tables()
 Returns void As $$
     Declare x record;
     Declare command text;
@@ -1097,7 +1097,7 @@ end $$ language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 -- Select clearing_house.fn_create_schema_type_string('character varying', 255, null, null, 'YES')
-Create Or Replace Function clearing_house.fn_create_schema_type_string(
+create or replace function clearing_house.fn_create_schema_type_string(
 	data_type character varying(255),
 	character_maximum_length int,
 	numeric_precision int,
@@ -1135,7 +1135,7 @@ End $$ Language plpgsql;
 **	TODO		Add keys on foreign indexes to improve performance.
 ******************************************************************************************************************************/
 -- Select clearing_house.fn_script_public_db_entity_table('public', 'clearing_house', 'tbl_sites')
-Create Or Replace Function clearing_house.fn_script_public_db_entity_table(p_source_schema character varying(255), p_target_schema character varying(255), p_table_name character varying(255)) Returns text As $$
+create or replace function clearing_house.fn_script_public_db_entity_table(p_source_schema character varying(255), p_target_schema character varying(255), p_table_name character varying(255)) Returns text As $$
 	Declare sql_stmt text;
 	Declare data_columns text;
 	Declare pk_columns text;
@@ -1186,7 +1186,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Select clearing_house.fn_create_public_db_entity_tables('clearing_house')
 -- Select * From clearing_house.tbl_clearinghouse_sead_create_table_log
-Create Or Replace Function clearing_house.fn_create_public_db_entity_tables(
+create or replace function clearing_house.fn_create_public_db_entity_tables(
     target_schema character varying(255),
     p_only_drop BOOLEAN = FALSE,
     p_dry_run BOOLEAN = TRUE
@@ -1235,9 +1235,9 @@ End $$ Language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 
-CREATE OR REPLACE FUNCTION clearing_house.fn_create_local_to_public_id_view() RETURNS VOID AS $$
-DECLARE v_sql text;
-BEGIN
+create or replace function clearing_house.fn_create_local_to_public_id_view() RETURNS VOID AS $$
+declare v_sql text;
+begin
 
 	SELECT string_agg(' SELECT submission_id, ''' || table_name || ''' as table_name, local_db_id, public_db_id from clearing_house.' || table_name || '', E'  \nUNION ')
 		INTO STRICT v_sql
@@ -1257,7 +1257,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- SELECT clearing_house.fn_create_local_to_public_id_view();
--- CREATE OR REPLACE FUNCTION clearing_house.fn_local_to_public_id(int,varchar,int) RETURNS INT
+-- create or replace function clearing_house.fn_local_to_public_id(int,varchar,int) RETURNS INT
 -- 	AS 'SELECT public_db_id FROM clearing_house.view_local_to_public_id WHERE submission_id = $1 and table_name = $2 and local_db_id = $3; '
 -- 	LANGUAGE SQL STABLE RETURNS NULL ON NULL INPUT;
 
@@ -1274,7 +1274,7 @@ $$ LANGUAGE plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 -- Select clearing_house.fn_add_new_public_db_columns(2, 'tbl_datasets')
-Create Or Replace Function clearing_house.fn_add_new_public_db_columns(
+create or replace function clearing_house.fn_add_new_public_db_columns(
     p_submission_id int, p_table_name character varying(255)
 ) Returns void As $$
 
@@ -1339,7 +1339,7 @@ End $$ Language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 -- Select clearing_house.fn_script_local_union_public_entity_view('clearing_house', 'clearing_house', 'public', 'tbl_dating_uncertainty')
-Create Or Replace Function clearing_house.fn_script_local_union_public_entity_view(
+create or replace function clearing_house.fn_script_local_union_public_entity_view(
     target_schema character varying(255),
     local_schema character varying(255),
     public_schema character varying(255),
@@ -1415,7 +1415,7 @@ End $$ Language plpgsql;
 -- Select clearing_house.fn_create_local_union_public_entity_views('clearing_house', 'clearing_house', FALSE, TRUE)
 -- Select * From clearing_house.tbl_clearinghouse_sead_create_view_log
 -- Drop Function clearing_house.fn_create_local_union_public_entity_views(character varying(255), character varying(255), BOOLEAN, BOOLEAN);
-Create Or Replace Function clearing_house.fn_create_local_union_public_entity_views(
+create or replace function clearing_house.fn_create_local_union_public_entity_views(
     target_schema character varying(255),
     local_schema character varying(255),
     p_only_drop BOOLEAN = FALSE,
@@ -1465,7 +1465,7 @@ End $$ Language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 
-Create Or Replace Function clearing_house.fn_generate_foreign_key_indexes()
+create or replace function clearing_house.fn_generate_foreign_key_indexes()
 Returns void As $$
 Declare x RECORD;
 Begin
@@ -1544,7 +1544,7 @@ call clearing_house.create_public_model(false, false);
 ******************************************************************************************************************************/
 -- Select clearing_house.fn_delete_submission(4)
 
-Create Or Replace Function clearing_house.fn_delete_submission(p_submission_id int, p_clear_header boolean=FALSE, p_clear_exploded boolean=TRUE)
+create or replace function clearing_house.fn_delete_submission(p_submission_id int, p_clear_header boolean=FALSE, p_clear_exploded boolean=TRUE)
 Returns void As $$
     Declare v_table_name_underscored character varying;
 Begin
@@ -1583,7 +1583,7 @@ End $$ Language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 -- Select clearing_house.fn_get_submission_table_column_names(2, 'tbl_abundances')
-Create Or Replace Function clearing_house.fn_get_submission_table_column_names(p_submission_id int, p_table_name_underscored character varying(255))
+create or replace function clearing_house.fn_get_submission_table_column_names(p_submission_id int, p_table_name_underscored character varying(255))
 Returns character varying(255)[] As $$
     Declare v_columns character varying(255)[];
 Begin
@@ -1607,7 +1607,7 @@ End $$ Language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 -- Select clearing_house.fn_get_submission_table_column_types(2, 'tbl_abundances')
-Create Or Replace Function clearing_house.fn_get_submission_table_column_types(p_submission_id int, p_table_name_underscored character varying(255))
+create or replace function clearing_house.fn_get_submission_table_column_types(p_submission_id int, p_table_name_underscored character varying(255))
 Returns character varying(255)[] As $$
     Declare columns character varying(255)[];
 Begin
@@ -1621,7 +1621,7 @@ Begin
     return columns;
 End $$ Language plpgsql;
 
-Create Or Replace Function clearing_house.fn_get_submission_table_value_field_array(p_submission_id int, p_table_name_underscored text)
+create or replace function clearing_house.fn_get_submission_table_value_field_array(p_submission_id int, p_table_name_underscored text)
 Returns character varying(255)[] As $$
 Declare
     v_types character varying(255)[];
@@ -1645,7 +1645,7 @@ Begin
     Return v_fields;
 End $$ Language plpgsql;
 
-Create Or Replace Function clearing_house.fn_select_xml_content_tables(p_submission_id int)
+create or replace function clearing_house.fn_select_xml_content_tables(p_submission_id int)
 Returns Table(
     submission_id int,
     table_name    character varying(255),
@@ -1688,7 +1688,7 @@ End $$ Language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 -- Select * From clearing_house.fn_select_xml_content_columns(3)
-Create Or Replace Function clearing_house.fn_select_xml_content_columns(p_submission_id int)
+create or replace function clearing_house.fn_select_xml_content_columns(p_submission_id int)
 Returns Table(
     submission_id int,
     table_name	  character varying(255),
@@ -1713,7 +1713,7 @@ Begin
         ) as d;
 End $$ Language plpgsql;
 
-CREATE OR REPLACE FUNCTION clearing_house.fn_select_xml_content_records(p_submission_id integer)
+create or replace function clearing_house.fn_select_xml_content_records(p_submission_id integer)
   RETURNS TABLE(submission_id integer, table_name character varying, local_db_id integer, public_db_id_attr integer, public_db_id_tag integer) AS
 $BODY$
 Begin
@@ -1754,7 +1754,7 @@ Begin
 
 End $BODY$ LANGUAGE plpgsql VOLATILE;
 
-CREATE OR REPLACE FUNCTION clearing_house.fn_select_xml_content_values(p_submission_id integer, p_table_name character varying)
+create or replace function clearing_house.fn_select_xml_content_values(p_submission_id integer, p_table_name character varying)
 RETURNS TABLE(
     submission_id integer,
     table_name character varying,
@@ -1807,7 +1807,7 @@ Begin
 End
 $BODY$;
 
-Create Or Replace Function clearing_house.fn_extract_and_store_submission_tables(p_submission_id int) Returns void As $$
+create or replace function clearing_house.fn_extract_and_store_submission_tables(p_submission_id int) Returns void As $$
 Begin
 
     /**
@@ -1840,7 +1840,7 @@ Begin
         ;
 End $$ Language plpgsql;
 
-Create Or Replace Function clearing_house.fn_extract_and_store_submission_columns(p_submission_id int) Returns void As $$
+create or replace function clearing_house.fn_extract_and_store_submission_columns(p_submission_id int) Returns void As $$
 Begin
 
     /**
@@ -1878,7 +1878,7 @@ Begin
 End $$ Language plpgsql;
 
 -- Select clearing_house.fn_extract_and_store_submission_records(2)
-Create Or Replace Function clearing_house.fn_extract_and_store_submission_records(p_submission_id int) Returns void As $$
+create or replace function clearing_house.fn_extract_and_store_submission_records(p_submission_id int) Returns void As $$
 Begin
     /**
     **	Function  fn_extract_and_store_submission_records
@@ -1916,7 +1916,7 @@ End $$ Language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 -- Select clearing_house.fn_extract_and_store_submission_values(2)
-Create Or Replace Function clearing_house.fn_extract_and_store_submission_values(p_submission_id int) Returns void As $$
+create or replace function clearing_house.fn_extract_and_store_submission_values(p_submission_id int) Returns void As $$
     Declare x RECORD;
 Begin
 
@@ -2017,7 +2017,7 @@ Create Or Replace View clearing_house.view_clearinghouse_local_fk_references As
             And fk_v.local_db_id = v.fk_local_db_id
         Where v.fk_flag = true;
 
-Create Or Replace Function clearing_house.fn_get_extracted_values_as_arrays(p_submission_id int, p_table_name_underscored character varying(255))
+create or replace function clearing_house.fn_get_extracted_values_as_arrays(p_submission_id int, p_table_name_underscored character varying(255))
 Returns Table(
     submission_id int,
     table_name character varying(255),
@@ -2083,7 +2083,7 @@ Begin
 
 End $$ Language plpgsql;
 
-Create Or Replace Function clearing_house.fn_copy_extracted_values_to_entity_table(
+create or replace function clearing_house.fn_copy_extracted_values_to_entity_table(
     p_submission_id int,
     p_table_name_underscored character varying(255),
     p_dry_run boolean=FALSE
@@ -2146,7 +2146,7 @@ End $$ Language plpgsql;
 
 -- Drop Function clearing_house.fn_clearinghouse_review_dataset_ceramic_values_client_data(int, int);
 -- Select * From clearing_house.fn_clearinghouse_review_dataset_ceramic_values_client_data(1, null)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_dataset_ceramic_values_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_dataset_ceramic_values_client_data(int, int)
 Returns Table (
 
     local_db_id					int,
@@ -2343,7 +2343,7 @@ $$ language 'plpgsql';
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_dataset_client_data(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_dataset_client_data(2, 100)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_dataset_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_dataset_client_data(int, int)
 Returns Table (
 
 	local_db_id                     int,
@@ -2462,7 +2462,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_dataset_contacts_client_data(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_dataset_contacts_client_data(2, -40)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_dataset_contacts_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_dataset_contacts_client_data(int, int)
 Returns Table (
 
 	local_db_id					int,
@@ -2565,7 +2565,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_dataset_submissions_client_data(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_dataset_submissions_client_data(2, -40)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_dataset_submissions_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_dataset_submissions_client_data(int, int)
 Returns Table (
 
 	local_db_id					int,
@@ -2782,7 +2782,7 @@ Create Or Replace View clearing_house.view_dataset_measured_values As
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_dataset_measured_values_client_data(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_dataset_measured_values_client_data(2, 140)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_dataset_measured_values_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_dataset_measured_values_client_data(int, int)
 Returns Table (
 
 	local_db_id					int,
@@ -3122,7 +3122,7 @@ Create Or Replace View clearing_house.view_clearinghouse_dataset_abundances As
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_dataset_abundance_values_client_data(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_dataset_abundance_values_client_data(2, 140)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_dataset_abundance_values_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_dataset_abundance_values_client_data(int, int)
 Returns Table (
 
 	local_db_id					int,
@@ -3199,7 +3199,7 @@ Begin
 End $$ Language plpgsql;
 
 
-CREATE OR REPLACE FUNCTION clearing_house.fn_clearinghouse_review_dataset_references_client_data(
+create or replace function clearing_house.fn_clearinghouse_review_dataset_references_client_data(
     IN integer,
     IN integer)
 RETURNS TABLE(
@@ -3261,7 +3261,7 @@ LANGUAGE plpgsql VOLATILE
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample(2, 2453)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample(int, int)
 Returns Table (
 
     local_db_id					int,
@@ -3357,7 +3357,7 @@ Join clearing_house.view_alt_ref_types t
 -- Select * From clearing_house.tbl_sites
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_alternative_names(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_alternative_names(2,2220)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_alternative_names(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_alternative_names(int, int)
 Returns Table (
 
     local_db_id				int,
@@ -3455,7 +3455,7 @@ Join clearing_house.view_feature_types t
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_features(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_features(2, 3931)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_features(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_features(int, int)
 Returns Table (
 
     local_db_id                 int,
@@ -3551,7 +3551,7 @@ Join clearing_house.view_sample_notes n
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_notes(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_notes(2, 2626)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_notes(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_notes(int, int)
 Returns Table (
 
     local_db_id			int,
@@ -3637,7 +3637,7 @@ Join clearing_house.view_methods m
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_dimensions(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_dimensions(2, 2508)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_dimensions(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_dimensions(int, int)
 Returns Table (
 
     local_db_id						int,
@@ -3737,7 +3737,7 @@ Join clearing_house.view_sample_description_types t
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_descriptions(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_descriptions(2, -40)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_descriptions(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_descriptions(int, int)
 Returns Table (
 
     local_db_id					int,
@@ -3839,7 +3839,7 @@ Join clearing_house.view_methods m
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_horizons(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_horizons(2, 2519)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_horizons(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_horizons(int, int)
 Returns Table (
 
     local_db_id						int,
@@ -3946,7 +3946,7 @@ Join clearing_house.view_methods m
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_colours(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_colours(2, -40)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_colours(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_colours(int, int)
 Returns Table (
 
     local_db_id						int,
@@ -4052,7 +4052,7 @@ Join clearing_house.view_image_types it
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_images(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_images(2, 2453)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_images(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_images(int, int)
 Returns Table (
 
     local_db_id						int,
@@ -4152,7 +4152,7 @@ Join clearing_house.view_location_types t
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_locations(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_locations(2, 2453)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_locations(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_locations(int, int)
 Returns Table (
 
     local_db_id                 int,
@@ -4527,7 +4527,7 @@ end $body$
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_group_client_data(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_group_client_data(1, -2024)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_group_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_group_client_data(int, int)
 Returns Table (
 
 	local_db_id					int,
@@ -4608,7 +4608,7 @@ End $$ Language plpgsql;
 -- Select * From clearing_house.tbl_sites
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_group_lithology_client_data(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_group_lithology_client_data(2,-40)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_group_lithology_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_group_lithology_client_data(int, int)
 Returns Table (
 
 	local_db_id				int,
@@ -4698,7 +4698,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_group_references_client_data(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_group_references_client_data(2, -40)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_group_references_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_group_references_client_data(int, int)
 Returns Table (
 
 	local_db_id int,
@@ -4767,7 +4767,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_group_notes_client_data(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_group_notes_client_data(2, -40)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_group_notes_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_group_notes_client_data(int, int)
 Returns Table (
 
 	local_db_id			int,
@@ -4831,7 +4831,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_group_dimensions_client_data(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_group_dimensions_client_data(2, -40)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_group_dimensions_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_group_dimensions_client_data(int, int)
 Returns Table (
 
 	local_db_id						int,
@@ -4907,7 +4907,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_group_descriptions_client_data(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_group_descriptions_client_data(2, -40)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_group_descriptions_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_group_descriptions_client_data(int, int)
 Returns Table (
 
 	local_db_id					int,
@@ -4988,7 +4988,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_review_sample_group_positions_client_data(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_sample_group_positions_client_data(2, -40)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_sample_group_positions_client_data(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_sample_group_positions_client_data(int, int)
 Returns Table (
 
 	local_db_id						int,
@@ -5081,7 +5081,7 @@ End $$ Language plpgsql;
 -- Select * From clearing_house.tbl_sites
 --Drop Function clearing_house.fn_clearinghouse_review_site(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_site(2, 27)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_site(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_site(int, int)
 Returns Table (
 
 	local_db_id int,
@@ -5183,7 +5183,7 @@ End $$ Language plpgsql;
 -- Select * From clearing_house.tbl_sites
 -- Drop Function clearing_house.fn_clearinghouse_review_site_locations(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_site_locations(2, 27)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_site_locations(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_site_locations(int, int)
 Returns Table (
 
 	local_db_id int,
@@ -5273,7 +5273,7 @@ End $$ Language plpgsql;
 -- Select * From clearing_house.tbl_sites
 -- Drop Function clearing_house.fn_clearinghouse_review_site_references(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_site_references(2, 27)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_site_references(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_site_references(int, int)
 Returns Table (
 
 	local_db_id int,
@@ -5344,7 +5344,7 @@ End $$ Language plpgsql;
 -- Select * From clearing_house.tbl_sites
 -- Drop Function clearing_house.fn_clearinghouse_review_site_natgridrefs(int, int)
 -- Select * From clearing_house.fn_clearinghouse_review_site_natgridrefs(2, 27)
-Create Or Replace Function clearing_house.fn_clearinghouse_review_site_natgridrefs(int, int)
+create or replace function clearing_house.fn_clearinghouse_review_site_natgridrefs(int, int)
 Returns Table (
 
 	local_db_id int,
@@ -5541,7 +5541,7 @@ alter function clearing_house.fn_clearinghouse_review_site_projects(integer, int
 **	Revisions
 ******************************************************************************************************************************/
 -- Select * From clearing_house.fn_clearinghouse_report_locations(2)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_locations(int)
+create or replace function clearing_house.fn_clearinghouse_report_locations(int)
 Returns Table (
 
 	local_db_id int,
@@ -5618,7 +5618,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function If Exists clearing_house.fn_clearinghouse_report_bibliographic_entries(int);
 -- Select * From clearing_house.fn_clearinghouse_report_bibliographic_entries(32)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_bibliographic_entries(int)
+create or replace function clearing_house.fn_clearinghouse_report_bibliographic_entries(int)
 Returns Table (
 
 	local_db_id int,
@@ -5715,7 +5715,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_report_taxonomic_order(int)
 -- Select * From clearing_house.fn_clearinghouse_report_taxonomic_order(2)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_taxonomic_order(int)
+create or replace function clearing_house.fn_clearinghouse_report_taxonomic_order(int)
 Returns Table (
 
 	local_db_id int,
@@ -5840,7 +5840,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_report_taxa_rdb(int)
 -- Select * From clearing_house.fn_clearinghouse_report_taxa_rdb(2)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_taxa_rdb(int)
+create or replace function clearing_house.fn_clearinghouse_report_taxa_rdb(int)
 Returns Table (
 
 	local_db_id int,
@@ -5981,7 +5981,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_report_taxa_ecocodes(int)
 -- Select * From clearing_house.fn_clearinghouse_report_taxa_ecocodes(2)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_taxa_ecocodes(int)
+create or replace function clearing_house.fn_clearinghouse_report_taxa_ecocodes(int)
 Returns Table (
 
 	local_db_id int,
@@ -6131,7 +6131,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_report_taxa_tree_master(int)
 -- Select * From clearing_house.fn_clearinghouse_report_taxa_tree_master(2)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_taxa_tree_master(int)
+create or replace function clearing_house.fn_clearinghouse_report_taxa_tree_master(int)
 Returns Table (
 
 	local_db_id int,
@@ -6300,7 +6300,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_report_taxa_other_lists(int)
 -- Select * From clearing_house.fn_clearinghouse_report_taxa_other_lists(2)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_taxa_other_lists(int)
+create or replace function clearing_house.fn_clearinghouse_report_taxa_other_lists(int)
 Returns Table (
 
 	local_db_id int,
@@ -6477,7 +6477,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_report_taxa_seasonality(int)
 -- Select * From clearing_house.fn_clearinghouse_report_taxa_seasonality(2)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_taxa_seasonality(int)
+create or replace function clearing_house.fn_clearinghouse_report_taxa_seasonality(int)
 Returns Table (
 
 	local_db_id int,
@@ -6605,7 +6605,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_report_relative_ages(int);
 -- Select count(*) From clearing_house.fn_clearinghouse_report_relative_ages(2);
-Create Or Replace Function clearing_house.fn_clearinghouse_report_relative_ages(int)
+create or replace function clearing_house.fn_clearinghouse_report_relative_ages(int)
 Returns Table (
 
 	local_db_id int,
@@ -6804,7 +6804,7 @@ End $$ Language plpgsql;
 **					rt.merged_db_id = rt.record_type_id changed to rt.merged_db_id = m.record_type_id
 ******************************************************************************************************************************/
 -- Select * From clearing_house.fn_clearinghouse_report_datasets(32)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_datasets(int)
+create or replace function clearing_house.fn_clearinghouse_report_datasets(int)
 Returns Table (
 
 	local_db_id int,
@@ -6926,7 +6926,7 @@ End $$ Language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 -- Select * From clearing_house.fn_clearinghouse_report_methods(2)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_methods(int)
+create or replace function clearing_house.fn_clearinghouse_report_methods(int)
 Returns Table (
 
 	local_db_id int,
@@ -7049,7 +7049,7 @@ End $$ Language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 -- Select * From clearing_house.fn_clearinghouse_latest_accepted_sites()
-Create Or Replace Function clearing_house.fn_clearinghouse_latest_accepted_sites()
+create or replace function clearing_house.fn_clearinghouse_latest_accepted_sites()
 Returns Table (
     last_updated_sites text
 ) As $$
@@ -7085,7 +7085,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_info_references()
 -- Select * From clearing_house.fn_clearinghouse_info_references()
-Create Or Replace Function clearing_house.fn_clearinghouse_info_references()
+create or replace function clearing_house.fn_clearinghouse_info_references()
 Returns Table (
     info_reference_id int,
     info_reference_type character varying,
@@ -7111,7 +7111,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_report_feature_types(int);
 -- Select * From clearing_house.fn_clearinghouse_report_feature_types(1)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_feature_types(int)
+create or replace function clearing_house.fn_clearinghouse_report_feature_types(int)
 Returns Table (
 	local_db_id                         int,
     type_name                           character varying,
@@ -7184,7 +7184,7 @@ End $$ Language plpgsql;
 **	Revisions
 ******************************************************************************************************************************/
 -- Select * From clearing_house.fn_clearinghouse_report_sample_group_dimensions(1)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_sample_group_dimensions(int)
+create or replace function clearing_house.fn_clearinghouse_report_sample_group_dimensions(int)
 Returns Table (
 	local_db_id                         int,
 	sample_group_id                     int,
@@ -7283,7 +7283,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_report_sample_dimensions(int);
 -- Select * From clearing_house.fn_clearinghouse_report_sample_dimensions(1)
-Create Or Replace Function clearing_house.fn_clearinghouse_report_sample_dimensions(int)
+create or replace function clearing_house.fn_clearinghouse_report_sample_dimensions(int)
 Returns Table (
 	local_db_id                         int,
 	physical_sample_id                  int,
@@ -7381,7 +7381,7 @@ End $$ Language plpgsql;
 ******************************************************************************************************************************/
 -- Drop Function clearing_house.fn_clearinghouse_report_sample_descriptions(int);
 -- Select * From clearing_house.fn_clearinghouse_report_sample_descriptions(1)
-CREATE OR REPLACE FUNCTION clearing_house.fn_clearinghouse_report_sample_descriptions(
+create or replace function clearing_house.fn_clearinghouse_report_sample_descriptions(
 	integer)
 RETURNS TABLE(local_db_id integer, physical_sample_id integer, sample_name character varying, type_name character varying, description character varying, public_db_id integer, public_physical_sample_id integer, public_sample_name character varying, public_type_name character varying, public_description character varying, date_updated text, entity_type_id integer)
     LANGUAGE 'plpgsql'
@@ -7469,7 +7469,7 @@ $BODY$;
 **	Revisions
 ******************************************************************************************************************************/
 
-CREATE OR REPLACE FUNCTION clearing_house.fn_clearinghouse_report_sample_group_descriptions(integer)
+create or replace function clearing_house.fn_clearinghouse_report_sample_group_descriptions(integer)
 RETURNS TABLE(
     local_db_id integer,
     physical_sample_id integer,
