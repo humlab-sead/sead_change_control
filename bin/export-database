@@ -1,0 +1,165 @@
+#!/bin/bash
+
+source .env
+
+target_folder="."
+compress_flag=YES
+verbose=NO
+
+if [ "$dbhost" == "" ]; then
+    if [ -f ~/vault/.default.sead.server ]; then
+        dbhost=`cat ~/vault/.default.sead.server`;
+    else
+        dbhost=$(hostname -A);
+    fi
+fi
+
+if [ "$dbuser" == "" ]; then
+    if [ -f ~/vault/.default.sead.username ]; then
+        dbuser=`cat ~/vault/.default.sead.username`;
+    else
+        dbuser="humlab_admin";
+    fi
+fi
+
+usage_message=$(cat <<EOF
+usage: export-database dbname schemaname OPTIONS
+
+    --host SERVERNAME               Target server (${dbhost})
+    --user USERNAME                 User on target server (${dbuser})
+    --target-folder FOLDER          Store in folder ($target_folder)
+    --compress/--no-compress        Create a fresh database from given source ($compress_flag).
+    --verbose                       Print progress ($verbose).
+EOF
+)
+
+function usage() {
+    echo "$usage_message";
+    exit 64
+}
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --host)
+            dbhost="$2"; shift; shift
+        ;;
+        --user)
+            dbuser="$2"; shift; shift
+        ;;
+        --target-folder)
+            target_folder="$2"; shift; shift
+        ;;
+        --verbose)
+            verbose="YES"; shift;
+        ;;
+        --compress)
+            compress_flag="YES"; shift;
+        ;;
+        --no-compress)
+            compress_flag="NO"; shift;
+        ;;
+        *)
+            POSITIONAL+=("$1") # save it in an array for later
+            shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+dbname=$1
+schemaname=$2
+
+if [ "$dbname" == "" ] || [ "$schemaname" == "" ]; then
+    usage;
+fi
+
+function dbexec() {
+    sql="$1"
+    psql -v ON_ERROR_STOP=1 -h $dbhost -U $dbuser -d $dbname --no-password --command "$sql"
+    # echo $result
+    if [ $? -ne 0 ];  then
+        echo "fatal: psql command failed! script aborted." >&2
+        exit 64
+    fi
+}
+
+function dbexecfile() {
+    filename=$1
+    psql -v ON_ERROR_STOP=1 -h $dbhost -U $dbuser -d $dbname -f "$filename"
+    return_code=$?
+    if [ $return_code -ne 0 ];  then
+        echo "fatal: psql command failed! script aborted." >&2
+        exit 64
+    fi
+}
+
+dump_tables()
+{
+    schemaname=$1
+    sql=$(cat <<END
+        select tablename
+        from pg_catalog.pg_tables
+        where schemaname = '$schemaname'
+        order by tablename;
+END
+)
+    mkdir -p $target_folder
+    let table_count=0
+    let table_empty_count=0
+    # echo $sql
+    rm -f "$target_folder/copy_*.sql" "$target_folder/*.sql.gz"
+
+    copy_options="with (format text, delimiter E'\t', encoding 'utf-8')"
+    copy_out_script="$target_folder/copy_out.sql"
+    copy_in_script="$target_folder/copy_in.sql"
+    set -f
+    while read table ; do
+
+        #[ "$verbose" == "YES" ] && echo "tablename: $table";
+
+        # pg_dump -h $dbhost -U $dbuser -d $dbname -t "$schemaname.$table" -b -E=utf8 -a > $target_folder/$table.sql;
+        # if [ "$compress_flag" == "YES" ]; then
+        #     gzip --force --quiet $target_folder/$table.sql
+        # fi
+
+        if [ "$compress_flag" == "YES" ]; then
+            copy_out="\\copy (select * from $schemaname.$table) to program 'gzip -qa9 > $target_folder/$table.sql.gz' $copy_options;";
+            copy_in="\\copy $schemaname.$table from program 'zcat -qac $target_folder/$table.sql.gz' $copy_options;";
+        else
+            copy_out="\\copy (select * from $schemaname.$table) to '$target_folder/$table.sql' $copy_options;";
+            copy_in="\\copy $schemaname.$table from '$target_folder/$table.sql.gz' $copy_options;";
+        fi;
+
+        output=$(dbexec "$copy_out")
+        copy_count=${output#COPY }
+
+        if [ "$copy_count" != "0" ]; then
+            [ "$verbose" == "YES" ] && echo "copied: $table ($copy_count rows)";
+            let table_count=$(( table_count + 1 ));
+            echo $copy_out >> "$copy_out_script"
+            echo $copy_in >> "$copy_in_script"
+        else
+            [ "$verbose" == "YES" ] && echo "skipped: $table (empty)";
+            rm -f "$target_folder/$table.sql" "$target_folder/$table.sql.gz"
+            let table_empty_count=$(( table_empty_count + 1 ));
+        fi
+
+    done < <(
+        psql -h $dbhost -U $dbuser -d $dbname -c "$sql" -X -t --quiet --field-separator ' ' --no-align
+    )
+
+    # dbexecfile "$copy_out_script"
+
+    echo "info: dumped ${table_count} tables to folder \"$target_folder\" (ignored $table_empty_count empty tables) "
+
+}
+
+dump_tables $schemaname
+
+
+#        echo "\\copy $schemaname.$table from program 'zcat -qac $target_folder/$table.sql.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
