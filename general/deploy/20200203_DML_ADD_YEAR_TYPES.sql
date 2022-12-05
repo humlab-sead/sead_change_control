@@ -16,12 +16,12 @@ begin;
 do $$
 begin
 
-    insert into public.tbl_years_types (years_type_id, name, description)
+    insert into public.tbl_years_types (years_type_id, name, description, date_updated)
     	values
-         	(0, 'Unknown', 'Unknown years type (either to be defined or unspecified in source)'),
-         	(1, 'Calendar', 'Calendar years'),
-         	(2, 'C14', 'Radiocarbon years'),
-         	(3, 'Radiometric', 'Radiometric years (but not C14)')
+         	(0, 'Unknown', 'Unknown years type (either to be defined or unspecified in source)', '2020-02-09 11:31:15.327791+00'),
+         	(1, 'Calendar', 'Calendar years', '2020-02-09 11:31:15.327791+00'),
+         	(2, 'C14', 'Radiocarbon years', '2020-02-09 11:31:15.327791+00'),
+         	(3, 'Radiometric', 'Radiometric years (but not C14)', '2020-02-09 11:31:15.327791+00')
     on conflict (years_type_id) do nothing;
 
 end $$;
