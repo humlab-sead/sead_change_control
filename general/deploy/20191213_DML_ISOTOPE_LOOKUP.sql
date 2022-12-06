@@ -20,7 +20,7 @@ begin
 
         new_id = 11;
         with new_dataset_masters (master_set_id, contact_id, master_name, master_note, url) as (values
-            (11, 999999, 'Sample data Isotopes', 'Sample data for implementing isotope data in to SEAD', '')
+            (11, 999999, 'Archaeological Research Laboratory (Stockholm/KFL)', 'Sample data for implementing isotope data in to SEAD', '')
         ) insert into tbl_dataset_masters (master_set_id, master_name, url, date_updated)
         select a.master_set_id, a.master_name, a.url, '2019-12-20 13:45:52.703453+00'
         from new_dataset_masters a
