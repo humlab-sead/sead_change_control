@@ -1,4 +1,4 @@
--- Verify sead_api:20220923_DDL_FACET_SCHEMA_UPDATE on pg
+-- Verify sead_api:20221117_DML_RESTAPI_GENERATE_SCHEMA on pg
 
 BEGIN;
 
