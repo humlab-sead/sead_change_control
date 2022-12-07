@@ -79,9 +79,10 @@
 20220923_DDL_DEPRECATE_CHRON_CONTROLS 2022-09-23T07:51:38Z Roger Mähler <roger.mahler@umu.se> # Deprecate chronology controls tables.
 20221206_DML_SITE_DESCRIPTION_HOGDAL_UPDATE 2022-12-06T14:13:22Z Roger Mähler <roger.mahler@umu.se> # See issue humlab-sead/quality_control#3
 
+20221205_DML_QUALITY_CONTROL_BIBLIO_UPDATES 2022-12-06T13:15:15Z Roger Mähler <roger.mahler@umu.se> # See issue #81
+20221206_DML_QUALITY_CONTROL_DATASETS_UPDATES 2022-12-06T14:43:06Z Roger Mähler <roger.mahler@umu.se> # See #81
+
 @2022.12 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 October release
 
 20221121_DML_DENDRO_LOOKUP_STANDARD_UPDATE 2022-11-21T09:44:47Z Roger Mähler <roger.mahler@umu.se> # Dendro lookups standardization and update (#89)
 20221121_DML_DENDRO_ADD_ANALYSIS_METHODS 2022-11-21T09:51:06Z Roger Mähler <roger.mahler@umu.se> # Add analysis methods for dendro humlab-sead/sead_general_database/#4
-20221205_DML_QUALITY_CONTROL_BIBLIO_UPDATES 2022-12-06T13:15:15Z Roger Mähler <roger.mahler@umu.se> # See issue #81
-20221206_DML_QUALITY_CONTROL_DATASETS_UPDATES 2022-12-06T14:43:06Z Roger Mähler <roger.mahler@umu.se> # See #81
