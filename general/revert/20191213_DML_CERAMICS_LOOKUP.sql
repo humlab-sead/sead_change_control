@@ -1,4 +1,4 @@
--- Revert sead_change_control:20191125_DML_CERAMICS_LOOKUP from pg
+-- Revert sead_change_control:20191213_DML_CERAMICS_LOOKUP from pg
 
 BEGIN;
 

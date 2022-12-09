@@ -33,10 +33,10 @@ create table if not exists public.tbl_temperatures (
 );
 
 
-alter table public.tbl_temperatures owner to seadwrite;
+alter table public.tbl_temperatures owner to sead_master;
 
 grant select on table public.tbl_temperatures to postgrest_anon;
-grant all on table public.tbl_temperatures to sead_master;
+grant all on table public.tbl_temperatures to seadwrite;
 grant select on table public.tbl_temperatures to sead_ro;
 
 copy public.tbl_temperatures (record_id, years_bp, d180_gisp2) FROM stdin;
