@@ -60,7 +60,7 @@ begin
 
 		v_sql = replace(v_schema_template, '#SCHEMA#', v_schema);
 
-		execute v_sql:
+		execute v_sql;
 
 	end loop;
 
