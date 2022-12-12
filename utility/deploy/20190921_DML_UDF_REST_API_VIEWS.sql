@@ -1,8 +1,7 @@
--- Deploy sead_db_change_control:20221117_DDL_RESTAPI_GENERATE_SCHEMA to pg
-
+-- Deploy sead_api:20220921_DML_UDF_REST_API_VIEWS from pg
 /****************************************************************************************************************
   Change author
-    Roger Mähler, 2018-06-12
+    Roger Mähler, 2022-09-21
   Change description
     New schema used for POSTGREST REST API publication of SEAD base table
   Risk assessment
@@ -19,9 +18,6 @@
   Impact on dependent modules
 *****************************************************************************************************************/
 Set client_min_messages = warning;
-
--- Drop Schema If Exists postgrest_default_api;
--- Drop Role If Exists anonymous_rest_user;
 
 begin;
 

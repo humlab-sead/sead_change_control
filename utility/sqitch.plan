@@ -13,6 +13,7 @@
 20190411_DDL_UTILITY_ENABLE_TABLEFUNC 2019-04-11T05:56:01Z Roger Mähler <roger.mahler@umu.se> # Enable tablefunc
 20190411_DDL_UTILITY_ENABLE_PGCRYPTO 2019-04-11T08:38:38Z Roger Mähler <roger.mahler@umu.se> # Enable pgcrypt
 20180613_DDL_AUDIT_DEPLOY_AUDIT_SYSTEM 2019-04-09T08:53:03Z Roger Mähler <roger.mahler@umu.se> # https://github.com/2ndQuadrant/audit-trigger
+20190921_DML_UDF_REST_API_VIEWS 2022-11-18T10:15:20Z Roger Mähler <roger.mahler@umu.se> # UDFs for generating REST API schema
 
 @2019.12 2019-12-13T11:55:09Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
@@ -23,9 +24,6 @@
 20200109_DML_DEPS_UTILITY 2020-01-09T14:26:58Z Roger Mähler <roger.mahler@umu.se> # Table dependency function
 
 @2020.02 2020-03-15T08:38:01Z Roger Mähler <roger.mahler@umu.se> # 2020 February release
-
-20220921_DML_UDF_REST_API_VIEWS 2022-11-18T10:15:20Z Roger Mähler <roger.mahler@umu.se> # UDFs for generating REST API schema
-
 @2020.03 2022-11-18T10:17:41Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
 
 20221118_DDL_GENERATE_SQLITE_SCHEMA 2022-11-18T11:46:27Z Roger Mähler <roger.mahler@umu.se> # UDFs for generating Sqlite schema
