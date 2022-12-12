@@ -1,5 +1,5 @@
 /*
-**  Change request ID       ADMIN_SYNC_ALL_SEQUENCES
+**  Change request ID       20190407_DDL_UTILITY_SYNC_ALL_SEQUENCES
 **  Change request tag
 **  Change origin
 **  Description             Resets all sequences to MAX value of parent column
