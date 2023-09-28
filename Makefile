@@ -139,9 +139,9 @@ deploy-@2020.03-staging-test:
 	@pg-diff -f compare/config.json -c development @2020.03-staging-vs-staging-test
 
 
-deploy-@2022.10-staging-test: deploy-@2020.03-staging-test
+deploy-@2022.12-staging-test: deploy-@2020.03-staging-test
 	@for project in $(default_projects); do \
-		echo sqitch deploy --target $(SQITCH_TARGET) -C ./utility --to @2022.10 --no-verify ; \
+		echo sqitch deploy --target $(SQITCH_TARGET) -C ./utility --to @2022.12 --no-verify ; \
 	done
 
 
@@ -170,9 +170,38 @@ TARGET_STAGING_DATABASE=sead_staging_incremental_deploy
 # psql-@2020.02:
 # 	psql -h $(DEFAULT_SERVER) -d $(TARGET_STAGING_DATABASE) -U humlab_admin
 
-TARGET_RELEASE := @2019.12
+repos:
+	@sead_repositories="$(shell gh repo list humlab-sead --json "name" --jq '["name"],(.[] | [.name]) | @tsv')" \
+		&& echo $$sead_repositories
+
+issues:
+	@gh issue list --state all --limit 999 \
+		--repo humlab-sead/sead_change_control \
+		--json number,title,state,author,assignees,projectCards,body,comments,labels,body \
+		--jq '["number","title","state","author","assignees","project","body"], (.[] | [.number,.title,.state,.author.login,(.projectCards | map(.project) | map(.name) | join(",")),(.labels | map(.name) | join(",")),.body]) | @tsv'
+
+all-issues:
+	@sead_repositories="$(shell gh repo list humlab-sead --json "name" --jq '(.[] | [.name]) | @tsv')" \
+	 && filename=issue_list_$(shell date "+%Y%m%d").csv \
+	 && echo $$'repo\tnumber\ttitle\tstate\tauthor\tassignees\tproject\tbody' > $$filename \
+	 && for repo in $$sead_repositories ; do \
+	 	gh issue list --state all --limit 9999 \
+		--repo humlab-sead/$$repo \
+		--json number,title,state,author,assignees,projectCards,body,comments,labels,body \
+		--jq '(.[] | ["'$$repo'", .number,.title,.state,.author.login,(.projectCards | map(.project) | map(.name) | join(",")),(.labels | map(.name) | join(",")),.body]) | @tsv' >> $$filename; \
+	done
+
+TARGET_RELEASE := @2022.12
 
 target_prefix="sead_staging_test"
+
+# pg_dump -h humlabseadserv.srv.its.umu.se -U humlab_admin -d sead_production_202002 --schema=clearing_house --data-only --blobs --format=p --encoding=UTF8 -f
+
+clearinghouse-initial-data-snapshot:
+	pg_dump -h humlabseadserv.srv.its.umu.se -U humlab_admin -d sead_production_202002 --schema=clearing_house --data-only --blobs --format=p --encoding=UTF8 -f 2020190115_DML_CLEARINGHOUSE_DATA.sql
+
+pgc_diff:
+	@./pgc compare -x sead_staging_test_202001.snap --schemaX public -y sead_production_202001.snap --schemaY public -o sead_202001_public.compare --summarize
 
 staging_databases: staging_databases_prepare staging_databases_create staging_databases_cleanup
 	@echo "Done!"
@@ -204,3 +233,12 @@ db-diff:
 	 && poetry run python compare_options.py public.json -h $(DEFAULT_SERVER) -u humlab_admin \
 		-s public -sd sead_staging -td sead_staging_test_202002 -o ./output -r humlab_admin -dc \
 	 && popd \
+
+deploy-log:
+	@sqitch log \
+		--event deploy \
+		--target staging-test \
+		--format oneline \
+		--abbrev 6 \
+
+
