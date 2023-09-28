@@ -20,7 +20,7 @@ conflict_resolution=rename
 create_snapshot=NO
 dry_run=NO
 display_status=NO
-
+sync_sequences=NO
 target_tag=
 
 # sqitch_projects="utility general security subsystem sead_api"
@@ -45,6 +45,7 @@ usage: deploy-staging OPTIONS...
     --create-database               Create a fresh database from given source.
     --create-snapshot               Create snapshot of database.
     --dry-run                       Create snapshot of database.
+    --sync-sequences                Sync all sequences when deploy is done.
     --source-type [db|dump]         Source type i.e. a database name or a dump filename.
                                     Mandatory if "--create" is specified, else ignored.
     --source [DBNAME|FILE]          Name of source database or dump file depending on source type
@@ -80,6 +81,9 @@ do
         ;;
         --dry-run)
             dry_run="YES"; shift;
+        ;;
+        --sync-sequences)
+            sync_sequences="YES"; shift;
         ;;
         --create-database)
             create_database="YES"; shift;
@@ -358,8 +362,14 @@ function setup_target() {
 	    dbexecgz "${target_db_name}" "./starting_point/role_permissions.sql.gz"
 
 	fi
+
 }
 
+
+function sync_sequences()
+{
+    dbexec "${target_db_name}" "select sead_utility.sync_sequences();"
+}
 
 function deploy_to_tag()
 {
@@ -386,6 +396,11 @@ function deploy_to_tag()
     if [ "$target_db_exists" != "1" ]; then
         echo "error: target ${target_db_name} does not exist"
         exit 64
+    fi
+
+    if [ "$sync_sequences" == "YES" ] && [ "${source_type}" != "dump" ]; then
+        echo "info: syncing sequences (prior to deploy)..."
+	    sync_sequences
     fi
 
     target_uri="db:pg://${dbuser}@${dbhost}/${target_db_name}"
@@ -419,9 +434,15 @@ function deploy_to_tag()
             exit 64
         fi
 
+        if [ "$sync_sequences" == "YES" ]; then
+            echo "info: syncing sequences (post deploy \"${sqitch_project}\")..."
+            sync_sequences
+        fi
+
     done
 
     # less $log_file
+
 }
 
 function display_project_status()
