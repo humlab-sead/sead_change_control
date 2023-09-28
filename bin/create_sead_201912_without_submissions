@@ -1,0 +1,18 @@
+#!/bin/bash
+# This script creares a 201912 database with no submissions added
+
+export PGCLIENTENCODING=UTF8
+
+other_projects="utility security general sead_api subsystem submissions"
+submission_project="submissions"
+target_name=sead_staging_201912_without_submissions_template
+target_tag=@2019.12
+
+bin/deploy-staging --target-db-name $target_name --sqitch-project utility --source-type dump --create-database --deploy-to-tag  $target_tag --sync-sequences
+bin/deploy-staging --target-db-name $target_name --sqitch-project security --deploy-to-tag $target_tag --sync-sequences
+bin/deploy-staging --target-db-name $target_name --sqitch-project general --deploy-to-tag $target_tag --sync-sequences
+bin/deploy-staging --target-db-name $target_name --sqitch-project sead_api --deploy-to-tag $target_tag --sync-sequences
+bin/deploy-staging --target-db-name $target_name --sqitch-project subsystem --deploy-to-tag $target_tag --sync-sequences
+bin/deploy-staging --target-db-name $target_name --sqitch-project submissions --deploy-to-tag 20191221_DML_CLEARINGHOUSE_STARTINGPOINT --sync-sequences
+
+echo "Note! CR that adds Bugs id & type translations are disabled and must be run manually!"
