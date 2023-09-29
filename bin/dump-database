@@ -5,6 +5,26 @@ source .env
 dbsource=$1
 dbhost=$(hostname -A)
 dbuser="humlab_admin"
+compress_dump=no
+
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        --compress-dump)
+            compress_dump="yes"; shift;
+        ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}"
+
 
 echo_error() {
   echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
@@ -20,9 +40,15 @@ if [ "$dbsource" == "" ]; then
     usage
 fi
 
-pg_dump --file=${dbsource}_$(date +'%Y%m%d_%H%M%S').sql --format=p \
+dump_filename=${dbsource}_$(date +'%Y%m%d_%H%M%S').sql
+
+pg_dump --file=${dump_filename} --format=p \
         --create --clean \
         --dbname=$dbsource --username=$dbuser \
         --host=humlabseadserv.srv.its.umu.se \
         --if-exists --blobs --no-tablespaces \
         --no-owner --no-privileges
+
+if [ "$compress_dump" == "yes" ]; then
+    gzip $dump_filename
+fi
