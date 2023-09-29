@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+target=""
+script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        --target)
+            target="$2"; shift; shift
+        ;;
+    esac
+done
+
+
+gunzip_submissions() {
+    file=$1
+    if [ -f "$file" ]; then
+        gunzip $file ;
+    fi
+}
+
+lookup_cr_deployed() {
+    cr=$1
+    if [ "$target" != "" ]; then
+        cr_log=$(sqitch log --target $target -C ./submissions | grep $cr)
+    fi
+}
+
+gunzip_submissions $script_dir/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/bugs_import_schema.sql.gz
+gunzip_submissions $script_dir/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/public_data_diff.sql.gz

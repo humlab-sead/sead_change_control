@@ -127,6 +127,7 @@ do
     esac
 done
 
+
 function usage() {
 
     echo "$usage_message"
@@ -244,7 +245,6 @@ function setup_credentials()
         if [ -f "${dotsqitchfile}" ]; then
             echo "info: using credentials found in vault"
             source "${dotsqitchfile}"
-            export PGPASSWORD=${SQITCH_PASSWORD}
         else
             echo "error: password not specified (SQITCH_PASSWORD not defined and ${dotsqitchfile} not found)"
             usage
@@ -387,11 +387,6 @@ function deploy_to_tag()
         target_tag=
     fi
 
-    target_tag_option=
-    if [ "$target_tag" != "" ]; then
-        target_tag_option="--to $target_tag"
-    fi
-
     target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_db_name}'" )"
 
     if [ "$target_db_exists" != "1" ]; then
@@ -406,38 +401,62 @@ function deploy_to_tag()
 
     target_uri="db:pg://${dbuser}@${dbhost}/${target_db_name}"
 
-    for sqitch_project in $sqitch_projects; do
+    known_release_tags=$(grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
 
-        if [ "$target_tag" != "" ]; then
+    echo "info: known release tags: $known_release_tags"
 
-            grep -e "^$target_tag " $sqitch_project/sqitch.plan
 
-            tag_line=$(grep -e "^$target_tag " $sqitch_project/sqitch.plan)
-            echo "$tag_line"
+    for tag in $known_release_tags; do
 
-            if [ "$tag_line" == "" ]; then
-                echo "info: skipping $sqitch_project (has no tag $target_tag)"
-                continue
+        echo "deploying: tag: $tag"
+
+        for sqitch_project in $sqitch_projects; do
+
+            if [ -f "$sqitch_project/${tag}-pre-deploy-hook" ]; then
+                echo "info: running $sqitch_project/${tag}-pre-deploy-hook"
+                "$sqitch_project/${tag}-pre-deploy-hook" --target $target_uri
             fi
 
-        fi
+            if [ "$tag" != "" ]; then
 
-        echo "info: deploying $sqitch_project to $target_tag"
+                grep -e "^$tag " $sqitch_project/sqitch.plan
 
-        if [ $dry_run == "YES" ]; then
-            echo "info: sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project" $target_tag_option ;
-        else
-            sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project $target_tag_option # >> $log_file
-        fi
+                tag_line=$(grep -e "^$tag " $sqitch_project/sqitch.plan)
+                echo "$tag_line"
 
-        if [ $? -ne 0 ];  then
-            echo "failure: sqitch deploy FAILED! DB is in an undefined state." >&2
-            exit 64
-        fi
+                if [ "$tag_line" == "" ]; then
+                    echo "info: skipping $sqitch_project (has no tag $tag)"
+                    continue
+                fi
+            fi
 
-        if [ "$sync_sequences" == "YES" ]; then
-            echo "info: syncing sequences (post deploy \"${sqitch_project}\")..."
-            sync_sequences
+            echo "info: deploying $sqitch_project to $tag"
+
+            if [ $dry_run == "YES" ]; then
+                echo "info: sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project" --to $tag ;
+            else
+                sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project --to $tag # >> $log_file
+            fi
+
+            if [ $? -ne 0 ];  then
+                echo "failure: sqitch deploy FAILED! DB is in an undefined state." >&2
+                exit 64
+            fi
+
+            if [ "$sync_sequences" == "YES" ]; then
+                echo "info: syncing sequences (post deploy \"${sqitch_project}\")..."
+                sync_sequences
+            fi
+
+            if [ -f $sqitch_project/"${tag}-post-deploy-hook" ]; then
+                echo "info: running $sqitch_project/${tag}-post-deploy-hook..."
+                "$sqitch_project/${tag}-post-deploy-hook" --target $target_uri
+            fi
+
+        done
+
+        if [ "$tag" == "$target_tag" ]; then
+            break
         fi
 
     done
@@ -467,7 +486,6 @@ function display_project_status()
 mkdir -p logs
 
 log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${target_db_name}_${source_type}.log"
-echo "info: logging output to $log_file"
 
 if [ "$display_status" == "YES" ]; then
     display_project_status
