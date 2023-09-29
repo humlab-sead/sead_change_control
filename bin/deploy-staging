@@ -244,6 +244,7 @@ function setup_credentials()
         if [ -f "${dotsqitchfile}" ]; then
             echo "info: using credentials found in vault"
             source "${dotsqitchfile}"
+            export PGPASSWORD=${SQITCH_PASSWORD}
         else
             echo "error: password not specified (SQITCH_PASSWORD not defined and ${dotsqitchfile} not found)"
             usage
@@ -466,6 +467,7 @@ function display_project_status()
 mkdir -p logs
 
 log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${target_db_name}_${source_type}.log"
+echo "info: logging output to $log_file"
 
 if [ "$display_status" == "YES" ]; then
     display_project_status
