@@ -1,4 +1,4 @@
--- Deploy sead_db_change_control:20221117_DDL_RESTAPI_GENERATE_SCHEMA to pg
+-- Deploy sead_db_change_control:20221117_DML_RESTAPI_GENERATE_SCHEMA to pg
 
 /****************************************************************************************************************
   Change author

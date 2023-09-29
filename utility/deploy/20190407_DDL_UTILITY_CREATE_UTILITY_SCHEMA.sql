@@ -205,7 +205,6 @@ begin;
             end if;
             if not dry_run then
                 execute v_sql;
-	            raise notice '%', v_sql;
             else
 	            raise notice '%', v_sql;
 			end if;

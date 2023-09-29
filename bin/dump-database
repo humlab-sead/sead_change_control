@@ -24,4 +24,5 @@ pg_dump --file=${dbsource}_$(date +'%Y%m%d_%H%M%S').sql --format=p \
         --create --clean \
         --dbname=$dbsource --username=$dbuser \
         --host=humlabseadserv.srv.its.umu.se \
-        --if-exists --blobs --no-tablespaces
+        --if-exists --blobs --no-tablespaces \
+        --no-owner --no-privileges

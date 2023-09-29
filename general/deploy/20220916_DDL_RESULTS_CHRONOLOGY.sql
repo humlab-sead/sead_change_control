@@ -183,6 +183,8 @@ do $$
     declare missing_count_sheets int;
     begin
 
+        perform sead_utility.sync_sequences();
+
         /* Unknown count sheets */
         missing_count_sheets = (
             select count(*) --site_name, count_sheet_code, string_agg(sample_name, ', ')
@@ -371,7 +373,8 @@ begin
 
         end loop;
 
-    -- TODO - reset all serials using UDF
+        perform sead_utility.sync_sequences();
+
     end;
 end $$;
 

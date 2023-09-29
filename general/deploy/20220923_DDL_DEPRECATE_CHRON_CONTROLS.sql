@@ -53,14 +53,15 @@ begin
         /* SEAD facet API: Drop dependent objects */
         begin
 
-            delete from facet.table where table_or_udf_name = 'tbl_chron_controls';
+            -- FIXME #103 Delete of records disabled
+            -- delete from facet.table where table_or_udf_name = 'tbl_chron_controls';
 
             drop view if exists postgrest_api.chron_control_types;
             drop view if exists postgrest_default_api.chron_control_type;
 
             -- TODO delete table references from facet system (table_relation, ...=
 
-            delete from facet.table where table_or_udf_name = 'tbl_chron_control_types';
+            -- delete from facet.table where table_or_udf_name = 'tbl_chron_control_types';
 
         end;
 
