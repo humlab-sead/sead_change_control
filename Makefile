@@ -51,7 +51,7 @@ help:
 .PHONY: create-staging-from-scratch
 create-staging-from-scratch: are-you-sure
 	@echo "Create sead_staging based on sead_master_9_public..."
-	@./bin/deploy-staging ....not impemented...
+	@echo please run ./bin/deploy-staging from command line recipi not impemented...
 	@echo "Done!"
 
 .PHONY: deploy-staging-to-production
@@ -77,18 +77,22 @@ apa:
 .ONESHELL: status
 status:
 	@for target_database in $(target_databases); do \
-		echo "Changes not deployed in \"$$target_database\":" ; \
+		echo "#######################################################################" ; \
+		echo "# Changes not deployed in \"$$target_database\":" ; \
+		echo "#######################################################################" ; \
 		for project in $(sort $(projects)); do \
-			echo "  $$project: " ; \
+			echo "\"$$target_database\"  $$project: " ; \
 			sqitch status --target $$target_database -C $$project \
-				| grep -v "^#" \
-				| grep -v '^[[:space:]]*$$' \
-				| grep -v "^Undeployed change" \
-				| grep -v "^No changes deployed" \
-				| grep -v "^Nothing to deploy"; \
+			| grep -v "^#" \
+			; \
 			echo ; \
 		done \
 	done
+
+# | grep -v '^[[:space:]]*$$' \
+# | grep -v "^Undeployed change" \
+# | grep -v "^No changes deployed" \
+# | grep -v "^Nothing to deploy"; 
 
 show-config:
 	@sqitch config -l
@@ -195,13 +199,8 @@ TARGET_RELEASE := @2022.12
 
 target_prefix="sead_staging_test"
 
-# pg_dump -h humlabseadserv.srv.its.umu.se -U humlab_admin -d sead_production_202002 --schema=clearing_house --data-only --blobs --format=p --encoding=UTF8 -f
-
 clearinghouse-initial-data-snapshot:
 	pg_dump -h humlabseadserv.srv.its.umu.se -U humlab_admin -d sead_production_202002 --schema=clearing_house --data-only --blobs --format=p --encoding=UTF8 -f 2020190115_DML_CLEARINGHOUSE_DATA.sql
-
-pgc_diff:
-	@./pgc compare -x sead_staging_test_202001.snap --schemaX public -y sead_production_202001.snap --schemaY public -o sead_202001_public.compare --summarize
 
 staging_databases: staging_databases_prepare staging_databases_create staging_databases_cleanup
 	@echo "Done!"
@@ -242,3 +241,19 @@ deploy-log:
 		--abbrev 6 \
 
 
+# sqitch-check-all-revisions:
+# 	@for project in $(default_projects); do \
+# 		echo "info: checking $$project" ; \
+# 		rm -rf /tmp/$$project ; \
+# 		./bin/file-versions $$project/sqitch.plan /tmp/$$project ; \
+# 		shopt -s nullglob ; \
+# 		for file in /tmp/$$project/sqitch.plan* ; do \
+# 			echo sqitch check --target db:pg://humlab_admin@humlabseadserv.srv.its.umu.se/sead_staging --plan-file $$file ; \
+# 		done ; \
+# 		shopt -u nullglob ; \
+# 	done
+
+sqitch-verify-all-revisions:
+	@for project in $(default_projects); do \
+		sqitch verify --target db:pg://humlab_admin@humlabseadserv.srv.its.umu.se/sead_production_201912 --plan-file $$project/sqitch.plan ; \
+	done
