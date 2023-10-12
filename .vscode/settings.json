@@ -23,5 +23,17 @@
         "statusBarItem.remoteForeground": "#e7e7e7",
         "commandCenter.border": "#e7e7e799"
     },
-    "peacock.remoteColor": "#9d764a"
+    "peacock.remoteColor": "#9d764a",
+    "Prettier-SQL.keywordCase": "lower",
+    "Prettier-SQL.SQLFlavourOverride": "postgresql",
+    "Prettier-SQL.commaPosition": "after",
+    "Prettier-SQL.indentStyle": "standard",
+    "Prettier-SQL.logicalOperatorNewline": "before",
+    "Prettier-SQL.newlineBeforeSemicolon": false,
+    "Prettier-SQL.tabulateAlias": true,
+    "python.testing.pytestArgs": [
+        "src"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
 }
