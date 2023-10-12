@@ -5,23 +5,24 @@ export PGCLIENTENCODING=UTF8
 #echo "x.x.1.181" >  ~/.default.sead.server
 #echo "x" >  ~/.default.sead.username
 
-default_source_db_name=sead_master_9
-default_source_dump_file="./starting_point/sead_master_9_public.sql.gz"
+DEFAULT_SOURCE_DB_NAME=sead_master_9
+DEFAULT_SOURCE_DUMP_FILE="./starting_point/sead_master_9_public.sql.gz"
 
-dothostfile=~/vault/.default.sead.server
-dotuserfile=~/vault/.default.sead.username
-dotsqitchfile=~/vault/.sqitch.env
+DOT_HOST_FILE=~/vault/.default.sead.server
+DOT_USER_FILE=~/vault/.default.sead.username
+DOT_SQITCH_FILE=~/vault/.sqitch.env
 
-target_db_name=
-create_database=NO
-source_type=
-source_name=
-conflict_resolution=rename
-create_snapshot=NO
-dry_run=NO
-display_status=NO
-sync_sequences=NO
-target_tag=
+g_target_name=
+g_create_database=NO
+g_source_type=
+g_source_name=
+g_conflict_resolution=rename
+g_create_snapshot=NO
+g_dry_run=NO
+g_display_status=NO
+g_sync_sequences=NO
+g_target_tag=
+g_target_chain_tag=
 
 # sqitch_projects="utility general security subsystem sead_api"
 default_projects="utility security general sead_api subsystem submissions"
@@ -29,11 +30,11 @@ sqitch_projects=$(find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy
 
 default_server="humlabseadserv.srv.its.umu.se"
 
-if [[ -f "$dothostfile" ]]; then
-    dbhost=`cat $dothostfile`
+if [[ -f "$DOT_HOST_FILE" ]]; then
+    dbhost=`cat $DOT_HOST_FILE`
 fi
-if [[ -f "$dotuserfile" ]]; then
-    dbuser=`cat $dotuserfile`
+if [[ -f "$DOT_USER_FILE" ]]; then
+    dbuser=`cat $DOT_USER_FILE`
 fi
 
 usage_message=$(cat <<EOF
@@ -55,6 +56,7 @@ usage: deploy-staging OPTIONS...
     --on-conflict [drop|rename]     What to do if target database exists (rename)
                                     Optional if "--create" is specified, else ignored. Default rename.
     --deploy-to-tag TAG             Sqitch deploy to tag. Optional. Set tag to "latest" for full deploy.
+    --deploy-chain-to-tag TAG       Sqitch deploy entire chain of databases up to tag. Optional. Set tag to "latest" for full deploy.
     --sqitch-project PROJECT        Sqitch project to deploy
 
 
@@ -74,25 +76,25 @@ do
             dbuser="$2"; shift; shift
         ;;
         --target-db-name)
-            target_db_name="$2"; shift; shift
+            g_target_name="$2"; shift; shift
         ;;
         --create-snapshot)
-            create_snapshot="YES"; shift;
+            g_create_snapshot="YES"; shift;
         ;;
         --dry-run)
-            dry_run="YES"; shift;
+            g_dry_run="YES"; shift;
         ;;
         --sync-sequences)
-            sync_sequences="YES"; shift;
+            g_sync_sequences="YES"; shift;
         ;;
         --create-database)
-            create_database="YES"; shift;
+            g_create_database="YES"; shift;
         ;;
         --display-status)
-            display_status="YES"; shift;
+            g_display_status="YES"; shift;
         ;;
         --source)
-            source_name="$2";
+            g_source_name="$2";
             shift; shift
         ;;
         --sqitch-project)
@@ -100,14 +102,14 @@ do
             shift; shift
         ;;
         --source-type)
-            source_type="$2";
-            if [ "$source_name" == "" ]; then
-                if [ "$source_type" == "dump" ]; then
-                    source_name=${default_source_dump_file}
-                elif [ "$source_type" == "db" ]; then
-                    source_name=${default_source_db_name}
-                elif [ "$source_type" == "database" ]; then
-                    source_name=${default_source_db_name}
+            g_source_type="$2";
+            if [ "$g_source_name" == "" ]; then
+                if [ "$g_source_type" == "dump" ]; then
+                    g_source_name=${DEFAULT_SOURCE_DUMP_FILE}
+                elif [ "$g_source_type" == "db" ]; then
+                    g_source_name=${DEFAULT_SOURCE_DB_NAME}
+                elif [ "$g_source_type" == "database" ]; then
+                    g_source_name=${DEFAULT_SOURCE_DB_NAME}
                 else
                     echo "error: source-type must be db or dump"
                 fi
@@ -115,10 +117,13 @@ do
             shift; shift
         ;;
         --deploy-to-tag)
-            target_tag="$2"; shift; shift
+            g_target_tag="$2"; shift; shift
+        ;;
+        --deploy-chain-to-tag)
+            g_target_chain_tag="$2"; shift; shift
         ;;
         --on-conflict)
-            conflict_resolution="$2"; shift; shift;
+            g_conflict_resolution="$2"; shift; shift;
         ;;
         *)
             POSITIONAL+=("$1") # save it in an array for later
@@ -136,24 +141,24 @@ function usage() {
 function create_snapshot()
 {
 
-    if [ "${source_name}" == "" ]; then
+    if [ "${g_source_name}" == "" ]; then
         echo "error: you must specify source database name";
         usage
         exit 64
     fi
 
-    if [ "${target_db_name}" != "" ] || [ "${target_tag}" != "" ]  || [ "${source_type}" == "dump" ] ; then
+    if [ "${g_target_name}" != "" ] || [ "${g_target_tag}" != "" ]  || [ "${g_source_type}" == "dump" ] ; then
         echo "error: invalid options for snapshot";
         usage
         exit 64
     fi
 
-    snapshot_name=./starting_point/${source_name}_`date "+%Y%m%d"`.sql
+    snapshot_name=./starting_point/${g_source_name}_`date "+%Y%m%d"`.sql
 
-    if [ "$dry_run" == "YES" ]; then
-        echo pg_dump -C -c --if-exists -d "${source_name}" -h "$dbhost" -F p -U $dbuser -f $snapshot_name
+    if [ "$g_dry_run" == "YES" ]; then
+        echo pg_dump -C -c --if-exists -d "${g_source_name}" -h "$dbhost" -F p -U $dbuser -f $snapshot_name
     else
-        pg_dump -C -c --if-exists -d "${source_name}" -h "$dbhost" -F p -U $dbuser -f $snapshot_name
+        pg_dump -C -c --if-exists -d "${g_source_name}" -h "$dbhost" -F p -U $dbuser -f $snapshot_name
         gzip $snapshot_name
     fi
 }
@@ -169,57 +174,63 @@ function verify_options()
         exit 64
     fi
 
-    if [ "$create_snapshot" == "YES" ] && [ "$create_database" == "YES" ]; then
+    if [ "$g_create_snapshot" == "YES" ] && [ "$g_create_database" == "YES" ]; then
         echo "error: cannot create snapshot AND database at the same time"
         usage
         exit 64
     fi
 
-    if [ "$create_snapshot" == "YES" ]; then
+    if [ "$g_target_chain_tag" != "" && "$g_target_tag" != "" ]; then
+        echo "error: cannot specify both --deploy-to-tag and --deploy-chain-to-tag"
+        usage
+        exit 64
+    fi
+
+    if [ "$g_create_snapshot" == "YES" ]; then
         return
     fi
 
-    if [ "$target_db_name" == "" ]; then
+    if [ "$g_target_name" == "" ]; then
         echo "error: you need to specify a target database";
         usage
         exit 64
     fi
 
-    if [ "$target_db_name" == "sead_production" ]; then
+    if [ "$g_target_name" == "sead_production" ]; then
         echo "error: you are not allowed to deploy directly to sead_production!";
         usage
         exit 64
     fi
 
-    if [ "$create_database" == "NO" ]; then
+    if [ "$g_create_database" == "NO" ]; then
 
-        echo "notice: using existing target database $target_db_name";
+        echo "notice: using existing target database $g_target_name";
         echo "  ==> Settings "source-db", "source-sql-file" and "source-type" is ignored.";
 
-        if [ "${source_type}" != "" ]; then
-            echo "notice: ignoring option --source-type $source_type (using existing db)";
+        if [ "${g_source_type}" != "" ]; then
+            echo "notice: ignoring option --source-type $g_source_type (using existing db)";
         fi
 
-        if [ "${source_name}" != "" ]; then
-            echo "notice: ignoring option --source $source_name (using existing db)";
+        if [ "${g_source_name}" != "" ]; then
+            echo "notice: ignoring option --source $g_source_name (using existing db)";
         fi
 
-    elif [ "$create_database" == "YES" ]; then
+    elif [ "$g_create_database" == "YES" ]; then
 
-        if [ "${source_type}" != "db" ] && [ "${source_type}" != "dump" ]; then
+        if [ "${g_source_type}" != "db" ] && [ "${g_source_type}" != "dump" ]; then
             echo "error: you need to specify a db source type (db or dump) for new database";
             usage
             exit 64
         fi
 
-        if [ "${source_type}" == "" ]; then
+        if [ "${g_source_type}" == "" ]; then
             echo "error: source type must be specified when --create  is specified"
             usage
             exit 64
         fi
 
-        if [ "${source_name}" == "" ]; then
-            echo "error: source ${source_type} name not specified"
+        if [ "${g_source_name}" == "" ]; then
+            echo "error: source ${g_source_type} name not specified"
             usage
             exit 64
         fi
@@ -242,11 +253,11 @@ function setup_credentials()
     fi
 
     if [ "$SQITCH_PASSWORD" == "" ]; then
-        if [ -f "${dotsqitchfile}" ]; then
+        if [ -f "${DOT_SQITCH_FILE}" ]; then
             echo "info: using credentials found in vault"
-            source "${dotsqitchfile}"
+            source "${DOT_SQITCH_FILE}"
         else
-            echo "error: password not specified (SQITCH_PASSWORD not defined and ${dotsqitchfile} not found)"
+            echo "error: password not specified (SQITCH_PASSWORD not defined and ${DOT_SQITCH_FILE} not found)"
             usage
             exit 64
         fi
@@ -256,7 +267,7 @@ function setup_credentials()
 function dbexec() {
     db_name=$1
     sql=$2
-    if [ "$dry_run" == "YES" ]; then
+    if [ "$g_dry_run" == "YES" ]; then
         echo psql -v ON_ERROR_STOP=1 --host=$dbhost --username=$dbuser --no-password --dbname=$db_name --command "$sql"
     else
         echo $sql >> $log_file
@@ -271,7 +282,7 @@ function dbexec() {
 function dbexecgz() {
     db_name=$1
     gz_file=$2
-    if [ "$dry_run" == "YES" ]; then
+    if [ "$g_dry_run" == "YES" ]; then
         echo "info: executing file $gz_file on $db_name..."
     else
         echo "info: executing file $gz_file..." >> $log_file
@@ -284,11 +295,11 @@ function dbexecgz() {
 }
 
 function kick_out_users() {
-    echo "info: kicking out users from ${source_name} and ${target_db_name}..."
+    echo "info: kicking out users from ${g_source_name} and ${g_target_name}..."
     sql=$(cat <<____EOF
         select pg_terminate_backend(pg_stat_activity.pid)
         from pg_stat_activity
-        where pg_stat_activity.datname in ('${target_db_name}', '${source_name}')
+        where pg_stat_activity.datname in ('${g_target_name}', '${g_source_name}')
           and pid <> pg_backend_pid();
 ____EOF
     )
@@ -297,36 +308,42 @@ ____EOF
 
 function setup_target() {
 
+    local target_name=$1
+    local create_database=$2
+    local source_type=$3
+    local source_name=$4
+    local conflict_resolution=$5
+
     if [ "$create_database" != "YES" ]; then
-        echo "info: using existing database ${target_db_name}..."
+        echo "info: using existing database ${target_name}..."
         return
     fi
 
-    echo "info: setting up a new database ${target_db_name}..."
+    echo "info: setting up a new database ${target_name}..."
 
-    target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_db_name}'" )"
+    target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
 
 	if [ "$target_db_exists" = "1" ]
 	then
 
 	    if [ "$conflict_resolution" == "rename" ]; then
 
-            deprecated_name=${target_db_name}_`date "+%Y%m%d%H%M%S"`
+            deprecated_name=${target_name}_`date "+%Y%m%d%H%M%S"`
 
-		    echo "info:  renaming ${target_db_name} to ${deprecated_name}..."
+		    echo "info:  renaming ${target_name} to ${deprecated_name}..."
 
-		    sql="alter database ${target_db_name} rename to ${deprecated_name};"
+		    sql="alter database ${target_name} rename to ${deprecated_name};"
 		    dbexec "postgres" "$sql"
 
 	    elif [ "$conflict_resolution" == "drop" ]; then
 
-		    echo "info:  dropping ${target_db_name}..."
+		    echo "info:  dropping ${target_name}..."
 
-		    sql="drop database if exists ${target_db_name};"
+		    sql="drop database if exists ${target_name};"
 		    dbexec "postgres" "$sql"
 
 	    else
-		    echo "error:  target database ${target_db_name} exists. Drop database or use --on-conflict [drop|rename] to resolve"
+		    echo "error:  target database ${target_name} exists. Drop database or use --on-conflict [drop|rename] to resolve"
 		    exit 64
 	    fi
 	fi
@@ -339,8 +356,8 @@ function setup_target() {
 		    exit 64
 	    fi
 
-	    echo "info:  creating database ${target_db_name} using template ${source_name}..."
-	    dbexec "postgres" "create database ${target_db_name} with template ${source_name} owner sead_master;"
+	    echo "info:  creating database ${target_name} using template ${source_name}..."
+	    dbexec "postgres" "create database ${target_name} with template ${source_name} owner sead_master;"
 
 	elif [ "${source_type}" == "dump" ]; then
 
@@ -350,17 +367,17 @@ function setup_target() {
 		    exit 64
 	    fi
 
-	    echo "info:  creating database ${target_db_name} using dump \"$source_name\"..."
-	    dbexec "postgres" "create database ${target_db_name} owner sead_master;"
+	    echo "info:  creating database ${target_name} using dump \"$source_name\"..."
+	    dbexec "postgres" "create database ${target_name} owner sead_master;"
 
-	    dbexec "$target_db_name" "drop schema if exists public;"
+	    dbexec "$target_name" "drop schema if exists public;"
 
 	    echo "info:  applying source SQL script..."
-	    dbexecgz "$target_db_name" "$source_name"
+	    dbexecgz "$target_name" "$source_name"
 
 	    echo "info:  applying default permissions..."
         # FIXME: Loop and apply all gz-files found in starting_point/
-	    dbexecgz "${target_db_name}" "./starting_point/role_permissions.sql.gz"
+	    dbexecgz "${target_name}" "./starting_point/role_permissions.sql.gz"
 
 	fi
 
@@ -369,14 +386,16 @@ function setup_target() {
 
 function sync_sequences()
 {
-    dbexec "${target_db_name}" "select sead_utility.sync_sequences();"
+    dbexec "${g_target_name}" "select sead_utility.sync_sequences();"
 }
 
 function deploy_to_tag()
 {
     # Deploys all project to specified release tag
-    # TODO: Releases all previous tags up unitl to target tag project by project.
-    #       This must be changed so that a release are made tag-by-tag over all projects
+
+    local target_name=$1
+    local target_tag=$2
+    local source_type=$3
 
     if [ "$target_tag" == "" ]; then
         echo "error: target deploy tag not specified"
@@ -387,28 +406,33 @@ function deploy_to_tag()
         target_tag=
     fi
 
-    target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_db_name}'" )"
+    local target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
 
     if [ "$target_db_exists" != "1" ]; then
-        echo "error: target ${target_db_name} does not exist"
+        echo "error: target ${target_name} does not exist"
         exit 64
     fi
 
-    if [ "$sync_sequences" == "YES" ] && [ "${source_type}" != "dump" ]; then
+    if [ "$g_sync_sequences" == "YES" ] && [ "${source_type}" != "dump" ]; then
         echo "info: syncing sequences (prior to deploy)..."
 	    sync_sequences
     fi
 
-    target_uri="db:pg://${dbuser}@${dbhost}/${target_db_name}"
+    local target_uri="db:pg://${dbuser}@${dbhost}/${target_name}"
 
-    known_release_tags=$(grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
+    local known_release_tags=$(grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
 
     echo "info: known release tags: $known_release_tags"
-
 
     for tag in $known_release_tags; do
 
         echo "deploying: tag: $tag"
+
+
+        # for plan in $(find . -name '*.plan'); do
+        #     sqitch --plan-file "$plan" tag xyz -m 'Tag xyz'
+        # done
+
 
         for sqitch_project in $sqitch_projects; do
 
@@ -421,7 +445,7 @@ function deploy_to_tag()
 
                 grep -e "^$tag " $sqitch_project/sqitch.plan
 
-                tag_line=$(grep -e "^$tag " $sqitch_project/sqitch.plan)
+                local tag_line=$(grep -e "^$tag " $sqitch_project/sqitch.plan)
                 echo "$tag_line"
 
                 if [ "$tag_line" == "" ]; then
@@ -432,18 +456,19 @@ function deploy_to_tag()
 
             echo "info: deploying $sqitch_project to $tag"
 
-            if [ $dry_run == "YES" ]; then
+            if [ $g_dry_run == "YES" ]; then
                 echo "info: sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project" --to $tag ;
+                continue ;
             else
                 sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project --to $tag # >> $log_file
             fi
 
             if [ $? -ne 0 ];  then
-                echo "failure: sqitch deploy FAILED! DB is in an undefined state." >&2
+                echo "error: sqitch deploy FAILED! DB is in an undefined state." >&2
                 exit 64
             fi
 
-            if [ "$sync_sequences" == "YES" ]; then
+            if [ "$g_sync_sequences" == "YES" ]; then
                 echo "info: syncing sequences (post deploy \"${sqitch_project}\")..."
                 sync_sequences
             fi
@@ -465,10 +490,39 @@ function deploy_to_tag()
 
 }
 
+function deploy_chain_to_tag()
+{
+    # Deploys all databases in chain to specified release tag
+    local target_name=$1
+    local target_tag=$2
+    local source_type=$3
+    local source_name=$4
+
+    local known_release_tags=$(grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
+
+    for tag in $known_release_tags; do
+
+        tag_target_name=`echo ${target_name}_${tag} | tr -d '@.'`
+
+        setup_target $tag_target_name $g_create_database $source_type $source_name $g_conflict_resolution
+        deploy_to_tag $tag_target_name $tag $source_type
+
+        if [ "$tag" == "$target_tag" ]; then
+            break
+        fi
+        
+        # FIXME: add flag to create each database in chain from dump
+        
+        source_type="db"
+        source_name=$tag_target_name
+
+    done
+}
+
 function display_project_status()
 {
-    echo "info: Changes not deployed in \"$target_db_name\":"
-    target_uri="db:pg://${dbuser}@${dbhost}/${target_db_name}"
+    echo "info: Changes not deployed in \"$g_target_name\":"
+    target_uri="db:pg://${dbuser}@${dbhost}/${g_target_name}"
 
     for sqitch_project in $sqitch_projects; do
         echo "info: pending CRs \"$sqitch_project\": "
@@ -485,14 +539,14 @@ function display_project_status()
 
 mkdir -p logs
 
-log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${target_db_name}_${source_type}.log"
+log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${g_target_name}_${g_source_type}.log"
 
-if [ "$display_status" == "YES" ]; then
+if [ "$g_display_status" == "YES" ]; then
     display_project_status
     exit 64
 fi
 
-if [ "$create_snapshot" == "YES" ]; then
+if [ "$g_create_snapshot" == "YES" ]; then
     create_snapshot
     exit 64
 fi
@@ -503,5 +557,10 @@ verify_options
 setup_credentials
 kick_out_users
 
-setup_target
-deploy_to_tag
+if [ "$g_target_chain_tag" != "" ]; then
+    deploy_chain_to_tag $g_target_name $g_target_chain_tag $g_source_type $g_source_name
+else
+    setup_target $g_target_name $g_create_database $g_source_type $g_source_name $g_conflict_resolution
+    deploy_to_tag $g_target_name $g_target_tag $g_source_type
+fi
+
