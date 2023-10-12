@@ -1,0 +1,42 @@
+#!/bin/bash
+# See http://stackoverflow.com/questions/12850030/git-getting-all-previous-version-of-a-specific-file-folder
+
+SHELL=/bin/bash
+
+set -e
+
+if ! git rev-parse --show-toplevel >/dev/null 2>&1 ; then
+    echo "Error: you must run this from within a git working directory" >&2
+    exit 1
+fi
+
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+    echo "Usage: $0 <relative path to file> [<output directory>]" >&2
+    exit 2
+fi
+
+file_path="$1"
+
+target_folder=/tmp/all_versions_exported
+if [ -n "$2" ]; then
+    target_folder="$2"
+fi
+
+file_name="$(basename "$file_path")"
+
+if [ ! -d "$target_folder" ]; then
+    echo "Creating directory '$target_folder'"
+    mkdir -p "$target_folder"
+fi
+echo "Writing files to '$target_folder'"
+git log --diff-filter=d --date-order --reverse --format="%ad %H" --date=iso-strict "$file_path" | grep -v '^commit' | \
+    while read LINE; do \
+        commit_date=`echo $LINE | cut -d ' ' -f 1`; \
+        commit_timestamp=`echo  ${commit_date:0:10}_${commit_date:11:8} | tr -d ':-'`; \
+        commit_sha=`echo $LINE | cut -d ' ' -f 2`; \
+        printf '.' ; \
+        git cat-file -p "$commit_sha:$file_path" > "$target_folder/$file_name.$commit_timestamp.$commit_sha" ; \
+    done
+echo
+
+exit 0
