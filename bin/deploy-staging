@@ -23,12 +23,15 @@ g_display_status=NO
 g_sync_sequences=NO
 g_target_tag=
 g_target_chain_tag=
+g_ignore_git_tags=NO
 
 # sqitch_projects="utility general security subsystem sead_api"
 default_projects="utility security general sead_api subsystem submissions"
 sqitch_projects=$(find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy \; -print)
 
 default_server="humlabseadserv.srv.its.umu.se"
+
+log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${g_target_name}_${g_source_type}.log"
 
 if [[ -f "$DOT_HOST_FILE" ]]; then
     dbhost=`cat $DOT_HOST_FILE`
@@ -47,6 +50,7 @@ usage: deploy-staging OPTIONS...
     --create-snapshot               Create snapshot of database.
     --dry-run                       Create snapshot of database.
     --sync-sequences                Sync all sequences when deploy is done.
+    --ignore-git-tags               Continue even if sqitch tag is missing in git.
     --source-type [db|dump]         Source type i.e. a database name or a dump filename.
                                     Mandatory if "--create" is specified, else ignored.
     --source [DBNAME|FILE]          Name of source database or dump file depending on source type
@@ -59,6 +63,21 @@ usage: deploy-staging OPTIONS...
     --deploy-chain-to-tag TAG       Sqitch deploy entire chain of databases up to tag. Optional. Set tag to "latest" for full deploy.
     --sqitch-project PROJECT        Sqitch project to deploy
 
+examples
+
+Deploy changes to a new database based on sead_production_202401 and to tag @2024.03:
+
+λ ./bin/deploy-staging --create-database --source-type db --source sead_production_202401 --deploy-to-tag @2024.03
+
+Deploy changes to a new database from starting point (sead_master_9) to tag @2024.03:
+
+λ ./bin/deploy-staging --create-database --source-type dump --target-db-name sead_test_202403 --deploy-to-tag @2024.03
+
+
+Deploy entire sequence of monthly databases starting from sead_master_9 equal du (--source ./starting_point/sead_master_9_public.sql.gz ) and ending at tag @2022.12.
+The databases will be named sead_test_yyymmm based on tag. I a database already exists then it will be renamed to sead_test_yyymmm_YYYYMMDDHHMMSS.
+
+λ ./bin/deploy-staging --create-database --source-type dump --target-db-name sead_test --deploy-chain-to-tag @2022.12
 
 EOF
 )
@@ -86,6 +105,9 @@ do
         ;;
         --sync-sequences)
             g_sync_sequences="YES"; shift;
+        ;;
+        --ignore-git-tags)
+            g_ignore_git_tags="YES"; shift;
         ;;
         --create-database)
             g_create_database="YES"; shift;
@@ -170,7 +192,7 @@ function verify_options()
 {
 
     if [ "$dbhost" != "$default_server" ]; then
-        echo "error: this script can for now only be run on $default_server";
+        echo "error: this script can  (for now) only be executed on $default_server";
         exit 64
     fi
 
@@ -191,13 +213,13 @@ function verify_options()
     fi
 
     if [ "$g_target_name" == "" ]; then
-        echo "error: you need to specify a target database";
+        echo "error: you need to specify name of target database (--target-db-name)";
         usage
         exit 64
     fi
 
     if [ "$g_target_name" == "sead_production" ]; then
-        echo "error: you are not allowed to deploy directly to sead_production!";
+        echo "error: you are **not** allowed to deploy directly to sead_production!";
         usage
         exit 64
     fi
@@ -207,12 +229,13 @@ function verify_options()
         echo "notice: using existing target database $g_target_name";
         echo "  ==> Settings "source-db", "source-sql-file" and "source-type" is ignored.";
 
-        if [ "${g_source_type}" != "" ]; then
+        if [ "${g_source_type}" != "" ] && [ "${g_source_type}" != "db" ]; then
             echo "notice: ignoring option --source-type $g_source_type (using existing db)";
+            g_source_type=db
         fi
 
-        if [ "${g_source_name}" != "" ]; then
-            echo "notice: ignoring option --source $g_source_name (using existing db)";
+        if [ "${g_source_name}" == "" ]; then
+            echo "error: missing option --source $g_source_name";
         fi
 
     elif [ "$g_create_database" == "YES" ]; then
@@ -321,14 +344,14 @@ function setup_target() {
 
     echo "info: setting up a new database ${target_name}..."
 
-    target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
+    local target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
 
 	if [ "$target_db_exists" = "1" ]
 	then
 
 	    if [ "$conflict_resolution" == "rename" ]; then
 
-            deprecated_name=${target_name}_`date "+%Y%m%d%H%M%S"`
+            local deprecated_name=${target_name}_`date "+%Y%m%d%H%M%S"`
 
 		    echo "info:  renaming ${target_name} to ${deprecated_name}..."
 
@@ -389,6 +412,43 @@ function sync_sequences()
     dbexec "${g_target_name}" "select sead_utility.sync_sequences();"
 }
 
+
+function deployed_tags()
+{
+    local target_name=$1
+    local target_project=$2
+    local target_uri="db:pg://${dbuser}@${dbhost}/${target_name}"
+    echo `sqitch status --target $target_uri -C ./$target_project --show-tags | grep -E "^# +@"| awk '{ print $2 ; }' ;`
+}
+
+
+function check_git_tags()
+{
+    local target_tag=$1
+    local break_if_missing=$2
+    local known_release_tags=$(grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
+    for tag in $known_release_tags; do
+        check_git_tag $tag $break_if_missing
+        if [ "$tag" == "$target_tag" ]; then
+            break
+        fi
+    done
+}
+
+function check_git_tag()
+{
+    local tag=$1
+    local break_if_missing=$2
+    if ! git rev-parse "$tag" >/dev/null 2>&1; then
+        if [ "$break_if_missing" == "YES" ]; then
+            echo "error: tag '$tag' does not exist in git."
+            exit 64
+        else
+            echo "warning: tag '$tag' does not exist in git."
+        fi
+    fi
+}
+
 function deploy_to_tag()
 {
     # Deploys all project to specified release tag
@@ -422,31 +482,19 @@ function deploy_to_tag()
 
     local known_release_tags=$(grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
 
-    echo "info: known release tags: $known_release_tags"
-
     for tag in $known_release_tags; do
 
-        echo "deploying: tag: $tag"
-
+        echo "info: deploying tag $tag"
 
         # for plan in $(find . -name '*.plan'); do
         #     sqitch --plan-file "$plan" tag xyz -m 'Tag xyz'
         # done
 
-
         for sqitch_project in $sqitch_projects; do
-
-            if [ -f "$sqitch_project/${tag}-pre-deploy-hook" ]; then
-                echo "info: running $sqitch_project/${tag}-pre-deploy-hook"
-                "$sqitch_project/${tag}-pre-deploy-hook" --target $target_uri
-            fi
 
             if [ "$tag" != "" ]; then
 
-                grep -e "^$tag " $sqitch_project/sqitch.plan
-
                 local tag_line=$(grep -e "^$tag " $sqitch_project/sqitch.plan)
-                echo "$tag_line"
 
                 if [ "$tag_line" == "" ]; then
                     echo "info: skipping $sqitch_project (has no tag $tag)"
@@ -454,29 +502,56 @@ function deploy_to_tag()
                 fi
             fi
 
+            IFS=$' ' read -ra v_deployed_tags <<< `deployed_tags $target_name $sqitch_project`
+
+            local is_deployed=false
+            for item in "${v_deployed_tags[@]}"; do
+                if [[ "$item" == "$tag" ]]; then
+                    is_deployed=true
+                    break
+                fi
+            done
+
+            if $is_deployed; then
+                echo "info: skipping $sqitch_project ($tag already deployed)"
+                continue
+            fi
+
             echo "info: deploying $sqitch_project to $tag"
+
+            local deploy_code = 0
 
             if [ $g_dry_run == "YES" ]; then
                 echo "info: sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project" --to $tag ;
                 continue ;
             else
+
+                if [ -f "$sqitch_project/${tag}-pre-deploy-hook" ]; then
+                    echo "info: running $sqitch_project/${tag}-pre-deploy-hook"
+                    "$sqitch_project/${tag}-pre-deploy-hook" --target $target_uri
+                fi
+
                 sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project --to $tag # >> $log_file
+
+                deploy_code=$?
+
+                if [ -f $sqitch_project/"${tag}-post-deploy-hook" ]; then
+                    echo "info: running $sqitch_project/${tag}-post-deploy-hook..."
+                    "$sqitch_project/${tag}-post-deploy-hook" --target $target_uri
+                fi
+
             fi
 
-            if [ $? -ne 0 ];  then
+            if [ deploy_code -ne 0 ];  then
                 echo "error: sqitch deploy FAILED! DB is in an undefined state." >&2
                 exit 64
             fi
 
-            if [ "$g_sync_sequences" == "YES" ]; then
+            if [ $g_dry_run != "YES" ] && [ "$g_sync_sequences" == "YES" ]; then
                 echo "info: syncing sequences (post deploy \"${sqitch_project}\")..."
                 sync_sequences
             fi
 
-            if [ -f $sqitch_project/"${tag}-post-deploy-hook" ]; then
-                echo "info: running $sqitch_project/${tag}-post-deploy-hook..."
-                "$sqitch_project/${tag}-post-deploy-hook" --target $target_uri
-            fi
 
         done
 
@@ -489,6 +564,7 @@ function deploy_to_tag()
     # less $log_file
 
 }
+
 
 function deploy_chain_to_tag()
 {
@@ -539,8 +615,6 @@ function display_project_status()
 
 mkdir -p logs
 
-log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${g_target_name}_${g_source_type}.log"
-
 if [ "$g_display_status" == "YES" ]; then
     display_project_status
     exit 64
@@ -554,6 +628,11 @@ fi
 git pull &> /dev/null
 
 verify_options
+
+if [ "$g_ignore_git_tags" != "YES" ]; then
+    check_git_tag $g_target_tag "YES"
+fi
+
 setup_credentials
 kick_out_users
 
