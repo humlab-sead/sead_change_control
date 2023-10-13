@@ -147,6 +147,10 @@ do
         --on-conflict)
             g_conflict_resolution="$2"; shift; shift;
         ;;
+        --*)
+            echo "error: invalid option $1"
+            usage
+            exit 64
         *)
             POSITIONAL+=("$1") # save it in an array for later
             shift
