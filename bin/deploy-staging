@@ -207,7 +207,7 @@ function verify_options()
         exit 64
     fi
 
-    if [ "$g_target_chain_tag" != "" && "$g_target_tag" != "" ]; then
+    if [ "$g_target_chain_tag" != "" ] && [ "$g_target_tag" != "" ]; then
         echo "error: cannot specify both --deploy-to-tag and --deploy-chain-to-tag"
         usage
         exit 64
@@ -433,14 +433,14 @@ function check_git_tags()
     local break_if_missing=$2
     local known_release_tags=$(grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
     for tag in $known_release_tags; do
-        check_git_tag $tag $break_if_missing
+        check_that_sqitch_tags_exist_in_git $tag $break_if_missing
         if [ "$tag" == "$target_tag" ]; then
             break
         fi
     done
 }
 
-function check_git_tag()
+function check_that_sqitch_tags_exist_in_git()
 {
     local tag=$1
     local break_if_missing=$2
@@ -524,7 +524,7 @@ function deploy_to_tag()
 
             echo "info: deploying $sqitch_project to $tag"
 
-            local deploy_code = 0
+            local deploy_code=0
 
             if [ $g_dry_run == "YES" ]; then
                 echo "info: sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project" --to $tag ;
@@ -547,7 +547,7 @@ function deploy_to_tag()
 
             fi
 
-            if [ deploy_code -ne 0 ];  then
+            if [ $deploy_code -ne 0 ];  then
                 echo "error: sqitch deploy FAILED! DB is in an undefined state." >&2
                 exit 64
             fi
@@ -635,14 +635,15 @@ git pull &> /dev/null
 verify_options
 
 if [ "$g_ignore_git_tags" != "YES" ]; then
-    check_git_tag $g_target_tag "YES"
+    # Only one of these tags will be set
+    check_that_sqitch_tags_exist_in_git "$g_target_tag$g_target_chain_tag" "YES"
 fi
 
 setup_credentials
 kick_out_users
 
 if [ "$g_target_chain_tag" != "" ]; then
-    deploy_chain_to_tag $g_target_name $g_target_chain_tag $g_source_type $g_source_name
+    deploy_chain_to_tag "$g_target_name" "$g_target_chain_tag" "$g_source_type" "$g_source_name"
 else
     setup_target $g_target_name $g_create_database $g_source_type $g_source_name $g_conflict_resolution
     deploy_to_tag $g_target_name $g_target_tag $g_source_type
