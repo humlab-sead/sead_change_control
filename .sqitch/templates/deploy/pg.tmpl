@@ -1,0 +1,31 @@
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Deploy        [% project %]:[% change %] to [% engine %]
+  Description   [% change %]
+  Date          [% IF today ] [% today %] [% END %]
+  Prerequisites 
+  Reviewer      
+  Approver      
+  Idempotent    Yes
+  Requires      [% FOREACH item IN requires -%] [% item %] [% END -%]
+  Notes         [% note %]
+*****************************************************************************************************************/
+
+begin;
+do $$
+begin
+
+    begin
+    
+        if sead_utility.column_exists('public'::text, 'table_name'::text, 'column_name'::text) = TRUE then
+            raise exception SQLSTATE 'GUARD';
+        end if;
+        
+        -- insert your DDL code here
+        
+    exception when sqlstate 'GUARD' then
+        raise notice 'ALREADY EXECUTED';
+    end;
+    
+end $$;
+commit;
