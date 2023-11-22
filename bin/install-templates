@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mkdir -p ~/.sqitch
+
+cat > ~/.sqitch/sqitch.conf <<'xyz'
+[engine "pg"]
+    client = /usr/bin/psql
+[user]
+    name = Roger Mähler
+    email = roger.mahler@umu.se
+xyz
+
+cp -R .sqitch/* ~/.sqitch
