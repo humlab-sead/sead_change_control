@@ -39,7 +39,7 @@ grant select on table public.tbl_temperatures to postgrest_anon;
 grant all on table public.tbl_temperatures to seadwrite;
 grant select on table public.tbl_temperatures to sead_ro;
 
-copy public.tbl_temperatures (record_id, years_bp, d180_gisp2) FROM stdin;
+copy public.tbl_temperatures (record_id, years_bp, d180_gisp2) FROM stdin WITH NULL AS 'NaN';
 6235	50	-34.97
 6236	100	-35.17
 6237	150	-35.16
