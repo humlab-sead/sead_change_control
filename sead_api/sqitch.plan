@@ -12,13 +12,14 @@
 
 20191012_DDL_FACET_MEASURED_VALUE_UDF 2019-10-12T17:18:45Z Roger Mähler <roger.mahler@umu.se> # Facet UDF (replaces materialized view)
 
+20191011_DDL_ECOCODE_GEOJSON_EXPORT 2019-10-12T17:14:27Z Roger Mähler <roger.mahler@umu.se> # Greatly improved Ecocode GeoJSON export
+
 @2019.12 2019-12-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
 20200203_DML_FACET_UI_ELEMENTS_UPDATE 2020-02-03T15:49:17Z Roger Mähler <roger.mahler@umu.se> # Change displayed name and sort order
 
 @2020.01 2020-01-29T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2020 January release
 
-# 20191011_DDL_ECOCODE_GEOJSON_EXPORT 2019-10-12T17:14:27Z Roger Mähler <roger.mahler@umu.se> # Greatly improved Ecocode GeoJSON export
 20200201_DDL_ECOCODE_GEOJSON_EXPORT 2020-03-16T13:02:56Z Roger Mähler <roger.mahler@umu.se> # Loves bugfixes
 20200316_DDL_BUGS_ECOCODE_GEOJSON 2020-03-16T14:37:27Z Roger Mähler <roger.mahler@umu.se> # GeoJSON export for Bugs Ecocodes ecocode_system_id 2
 
