@@ -70,18 +70,17 @@ $note
 
 EOF
 )
-
     echo $issue_body
 
     issue_url=$(gh issue create \
         --title "$change" \
         --body "$issue_body" \
-        --project "$project" \
         --label "change-request" \
         --assignee @me,roger-mahler \
     )
-
+    
     issue_id=$(basename "@issue_url")
+    echo "info: new issue ${issue_id} created ($issue_url)"
 
     note="#${issue_id}: $note"
 
