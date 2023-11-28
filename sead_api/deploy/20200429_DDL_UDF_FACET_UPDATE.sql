@@ -37,6 +37,14 @@ begin
 
             i_facet_id = (j_facet ->> 'facet_id')::int;
             s_facet_code = (j_facet ->> 'facet_code')::text;
+
+            -- Save facet's association for domain facets before we delete the facet
+            drop table if exists _facet_children_temp;
+            create temporary table _facet_children_temp as
+                select facet_code, child_facet_code, position
+                from facet.facet_children
+                where s_facet_code in (facet_code, child_facet_code);
+
             if i_facet_id is null then
                 i_facet_id = (select coalesce(max(facet_id),0)+1 from facet.facet);
             else
@@ -109,6 +117,12 @@ begin
                         (v ->> 'clause')::text,
                         (v ->> 'enforce_constraint')::bool
                 from jsonb_array_elements(j_facet -> 'clauses') as v;
+
+
+            -- Restore domain facet associations
+            insert into facet.facet_children (facet_code, child_facet_code, position)
+                select facet_code, child_facet_code, position
+                from _facet_children_temp;
 
             return j_facet;
 
