@@ -2,17 +2,30 @@
 
 source .env
 
-dbsource=$1
+DOT_HOST_FILE=~/vault/.default.sead.server
+DOT_USER_FILE=~/vault/.default.sead.username
+
+dbsource=
 dbhost=$(hostname -A)
 dbuser="humlab_admin"
 compress_dump=no
 
+if [[ -f "$DOT_HOST_FILE" ]]; then
+    dbhost=`cat $DOT_HOST_FILE`
+fi
+
+if [[ -f "$DOT_USER_FILE" ]]; then
+    dbuser=`cat $DOT_USER_FILE`
+fi
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
     key="$1"
     case $key in
+        --database)
+            dbsource="$2"; shift; shift;
+        ;;
         --compress-dump)
             compress_dump="yes"; shift;
         ;;
