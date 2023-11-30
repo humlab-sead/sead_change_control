@@ -107,3 +107,4 @@ venv.bak/
 /tmp
 logs
 output
+debug/data
