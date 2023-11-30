@@ -328,8 +328,7 @@ begin
             /* Create a dataset for each count sheet */
 
             -- raise notice 'Count sheet: %', v_count_sheet_code;
-
-            v_dataset_name = format('simpledate_', v_count_sheet_code);
+            v_dataset_name = format('simpledate_%s', v_count_sheet_code);
             insert into tbl_datasets(master_set_id, data_type_id, method_id, project_id, dataset_name)
                 values (1 /* Bugs */, 44 /* Composite type */, v_method_id, v_project_id, v_dataset_name)
                     returning dataset_id into v_dataset_id;
