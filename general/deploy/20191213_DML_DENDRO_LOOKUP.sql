@@ -158,6 +158,8 @@ begin
             (3893, 'Räpplinge socken', 2),
             (3894, 'Västra Ed', 4)
 
+
+
         ) insert into tbl_locations (location_id, location_name, location_type_id, date_updated)
         select a.location_id, a.location_name, a.location_type_id, '2019-12-20 13:45:52.60401+00'
         from new_locations a /*
