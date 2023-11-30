@@ -21,7 +21,10 @@ Set client_min_messages = warning;
 
 begin;
 
-create or replace function sead_utility.create_postgrest_default_api_view(p_table_name text) returns void as $$
+drop function if exists sead_utility.create_postgrest_default_api_view(p_table_name text);
+drop function if exists sead_utility.create_postgrest_default_api_schema();
+
+create or replace function sead_utility.create_postgrest_default_api_view(p_table_name text, p_schema_name text default 'postgrest_default_api') returns void as $$
     Declare entity_name text;
     Declare drop_sql text;
     Declare create_sql text;
@@ -40,9 +43,9 @@ Begin
         entity_name = rtrim(entity_name, 's');
     End If;
 
-    drop_sql = 'drop view if exists postgrest_default_api.' || entity_name || ';';
-    create_sql = 'create or replace view postgrest_default_api.' || entity_name || ' as select * from public.' || p_table_name || ';';
-    owner_sql = 'alter table postgrest_default_api.' || entity_name || ' owner to humlab_read;';
+    drop_sql = format('drop view if exists %s.%s;', p_schema_name, entity_name);
+    create_sql = format('create or replace view %s.%s as select * from public.%s;', p_schema_name, entity_name, p_table_name);
+    owner_sql = format('alter table %s.%s owner to humlab_read;', p_schema_name, entity_name);
 
     Execute drop_sql;
     Execute create_sql;
@@ -52,8 +55,10 @@ Begin
 
 End $$ language plpgsql;
 
-create or replace function sead_utility.create_postgrest_default_api_schema() returns void as $$
+create or replace function sead_utility.create_postgrest_default_api_schema(p_schema_name text default 'postgrest_default_api') returns void as $$
     Declare x record;
+    Declare create_sql text;
+    Declare grant_sql text;
 Begin
     /*
         Create `postgrest_default_api` schema. Views for all tables are added to this schema.
@@ -62,7 +67,7 @@ Begin
     if not exists(
             select schema_name
             from information_schema.schemata
-            where schema_name = 'postgrest_default_api'
+            where schema_name = p_schema_name
         ) then
 
         if not exists (select from pg_catalog.pg_roles where rolname = 'anonymous_rest_user') then
@@ -70,12 +75,16 @@ Begin
             grant anonymous_rest_user to humlab_admin, humlab_read;
         end if;
 
-        create schema if not exists postgrest_default_api authorization humlab_read;
+        create_sql = format('create schema if not exists %s authorization humlab_read', p_schema_name);
 
-        grant usage on schema postgrest_default_api, public to anonymous_rest_user, humlab_read, humlab_admin;
-        grant select on all tables in schema postgrest_default_api to humlab_read, humlab_admin, anonymous_rest_user;
-        grant execute on all functions in schema postgrest_default_api, public to humlab_read, humlab_admin, anonymous_rest_user;
-        grant execute on all functions in schema public to anonymous_rest_user;
+        grant_sql = format('
+            grant usage on schema %1$s, public to anonymous_rest_user, humlab_read, humlab_admin;
+            grant select on all tables in schema %1$s to humlab_read, humlab_admin, anonymous_rest_user;
+            grant execute on all functions in schema %1$s, public to humlab_read, humlab_admin, anonymous_rest_user;
+            grant execute on all functions in schema public to anonymous_rest_user;
+        ', p_schema_name);
+
+        execute grant_sql;
 
     end if;
 
@@ -85,7 +94,7 @@ Begin
         where table_schema = 'public'
           and table_type = 'BASE TABLE'
     ) Loop
-        perform sead_utility.create_postgrest_default_api_view(x.table_name);
+        perform sead_utility.create_postgrest_default_api_view(x.table_name, p_schema_name);
         Raise Notice 'Done: %', x.table_name;
     End Loop;
 End $$ language plpgsql;
