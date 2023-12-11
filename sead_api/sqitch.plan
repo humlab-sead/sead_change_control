@@ -5,10 +5,10 @@
 20180501_DDL_RESTAPI_GENERATE_SCHEMA [utility:20190407_DDL_UTILITY_CREATE_UTILITY_SCHEMA] 2019-04-08T14:33:10Z Roger Mähler <roger.mahler@umu.se> # Schema used by PostgREST REST API publication of SEAD base tables
 20180501_DDL_RESTAPI_CREATE_SAMPLE_AGE_RANGES [20180501_DDL_RESTAPI_GENERATE_SCHEMA] 2019-04-08T14:38:24Z Roger Mähler <roger.mahler@umu.se> # Views (site_sample_taxon_abundance and sample_age_ranges) published via REST API
 
-20170810_DDL_DATAARC_DATASRC_API 2019-04-12T13:06:07Z Roger Mähler <roger.mahler@umu.se> # DataARC export schema.
+20170810_DDL_DATAARC_DATASRC_API 2019-04-12T13:06:07Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/159:  DataARC export schema.
 
-20190101_DDL_FACET_SCHEMA 2019-06-22T09:32:24Z Roger Mähler <roger.mahler@umu.se> # SEAD Query API schema DDL.
-20190101_DML_FACET_SCHEMA 2019-06-22T09:33:04Z Roger Mähler <roger.mahler@umu.se> # SEAD Query API schema DML.
+20190101_DDL_FACET_SCHEMA 2019-06-22T09:32:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/160: SEAD Query API schema DDL.
+20190101_DML_FACET_SCHEMA 2019-06-22T09:33:04Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/160: SEAD Query API schema DML.
 
 20191012_DDL_FACET_MEASURED_VALUE_UDF 2019-10-12T17:18:45Z Roger Mähler <roger.mahler@umu.se> # Facet UDF (replaces materialized view)
 
@@ -31,24 +31,22 @@
 20200422_DML_FACET_GRAPH_REROUTE 2020-04-22T11:18:02Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/71: Relative dates rerouted from samples to analysis
 20200429_DDL_UDF_FACET_UPDATE 2020-04-30T08:16:18Z Roger Mähler <roger.mahler@umu.se> # Better handling of updates to an existing facet
 20200429_DML_FACET_UPDATES 2020-04-29T16:51:56Z Roger Mähler <roger.mahler@umu.se> # Updates to facet specifications
-20200507_DDL_RESULT_FIELD_UPDATE 2020-05-08T08:20:54Z Roger Mähler <roger.mahler@umu.se> # Add not null constraint on table_name
-20200507_DDL_FACET_ABUNDANCE_UPDATE 2020-05-08T08:21:32Z Roger Mähler <roger.mahler@umu.se> # Rewrite of helper view
+20200507_DDL_RESULT_FIELD_UPDATE 2020-05-08T08:20:54Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/71: Add not null constraint on table_name
+20200507_DDL_FACET_ABUNDANCE_UPDATE 2020-05-08T08:21:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/71: Rewrite of helper view
 20200507_DDL_FACET_GRAPH_UPDATE 2020-05-08T08:23:48Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/71: Add missing edge
-20200507_DDL_FACET_SCHEMA_UPDATE 2020-05-08T08:49:47Z Roger Mähler <roger.mahler@umu.se> # Scema improvements / cleanups
-20201221_DDL_ECL_RESTAPI_VIEWS 2020-12-21T19:55:03Z Roger Mähler <roger.mahler@umu.se> # New views for ECL REST AOI
+20200507_DDL_FACET_SCHEMA_UPDATE 2020-05-08T08:49:47Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/71: Schema improvements / cleanups
+20201221_DDL_ECL_RESTAPI_VIEWS 2020-12-21T19:55:03Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/158:  New views for ECL REST AOI
 
-20221121_DML_QSE_DENDRO_DATING 2022-11-21T15:37:40Z Roger Mähler <roger.mahler@umu.se> # Dendro dating reporting view (JvB)
+20221121_DML_QSE_DENDRO_DATING 2022-11-21T15:37:40Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/156:  Dendro dating reporting view (JvB)
 
 @2020.03 2020-04-16T17:31:05Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
 
-20221117_DML_RESTAPI_GENERATE_SCHEMA 2022-11-17T09:36:32Z Roger Mähler <roger.mahler@umu.se> # Refresh REST API schema
+20221117_DML_RESTAPI_GENERATE_SCHEMA 2022-11-17T09:36:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/157:  Refresh REST API schema
 20220831_DDL_NEW_DENDRO_FACETS 2022-08-31T08:15:42Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/91:  New dendro facets (see issue #91)
 20220923_DDL_FACET_SCHEMA_UPDATE 2022-09-23T09:36:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/39: Changes table FK constraints to cascade
 
 @2022.12 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 October release
 
-20221121_DDL_UDF_DELETE_FACET 2022-11-21T11:45:24Z Roger Mähler <roger.mahler@umu.se> # Delete facet UDF
+20221121_DDL_UDF_DELETE_FACET 2022-11-21T11:45:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/155:  Delete facet UDF
 
 @2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
-
-20231207_DML_FACET_GRAPH_UPDATE 2023-12-07T13:52:23Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/154: # 154: Remove or change deprecated edges in facet graph
