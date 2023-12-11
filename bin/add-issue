@@ -1,0 +1,149 @@
+#!/bin/bash
+
+SHELL=/bin/bash
+
+set -e
+
+function usage() {
+    echo "HELP!"
+    # gh issue create --help
+}
+
+g_change=
+g_project=
+g_today=$(date +%Y-%m-%d)
+g_issue_id=
+g_label="change-request"
+g_assignee="@me"
+g_body="To be documented. Placeholder issue for change request."
+g_close=NO
+g_update_plan=NO
+g_issue_id=
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --change|-c)
+            g_change="$2";
+            shift 2;
+        ;;
+        --project|-f|-C|--plan-file)
+            g_project="$2";
+            shift 2;
+        ;;
+        --body|-b)
+            g_body="$2";
+            shift 2;
+        ;;
+        --label|-l)
+            g_label="$2";
+            shift 2;
+        ;;
+        --assignee|-a)
+            g_assignee="$2";
+            shift 2;
+        ;;
+        --issue-id)
+            g_issue_id="$2";
+            shift 2;
+        ;;
+        --update-plan|-u)
+            g_update_plan="YES";
+            shift;
+        ;;
+        --close-issue|-x)
+            g_close="YES";
+            shift;
+        ;;
+        --*)
+            echo "error: invalid option $1"
+            usage
+            exit 64 
+        ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+if [ -z "$g_change" ] || [ -z "$g_project" ] || [ -z "$g_body" ]; then
+    echo "error: missing required option --project, --change or --body"
+    exit 64
+fi
+
+if [ ! -f "$g_project/sqitch.plan" ]; then
+    echo "Project $g_project does not exist"
+    exit 64
+fi
+
+if [ ! -f "$g_project/deploy/${g_change}.sql" ]; then
+    echo "Change $g_project/deploy/${g_change}.sql does not exist"
+    exit 64
+fi
+
+issue_body=$(cat <<EOF
+
+Change project: Created CR [$g_project](https://github.com/humlab-sead/sead_change_control/blob/master/${g_project}/sqitch.plan)
+Change request: Created CR [$g_change](https://github.com/humlab-sead/sead_change_control/blob/master/${g_project}/deploy/${g_change}.sql)
+
+$g_body
+
+EOF
+)
+
+# echo $issue_body
+
+g_issue_url=
+
+if [ "$g_issue_id" == "" ]; then
+
+    # echo "info: gh issue create --title "$g_change" --body "$issue_body" --label "change-request" --assignee @me,roger-mahler"
+
+    g_issue_url=$(gh issue create \
+        --title "$g_change" \
+        --body "$issue_body" \
+        --label "change-request" \
+        --assignee @me,roger-mahler \
+    )
+
+    g_issue_id=$(basename "$g_issue_url")
+
+    echo "info: new issue ${g_issue_id} created ($g_issue_url)"
+
+else
+
+    gh issue comment ${g_issue_id} --body "$issue_body"
+
+    g_issue_url="https://github.com/humlab-sead/sead_change_control/issues/${g_issue_id}"
+
+fi
+
+
+if [ "$g_close" == "YES" ]; then
+    gh issue close $g_issue_id
+    echo "info: issue ${g_issue_id} closed"
+fi
+
+update_plan() {
+    local project_name="$1"
+    local change_name="$2"
+    local issue_url="$3"
+
+    file_name="$project_name/sqitch.plan"
+
+    awk -v keyword="$change_name" -v comment="$issue_url: " '
+        $1 == keyword {sub(/#/, "# " comment)} 
+        1' $file_name  > temp.txt && mv -f temp.txt $file_name
+
+}
+
+if [ "$g_update_plan" == "YES" ]; then
+    update_plan "$g_project" "$g_change" "$g_issue_url"
+    echo "info: plan ${g_project}/sqitch.plan updated"
+fi
