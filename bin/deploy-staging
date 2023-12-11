@@ -323,11 +323,12 @@ function dbexecgz() {
 }
 
 function kick_out_users() {
-    echo "info: kicking out users from ${g_source_name} and ${g_target_name}..."
+    local db=$1
+    echo "info: kicking out users from ${db}..."
     sql=$(cat <<____EOF
         select pg_terminate_backend(pg_stat_activity.pid)
         from pg_stat_activity
-        where pg_stat_activity.datname in ('${g_target_name}', '${g_source_name}')
+        where pg_stat_activity.datname in ('${db}')
           and pid <> pg_backend_pid();
 ____EOF
     )
@@ -353,6 +354,8 @@ function setup_target() {
 
 	if [ "$target_db_exists" = "1" ]
 	then
+
+        kick_out_users $target_name
 
 	    if [ "$conflict_resolution" == "rename" ]; then
 
@@ -640,12 +643,13 @@ if [ "$g_ignore_git_tags" != "YES" ]; then
 fi
 
 setup_credentials
-kick_out_users
 
 if [ "$g_target_chain_tag" != "" ]; then
     deploy_chain_to_tag "$g_target_name" "$g_target_chain_tag" "$g_source_type" "$g_source_name"
 else
-    setup_target $g_target_name $g_create_database $g_source_type $g_source_name $g_conflict_resolution
+    if [ "$g_create_database" == "YES" ]; then
+        setup_target $g_target_name $g_create_database $g_source_type $g_source_name $g_conflict_resolution
+    fi
     deploy_to_tag $g_target_name $g_target_tag $g_source_type
 fi
 
