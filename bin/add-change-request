@@ -41,6 +41,11 @@ do
             create_issue="YES";
             shift;
         ;;
+        --*)
+            echo "error: invalid option $1"
+            usage
+            exit 64 
+        ;;
         *)
             POSITIONAL+=("$1") # save it in an array for later
             shift
@@ -79,19 +84,15 @@ EOF
         --assignee @me,roger-mahler \
     )
     
-    issue_id=$(basename "@issue_url")
+    issue_id=$(basename "$issue_url")
     echo "info: new issue ${issue_id} created ($issue_url)"
 
-    note="#${issue_id}: $note"
-
 elif [ -n "$issue_id" ]; then
-
-    note="#${issue_id}: $note"
-
-    gh issue comment $issue_id --body "Created CR [$change](https://github.com/humlab-sead/sead_change_control/blob/master/$project/deploy/${change}.sql)."
     
-
+    gh issue comment $issue_id --body "Created CR [$change](https://github.com/humlab-sead/sead_change_control/blob/master/${project}/deploy/${change}.sql)."
+    
 fi
 
-sqitch add "$change" --set today="$today" -C $project -n "$note" "${POSITIONAL[@]}"
+note="# https://github.com/humlab-sead/sead_change_control/issues/${issue_id}: $note"
 
+sqitch add "$change" --set today="$today" -C $project -n "$note" "${POSITIONAL[@]}"
