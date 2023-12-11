@@ -1,0 +1,96 @@
+#!/bin/bash
+
+g_tag=
+g_note=
+g_ignore_git=NO
+
+log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${g_target_name}_${g_source_type}.log"
+
+usage_message=$(cat <<EOF
+usage: tag-projects OPTIONS...
+
+    --ignore-git             Continue even if sqitch tag is missing in git.
+    --tag TAG                Add TAG to end of each plan.
+    --note NOTE              Add NOTE to sqitch tag.
+
+examples
+
+
+EOF
+)
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --ignore-git)
+            g_ignore_git="YES"; shift;
+        ;;
+        --tag)
+            g_tag="$2"; shift; shift;
+        ;;
+        --note)
+            g_note="$2"; shift; shift;
+        ;;
+        --*)
+            echo "error: invalid option $1"
+            usage
+            exit 64
+        ;;
+        *)
+            POSITIONAL+=("$1") # save it in an array for later
+            shift
+        ;;
+    esac
+done
+
+
+function usage() {
+
+    echo "$usage_message"
+}
+
+set -- "${POSITIONAL[@]}"
+
+
+function verify_options()
+{
+    local tag=$1
+    local note=$2
+    if [ "$tag" == "" ] || [ "$note" == "" ]; then
+        echo "error: tag and note must be specified"
+        usage
+        exit 64
+    fi
+}
+
+function check_that_tag_exist_in_git()
+{
+    local tag=$1
+    if ! git rev-parse "$tag" >/dev/null 2>&1; then
+        if [ "$g_ignore_git" == "NO" ]; then
+            echo "error: tag '$tag' does not exist in git."
+            exit 64
+        else
+            echo "warning: tag '$tag' does not exist in git."
+        fi
+    fi
+}
+
+function tag_projects()
+{
+    local tag=$1
+    local note=$2
+    local sqitch_projects=$(find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy \; -print)
+    for sqitch_project in $sqitch_projects; do
+        echo sqitch sqitch tag --tag "$tag" --note "$note" --plan-file ./$sqitch_project/sqitch.plan
+    done
+}
+
+verify_options $g_tag $g_note
+
+check_that_tag_exist_in_git $g_tag
+
+tag_projects $g_tag $g_note
