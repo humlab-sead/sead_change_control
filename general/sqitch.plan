@@ -47,10 +47,6 @@
 20191213_DDL_DENDRO_MODEL 2019-04-09T14:34:56Z Roger Mähler <roger.mahler@umu.se> # Add lookup table for dendro data
 20191213_DDL_ISOTOPE_MODEL 2019-10-12T15:09:19Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/14: Creates Isotope data model
 
-20191213_DML_CERAMICS_LOOKUP 2019-11-25T14:57:46Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/20: Ceramics lookup data
-20191213_DML_DENDRO_LOOKUP 2019-04-08T10:16:55Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/148: Add dendrochronology lookup data
-20191213_DML_ISOTOPE_LOOKUP 2019-10-12T15:10:14Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/14: Isotope lookup data
-
 20191219_DML_METHODS_UPDATE 2019-12-19T13:34:03Z Roger <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/34: Methods updates
 
 20200115_DDL_TABLE_TEMPERATURES 2022-11-28T13:45:45Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/147: New tables with temperatures
@@ -91,4 +87,8 @@
 
 20231206_DDL_UPDATE_OF_DENDRO_RELATED_LOOKUPS 2023-12-06T08:43:01Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/153: Lookup data related to the dendrochronological project needs updating.
 
+@2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
+
+20231123_DDL_BIBLIO_UUID 2023-11-20T07:41:12Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/144: Add UUID to bibliographic data.
+20231129_DDL_MISSING_UNIQUE_CONSTRAINTS 2023-11-29T14:55:46Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/142: Add missing unique constraints to the SEAD database.
 
