@@ -1,3 +1,4 @@
+-- Verify subsystem/: 20191217_DDL_CLEARINGHOUSE_SYSTEM
 
 BEGIN;
 
