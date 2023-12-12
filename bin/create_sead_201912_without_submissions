@@ -4,7 +4,6 @@
 export PGCLIENTENCODING=UTF8
 
 other_projects="utility security general sead_api subsystem submissions"
-submission_project="submissions"
 target_name=sead_staging_201912_without_submissions_template
 target_tag=@2019.12
 
