@@ -971,7 +971,7 @@ begin;
             ('Stilborg, O.(2005) ', 6513),
             ('Roslund, M.(2001) ', 6514),
             ('Hulthén, B.(1985) ', 6515),
-            (' Hallgren, F.(2008) ', 6516),
+            ('Hallgren, F.(2008) ', 6516),
             ('Brorsson, T.(1998) ', 6517),
             ('Lindahl, A.(1986) ', 6518),
             ('Hjärthner-Holdar, E & Lindahl, A.(1993) ', 6519),
