@@ -1,4 +1,4 @@
--- Verify sead_change_control:20191213_DML_CERAMICS_LOOKUP on pg
+-- Verify submissions: 20191213_DML_CERAMICS_LOOKUP
 
 BEGIN;
 

@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20231120_DML_DENDRO_DATES_SCHEMA_UPDATE to pg
+-- Deploy submissions: 20231120_DML_DENDRO_LOOKUP
 
 /****************************************************************************************************************
   Author        Roger Mähler

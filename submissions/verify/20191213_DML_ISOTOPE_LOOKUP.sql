@@ -1,4 +1,4 @@
--- Verify sead_change_control:20191012_DML_ISOTOPE_LOOKUP_DATA on pg
+-- Verify submissions: 20191213_DML_ISOTOPE_LOOKUP
 
 BEGIN;
 

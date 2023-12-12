@@ -1,4 +1,4 @@
--- Revert submissions:2020190115_DML_CLEARINGHOUSE_DATA from pg
+-- Revert submissions: 20191221_DML_CLEARINGHOUSE_STARTINGPOINT
 
 BEGIN;
 

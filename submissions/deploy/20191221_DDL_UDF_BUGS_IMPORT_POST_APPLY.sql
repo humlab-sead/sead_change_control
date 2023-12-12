@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20191221_DDL_UDF_BUGS_IMPORT_POST_APPLY to pg
+-- Deploy submissions: 20191221_DDL_UDF_BUGS_IMPORT_POST_APPLY
 
 /****************************************************************************************************************
   Author        Roger Mähler

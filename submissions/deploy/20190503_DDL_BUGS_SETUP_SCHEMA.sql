@@ -1,4 +1,4 @@
--- Deploy bugs:CS_BUGS_20190503_SETUP_SCHEMA to pg
+-- Deploy submissions: 20190503_DDL_BUGS_SETUP_SCHEMA
 
 /****************************************************************************************************************
   Author        Roger Mähler

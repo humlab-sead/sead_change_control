@@ -1,4 +1,4 @@
--- Deploy sead_change_control:CS_METHOD_20190503_ADD_BUGS_METHODS to pg
+-- Deploy submissions: 20190503_DML_METHOD_ADD_BUGS_METHODS
 
 /****************************************************************************************************************
   Author        Roger Mähler

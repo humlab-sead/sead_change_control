@@ -1,4 +1,4 @@
--- Verify bugs:20200313_DML_BUGSDATA_20200219 on pg
+-- Verify submissions: 20200313_DML_BUGS_IMPORT_PUBLIC_20200219
 
 BEGIN;
 

@@ -1,4 +1,4 @@
--- Revert bugs:20200313_DML_BUGSDATA_20200219 from pg
+-- Revert submissions: 20200313_DML_BUGS_IMPORT_PUBLIC_20200219
 
 BEGIN;
 

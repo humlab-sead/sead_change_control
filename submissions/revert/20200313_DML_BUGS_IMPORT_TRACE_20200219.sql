@@ -1,0 +1,7 @@
+-- Revert submissions: 20200313_DML_BUGS_IMPORT_TRACE_20200219
+
+BEGIN;
+
+-- XXX Add DDLs here.
+
+COMMIT;

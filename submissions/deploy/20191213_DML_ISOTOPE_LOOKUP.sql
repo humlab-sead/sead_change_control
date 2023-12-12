@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20191012_DML_ISOTOPE_LOOKUP_DATA to pg
+-- Deploy submissions: 20191213_DML_ISOTOPE_LOOKUP
 
 /****************************************************************************************************************
   Author        Roger Mähler

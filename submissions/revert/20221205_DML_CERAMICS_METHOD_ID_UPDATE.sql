@@ -1,4 +1,4 @@
--- Revert sead_change_control:20221205_DML_CERAMICS_METHOD_ID_UPDATE from pg
+-- Revert submissions: 20221205_DML_CERAMICS_METHOD_ID_UPDATE
 
 BEGIN;
 

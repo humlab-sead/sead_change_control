@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20191213_DML_CERAMICS_LOOKUP to pg
+-- Deploy submissions: 20191213_DML_CERAMICS_LOOKUP
 
 /****************************************************************************************************************
   Author        Roger Mähler

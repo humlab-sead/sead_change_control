@@ -1,4 +1,4 @@
--- Revert sead_change_control:20231120_DML_DENDRO_DATES_SCHEMA_UPDATE from pg
+-- Revert submissions: 20231120_DML_DENDRO_LOOKUP
 
 BEGIN;
 

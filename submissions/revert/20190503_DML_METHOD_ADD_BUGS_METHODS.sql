@@ -1,4 +1,4 @@
--- Revert sead_change_control:CS_METHOD_20190503_ADD_BUGS_METHODS from pg
+-- Revert submissions: 20190503_DML_METHOD_ADD_BUGS_METHODS
 
 BEGIN;
 

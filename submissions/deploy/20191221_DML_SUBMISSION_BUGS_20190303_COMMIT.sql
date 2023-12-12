@@ -1,3 +1,4 @@
+-- Deploy submissions: 20191221_DML_SUBMISSION_BUGS_20190303_COMMIT
 set client_min_messages to warning;
 \set autocommit off;
 \t

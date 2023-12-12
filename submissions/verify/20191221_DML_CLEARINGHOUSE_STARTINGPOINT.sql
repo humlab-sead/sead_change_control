@@ -1,4 +1,4 @@
--- Verify submissions:2020190115_DML_CLEARINGHOUSE_DATA on pg
+-- Verify submissions: 20191221_DML_CLEARINGHOUSE_STARTINGPOINT
 
 BEGIN;
 

@@ -1,1 +1,2 @@
+-- Revert submissions: 20190503_DDL_BUGS_ADD_TRANSLATIONS
 

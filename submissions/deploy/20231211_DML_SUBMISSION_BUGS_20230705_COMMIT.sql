@@ -1,4 +1,4 @@
--- Deploy submissions:20231211_DML_SUBMISSION_BUGS_20230705_COMMIT to pg
+-- Deploy submissions: 20231211_DML_SUBMISSION_BUGS_20230705_COMMIT
 
 /****************************************************************************************************************
   Author        Roger Mähler

@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20221205_DML_CERAMICS_METHOD_ID_UPDATE to pg
+-- Deploy submissions: 20221205_DML_CERAMICS_METHOD_ID_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler
