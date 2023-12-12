@@ -1,4 +1,4 @@
--- Deploy sead_db_change_control:create_sead_utility_schema to pg
+-- Deploy utility: 20190407_DDL_UTILITY_CREATE_UTILITY_SCHEMA
 
 
 begin;

@@ -1,4 +1,4 @@
--- Revert sead_db_change_control:ADD_UUID_SUPPORT from pg
+-- Revert utility: 20190407_DDL_UTILITY_ADD_UUID_SUPPORT
 
 BEGIN;
 

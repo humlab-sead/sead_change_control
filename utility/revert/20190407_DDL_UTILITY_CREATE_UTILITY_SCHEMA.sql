@@ -1,4 +1,4 @@
--- Revert sead_db_change_control:create_sead_utility_schema from pg
+-- Revert utility: 20190407_DDL_UTILITY_CREATE_UTILITY_SCHEMA
 
 begin;
 

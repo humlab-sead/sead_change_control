@@ -1,4 +1,4 @@
--- Revert sead_db_change_control:CREATE_TABLE_DEPENDENCY_VIEW from pg
+-- Revert utility: 20190407_DDL_UTILITY_CREATE_TABLE_DEPENDENCY_VIEW
 
 BEGIN;
 

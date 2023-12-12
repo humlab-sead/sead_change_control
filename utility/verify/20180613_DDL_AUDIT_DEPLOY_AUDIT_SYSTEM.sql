@@ -1,4 +1,4 @@
--- Verify sead_db_change_control:CSA_20180613_DEPLOY_AUDIT_SYSTEM on pg
+-- Verify utility: 20180613_DDL_AUDIT_DEPLOY_AUDIT_SYSTEM
 
 BEGIN;
 

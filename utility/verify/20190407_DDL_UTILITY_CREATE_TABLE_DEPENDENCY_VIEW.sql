@@ -1,4 +1,4 @@
--- Verify sead_db_change_control:CREATE_TABLE_DEPENDENCY_VIEW on pg
+-- Verify utility: 20190407_DDL_UTILITY_CREATE_TABLE_DEPENDENCY_VIEW
 
 BEGIN;
 

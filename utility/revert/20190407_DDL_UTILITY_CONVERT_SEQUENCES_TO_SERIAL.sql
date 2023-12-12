@@ -1,4 +1,4 @@
--- Revert sead_db_change_control:convert_sequences_to_serial from pg
+-- Revert utility: 20190407_DDL_UTILITY_CONVERT_SEQUENCES_TO_SERIAL
 
 BEGIN;
 

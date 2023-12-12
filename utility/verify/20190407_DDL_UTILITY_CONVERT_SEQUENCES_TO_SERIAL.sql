@@ -1,4 +1,4 @@
--- Verify sead_db_change_control:convert_sequences_to_serial on pg
+-- Verify utility: 20190407_DDL_UTILITY_CONVERT_SEQUENCES_TO_SERIAL
 
 BEGIN;
 

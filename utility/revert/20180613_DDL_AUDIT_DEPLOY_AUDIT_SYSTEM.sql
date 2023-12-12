@@ -1,4 +1,4 @@
--- Revert sead_db_change_control:CSA_20180613_DEPLOY_AUDIT_SYSTEM from pg
+-- Revert utility: 20180613_DDL_AUDIT_DEPLOY_AUDIT_SYSTEM
 
 BEGIN;
 
