@@ -3,21 +3,21 @@
 %uri=https://github.com/humlab-sead/sead_change_control
 
 20191014_DML_DATASET_NULL_MASTER_ID 2019-10-14T09:38:49Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/16: Resolves #100 Updates NULL MAL master_set_id in tbl_datasets
-20170911_DDL_ANALYSIS_ENTITY_ALTER_AGES_PRECISION 2019-04-10T07:28:54Z Roger Mähler <roger.mahler@umu.se> # PIB: Changed numeric ranges of values to 20,5 to match tbl_relative_ages
-20190408_DDL_DATASET_CREATE_TABLE_DATASET_METHODS 2019-04-09T10:45:59Z Roger Mähler <roger.mahler@umu.se> # Add new table
-20170911_DDL_CHRONOLOGIES_REFACTOR_MODEL 2019-04-09T10:36:57Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/150: Allow relation to multiple sample groups
-20190408_DDL_ECOCODE_REFACTOR_MODEL 2019-04-09T09:18:52Z Roger Mähler <roger.mahler@umu.se> # Alter type for columns name, abbreviation
+20170911_DDL_ANALYSIS_ENTITY_ALTER_AGES_PRECISION 2019-04-10T07:28:54Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/166:  PIB: Changed numeric ranges of values to 20,5 to match tbl_relative_ages
+20190408_DDL_DATASET_CREATE_TABLE_DATASET_METHODS 2019-04-09T10:45:59Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/167:  Add new table
+20170911_DDL_CHRONOLOGIES_REFACTOR_MODEL 2019-04-09T10:36:57Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/168:  https://github.com/humlab-sead/sead_change_control/issues/150: Allow relation to multiple sample groups
+20190408_DDL_ECOCODE_REFACTOR_MODEL 2019-04-09T09:18:52Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/169:  Alter type for columns name, abbreviation
 
 20170906_DDL_RELATIVE_DATES_ALTER_RELATION 2019-04-09T09:22:14Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/4: Alter FK from physical_sample_id to analysis_entity_id
-20180601_DDL_SITE_ADD_LOCATION_ACCURACY 2019-04-09T18:08:43Z Roger Mähler <roger.mahler@umu.se> # Accuracy of highest location resolution level.
-20180601_DDL_TAXA_DROP_VIEWS 2019-04-10T08:58:56Z Roger Mähler <roger.mahler@umu.se> # Drop old views.
-20180601_DDL_DROP_RADIOCARBON_CALIBRATION 2019-04-10T09:14:56Z Roger Mähler <roger.mahler@umu.se> # Drop deprecated table.
-20180601_DDL_SITE_ALTER_TYPE 2019-04-10T09:18:15Z Roger Mähler <roger.mahler@umu.se> # Increase length of varchar columns .
-20190410_DDL_SAMPLE_CREATE_INDEX 2019-04-10T09:20:28Z Roger Mähler <roger.mahler@umu.se> # Create index on FK feature_id.
-20190410_DDL_TAXA_CREATE_VIEW_ALPHABETICALLY 2019-04-10T09:24:15Z Roger Mähler <roger.mahler@umu.se> # Create taxa helper view.
-20190410_DDL_COMMENTS_UPDATE_COMMENTS 2019-04-10T12:04:29Z Roger Mähler <roger.mahler@umu.se> # Comment diffs on table/columns with respect to sead_master_8.
-20190410_DDL_RELATIVE_DATING_RENAME_COLUMN 2019-04-10T14:58:41Z Roger Mähler <roger.mahler@umu.se> # Rename column from abbreviation
-20190411_DDL_ASSIGN_SEQUENCES 2019-04-11T14:41:49Z Roger Mähler <roger.mahler@umu.se> # Assign sequence as default
+20180601_DDL_SITE_ADD_LOCATION_ACCURACY 2019-04-09T18:08:43Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/170:  Accuracy of highest location resolution level.
+20180601_DDL_TAXA_DROP_VIEWS 2019-04-10T08:58:56Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/171:  Drop old views.
+20180601_DDL_DROP_RADIOCARBON_CALIBRATION 2019-04-10T09:14:56Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/172:  Drop deprecated table.
+20180601_DDL_SITE_ALTER_TYPE 2019-04-10T09:18:15Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/173:  Increase length of varchar columns.
+20190410_DDL_SAMPLE_CREATE_INDEX 2019-04-10T09:20:28Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/174:  Create index on FK feature_id.
+20190410_DDL_TAXA_CREATE_VIEW_ALPHABETICALLY 2019-04-10T09:24:15Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/175:  Create taxa helper view.
+20190410_DDL_COMMENTS_UPDATE_COMMENTS 2019-04-10T12:04:29Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/178:  Comment diffs on table/columns with respect to sead_master_8.
+20190410_DDL_RELATIVE_DATING_RENAME_COLUMN 2019-04-10T14:58:41Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/176:  Rename column from abbreviation
+20190411_DDL_ASSIGN_SEQUENCES 2019-04-11T14:41:49Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/177:  Assign sequence as default
 20190503_DDL_TAXA_ATTRIBUTE_TYPE_LENGTH 2019-05-03T08:57:52Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/101: Increase length of field attribute_type to accomodate large values from Bugs
 20170101_DDL_BIBLIO_REFACTOR_MODEL 2019-04-06T15:57:13Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/18: Refactor bibliographic data to a less complex model.
 
@@ -34,7 +34,6 @@
 20121220_DML_HORIZON_UPDATE_DESCRIPTION 2019-04-16T14:05:32Z Roger Mähler <roger.mahler@umu.se> # Origin for update is diff between sead_master_9/sead_master_8.
 
 20190503_DML_TAXA_ADD_SPECIES_ASSOC_TYPES 2019-05-03T18:07:02Z Roger Mähler <roger.mahler@umu.se> # Add new association type names to accomodate Bugs import
-20190503_DML_METHOD_ADD_BUGS_METHODS 2019-05-03T18:27:38Z Roger Mähler <roger.mahler@umu.se> # Add new methods to accomodate Bugs import
 20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # Add unknown dating lab to accomodate Bugs import
 20190513_DML_DATA_TYPE_ADD_TYPES_CALENDER_DATES 2019-05-13T13:37:26Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/152: Add Calender Dates
 

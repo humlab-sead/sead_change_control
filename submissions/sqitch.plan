@@ -5,6 +5,7 @@
 20190503_DDL_BUGS_SETUP_SCHEMA 2019-05-04T14:30:13Z Roger Mähler <roger.mahler@umu.se> # Bugs import schema
 20190503_DDL_BUGS_ADD_TRANSLATIONS 2019-05-04T14:31:03Z Roger Mähler <roger.mahler@umu.se> # Add bugs import value translations
 20191221_DDL_UDF_BUGS_IMPORT_POST_APPLY 2022-12-02T09:49:50Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/42: UDF for Bugs import updates after import
+20190503_DML_METHOD_ADD_BUGS_METHODS 2019-05-03T18:27:38Z Roger Mähler <roger.mahler@umu.se> # Add new methods to accomodate Bugs import
 
 20191221_DML_CLEARINGHOUSE_STARTINGPOINT 2022-12-03T11:31:24Z Roger Mähler <roger.mahler@umu.se> # Data: clearinghouse submissions
 
@@ -42,3 +43,5 @@
 
 @2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
 
+
+20231212_DML_BUGS_ADD_ANALYSIS_ENTITY_AGES 2023-12-12T10:34:58Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/164: Add modelled official ages for 889 bugs samples
