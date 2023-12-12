@@ -134,12 +134,9 @@ psql-staging:
 SQITCH_TARGET := staging-test
 deploy-@2020.03-staging-test:
 	@bin/copy-database --source sead_production --target sead_staging_test --force
-	@sqitch deploy --target $(SQITCH_TARGET) -C ./utility --to @2020.03 --no-verify
-	@sqitch deploy --target $(SQITCH_TARGET) -C ./security --to @2020.03 --no-verify
-	@sqitch deploy --target $(SQITCH_TARGET) -C ./general --to @2020.03 --no-verify
-	@sqitch deploy --target $(SQITCH_TARGET) -C ./sead_api --to @2020.03 --no-verify
-	@sqitch deploy --target $(SQITCH_TARGET) -C ./subsystem --to @2020.03 --no-verify
-	@sqitch deploy --target $(SQITCH_TARGET) -C ./submissions --to @2020.03 --no-verify
+	@for project in $(projects); do \
+		sqitch deploy --target $(SQITCH_TARGET) -C ./$project --to @2020.03 --no-verify ; \
+	done
 	@pg-diff -f compare/config.json -c development @2020.03-staging-vs-staging-test
 
 
