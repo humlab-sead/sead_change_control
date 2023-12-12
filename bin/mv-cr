@@ -1,0 +1,87 @@
+#!/bin/bash
+
+SHELL=/bin/bash
+
+set -e
+
+function usage() {
+    echo "HELP!"
+    # gh issue create --help
+}
+
+g_change=
+g_from_project=
+g_to_project=
+g_update_plan=NO
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --change|-c)
+            g_change="$2";
+            shift 2;
+        ;;
+        --from-project|-f)
+            g_from_project="$2";
+            shift 2;
+        ;;
+         --to-project|-t)
+            g_to_project="$2";
+            shift 2;
+        ;;
+        --update-plan|-u)
+            g_update_plan="YES";
+            shift;
+        ;;
+        --*)
+            echo "error: invalid option $1"
+            usage
+            exit 64 
+        ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+if [ -z "$g_from_project" ] || [ -z "$g_to_project" ] || [ -z "$g_change" ]; then
+    echo "error: missing required option --from-project, --to-project or --change"
+    exit 64
+fi
+
+if [ ! -f "$g_from_project/sqitch.plan" ]; then
+    echo "Project $g_from_project does not exist"
+    exit 64
+fi
+
+if [ ! -f "$g_to_project/sqitch.plan" ]; then
+    echo "Project $g_to_project does not exist"
+    exit 64
+fi
+
+if [ ! -f "$g_from_project/deploy/${g_change}.sql" ]; then
+    echo "Change $g_from_project/deploy/${g_change}.sql does not exist"
+    exit 64
+fi
+
+mv "$g_from_project/deploy/${g_change}.sql" "$g_to_project/deploy/${g_change}.sql"
+mv "$g_from_project/revert/${g_change}.sql" "$g_to_project/revert/${g_change}.sql"
+mv "$g_from_project/verify/${g_change}.sql" "$g_to_project/verify/${g_change}.sql"
+
+if [ "$g_update_plan" == "YES" ]; then
+
+    echo "" >> "$g_to_project/sqitch.plan"
+    grep -e "$g_change" "$g_from_project/sqitch.plan" >> "$g_to_project/sqitch.plan"
+
+    grep -v -e "$g_change" "$g_from_project/sqitch.plan" > "$g_from_project/sqitch.plan.tmp"
+    mv -f "$g_from_project/sqitch.plan.tmp" "$g_from_project/sqitch.plan"
+
+fi
+
+echo "Change $g_change moved from $g_from_project to $g_to_project"
