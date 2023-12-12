@@ -1,4 +1,4 @@
--- Revert sead_change_control:CS_HORIZON_20121220_UPDATE_DESCRIPTION from pg
+-- Revert general: 20121220_DML_HORIZON_UPDATE_DESCRIPTION
 
 BEGIN;
 

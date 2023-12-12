@@ -1,4 +1,4 @@
--- Deploy sead_change_control: to pg
+-- Deploy general: 20120921_DML_RECORD_TYPE_UPDATE_PLANTS_POLLEN
 
 /****************************************************************************************************************
   Author

@@ -1,4 +1,4 @@
--- Deploy sead_change_control:CS_HORIZON_20121220_UPDATE_DESCRIPTION to pg
+-- Deploy general: 20121220_DML_HORIZON_UPDATE_DESCRIPTION
 
 /****************************************************************************************************************
   Author        Roger Mähler

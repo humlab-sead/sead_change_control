@@ -1,4 +1,4 @@
--- Verify sead_change_control:CS_HORIZON_20121220_UPDATE_DESCRIPTION on pg
+-- Verify general: 20121220_DML_HORIZON_UPDATE_DESCRIPTION
 
 BEGIN;
 

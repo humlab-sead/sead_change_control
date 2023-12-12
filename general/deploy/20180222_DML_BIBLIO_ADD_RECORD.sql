@@ -1,4 +1,4 @@
--- Deploy sead_change_control:CS_BIBLIO_20180222_DATASRC_API to pg
+-- Deploy sead_change_control:20180222_DML_BIBLIO_ADD_RECORD to pg
 
 /****************************************************************************************************************
   Author        Roger Mähler
@@ -25,6 +25,7 @@ begin
             raise exception SQLSTATE 'GUARD';
         end if;
 
+        -- FIXME: #165 Updates by serial identity should be prohibited
         insert into public.tbl_biblio(biblio_id, authors, bugs_reference, date_updated, doi, isbn, notes, title, year, full_reference, url)
             values (5576, 'Arnolds & E. van der Maarel (1979)', NULL, '2018-02-22 10:55:13.214984+01', NULL, NULL, '', 'De oecologische groepen in de Standaardlijst van de Nederlandse flora 1975. Gorteria 9.', '1970', '', NULL);
 
