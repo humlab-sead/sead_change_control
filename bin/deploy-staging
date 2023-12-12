@@ -25,7 +25,6 @@ g_target_tag=
 g_target_chain_tag=
 g_ignore_git_tags=NO
 
-# sqitch_projects="utility general security subsystem sead_api"
 default_projects="utility security general sead_api subsystem submissions"
 sqitch_projects=$(find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy \; -print)
 
@@ -494,7 +493,7 @@ function deploy_to_tag()
 
         echo "info: deploying tag $tag"
 
-        # for plan in $(find . -name '*.plan'); do
+        # for plan in $(find . -name 'sqitch.plan'); do
         #     sqitch --plan-file "$plan" tag xyz -m 'Tag xyz'
         # done
 
