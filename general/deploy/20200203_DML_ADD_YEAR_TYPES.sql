@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20200203_DML_ADD_YEAR_TYPES to pg
+-- Deploy general: 20200203_DML_ADD_YEAR_TYPES
 
 /****************************************************************************************************************
   Author        Roger Mähler

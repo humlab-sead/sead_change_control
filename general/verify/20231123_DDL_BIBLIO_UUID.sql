@@ -1,4 +1,4 @@
--- Verify sead_change_control:20231123_DDL_UUID on pg
+-- Verify general: 20231123_DDL_BIBLIO_UUID
 
 BEGIN;
 

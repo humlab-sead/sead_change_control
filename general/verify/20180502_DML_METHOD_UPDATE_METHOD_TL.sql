@@ -1,4 +1,4 @@
--- Verify sead_change_control:CS_METHOD_20180502_UPDATE_METHOD_TL on pg
+-- Verify general: 20180502_DML_METHOD_UPDATE_METHOD_TL
 
 BEGIN;
 

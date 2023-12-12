@@ -1,4 +1,4 @@
--- Revert sead_db_change_control:CSR_20190408_REFACTOR_RELATIVE_DATES_RELATION from pg
+-- Revert general: 20170906_DDL_RELATIVE_DATES_ALTER_RELATION
 
 BEGIN;
 

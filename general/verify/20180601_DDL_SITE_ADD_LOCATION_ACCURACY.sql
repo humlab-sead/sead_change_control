@@ -1,4 +1,4 @@
--- Verify sead_db_change_control:CS_SITE_20180601_ADD_LOCATION_ACCURACY on pg
+-- Verify general: 20180601_DDL_SITE_ADD_LOCATION_ACCURACY
 
 BEGIN;
 

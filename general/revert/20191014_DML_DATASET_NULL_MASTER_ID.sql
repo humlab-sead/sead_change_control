@@ -1,4 +1,4 @@
--- Revert sead_change_control:20191014_DML_DATASET_NULL_MASTER_ID from pg
+-- Revert general: 20191014_DML_DATASET_NULL_MASTER_ID
 
 BEGIN;
 

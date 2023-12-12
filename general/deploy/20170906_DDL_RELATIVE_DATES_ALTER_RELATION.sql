@@ -1,3 +1,4 @@
+-- Deploy general: 20170906_DDL_RELATIVE_DATES_ALTER_RELATION
 
 begin;
 do $$

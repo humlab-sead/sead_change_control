@@ -1,4 +1,4 @@
--- Deploy sead_change_control:CS_SAMPLE__20190411_ASSIGN_SEQUENCE to pg
+-- Deploy general: 20190411_DDL_ASSIGN_SEQUENCES
 
 /****************************************************************************************************************
   Author        Roger Mähler

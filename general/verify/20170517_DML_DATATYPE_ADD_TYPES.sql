@@ -1,4 +1,4 @@
--- Verify sead_change_control:CS_DATA_TYPE_20170517_ADD_TYPES on pg
+-- Verify general: 20170517_DML_DATATYPE_ADD_TYPES
 
 BEGIN;
 

@@ -1,4 +1,4 @@
--- Revert sead_change_control:CS_DATA_TYPE_20170517_ADD_TYPES from pg
+-- Revert general: 20170517_DML_DATATYPE_ADD_TYPES
 
 BEGIN;
 

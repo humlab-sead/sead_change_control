@@ -1,4 +1,4 @@
--- Verify sead_change_control:20200210_DML_MAL_QOS_UPDATE_01 on pg
+-- Verify general: 20200210_DML_MAL_QOS_UPDATE_01
 
 BEGIN;
 

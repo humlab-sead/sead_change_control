@@ -1,4 +1,4 @@
--- Verify sead_change_control:20191212_DML_UPDATE_SAMPLE_ALT_REFS on pg
+-- Verify general: 20191212_DML_UPDATE_SAMPLE_ALT_REFS
 
 BEGIN;
 

@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20231129_DML_ADD_TAXONOMIC_ORDER_DYNTAXA to pg
+-- Deploy general: 20231129_DML_ADD_TAXONOMIC_ORDER_DYNTAXA
 
 /****************************************************************************************************************
   Author        Roger Mähler

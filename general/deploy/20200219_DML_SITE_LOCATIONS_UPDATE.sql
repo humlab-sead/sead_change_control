@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20200219_DML_SITE_LOCATIONS_UPDATE to pg
+-- Deploy general: 20200219_DML_SITE_LOCATIONS_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

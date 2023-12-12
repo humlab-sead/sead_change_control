@@ -1,4 +1,4 @@
--- Revert sead_db_change_control:CSR_20190408_CREATE_TABLE_DATASET_METHODS from pg
+-- Revert general: 20190408_DDL_DATASET_CREATE_TABLE_DATASET_METHODS
 
 BEGIN;
 

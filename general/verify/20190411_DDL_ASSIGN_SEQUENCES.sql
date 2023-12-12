@@ -1,4 +1,4 @@
--- Verify sead_change_control:CS_SAMPLE__20190411_ASSIGN_SEQUENCE on pg
+-- Verify general: 20190411_DDL_ASSIGN_SEQUENCES
 
 BEGIN;
 

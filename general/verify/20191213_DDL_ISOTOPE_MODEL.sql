@@ -1,4 +1,4 @@
--- Verify sead_change_control:20191012_DDL_ISOTOPE_MODEL on pg
+-- Verify general: 20191213_DDL_ISOTOPE_MODEL
 
 BEGIN;
 

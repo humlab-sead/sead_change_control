@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20200422_DML_MAL_TAXA_SP_SPP_QOS_UPDATE to pg
+-- Deploy general: 20200422_DML_MAL_TAXA_SP_SPP_QOS_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

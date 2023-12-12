@@ -1,4 +1,4 @@
--- Verify sead_db_change_control:CS_TAXA_20180601_DROP_VIEWS on pg
+-- Verify general: 20180601_DDL_TAXA_DROP_VIEWS
 
 BEGIN;
 

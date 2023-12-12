@@ -1,4 +1,4 @@
--- Revert sead_change_control:CS_SAMPLE__20190411_ASSIGN_SEQUENCE from pg
+-- Revert general: 20190411_DDL_ASSIGN_SEQUENCES
 
 BEGIN;
 

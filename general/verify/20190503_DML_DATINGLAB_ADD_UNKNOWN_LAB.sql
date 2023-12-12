@@ -1,4 +1,4 @@
--- Verify sead_change_control:CS_DATINGLAB_20190503_ADD_UNKNOWN_LAB on pg
+-- Verify general: 20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB
 
 BEGIN;
 

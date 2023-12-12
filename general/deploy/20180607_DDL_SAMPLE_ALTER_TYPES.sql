@@ -1,4 +1,4 @@
--- Deploy sead_db_change_control:CSA_20180607_ALTER_SAMPLE_GROUP_SAMPLING_CONTEXT to pg
+-- Deploy general: 20180607_DDL_SAMPLE_ALTER_TYPES
 
 /****************************************************************************************************************
   Author

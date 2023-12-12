@@ -1,4 +1,4 @@
--- Revert sead_change_control:CS_METHOD_20180502_UPDATE_METHOD_TL from pg
+-- Revert general: 20180502_DML_METHOD_UPDATE_METHOD_TL
 
 BEGIN;
 

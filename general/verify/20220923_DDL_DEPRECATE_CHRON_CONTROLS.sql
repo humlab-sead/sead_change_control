@@ -1,4 +1,4 @@
--- Verify sead_change_control:20220923_DDL_DEPRECATE_CHRON_CONTROLS on pg
+-- Verify general: 20220923_DDL_DEPRECATE_CHRON_CONTROLS
 
 BEGIN;
 

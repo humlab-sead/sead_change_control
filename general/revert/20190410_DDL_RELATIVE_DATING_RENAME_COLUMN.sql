@@ -1,4 +1,4 @@
--- Revert sead_change_control:CS_RELATIVE_DATING_20190410_RENAME_COLUMN from pg
+-- Revert general: 20190410_DDL_RELATIVE_DATING_RENAME_COLUMN
 
 BEGIN;
 

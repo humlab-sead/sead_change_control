@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20231129_DDL_MISSIN_UNIQUE_COMSTRAINTS to pg
+-- Deploy general: 20231129_DDL_MISSING_UNIQUE_CONSTRAINTS
 
 /****************************************************************************************************************
   Author        Roger Mähler

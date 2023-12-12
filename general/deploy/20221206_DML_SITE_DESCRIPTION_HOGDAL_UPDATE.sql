@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20221206_DML_SITE_DESCRIPTION_HOGDAL_UPDATE to pg
+-- Deploy general: 20221206_DML_SITE_DESCRIPTION_HOGDAL_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

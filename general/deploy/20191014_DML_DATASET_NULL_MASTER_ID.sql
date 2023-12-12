@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20191014_DML_DATASET_NULL_MASTER_ID to pg
+-- Deploy general: 20191014_DML_DATASET_NULL_MASTER_ID
 
 /****************************************************************************************************************
   Author        Roger Mähler

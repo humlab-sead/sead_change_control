@@ -1,4 +1,4 @@
--- Revert sead_change_control:CS_ECOCODE_20180222_ADD_SYSTEM_ID from pg
+-- Revert general: 20180222_DML_ECOCODE_ADD_SYSTEM_4
 
 BEGIN;
 

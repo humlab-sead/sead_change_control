@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20191212_DML_UPDATE_SAMPLE_ALT_REFS to pg
+-- Deploy general: 20191212_DML_UPDATE_SAMPLE_ALT_REFS
 
 /****************************************************************************************************************
   Author        Roger Mähler

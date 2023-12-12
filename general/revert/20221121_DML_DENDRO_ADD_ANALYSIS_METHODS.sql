@@ -1,4 +1,4 @@
--- Revert sead_change_control:20221121_DML_DENDRO_ADD_ANALYSIS_METHODS from pg
+-- Revert general: 20221121_DML_DENDRO_ADD_ANALYSIS_METHODS
 
 BEGIN;
 

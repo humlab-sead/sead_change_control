@@ -1,4 +1,4 @@
--- Verify sead_change_control:CS_BIBLIO_20180222_DATASRC_API on pg
+-- Verify general: 20180222_DML_BIBLIO_ADD_RECORD
 
 BEGIN;
 

@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20170517_DML_DATATYPE_ADD_TYPES to pg
+-- Deploy general: 20170517_DML_DATATYPE_ADD_TYPES
 
 /****************************************************************************************************************
   Author        Roger Mähler

@@ -1,4 +1,4 @@
--- Deploy sead_change_control:CS_SPECIES_20190415_DELETE_DUPLICATES to pg
+-- Deploy general: 20190415_DML_SPECIES_DELETE_DUPLICATES
 
 /****************************************************************************************************************
   Author        Roger Mähler

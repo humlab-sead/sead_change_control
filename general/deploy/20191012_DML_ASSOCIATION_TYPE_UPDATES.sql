@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20191012_DML_ASSOCIATION_TYPE_UPDATES to pg
+-- Deploy general: 20191012_DML_ASSOCIATION_TYPE_UPDATES
 
 /****************************************************************************************************************
   Author        Roger Mähler

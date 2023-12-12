@@ -1,4 +1,4 @@
--- Revert sead_change_control:CS_RELATIVE_AGE_20140417_ADD_DATA from pg
+-- Revert general: 20140417_DML_RELATIVE_AGE_ADD_DATA
 
 BEGIN;
 

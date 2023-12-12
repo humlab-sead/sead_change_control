@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20231206_DDL_UPDATE_OF_DENDRO_RELATED_LOOKUPS to pg
+-- Deploy general: 20231206_DDL_UPDATE_OF_DENDRO_RELATED_LOOKUPS
 /****************************************************************************************************************
 Author        Roger Mähler
 Date          2023-12-06

@@ -1,4 +1,4 @@
--- Revert sead_change_control:20200203_DML_METHOD_UPDATE from pg
+-- Revert general: 20200203_DML_METHOD_UPDATE
 
 BEGIN;
 

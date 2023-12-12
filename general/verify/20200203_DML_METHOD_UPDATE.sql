@@ -1,4 +1,4 @@
--- Verify sead_change_control:20200203_DML_METHOD_UPDATE on pg
+-- Verify general: 20200203_DML_METHOD_UPDATE
 
 BEGIN;
 

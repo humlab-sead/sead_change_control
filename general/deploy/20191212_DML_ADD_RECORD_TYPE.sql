@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20191212_DML_ADD_RECORD_TYPE to pg
+-- Deploy general: 20191212_DML_ADD_RECORD_TYPE
 
 /****************************************************************************************************************
   Author        Roger Mähler

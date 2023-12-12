@@ -1,4 +1,4 @@
--- Revert sead_change_control:20221121_DML_DENDRO_LOOKUP_STANDARD_UPDATE from pg
+-- Revert general: 20221121_DML_DENDRO_LOOKUP_STANDARD_UPDATE
 
 BEGIN;
 

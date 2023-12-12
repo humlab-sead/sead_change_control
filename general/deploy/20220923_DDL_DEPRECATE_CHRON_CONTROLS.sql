@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20220922_DDL_CHRONOLOGY_SCHEMA_CHANGES to pg
+-- Deploy general: 20220923_DDL_DEPRECATE_CHRON_CONTROLS
 
 /****************************************************************************************************************
   Author        Roger Mähler

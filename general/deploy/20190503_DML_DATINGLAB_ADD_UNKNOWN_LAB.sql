@@ -1,4 +1,4 @@
--- Deploy sead_change_control:CS_DATINGLAB_20190503_ADD_UNKNOWN_LAB to pg
+-- Deploy general: 20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB
 
 /****************************************************************************************************************
   Author        Roger Mähler

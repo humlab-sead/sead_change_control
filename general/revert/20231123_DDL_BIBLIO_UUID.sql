@@ -1,4 +1,4 @@
--- Revert sead_change_control:20231123_DDL_UUID from pg
+-- Revert general: 20231123_DDL_BIBLIO_UUID
 
 begin;
 

@@ -1,4 +1,4 @@
--- Revert sead_change_control:CS_TAXA_20150522_ADD_GENERA_SPHAGNUM from pg
+-- Revert general: 20150522_DML_TAXA_ADD_GENERA_SPHAGNUM
 
 BEGIN;
 

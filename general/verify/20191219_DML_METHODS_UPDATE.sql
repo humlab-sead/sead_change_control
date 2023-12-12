@@ -1,4 +1,4 @@
--- Verify sead_change_control:20191219_DML_METHODS_UPDATE on pg
+-- Verify general: 20191219_DML_METHODS_UPDATE
 
 BEGIN;
 

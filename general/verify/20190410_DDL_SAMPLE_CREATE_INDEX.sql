@@ -1,4 +1,4 @@
--- Verify sead_db_change_control:CS_SAMPLE_20190410_CREATE_INDEX on pg
+-- Verify general: 20190410_DDL_SAMPLE_CREATE_INDEX
 
 BEGIN;
 

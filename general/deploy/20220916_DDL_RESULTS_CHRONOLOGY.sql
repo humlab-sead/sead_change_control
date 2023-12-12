@@ -1,4 +1,4 @@
--- Deploy bugs:20220916_DDL_RESULTS_CHRONOLOGY to pg
+-- Deploy general: 20220916_DDL_RESULTS_CHRONOLOGY
 
 /****************************************************************************************************************
   Author        Roger Mähler

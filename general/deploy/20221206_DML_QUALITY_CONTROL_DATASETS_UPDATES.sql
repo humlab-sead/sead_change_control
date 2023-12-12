@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20221206_DML_QUALITY_CONTROL_DATASETS_UPDATES to pg
+-- Deploy general: 20221206_DML_QUALITY_CONTROL_DATASETS_UPDATES
 
 /****************************************************************************************************************
   Author        Roger Mähler

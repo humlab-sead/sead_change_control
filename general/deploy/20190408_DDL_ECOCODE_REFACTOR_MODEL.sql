@@ -1,4 +1,4 @@
--- Deploy sead_db_change_control:CSR_20190408_ALTER_TYPE_ECOCODE_GROUPS to pg
+-- Deploy general: 20190408_DDL_ECOCODE_REFACTOR_MODEL
 
 /****************************************************************************************************************
   Author

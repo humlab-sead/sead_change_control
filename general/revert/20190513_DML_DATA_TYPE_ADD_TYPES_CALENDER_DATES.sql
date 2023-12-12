@@ -1,4 +1,4 @@
--- Revert sead_change_control:CS_DATA_TYPE_20190513_ADD_TYPES_CALENDER_DATES from pg
+-- Revert general: 20190513_DML_DATA_TYPE_ADD_TYPES_CALENDER_DATES
 
 BEGIN;
 

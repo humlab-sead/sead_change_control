@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20221205_DML_QUALITY_CONTROL_BIBLIO_UPDATES to pg
+-- Deploy general: 20221205_DML_QUALITY_CONTROL_BIBLIO_UPDATES
 
 /****************************************************************************************************************
   Author        Roger Mähler

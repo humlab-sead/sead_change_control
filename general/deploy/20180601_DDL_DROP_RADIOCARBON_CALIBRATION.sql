@@ -1,4 +1,4 @@
--- Deploy sead_db_change_control:CS_DEPRECATE_20180601_DROP_RADIOCARBON_CALIBRATION to pg
+-- Deploy general: 20180601_DDL_DROP_RADIOCARBON_CALIBRATION
 
 /****************************************************************************************************************
   Author        Roger Mähler

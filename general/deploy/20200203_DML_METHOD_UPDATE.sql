@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20200203_DML_METHOD_UPDATE to pg
+-- Deploy general: 20200203_DML_METHOD_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

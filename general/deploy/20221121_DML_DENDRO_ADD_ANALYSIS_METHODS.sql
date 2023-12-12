@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20221121_DML_DENDRO_ADD_ANALYSIS_METHODS to pg
+-- Deploy general: 20221121_DML_DENDRO_ADD_ANALYSIS_METHODS
 
 /****************************************************************************************************************
   Author        Roger Mähler

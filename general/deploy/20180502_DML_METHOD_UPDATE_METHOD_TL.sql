@@ -1,4 +1,4 @@
--- Deploy sead_change_control: to pg
+-- Deploy general: 20180502_DML_METHOD_UPDATE_METHOD_TL
 
 /****************************************************************************************************************
   Author

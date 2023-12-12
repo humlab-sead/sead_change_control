@@ -1,4 +1,4 @@
--- Revert sead_change_control:20200315_DML_ECOCODE_ADD_SYSTEM_4 from pg
+-- Revert general: 20200315_DML_ECOCODE_ADD_SYSTEM_4
 
 BEGIN;
 

@@ -1,4 +1,4 @@
--- Revert sead_change_control:20220922_DDL_CHRONOLOGY_SCHEMA_CHANGES from pg
+-- Revert general: 20220922_DDL_CHRONOLOGY_SCHEMA_CHANGES
 
 BEGIN;
 

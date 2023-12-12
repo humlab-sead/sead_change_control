@@ -1,4 +1,4 @@
--- Verify sead_db_change_control:CSR_20190408_REFACTOR_CHRONOLOGIES on pg
+-- Verify general: 20170911_DDL_CHRONOLOGIES_REFACTOR_MODEL
 
 BEGIN;
 

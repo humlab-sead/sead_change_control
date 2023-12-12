@@ -1,4 +1,4 @@
--- Deploy general:20120921_DML_DATATYPE_UPDATE_DESCRIPTION to pg
+-- Deploy general: 20120921_DML_DATATYPE_UPDATE_DESCRIPTION
 
 /****************************************************************************************************************
   Author        Roger Mähler

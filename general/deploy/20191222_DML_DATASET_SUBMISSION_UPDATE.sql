@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20191222_DML_DATASET_SUBMISSION_UPDATE to pg
+-- Deploy general: 20191222_DML_DATASET_SUBMISSION_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler
@@ -21,7 +21,6 @@
         -- Ny submission_type: 14, Compilation into SEAD via external DB (excel) => Excel => XML => CH => SEAD
         -- Ny submission_type: 15, Compilation into SEAD via external TILIA => XML => (Excel) => XML => CH => SEAD
 *****************************************************************************************************************/
--- Deploy sead_change_control:20191222_DML_DATASET_SUBMISSION_UPDATE to pg
 
 /****************************************************************************************************************
   Author        Roger Mähler

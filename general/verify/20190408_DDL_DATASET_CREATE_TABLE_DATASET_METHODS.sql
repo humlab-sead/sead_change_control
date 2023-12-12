@@ -1,4 +1,4 @@
--- Verify sead_db_change_control:CSR_20190408_CREATE_TABLE_DATASET_METHODS on pg
+-- Verify general: 20190408_DDL_DATASET_CREATE_TABLE_DATASET_METHODS
 
 BEGIN;
 

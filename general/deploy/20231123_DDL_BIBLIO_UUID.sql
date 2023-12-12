@@ -1,3 +1,4 @@
+-- Deploy general: 20231123_DDL_BIBLIO_UUID
 /*
     select format('select * from %s', table_name)
     from sead_utility.foreign_key_columns

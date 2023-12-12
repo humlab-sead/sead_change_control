@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20191219_DML_METHODS_UPDATE to pg
+-- Deploy general: 20191219_DML_METHODS_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

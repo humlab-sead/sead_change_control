@@ -1,4 +1,4 @@
--- Verify sead_change_control:20191212_DML_ADD_RECORD_TYPE on pg
+-- Verify general: 20191212_DML_ADD_RECORD_TYPE
 
 BEGIN;
 

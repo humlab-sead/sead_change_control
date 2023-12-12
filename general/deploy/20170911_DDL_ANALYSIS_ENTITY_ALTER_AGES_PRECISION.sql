@@ -1,4 +1,4 @@
--- Deploy sead_db_change_control:CS_ANALYSIS_ENTITY_20170911_ALTER_AGES_PRECISION to pg
+-- Deploy general: 20170911_DDL_ANALYSIS_ENTITY_ALTER_AGES_PRECISION
 
 /****************************************************************************************************************
   Author        Phil Buckland

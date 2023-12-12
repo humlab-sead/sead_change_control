@@ -1,4 +1,4 @@
--- Revert sead_db_change_control:CS_SITE_20180601_ADD_LOCATION_ACCURACY from pg
+-- Revert general: 20180601_DDL_SITE_ADD_LOCATION_ACCURACY
 
 BEGIN;
 

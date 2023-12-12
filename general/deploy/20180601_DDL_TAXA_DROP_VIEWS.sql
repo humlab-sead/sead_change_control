@@ -1,4 +1,4 @@
--- Deploy sead_db_change_control:CS_TAXA_20180601_DROP_VIEWS to pg
+-- Deploy general: 20180601_DDL_TAXA_DROP_VIEWS
 
 /****************************************************************************************************************
   Author        Roger Mähler

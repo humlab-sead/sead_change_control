@@ -1,4 +1,4 @@
--- Revert sead_change_control:20231129_DDL_MISSIN_UNIQUE_COMSTRAINTS from pg
+-- Revert general: 20231129_DDL_MISSING_UNIQUE_CONSTRAINTS
 
 BEGIN;
 

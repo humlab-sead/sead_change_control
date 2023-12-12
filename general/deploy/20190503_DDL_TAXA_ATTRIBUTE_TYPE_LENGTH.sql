@@ -1,4 +1,4 @@
--- Deploy sead_change_control:CS_TAXA_20190503_ATTRIBUTE_TYPE_LENGTH to pg
+-- Deploy general: 20190503_DDL_TAXA_ATTRIBUTE_TYPE_LENGTH
 
 /****************************************************************************************************************
   Author        Roger Mähler

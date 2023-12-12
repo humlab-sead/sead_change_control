@@ -1,4 +1,4 @@
--- Deploy sead_change_control:CS_TAXA_20190503_ADD_SPECIES_ASSOC_TYPES to pg
+-- Deploy general: 20190503_DML_TAXA_ADD_SPECIES_ASSOC_TYPES
 
 /****************************************************************************************************************
   Author        Roger Mähler

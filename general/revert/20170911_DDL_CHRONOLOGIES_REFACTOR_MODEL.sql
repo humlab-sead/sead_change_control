@@ -1,4 +1,4 @@
--- Revert sead_db_change_control:CSR_20190408_REFACTOR_CHRONOLOGIES from pg
+-- Revert general: 20170911_DDL_CHRONOLOGIES_REFACTOR_MODEL
 
 BEGIN;
 

@@ -1,4 +1,4 @@
--- Verify sead_change_control:20191012_DML_ASSOCIATION_TYPE_UPDATES on pg
+-- Verify general: 20191012_DML_ASSOCIATION_TYPE_UPDATES
 
 BEGIN;
 

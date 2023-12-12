@@ -1,4 +1,4 @@
--- Verify sead_db_change_control:CSR_20190408_REFACTOR_RELATIVE_DATES_RELATION on pg
+-- Verify general: 20170906_DDL_RELATIVE_DATES_ALTER_RELATION
 
 BEGIN;
 

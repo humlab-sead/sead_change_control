@@ -1,4 +1,4 @@
--- Revert sead_db_change_control:CS_TAXA_20180601_DROP_VIEWS from pg
+-- Revert general: 20180601_DDL_TAXA_DROP_VIEWS
 
 BEGIN;
 

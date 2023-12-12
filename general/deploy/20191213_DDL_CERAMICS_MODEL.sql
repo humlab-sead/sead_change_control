@@ -1,4 +1,4 @@
--- Deploy sead_db_change_control:CSR_20190408_CREATE_TABLE_CERAMICS_LOOKUP to pg
+-- Deploy general: 20191213_DDL_CERAMICS_MODEL
 
 /****************************************************************************************************************
   Author        Roger Mähler

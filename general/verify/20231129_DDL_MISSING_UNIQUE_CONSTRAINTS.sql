@@ -1,4 +1,4 @@
--- Verify sead_change_control:20231129_DDL_MISSIN_UNIQUE_COMSTRAINTS on pg
+-- Verify general: 20231129_DDL_MISSING_UNIQUE_CONSTRAINTS
 
 BEGIN;
 

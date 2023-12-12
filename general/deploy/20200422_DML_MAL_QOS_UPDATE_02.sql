@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20200422_DML_MAL_QOS_UPDATE_02 to pg
+-- Deploy general: 20200422_DML_MAL_QOS_UPDATE_02
 
 /****************************************************************************************************************
   Author        Roger Mähler

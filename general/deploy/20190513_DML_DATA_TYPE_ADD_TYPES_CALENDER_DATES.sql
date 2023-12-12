@@ -1,4 +1,4 @@
--- Deploy sead_change_control:CS_DATA_TYPE_20190513_ADD_TYPES_CALENDER_DATES to pg
+-- Deploy general: 20190513_DML_DATA_TYPE_ADD_TYPES_CALENDER_DATES
 
 /****************************************************************************************************************
   Author        Roger Mähler

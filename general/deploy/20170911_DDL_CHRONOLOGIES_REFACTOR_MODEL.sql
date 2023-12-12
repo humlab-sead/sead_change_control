@@ -1,4 +1,4 @@
--- Deploy sead_db_change_control:CSR_20190408_REFACTOR_CHRONOLOGIES to pg
+-- Deploy general: 20170911_DDL_CHRONOLOGIES_REFACTOR_MODEL
 
 begin;
 

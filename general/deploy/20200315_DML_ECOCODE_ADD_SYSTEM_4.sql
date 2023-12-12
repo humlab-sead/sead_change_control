@@ -1,4 +1,4 @@
--- Deploy sead_change_control:CS_ECOCODE_20180222_ADD_SYSTEM_ID to pg
+-- Deploy general: 20200315_DML_ECOCODE_ADD_SYSTEM_4
 
 /****************************************************************************************************************
   Author

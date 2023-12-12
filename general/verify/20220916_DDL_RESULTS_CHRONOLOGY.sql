@@ -1,4 +1,4 @@
--- Verify bugs:20220916_DDL_RESULTS_CHRONOLOGY on pg
+-- Verify general: 20220916_DDL_RESULTS_CHRONOLOGY
 
 BEGIN;
 

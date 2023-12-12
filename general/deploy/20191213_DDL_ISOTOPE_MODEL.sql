@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20191012_DDL_ISOTOPE_MODEL to pg
+-- Deploy general: 20191213_DDL_ISOTOPE_MODEL
 
 /****************************************************************************************************************
   Author        Roger Mähler

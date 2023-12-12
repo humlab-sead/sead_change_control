@@ -1,4 +1,4 @@
--- Deploy sead_db_change_control:CS_DENDRO_20190520_CREATE_DENDRO_LOOKUP to pg
+-- Deploy general: 20191213_DDL_DENDRO_MODEL
 
 begin;
 

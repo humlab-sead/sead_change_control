@@ -1,4 +1,4 @@
--- Revert sead_db_change_control:SEAD_CR_00001_REFACTOR_BIBLIO from pg
+-- Revert general: 20170101_DDL_BIBLIO_REFACTOR_MODEL
 
 BEGIN;
 

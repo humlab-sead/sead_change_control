@@ -1,4 +1,4 @@
--- Verify sead_db_change_control:CSD_20190408_UPDATE_LOCATION_3804 on pg
+-- Verify general: 20190408_DML_LOCATION_UPDATE_LOCATION_RECORD
 
 BEGIN;
 

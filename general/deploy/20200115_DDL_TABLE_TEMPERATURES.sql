@@ -1,4 +1,4 @@
--- Deploy sead_change_control:20200115_DDL_TABLE_TEMPERATURES to pg
+-- Deploy general: 20200115_DDL_TABLE_TEMPERATURES
 
 /****************************************************************************************************************
   Author        Roger Mähler

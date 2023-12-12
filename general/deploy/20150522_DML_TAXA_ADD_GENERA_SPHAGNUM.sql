@@ -1,4 +1,4 @@
--- Deploy sead_change_control:CS_TAXA_20150522_ADD_GENERA_SPHAGNUM to pg
+-- Deploy general: 20150522_DML_TAXA_ADD_GENERA_SPHAGNUM
 
 /****************************************************************************************************************
   Author        Roger Mähler

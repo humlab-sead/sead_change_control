@@ -1,4 +1,4 @@
--- Deploy sead_db_change_control:CS_COMMENTS_20190410_UPDATE_COMMENTS to pg
+-- Deploy general: 20190410_DDL_COMMENTS_UPDATE_COMMENTS
 
 /****************************************************************************************************************
   Author        Roger Mähler

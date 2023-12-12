@@ -1,4 +1,4 @@
--- Revert sead_change_control:CS_SCHEMA_20190425_ADD_MISSING_FOREIGN_KEYS from pg
+-- Revert general: 20190425_DDL_SCHEMA_ADD_MISSING_FOREIGN_KEYS
 
 BEGIN;
 
