@@ -1,0 +1,77 @@
+#!/bin/bash
+
+SHELL=/bin/bash
+
+set -e
+
+function usage() {
+    echo "HELP!"
+    # gh issue create --help
+}
+
+g_change=
+g_project=
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --change|-c)
+            g_change="$2";
+            g_change="${g_change##*/}"     # Remove the folder path
+            g_change="${g_change%.*}"
+            shift 2;
+        ;;
+        --project|-p)
+            g_project="$2";
+            shift 2;
+        ;;
+        --*)
+            echo "error: invalid option $1"
+            usage
+            exit 64 
+        ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+        ;;
+    esac
+done
+echo "g_change: $g_change"
+
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+if [ -z "$g_project" ] || [ -z "$g_change" ]; then
+    echo "error: missing required option --project or --change"
+    exit 64
+fi
+
+if [ ! -f "$g_project/sqitch.plan" ]; then
+    echo "Project $g_project does not exist"
+    exit 64
+fi
+
+if [ ! -f "$g_project/deploy/${g_change}.sql" ]; then
+    echo "Change $g_project/deploy/${g_change}.sql does not exist"
+    exit 64
+fi
+
+function update_header(){
+    local project=$1
+    local change=$2
+
+    for type in deploy revert verify; do
+        if [ ! -f "$project/$type/${change}.sql" ]; then
+            echo "Change $project/$type/${change}.sql does not exist"
+            exit 64
+        fi
+        echo "-- ${type^} $project: $change" > /tmp/$change.sql
+        grep -v -i -e "^-- ${type}" $project/$type/$change.sql >> /tmp/$change.sql ;
+        mv -f /tmp/$change.sql $project/$type/$change.sql
+    done
+
+}
+
+update_header $g_project $g_change
