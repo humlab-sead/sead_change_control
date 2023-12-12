@@ -70,9 +70,9 @@ if [ ! -f "$g_from_project/deploy/${g_change}.sql" ]; then
     exit 64
 fi
 
-mv "$g_from_project/deploy/${g_change}.sql" "$g_to_project/deploy/${g_change}.sql"
-mv "$g_from_project/revert/${g_change}.sql" "$g_to_project/revert/${g_change}.sql"
-mv "$g_from_project/verify/${g_change}.sql" "$g_to_project/verify/${g_change}.sql"
+for type in deploy revert verify; do
+    mv "$g_from_project/$type/${g_change}.sql" "$g_to_project/$type/${g_change}.sql"
+done
 
 if [ "$g_update_plan" == "YES" ]; then
 
