@@ -1,4 +1,4 @@
--- Deploy security:20190622_DDL_FACET_USERS to pg
+-- Deploy security: 20190622_DDL_FACET_USERS
 do $$
 begin
     if not exists (select from pg_catalog.pg_roles where rolname = 'querysead_owner') then

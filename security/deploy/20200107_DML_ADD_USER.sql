@@ -1,4 +1,4 @@
--- Deploy security:20200107_DML_ADD_USER to pg
+-- Deploy security: 20200107_DML_ADD_USER
 
 /****************************************************************************************************************
   Author        Roger Mähler
