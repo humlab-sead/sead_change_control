@@ -1,4 +1,4 @@
--- Verify sead_api:20221121_DDL_DELETE_FACET_UDF on pg
+-- Verify sead_api: 20221121_DDL_UDF_DELETE_FACET
 
 BEGIN;
 

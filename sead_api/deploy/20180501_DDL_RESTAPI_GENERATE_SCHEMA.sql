@@ -1,4 +1,4 @@
--- Deploy sead_db_change_control:CSA_20180501_GENERATE_REST_API_SCHEMA to pg
+-- Deploy sead_api: 20180501_DDL_RESTAPI_GENERATE_SCHEMA
 
 /****************************************************************************************************************
   Change author

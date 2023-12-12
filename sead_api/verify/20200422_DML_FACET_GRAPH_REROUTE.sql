@@ -1,4 +1,4 @@
--- Verify sead_api:20200422_DML_FACET_GRAPH_REROUTE on pg
+-- Verify sead_api: 20200422_DML_FACET_GRAPH_REROUTE
 
 BEGIN;
 

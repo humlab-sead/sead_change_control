@@ -1,4 +1,4 @@
--- Deploy sead_api:20221121_DDL_DELETE_FACET_UDF to pg
+-- Deploy sead_api: 20221121_DDL_UDF_DELETE_FACET
 
 /****************************************************************************************************************
   Author        Roger Mähler

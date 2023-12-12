@@ -1,4 +1,4 @@
--- Deploy sead_api:CS_DATAARC_20170810_DATASRC_API to pg
+-- Deploy sead_api: 20170810_DDL_DATAARC_DATASRC_API
 
 /****************************************************************************************************************
   Author        Roger Mähler

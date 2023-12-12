@@ -1,4 +1,4 @@
--- Deploy sead_api:20200507_DDL_FACET_SCHEMA_UPDATE to pg
+-- Deploy sead_api: 20200507_DDL_FACET_SCHEMA_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

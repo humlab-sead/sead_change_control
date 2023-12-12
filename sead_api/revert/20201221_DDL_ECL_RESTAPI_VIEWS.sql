@@ -1,4 +1,4 @@
--- Revert sead_api:20201221_DDL_ECL_RESTAPI_VIEWS from pg
+-- Revert sead_api: 20201221_DDL_ECL_RESTAPI_VIEWS
 
 BEGIN;
 

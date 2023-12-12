@@ -1,4 +1,4 @@
--- Deploy sead_api:20200429_DDL_UDF_FACET_UPDATE to pg
+-- Deploy sead_api: 20200429_DDL_UDF_FACET_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

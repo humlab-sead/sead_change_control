@@ -1,4 +1,4 @@
--- Revert sead_api:20200507_DDL_RESULT_FIELD_UPDATE from pg
+-- Revert sead_api: 20200507_DDL_RESULT_FIELD_UPDATE
 
 BEGIN;
 

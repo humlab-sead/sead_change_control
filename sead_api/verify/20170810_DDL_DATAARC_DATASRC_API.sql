@@ -1,4 +1,4 @@
--- Verify sead_api:CS_DATAARC_20170810_DATASRC_API on pg
+-- Verify sead_api: 20170810_DDL_DATAARC_DATASRC_API
 
 BEGIN;
 

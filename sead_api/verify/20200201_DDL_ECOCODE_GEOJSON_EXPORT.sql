@@ -1,4 +1,4 @@
--- Verify sead_api:20191012_DML_ECOCODE_GEOJSON_EXPORT on pg
+-- Verify sead_api: 20200201_DDL_ECOCODE_GEOJSON_EXPORT
 
 BEGIN;
 

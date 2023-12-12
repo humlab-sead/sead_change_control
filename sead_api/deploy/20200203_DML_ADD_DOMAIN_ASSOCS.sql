@@ -1,4 +1,4 @@
--- Deploy sead_api:20200203_DML_ADD_DOMAIN_ASSOCS to pg
+-- Deploy sead_api: 20200203_DML_ADD_DOMAIN_ASSOCS
 
 /****************************************************************************************************************
   species_author        Roger Mähler

@@ -1,4 +1,4 @@
--- Deploy sead_api:20200507_DDL_FACET_ABUNDANCE_UPDATE to pg
+-- Deploy sead_api: 20200507_DDL_FACET_ABUNDANCE_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

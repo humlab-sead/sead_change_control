@@ -1,4 +1,4 @@
--- Deploy sead_api:20200316_DDL_BUGS_ECOCODE_GEOJSON to pg
+-- Deploy sead_api: 20200316_DDL_BUGS_ECOCODE_GEOJSON
 
 /****************************************************************************************************************
   Author        Roger Mähler

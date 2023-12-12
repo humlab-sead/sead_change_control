@@ -1,4 +1,4 @@
--- Deploy sead_api:20200429_DML_FACET_UPDATES to pg
+-- Deploy sead_api: 20200429_DML_FACET_UPDATES
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2020

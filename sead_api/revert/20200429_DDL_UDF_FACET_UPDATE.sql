@@ -1,4 +1,4 @@
--- Revert sead_api:20200429_DDL_UDF_FACET_UPDATE from pg
+-- Revert sead_api: 20200429_DDL_UDF_FACET_UPDATE
 
 BEGIN;
 

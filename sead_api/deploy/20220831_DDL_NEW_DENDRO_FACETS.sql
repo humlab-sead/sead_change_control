@@ -1,5 +1,5 @@
+-- Deploy sead_api: 20220831_DDL_NEW_DENDRO_FACETS
 -- Active: 1661931903212@@humlabseadserv.srv.its.umu.se@5432@sead_development@facet
--- Deploy sead_api:20220831_DDL_NEW_DENDRO_FACETS to pg
 
 /****************************************************************************************************************
   Author        Roger Mähler

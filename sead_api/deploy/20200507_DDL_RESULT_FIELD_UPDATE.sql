@@ -1,4 +1,4 @@
--- Deploy sead_api:20200507_DDL_RESULT_FIELD_UPDATE to pg
+-- Deploy sead_api: 20200507_DDL_RESULT_FIELD_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

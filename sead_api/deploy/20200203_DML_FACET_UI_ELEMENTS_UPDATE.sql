@@ -1,4 +1,4 @@
--- Deploy sead_api:20200203_DML_FACET_UI_ELEMENTS_UPDATE to pg
+-- Deploy sead_api: 20200203_DML_FACET_UI_ELEMENTS_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

@@ -1,4 +1,4 @@
--- Deploy sead_api:20190101_DML_FACET_SCHEMA to pg
+-- Deploy sead_api: 20190101_DML_FACET_SCHEMA
 
 /****************************************************************************************************************
   Author        Roger Mähler

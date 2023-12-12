@@ -1,4 +1,4 @@
--- Revert sead_api:CS_DATAARC_20170810_DATASRC_API from pg
+-- Revert sead_api: 20170810_DDL_DATAARC_DATASRC_API
 
 BEGIN;
 

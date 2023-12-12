@@ -1,4 +1,4 @@
--- Verify sead_api:20200429_DDL_UDF_FACET_UPDATE on pg
+-- Verify sead_api: 20200429_DDL_UDF_FACET_UPDATE
 
 BEGIN;
 

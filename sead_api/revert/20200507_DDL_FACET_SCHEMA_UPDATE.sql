@@ -1,4 +1,4 @@
--- Revert sead_api:20200507_DDL_FACET_SCHEMA_UPDATE from pg
+-- Revert sead_api: 20200507_DDL_FACET_SCHEMA_UPDATE
 
 BEGIN;
 

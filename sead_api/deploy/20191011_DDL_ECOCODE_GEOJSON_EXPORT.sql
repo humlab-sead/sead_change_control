@@ -1,4 +1,4 @@
--- Deploy sead_api:20191012_DML_ECOCODE_GEOJSON_EXPORT to pg
+-- Deploy sead_api: 20191011_DDL_ECOCODE_GEOJSON_EXPORT
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-01-01

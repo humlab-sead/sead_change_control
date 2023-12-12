@@ -1,4 +1,4 @@
--- Verify sead_api:20200316_DDL_BUGS_ECOCODE_GEOJSON on pg
+-- Verify sead_api: 20200316_DDL_BUGS_ECOCODE_GEOJSON
 
 BEGIN;
 

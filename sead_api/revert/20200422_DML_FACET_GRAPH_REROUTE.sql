@@ -1,4 +1,4 @@
--- Revert sead_api:20200422_DML_FACET_GRAPH_REROUTE from pg
+-- Revert sead_api: 20200422_DML_FACET_GRAPH_REROUTE
 
 BEGIN;
 

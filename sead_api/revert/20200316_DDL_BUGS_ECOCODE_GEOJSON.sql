@@ -1,4 +1,4 @@
--- Revert sead_api:20200316_DDL_BUGS_ECOCODE_GEOJSON from pg
+-- Revert sead_api: 20200316_DDL_BUGS_ECOCODE_GEOJSON
 
 BEGIN;
 

@@ -1,4 +1,4 @@
--- Deploy sead_api:20200422_DML_FACET_GRAPH_REROUTE to pg
+-- Deploy sead_api: 20200422_DML_FACET_GRAPH_REROUTE
 
 /****************************************************************************************************************
   Author        Roger Mähler

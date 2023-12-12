@@ -1,4 +1,4 @@
--- Deploy sead_api:20190101_DDL_FACET_SCHEMA to pg
+-- Deploy sead_api: 20190101_DDL_FACET_SCHEMA
 -- rollback
 /****************************************************************************************************************
   Author        Roger Mähler

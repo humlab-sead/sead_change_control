@@ -1,4 +1,4 @@
--- Deploy sead_api:20191012_DDL_FACET_MEASURED_VALUE_UDF to pg
+-- Deploy sead_api: 20191012_DDL_FACET_MEASURED_VALUE_UDF
 
 /****************************************************************************************************************
   Author        Roger Mähler

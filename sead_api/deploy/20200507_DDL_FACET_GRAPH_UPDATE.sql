@@ -1,4 +1,4 @@
--- Deploy sead_api:20200507_DDL_FACET_GRAPH_UPDATE to pg
+-- Deploy sead_api: 20200507_DDL_FACET_GRAPH_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

@@ -1,4 +1,4 @@
--- Verify sead_api:20200429_DML_FACET_UPDATES on pg
+-- Verify sead_api: 20200429_DML_FACET_UPDATES
 
 BEGIN;
 

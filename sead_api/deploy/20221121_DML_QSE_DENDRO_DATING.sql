@@ -1,4 +1,4 @@
--- Deploy sead_api:20221121_DML_QSE_DENDRO_DATING to pg
+-- Deploy sead_api: 20221121_DML_QSE_DENDRO_DATING
 
 /****************************************************************************************************************
   Author        Roger Mähler

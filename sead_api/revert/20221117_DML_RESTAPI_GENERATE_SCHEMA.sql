@@ -1,4 +1,4 @@
--- Revert sead_db_change_control:CSA_20180501_GENERATE_REST_API_SCHEMA from pg
+-- Revert sead_api: 20221117_DML_RESTAPI_GENERATE_SCHEMA
 
 BEGIN;
 

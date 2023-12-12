@@ -1,4 +1,4 @@
--- Verify sead_api:20201221_DDL_ECL_RESTAPI_VIEWS on pg
+-- Verify sead_api: 20201221_DDL_ECL_RESTAPI_VIEWS
 
 BEGIN;
 

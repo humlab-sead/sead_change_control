@@ -1,4 +1,4 @@
--- Revert sead_api:20221121_DDL_DELETE_FACET_UDF from pg
+-- Revert sead_api: 20221121_DDL_UDF_DELETE_FACET
 
 begin;
 

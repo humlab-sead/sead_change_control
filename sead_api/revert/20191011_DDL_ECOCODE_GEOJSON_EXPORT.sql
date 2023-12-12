@@ -1,4 +1,4 @@
--- Revert sead_api:20191012_DML_ECOCODE_GEOJSON_EXPORT from pg
+-- Revert sead_api: 20191011_DDL_ECOCODE_GEOJSON_EXPORT
 
 BEGIN;
 

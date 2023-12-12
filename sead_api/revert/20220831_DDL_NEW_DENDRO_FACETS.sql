@@ -1,4 +1,4 @@
--- Revert sead_api:20220831_DDL_NEW_DENDRO_FACETS from pg
+-- Revert sead_api: 20220831_DDL_NEW_DENDRO_FACETS
 
 BEGIN;
 

@@ -1,3 +1,4 @@
+-- Revert sead_api: 20200201_DDL_ECOCODE_GEOJSON_EXPORT
 -- Deploy sead_api:20191012_DML_ECOCODE_GEOJSON_EXPORT to pg
 /****************************************************************************************************************
   Author        Roger Mähler

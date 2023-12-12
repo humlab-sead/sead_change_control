@@ -1,4 +1,4 @@
--- Verify sead_api:20200507_DDL_RESULT_FIELD_UPDATE on pg
+-- Verify sead_api: 20200507_DDL_RESULT_FIELD_UPDATE
 
 BEGIN;
 
