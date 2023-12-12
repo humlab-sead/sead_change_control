@@ -1,0 +1,6 @@
+-- Verify sead_change_control:20231129_DDL_MISSIN_UNIQUE_COMSTRAINTS on pg
+
+BEGIN;
+
+
+ROLLBACK;
