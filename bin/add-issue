@@ -18,6 +18,8 @@ g_assignee="@me"
 g_body="To be documented. Placeholder issue for change request."
 g_close=NO
 g_update_plan=NO
+g_use_plan_comment=NO
+g_comment=
 g_issue_id=
 
 POSITIONAL=()
@@ -58,6 +60,10 @@ do
             g_close="YES";
             shift;
         ;;
+        --use-plans-body|-x)
+            g_use_plan_comment="YES";
+            shift;
+        ;;
         --*)
             echo "error: invalid option $1"
             usage
@@ -87,12 +93,17 @@ if [ ! -f "$g_project/deploy/${g_change}.sql" ]; then
     exit 64
 fi
 
+if [ "$g_use_plan_comment" == "YES" ]; then
+    g_comment=$(awk -v keyword="$g_change" '$1 == keyword { match($0, /#(.*)$/); print substr($0, RSTART+1, RLENGTH-1) }' $g_project/sqitch.plan)
+fi
+
 issue_body=$(cat <<EOF
 
 Change project: Created CR [$g_project](https://github.com/humlab-sead/sead_change_control/blob/master/${g_project}/sqitch.plan)
 Change request: Created CR [$g_change](https://github.com/humlab-sead/sead_change_control/blob/master/${g_project}/deploy/${g_change}.sql)
 
 $g_body
+$g_comment
 
 EOF
 )
