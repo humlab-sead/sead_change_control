@@ -41,7 +41,7 @@ do
             shift 2;
         ;;
         --label|-l)
-            g_label="$2";
+            g_label="$g_label,$2";
             shift 2;
         ;;
         --assignee|-a)
@@ -60,7 +60,7 @@ do
             g_close="YES";
             shift;
         ;;
-        --use-plans-body|-x)
+        --use-plan-comment|-r)
             g_use_plan_comment="YES";
             shift;
         ;;
@@ -119,7 +119,7 @@ if [ "$g_issue_id" == "" ]; then
     g_issue_url=$(gh issue create \
         --title "$g_change" \
         --body "$issue_body" \
-        --label "change-request" \
+        --label "$g_label" \
         --assignee @me,roger-mahler \
     )
 
@@ -130,6 +130,7 @@ if [ "$g_issue_id" == "" ]; then
 else
 
     gh issue comment ${g_issue_id} --body "$issue_body"
+    # gh issue label ${g_issue_id} --body "$issue_body"
 
     g_issue_url="https://github.com/humlab-sead/sead_change_control/issues/${g_issue_id}"
 
