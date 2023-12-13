@@ -20,20 +20,20 @@
 20190411_DDL_ASSIGN_SEQUENCES 2019-04-11T14:41:49Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/177:  Assign sequence as default
 20190503_DDL_TAXA_ATTRIBUTE_TYPE_LENGTH 2019-05-03T08:57:52Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/101: Increase length of field attribute_type to accomodate large values from Bugs
 20170101_DDL_BIBLIO_REFACTOR_MODEL 2019-04-06T15:57:13Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/18: Refactor bibliographic data to a less complex model.
-20180607_DDL_SAMPLE_ALTER_TYPES 2019-04-08T14:44:13Z Roger Mähler <roger.mahler@umu.se> # Change type of tbl_sample_group_sampling_contexts.sampling_context
+20180607_DDL_SAMPLE_ALTER_TYPES 2019-04-08T14:44:13Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/184:  Change type of tbl_sample_group_sampling_contexts.sampling_context
 
-20180222_DML_BIBLIO_ADD_RECORD 2019-04-15T08:25:52Z Roger Mähler <roger.mahler@umu.se> # Add "Arnolds & E. van der Maarel (1979)".
-20190408_DML_LOCATION_UPDATE_LOCATION_RECORD 2019-04-09T08:40:43Z Roger Mähler <roger.mahler@umu.se> # Update name on location 3894
-20180502_DML_METHOD_UPDATE_METHOD_TL 2019-04-15T10:32:04Z Roger Mähler <roger.mahler@umu.se> # Update description for method TL.
-20120921_DML_RECORD_TYPE_UPDATE_PLANTS_POLLEN 2019-04-15T10:41:55Z Roger Mähler <roger.mahler@umu.se> # Update description for method plants and pollen.
+20180222_DML_BIBLIO_ADD_RECORD 2019-04-15T08:25:52Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/185:  Add "Arnolds & E. van der Maarel (1979)".
+20190408_DML_LOCATION_UPDATE_LOCATION_RECORD 2019-04-09T08:40:43Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/186:  Update name on location 3894
+20180502_DML_METHOD_UPDATE_METHOD_TL 2019-04-15T10:32:04Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/189:  Update description for method TL.
+20120921_DML_RECORD_TYPE_UPDATE_PLANTS_POLLEN 2019-04-15T10:41:55Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/190:  Update description for method plants and pollen.
 20140417_DML_RELATIVE_AGE_ADD_DATA 2019-04-15T10:55:51Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/180:  Add relative ages data (origin is sead_master_8).
 20131113_DML_SITE_UPDATE_LAT_LONG 2019-04-15T13:54:01Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/181:  https://github.com/humlab-sead/sead_change_control/issues/151: Set latitude/longitude on 61 sites
-20170517_DML_DATATYPE_ADD_TYPES 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # Add three types
-20120921_DML_DATATYPE_UPDATE_DESCRIPTION 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # Add three types
-20150522_DML_TAXA_ADD_GENERA_SPHAGNUM 2019-04-16T08:10:44Z Roger Mähler <roger.mahler@umu.se> # Add genera Sphagnum. Origin is sead_master_8 consolidation.
-20121220_DML_HORIZON_UPDATE_DESCRIPTION 2019-04-16T14:05:32Z Roger Mähler <roger.mahler@umu.se> # Origin for update is diff between sead_master_9/sead_master_8.
+20170517_DML_DATATYPE_ADD_TYPES 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/182:  Add three types
+20120921_DML_DATATYPE_UPDATE_DESCRIPTION 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/183:  Add three types
+20150522_DML_TAXA_ADD_GENERA_SPHAGNUM 2019-04-16T08:10:44Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/187:  Add genera Sphagnum. Origin is sead_master_8 consolidation.
+20121220_DML_HORIZON_UPDATE_DESCRIPTION 2019-04-16T14:05:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/188:  Origin for update is diff between sead_master_9/sead_master_8.
+# 😂🤣❤️😍
 
-20190503_DML_TAXA_ADD_SPECIES_ASSOC_TYPES 2019-05-03T18:07:02Z Roger Mähler <roger.mahler@umu.se> # Add new association type names to accomodate Bugs import
 20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # Add unknown dating lab to accomodate Bugs import
 20190513_DML_DATA_TYPE_ADD_TYPES_CALENDER_DATES 2019-05-13T13:37:26Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/152: Add Calender Dates
 
