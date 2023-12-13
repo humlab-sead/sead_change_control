@@ -37,8 +37,8 @@
 # 😂🤣❤️😍
 
 
-20191213_DDL_CERAMICS_MODEL 2019-04-09T08:59:54Z Roger Mähler <roger.mahler@umu.se> # Add new lookup table for ceramics data
-20191213_DDL_DENDRO_MODEL 2019-04-09T14:34:56Z Roger Mähler <roger.mahler@umu.se> # Add lookup table for dendro data
+20191213_DDL_CERAMICS_MODEL 2019-04-09T08:59:54Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/196:  Creates ceramic data model
+20191213_DDL_DENDRO_MODEL 2019-04-09T14:34:56Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/195:  Creates dendrochronological data model
 20191213_DDL_ISOTOPE_MODEL 2019-10-12T15:09:19Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/14: Creates Isotope data model
 
 20191219_DML_METHODS_UPDATE 2019-12-19T13:34:03Z Roger <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/34: Methods updates
