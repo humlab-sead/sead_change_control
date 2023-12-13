@@ -32,14 +32,10 @@
 20120921_DML_DATATYPE_UPDATE_DESCRIPTION 2019-04-15T18:22:42Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/183:  Add three types
 20150522_DML_TAXA_ADD_GENERA_SPHAGNUM 2019-04-16T08:10:44Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/187:  Add genera Sphagnum. Origin is sead_master_8 consolidation.
 20121220_DML_HORIZON_UPDATE_DESCRIPTION 2019-04-16T14:05:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/188:  Origin for update is diff between sead_master_9/sead_master_8.
-# 😂🤣❤️😍
-
-20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/191:  Add unknown dating lab to accomodate Bugs import
 20190513_DML_DATA_TYPE_ADD_TYPES_CALENDER_DATES 2019-05-13T13:37:26Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/192:  https://github.com/humlab-sead/sead_change_control/issues/152: Add Calender Dates
 
+# 😂🤣❤️😍
 
-20191212_DML_ADD_RECORD_TYPE 2019-12-12T07:54:59Z Roger Mähler <roger.mahler@umu.se> # Add missing record types
-20191212_DML_UPDATE_SAMPLE_ALT_REFS 2019-12-12T13:29:25Z Roger Mähler <roger.mahler@umu.se> # Update insert into tbl_alt_ref_types (alt_ref_type_id, alt_ref_type, description)
 
 20191213_DDL_CERAMICS_MODEL 2019-04-09T08:59:54Z Roger Mähler <roger.mahler@umu.se> # Add new lookup table for ceramics data
 20191213_DDL_DENDRO_MODEL 2019-04-09T14:34:56Z Roger Mähler <roger.mahler@umu.se> # Add lookup table for dendro data
