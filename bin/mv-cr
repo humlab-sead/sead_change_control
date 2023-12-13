@@ -12,7 +12,7 @@ function usage() {
 g_change=
 g_from_project=
 g_to_project=
-g_update_plan=NO
+g_update_plan=YES
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -32,8 +32,8 @@ do
             g_to_project="$2";
             shift 2;
         ;;
-        --update-plan|-u)
-            g_update_plan="YES";
+        --no-update-plan|-u)
+            g_update_plan="NO";
             shift;
         ;;
         --*)
