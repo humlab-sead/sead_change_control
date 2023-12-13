@@ -21,7 +21,9 @@
 ## 20200315_DML_BUGS_IMPORT_POST_APPLY_20200219 2020-03-16T14:24:34Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/42: Post applies after Bugs import
 
 @2020.02 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Feb release
+20200422_UPDATE_BUGS_REFERENCES_YEAR 2020-04-22T15:19:18Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/69: Update erroneous year in BugsCEP references
 @2020.03 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
+20220916_DDL_RESULTS_CHRONOLOGY 2022-09-16T13:35:07Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/17: Add chronology dating data to Bugs physical samples.
 @2022.12 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 December release
 20231211_DML_SUBMISSION_BUGS_20230705_COMMIT 2023-12-11T16:09:29Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/162: Full (inital) non-incremental import of BugsCEP data version 20230705.
 @2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release

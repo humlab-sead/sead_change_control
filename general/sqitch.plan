@@ -36,13 +36,10 @@
 20191219_DML_METHODS_UPDATE 2019-12-19T13:34:03Z Roger <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/34: Methods updates
 20200115_DDL_TABLE_TEMPERATURES 2022-11-28T13:45:45Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/147: New tables with temperatures
 
-# 😂🤣❤️😍
-
 @2019.12 2019-12-13T11:52:06Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
 20200203_DML_ADD_YEAR_TYPES 2020-02-03T13:40:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/39: New year types
 20200203_DML_METHOD_UPDATE 2020-02-03T14:50:51Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/28 https://github.com/humlab-sead/sead_change_control/issues/38: Remove newline in description
-20200210_DML_MAL_QOS_UPDATE_01 2020-02-09T10:53:43Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/45: MAL dataset update mainly regarding geographical and macrofossil data
 
 @2020.01 2020-01-29T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2020 January release
 
@@ -50,26 +47,15 @@
 
 @2020.02 2020-03-15T08:25:41Z Roger Mähler <roger.mahler@umu.se> # 2020 February release
 
-20200315_DML_ECOCODE_ADD_SYSTEM_4 2020-03-15T08:45:51Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/22: Ecocode system 4 (reworked)
-20191222_DML_DATASET_SUBMISSION_UPDATE 2019-12-23T17:24:03Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/49: Dataset sumbmission updates
-20200422_DML_MAL_QOS_UPDATE_02 2020-04-22T14:28:50Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/66: MAL dataset Quality Assurance (part #2)
-20200422_DML_MAL_TAXA_SP_SPP_QOS_UPDATE 2020-04-22T14:51:08Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/66: tbl_taxa_tree_master duplicates of sp. and spp.
-20200422_UPDATE_BUGS_REFERENCES_YEAR 2020-04-22T15:19:18Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/69: Update erroneous year in BugsCEP references
+# 😂🤣❤️😍
 
 @2020.03 2020-04-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
 
-20220916_DDL_RESULTS_CHRONOLOGY 2022-09-16T13:35:07Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/17: Add chronology dating data to Bugs physical samples.
 20220922_DDL_CHRONOLOGY_SCHEMA_CHANGES 2022-09-22T12:25:39Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/92: Changes to chronology tables.
 20220923_DDL_DEPRECATE_CHRON_CONTROLS 2022-09-23T07:51:38Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/93: Deprecate chronology controls tables.
-20221206_DML_SITE_DESCRIPTION_HOGDAL_UPDATE 2022-12-06T14:13:22Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/99: See issue humlab-sead/quality_control#3
-
-20221205_DML_QUALITY_CONTROL_BIBLIO_UPDATES 2022-12-06T13:15:15Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/146
-20221206_DML_QUALITY_CONTROL_DATASETS_UPDATES 2022-12-06T14:43:06Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/145
 
 @2022.12 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 December release
 
-20221121_DML_DENDRO_LOOKUP_STANDARD_UPDATE 2022-11-21T09:44:47Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/89: Dendro lookups standardization and update
-20221121_DML_DENDRO_ADD_ANALYSIS_METHODS 2022-11-21T09:51:06Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/141:  Add analysis methods for dendro humlab-sead/sead_general_database/#4
 20231129_DML_ADD_TAXONOMIC_ORDER_DYNTAXA 2023-11-29T09:46:37Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/141: CR from issue https://github.com/humlab-sead/sbdi/issues/1
 
 20231206_DDL_UPDATE_OF_DENDRO_RELATED_LOOKUPS 2023-12-06T08:43:01Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/153: Lookup data related to the dendrochronological project needs updating.
