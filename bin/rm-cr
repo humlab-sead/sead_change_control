@@ -1,0 +1,78 @@
+#!/bin/bash
+
+SHELL=/bin/bash
+
+set -e
+
+function usage() {
+    echo "HELP! Sent to outer space. Let's see if they answer."
+    # gh issue create --help
+}
+
+g_change=
+g_project=
+g_update_plan=NO
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --change|-c)
+            g_change="$2";
+            shift 2;
+        ;;
+        --project|-p)
+            g_project="$2";
+            shift 2;
+        ;;
+        --update-plan|-u)
+            g_update_plan="YES";
+            shift;
+        ;;
+        --*)
+            echo "error: invalid option $1"
+            usage
+            exit 64 
+        ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+if [ -z "$g_change" ]; then
+    g_change="${POSITIONAL[@]}"
+    if [ -z "$g_change" ]; then
+        echo "error: missing required option --change"
+        exit 64
+    fi
+fi
+
+if [ -z "$g_projects" ]; then
+    g_projects=$(find . -name "sqitch.plan" -type f -exec dirname \{\} \;)
+else
+    g_projects=$(echo "$g_projects" | tr "," "\n")
+fi
+
+mkdir -p deprecated/deploy deprecated/revert deprecated/verify
+
+for project in $g_projects; do
+    if [ -f "$project/deploy/${g_change}.sql" ]; then
+        for type in deploy revert verify ; do
+            mv "$project/$type/${g_change}.sql" "deprecated/$type/${g_change}.sql"
+            grep -e "$g_change" "$project/sqitch.plan" >> "deprecated/sqitch.history"
+            grep -v -e "$g_change" "$project/sqitch.plan" > "$project/sqitch.plan.tmp"
+            mv -f "$project/sqitch.plan.tmp" "$project/sqitch.plan"
+            echo "Change $project/$g_change moved to ./deprecated"
+            exit 0
+        done
+    fi
+done
+
+echo "Change $g_change moved to ./deprecated"
+
