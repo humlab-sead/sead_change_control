@@ -21,6 +21,7 @@
 # disabled # 20191220_DML_SUBMISSION_DENDRO_BUILDING_002_COMMIT 2019-12-20T22:14:11Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {2}.
 # disabled # 20191220_DML_SUBMISSION_DENDRO_ARCHEOLOGY_003_COMMIT 2019-12-20T22:14:20Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {3}.
 20191220_DML_SUBMISSION_ISOTOPE_004_COMMIT 2019-12-20T22:14:31Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {4}.
+20190503_DML_TAXA_ADD_SPECIES_ASSOC_TYPES 2019-05-03T18:07:02Z Roger Mähler <roger.mahler@umu.se> # Add new association type names to accomodate Bugs import
 
 @2019.12 2019-12-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
