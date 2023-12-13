@@ -52,3 +52,9 @@
 
 
 20191212_DML_UPDATE_SAMPLE_ALT_REFS 2019-12-12T13:29:25Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/194:  Insert 'Bugs sample code' record into tbl_alt_ref_types.
+
+20191213_DDL_CERAMICS_MODEL 2019-04-09T08:59:54Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/196:  Creates ceramic data model
+
+20191213_DDL_DENDRO_MODEL 2019-04-09T14:34:56Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/195:  Creates dendrochronological data model
+
+20191213_DDL_ISOTOPE_MODEL 2019-10-12T15:09:19Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/14: Creates Isotope data model
