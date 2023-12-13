@@ -2,9 +2,30 @@
 %project=bugs
 %uri=https://github.com/humlab-sead/bugs
 
+20190503_DDL_BUGS_SETUP_SCHEMA 2019-05-04T14:30:13Z Roger Mähler <roger.mahler@umu.se> # Bugs import schema
+20190503_DDL_BUGS_ADD_TRANSLATIONS 2019-05-04T14:31:03Z Roger Mähler <roger.mahler@umu.se> # Add bugs import value translations
+20191221_DDL_UDF_BUGS_IMPORT_POST_APPLY 2022-12-02T09:49:50Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/42: UDF for Bugs import updates after import
+20190503_DML_METHOD_ADD_BUGS_METHODS 2019-05-03T18:27:38Z Roger Mähler <roger.mahler@umu.se> # Add new methods to accomodate Bugs import
+
+## 20191221_DML_SUBMISSION_BUGS_20190303_COMMIT 2019-12-21T14:25:16Z Roger <roger.mahler@umu.se> # Initial Bugs Import. Disabled ahead of 202312 release.
+## 20191221_DML_SUBMISSION_BUGS_20190303_POST_APPLY 2019-12-13T14:27:35Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/62:  Script that must be applied after each import
+
+20190503_DML_TAXA_ADD_SPECIES_ASSOC_TYPES 2019-05-03T18:07:02Z Roger Mähler <roger.mahler@umu.se> # Add new association type names to accomodate Bugs import
+20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/191:  Add unknown dating lab to accomodate Bugs import
+
 @2019.12 2019-12-13T11:54:22Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 @2020.01 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Jan release
+
+## 20200313_DML_BUGS_IMPORT_PUBLIC_20200219 2020-03-13T14:12:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/62: Incremental bugs update
+## 20200313_DML_BUGS_IMPORT_TRACE_20200219 2020-03-15T15:27:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/62: BugsCEP update (bugs_import schema)
+## 20200315_DML_BUGS_IMPORT_POST_APPLY_20200219 2020-03-16T14:24:34Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/42: Post applies after Bugs import
+
 @2020.02 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Feb release
 @2020.03 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
 @2022.12 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 December release
+20231211_DML_SUBMISSION_BUGS_20230705_COMMIT 2023-12-11T16:09:29Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/162: Full (inital) non-incremental import of BugsCEP data version 20230705.
 @2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
+
+20191212_DML_UPDATE_SAMPLE_ALT_REFS 2019-12-12T13:29:25Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/194:  Insert 'Bugs sample code' record into tbl_alt_ref_types.
+
+20231212_DML_BUGS_ADD_ANALYSIS_ENTITY_AGES 2023-12-12T10:34:58Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/164: Add modelled official ages for 889 bugs samples

@@ -5,6 +5,7 @@
 20191217_DDL_CLEARINGHOUSE_SYSTEM 2019-10-15T15:37:56Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse Transport System.
 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM [20191217_DDL_CLEARINGHOUSE_SYSTEM] 2019-12-15T08:56:34Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse Transport System.
 
+20191221_DML_CLEARINGHOUSE_STARTINGPOINT 2022-12-03T11:31:24Z Roger Mähler <roger.mahler@umu.se> # Data: clearinghouse submissions
 @2019.12 2019-12-13T11:54:22Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 @2020.01 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Jan release
 @2020.02 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Feb release

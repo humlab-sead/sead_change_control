@@ -2,9 +2,15 @@
 %project=ceramics
 %uri=https://github.com/humlab-sead/ceramics
 
+20191213_DML_CERAMICS_LOOKUP 2019-11-25T14:57:46Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/20: Ceramics lookup data
+20191220_DML_SUBMISSION_CERAMICS_001_COMMIT 2019-12-20T22:14:00Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {1}.
+20200109_DML_SUBMISSION_CERAMICS_005_COMMIT 2020-01-09T08:37:53Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {5}.
 @2019.12 2019-12-13T11:54:22Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 @2020.01 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Jan release
 @2020.02 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Feb release
 @2020.03 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
+20221205_DML_CERAMICS_METHOD_ID_UPDATE 2022-12-05T16:04:30Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/86: Update of method id:s for ceramics
 @2022.12 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 December release
 @2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
+
+20191213_DDL_CERAMICS_MODEL 2019-04-09T08:59:54Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/196:  Creates ceramic data model

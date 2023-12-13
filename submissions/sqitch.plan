@@ -2,59 +2,10 @@
 %project=submissions
 %uri=https://github.com/humlab-sead/submissions
 
-20190503_DDL_BUGS_SETUP_SCHEMA 2019-05-04T14:30:13Z Roger Mähler <roger.mahler@umu.se> # Bugs import schema
-20190503_DDL_BUGS_ADD_TRANSLATIONS 2019-05-04T14:31:03Z Roger Mähler <roger.mahler@umu.se> # Add bugs import value translations
-20191221_DDL_UDF_BUGS_IMPORT_POST_APPLY 2022-12-02T09:49:50Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/42: UDF for Bugs import updates after import
-20190503_DML_METHOD_ADD_BUGS_METHODS 2019-05-03T18:27:38Z Roger Mähler <roger.mahler@umu.se> # Add new methods to accomodate Bugs import
-
-20191221_DML_CLEARINGHOUSE_STARTINGPOINT 2022-12-03T11:31:24Z Roger Mähler <roger.mahler@umu.se> # Data: clearinghouse submissions
-
-# disabled # 20191221_DML_SUBMISSION_BUGS_20190303_COMMIT 2019-12-21T14:25:16Z Roger <roger.mahler@umu.se> # Initial Bugs Import. Disabled ahead of 202312 release.
-# disabled # 20191221_DML_SUBMISSION_BUGS_20190303_POST_APPLY 2019-12-13T14:27:35Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/62:  Script that must be applied after each import
-
-20191213_DML_CERAMICS_LOOKUP 2019-11-25T14:57:46Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/20: Ceramics lookup data
-20191213_DML_DENDRO_LOOKUP 2019-04-08T10:16:55Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/148: Add dendrochronology lookup data
-20191213_DML_ISOTOPE_LOOKUP 2019-10-12T15:10:14Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/14: Isotope lookup data
-
-20191220_DML_SUBMISSION_CERAMICS_001_COMMIT 2019-12-20T22:14:00Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {1}.
-20200109_DML_SUBMISSION_CERAMICS_005_COMMIT 2020-01-09T08:37:53Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {5}.
-# disabled # 20191220_DML_SUBMISSION_DENDRO_BUILDING_002_COMMIT 2019-12-20T22:14:11Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {2}.
-# disabled # 20191220_DML_SUBMISSION_DENDRO_ARCHEOLOGY_003_COMMIT 2019-12-20T22:14:20Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {3}.
-20191220_DML_SUBMISSION_ISOTOPE_004_COMMIT 2019-12-20T22:14:31Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {4}.
-
-20190503_DML_TAXA_ADD_SPECIES_ASSOC_TYPES 2019-05-03T18:07:02Z Roger Mähler <roger.mahler@umu.se> # Add new association type names to accomodate Bugs import
-20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/191:  Add unknown dating lab to accomodate Bugs import
-20191212_DML_ADD_RECORD_TYPE 2019-12-12T07:54:59Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/193:  Add missing record types
 
 @2019.12 2019-12-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
-
 @2020.01 2020-01-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2020 January release
-
-# disabled # 20200313_DML_BUGS_IMPORT_PUBLIC_20200219 2020-03-13T14:12:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/62: Incremental bugs update
-# disabled # 20200313_DML_BUGS_IMPORT_TRACE_20200219 2020-03-15T15:27:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/62: BugsCEP update (bugs_import schema)
-# disabled # 20200315_DML_BUGS_IMPORT_POST_APPLY_20200219 2020-03-16T14:24:34Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/42: Post applies after Bugs import
-
 @2020.02 2020-03-15T08:33:40Z Roger Mähler <roger.mahler@umu.se> # 2020 February release
 @2020.03 2022-11-18T10:25:44Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
-
-20221205_DML_CERAMICS_METHOD_ID_UPDATE 2022-12-05T16:04:30Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/86: Update of method id:s for ceramics
-
 @2022.12 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 October release
-
-20231211_DML_SUBMISSION_BUGS_20230705_COMMIT 2023-12-11T16:09:29Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/162: Full (inital) non-incremental import of BugsCEP data version 20230705.
-
-20231120_DML_DENDRO_LOOKUP 2023-11-20T07:41:12Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/136: New dendrochronology lookup data.
-
 @2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
-
-
-20231212_DML_BUGS_ADD_ANALYSIS_ENTITY_AGES 2023-12-12T10:34:58Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/164: Add modelled official ages for 889 bugs samples
-
-
-20191212_DML_UPDATE_SAMPLE_ALT_REFS 2019-12-12T13:29:25Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/194:  Insert 'Bugs sample code' record into tbl_alt_ref_types.
-
-20191213_DDL_CERAMICS_MODEL 2019-04-09T08:59:54Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/196:  Creates ceramic data model
-
-20191213_DDL_DENDRO_MODEL 2019-04-09T14:34:56Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/195:  Creates dendrochronological data model
-
-20191213_DDL_ISOTOPE_MODEL 2019-10-12T15:09:19Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/14: Creates Isotope data model
