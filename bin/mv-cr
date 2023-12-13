@@ -13,6 +13,7 @@ g_change=
 g_from_project=
 g_to_project=
 g_update_plan=YES
+g_tag=
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -34,6 +35,10 @@ do
         ;;
         --no-update-plan|-u)
             g_update_plan="NO";
+            shift;
+        ;;
+        --tag)
+            g_tag="$2";
             shift;
         ;;
         --*)
@@ -65,6 +70,17 @@ if [ ! -f "$g_to_project/sqitch.plan" ]; then
     exit 64
 fi
 
+if [ ! -z "$g_tag" ]; then
+    if ! [[ $g_tag =~ ^@([0-9]{4})\.([0-9]{2})$ ]]; then
+        echo "Invalid tag: tags must conform to format \"@YYYY.MM\"."
+        exit 64
+    fi
+    if ! grep -q "^$g_tag" "$g_to_project/sqitch.plan"; then
+        echo "Tag \"$g_tag\" not found in $g_to_project/sqitch.plan"
+        exit 64
+    fi
+fi
+
 if [ ! -f "$g_from_project/deploy/${g_change}.sql" ]; then
     echo "Change $g_from_project/deploy/${g_change}.sql does not exist"
     exit 64
@@ -76,8 +92,13 @@ done
 
 if [ "$g_update_plan" == "YES" ]; then
 
-    echo "" >> "$g_to_project/sqitch.plan"
-    grep -e "$g_change" "$g_from_project/sqitch.plan" >> "$g_to_project/sqitch.plan"
+    if [ ! -z "$g_tag" ]; then
+        cr_line=$(grep -e "$g_change" "$g_from_project/sqitch.plan")
+        sed -i "/^$g_tag/ i\\$cr_line" "$g_to_project/sqitch.plan"
+    else
+        echo "" >> "$g_to_project/sqitch.plan"
+        grep -e "$g_change" "$g_from_project/sqitch.plan" >> "$g_to_project/sqitch.plan"
+    fi
 
     grep -v -e "$g_change" "$g_from_project/sqitch.plan" > "$g_from_project/sqitch.plan.tmp"
     mv -f "$g_from_project/sqitch.plan.tmp" "$g_from_project/sqitch.plan"
