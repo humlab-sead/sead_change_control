@@ -19,6 +19,7 @@
 
 20221121_DML_DENDRO_LOOKUP_STANDARD_UPDATE 2022-11-21T09:44:47Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/89: Dendro lookups standardization and update
 20221121_DML_DENDRO_ADD_ANALYSIS_METHODS 2022-11-21T09:51:06Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/141:  Add analysis methods for dendro humlab-sead/sead_general_database/#4
+20231206_DDL_UPDATE_OF_DENDRO_RELATED_LOOKUPS 2023-12-06T08:43:01Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/153: Lookup data related to the dendrochronological project needs updating.
 
 @2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
 
