@@ -34,10 +34,9 @@
 20121220_DML_HORIZON_UPDATE_DESCRIPTION 2019-04-16T14:05:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/188:  Origin for update is diff between sead_master_9/sead_master_8.
 # 😂🤣❤️😍
 
-20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # Add unknown dating lab to accomodate Bugs import
-20190513_DML_DATA_TYPE_ADD_TYPES_CALENDER_DATES 2019-05-13T13:37:26Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/152: Add Calender Dates
+20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/191:  Add unknown dating lab to accomodate Bugs import
+20190513_DML_DATA_TYPE_ADD_TYPES_CALENDER_DATES 2019-05-13T13:37:26Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/192:  https://github.com/humlab-sead/sead_change_control/issues/152: Add Calender Dates
 
-20191012_DML_ASSOCIATION_TYPE_UPDATES 2019-10-12T17:11:01Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/15: Association type updates (from bugs)
 
 20191212_DML_ADD_RECORD_TYPE 2019-12-12T07:54:59Z Roger Mähler <roger.mahler@umu.se> # Add missing record types
 20191212_DML_UPDATE_SAMPLE_ALT_REFS 2019-12-12T13:29:25Z Roger Mähler <roger.mahler@umu.se> # Update insert into tbl_alt_ref_types (alt_ref_type_id, alt_ref_type, description)
