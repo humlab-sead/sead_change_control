@@ -20,8 +20,6 @@ do
     case $key in
         --change|-c)
             g_change="$2";
-            g_change="${g_change##*/}"     # Remove the folder path
-            g_change="${g_change%.*}"
             shift 2;
         ;;
         --project|-p)
@@ -53,14 +51,19 @@ if [ ! -f "$g_project/sqitch.plan" ]; then
     exit 64
 fi
 
-if [ ! -f "$g_project/deploy/${g_change}.sql" ]; then
-    echo "Change $g_project/deploy/${g_change}.sql does not exist"
-    exit 64
-fi
+
 
 function update_header(){
     local project=$1
     local change=$2
+
+    change="${change##*/}"
+    change="${change%.*}"
+
+    if [ ! -f "$project/deploy/${change}.sql" ]; then
+        echo "Change $project/deploy/${change}.sql does not exist"
+        exit 64
+    fi
 
     for type in deploy revert verify; do
         if [ ! -f "$project/$type/${change}.sql" ]; then
@@ -74,4 +77,10 @@ function update_header(){
 
 }
 
-update_header $g_project $g_change
+if [ "$g_change" == "ALL" ]; then
+    for change in $(ls $g_project/deploy/*.sql); do
+        update_header $g_project $change
+    done
+else
+    update_header $g_project $g_change
+fi
