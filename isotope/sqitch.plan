@@ -5,8 +5,10 @@
 20191213_DDL_ISOTOPE_MODEL 2019-10-12T15:09:19Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/14: Creates Isotope data model
 20191213_DML_ISOTOPE_LOOKUP 2019-10-12T15:10:14Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/14: Isotope lookup data
 
-20191220_DML_SUBMISSION_ISOTOPE_004_COMMIT 2019-12-20T22:14:31Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {4}.
 @2019.12 2019-12-13T11:54:22Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
+
+20191220_DML_SUBMISSION_ISOTOPE_004_COMMIT 2019-12-20T22:14:31Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {4}.
+
 @2020.01 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Jan release
 @2020.02 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Feb release
 @2020.03 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
