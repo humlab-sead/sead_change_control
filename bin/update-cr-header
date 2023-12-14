@@ -46,12 +46,10 @@ if [ -z "$g_project" ] || [ -z "$g_change" ]; then
     exit 64
 fi
 
-if [ ! -f "$g_project/sqitch.plan" ]; then
+if [ "$g_project" != "ALL" ] && [ ! -f "$g_project/sqitch.plan" ]; then
     echo "Project $g_project does not exist"
     exit 64
 fi
-
-
 
 function update_header(){
     local project=$1
@@ -77,7 +75,18 @@ function update_header(){
 
 }
 
-if [ "$g_change" == "ALL" ]; then
+if [ "$g_project" == "ALL" ] && [ "$g_change" == "ALL" ]; then
+    projects=$(grep -v '^#' ./projects.txt | grep -v '^[[:space:]]*$')
+    for project in ${projects} ; do
+        if [ "$(ls $project/deploy/*.sql 2>/dev/null)" == "" ]; then
+            echo "Project $project does not have any CRs"
+            continue
+        fi
+        for change in $(ls $project/deploy/*.sql); do
+            echo "update_header $project $change"
+        done
+    done
+elif [ "$g_change" == "ALL" ]; then
     for change in $(ls $g_project/deploy/*.sql); do
         update_header $g_project $change
     done
