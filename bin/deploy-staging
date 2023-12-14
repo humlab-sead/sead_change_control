@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. $(dirname "$0")/utility.sh
+
 export PGCLIENTENCODING=UTF8
 
 #echo "x.x.1.181" >  ~/.default.sead.server
@@ -25,9 +27,8 @@ g_sync_sequences=NO
 g_target_tag=
 g_target_chain_tag=
 g_ignore_git_tags=NO
-g_projects_file=$(realpath $script_dir/../projects.txt)
 
-default_projects=$(grep -v '^#' $g_projects_file | grep -v '^[[:space:]]*$')
+default_projects=$(get_projects)
 # default_projects=$(find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy \; -print)
 
 default_server="humlabseadserv.srv.its.umu.se"
