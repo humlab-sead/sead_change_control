@@ -37,7 +37,6 @@ do
         ;;
     esac
 done
-echo "g_change: $g_change"
 
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
@@ -63,14 +62,16 @@ function update_header(){
         exit 64
     fi
 
-    for type in deploy revert verify; do
-        if [ ! -f "$project/$type/${change}.sql" ]; then
-            echo "Change $project/$type/${change}.sql does not exist"
+    for type in deploy revert verify ; do
+        local filename="$project/$type/$change.sql"
+        echo "Updating $filename"
+        if [ ! -f $filename ]; then
+            echo "Change $filename does not exist"
             exit 64
         fi
         echo "-- ${type^} $project: $change" > /tmp/$change.sql
-        grep -v -i -e "^-- ${type}" $project/$type/$change.sql >> /tmp/$change.sql ;
-        mv -f /tmp/$change.sql $project/$type/$change.sql
+        grep -v -i -e "^-- ${type}" $filename >> /tmp/$change.sql ;
+        mv -f /tmp/$change.sql $filename
     done
 
 }
@@ -83,7 +84,7 @@ if [ "$g_project" == "ALL" ] && [ "$g_change" == "ALL" ]; then
             continue
         fi
         for change in $(ls $project/deploy/*.sql); do
-            echo "update_header $project $change"
+            update_header $project $change
         done
     done
 elif [ "$g_change" == "ALL" ]; then
