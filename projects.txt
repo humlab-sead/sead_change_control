@@ -1,0 +1,13 @@
+# This file should specify all Sqitch projects in order of deployment.
+
+utility
+subsystem
+security
+general
+archaeobotany
+bugs
+isotope
+dendrochronology
+ceramics
+submissions
+sead_api
