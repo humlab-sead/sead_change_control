@@ -82,20 +82,17 @@ else
     g_projects=$(echo "$g_projects" | tr "," "\n")
 fi
 
-mkdir -p deprecated/deploy deprecated/revert deprecated/verify
-
 for project in $g_projects; do
     if [ -f "$project/deploy/${g_change}.sql" ]; then
+        mkdir -p $project/archive/deploy $project/archive/revert $project/archive/verify
         for type in deploy revert verify ; do
-            mv "$project/$type/${g_change}.sql" "deprecated/$type/${g_change}.sql"
-            grep -e "$g_change" "$project/sqitch.plan" >> "deprecated/sqitch.history"
-            grep -v -e "$g_change" "$project/sqitch.plan" > "$project/sqitch.plan.tmp"
+            mv "$project/$type/${g_change}.sql" "$project/archive/$type/${g_change}.sql"
+            grep -e "$g_change" "$project/sqitch.plan" >> "$project/archive/sqitch.history"
+            grep -v -e "$g_change" "$project/sqitch.plan" > "$project/$project/sqitch.plan.tmp"
             mv -f "$project/sqitch.plan.tmp" "$project/sqitch.plan"
-            echo "Change $project/$g_change moved to ./deprecated"
+            echo "Change $project/$g_change moved to ./$project/archive"
             exit 0
         done
     fi
 done
-
-echo "Change $g_change moved to ./deprecated"
 
