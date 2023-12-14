@@ -1,0 +1,21 @@
+#!/bin/bash
+
+. $(dirname "$0")/utility.sh
+
+a=$(get_change_tag "general" "20180502_DML_METHOD_UPDATE_METHOD_TL")
+echo "get_change_tag: $a"
+
+a=$(get_projects)
+echo "get_projects: $a"
+
+a=$(get_cr_issue_url "general" "20180502_DML_METHOD_UPDATE_METHOD_TL")
+echo "get_cr_issue_url: $a"
+
+a=$(get_cr_issue_url "general" "APA")
+echo "get_cr_issue_url: $a"
+
+a=$(get_cr_issue_id "general" "20180502_DML_METHOD_UPDATE_METHOD_TL")
+echo "get_cr_issue_url: $a"
+
+update_cr_header "general" "20191212_DML_ADD_RECORD_TYPE"
+
