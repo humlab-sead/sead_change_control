@@ -22,7 +22,7 @@
 20170101_DDL_BIBLIO_REFACTOR_MODEL 2019-04-06T15:57:13Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/18: Refactor bibliographic data to a less complex model.
 20180607_DDL_SAMPLE_ALTER_TYPES 2019-04-08T14:44:13Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/184:  Change type of tbl_sample_group_sampling_contexts.sampling_context
 
-20190408_DML_LOCATION_UPDATE_LOCATION_RECORD 2019-04-09T08:40:43Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/186:  Update name on location 3894
+20190408_DML_UPDATE_LOCATION_RECORD 2019-04-09T08:40:43Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/186:  Update name on location 3894
 20180502_DML_METHOD_UPDATE_METHOD_TL 2019-04-15T10:32:04Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/189:  Update description for method TL.
 20120921_DML_RECORD_TYPE_UPDATE_PLANTS_POLLEN 2019-04-15T10:41:55Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/190:  Update description for method plants and pollen.
 20140417_DML_RELATIVE_AGE_ADD_DATA 2019-04-15T10:55:51Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/180:  Add relative ages data (origin is sead_master_8).
