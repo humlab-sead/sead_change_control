@@ -1,4 +1,4 @@
--- Deploy dendrochronology: 20191212_DML_ADD_RECORD_TYPE
+-- Deploy general: 20191212_DML_ADD_RECORD_TYPE
 
 /****************************************************************************************************************
   Author        Roger Mähler
@@ -16,12 +16,6 @@ do $$
 begin
 
     begin
-
-        /*
-        ** Dendrochronlogy
-        **
-        ** This has also been added to 20180521_DML_DENDRO_ADD_LOOKUP_DATA (its rightful place)
-        **/
 
         with new_record_types (record_type_id, record_type_name, record_type_description) as ( values
             (0, 'Undefined', 'Unspecified record type'),

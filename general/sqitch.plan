@@ -34,6 +34,7 @@
 20191219_DML_METHODS_UPDATE 2019-12-19T13:34:03Z Roger <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/34: Methods updates
 20200115_DDL_TABLE_TEMPERATURES 2022-11-28T13:45:45Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/147: New tables with temperatures
 
+20191212_DML_ADD_RECORD_TYPE 2019-12-12T07:54:59Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/193:  Add missing record types
 @2019.12 2019-12-13T11:52:06Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 
 20200203_DML_ADD_YEAR_TYPES 2020-02-03T13:40:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/39: New year types

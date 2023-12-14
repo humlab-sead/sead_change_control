@@ -7,7 +7,6 @@
 ## 20191220_DML_SUBMISSION_DENDRO_BUILDING_002_COMMIT 2019-12-20T22:14:11Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {2}.
 ## 20191220_DML_SUBMISSION_DENDRO_ARCHEOLOGY_003_COMMIT 2019-12-20T22:14:20Z Roger Mähler <roger.mahler@umu.se> # Deploy of Clearinghouse submission {3}.
 
-20191212_DML_ADD_RECORD_TYPE 2019-12-12T07:54:59Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/193:  Add missing record types
 
 @2019.12 2019-12-13T11:54:22Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 @2020.01 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Jan release
