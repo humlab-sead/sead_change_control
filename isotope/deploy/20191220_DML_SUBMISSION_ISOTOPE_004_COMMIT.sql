@@ -18,7 +18,6 @@ set constraints all deferred;
 
 \cd /repo/isotope/deploy
 
-
 /************************************************************************************************************************************
  ** method_group
  ************************************************************************************************************************************/
@@ -208,8 +207,8 @@ create table clearing_house_commit.temp_tbl_datasets as select * from public.tbl
 delete from public.tbl_datasets
     where dataset_id in (select dataset_id from clearing_house_commit.temp_tbl_datasets);
 
-insert into public.tbl_datasets
-    select *
+insert into public.tbl_datasets(dataset_id, master_set_id, data_type_id, method_id, biblio_id, updated_dataset_id, project_id, dataset_name, date_updated)
+    select dataset_id, master_set_id, data_type_id, method_id, biblio_id, updated_dataset_id, 0, dataset_name, date_updated
     from clearing_house_commit.temp_tbl_datasets
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
