@@ -3,19 +3,20 @@
 
 export PGCLIENTENCODING=UTF8
 
-echo "FIXME: not updated based of new projects"
+echo "FIXME: not updated based of new projects. Needs to filter out data type projects"
 exit 64
 
 target_name=sead_staging_201912_without_submissions_template
 target_tag=@2019.12
 projects=$(grep -v '^\#' projects.txt | grep -v '^[[:space:]]*$')
 
+extra_options=--source-type dump --create-database
 
-bin/deploy-staging --target-db-name $target_name --sqitch-project utility --source-type dump --create-database --deploy-to-tag  $target_tag --sync-sequences
-bin/deploy-staging --target-db-name $target_name --sqitch-project security --deploy-to-tag $target_tag --sync-sequences
-bin/deploy-staging --target-db-name $target_name --sqitch-project general --deploy-to-tag $target_tag --sync-sequences
-bin/deploy-staging --target-db-name $target_name --sqitch-project sead_api --deploy-to-tag $target_tag --sync-sequences
-bin/deploy-staging --target-db-name $target_name --sqitch-project subsystem --deploy-to-tag $target_tag --sync-sequences
-bin/deploy-staging --target-db-name $target_name --sqitch-project submissions --deploy-to-tag 20191221_DML_CLEARINGHOUSE_STARTINGPOINT --sync-sequences
+for project in $projects
+do
+    echo "FIXME: Deploying project $project"
+    bin/deploy-staging $extra_options --target-db-name $target_name --sqitch-project $project --deploy-to-tag $target_tag --sync-sequences
+    extra_options=
+done
 
 echo "Note! CR that adds Bugs id & type translations are disabled and must be run manually!"

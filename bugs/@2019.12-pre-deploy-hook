@@ -24,7 +24,7 @@ gunzip_submissions() {
 lookup_cr_deployed() {
     cr=$1
     if [ "$target" != "" ]; then
-        cr_log=$(sqitch log --target $target -C ./submissions | grep $cr)
+        cr_log=$(sqitch log --target $target -C $script_dir | grep $cr)
     fi
 }
 

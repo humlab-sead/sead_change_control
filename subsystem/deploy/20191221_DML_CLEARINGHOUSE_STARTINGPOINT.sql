@@ -1,4 +1,4 @@
--- Deploy submissions: 20191221_DML_CLEARINGHOUSE_STARTINGPOINT
+-- Deploy subsystem: 20191221_DML_CLEARINGHOUSE_STARTINGPOINT
 
 /****************************************************************************************************************
   Author        Roger Mähler
@@ -37,7 +37,7 @@ set constraints fk_tbl_submission_xml_content_records_table_id deferred;
 set constraints fk_tbl_user_roles_role_id deferred;
 -- set constraints all deferred;
 
-\cd /repo/submissions/deploy
+\cd /repo/subsystem/deploy
 
 
 -- These tables are set by install script 20191217_DDL_CLEARINGHOUSE_SYSTEM
