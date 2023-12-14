@@ -13,7 +13,7 @@ set constraints all deferred;
 set client_min_messages to warning;
 \set autocommit off;
 begin;
-\cd /repo/submissions/deploy
+\cd /repo/ceramics/deploy
 
 
 /************************************************************************************************************************************

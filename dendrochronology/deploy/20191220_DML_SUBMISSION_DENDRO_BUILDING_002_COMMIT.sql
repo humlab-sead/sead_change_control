@@ -15,7 +15,7 @@ begin;
 
 set constraints all deferred;
 
-\cd /repo/submissions/deploy
+\cd /repo/dendrochronology/deploy
 
 
 /************************************************************************************************************************************
