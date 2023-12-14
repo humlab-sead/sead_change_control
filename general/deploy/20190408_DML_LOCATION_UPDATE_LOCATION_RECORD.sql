@@ -1,6 +1,9 @@
 -- Deploy general: 20190408_DML_LOCATION_UPDATE_LOCATION_RECORD
 
+
 begin;
+do $$
+begin
 
     if not exists (select 1 from public.tbl_locations where location_id = 3804) then
         raise exception 'Location 3804 does not exist';
@@ -11,4 +14,5 @@ begin;
         Set location_name = 'Västra Ed' -- Was 'Flensburg'
     Where location_id = 3894;
 
+end $$ language plpgsql;
 commit;
