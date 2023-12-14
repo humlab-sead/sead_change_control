@@ -10,10 +10,10 @@ TARGET_RELEASE := @2020.03
 
 known_release_tags=$(shell grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
 
-default_projects := utility security general sead_api subsystem submissions
+default_projects := $(shell grep -v '^\#' projects.txt | grep -v '^[[:space:]]*$$')
 
 ifeq ($(projects),)
-projects := $(shell find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy \; -print)
+projects := $(shell find . -mindepth 1 -maxdepth 2 -name "sqitch.plan" -exec dirname {} \; | xargs -I {} basename {})
 endif
 
 ifeq ($(target_databases),)
@@ -30,7 +30,6 @@ export SQITCH_PASSWORD
 ifndef SQITCH_PASSWORD
 	$(error SQITCH_PASSWORD is not set)
 endif
-
 
 .PHONY: help
 help:
@@ -203,10 +202,10 @@ staging_databases: staging_databases_prepare staging_databases_create staging_da
 	@echo "Done!"
 
 staging_databases_prepare:
-	@gunzip -f -k submissions/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/*.gz
+	@gunzip -f -k bugs/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/*.gz
 
 staging_databases_cleanup:
-	@rm -f submissions/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/*.sql
+	@rm -f bugs/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/*.sql
 
 staging_databases_create:
 	@source_type=dump; \
