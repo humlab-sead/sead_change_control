@@ -9,7 +9,6 @@
 
 20191212_DML_ADD_RECORD_TYPE 2019-12-12T07:54:59Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/193:  Add missing record types
 
-20190408_DML_UPDATE_LOCATION_RECORD 2019-04-09T08:40:43Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/186:  Update name on location 3894
 @2019.12 2019-12-13T11:54:22Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
 @2020.01 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Jan release
 @2020.02 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Feb release
