@@ -1,7 +1,6 @@
 # This file should specify all Sqitch projects in order of deployment.
 
 utility
-subsystem
 security
 general
 archaeobotany
@@ -10,4 +9,5 @@ isotope
 dendrochronology
 ceramics
 submissions
+subsystem
 sead_api
