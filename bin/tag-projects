@@ -94,9 +94,11 @@ function tag_projects()
 {
     local tag=$1
     local note=$2
-    local sqitch_projects=$(find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy \; -print)
-    for sqitch_project in $sqitch_projects; do
-        echo sqitch sqitch tag --tag "$tag" --note "$note" --plan-file ./$sqitch_project/sqitch.plan
+    # local projects=$(find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy \; -print)
+    local projects=$(grep -v '^#' $g_projects_file | grep -v '^[[:space:]]*$')
+
+    for project in $projects; do
+        echo sqitch sqitch tag --tag "$tag" --note "$note" --plan-file ./$project/sqitch.plan
     done
 }
 

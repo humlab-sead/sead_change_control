@@ -13,7 +13,7 @@ known_release_tags=$(shell grep --no-filename -E "^@" */sqitch.plan | cut --deli
 default_projects := $(shell grep -v '^\#' projects.txt | grep -v '^[[:space:]]*$$')
 
 ifeq ($(projects),)
-projects := $(shell find . -mindepth 1 -maxdepth 2 -name "sqitch.plan" -exec dirname {} \; | xargs -I {} basename {})
+projects := $(default_projects)
 endif
 
 ifeq ($(target_databases),)
@@ -69,9 +69,6 @@ tag-all: are-you-really-sure
 		echo sqitch tag --tag \"$(tag)\" --plan-file $${project}/sqitch.plan --note \"$(description)\" ; \
 	 done
 
-apa:
-	@echo $(warning $(sort $(projects))) ;
-
 .PHONY: status
 .ONESHELL: status
 status:
@@ -79,7 +76,7 @@ status:
 		echo "#######################################################################" ; \
 		echo "# Changes not deployed in \"$$target_database\":" ; \
 		echo "#######################################################################" ; \
-		for project in $(sort $(projects)); do \
+		for project in $(projects); do \
 			echo "\"$$target_database\"  $$project: " ; \
 			sqitch status --target $$target_database -C $$project \
 			| grep -v "^#" \
@@ -140,7 +137,7 @@ deploy-@2020.03-staging-test:
 
 
 deploy-@2022.12-staging-test: deploy-@2020.03-staging-test
-	@for project in $(default_projects); do \
+	@for project in $(projects); do \
 		echo sqitch deploy --target $(SQITCH_TARGET) -C ./utility --to @2022.12 --no-verify ; \
 	done
 
@@ -250,6 +247,6 @@ deploy-log:
 # 	done
 
 sqitch-verify-all-revisions:
-	@for project in $(default_projects); do \
+	@for project in $(projects); do \
 		sqitch verify --target db:pg://humlab_admin@humlabseadserv.srv.its.umu.se/sead_production_201912 --plan-file $$project/sqitch.plan ; \
 	done
