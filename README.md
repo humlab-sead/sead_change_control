@@ -50,7 +50,7 @@ Locations of `sqitch.conf`:
 | ./general     | Main repository for schema and data change requests (CR) |
 | ./sead_api    | Repository for CR related to external API |
 | ./security    | Changes related to roles and privileges |
-| ./submissions | Commited Clearinghouse submissions |
+| ./submissions | Deprecated: Commited Clearinghouse submissions |
 | ./subsystem   | Changes related to subsystems |
 | ./utility     | Repository for generic utility objects |
 | (./report)    | Report related CRs (e.g. Clearinghouse, SuperSEAD) |
