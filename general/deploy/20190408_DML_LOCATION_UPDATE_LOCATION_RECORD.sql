@@ -5,8 +5,8 @@ begin;
 do $$
 begin
 
-    if not exists (select 1 from public.tbl_locations where location_id = 3804) then
-        raise exception 'Location 3804 does not exist';
+    if not exists (select 1 from public.tbl_locations where location_id = 3894) then
+        raise exception 'Location 3894 does not exist';
     end if;
 
     -- FIXME: #165 Updates by serial identity should be prohibited
