@@ -101,9 +101,18 @@ for project in $g_projects; do
         grep -e "$g_change" "$project/sqitch.plan" >> "$project/archive/sqitch.history"
         grep -v -e "$g_change" "$project/sqitch.plan" > "$project/sqitch.plan.tmp"
         mv -f "$project/sqitch.plan.tmp" "$project/sqitch.plan"
+
+        issue_id=$(get_cr_issue_id "$project" "$g_change")
+        if [ ! -z "$issue_id" ]; then
+            echo "Archiving issue $issue_id"
+            gh issue close $issue_id
+            gh issue comment -b "This CR has been archived." $issue_id
+        fi
+        update_cr_header "$project" "$g_change"
         echo "Change $project/$g_change moved to ./$project/archive"
         exit 0
     fi
 done
+
 echo "Change $g_change not found!"
 exit 64

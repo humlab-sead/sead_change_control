@@ -131,6 +131,11 @@ if [ "$g_update_plan" == "YES" ]; then
     grep -v -e "$g_change" "$g_from_project/sqitch.plan" > "$g_from_project/sqitch.plan.tmp"
     mv -f "$g_from_project/sqitch.plan.tmp" "$g_from_project/sqitch.plan"
 
+    issue_id=$(get_cr_issue_id "$project" "$g_change")
+    if [ ! -z "$issue_id" ]; then
+        gh issue comment -b "Issue moved from $g_from_project to $g_to_project." $issue_id
+    fi
+
 fi
 
 echo "Change $g_change moved from $g_from_project to $g_to_project"
