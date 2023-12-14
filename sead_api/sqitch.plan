@@ -37,7 +37,6 @@
 20200507_DDL_FACET_SCHEMA_UPDATE 2020-05-08T08:49:47Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/71: Schema improvements / cleanups
 20201221_DDL_ECL_RESTAPI_VIEWS 2020-12-21T19:55:03Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/158:  New views for ECL REST AOI
 
-20221121_DML_QSE_DENDRO_DATING 2022-11-21T15:37:40Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/156:  Dendro dating reporting view (JvB)
 
 @2020.03 2020-04-16T17:31:05Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
 
