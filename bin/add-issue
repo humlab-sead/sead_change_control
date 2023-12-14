@@ -4,9 +4,37 @@ SHELL=/bin/bash
 
 set -e
 
+usage_message=$(cat <<EOF
+usage: add-issue --change CR --body BODY OPTIONS...
+
+Uses Github CLI tool "gh" to a add new issue to Github. The issue will be named after the change and will have a text BODY added to it.
+You can optionally add a label (defaults to "change-request") and assignee (defaults to "@me").
+A URL link to the Github issue will be added to the Sqitch project plan.
+A URL link to the CRs SQL deploy file will be added to the issue body.
+
+If an existing issue is specified (--issue-id), then this issue will be related to the CR instead of creating a new one.
+
+If change is not found, no action is taken.
+
+    --change CR             Change that new issue will belong to.
+    --project NAME          Project change belongs to.
+    --body BODY             Text that will be added to issue.
+    --label LABEL           Labels (comma seperated) that will added to issue.
+    --assignee USER         Github user issue will be assigned to (default @me).
+    --issue-id ISSUE        Use issue ISSUE instead of creating a new one.
+    --no-update-plan        Do not add URL link to ISSUE in Sqitch project plan.
+    --use-plan-co           Add CR's comment in Sqitch plan to issue body.
+    --close-issue           Close issue when done.
+
+Example:
+
+bin/add-issue --change YYYYMMDD_XYZ --project general --label bugs --body "Some text" --close-issue
+
+EOF
+)
+
 function usage() {
-    echo "HELP!"
-    # gh issue create --help
+    echo "$usage_message"
 }
 
 g_change=
@@ -17,7 +45,7 @@ g_label="change-request"
 g_assignee="@me"
 g_body="To be documented. Placeholder issue for change request."
 g_close=NO
-g_update_plan=NO
+g_update_plan=YES
 g_use_plan_comment=NO
 g_comment=
 g_issue_id=
@@ -52,8 +80,8 @@ do
             g_issue_id="$2";
             shift 2;
         ;;
-        --update-plan|-u)
-            g_update_plan="YES";
+        --no-update-plan|-u)
+            g_update_plan="NO";
             shift;
         ;;
         --close-issue|-x)
@@ -63,6 +91,10 @@ do
         --use-plan-comment|-r)
             g_use_plan_comment="YES";
             shift;
+        ;;
+        --help|-h)
+            usage
+            exit 0
         ;;
         --*)
             echo "error: invalid option $1"

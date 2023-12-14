@@ -5,7 +5,20 @@ SHELL=/bin/bash
 set -e
 
 function usage() {
-    sqitch --no-pager
+    echo "Usage: $0 --change|-c <change> --project|-f|-C|--plan-file <project> --note|-n <note> [--issue-id <issue-id>]"
+    echo ""
+    echo "Add new change-request to sqitch plan file, and optionally create a new Github issue."
+    echo ""
+    echo "  --change|-c <change>                   Name of change to add to sqitch plan file."
+    echo "  --project|-f|-C|--plan-file <project>  Path to sqitch project directory."
+    # echo "                                         Must be $(grep -v '^\#' projects.txt | grep -v '^[[:space:]]*$'))."
+    echo "  --note|-n <note>                       Note to add to change."
+    echo "  --issue-id <issue-id>                  Add URL to issue in CR's comment in plan files."
+    echo "  --create-issue                         Create a new Github issue."
+    echo "  --help|-h                              Show this help."
+    echo ""
+    echo "Most of sqitch options can also be used."
+    # sqitch --no-pager
 }
 
 change=
@@ -40,6 +53,10 @@ do
         --create-issue)
             create_issue="YES";
             shift;
+        ;;
+        --help|-h)
+            usage;
+            exit 0;
         ;;
         --*)
             echo "error: invalid option $1"

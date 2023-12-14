@@ -4,9 +4,28 @@ SHELL=/bin/bash
 
 set -e
 
+usage_message=$(cat <<EOF
+usage: rm-cr OPTIONS...
+
+Removes change from project's sqitch.plan and moves SQL files to ./deprecated. 
+
+If no project is specified, then all projects are searched for change. 
+If change is not found, no action is taken.
+
+    --change            Change to remove.
+    --project NAME      Project change belongs to.
+    --update-plan       Remove change from sqitch.plan.
+
+Examples:
+
+bin/rm-cr --change "20231201_XYZ" --update-plan --project "project-name"
+bin/rm-cr --change "20231201_XYZ" --update-plan
+
+EOF
+)
+
 function usage() {
-    echo "HELP! Sent to outer space. Let's see if they answer."
-    # gh issue create --help
+    echo "$usage_message"
 }
 
 g_change=
@@ -30,6 +49,10 @@ do
         --update-plan|-u)
             g_update_plan="YES";
             shift;
+        ;;
+        --help|-h)
+            usage
+            exit 0
         ;;
         --*)
             echo "error: invalid option $1"

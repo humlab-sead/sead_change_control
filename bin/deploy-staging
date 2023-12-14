@@ -81,6 +81,10 @@ The databases will be named sead_test_yyymmm based on tag. I a database already 
 EOF
 )
 
+function usage() {
+    echo "$usage_message"
+}
+
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do

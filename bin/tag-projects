@@ -13,11 +13,18 @@ usage: tag-projects OPTIONS...
     --tag TAG                Add TAG to end of each plan.
     --note NOTE              Add NOTE to sqitch tag.
 
-examples
+Examples:
 
+bin/tag-projects --tag "@2023.12" --note "2023 December release"
+bin/tag-projects --tag "@2023.12" --note "2023 December release" --ignore-git
+bin/tag-projects--help
 
 EOF
 )
+
+function usage() {
+    echo "$usage_message"
+}
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -33,6 +40,10 @@ do
         ;;
         --note)
             g_note="$2"; shift; shift;
+        ;;
+        --help|-h)
+            usage
+            exit 0
         ;;
         --*)
             echo "error: invalid option $1"

@@ -4,9 +4,27 @@ SHELL=/bin/bash
 
 set -e
 
+usage_message=$(cat <<EOF
+usage: rm-cr OPTIONS...
+
+Move a change from one project to another project. 
+If change is not found, no action is taken.
+
+    --change                Change to remove.
+    --from-project NAME     Project change belongs to.
+    --to-project NAME       Project change should be moved to.
+    --tag TAG               Move change to TAG in destination plan.
+    --no-update-plan        Do not update Sqitch plans.
+
+Example:
+
+bin/mv-cr --from-project general --to-project bugs --change "20231201_XYZ" --tag @2023.12
+
+EOF
+)
+
 function usage() {
-    echo "HELP!"
-    # gh issue create --help
+    echo "$usage_message"
 }
 
 g_change=
@@ -40,6 +58,10 @@ do
         --tag)
             g_tag="$2";
             shift;
+        ;;
+        --help|-h)
+            usage
+            exit 0
         ;;
         --*)
             echo "error: invalid option $1"
