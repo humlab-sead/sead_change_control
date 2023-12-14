@@ -1,4 +1,4 @@
--- Deploy general: 20190503_DML_TAXA_ADD_SPECIES_ASSOC_TYPES
+-- Deploy bugs: 20190503_DML_TAXA_ADD_SPECIES_ASSOC_TYPES
 
 /****************************************************************************************************************
   Author        Roger Mähler

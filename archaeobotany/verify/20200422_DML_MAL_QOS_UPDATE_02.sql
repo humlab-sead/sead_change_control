@@ -1,4 +1,4 @@
--- Verify general: 20200422_DML_MAL_QOS_UPDATE_02
+-- Verify archaeobotany: 20200422_DML_MAL_QOS_UPDATE_02
 
 BEGIN;
 

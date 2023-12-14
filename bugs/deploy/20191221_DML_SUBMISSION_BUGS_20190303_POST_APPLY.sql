@@ -1,4 +1,4 @@
--- Deploy submissions: 20191221_DML_SUBMISSION_BUGS_20190303_POST_APPLY
+-- Deploy bugs: 20191221_DML_SUBMISSION_BUGS_20190303_POST_APPLY
 
 /****************************************************************************************************************
   Author        Roger Mähler

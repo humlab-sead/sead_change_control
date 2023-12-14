@@ -1,4 +1,4 @@
--- Deploy general: 20221205_DML_QUALITY_CONTROL_BIBLIO_UPDATES
+-- Deploy archaeobotany: 20221205_DML_QUALITY_CONTROL_BIBLIO_UPDATES
 
 /****************************************************************************************************************
   Author        Roger Mähler

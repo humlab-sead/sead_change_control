@@ -1,4 +1,4 @@
--- Revert general: 20191213_DDL_DENDRO_MODEL
+-- Revert dendrochronology: 20191213_DDL_DENDRO_MODEL
 
 BEGIN;
 

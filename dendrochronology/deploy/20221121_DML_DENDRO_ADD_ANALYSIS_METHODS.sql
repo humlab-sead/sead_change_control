@@ -1,4 +1,4 @@
--- Deploy general: 20221121_DML_DENDRO_ADD_ANALYSIS_METHODS
+-- Deploy dendrochronology: 20221121_DML_DENDRO_ADD_ANALYSIS_METHODS
 
 /****************************************************************************************************************
   Author        Roger Mähler

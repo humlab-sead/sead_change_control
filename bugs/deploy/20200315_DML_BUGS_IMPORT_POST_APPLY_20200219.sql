@@ -1,4 +1,4 @@
--- Deploy submissions: 20200315_DML_BUGS_IMPORT_POST_APPLY_20200219
+-- Deploy bugs: 20200315_DML_BUGS_IMPORT_POST_APPLY_20200219
 
 /****************************************************************************************************************
   Author        Roger Mähler

@@ -1,4 +1,4 @@
--- Revert utility:CS_UTILITY_20190411_ENABLE_PGCRYPTO from pg
+-- Revert utility: 20190411_DDL_UTILITY_ENABLE_PGCRYPTO
 
 BEGIN;
 

@@ -1,4 +1,4 @@
--- Deploy submissions: 20221205_DML_CERAMICS_METHOD_ID_UPDATE
+-- Deploy ceramics: 20221205_DML_CERAMICS_METHOD_ID_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

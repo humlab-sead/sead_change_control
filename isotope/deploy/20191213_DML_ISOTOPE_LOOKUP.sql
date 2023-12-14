@@ -1,4 +1,4 @@
--- Deploy submissions: 20191213_DML_ISOTOPE_LOOKUP
+-- Deploy isotope: 20191213_DML_ISOTOPE_LOOKUP
 
 /****************************************************************************************************************
   Author        Roger Mähler

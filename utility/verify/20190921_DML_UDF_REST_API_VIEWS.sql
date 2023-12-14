@@ -1,4 +1,4 @@
--- Verify sead_api:20190921_DML_UDF_REST_API_VIEWS on pg
+-- Verify utility: 20190921_DML_UDF_REST_API_VIEWS
 
 BEGIN;
 

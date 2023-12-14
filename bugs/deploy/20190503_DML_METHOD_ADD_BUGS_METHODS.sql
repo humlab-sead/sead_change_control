@@ -1,4 +1,4 @@
--- Deploy submissions: 20190503_DML_METHOD_ADD_BUGS_METHODS
+-- Deploy bugs: 20190503_DML_METHOD_ADD_BUGS_METHODS
 
 /****************************************************************************************************************
   Author        Roger Mähler

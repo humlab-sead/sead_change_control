@@ -1,4 +1,4 @@
--- Revert utility:CS_STAGING_20190517_CREATE_DATABASE from pg
+-- Revert utility: 20190517_DDL_STAGING_CREATE_DATABASE
 
 BEGIN;
 

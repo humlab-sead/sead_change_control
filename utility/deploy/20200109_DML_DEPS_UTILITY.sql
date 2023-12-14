@@ -1,4 +1,4 @@
--- Deploy utility:20200109_DML_DEPS_UTILITY to pg
+-- Deploy utility: 20200109_DML_DEPS_UTILITY
 
 /****************************************************************************************************************
   Author        Roger Mähler

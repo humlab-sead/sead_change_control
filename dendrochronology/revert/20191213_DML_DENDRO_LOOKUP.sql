@@ -1,4 +1,4 @@
--- Revert submissions: 20191213_DML_DENDRO_LOOKUP
+-- Revert dendrochronology: 20191213_DML_DENDRO_LOOKUP
 
 BEGIN;
 

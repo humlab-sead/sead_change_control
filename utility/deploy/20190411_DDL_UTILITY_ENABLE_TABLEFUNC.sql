@@ -1,4 +1,4 @@
--- Deploy utility:CS_UTILITY_20190411_ENABLE_TABLEFUNC to pg
+-- Deploy utility: 20190411_DDL_UTILITY_ENABLE_TABLEFUNC
 
 /****************************************************************************************************************
   Author        Roger Mähler

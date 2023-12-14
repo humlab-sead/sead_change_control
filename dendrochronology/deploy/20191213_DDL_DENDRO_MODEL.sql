@@ -1,4 +1,4 @@
--- Deploy general: 20191213_DDL_DENDRO_MODEL
+-- Deploy dendrochronology: 20191213_DDL_DENDRO_MODEL
 
 begin;
 

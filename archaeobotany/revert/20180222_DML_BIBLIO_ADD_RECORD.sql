@@ -1,4 +1,4 @@
--- Revert general: 20180222_DML_BIBLIO_ADD_RECORD
+-- Revert archaeobotany: 20180222_DML_BIBLIO_ADD_RECORD
 
 BEGIN;
 

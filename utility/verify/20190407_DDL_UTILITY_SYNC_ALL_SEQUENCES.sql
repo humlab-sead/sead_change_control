@@ -1,4 +1,4 @@
--- Verify sead_db_change_control:ADMIN_SYNC_ALL_SEQUENCES on pg
+-- Verify utility: 20190407_DDL_UTILITY_SYNC_ALL_SEQUENCES
 
 BEGIN;
 

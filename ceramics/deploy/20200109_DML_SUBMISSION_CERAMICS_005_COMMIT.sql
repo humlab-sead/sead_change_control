@@ -1,4 +1,4 @@
--- Deploy submissions: 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT
+-- Deploy ceramics: 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT
 /***************************************************************************
 Author         roger
 Date           

@@ -1,4 +1,4 @@
--- Revert general: 20200210_DML_MAL_QOS_UPDATE_01
+-- Revert archaeobotany: 20200210_DML_MAL_QOS_UPDATE_01
 
 BEGIN;
 

@@ -1,4 +1,4 @@
--- Deploy submissions: 20191221_DDL_UDF_BUGS_IMPORT_POST_APPLY
+-- Deploy bugs: 20191221_DDL_UDF_BUGS_IMPORT_POST_APPLY
 
 /****************************************************************************************************************
   Author        Roger Mähler

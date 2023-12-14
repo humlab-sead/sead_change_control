@@ -1,4 +1,4 @@
--- Deploy submissions: 20190503_DDL_BUGS_ADD_TRANSLATIONS
+-- Deploy bugs: 20190503_DDL_BUGS_ADD_TRANSLATIONS
 -- -- Deploy bugs:CS_BUGS_20190503_ADD_TRANSLATIONS to pg
 
 -- /****************************************************************************************************************

@@ -1,4 +1,4 @@
--- Deploy general: 20200422_UPDATE_BUGS_REFERENCES_YEAR
+-- Deploy bugs: 20200422_UPDATE_BUGS_REFERENCES_YEAR
 
 /****************************************************************************************************************
   Author        Roger Mähler

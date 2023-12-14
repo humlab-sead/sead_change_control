@@ -1,4 +1,4 @@
--- Deploy general: 20191213_DDL_CERAMICS_MODEL
+-- Deploy ceramics: 20191213_DDL_CERAMICS_MODEL
 
 /****************************************************************************************************************
   Author        Roger Mähler

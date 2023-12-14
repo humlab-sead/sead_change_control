@@ -1,4 +1,4 @@
--- Deploy sead_api:20220921_DML_UDF_REST_API_VIEWS from pg
+-- Deploy utility: 20190921_DML_UDF_REST_API_VIEWS
 /****************************************************************************************************************
   Change author
     Roger Mähler, 2022-09-21

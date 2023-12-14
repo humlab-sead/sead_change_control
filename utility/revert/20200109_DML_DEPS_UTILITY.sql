@@ -1,4 +1,4 @@
--- Revert utility:20200109_DML_DEPS_UTILITY from pg
+-- Revert utility: 20200109_DML_DEPS_UTILITY
 
 BEGIN;
 

@@ -1,4 +1,4 @@
--- Revert submissions: 20191213_DML_ISOTOPE_LOOKUP
+-- Revert isotope: 20191213_DML_ISOTOPE_LOOKUP
 
 BEGIN;
 

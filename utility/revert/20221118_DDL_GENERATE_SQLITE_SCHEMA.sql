@@ -1,4 +1,4 @@
--- Revert utility:20221118_DDL_GENERATE_SQLITE_SCHEMA from pg
+-- Revert utility: 20221118_DDL_GENERATE_SQLITE_SCHEMA
 
 begin;
 

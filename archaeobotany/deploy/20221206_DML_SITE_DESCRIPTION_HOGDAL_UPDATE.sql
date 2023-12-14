@@ -1,4 +1,4 @@
--- Deploy general: 20221206_DML_SITE_DESCRIPTION_HOGDAL_UPDATE
+-- Deploy archaeobotany: 20221206_DML_SITE_DESCRIPTION_HOGDAL_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler

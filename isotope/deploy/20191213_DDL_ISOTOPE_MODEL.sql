@@ -1,4 +1,4 @@
--- Deploy general: 20191213_DDL_ISOTOPE_MODEL
+-- Deploy isotope: 20191213_DDL_ISOTOPE_MODEL
 
 /****************************************************************************************************************
   Author        Roger Mähler

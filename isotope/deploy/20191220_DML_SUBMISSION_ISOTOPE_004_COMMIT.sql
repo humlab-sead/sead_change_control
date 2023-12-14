@@ -1,4 +1,4 @@
--- Deploy submissions: 20191220_DML_SUBMISSION_ISOTOPE_004_COMMIT
+-- Deploy isotope: 20191220_DML_SUBMISSION_ISOTOPE_004_COMMIT
 /***************************************************************************
 Author         roger
 Date

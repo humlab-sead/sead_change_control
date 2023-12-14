@@ -1,4 +1,4 @@
--- Deploy general: 20180222_DML_BIBLIO_ADD_RECORD
+-- Deploy archaeobotany: 20180222_DML_BIBLIO_ADD_RECORD
 
 /****************************************************************************************************************
   Author        Roger Mähler

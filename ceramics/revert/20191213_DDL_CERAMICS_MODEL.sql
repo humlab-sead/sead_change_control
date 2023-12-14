@@ -1,4 +1,4 @@
--- Revert general: 20191213_DDL_CERAMICS_MODEL
+-- Revert ceramics: 20191213_DDL_CERAMICS_MODEL
 
 BEGIN;
 

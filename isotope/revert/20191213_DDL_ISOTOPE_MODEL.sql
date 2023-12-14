@@ -1,4 +1,4 @@
--- Revert general: 20191213_DDL_ISOTOPE_MODEL
+-- Revert isotope: 20191213_DDL_ISOTOPE_MODEL
 
 BEGIN;
 

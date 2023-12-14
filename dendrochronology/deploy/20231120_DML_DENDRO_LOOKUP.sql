@@ -1,4 +1,4 @@
--- Deploy submissions: 20231120_DML_DENDRO_LOOKUP
+-- Deploy dendrochronology: 20231120_DML_DENDRO_LOOKUP
 
 /****************************************************************************************************************
   Author        Roger Mähler

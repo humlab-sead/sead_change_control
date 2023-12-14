@@ -1,4 +1,4 @@
--- Revert sead_api: 20221121_DML_QSE_DENDRO_DATING
+-- Revert dendrochronology: 20221121_DML_QSE_DENDRO_DATING
 
 begin;
 

@@ -1,4 +1,4 @@
--- Verify submissions: 20191213_DML_DENDRO_LOOKUP
+-- Verify dendrochronology: 20191213_DML_DENDRO_LOOKUP
 
 BEGIN;
 

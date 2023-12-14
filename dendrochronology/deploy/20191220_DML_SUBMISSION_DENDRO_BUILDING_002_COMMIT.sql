@@ -1,4 +1,4 @@
--- Deploy submissions: 20191220_DML_SUBMISSION_DENDRO_BUILDING_002_COMMIT
+-- Deploy dendrochronology: 20191220_DML_SUBMISSION_DENDRO_BUILDING_002_COMMIT
 /***************************************************************************
 Author         roger
 Date

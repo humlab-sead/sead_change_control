@@ -1,4 +1,4 @@
--- Deploy general: 20191212_DML_ADD_RECORD_TYPE
+-- Deploy dendrochronology: 20191212_DML_ADD_RECORD_TYPE
 
 /****************************************************************************************************************
   Author        Roger Mähler

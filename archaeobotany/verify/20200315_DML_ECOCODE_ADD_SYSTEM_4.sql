@@ -1,4 +1,4 @@
--- Verify general: 20200315_DML_ECOCODE_ADD_SYSTEM_4
+-- Verify archaeobotany: 20200315_DML_ECOCODE_ADD_SYSTEM_4
 
 BEGIN;
 

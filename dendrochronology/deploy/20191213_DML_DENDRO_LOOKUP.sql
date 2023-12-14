@@ -1,4 +1,4 @@
--- Deploy submissions: 20191213_DML_DENDRO_LOOKUP
+-- Deploy dendrochronology: 20191213_DML_DENDRO_LOOKUP
 
 begin;
 do $$

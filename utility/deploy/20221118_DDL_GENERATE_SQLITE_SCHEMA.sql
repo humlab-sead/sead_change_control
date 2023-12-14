@@ -1,4 +1,4 @@
--- Deploy utility:20221118_DDL_GENERATE_SQLITE_SCHEMA to pg
+-- Deploy utility: 20221118_DDL_GENERATE_SQLITE_SCHEMA
 
 /****************************************************************************************************************
   Author        Roger Mähler

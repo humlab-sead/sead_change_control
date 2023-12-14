@@ -1,4 +1,4 @@
--- Deploy utility:CS_UTILITY_20190411_ENABLE_PGCRYPTO to pg
+-- Deploy utility: 20190411_DDL_UTILITY_ENABLE_PGCRYPTO
 
 /****************************************************************************************************************
   Author        Roger Mähler

@@ -1,4 +1,4 @@
--- Revert sead_api:20220921_DML_UDF_REST_API_VIEWS from pg
+-- Revert utility: 20190921_DML_UDF_REST_API_VIEWS
 
 BEGIN;
 

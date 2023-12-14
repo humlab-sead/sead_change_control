@@ -1,4 +1,4 @@
--- Deploy general: 20221121_DML_DENDRO_LOOKUP_STANDARD_UPDATE
+-- Deploy dendrochronology: 20221121_DML_DENDRO_LOOKUP_STANDARD_UPDATE
 
 /****************************************************************************************************************
   Author        Roger Mähler
