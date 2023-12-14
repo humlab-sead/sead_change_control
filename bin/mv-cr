@@ -4,6 +4,8 @@ SHELL=/bin/bash
 
 set -e
 
+. $(dirname "$0")/utility.sh
+
 usage_message=$(cat <<EOF
 usage: rm-cr OPTIONS...
 
@@ -90,6 +92,10 @@ fi
 if [ ! -f "$g_to_project/sqitch.plan" ]; then
     echo "Project $g_to_project does not exist"
     exit 64
+fi
+
+if [ -z "$g_tag" ]; then
+    g_tag=$(get_change_tag "$g_from_project" "$g_change")
 fi
 
 if [ ! -z "$g_tag" ]; then
