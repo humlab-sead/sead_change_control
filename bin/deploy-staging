@@ -30,8 +30,6 @@ g_projects_file=$(realpath $script_dir/../projects.txt)
 default_projects=$(grep -v '^#' $g_projects_file | grep -v '^[[:space:]]*$')
 # default_projects=$(find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy \; -print)
 
-exit 0
-
 default_server="humlabseadserv.srv.its.umu.se"
 
 log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${g_target_name}_${g_source_type}.log"
