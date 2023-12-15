@@ -96,7 +96,7 @@ for project in $g_projects; do
         done
 
         if [ -d "$project/deploy/${g_change}" ]; then
-            mv "$project/deploy/${g_change}" "$project/archive/deploy/${g_change}"
+            mv "$project/deploy/${g_change}" "$project/archive/deploy/"
         fi
 
         tag=$(get_change_tag "$project" "$g_change")
