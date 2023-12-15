@@ -21,7 +21,6 @@
 @2020.01 2020-01-29T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2020 January release
 
 20200201_DDL_ECOCODE_GEOJSON_EXPORT 2020-03-16T13:02:56Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/64: Loves bugfixes
-20200316_DDL_BUGS_ECOCODE_GEOJSON 2020-03-16T14:37:27Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/64: GeoJSON export for Bugs Ecocodes ecocode_system_id 2
 
 @2020.02 2020-03-16T14:47:53Z Roger Mähler <roger.mahler@umu.se> # @2020.02 release
 

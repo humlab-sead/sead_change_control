@@ -77,7 +77,7 @@ begin
 
         /* Ignore duplicate entries in bugs_type_translations */
        create or replace function bugs_import.trigger_bugs_type_translations_ignore_duplicates()
-            returns trigger as $$
+            returns trigger as $trigger$
         begin
             if exists (
                 select 1
@@ -91,7 +91,7 @@ begin
             end if;
             return NEW;
         end;
-        $$ language plpgsql;
+        $trigger$ language plpgsql;
 
         create trigger bugs_type_translations_ignore_duplicates_trigger
             before insert on bugs_import.bugs_type_translations
@@ -100,7 +100,7 @@ begin
 
         /* Ignore duplicate entries in id_based_translations */
         create or replace function bugs_import.trigger_id_based_translations_ignore_duplicates()
-            returns trigger as $$
+            returns trigger as $trigger$
         begin
             if exists (
                 select 1
@@ -113,7 +113,7 @@ begin
             end if;
             return NEW;
         end;
-        $$ language plpgsql;
+        $trigger$ language plpgsql;
 
         create trigger id_based_translations_ignore_duplicates_trigger
             before insert on bugs_import.id_based_translations
