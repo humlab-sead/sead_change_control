@@ -236,6 +236,6 @@ begin;
         return v_constraint_name;
 
     end
-    $function$
+    $function$;
 
 commit;
