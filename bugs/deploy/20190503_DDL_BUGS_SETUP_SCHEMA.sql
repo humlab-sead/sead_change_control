@@ -75,6 +75,52 @@ begin
         create index idx_bugs_trace_sead_table_sead_reference_id
             on bugs_import.bugs_trace (sead_table, sead_reference_id);
 
+        /* Ignore duplicate entries in bugs_type_translations */
+       create or replace function bugs_import.trigger_bugs_type_translations_ignore_duplicates()
+            returns trigger as $$
+        begin
+            if exists (
+                select 1
+                from bugs_import.bugs_type_translations
+                where coalesce(bugs_table, 'NULL') = coalesce(NEW.bugs_table, 'NULL')
+                  and coalesce(bugs_column, 'NULL') = coalesce(NEW.bugs_column, 'NULL')
+                  and coalesce(triggering_column_value, 'NULL') = coalesce(NEW.triggering_column_value, 'NULL')
+                  and coalesce(target_column, 'NULL') = coalesce(NEW.target_column, 'NULL')
+            ) then
+                return null;
+            end if;
+            return NEW;
+        end;
+        $$ language plpgsql;
+
+        create trigger bugs_type_translations_ignore_duplicates_trigger
+            before insert on bugs_import.bugs_type_translations
+                for each row
+                    execute function bugs_import.trigger_bugs_type_translations_ignore_duplicates();
+
+        /* Ignore duplicate entries in id_based_translations */
+        create or replace function bugs_import.trigger_id_based_translations_ignore_duplicates()
+            returns trigger as $$
+        begin
+            if exists (
+                select 1
+                from bugs_import.id_based_translations
+                where coalesce(bugs_definition, 'NULL') = coalesce(NEW.bugs_definition, 'NULL')
+                  and coalesce(bugs_table, 'NULL') = coalesce(NEW.bugs_table, 'NULL')
+                  and coalesce(target_column, 'NULL') = coalesce(NEW.target_column, 'NULL')
+            ) then
+                return null;
+            end if;
+            return NEW;
+        end;
+        $$ language plpgsql;
+
+        create trigger id_based_translations_ignore_duplicates_trigger
+            before insert on bugs_import.id_based_translations
+                for each row
+                    execute function bugs_import.trigger_id_based_translations_ignore_duplicates();
+
+
     exception when sqlstate 'GUARD' then
         raise notice '%', 'bugs schema already exists';
     end;
