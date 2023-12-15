@@ -118,6 +118,10 @@ for type in deploy revert verify; do
     mv "$g_from_project/$type/${g_change}.sql" "$g_to_project/$type/${g_change}.sql"
 done
 
+if [ -d "$g_from_project/deploy/${g_change}" ]; then
+    mv "$g_from_project/deploy/${g_change}" "$g_to_project/deploy/${g_change}"
+fi
+
 if [ "$g_update_plan" == "YES" ]; then
 
     if [ ! -z "$g_tag" ]; then
