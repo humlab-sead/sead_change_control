@@ -18,12 +18,16 @@ begin
 
     begin
 
+        insert into tbl_project_types (project_type_id, project_type_name, description)
+            values (0, 'Unknown', 'Unknown project type')
+                on conflict (project_type_id) do nothing;
+
         insert into tbl_project_stages (project_stage_id, stage_name, description)
             values (0, 'Unknown', 'Unknown project stage')
                 on conflict (project_stage_id) do nothing;
 
         insert into tbl_projects (project_id, project_type_id, project_stage_id, project_abbrev_name)
-            values (0, 8, 0, 'Unclassified')
+            values (0, 0, 0, 'Unclassified')
                 on conflict (project_id) do nothing;
 
         new_id = 11;
