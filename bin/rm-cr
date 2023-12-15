@@ -95,6 +95,10 @@ for project in $g_projects; do
             mv "$project/$type/${g_change}.sql" "$project/archive/$type/${g_change}.sql"
         done
 
+        if [ -d "$project/deploy/${g_change}" ]; then
+            mv "$project/deploy/${g_change}" "$project/archive/deploy/${g_change}"
+        fi
+
         tag=$(get_change_tag "$project" "$g_change")
 
         echo "$tag" >> "$project/archive/sqitch.history"
