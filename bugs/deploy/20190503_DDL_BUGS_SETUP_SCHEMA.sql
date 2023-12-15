@@ -48,7 +48,8 @@ begin
             bugs_column character varying(50),
             triggering_column_value text,
             target_column character varying(50),
-            replacement_value text
+            replacement_value text,
+            constraint uq_type_translations unique (bugs_table, bugs_column, triggering_column_value, target_column)
         );
 
         create table bugs_import.id_based_translations (
@@ -56,7 +57,8 @@ begin
             bugs_definition text,
             bugs_table character varying(50),
             target_column character varying(50),
-            replacement_value text
+            replacement_value text,
+            constraint uq_id_based_translations unique (bugs_definition, bugs_table, target_column)
         );
 
         alter table bugs_import.bugs_trace owner to sead_master;
