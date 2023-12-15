@@ -7,9 +7,6 @@
 20191221_DDL_UDF_BUGS_IMPORT_POST_APPLY 2022-12-02T09:49:50Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/42: UDF for Bugs import updates after import
 20190503_DML_METHOD_ADD_BUGS_METHODS 2019-05-03T18:27:38Z Roger Mähler <roger.mahler@umu.se> # Add new methods to accomodate Bugs import
 
-## 20191221_DML_SUBMISSION_BUGS_20190303_COMMIT 2019-12-21T14:25:16Z Roger <roger.mahler@umu.se> # Initial Bugs Import. Disabled ahead of 202312 release.
-## 20191221_DML_SUBMISSION_BUGS_20190303_POST_APPLY 2019-12-13T14:27:35Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/62:  Script that must be applied after each import
-
 20190503_DML_TAXA_ADD_SPECIES_ASSOC_TYPES 2019-05-03T18:07:02Z Roger Mähler <roger.mahler@umu.se> # Add new association type names to accomodate Bugs import
 20190503_DML_DATINGLAB_ADD_UNKNOWN_LAB 2019-05-03T18:30:47Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/191:  Add unknown dating lab to accomodate Bugs import
 
