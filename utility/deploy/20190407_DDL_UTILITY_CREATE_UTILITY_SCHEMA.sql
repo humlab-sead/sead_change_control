@@ -211,5 +211,31 @@ begin;
         end loop;
     end $$ language plpgsql;
 
+    create or replace function sead_utility.constraint_exists(s_schema_name text, s_table_name text, variadic v_columns text[])
+    returns text
+    language plpgsql
+        as $function$
+            declare v_constraint_name text;
+        begin
+
+        v_constraint_name = null;
+
+        select tc.constraint_name into v_constraint_name
+        from information_schema.table_constraints as tc 
+        join information_schema.key_column_usage as kcu
+        on tc.constraint_name = kcu.constraint_name
+        join information_schema.constraint_column_usage as ccu
+        on ccu.constraint_name = tc.constraint_name
+        where tc.constraint_type = 'UNIQUE'
+        and tc.constraint_schema = s_schema_name
+        and tc.table_name=s_table_name
+        and kcu.column_name = any(v_columns)
+        group by tc.constraint_name, tc.table_name, kcu.column_name
+        having count(*) = array_length(v_columns, 1);
+
+        return v_constraint_name;
+
+    end
+    $function$
 
 commit;
