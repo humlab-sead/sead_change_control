@@ -87,11 +87,11 @@ fi
 for project in $g_projects; do
     if [ -f "$project/deploy/${g_change}.sql" ]; then
         mkdir -p $project/archive/deploy $project/archive/revert $project/archive/verify
-        for type in deploy revert verify; do
-            if [ ! -f "$project/$type/${g_change}.sql" ]; then
-                echo "Change $project/$type/${g_change}.sql does not exist"
-                exit 64
-            fi
+        for type in deploy revert verify ; do
+            # if [ ! -f "$project/$type/${g_change}.sql" ]; then
+            #     echo "Change $project/$type/${g_change}.sql does not exist"
+            #     exit 64
+            # fi
             mv "$project/$type/${g_change}.sql" "$project/archive/$type/${g_change}.sql"
         done
 
@@ -100,19 +100,18 @@ for project in $g_projects; do
         fi
 
         tag=$(get_change_tag "$project" "$g_change")
+        issue_id=$(get_cr_issue_id "$project" "$g_change")
 
         echo "$tag" >> "$project/archive/sqitch.history"
         grep -e "$g_change" "$project/sqitch.plan" >> "$project/archive/sqitch.history"
         grep -v -e "$g_change" "$project/sqitch.plan" > "$project/sqitch.plan.tmp"
         mv -f "$project/sqitch.plan.tmp" "$project/sqitch.plan"
 
-        issue_id=$(get_cr_issue_id "$project" "$g_change")
         if [ ! -z "$issue_id" ]; then
             echo "Archiving issue $issue_id"
             gh issue close $issue_id
             gh issue comment -b "This CR has been archived." $issue_id
         fi
-        update_cr_header "$project" "$g_change"
         echo "Change $project/$g_change moved to ./$project/archive"
         exit 0
     fi
