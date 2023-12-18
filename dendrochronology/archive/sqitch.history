@@ -4,3 +4,6 @@
 20191220_DML_SUBMISSION_DENDRO_ARCHEOLOGY_003_COMMIT 2019-12-20T22:14:20Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/207:  Deploy of Clearinghouse submission {3}.
 @2020.01
 20191220_DML_SUBMISSION_DENDRO_BUILDING_002_COMMIT 2019-12-20T22:14:11Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/206:  Deploy of Clearinghouse submission {2}.
+@2019.12
+20191213_DDL_DENDRO_MODEL 2019-04-09T14:34:56Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/195:  Creates dendrochronological data model
+20231120_DML_DENDRO_MODEL 2023-12-18T15:03:51Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/135: Update of 20191213_DDL_DENDRO_MODEL

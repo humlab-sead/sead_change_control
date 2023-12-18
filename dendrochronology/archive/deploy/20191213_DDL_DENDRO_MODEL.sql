@@ -57,34 +57,18 @@ begin
             date_updated timestamp with time zone default now()
         );
 
-        create table if not exists tbl_error_uncertainties (
-            error_uncertainty_id serial primary key,
-            error_uncertainty_type character varying(150) not null,
-            description text,
-            date_updated timestamp with time zone default now()
-        );
-
-        create table if not exists tbl_season_or_qualifier (
-            season_or_qualifier_id serial primary key,
-            season_or_qualifier_type character varying(150) not null,
-            description text,
-            date_updated timestamp with time zone default now()
-        );
 
         create table if not exists tbl_dendro_dates
         (
             dendro_date_id serial primary key,
+            season_id integer,
+            dating_uncertainty_id integer,
+            dendro_lookup_id integer not null,
+            age_type_id integer not null,
             analysis_entity_id integer not null,
             age_older integer,
             age_younger integer,
-            dating_uncertainty_id integer,
-            season_or_qualifier_id integer,
             date_updated timestamp with time zone default now(),
-            error_plus integer,
-            error_minus integer,
-            dendro_lookup_id integer not null,
-            error_uncertainty_id integer null,
-            age_type_id integer not null,
             constraint fk_dendro_dates_analysis_entity_id foreign key (analysis_entity_id)
                 references public.tbl_analysis_entities (analysis_entity_id) match simple
                 on update no action
@@ -99,10 +83,6 @@ begin
                 on delete no action,
             constraint fk_tbl_age_types_age_type_id foreign key (age_type_id)
                 references public.tbl_age_types (age_type_id) match simple
-                on update no action
-                on delete no action,
-            constraint fk_tbl_error_uncertainties_error_uncertainty_id foreign key (error_uncertainty_id)
-                references public.tbl_error_uncertainties (error_uncertainty_id) match simple
                 on update no action
                 on delete no action
         );
@@ -121,12 +101,9 @@ begin
 
         alter table tbl_dendro_lookup owner to "sead_master";
         alter table tbl_dendro owner to "sead_master";
-
         alter table tbl_dendro_dates owner to sead_master;
         alter table tbl_dendro_date_notes owner to sead_master;
         alter table tbl_age_types owner to sead_master;
-        alter table tbl_error_uncertainties owner to sead_master;
-        alter table tbl_season_or_qualifier owner to sead_master;
 
         grant all on table tbl_dendro_dates to sead_read, mattias, postgres;
         grant select on table tbl_dendro_dates to humlab_read, johan;
@@ -134,10 +111,10 @@ begin
         grant select on table tbl_dendro_date_notes to humlab_read, johan;
         grant all on table tbl_dendro_date_notes to mattias, postgres, sead_master, sead_read;
 
-        grant all on table tbl_age_types, tbl_error_uncertainties, tbl_season_or_qualifier
+        grant all on table tbl_age_types
             to sead_read, humlab_admin, mattias, postgres;
 
-        grant select on table tbl_age_types, tbl_error_uncertainties, tbl_season_or_qualifier to humlab_read;
+        grant select on table tbl_age_types to humlab_read;
 
         comment on table tbl_dendro_lookup is 'type=lookup';
 
