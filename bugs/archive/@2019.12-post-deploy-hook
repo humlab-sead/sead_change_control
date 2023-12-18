@@ -9,5 +9,5 @@ gzip_submissions() {
     fi
 }
 
-gzip_submissions $SCRIPT_DIR/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/bugs_import_schema.sql
-gzip_submissions $SCRIPT_DIR/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/public_data_diff.sql
+# gzip_submissions $SCRIPT_DIR/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/bugs_import_schema.sql
+# gzip_submissions $SCRIPT_DIR/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/public_data_diff.sql
