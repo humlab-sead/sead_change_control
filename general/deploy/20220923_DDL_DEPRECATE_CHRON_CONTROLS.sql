@@ -28,11 +28,12 @@ begin
             /* drop dependent objects */
             drop function if exists clearing_house_commit.resolve_chron_control(int);
             drop function if exists clearing_house_commit.resolve_chron_control_type(int);
-            drop view if exists clearing_house.view_chron_controls;
 
+            drop view if exists clearing_house.view_chron_controls;
             drop view if exists clearing_house.view_chron_control_types;
-            drop table if exists clearing_house.tbl_chron_control_types;
+
             drop table if exists clearing_house.tbl_chron_controls;
+            drop table if exists clearing_house.tbl_chron_control_types;
 
             /* ClearingHouse: delete data related to tables */
             delete from clearing_house.tbl_clearinghouse_submission_tables where table_name_underscored = 'tbl_chron_controls';
@@ -45,18 +46,15 @@ begin
 
         /* PostgREST API: drop dependent objects and delete data */
 
-        begin
-            drop view if exists postgrest_api.chron_controls;
-            drop view if exists postgrest_default_api.chron_control;
-        end;
+        drop view if exists postgrest_api.chron_controls;
+        drop view if exists postgrest_api.chron_control_type;
+
+        drop view if exists postgrest_default_api.chron_control;
+        drop view if exists postgrest_default_api.chron_control_type;
+
 
         /* SEAD facet API: Drop dependent objects */
         begin
-
-            -- FIXME #103 Delete of records disabled
-            -- delete from facet.table where table_or_udf_name = 'tbl_chron_controls';
-
-            drop view if exists postgrest_api.chron_control_types;
 
             /* Remove from facet.table_relation */
             delete -- select *
@@ -88,7 +86,6 @@ begin
         end;
 
         /* Drop tables */
-
         drop table if exists public.tbl_chron_controls;
         drop table if exists public.tbl_chron_control_types;
 
