@@ -131,7 +131,7 @@ fi
 
 issue_body=$(cat <<EOF
 
-Change project: Created CR [$g_project](https://github.com/humlab-sead/sead_change_control/blob/master/${g_project}/sqitch.plan)
+Change project: [$g_project](https://github.com/humlab-sead/sead_change_control/blob/master/${g_project}/sqitch.plan)
 Change request: Created CR [$g_change](https://github.com/humlab-sead/sead_change_control/blob/master/${g_project}/deploy/${g_change}.sql)
 
 $g_body
