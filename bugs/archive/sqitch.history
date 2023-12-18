@@ -3,3 +3,7 @@
 20191221_DML_SUBMISSION_BUGS_20190303_COMMIT 2019-12-21T14:25:16Z Roger <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/204: Initial Bugs Import. Disabled ahead of 202312 release.
 @2019.12
 20191221_DML_SUBMISSION_BUGS_20190303_POST_APPLY 2019-12-13T14:27:35Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/62:  Script that must be applied after each import
+@2020.02
+20200313_DML_BUGS_IMPORT_PUBLIC_20200219 2020-03-13T14:12:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/62: Incremental bugs update
+@2020.02
+20200313_DML_BUGS_IMPORT_TRACE_20200219 2020-03-15T15:27:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/62: BugsCEP update (bugs_import schema)
