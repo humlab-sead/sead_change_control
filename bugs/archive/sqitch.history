@@ -7,3 +7,5 @@
 20200313_DML_BUGS_IMPORT_PUBLIC_20200219 2020-03-13T14:12:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/62: Incremental bugs update
 @2020.02
 20200313_DML_BUGS_IMPORT_TRACE_20200219 2020-03-15T15:27:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/62: BugsCEP update (bugs_import schema)
+@2020.02
+20200315_DML_BUGS_IMPORT_POST_APPLY_20200219 2020-03-16T14:24:34Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/42: Post applies after Bugs import
