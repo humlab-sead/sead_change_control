@@ -57,15 +57,22 @@ begin
             -- delete from facet.table where table_or_udf_name = 'tbl_chron_controls';
 
             drop view if exists postgrest_api.chron_control_types;
+
+            /* Remove from facet.table_relation */
             delete -- select *
-            from facet.table
-            where is_udf = FALSE
-            and table_or_udf_name not like 'facet.%'
-            and table_or_udf_name != 'countries'
-            and table_or_udf_name not in (
-                select table_name
-                from sead_utility.view_table_columns
-            );
+            from facet.table_relation
+            where source_table_id in (
+                    select table_id
+                    from facet.table
+                    where table_or_udf_name in ('tbl_chron_controls', 'tbl_chron_control_types')
+                ) or 
+                target_table_id in (
+                    select table_id
+                    from facet.table
+                    where table_or_udf_name in ('tbl_chron_controls', 'tbl_chron_control_types')
+                )
+            ;
+
 
             delete -- select *
             from facet.facet_table
@@ -77,7 +84,7 @@ begin
 
             delete -- select *
 			from facet.table where table_or_udf_name in ('tbl_chron_controls', 'tbl_chron_control_types');
-            
+
         end;
 
         /* Drop tables */
