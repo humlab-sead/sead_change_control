@@ -105,14 +105,13 @@ begin
         alter table tbl_dendro_date_notes owner to sead_master;
         alter table tbl_age_types owner to sead_master;
 
-        grant all on table tbl_dendro_dates to sead_read, mattias, postgres;
-        grant select on table tbl_dendro_dates to humlab_read, johan;
+        grant all on table tbl_dendro_dates to sead_read, postgres;
+        grant select on table tbl_dendro_dates to humlab_read;
 
-        grant select on table tbl_dendro_date_notes to humlab_read, johan;
-        grant all on table tbl_dendro_date_notes to mattias, postgres, sead_master, sead_read;
+        grant select on table tbl_dendro_date_notes to humlab_read;
+        grant all on table tbl_dendro_date_notes to postgres, sead_master, sead_read;
 
-        grant all on table tbl_age_types
-            to sead_read, humlab_admin, mattias, postgres;
+        grant all on table tbl_age_types to sead_read, humlab_admin, postgres;
 
         grant select on table tbl_age_types to humlab_read;
 
