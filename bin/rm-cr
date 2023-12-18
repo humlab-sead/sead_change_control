@@ -33,6 +33,7 @@ function usage() {
 g_change=
 g_project=
 g_update_plan=YES
+g_note=
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -46,6 +47,10 @@ do
         ;;
         --project|-p)
             g_project="$2";
+            shift 2;
+        ;;
+        --note|-n)
+            g_note="$2";
             shift 2;
         ;;
         --no-update-plan|-u)
@@ -110,7 +115,7 @@ for project in $g_projects; do
         if [ ! -z "$issue_id" ]; then
             echo "Archiving issue $issue_id"
             gh issue close $issue_id
-            gh issue comment -b "This CR has been archived." $issue_id
+            gh issue comment -b "This CR has been archived.<p>${g_note}" $issue_id
         fi
         echo "Change $project/$g_change moved to ./$project/archive"
         exit 0
