@@ -70,112 +70,118 @@ update results_chronology_temp set "source" = 'archeological_sites' where "sourc
 \copy results_chronology_temp ("identifier","Chosen_C14","Chosen_OtherRadio","Chosen_Calendar","Chosen_Period","AgeFrom","AgeTo") from 'deploy/20220916_DDL_RESULTS_CHRONOLOGY/stratigraphic_sequences_csvcut.csv'  with ( format csv,  header, quote '"', delimiter ',',  encoding 'utf-8' );
 update results_chronology_temp set "source" = 'stratigraphic_sequences' where "source" is null;
 
-/* Explode componded keys */
-update results_chronology_temp
-  set site_name = split_part(identifier, '|', 1),
-   count_sheet_code = split_part(identifier, '|', 2),
-   sample_name = split_part(identifier, '|', 3);
+do $$
+    begin
+
+        /* Explode componded keys */
+        update results_chronology_temp
+        set site_name = split_part(identifier, '|', 1),
+        count_sheet_code = split_part(identifier, '|', 2),
+        sample_name = split_part(identifier, '|', 3);
 
 
-/* Add SEAD sample group identity */
-with bugs_translation as (
-	select distinct
-		bugs_identifier as count_sheet_code,
-		sead_reference_id as sample_group_id
-	    -- split_part(translated_compressed_data, ',', 3) as bugs_site_id
-	from bugs_import.bugs_trace
-	where bugs_table = 'TCountsheet'
-	  and sead_table = 'tbl_sample_groups'
-) update results_chronology_temp d
-	set sample_group_id = t.sample_group_id
-  from bugs_translation t
-  where t.count_sheet_code = d.count_sheet_code;
+        /* Add SEAD sample group identity */
+        with bugs_translation as (
+            select distinct
+                bugs_identifier as count_sheet_code,
+                sead_reference_id as sample_group_id
+                -- split_part(translated_compressed_data, ',', 3) as bugs_site_id
+            from bugs_import.bugs_trace
+            where bugs_table = 'TCountsheet'
+            and sead_table = 'tbl_sample_groups'
+            and manipulation_type = 'INSERT'
+        ) update results_chronology_temp d
+            set sample_group_id = t.sample_group_id
+        from bugs_translation t
+        where t.count_sheet_code = d.count_sheet_code;
 
-/* Fix faulty sample names
+        /* Fix faulty sample names
 
-    -- candidate correct sample names for groups with faulty sample names:
-    with faulty_sample_names as (
-        select sample_group_id, sample_name --, sample_name as corrected_sample_name
-        from results_chronology_temp
-        where sample_group_id is not NULL
-        and physical_sample_id is null
-        and not Coalesce("Chosen_C14", "Chosen_OtherRadio", "Chosen_Calendar", "Chosen_Period") is null
-    )
-        select sample_group_id, string_agg(ps.sample_name, ', ')
-        from tbl_physical_samples ps
-        join tbl_sample_groups pg using (sample_group_id)
-        where sample_group_id in (
-            select sample_group_id
-            from faulty_sample_names
-        )
-        group by sample_group_id
+            -- candidate correct sample names for groups with faulty sample names:
+            with faulty_sample_names as (
+                select sample_group_id, sample_name --, sample_name as corrected_sample_name
+                from results_chronology_temp
+                where sample_group_id is not NULL
+                and physical_sample_id is null
+                and not Coalesce("Chosen_C14", "Chosen_OtherRadio", "Chosen_Calendar", "Chosen_Period") is null
+            )
+                select sample_group_id, string_agg(ps.sample_name, ', ')
+                from tbl_physical_samples ps
+                join tbl_sample_groups pg using (sample_group_id)
+                where sample_group_id in (
+                    select sample_group_id
+                    from faulty_sample_names
+                )
+                group by sample_group_id
 
-*/
-with corrected_sample_names as (
-	select *
-	from (values
-		  	(7913, 'apr-06', '2906/4'),     /* Strange Excel conversion */
-			(7914, 'jun-21', '2721/6'),     /* Strange Excel conversion */
-			(7026, 'Column_A_F4', 'F4'),
-			(7026, 'Column_A_F5', 'F5'),
-			(7026, 'Column_A_F6', 'F6'),
-			(7026, 'Column_A_F7', 'F7'),
-			(7026, 'Column_A_F8', 'F8'),
-			(7026, 'Column_A_F9', 'F9'),
-			(7026, 'Column_B_F10', 'F10'),
-			(7026, 'Column_B_F11', 'F11'),
-			(7026, 'Column_B_F12', 'F12'),
-			(7026, 'Column_B_F13', 'F13'),
-			(7026, 'Column_B_F14', 'F14'),
-			(7026, 'Platform_S1', 'S1'),
-			(7026, 'Platform_S2', 'S2'),
-			(11873, '_432', '#432'),
-			(11873, '_535', '#535'),
-			(11873, '_609', '#609'),
-			(11873, '_610', '#610'),
-			(8091, 'Mummies', 'BugsPresence'),   /* NOTE! Mummies does not exist in SEAD sample group (only BugsPresence) */
-			(8301, '13-sep', '9/13'),
-			(8301, '14-sep', '9/14'),
-			(7526, '07-jun', '06-07'),
-			(7526, '1', '01'),
-			(7526, '2', '02'),
-			(7526, '3', '03'),
-			(7526, '4', '04'),
-			(7526, '5', '05'),
-			(7526, '6', '06'),
-			(7526, '8', '08'),
-			(8302, 'sep-02', '5002/9'),         /* Strange Excel conversion */
-			(7292, '147_5-150cm', '147#5-150cm'),
-			(7292, '92_5-95cm', '92#5-95cm'),
-			(11858, '3b2', '3d2'),              /* Strange, typo? */
-			(11858, '3d3', '3b3')              /* Strange, typo? */
-	) as Y(sample_group_id, sample_name, corrected_sample_name)
-) update results_chronology_temp as t
-    set sample_name = x.corrected_sample_name
-  from corrected_sample_names x
-  where x.sample_group_id = t.sample_group_id
-    and x.sample_name = t.sample_name;
+        */
+        
+        with corrected_sample_names(sample_name, new_sample_name) as (values
+            ('apr-06', '2906/4'),     /* Strange Excel conversion */
+            ('jun-21', '2721/6'),     /* Strange Excel conversion */
+            ('Column_A_F4', 'F4'),
+            ('Column_A_F5', 'F5'),
+            ('Column_A_F6', 'F6'),
+            ('Column_A_F7', 'F7'),
+            ('Column_A_F8', 'F8'),
+            ('Column_A_F9', 'F9'),
+            ('Column_B_F10', 'F10'),
+            ('Column_B_F11', 'F11'),
+            ('Column_B_F12', 'F12'),
+            ('Column_B_F13', 'F13'),
+            ('Column_B_F14', 'F14'),
+            ('Platform_S1', 'S1'),
+            ('Platform_S2', 'S2'),
+            ('_432', '#432'),
+            ('_535', '#535'),
+            ('_609', '#609'),
+            ('_610', '#610'),
+            ('Mummies', 'BugsPresence'),   /* NOTE! Mummies does not exist in SEAD sample group (only BugsPresence) */
+            ('13-sep', '9/13'),
+            ('14-sep', '9/14'),
+            ('07-jun', '06-07'),
+            ('1', '01'),
+            ('2', '02'),
+            ('3', '03'),
+            ('4', '04'),
+            ('5', '05'),
+            ('6', '06'),
+            ('8', '08'),
+            ('sep-02', '5002/9'),         /* Strange Excel conversion */
+            ('147_5-150cm', '147#5-150cm'),
+            ('92_5-95cm', '92#5-95cm'),
+            ('3b2', '3d2'),              /* Strange, typo? */
+            ('3d3', '3b3') 
+        ) update results_chronology_temp as t
+            set sample_name = x.corrected_sample_name
+        from corrected_sample_names x
+        where x.sample_name = t.sample_name
+            and  x.sample_name != t.sample_name;
 
 
-with corrected_ages as (
-	select *
-	from (values
-        ('9,00E+05', '900000'), ('1,00E+05', '100000'), ('3,00E+05', '300000'), ('4,00E+05', '400000')
-	) as Y(faulty_age, corrected_age)
-) update results_chronology_temp as t
-    set "AgeFrom" = x.corrected_age
-  from corrected_ages x
-  where x.faulty_age = t."AgeFrom";
 
-with corrected_ages as (
-	select *
-	from (values
-        ('9,00E+05', '900000'), ('1,00E+05', '100000'), ('3,00E+05', '300000'), ('4,00E+05', '400000')
-	) as Y(faulty_age, corrected_age)
-) update results_chronology_temp as t
-    set "AgeTo" = x.corrected_age
-  from corrected_ages x
-  where x.faulty_age = t."AgeTo";
+        with corrected_ages as (
+            select *
+            from (values
+                ('9,00E+05', '900000'), ('1,00E+05', '100000'), ('3,00E+05', '300000'), ('4,00E+05', '400000')
+            ) as Y(faulty_age, corrected_age)
+        ) update results_chronology_temp as t
+            set "AgeFrom" = x.corrected_age
+        from corrected_ages x
+        where x.faulty_age = t."AgeFrom";
+
+        with corrected_ages as (
+            select *
+            from (values
+                ('9,00E+05', '900000'), ('1,00E+05', '100000'), ('3,00E+05', '300000'), ('4,00E+05', '400000')
+            ) as Y(faulty_age, corrected_age)
+        ) update results_chronology_temp as t
+            set "AgeTo" = x.corrected_age
+        from corrected_ages x
+        where x.faulty_age = t."AgeTo";
+
+    end
+end $$;
 
 
 do $$
