@@ -3,13 +3,13 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-01-01
-  Description   
-  Prerequisites 
-  Reviewer      
-  Approver      
+  Description
+  Prerequisites
+  Reviewer
+  Approver
   Idempotent    Yes
   Notes         This script assumes that all dendro data has been removed from the database.
-                This script is a part of the solution to the issue 135.                
+                This script is a part of the solution to the issue 135.
   Issue https://github.com/humlab-sead/sead_change_control/issues/135
 *****************************************************************************************************************/
 
@@ -18,576 +18,985 @@ do $$
 begin
 
     begin
-    
-        next_location_id = 4586
 
-        WITH new_locations(location_id, location_name, location_type_id) AS ( VALUES
+        insert into tbl_locations (location_id, location_name, location_type_id) ( values
+            (4586, 'Västra Götaland', 7),
+            (4587, 'Gotlands län', 2),
+            (4588, 'Östergötlands län', 2),
+            (4589, 'Aneby kommun', 2),
+            (4590, 'Boxholm kommun', 2),
+            (4591, 'Bromölla kommun', 2),
+            (4592, 'Burlöv kommun', 2),
+            (4593, 'Ekerö kommun', 2),
+            (4594, 'Eslöv kommun', 2),
+            (4595, 'Finspång kommun', 2),
+            (4596, 'Flen kommun', 2),
+            (4597, 'Gotland kommun', 2),
+            (4598, 'Göteborg kommun', 2),
+            (4599, 'Heby kommun', 2),
+            (4600, 'Helsingborg kommun', 2),
+            (4601, 'Hässleholm kommun', 2),
+            (4602, 'Höganäs kommun', 2),
+            (4603, 'Höör kommun', 2),
+            (4604, 'Katrineholm kommun', 2),
+            (4605, 'Kinda kommun', 2),
+            (4606, 'Kristianstad kommun', 2),
+            (4607, 'Kävlinge kommun', 2),
+            (4608, 'Linköping kommun', 2),
+            (4609, 'Lund kommun', 2),
+            (4610, 'Mjölby kommun', 2),
+            (4611, 'Motala kommun', 2),
+            (4612, 'Mörbylånga kommun', 2),
+            (4613, 'Nacka kommun', 2),
+            (4614, 'Norrköping kommun', 2),
+            (4615, 'Nässjö kommun', 2),
+            (4616, 'Perstorp kommun', 2),
+            (4617, 'Simrishamn kommun', 2),
+            (4618, 'Sjöbo kommun', 2),
+            (4619, 'Skurup kommun', 2),
+            (4620, 'Sollentuna kommun', 2),
+            (4621, 'Solna kommun', 2),
+            (4622, 'Staffanstorp kommun', 2),
+            (4623, 'Stockholm kommun', 2),
+            (4624, 'Svalöv kommun', 2),
+            (4625, 'Svedala kommun', 2),
+            (4626, 'Söderköping kommun', 2),
+            (4627, 'Södertälje kommun', 2),
+            (4628, 'Tierp kommun', 2),
+            (4629, 'Tomelilla kommun', 2),
+            (4630, 'Torsås kommun', 2),
+            (4631, 'Trelleborg kommun', 2),
+            (4632, 'Trosa kommun', 2),
+            (4633, 'Tyresö kommun', 2),
+            (4634, 'Upplands Väsby kommun', 2),
+            (4635, 'Vadstena kommun', 2),
+            (4636, 'Valdemarsvik kommun', 2),
+            (4637, 'Vallentuna kommun', 2),
+            (4638, 'Vingåker kommun', 2),
+            (4639, 'Värmdö kommun', 2),
+            (4640, 'Ydre kommun', 2),
+            (4641, 'Ystad kommun', 2),
+            (4642, 'Åtvidaberg kommun', 2),
+            (4643, 'Ödeshög kommun', 2),
+            (4644, 'Östhammar kommun', 2),
+            (4645, 'Östra Göinge kommun', 2),
+            (4646, 'Algutsrum socken', 2),
+            (4647, 'Alseda socken', 2),
+            (4648, 'Alsike socken', 2),
+            (4649, 'Alskog socken', 2),
+            (4650, 'Alva socken', 2),
+            (4651, 'Arby socken', 2),
+            (4652, 'Asby socken', 2),
+            (4653, 'Ask socken', 2),
+            (4654, 'Baldringe socken', 2),
+            (4655, 'Balkåkra socken', 2),
+            (4656, 'Bankekind socken', 2),
+            (4657, 'Bellö socken', 2),
+            (4658, 'Bjälbo socken', 2),
+            (4659, 'Björka socken', 2),
+            (4660, 'Björnlunda socken', 2),
+            (4661, 'Bonderup socken', 2),
+            (4662, 'Boo socken', 2),
+            (4663, 'Borgholm socken', 2),
+            (4664, 'Bosebo socken', 2),
+            (4665, 'Bredsätra socken', 2),
+            (4666, 'Bromma socken', 2),
+            (4667, 'Brunnby socken', 2),
+            (4668, 'Brönnestad socken', 2),
+            (4669, 'Bunge socken', 2),
+            (4670, 'Burs socken', 2),
+            (4671, 'Bäl socken', 2),
+            (4672, 'Djursdala socken', 2),
+            (4673, 'Dörby socken', 2),
+            (4674, 'Ed socken', 2),
+            (4675, 'Edsbro socken', 2),
+            (4676, 'Eke socken', 2),
+            (4677, 'Eksjö socken', 2),
+            (4678, 'Etelhem socken', 2),
+            (4679, 'Farhult socken', 2),
+            (4680, 'Faringe socken', 2),
+            (4681, 'Farstorp socken', 2),
+            (4682, 'Film socken', 2),
+            (4683, 'Fivelstad socken', 2),
+            (4684, 'Fleringe socken', 2),
+            (4685, 'Flisby socken', 2),
+            (4686, 'Flistad socken', 2),
+            (4687, 'Floda socken', 2),
+            (4688, 'Follingbo socken', 2),
+            (4689, 'Forsmark socken', 2),
+            (4690, 'Frötuna socken', 2),
+            (4691, 'Furingstad socken', 2),
+            (4692, 'Färlöv socken', 2),
+            (4693, 'Gammelgarn socken', 2),
+            (4694, 'Garde socken', 2),
+            (4695, 'Genarp socken', 2),
+            (4696, 'Gillberga socken', 2),
+            (4697, 'Glimåkra socken', 2),
+            (4698, 'Glömminge socken', 2),
+            (4699, 'Gothem socken', 2),
+            (4700, 'Gryt socken', 2),
+            (4701, 'Guldrupe socken', 2),
+            (4702, 'Gullabo socken', 2),
+            (4703, 'Gårdsby socken', 2),
+            (4704, 'Gärdslösa socken', 2),
+            (4705, 'Göteborg socken', 2),
+            (4706, 'Hagebyhöga socken', 2),
+            (4707, 'Hall socken', 2),
+            (4708, 'Halla socken', 2),
+            (4709, 'Halltorp socken', 2),
+            (4710, 'Hammarby socken', 2),
+            (4711, 'Hammarlunda socken', 2),
+            (4712, 'Heda socken', 2),
+            (4713, 'Hejde socken', 2),
+            (4714, 'Hellvi socken', 2),
+            (4715, 'Hofterup socken', 2),
+            (4716, 'Holmby socken', 2),
+            (4717, 'Horn socken', 2),
+            (4718, 'Hov socken', 2),
+            (4719, 'Hult socken', 2),
+            (4720, 'Husby-Sjuhundra socken', 2),
+            (4721, 'Husby-Ärlinghundra socken', 2),
+            (4722, 'Hållnäs socken', 2),
+            (4723, 'Häglinge socken', 2),
+            (4724, 'Hällestad socken', 2),
+            (4725, 'Härad socken', 2),
+            (4726, 'Härlöv socken', 2),
+            (4727, 'Härnevi socken', 2),
+            (4728, 'Hässleby socken', 2),
+            (4729, 'Hörja socken', 2),
+            (4730, 'Hörsne socken', 2),
+            (4731, 'Järlåsa socken', 2),
+            (4732, 'Järsnäs socken', 2),
+            (4733, 'Jönköping socken', 2),
+            (4734, 'Kaga socken', 2),
+            (4735, 'Kisa socken', 2),
+            (4736, 'Kristianstad socken', 2),
+            (4737, 'Kristvalla socken', 2),
+            (4738, 'Kullerstad socken', 2),
+            (4739, 'Kumla socken', 2),
+            (4740, 'Kyrkoköpinge socken', 2),
+            (4741, 'Källunge socken', 2),
+            (4742, 'Kärnbo socken', 2),
+            (4743, 'Kävlinge socken', 2),
+            (4744, 'Landeryd socken', 2),
+            (4745, 'Lau socken', 2),
+            (4746, 'Levide socken', 2),
+            (4747, 'Lilla Harrie socken', 2),
+            (4748, 'Linde socken', 2),
+            (4749, 'Linderöd socken', 2),
+            (4750, 'Linköping socken', 2),
+            (4751, 'Lojsta socken', 2),
+            (4752, 'Lovö socken', 2),
+            (4753, 'Lye socken', 2),
+            (4754, 'Långlöt socken', 2),
+            (4755, 'Länna socken', 2),
+            (4756, 'Lärbro socken', 2),
+            (4757, 'Löt socken', 2),
+            (4758, 'Mellösa socken', 2),
+            (4759, 'Mjölby socken', 2),
+            (4760, 'Motala socken', 2),
+            (4761, 'Mörbylånga socken', 2),
+            (4762, 'Norra Mellby socken', 2),
+            (4763, 'Norra Rörum socken', 2),
+            (4764, 'Norra Solberga socken', 2),
+            (4765, 'Norra Vi socken', 2),
+            (4766, 'Norrlanda socken', 2),
+            (4767, 'Norrtälje socken', 2),
+            (4768, 'Nybro socken', 2),
+            (4769, 'Nykyrka socken', 2),
+            (4770, 'Näs socken', 2),
+            (4771, 'Näshulta socken', 2),
+            (4772, 'Orkesta socken', 2),
+            (4773, 'Oskarshamn socken', 2),
+            (4774, 'Perstorp socken', 2),
+            (4775, 'Ravlunda socken', 2),
+            (4776, 'Riala socken', 2),
+            (4777, 'Risinge socken', 2),
+            (4778, 'Rogslösa socken', 2),
+            (4779, 'Roma socken', 2),
+            (4780, 'Roslags-bro socken', 2),
+            (4781, 'Runsten socken', 2),
+            (4782, 'Ryssby socken', 2),
+            (4783, 'Rö socken', 2),
+            (4784, 'Sanda socken', 2),
+            (4785, 'Sandby socken', 2),
+            (4786, 'Sireköpinge socken', 2),
+            (4787, 'Sjörup socken', 2),
+            (4788, 'Skabersjö socken', 2),
+            (4789, 'Skedevi socken', 2),
+            (4790, 'Skeppsås socken', 2),
+            (4791, 'Skånela socken', 2),
+            (4792, 'Skårby socken', 2),
+            (4793, 'Skäfthammar socken', 2),
+            (4794, 'Skönberga socken', 2),
+            (4795, 'Smedstorp socken', 2),
+            (4796, 'Sollentuna socken', 2),
+            (4797, 'Solna socken', 2),
+            (4798, 'Sorunda socken', 2),
+            (4799, 'Sproge socken', 2),
+            (4800, 'Stenkumla socken', 2),
+            (4801, 'Stockholm socken', 2),
+            (4802, 'Stora Harrie socken', 2),
+            (4803, 'Strå socken', 2),
+            (4804, 'Sundre socken', 2),
+            (4805, 'Svärta socken', 2),
+            (4806, 'Särslöv socken', 2),
+            (4807, 'Söderby karl socken', 2),
+            (4808, 'Söderbykarl socken', 2),
+            (4809, 'Södra Möckleby socken', 2),
+            (4810, 'Tegelsmora socken', 2),
+            (4811, 'Tidersrum socken', 2),
+            (4812, 'Tingstäde socken', 2),
+            (4813, 'Torpa socken', 2),
+            (4814, 'Torsås socken', 2),
+            (4815, 'Tosterup socken', 2),
+            (4816, 'Trehörna socken', 2),
+            (4817, 'Tryserum socken', 2),
+            (4818, 'Träne socken', 2),
+            (4819, 'Tyresö socken', 2),
+            (4820, 'Ukna socken', 2),
+            (4821, 'Ulrika socken', 2),
+            (4822, 'Vadsbro socken', 2),
+            (4823, 'Vadstena socken', 2),
+            (4824, 'Vall socken', 2),
+            (4825, 'Vallentuna socken', 2),
+            (4826, 'Valö socken', 2),
+            (4827, 'Vamlingbo socken', 2),
+            (4828, 'Vassunda socken', 2),
+            (4829, 'Vickelby socken', 2),
+            (4830, 'Vickleby socken', 2),
+            (4831, 'Villie socken', 2),
+            (4832, 'Vireda socken', 2),
+            (4833, 'Visseltofta socken', 2),
+            (4834, 'Voxtorp socken', 2),
+            (4835, 'Vånga socken', 2),
+            (4836, 'Våthult socken', 2),
+            (4837, 'Väddö socken', 2),
+            (4838, 'Värmdö socken', 2),
+            (4839, 'Värna socken', 2),
+            (4840, 'Väsby socken', 2),
+            (4841, 'Västerlövsta socken', 2),
+            (4842, 'Västermo socken', 2),
+            (4843, 'Västra Eneby socken', 2),
+            (4844, 'Västra Klagstorp socken', 2),
+            (4845, 'Västra Nöbbelöv socken', 2),
+            (4846, 'Västra Vingåker socken', 2),
+            (4847, 'Västra Vram socken', 2),
+            (4848, 'Väversunda socken', 2),
+            (4849, 'Ydre socken', 2),
+            (4850, 'Åsbo socken', 2),
+            (4851, 'Åtvid socken', 2),
+            (4852, 'Älvestad socken', 2),
+            (4853, 'Ör socken', 2),
+            (4854, 'Örberga socken', 2),
+            (4855, 'Örsjö socken', 2),
+            (4856, 'Östergarn socken', 2),
+            (4857, 'Österåker socken', 2),
+            (4858, 'Östra Ed socken', 2),
+            (4859, 'Östra Ryd socken', 2),
+            (4860, 'Östra Skrukeby socken', 2),
+            (4861, 'Östra Vingåker socken', 2),
+            (4862, 'Östra Vram socken', 2),
+            (4863, 'Överselö socken', 2),
+            (4864, 'Alvesta Härlöv', 2),
+            (4865, 'Arby kyrka', 2),
+            (4866, 'Asby', 2),
+            (4867, 'Ask', 2),
+            (4868, 'Baldringe', 2),
+            (4869, 'Balkåkra', 2),
+            (4870, 'Bankekinds kyrkojord', 2),
+            (4871, 'Bellö', 2),
+            (4872, 'Bergsjöholm', 2),
+            (4873, 'Billsta', 2),
+            (4874, 'Biskopshuset', 2),
+            (4875, 'Bjälbo', 2),
+            (4876, 'Bjäresjö', 2),
+            (4877, 'Björka', 2),
+            (4878, 'Björkenäs', 2),
+            (4879, 'Björklunda', 2),
+            (4880, 'Bonderup', 2),
+            (4881, 'Borntorp', 2),
+            (4882, 'Bosarp', 2),
+            (4883, 'Brahekyrkogården', 2),
+            (4884, 'Bredsätra kyrka', 2),
+            (4885, 'Broarp', 2),
+            (4886, 'Bromma', 2),
+            (4887, 'Bruksgatan', 2),
+            (4888, 'Brunnby', 2),
+            (4889, 'Brönnestad', 2),
+            (4890, 'Burlöv', 2),
+            (4891, 'Burmeister', 2),
+            (4892, 'Dalby', 2),
+            (4893, 'Djurgården', 2),
+            (4894, 'Domkyrkan', 2),
+            (4895, 'Drottningholm', 2),
+            (4896, 'Dörby kyrka', 2),
+            (4897, 'Ekeberg', 2),
+            (4898, 'Ekeby', 2),
+            (4899, 'Ekelunda', 2),
+            (4900, 'Erikskulle', 2),
+            (4901, 'Eriksöre', 2),
+            (4902, 'Farhult', 2),
+            (4903, 'Finntorp', 2),
+            (4904, 'Fivelstad', 2),
+            (4905, 'Flistad', 2),
+            (4906, 'Friggestad', 2),
+            (4907, 'Furingstad', 2),
+            (4908, 'Fåglarp', 2),
+            (4909, 'Fångö', 2),
+            (4910, 'Färlöv', 2),
+            (4911, 'Föllingsö', 2),
+            (4912, 'Gamla staden', 2),
+            (4913, 'Gamla vägen', 2),
+            (4914, 'Genarp', 2),
+            (4915, 'Gimo', 2),
+            (4916, 'Glimmingehus', 2),
+            (4917, 'Glömminge prästgård', 2),
+            (4918, 'Grisslehamn', 2),
+            (4919, 'Grävsten', 2),
+            (4920, 'Gällstaö Gård', 2),
+            (4921, 'Gärdslösa kyrka', 2),
+            (4922, 'Haga', 2),
+            (4923, 'Hagby kyrka', 2),
+            (4924, 'Hagebyhöga', 2),
+            (4925, 'Hakarp', 2),
+            (4926, 'Hala', 2),
+            (4927, 'Halltorps kyrka', 2),
+            (4928, 'Hammarlunda', 2),
+            (4929, 'Harpsund', 2),
+            (4930, 'Heda', 2),
+            (4931, 'Hedeskoga', 2),
+            (4932, 'Helgelsens gård', 2),
+            (4933, 'Herrestad', 2),
+            (4934, 'Herrökna gård', 2),
+            (4935, 'Hester', 2),
+            (4936, 'Hofterup', 2),
+            (4937, 'Horns kyrka', 2),
+            (4938, 'Hossmo kyrka', 2),
+            (4939, 'Hov', 2),
+            (4940, 'Hovdala', 2),
+            (4941, 'Hulla', 2),
+            (4942, 'Hulterstads kyrka', 2),
+            (4943, 'Hults kulla', 2),
+            (4944, 'Hunnebergsgatan', 2),
+            (4945, 'Husby', 2),
+            (4946, 'Hårsbäck Sör', 2),
+            (4947, 'Häljaryd', 2),
+            (4948, 'Härads kyrkby', 2),
+            (4949, 'Härnevi', 2),
+            (4950, 'Häverö prästgård', 2),
+            (4951, 'Hävla', 2),
+            (4952, 'Högsjö gård', 2),
+            (4953, 'Hönstorp', 2),
+            (4954, 'Hörja', 2),
+            (4955, 'Ilnestorp', 2),
+            (4956, 'Ingatorp', 2),
+            (4957, 'Innerstaden', 2),
+            (4958, 'Juteboda', 2),
+            (4959, 'Kaga', 2),
+            (4960, 'Kalmar Voxtorps kyrka', 2),
+            (4961, 'Karkebo', 2),
+            (4962, 'Klagstorp', 2),
+            (4963, 'Klosterkyrkan', 2),
+            (4964, 'Kolberga', 2),
+            (4965, 'Kolstad', 2),
+            (4966, 'Krapperup', 2),
+            (4967, 'Krogsfall', 2),
+            (4968, 'Krusenberg', 2),
+            (4969, 'Kråkvik', 2),
+            (4970, 'Kullerstad', 2),
+            (4971, 'Kulltorp', 2),
+            (4972, 'Kumla kyrka', 2),
+            (4973, 'Kumlabykyrkogården', 2),
+            (4974, 'Kummelnäs gård', 2),
+            (4975, 'Kvarteret Allön', 2),
+            (4976, 'Kvarteret Almen', 2),
+            (4977, 'Kvarteret Ankaret', 2),
+            (4978, 'Kvarteret Apoteket', 2),
+            (4979, 'Kvarteret Bokbindaren', 2),
+            (4980, 'Kvarteret Boktryckaren', 2),
+            (4981, 'Kvarteret Borgmästaren', 2),
+            (4982, 'Kvarteret Båtsmannen', 2),
+            (4983, 'Kvarteret Ciselören', 2),
+            (4984, 'Kvarteret Fältskären', 2),
+            (4985, 'Kvarteret Färgaren', 2),
+            (4986, 'Kvarteret Garvaren', 2),
+            (4987, 'Kvarteret Gråmunkeholmen', 2),
+            (4988, 'Kvarteret Guldsmeden', 2),
+            (4989, 'Kvarteret Hattmakaren', 2),
+            (4990, 'Kvarteret Innerstaden', 2),
+            (4991, 'Kvarteret Kaplanen', 2),
+            (4992, 'Kvarteret Kassamannen', 2),
+            (4993, 'Kvarteret Kommendanten', 2),
+            (4994, 'Kvarteret Komministern', 2),
+            (4995, 'Kvarteret Kopparslagaren ', 2),
+            (4996, 'Kvarteret Krögaren', 2),
+            (4997, 'Kvarteret Laboratorn', 2),
+            (4998, 'Kvarteret Museet', 2),
+            (4999, 'Kvarteret Norge', 2),
+            (5000, 'Kvarteret Novisen', 2),
+            (5001, 'Kvarteret Ormen', 2),
+            (5002, 'Kvarteret Orren', 2),
+            (5003, 'Kvarteret Prelaten', 2),
+            (5004, 'Kvarteret Priorn', 2),
+            (5005, 'Kvarteret Repslagaren', 2),
+            (5006, 'Kvarteret Rådhuset', 2),
+            (5007, 'Kvarteret Skonaren', 2),
+            (5008, 'Kvarteret Specksrum', 2),
+            (5009, 'Kvarteret Svartbrodern', 2),
+            (5010, 'Kvarteret Vaxblekaren', 2),
+            (5011, 'Kvarteret Vinskänken', 2),
+            (5012, 'Kvarteret Östergötland', 2),
+            (5013, 'Kvilla', 2),
+            (5014, 'Kyrkogården', 2),
+            (5015, 'Kävlinge', 2),
+            (5016, 'Köpinge', 2),
+            (5017, 'Landsnora kvarn', 2),
+            (5018, 'Lilla Björkudden', 2),
+            (5019, 'Lilla Rotsunda', 2),
+            (5020, 'Linderöd', 2),
+            (5021, 'Lohärads Prästgård', 2),
+            (5022, 'Lopperstad', 2),
+            (5023, 'Långlöts kyrka', 2),
+            (5024, 'Löddeköpinge', 2),
+            (5025, 'Lögla', 2),
+            (5026, 'Löt', 2),
+            (5027, 'Lövö', 2),
+            (5028, 'Malmstorp', 2),
+            (5029, 'Mariannelund', 2),
+            (5030, 'Marsjö', 2),
+            (5031, 'Masten', 2),
+            (5032, 'Mellanköpinge', 2),
+            (5033, 'Mellby', 2),
+            (5034, 'Mortorps kyrka', 2),
+            (5035, 'Mörbylånga kyrka', 2),
+            (5036, 'Noors Herrgård', 2),
+            (5037, 'Nora Prästgård', 2),
+            (5038, 'Norra Rörum', 2),
+            (5039, 'Norra Åsum', 2),
+            (5040, 'Norrvidinge', 2),
+            (5041, 'Nykyrka', 2),
+            (5042, 'Näs', 2),
+            (5043, 'Nöbbelöv', 2),
+            (5044, 'Onkel Adamsgården', 2),
+            (5045, 'Orkestaby', 2),
+            (5046, 'Ottenby', 2),
+            (5047, 'Perstorp', 2),
+            (5048, 'Prästgården', 2),
+            (5049, 'Prästtorp', 2),
+            (5050, 'Qvarnarp', 2),
+            (5051, 'Ravlunda', 2),
+            (5052, 'Resmo kyrka', 2),
+            (5053, 'Rogslösa', 2),
+            (5054, 'Roma kloster', 2),
+            (5055, 'Rundelsgränd', 2),
+            (5056, 'Rydboholm', 2),
+            (5057, 'Ryssby kyrka', 2),
+            (5058, 'Ryssebo', 2),
+            (5059, 'Salvarp', 2),
+            (5060, 'Sandby', 2),
+            (5061, 'Sandemar', 2),
+            (5062, 'Sankta Maria', 2),
+            (5063, 'Sjörup', 2),
+            (5064, 'Skedshult', 2),
+            (5065, 'Skeppsås', 2),
+            (5066, 'Skrickerum', 2),
+            (5067, 'Skrukeby', 2),
+            (5068, 'Skålsta', 2),
+            (5069, 'Skånsta', 2),
+            (5070, 'Skårby', 2),
+            (5071, 'Sköldsborg', 2),
+            (5072, 'Skönberga prästgård', 2),
+            (5073, 'Slattefors', 2),
+            (5074, 'Slevringe', 2),
+            (5075, 'Slottsfogden', 2),
+            (5076, 'Slottsskogen', 2),
+            (5077, 'Slättåkra', 2),
+            (5078, 'Sonnorp', 2),
+            (5079, 'Specksrum', 2),
+            (5080, 'Stallbacksvägen 8', 2),
+            (5081, 'Steninge', 2),
+            (5082, 'Stockholms Slott', 2),
+            (5083, 'Stora Harrie', 2),
+            (5084, 'Stora Hulterska', 2),
+            (5085, 'Strandskogen', 2),
+            (5086, 'Stångsmåla', 2),
+            (5087, 'Stämmeryd', 2),
+            (5088, 'Svaneberg', 2),
+            (5089, 'Särslöv', 2),
+            (5090, 'Sättra', 2),
+            (5091, 'Södra Möckleby kyrka', 2),
+            (5092, 'Tidersrum', 2),
+            (5093, 'Tingshustorget', 2),
+            (5094, 'Tofta', 2),
+            (5095, 'Torhult', 2),
+            (5096, 'Torpa', 2),
+            (5097, 'Torö kyrka', 2),
+            (5098, 'Trehörna', 2),
+            (5099, 'Träne', 2),
+            (5100, 'Tumbo Prästgård', 2),
+            (5101, 'Tvartorp', 2),
+            (5102, 'Tyresö', 2),
+            (5103, 'Tångerda', 2),
+            (5104, 'Törnbotten', 2),
+            (5105, 'Uggelbo', 2),
+            (5106, 'Ulrika', 2),
+            (5107, 'Ulriksdal', 2),
+            (5108, 'Vadsbroby', 2),
+            (5109, 'Vallsnäs', 2),
+            (5110, 'Vanserum', 2),
+            (5111, 'Verksgatan', 2),
+            (5112, 'Viby gård', 2),
+            (5113, 'Vickleby kyrka', 2),
+            (5114, 'Viggeby', 2),
+            (5115, 'Villie', 2),
+            (5116, 'Vingåker-Kvarngölet', 2),
+            (5117, 'Vippröste', 2),
+            (5118, 'Vireda', 2),
+            (5119, 'Visseltofta', 2),
+            (5120, 'Våthult', 2),
+            (5121, 'Vänge-Ekeby', 2),
+            (5122, 'Värdshusbacken', 2),
+            (5123, 'Värmdö kyrka', 2),
+            (5124, 'Väsby', 2),
+            (5125, 'Väsby kvarn', 2),
+            (5126, 'Väster Lakbäck', 2),
+            (5127, 'Västermo kyrka', 2),
+            (5128, 'Västra Häglinge', 2),
+            (5129, 'Väversunda', 2),
+            (5130, 'Växjö Ör', 2),
+            (5131, 'Ydre Vi-Smedstorp', 2),
+            (5132, 'Åby', 2),
+            (5133, 'Åkarp', 2),
+            (5134, 'Åsby', 2),
+            (5135, 'Åtvidaberg kyrkeby', 2),
+            (5136, 'Älvestad', 2),
+            (5137, 'Ängstigen', 2),
+            (5138, 'Öndal', 2),
+            (5139, 'Örberga', 2),
+            (5140, 'Östra Vram', 2),
+            (5141, 'Östrabo', 2),
+            (5142, 'Överby kvarn', 2),
+            (5143, 'Överselö kyrka', 2),
+            (5144, 'Övraby', 2)
+        );
 
-INSERT
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4586, 'Västra Götaland', 7);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4587, 'Gotlands län', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4588, 'Östergötlands län', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4589, 'Aneby kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4590, 'Boxholm kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4591, 'Bromölla kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4592, 'Burlöv kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4593, 'Ekerö kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4594, 'Eslöv kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4595, 'Finspång kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4596, 'Flen kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4597, 'Gotland kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4598, 'Göteborg kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4599, 'Heby kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4600, 'Helsingborg kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4601, 'Hässleholm kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4602, 'Höganäs kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4603, 'Höör kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4604, 'Katrineholm kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4605, 'Kinda kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4606, 'Kristianstad kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4607, 'Kävlinge kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4608, 'Linköping kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4609, 'Lund kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4610, 'Mjölby kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4611, 'Motala kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4612, 'Mörbylånga kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4613, 'Nacka kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4614, 'Norrköping kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4615, 'Nässjö kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4616, 'Perstorp kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4617, 'Simrishamn kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4618, 'Sjöbo kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4619, 'Skurup kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4620, 'Sollentuna kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4621, 'Solna kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4622, 'Staffanstorp kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4623, 'Stockholm kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4624, 'Svalöv kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4625, 'Svedala kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4626, 'Söderköping kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4627, 'Södertälje kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4628, 'Tierp kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4629, 'Tomelilla kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4630, 'Torsås kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4631, 'Trelleborg kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4632, 'Trosa kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4633, 'Tyresö kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4634, 'Upplands Väsby kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4635, 'Vadstena kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4636, 'Valdemarsvik kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4637, 'Vallentuna kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4638, 'Vingåker kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4639, 'Värmdö kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4640, 'Ydre kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4641, 'Ystad kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4642, 'Åtvidaberg kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4643, 'Ödeshög kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4644, 'Östhammar kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4645, 'Östra Göinge kommun', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4646, 'Algutsrum socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4647, 'Alseda socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4648, 'Alsike socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4649, 'Alskog socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4650, 'Alva socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4651, 'Arby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4652, 'Asby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4653, 'Ask socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4654, 'Baldringe socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4655, 'Balkåkra socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4656, 'Bankekind socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4657, 'Bellö socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4658, 'Bjälbo socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4659, 'Björka socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4660, 'Björnlunda socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4661, 'Bonderup socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4662, 'Boo socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4663, 'Borgholm socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4664, 'Bosebo socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4665, 'Bredsätra socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4666, 'Bromma socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4667, 'Brunnby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4668, 'Brönnestad socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4669, 'Bunge socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4670, 'Burs socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4671, 'Bäl socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4672, 'Djursdala socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4673, 'Dörby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4674, 'Ed socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4675, 'Edsbro socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4676, 'Eke socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4677, 'Eksjö socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4678, 'Etelhem socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4679, 'Farhult socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4680, 'Faringe socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4681, 'Farstorp socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4682, 'Film socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4683, 'Fivelstad socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4684, 'Fleringe socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4685, 'Flisby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4686, 'Flistad socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4687, 'Floda socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4688, 'Follingbo socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4689, 'Forsmark socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4690, 'Frötuna socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4691, 'Furingstad socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4692, 'Färlöv socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4693, 'Gammelgarn socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4694, 'Garde socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4695, 'Genarp socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4696, 'Gillberga socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4697, 'Glimåkra socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4698, 'Glömminge socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4699, 'Gothem socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4700, 'Gryt socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4701, 'Guldrupe socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4702, 'Gullabo socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4703, 'Gårdsby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4704, 'Gärdslösa socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4705, 'Göteborg socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4706, 'Hagebyhöga socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4707, 'Hall socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4708, 'Halla socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4709, 'Halltorp socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4710, 'Hammarby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4711, 'Hammarlunda socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4712, 'Heda socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4713, 'Hejde socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4714, 'Hellvi socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4715, 'Hofterup socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4716, 'Holmby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4717, 'Horn socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4718, 'Hov socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4719, 'Hult socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4720, 'Husby-Sjuhundra socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4721, 'Husby-Ärlinghundra socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4722, 'Hållnäs socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4723, 'Häglinge socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4724, 'Hällestad socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4725, 'Härad socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4726, 'Härlöv socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4727, 'Härnevi socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4728, 'Hässleby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4729, 'Hörja socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4730, 'Hörsne socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4731, 'Järlåsa socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4732, 'Järsnäs socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4733, 'Jönköping socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4734, 'Kaga socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4735, 'Kisa socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4736, 'Kristianstad socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4737, 'Kristvalla socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4738, 'Kullerstad socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4739, 'Kumla socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4740, 'Kyrkoköpinge socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4741, 'Källunge socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4742, 'Kärnbo socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4743, 'Kävlinge socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4744, 'Landeryd socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4745, 'Lau socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4746, 'Levide socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4747, 'Lilla Harrie socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4748, 'Linde socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4749, 'Linderöd socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4750, 'Linköping socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4751, 'Lojsta socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4752, 'Lovö socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4753, 'Lye socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4754, 'Långlöt socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4755, 'Länna socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4756, 'Lärbro socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4757, 'Löt socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4758, 'Mellösa socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4759, 'Mjölby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4760, 'Motala socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4761, 'Mörbylånga socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4762, 'Norra Mellby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4763, 'Norra Rörum socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4764, 'Norra Solberga socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4765, 'Norra Vi socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4766, 'Norrlanda socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4767, 'Norrtälje socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4768, 'Nybro socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4769, 'Nykyrka socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4770, 'Näs socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4771, 'Näshulta socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4772, 'Orkesta socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4773, 'Oskarshamn socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4774, 'Perstorp socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4775, 'Ravlunda socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4776, 'Riala socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4777, 'Risinge socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4778, 'Rogslösa socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4779, 'Roma socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4780, 'Roslags-bro socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4781, 'Runsten socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4782, 'Ryssby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4783, 'Rö socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4784, 'Sanda socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4785, 'Sandby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4786, 'Sireköpinge socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4787, 'Sjörup socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4788, 'Skabersjö socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4789, 'Skedevi socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4790, 'Skeppsås socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4791, 'Skånela socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4792, 'Skårby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4793, 'Skäfthammar socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4794, 'Skönberga socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4795, 'Smedstorp socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4796, 'Sollentuna socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4797, 'Solna socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4798, 'Sorunda socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4799, 'Sproge socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4800, 'Stenkumla socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4801, 'Stockholm socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4802, 'Stora Harrie socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4803, 'Strå socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4804, 'Sundre socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4805, 'Svärta socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4806, 'Särslöv socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4807, 'Söderby karl socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4808, 'Söderbykarl socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4809, 'Södra Möckleby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4810, 'Tegelsmora socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4811, 'Tidersrum socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4812, 'Tingstäde socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4813, 'Torpa socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4814, 'Torsås socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4815, 'Tosterup socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4816, 'Trehörna socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4817, 'Tryserum socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4818, 'Träne socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4819, 'Tyresö socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4820, 'Ukna socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4821, 'Ulrika socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4822, 'Vadsbro socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4823, 'Vadstena socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4824, 'Vall socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4825, 'Vallentuna socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4826, 'Valö socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4827, 'Vamlingbo socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4828, 'Vassunda socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4829, 'Vickelby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4830, 'Vickleby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4831, 'Villie socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4832, 'Vireda socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4833, 'Visseltofta socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4834, 'Voxtorp socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4835, 'Vånga socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4836, 'Våthult socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4837, 'Väddö socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4838, 'Värmdö socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4839, 'Värna socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4840, 'Väsby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4841, 'Västerlövsta socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4842, 'Västermo socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4843, 'Västra Eneby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4844, 'Västra Klagstorp socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4845, 'Västra Nöbbelöv socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4846, 'Västra Vingåker socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4847, 'Västra Vram socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4848, 'Väversunda socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4849, 'Ydre socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4850, 'Åsbo socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4851, 'Åtvid socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4852, 'Älvestad socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4853, 'Ör socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4854, 'Örberga socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4855, 'Örsjö socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4856, 'Östergarn socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4857, 'Österåker socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4858, 'Östra Ed socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4859, 'Östra Ryd socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4860, 'Östra Skrukeby socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4861, 'Östra Vingåker socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4862, 'Östra Vram socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4863, 'Överselö socken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4864, 'Alvesta Härlöv', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4865, 'Arby kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4866, 'Asby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4867, 'Ask', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4868, 'Baldringe', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4869, 'Balkåkra', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4870, 'Bankekinds kyrkojord', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4871, 'Bellö', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4872, 'Bergsjöholm', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4873, 'Billsta', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4874, 'Biskopshuset', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4875, 'Bjälbo', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4876, 'Bjäresjö', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4877, 'Björka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4878, 'Björkenäs', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4879, 'Björklunda', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4880, 'Bonderup', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4881, 'Borntorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4882, 'Bosarp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4883, 'Brahekyrkogården', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4884, 'Bredsätra kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4885, 'Broarp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4886, 'Bromma', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4887, 'Bruksgatan', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4888, 'Brunnby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4889, 'Brönnestad', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4890, 'Burlöv', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4891, 'Burmeister', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4892, 'Dalby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4893, 'Djurgården', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4894, 'Domkyrkan', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4895, 'Drottningholm', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4896, 'Dörby kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4897, 'Ekeberg', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4898, 'Ekeby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4899, 'Ekelunda', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4900, 'Erikskulle', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4901, 'Eriksöre', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4902, 'Farhult', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4903, 'Finntorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4904, 'Fivelstad', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4905, 'Flistad', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4906, 'Friggestad', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4907, 'Furingstad', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4908, 'Fåglarp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4909, 'Fångö', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4910, 'Färlöv', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4911, 'Föllingsö', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4912, 'Gamla staden', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4913, 'Gamla vägen', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4914, 'Genarp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4915, 'Gimo', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4916, 'Glimmingehus', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4917, 'Glömminge prästgård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4918, 'Grisslehamn', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4919, 'Grävsten', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4920, 'Gällstaö Gård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4921, 'Gärdslösa kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4922, 'Haga', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4923, 'Hagby kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4924, 'Hagebyhöga', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4925, 'Hakarp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4926, 'Hala', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4927, 'Halltorps kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4928, 'Hammarlunda', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4929, 'Harpsund', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4930, 'Heda', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4931, 'Hedeskoga', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4932, 'Helgelsens gård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4933, 'Herrestad', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4934, 'Herrökna gård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4935, 'Hester', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4936, 'Hofterup', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4937, 'Horns kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4938, 'Hossmo kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4939, 'Hov', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4940, 'Hovdala', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4941, 'Hulla', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4942, 'Hulterstads kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4943, 'Hults kulla', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4944, 'Hunnebergsgatan', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4945, 'Husby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4946, 'Hårsbäck Sör', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4947, 'Häljaryd', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4948, 'Härads kyrkby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4949, 'Härnevi', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4950, 'Häverö prästgård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4951, 'Hävla', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4952, 'Högsjö gård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4953, 'Hönstorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4954, 'Hörja', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4955, 'Ilnestorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4956, 'Ingatorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4957, 'Innerstaden', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4958, 'Juteboda', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4959, 'Kaga', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4960, 'Kalmar Voxtorps kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4961, 'Karkebo', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4962, 'Klagstorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4963, 'Klosterkyrkan', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4964, 'Kolberga', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4965, 'Kolstad', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4966, 'Krapperup', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4967, 'Krogsfall', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4968, 'Krusenberg', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4969, 'Kråkvik', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4970, 'Kullerstad', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4971, 'Kulltorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4972, 'Kumla kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4973, 'Kumlabykyrkogården', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4974, 'Kummelnäs gård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4975, 'Kvarteret Allön', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4976, 'Kvarteret Almen', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4977, 'Kvarteret Ankaret', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4978, 'Kvarteret Apoteket', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4979, 'Kvarteret Bokbindaren', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4980, 'Kvarteret Boktryckaren', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4981, 'Kvarteret Borgmästaren', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4982, 'Kvarteret Båtsmannen', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4983, 'Kvarteret Ciselören', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4984, 'Kvarteret Fältskären', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4985, 'Kvarteret Färgaren', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4986, 'Kvarteret Garvaren', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4987, 'Kvarteret Gråmunkeholmen', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4988, 'Kvarteret Guldsmeden', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4989, 'Kvarteret Hattmakaren', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4990, 'Kvarteret Innerstaden', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4991, 'Kvarteret Kaplanen', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4992, 'Kvarteret Kassamannen', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4993, 'Kvarteret Kommendanten', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4994, 'Kvarteret Komministern', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4995, 'Kvarteret Kopparslagaren ', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4996, 'Kvarteret Krögaren', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4997, 'Kvarteret Laboratorn', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4998, 'Kvarteret Museet', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (4999, 'Kvarteret Norge', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5000, 'Kvarteret Novisen', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5001, 'Kvarteret Ormen', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5002, 'Kvarteret Orren', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5003, 'Kvarteret Prelaten', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5004, 'Kvarteret Priorn', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5005, 'Kvarteret Repslagaren', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5006, 'Kvarteret Rådhuset', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5007, 'Kvarteret Skonaren', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5008, 'Kvarteret Specksrum', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5009, 'Kvarteret Svartbrodern', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5010, 'Kvarteret Vaxblekaren', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5011, 'Kvarteret Vinskänken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5012, 'Kvarteret Östergötland', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5013, 'Kvilla', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5014, 'Kyrkogården', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5015, 'Kävlinge', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5016, 'Köpinge', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5017, 'Landsnora kvarn', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5018, 'Lilla Björkudden', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5019, 'Lilla Rotsunda', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5020, 'Linderöd', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5021, 'Lohärads Prästgård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5022, 'Lopperstad', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5023, 'Långlöts kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5024, 'Löddeköpinge', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5025, 'Lögla', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5026, 'Löt', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5027, 'Lövö', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5028, 'Malmstorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5029, 'Mariannelund', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5030, 'Marsjö', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5031, 'Masten', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5032, 'Mellanköpinge', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5033, 'Mellby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5034, 'Mortorps kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5035, 'Mörbylånga kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5036, 'Noors Herrgård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5037, 'Nora Prästgård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5038, 'Norra Rörum', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5039, 'Norra Åsum', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5040, 'Norrvidinge', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5041, 'Nykyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5042, 'Näs', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5043, 'Nöbbelöv', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5044, 'Onkel Adamsgården', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5045, 'Orkestaby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5046, 'Ottenby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5047, 'Perstorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5048, 'Prästgården', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5049, 'Prästtorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5050, 'Qvarnarp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5051, 'Ravlunda', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5052, 'Resmo kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5053, 'Rogslösa', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5054, 'Roma kloster', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5055, 'Rundelsgränd', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5056, 'Rydboholm', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5057, 'Ryssby kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5058, 'Ryssebo', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5059, 'Salvarp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5060, 'Sandby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5061, 'Sandemar', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5062, 'Sankta Maria', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5063, 'Sjörup', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5064, 'Skedshult', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5065, 'Skeppsås', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5066, 'Skrickerum', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5067, 'Skrukeby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5068, 'Skålsta', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5069, 'Skånsta', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5070, 'Skårby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5071, 'Sköldsborg', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5072, 'Skönberga prästgård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5073, 'Slattefors', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5074, 'Slevringe', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5075, 'Slottsfogden', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5076, 'Slottsskogen', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5077, 'Slättåkra', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5078, 'Sonnorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5079, 'Specksrum', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5080, 'Stallbacksvägen 8', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5081, 'Steninge', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5082, 'Stockholms Slott', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5083, 'Stora Harrie', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5084, 'Stora Hulterska', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5085, 'Strandskogen', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5086, 'Stångsmåla', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5087, 'Stämmeryd', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5088, 'Svaneberg', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5089, 'Särslöv', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5090, 'Sättra', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5091, 'Södra Möckleby kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5092, 'Tidersrum', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5093, 'Tingshustorget', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5094, 'Tofta', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5095, 'Torhult', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5096, 'Torpa', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5097, 'Torö kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5098, 'Trehörna', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5099, 'Träne', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5100, 'Tumbo Prästgård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5101, 'Tvartorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5102, 'Tyresö', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5103, 'Tångerda', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5104, 'Törnbotten', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5105, 'Uggelbo', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5106, 'Ulrika', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5107, 'Ulriksdal', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5108, 'Vadsbroby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5109, 'Vallsnäs', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5110, 'Vanserum', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5111, 'Verksgatan', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5112, 'Viby gård', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5113, 'Vickleby kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5114, 'Viggeby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5115, 'Villie', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5116, 'Vingåker-Kvarngölet', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5117, 'Vippröste', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5118, 'Vireda', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5119, 'Visseltofta', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5120, 'Våthult', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5121, 'Vänge-Ekeby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5122, 'Värdshusbacken', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5123, 'Värmdö kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5124, 'Väsby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5125, 'Väsby kvarn', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5126, 'Väster Lakbäck', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5127, 'Västermo kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5128, 'Västra Häglinge', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5129, 'Väversunda', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5130, 'Växjö Ör', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5131, 'Ydre Vi-Smedstorp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5132, 'Åby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5133, 'Åkarp', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5134, 'Åsby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5135, 'Åtvidaberg kyrkeby', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5136, 'Älvestad', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5137, 'Ängstigen', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5138, 'Öndal', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5139, 'Örberga', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5140, 'Östra Vram', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5141, 'Östrabo', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5142, 'Överby kvarn', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5143, 'Överselö kyrka', 2);
-INSERT INTO tbl_locations (location_id, location_name, location_type_id) VALUES (5144, 'Övraby', 2);
+        insert into tbl_contacts (contact_id, address_1, address_2, email, first_name, last_name, location_id, phone_number, url) ( values
+            (375, NULL, NULL, NULL, 'Alf', 'Bråthen', NULL, NULL, NULL),
+            (376, NULL, NULL, NULL, 'Anders', 'Jonsson', NULL, NULL, NULL),
+            (377, NULL, NULL, NULL, 'Anders', 'Ödman', NULL, NULL, NULL),
+            (378, NULL, NULL, NULL, 'Andreas', 'Ylipää', NULL, NULL, NULL),
+            (379, NULL, NULL, NULL, 'Barbro', 'Sundnér', NULL, NULL, NULL),
+            (380, NULL, NULL, NULL, 'Bengt A.', 'Lundberg', NULL, NULL, NULL),
+            (381, NULL, NULL, NULL, 'Bill', 'Callahan', NULL, NULL, NULL),
+            (382, NULL, NULL, NULL, 'Börje', 'Samuelsson', NULL, NULL, NULL),
+            (383, NULL, NULL, NULL, 'Client', '', NULL, NULL, NULL),
+            (384, NULL, NULL, NULL, 'Dag', 'Forssblad', NULL, NULL, NULL),
+            (385, NULL, NULL, NULL, 'Emanuel', 'Jacobsson', NULL, NULL, NULL),
+            (386, NULL, NULL, NULL, 'Erik', 'Palmkvist', NULL, NULL, NULL),
+            (387, NULL, NULL, NULL, 'Erika', 'Wass', NULL, NULL, NULL),
+            (388, NULL, NULL, NULL, 'Gabriele', 'Prenslau-Enander', NULL, NULL, NULL),
+            (389, NULL, NULL, NULL, 'Göran', 'Tagesson', NULL, NULL, NULL),
+            (390, NULL, NULL, NULL, 'Gunnar', 'Nordanskog', NULL, NULL, NULL),
+            (391, NULL, NULL, NULL, 'Jan', 'Eriksson', NULL, NULL, NULL),
+            (392, NULL, NULL, NULL, 'Jan', 'Westergren', NULL, NULL, NULL),
+            (393, NULL, NULL, NULL, 'Jimmy', 'Juhlin', NULL, NULL, NULL),
+            (394, NULL, NULL, NULL, 'Kjell', 'Taawo', NULL, NULL, NULL),
+            (395, NULL, NULL, NULL, 'Lars', 'Bengtsson', NULL, NULL, NULL),
+            (396, NULL, NULL, NULL, 'Lars', 'Norberg', NULL, NULL, NULL),
+            (397, NULL, NULL, NULL, 'Marcus', 'Samuelsson', NULL, NULL, NULL),
+            (398, NULL, NULL, NULL, 'Mattias', 'Johansson', NULL, NULL, NULL),
+            (399, NULL, NULL, NULL, 'Niels', 'Bonde', NULL, NULL, NULL),
+            (400, NULL, NULL, NULL, 'Per', 'Olsson', NULL, NULL, NULL),
+            (401, NULL, NULL, NULL, 'Ragnhild', 'Boström', NULL, NULL, NULL),
+            (402, NULL, NULL, NULL, 'Robin', 'Gullbrandsson', NULL, NULL, NULL),
+            (403, NULL, NULL, NULL, 'Stefan', 'Kriig', NULL, NULL, NULL),
+            (404, NULL, NULL, NULL, 'Tomas', 'Karlsson', NULL, NULL, NULL),
+            (405, NULL, NULL, NULL, 'William J.', 'Callahan', NULL, NULL, NULL),
+            (406, 'The Laboratory for Wood Anatomy and Dendrochronology', 'Lund University', 'anton.hansson@geol.lu.se', 'Anton', 'Hansson', '3911', '+46 73 424 98 21', 'https://www.geologi.lu.se/anton-hansson')
+        );
 
+        insert into tbl_seasons (season_id, season_name, season_type_id) ( values
+            (20, 'Summer-Winter', 10),
+            (21, 'Winter-Summer', 10)
+        );
+
+        insert into tbl_biblio (biblio_id, authors, "year", title, full_reference) ( values
+            (7876, 'Callahan, William J','1983', 'Bjersjöholms slott. 1983-07-01', 'Callahan, William J. 1983. Bjersjöholms slott. Nationella laboratoriet för vedanatomi och dendrokronologi 1983-07-01. Lund: Lunds Universitet.'),
+            (7877, 'Bartholin, Thomas','1988', 'Dendrodatering av eg i kirker i Småland. Rapport 1988-09-21', 'Bartholin, Thomas. 1988. Dendrodatering av eg i kirker i Småland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport  1988-09-21. Lund: Lunds Universitet.'),
+            (7878, 'Linderson, Hans','2014', 'Dendrokronologisk analys av norra ladan vid Glömminge Prästgård på Öland. Rapport 2014:37', 'Linderson, Hans. 2014. Dendrokronologisk analys av norra ladan vid Glömminge Prästgård på Öland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:37. Lund: Lunds Universitet.'),
+            (7879, 'Linderson, Hans','2014', 'Dendrokronologisk analys av "Berghs trähus" på Borgmästaren 8, Kvarnholmen, Kalmar. Rapport 2014:36', 'Linderson, Hans. 2014. Dendrokronologisk analys av "Berghs trähus" på Borgmästaren 8, Kvarnholmen, Kalmar. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:36. Lund: Lunds Universitet.'),
+            (7880, 'Linderson, Hans','2005', 'Dendrokronologisk analys av "Bläckhornet" i Glabro, Öndal 1, Kalmar län. Rapport 2005:34', 'Linderson, Hans. 2005. Dendrokronologisk analys av "Bläckhornet" i Glabro, Öndal 1, Kalmar län. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:34. Lund: Lunds Universitet.'),
+            (7881, 'Linderson, Hans','2009', 'Dendrokronologisk analys av "Janssongårdens" loftbod i Tyresta by, Haninge kommun. Rapport 2009:59', 'Linderson, Hans. 2009. Dendrokronologisk analys av "Janssongårdens" loftbod i Tyresta by, Haninge kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:59. Lund: Lunds Universitet.'),
+            (7882, 'Linderson, Hans','2011', 'Dendrokronologisk analys av "Kramphults pörte" på Herrökna 3:3, Gryt socken, Sörmland. Rapport 2011:64', 'Linderson, Hans. 2011. Dendrokronologisk analys av "Kramphults pörte" på Herrökna 3:3, Gryt socken, Sörmland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2011:64. Lund: Lunds Universitet.'),
+            (7883, 'Linderson, Hans','2014', 'Dendrokronologisk analys av "Tallhorvan" på Kolberga 2:3 placerad vid Fallebo gård, Oskarshamns kommun. Rapport 2014:16', 'Linderson, Hans. 2014. Dendrokronologisk analys av "Tallhorvan" på Kolberga 2:3 placerad vid Fallebo gård, Oskarshamns kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:16. Lund: Lunds Universitet.'),
+            (7884, 'Linderson, Hans','2016', 'Dendrokronologisk analys av Appelbergska magasinet i Norrtälje. Rapport 2016:27', 'Linderson, Hans. 2016. Dendrokronologisk analys av Appelbergska magasinet i Norrtälje. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:27. Lund: Lunds Universitet.'),
+            (7885, 'Linderson, Hans','2010', 'Dendrokronologisk analys av arbetarbostaden på Tobo bruk i Uppland. Rapport 2010:39', 'Linderson, Hans. 2010. Dendrokronologisk analys av arbetarbostaden på Tobo bruk i Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:39. Lund: Lunds Universitet.'),
+            (7886, 'Linderson, Hans','2001', 'Dendrokronologisk analys av Arby kyrka i Kalmar kommun. Rapport 2001:34', 'Linderson, Hans. 2001. Dendrokronologisk analys av Arby kyrka i Kalmar kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2001:34. Lund: Lunds Universitet.'),
+            (7887, 'Linderson, Hans','2003', 'Dendrokronologisk analys av Arby kyrka i Kalmar kommun. Rapport 2003:18', 'Linderson, Hans. 2003. Dendrokronologisk analys av Arby kyrka i Kalmar kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:18. Lund: Lunds Universitet.'),
+            (7888, 'Linderson, Hans','2012', 'Dendrokronologisk analys av bjälklag under korgolvet från Hakarps kyrka. Rapport 2012:7', 'Linderson, Hans. 2012. Dendrokronologisk analys av bjälklag under korgolvet från Hakarps kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:7. Lund: Lunds Universitet.'),
+            (7889, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Björka kyrka. Rapport 2005:11', 'Linderson, Hans. 2005. Dendrokronologisk analys av Björka kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:11. Lund: Lunds Universitet.'),
+            (7890, 'Linderson, Hans','2016', 'Dendrokronologisk analys av Bosebo kyrka på Kulturen i Lund. Rapport 2016:52', 'Linderson, Hans. 2016. Dendrokronologisk analys av Bosebo kyrka på Kulturen i Lund. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:52. Lund: Lunds Universitet.'),
+            (7891, 'Linderson, Hans','2015', 'Dendrokronologisk analys av bostaden på Svaneberg 2:9, Kalmar kommun. Rapport 2015:48', 'Linderson, Hans. 2015. Dendrokronologisk analys av bostaden på Svaneberg 2:9, Kalmar kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:48. Lund: Lunds Universitet.'),
+            (7892, 'Linderson, Hans','2004', 'Dendrokronologisk analys av Broarps gästgiveri i Eksjö kommun. Rapport 2004:05', 'Linderson, Hans. 2004. Dendrokronologisk analys av Broarps gästgiveri i Eksjö kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2004:05. Lund: Lunds Universitet.'),
+            (7893, 'Linderson, Hans','2013', 'Dendrokronologisk analys av Broby prästgård i Strå socken, Östergötland. Rapport 2013:54', 'Linderson, Hans. 2013. Dendrokronologisk analys av Broby prästgård i Strå socken, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:54. Lund: Lunds Universitet.'),
+            (7894, 'Linderson, Hans','2005', 'Dendrokronologisk analys av bruksbyggnaden i Ösjöfors handpappersbruk, Rumskulla, Vimmerby. Rapport 2005:47', 'Linderson, Hans. 2005. Dendrokronologisk analys av bruksbyggnaden i Ösjöfors handpappersbruk, Rumskulla, Vimmerby. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:47. Lund: Lunds Universitet.'),
+            (7895, 'Linderson, Hans','2011', 'Dendrokronologisk analys av brygghuset på Nääs gård i Torpa församling, Ydre, Östergötland. Rapport 2011:24', 'Linderson, Hans. 2011. Dendrokronologisk analys av brygghuset på Nääs gård i Torpa församling, Ydre, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2011:24. Lund: Lunds Universitet.'),
+            (7896, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Burlövs gamla kyrka. Rapport 2005:5', 'Linderson, Hans. 2005. Dendrokronologisk analys av Burlövs gamla kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:5. Lund: Lunds Universitet.'),
+            (7897, 'Linderson, Hans','2009', 'Dendrokronologisk analys av byggnaden på Grisslehamn 1:13, Norrtälje, Uppland. Rapport 2009:24', 'Linderson, Hans. 2009. Dendrokronologisk analys av byggnaden på Grisslehamn 1:13, Norrtälje, Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:24. Lund: Lunds Universitet.'),
+            (7898, 'Linderson, Hans','2004', 'Dendrokronologisk analys av byggnaden på Kvilla 11:2, 11:3 i Ösjöfors, Rumskulla socken, Vimmerby. Rapport 2004:34', 'Linderson, Hans. 2004. Dendrokronologisk analys av byggnaden på Kvilla 11:2, 11:3 i Ösjöfors, Rumskulla socken, Vimmerby. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2004:34. Lund: Lunds Universitet.'),
+            (7899, 'Linderson, Hans','2014', 'Dendrokronologisk analys av byggnaden på Strömsgatan 26, fastigheten Båtsmannen 2 i Västervik. Rapport 2014:24', 'Linderson, Hans. 2014. Dendrokronologisk analys av byggnaden på Strömsgatan 26, fastigheten Båtsmannen 2 i Västervik. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:24. Lund: Lunds Universitet.'),
+            (7900, 'Linderson, Hans','2014', 'Dendrokronologisk analys av byggnaderna på Kv. Almen 6, Smedjegatan 11 och 13 i Jönköping. Rapport 2014:32', 'Linderson, Hans. 2014. Dendrokronologisk analys av byggnaderna på Kv. Almen 6, Smedjegatan 11 och 13 i Jönköping. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:32. Lund: Lunds Universitet.'),
+            (7901, 'Linderson, Hans','2007', 'Dendrokronologisk analys av Corps de logi och Fataburen på Djursnäs säteri i Södermanland. Rapport 2006:28', 'Linderson, Hans. 2007. Dendrokronologisk analys av Corps de logi och Fataburen på Djursnäs säteri i Södermanland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:28. Lund: Lunds Universitet.'),
+            (7902, 'Linderson, Hans','2006', 'Dendrokronologisk analys av de två mittstolparna i Halla kyrkas klockstapel. Rapport 2005:53.', 'Linderson, Hans. 2006. Dendrokronologisk analys av de två mittstolparna i Halla kyrkas klockstapel. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:53.. Lund: Lunds Universitet.'),
+            (7903, 'Linderson, Hans','2016', 'Dendrokronologisk analys av den gamla bondestugan på Mariennelunds herrgård som nu utgör dess grindstuga, Mariennelund 9:7', 'Linderson, Hans. 2016. Dendrokronologisk analys av den gamla bondestugan på Mariennelunds herrgård som nu utgör dess grindstuga, Mariennelund 9:7. Lund: Lunds Universitet.'),
+            (7904, 'Linderson, Hans','2004', 'Dendrokronologisk analys av den gamla mangårdsbyggnaden i Skrickerum 1:2, Tryserums församling, Valdemarsviks kommun. Rapport 2004:16', 'Linderson, Hans. 2004. Dendrokronologisk analys av den gamla mangårdsbyggnaden i Skrickerum 1:2, Tryserums församling, Valdemarsviks kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2004:16. Lund: Lunds Universitet.'),
+            (7905, 'Linderson, Hans','2014', 'Dendrokronologisk analys av den större norra flygeln på Biskopsgården Östrabo i Växjö. Rapport 2014:68', 'Linderson, Hans. 2014. Dendrokronologisk analys av den större norra flygeln på Biskopsgården Östrabo i Växjö. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:68. Lund: Lunds Universitet.'),
+            (7906, 'Linderson, Hans','2004', 'Dendrokronologisk analys av drängstugan i Sisshammar, Tyresta, Stockholm. Rapport 2004:08', 'Linderson, Hans. 2004. Dendrokronologisk analys av drängstugan i Sisshammar, Tyresta, Stockholm. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2004:08. Lund: Lunds Universitet.'),
+            (7907, 'Linderson, Hans','2005', 'Dendrokronologisk analys av ekplank från Eke stavkyrka på Gotland. Rapport 2005:37', 'Linderson, Hans. 2005. Dendrokronologisk analys av ekplank från Eke stavkyrka på Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:37. Lund: Lunds Universitet.'),
+            (7908, 'Linderson, Hans','2003', 'Dendrokronologisk analys av Em's herrgårds lusthus i Mönsterås, Småland. Rapport 2003:38', 'Linderson, Hans. 2003. Dendrokronologisk analys av Em's herrgårds lusthus i Mönsterås, Småland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:38. Lund: Lunds Universitet.'),
+            (7909, 'Linderson, Hans','2012', 'Dendrokronologisk analys av en avlastningsbåge i västtornets bottenvåning, Hultestads kyrka, Öland. Rapport 2012:42', 'Linderson, Hans. 2012. Dendrokronologisk analys av en avlastningsbåge i västtornets bottenvåning, Hultestads kyrka, Öland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:42. Lund: Lunds Universitet.'),
+            (7910, 'Linderson, Hans','2006', 'Dendrokronologisk analys av en avlastningsram i norra Mellbys kyrkas klockstapel, Skåne. Rapport 2006:07', 'Linderson, Hans. 2006. Dendrokronologisk analys av en avlastningsram i norra Mellbys kyrkas klockstapel, Skåne. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:07. Lund: Lunds Universitet.'),
+            (7911, 'Linderson, Hans','2009', 'Dendrokronologisk analys av en bod på Häverö kyrka, Norrtälje. Rapport 2009:30', 'Linderson, Hans. 2009. Dendrokronologisk analys av en bod på Häverö kyrka, Norrtälje. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:30. Lund: Lunds Universitet.'),
+            (7912, 'Linderson, Hans','2014', 'Dendrokronologisk analys av en bod på Slattefors 4:15, "stora Lundby" i Lunds by, Linköpings kommun. Rapport 2014:14', 'Linderson, Hans. 2014. Dendrokronologisk analys av en bod på Slattefors 4:15, "stora Lundby" i Lunds by, Linköpings kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:14. Lund: Lunds Universitet.'),
+            (7913, 'Linderson, Hans','2013', 'Dendrokronologisk analys av en byggnad i Spinkarp-smörmossen flyttad från Ödeshög i Östergötland. Rapport 2013:4', 'Linderson, Hans. 2013. Dendrokronologisk analys av en byggnad i SpinNationella laboratoriet för vedanatomi och dendrokronologi karp-smörmossen flyttad från Ödeshög i Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:4. Lund: Lunds Universitet.'),
+            (7914, 'Linderson, Hans','2014', 'Dendrokronologisk analys av en byggnad på Ryssebo 1:5 i Eksjö kommun. Rapport 2014:62', 'Linderson, Hans. 2014. Dendrokronologisk analys av en byggnad på Ryssebo 1:5 i Eksjö kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:62. Lund: Lunds Universitet.'),
+            (7915, 'Linderson, Hans','2015', 'Dendrokronologisk analys av en före detta yttervägg på fastigheten Skonaren 1 i Västerviken. Rapport 2015:75', 'Linderson, Hans. 2015. Dendrokronologisk analys av en före detta yttervägg på fastigheten Skonaren 1 i Västerviken. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:75. Lund: Lunds Universitet.'),
+            (7916, 'Linderson, Hans','2001', 'Dendrokronologisk analys av en gruvstuga (Larsstugan) på Malmtorp 1:1, Hällestad sn. I Finspång. Rapport 2001:39', 'Linderson, Hans. 2001. Dendrokronologisk analys av en gruvstuga (Larsstugan) på Malmtorp 1:1, Hällestad sn. I Finspång. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2001:39. Lund: Lunds Universitet.'),
+            (7917, 'Linderson, Hans','2013', 'Dendrokronologisk analys av en hjärtstock från en väderkvarn på Borgholms stadsmuseum, Öland. Rapport 2013:38', 'Linderson, Hans. 2013. Dendrokronologisk analys av en hjärtstock från en väderkvarn på Borgholms stadsmuseum, Öland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:38. Lund: Lunds Universitet.'),
+            (7918, 'Linderson, Hans','2010', 'Dendrokronologisk analys av en höbod i Väster lakbäck, Uppland. Rapport 2010:21', 'Linderson, Hans. 2010. Dendrokronologisk analys av en höbod i Väster lakbäck, Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:21. Lund: Lunds Universitet.'),
+            (7919, 'Linderson, Hans','2016', 'Dendrokronologisk analys av en inmurad bjälke i Västerås domkyrkas norra korsarm. Rapport 2016:10', 'Linderson, Hans. 2016. Dendrokronologisk analys av en inmurad bjälke i Västerås domkyrkas norra korsarm. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:10. Lund: Lunds Universitet.'),
+            (7920, 'Linderson, Hans','2009', 'Dendrokronologisk analys av en loftbod i Skånela, Sigtuna. Rapport 2009:66', 'Linderson, Hans. 2009. Dendrokronologisk analys av en loftbod i Skånela, Sigtuna. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:66. Lund: Lunds Universitet.'),
+            (7921, 'Linderson, Hans','2014', 'Dendrokronologisk analys av en loges väggvirke på Åkarp 2:2, Holmby socken, Eslöv. Rapport 2014:30', 'Linderson, Hans. 2014. Dendrokronologisk analys av en loges väggvirke på Åkarp 2:2, Holmby socken, Eslöv. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:30. Lund: Lunds Universitet.'),
+            (7922, 'Linderson, Hans','2012', 'Dendrokronologisk analys av en parstuga på Häggströms gård i Faringe socken, Uppland. Rapport 2012:45', 'Linderson, Hans. 2012. Dendrokronologisk analys av en parstuga på Häggströms gård i Faringe socken, Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:45. Lund: Lunds Universitet.'),
+            (7923, 'Linderson, Hans','2014', 'Dendrokronologisk analys av en ryggstock samt fönsterkarm från en parstuga på Häljaryds gård, Växjö. Rapport 2014:10', 'Linderson, Hans. 2014. Dendrokronologisk analys av en ryggstock samt fönsterkarm från en parstuga på Häljaryds gård, Växjö. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:10. Lund: Lunds Universitet.'),
+            (7924, 'Linderson, Hans','2012', 'Dendrokronologisk analys av en ryggåsbod på Västra trädgårdsgatan 13 i Nyköping. Rapport 2012:64', 'Linderson, Hans. 2012. Dendrokronologisk analys av en ryggåsbod på Västra trädgårdsgatan 13 i Nyköping. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:64. Lund: Lunds Universitet.'),
+            (7925, 'Linderson, Hans','2014', 'Dendrokronologisk analys av en syllstock i bostadshuset på Burge, Levide, Hemse kommun, Gotland. Rapport 2014:13', 'Linderson, Hans. 2014. Dendrokronologisk analys av en syllstock i bostadshuset på Burge, Levide, Hemse kommun, Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:13. Lund: Lunds Universitet.'),
+            (7926, 'Linderson, Hans','2002', 'Dendrokronologisk analys av en takstolskonstruktion i Bäl kyrka, Gotland. Rapport 2002:9', 'Linderson, Hans. 2002. Dendrokronologisk analys av en takstolskonstruktion i Bäl kyrka, Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2002:9. Lund: Lunds Universitet.'),
+            (7927, 'Linderson, Hans','2005', 'Dendrokronologisk analys av en timmervägg från ett hus intill gamla Stockholmsvägen i Vallentuna. Rapport 2005:26', 'Linderson, Hans. 2005. Dendrokronologisk analys av en timmervägg från ett hus intill gamla Stockholmsvägen i Vallentuna. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:26. Lund: Lunds Universitet.'),
+            (7928, 'Linderson, Hans','2012', 'Dendrokronologisk analys av en valvslagningsbräda i västra tornet, Brahekyrkan, Visingsö. Rapport 2012:6', 'Linderson, Hans. 2012. Dendrokronologisk analys av en valvslagningsbräda i västra tornet, Brahekyrkan, Visingsö. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:6. Lund: Lunds Universitet.'),
+            (7929, 'Linderson, Hans','2007', 'Dendrokronologisk analys av en ängslada i Vissefjärda, södra Småland. Rapport 2007:5', 'Linderson, Hans. 2007. Dendrokronologisk analys av en ängslada i Vissefjärda, södra Småland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2007:5. Lund: Lunds Universitet.'),
+            (7930, 'Linderson, Hans','2014', 'Dendrokronologisk analys av ett bjälklag i Östra flygeln på prästgården, Lilla Harrie. Rapport 2014:29', 'Linderson, Hans. 2014. Dendrokronologisk analys av ett bjälklag i Östra flygeln på prästgården, Lilla Harrie. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:29. Lund: Lunds Universitet.'),
+            (7931, 'Linderson, Hans','2003', 'Dendrokronologisk analys av ett boningshus från kvarteret Prelaten 11, Vadstena. Rapport 2003:27', 'Linderson, Hans. 2003. Dendrokronologisk analys av ett boningshus från kvarteret Prelaten 11, Vadstena. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:27. Lund: Lunds Universitet.'),
+            (7932, 'Linderson, Hans','2015', 'Dendrokronologisk analys av ett golvbjälklag i Rådhuset vid Stora Torget i Västervik. Rapport 2015:01', 'Linderson, Hans. 2015. Dendrokronologisk analys av ett golvbjälklag i Rådhuset vid Stora Torget i Västervik. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:01. Lund: Lunds Universitet.'),
+            (7933, 'Linderson, Hans','2010', 'Dendrokronologisk analys av ett hanband i Väsby kyrka. Rapport 2010:10', 'Linderson, Hans. 2010. Dendrokronologisk analys av ett hanband i Väsby kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:10. Lund: Lunds Universitet.'),
+            (7934, 'Linderson, Hans','2011', 'Dendrokronologisk analys av ett plankgolv på tornvinden i Silte kyrka, Gotland. Rapport 2011:57', 'Linderson, Hans. 2011. Dendrokronologisk analys av ett plankgolv på tornvinden i Silte kyrka, Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2011:57. Lund: Lunds Universitet.'),
+            (7935, 'Linderson, Hans','2010', 'Dendrokronologisk analys av ett pörte på Herrökna gård i Sörmland. Rapport 2010:31. ', 'Linderson, Hans. 2010. Dendrokronologisk analys av ett pörte på Herrökna gård i Sörmland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:31. . Lund: Lunds Universitet.'),
+            (7936, 'Linderson, Hans','2007', 'Dendrokronologisk analys av ett stall för officershästar på Ränneslätt, Eksjö. Rapport 2007:11', 'Linderson, Hans. 2007. Dendrokronologisk analys av ett stall för officershästar på Ränneslätt, Eksjö. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2007:11. Lund: Lunds Universitet.'),
+            (7937, 'Linderson, Hans','2007', 'Dendrokronologisk analys av ett stenhus på fastigheten Föra 2:4, Öland. Rapport 2007:8B', 'Linderson, Hans. 2007. Dendrokronologisk analys av ett stenhus på fastigheten Föra 2:4, Öland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2007:8B. Lund: Lunds Universitet.'),
+            (7938, 'Linderson, Hans','2012', 'Dendrokronologisk analys av ett takbjälklag i en källare i huvudbyggnaden på Haneberg säteri. Rapport 2012:36', 'Linderson, Hans. 2012. Dendrokronologisk analys av ett takbjälklag i en källare i huvudbyggnaden på Haneberg säteri. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:36. Lund: Lunds Universitet.'),
+            (7939, 'Linderson, Hans','2017', 'Dendrokronologisk analys av ett timrat torp på gården Hårsbäck Sör 2:7 i Heby kommun. Rapport 2017:39', 'Linderson, Hans. 2017. Dendrokronologisk analys av ett timrat torp på gården Hårsbäck Sör 2:7 i Heby kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2017:39. Lund: Lunds Universitet.'),
+            (7940, 'Linderson, Hans','2017', 'Dendrokronologisk analys av Farhults kyrka, Höganäs kommun komplettering med en ornamenterad fönsterbräda. Rapport 2017:20', 'Linderson, Hans. 2017. Dendrokronologisk analys av Farhults kyrka, Höganäs kommun komplettering med en ornamenterad fönsterbräda. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2017:20. Lund: Lunds Universitet.'),
+            (7941, 'Linderson, Hans','2016', 'Dendrokronologisk analys av fastigheten :xx på kvarteret Vinskänken 2 i Eksjö. Rapport 2016:7', 'Linderson, Hans. 2016. Dendrokronologisk analys av fastigheten :xx på kvarteret Vinskänken 2 i Eksjö. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:7. Lund: Lunds Universitet.'),
+            (7942, 'Linderson, Hans','2004', 'Dendrokronologisk analys av fastigheten Borgmästaregården i Vimmerby. Rapport 2004:35', 'Linderson, Hans. 2004. Dendrokronologisk analys av fastigheten Borgmästaregården i Vimmerby. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2004:35. Lund: Lunds Universitet.'),
+            (7943, 'Linderson, Hans','2015', 'Dendrokronologisk analys av fastigheten Borgmästaren 5 i Kalmar. Rapport 2015:66', 'Linderson, Hans. 2015. Dendrokronologisk analys av fastigheten Borgmästaren 5 i Kalmar. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:66. Lund: Lunds Universitet.'),
+            (7944, 'Linderson, Hans','2006', 'Dendrokronologisk analys av fastigheten Haga 3:1 Solna socken och kommun, Uppland. Rapport 2006:20', 'Linderson, Hans. 2006. Dendrokronologisk analys av fastigheten Haga 3:1 Solna socken och kommun, Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:20. Lund: Lunds Universitet.'),
+            (7945, 'Linderson, Hans','2004', 'Dendrokronologisk analys av fastigheten Hattmakaren 4 i Kalmar. Rapport 2004:36', 'Linderson, Hans. 2004. Dendrokronologisk analys av fastigheten Hattmakaren 4 i Kalmar. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2004:36. Lund: Lunds Universitet.'),
+            (7946, 'Linderson, Hans','2003', 'Dendrokronologisk analys av fastigheten Näs 1:8, byggnad 23, i Ingatorps socken, Eksjö. Rapport 2003:02', 'Linderson, Hans. 2003. Dendrokronologisk analys av fastigheten Näs 1:8, byggnad 23, i Ingatorps socken, Eksjö. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:02. Lund: Lunds Universitet.'),
+            (7947, 'Linderson, Hans','2005', 'Dendrokronologisk analys av fastigheten Skedshult 7:1 i norra Kalmar län. Rapport 2005:29', 'Linderson, Hans. 2005. Dendrokronologisk analys av fastigheten Skedshult 7:1 i norra Kalmar län. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:29. Lund: Lunds Universitet.'),
+            (7948, 'Linderson, Hans','2013', 'Dendrokronologisk analys av fjorton byggnader på Tvartorp 1:1, Risinge socken i Finspång. Rapport 2013:28', 'Linderson, Hans. 2013. Dendrokronologisk analys av fjorton byggnader på Tvartorp 1:1, Risinge socken i Finspång. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:28. Lund: Lunds Universitet.'),
+            (7949, 'Linderson, Hans','2010', 'Dendrokronologisk analys av Furingstad kyrka i Östergötland. Rapport 2010:41', 'Linderson, Hans. 2010. Dendrokronologisk analys av Furingstad kyrka i Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:41. Lund: Lunds Universitet.'),
+            (7950, 'Linderson, Hans','2008', 'Dendrokronologisk analys av fyra bodar vid Ingatorp och Bellö kyrkogård. Rapport 2008:23', 'Linderson, Hans. 2008. Dendrokronologisk analys av fyra bodar vid Ingatorp och Bellö kyrkogård. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2008:23. Lund: Lunds Universitet.'),
+            (7951, 'Linderson, Hans','2016', 'Dendrokronologisk analys av Färlövs kyrka, Kristianstads kommun, Skåne. Rapport 2016:1', 'Linderson, Hans. 2016. Dendrokronologisk analys av Färlövs kyrka, Kristianstads kommun, Skåne. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:1. Lund: Lunds Universitet.'),
+            (7952, 'Linderson, Hans','2012', 'Dendrokronologisk analys av före detta takstolar (ex situ) Långlöts kyrkas långhus, Öland. Rapport 2012:41', 'Linderson, Hans. 2012. Dendrokronologisk analys av före detta takstolar (ex situ) Långlöts kyrkas långhus, Öland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:41. Lund: Lunds Universitet.'),
+            (7953, 'Linderson, Hans','2007', 'Dendrokronologisk analys av gamla flygeln på Marsjö 7:11, Öland. Rapport 2007:2', 'Linderson, Hans. 2007. Dendrokronologisk analys av gamla flygeln på Marsjö 7:11, Öland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2007:2. Lund: Lunds Universitet.'),
+            (7954, 'Linderson, Hans','2017', 'Dendrokronologisk analys av gatuhusen på Hunnebergsgatan 5A, 7A & 9A i Linköping, Östergötland - komplettering. Rapport 2017:44', 'Linderson, Hans. 2017. Dendrokronologisk analys av gatuhusen på Hunnebergsgatan 5A, 7A & 9A i Linköping, Östergötland - komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2017:44. Lund: Lunds Universitet.'),
+            (7955, 'Linderson, Hans','2014', 'Dendrokronologisk analys av gatuhusen på Hunnebergsgatan 5A, 7A & 9A i Linköping, Östergötland. Rapport 2014:49', 'Linderson, Hans. 2014. Dendrokronologisk analys av gatuhusen på Hunnebergsgatan 5A, 7A & 9A i Linköping, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:49. Lund: Lunds Universitet.'),
+            (7956, 'Linderson, Hans','2016', 'Dendrokronologisk analys av gatuhuset Onkel Adamsgården på Hunnebergsgatan 30A i Linköping, Östergötland. Rapport 2016:17', 'Linderson, Hans. 2016. Dendrokronologisk analys av gatuhuset Onkel Adamsgården på Hunnebergsgatan 30A i Linköping, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:17. Lund: Lunds Universitet.'),
+            (7957, 'Linderson, Hans','2014', 'Dendrokronologisk analys av golvbjälklaget i rum två på Ösmo gamla prästgård Nynäshamns kommun, Södermanland. Rapport 2014:18', 'Linderson, Hans. 2014. Dendrokronologisk analys av golvbjälklaget i rum två på Ösmo gamla prästgård Nynäshamns kommun, Södermanland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:18. Lund: Lunds Universitet.'),
+            (7958, 'Linderson, Hans','2016', 'Dendrokronologisk analys av golvplank i logen på Slästorps storgård, Åsbo, Boxholms kommun. Rapport 2016:26', 'Linderson, Hans. 2016. Dendrokronologisk analys av golvplank i logen på Slästorps storgård, Åsbo, Boxholms kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:26. Lund: Lunds Universitet.'),
+            (7959, 'Kriig, Stefan','n.d.', 'Dendrokronologisk analys av Grävsten herrgård', 'Kriig, Stefan. n.d.. Dendrokronologisk analys av Grävsten herrgård. Lund: Lunds Universitet.'),
+            (7960, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Guldrupe kyrkas torn. Rapport 2005:38', 'Linderson, Hans. 2005. Dendrokronologisk analys av Guldrupe kyrkas torn. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:38. Lund: Lunds Universitet.'),
+            (7961, 'Linderson, Hans','2001', 'Dendrokronologisk analys av Gällestaö Gård, Ekerö. Rapport 2001:46', 'Linderson, Hans. 2001. Dendrokronologisk analys av Gällestaö Gård, Ekerö. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2001:46. Lund: Lunds Universitet.'),
+            (7962, 'Linderson, Hans','2006', 'Dendrokronologisk analys av Gärdslösa kyrka. Rapport 2006:48', 'Linderson, Hans. 2006. Dendrokronologisk analys av Gärdslösa kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:48. Lund: Lunds Universitet.'),
+            (7963, 'Linderson, Hans','2001', 'Dendrokronologisk analys av Hagby kyrka, Kalmar. Rapport 2001:35', 'Linderson, Hans. 2001. Dendrokronologisk analys av Hagby kyrka, Kalmar. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2001:35. Lund: Lunds Universitet.'),
+            (7964, 'Linderson, Hans','2001', 'Dendrokronologisk analys av Halltorp kyrka i Kalmar kommun. Rapport 2001:53', 'Linderson, Hans. 2001. Dendrokronologisk analys av Halltorp kyrka i Kalmar kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2001:53. Lund: Lunds Universitet.'),
+            (7965, 'Linderson, Hans','2014', 'Dendrokronologisk analys av Heda, 1:6, gamla komministerbostad, Östergötland. Rapport 2014:50', 'Linderson, Hans. 2014. Dendrokronologisk analys av Heda, 1:6, gamla komministerbostad, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:50. Lund: Lunds Universitet.'),
+            (7966, 'Linderson, Hans','2007', 'Dendrokronologisk analys av Hester gård söder Boxholm, golvbjälkar i gamla gästgiveriet samt en flygelbyggnad. Rapport 2007:24', 'Linderson, Hans. 2007. Dendrokronologisk analys av Hester gård söder Boxholm, golvbjälkar i gamla gästgiveriet samt en flygelbyggnad. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2007:24. Lund: Lunds Universitet.'),
+            (7967, 'Linderson, Hans','2001', 'Dendrokronologisk analys av Hofterup kyrka. Rapport 2001:44', 'Linderson, Hans. 2001. Dendrokronologisk analys av Hofterup kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2001:44. Lund: Lunds Universitet.'),
+            (7968, 'Linderson, Hans','2013', 'Dendrokronologisk analys av Hults kyrkbod, Eksjö kommun. Rapport 2013:3', 'Linderson, Hans. 2013. Dendrokronologisk analys av Hults kyrkbod, Eksjö kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:3. Lund: Lunds Universitet.'),
+            (7969, 'Linderson, Hans','2003', 'Dendrokronologisk analys av hus B på Hovdala slott, Hässleholm. Rapport 2003:40', 'Linderson, Hans. 2003. Dendrokronologisk analys av hus B på Hovdala slott, Hässleholm. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:40. Lund: Lunds Universitet.'),
+            (7970, 'Linderson, Hans','2003', 'Dendrokronologisk analys av huvudbyggnaden på Spargott, öster Landskrona. Rapport 2003:8', 'Linderson, Hans. 2003. Dendrokronologisk analys av huvudbyggnaden på Spargott, öster Landskrona. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:8. Lund: Lunds Universitet.'),
+            (7971, 'Linderson, Hans','2006', 'Dendrokronologisk analys av huvudbyggnaden Vita Holmen, Löwenströmska sjukhusområdet, Upplands Väsby. Rapport 2006:19', 'Linderson, Hans. 2006. Dendrokronologisk analys av huvudbyggnaden Vita Holmen, Löwenströmska sjukhusområdet, Upplands Väsby. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:19. Lund: Lunds Universitet.'),
+            (7972, 'Linderson, Hans','2009', 'Dendrokronologisk analys av Härnevi kyrka, Uppland. Rapport 2009:10', 'Linderson, Hans. 2009. Dendrokronologisk analys av Härnevi kyrka, Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:10. Lund: Lunds Universitet.'),
+            (7973, 'Linderson, Hans','2009', 'Dendrokronologisk analys av Högsjö fatbur, Högsjö gård 7:4, Vingåker - en komplettering. Rapport 2009:57', 'Linderson, Hans. 2009. Dendrokronologisk analys av Högsjö fatbur, Högsjö gård 7:4, Vingåker - en komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:57. Lund: Lunds Universitet.'),
+            (7974, 'Linderson, Hans','2008', 'Dendrokronologisk analys av Högsjö fatbur, Högsjö gård 7:4, Vingåker. Rapport 2008:60', 'Linderson, Hans. 2008. Dendrokronologisk analys av Högsjö fatbur, Högsjö gård 7:4, Vingåker. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2008:60. Lund: Lunds Universitet.'),
+            (7975, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Hörja kyrka. Rapport 2005:8', 'Linderson, Hans. 2005. Dendrokronologisk analys av Hörja kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:8. Lund: Lunds Universitet.'),
+            (7976, 'Linderson, Hans','2008', 'Dendrokronologisk analys av Hörsne kyrka, Gotland. Rapport 2008:62', 'Linderson, Hans. 2008. Dendrokronologisk analys av Hörsne kyrka, Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2008:62. Lund: Lunds Universitet.'),
+            (7977, 'Linderson, Hans','2006', 'Dendrokronologisk analys av inmurat timmer i koret på Gothem kyrka, Gotland. Rapport 2006:23', 'Linderson, Hans. 2006. Dendrokronologisk analys av inmurat timmer i koret på Gothem kyrka, Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:23. Lund: Lunds Universitet.'),
+            (7978, 'Linderson, Hans','2009', 'Dendrokronologisk analys av kilar som utgör täckning av sprickbildning i koret, Källunge kyrka, Gotland. Rapport 2009:43', 'Linderson, Hans. 2009. Dendrokronologisk analys av kilar som utgör täckning av sprickbildning i koret, Källunge kyrka, Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:43. Lund: Lunds Universitet.'),
+            (7979, 'Linderson, Hans','2015', 'Dendrokronologisk analys av Kisa wärdshus, Kinda kommun. Rapport 2015:63', 'Linderson, Hans. 2015. Dendrokronologisk analys av Kisa wärdshus, Kinda kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:63. Lund: Lunds Universitet.'),
+            (7980, 'Linderson, Hans','2014', 'Dendrokronologisk analys av klockstapeln och visthusboden på Slottsskogsparken i Göteborg. Rapport 2014:23', 'Linderson, Hans. 2014. Dendrokronologisk analys av klockstapeln och visthusboden på Slottsskogsparken i Göteborg. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:23. Lund: Lunds Universitet.'),
+            (7981, 'Linderson, Hans','2009', 'Dendrokronologisk analys av Klockstapeln vid Nykyrka, Södermanland. Rapport 2009:4', 'Linderson, Hans. 2009. Dendrokronologisk analys av Klockstapeln vid Nykyrka, Södermanland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:4. Lund: Lunds Universitet.'),
+            (7982, 'Linderson, Hans','2006', 'Dendrokronologisk analys av knektarna på Borgarhusets fasad, Kulturen i Lund. Rapport 2006:25', 'Linderson, Hans. 2006. Dendrokronologisk analys av knektarna på Borgarhusets fasad, Kulturen i Lund. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:25. Lund: Lunds Universitet.'),
+            (7983, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Kråkvik, möjligen säteriets gamla huvudbyggnad i Östra Eds socken, Kalmar län. Rapport 2005:33', 'Linderson, Hans. 2005. Dendrokronologisk analys av Kråkvik, möjligen säteriets gamla huvudbyggnad i Östra Eds socken, Kalmar län. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:33. Lund: Lunds Universitet.'),
+            (7984, 'Linderson, Hans','2016', 'Dendrokronologisk analys av Kullerstads kyrka, Norrköpings kommun, Östergötland. Rapport 2016:4', 'Linderson, Hans. 2016. Dendrokronologisk analys av Kullerstads kyrka, Norrköpings kommun, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:4. Lund: Lunds Universitet.'),
+            (7985, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Kulltorps gård i Edsbruk, Kalmar län. Rapport 2005:30', 'Linderson, Hans. 2005. Dendrokronologisk analys av Kulltorps gård i Edsbruk, Kalmar län. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:30. Lund: Lunds Universitet.'),
+            (7986, 'Linderson, Hans','2016', 'Dendrokronologisk analys av Kumlaby kyrka på Visingsö. Rapport 2016:19', 'Linderson, Hans. 2016. Dendrokronologisk analys av Kumlaby kyrka på Visingsö. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:19. Lund: Lunds Universitet.'),
+            (7987, 'Linderson, Hans','2003', 'Dendrokronologisk analys av kv. Guldsmeden 1, Eksjö. Rapport 2003:03', 'Linderson, Hans. 2003. Dendrokronologisk analys av kv. Guldsmeden 1, Eksjö. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:03. Lund: Lunds Universitet.'),
+            (7988, 'Linderson, Hans','2014', 'Dendrokronologisk analys av Kvarntorp i Vänge, Vänge-Ekeby 7:4, Uppsala kommun. Rapport 2014:11', 'Linderson, Hans. 2014. Dendrokronologisk analys av Kvarntorp i Vänge, Vänge-Ekeby 7:4, Uppsala kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:11. Lund: Lunds Universitet.'),
+            (7989, 'Linderson, Hans','2013', 'Dendrokronologisk analys av källaren i fastigheten, Krögaren 17, Kalmar. Rapport 2013:48', 'Linderson, Hans. 2013. Dendrokronologisk analys av källaren i fastigheten, Krögaren 17, Kalmar. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:48. Lund: Lunds Universitet.'),
+            (7990, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Kävlinge gamla kyrka. Rapport 2005:4', 'Linderson, Hans. 2005. Dendrokronologisk analys av Kävlinge gamla kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:4. Lund: Lunds Universitet.'),
+            (7991, 'Linderson, Hans','2015', 'Dendrokronologisk analys av köket på Länsmansgården i Åkersberga, Skånsta 2:171. Rapport 2015:71', 'Linderson, Hans. 2015. Dendrokronologisk analys av köket på Länsmansgården i Åkersberga, Skånsta 2:171. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:71. Lund: Lunds Universitet.'),
+            (7992, 'Linderson, Hans','2017', 'Dendrokronologisk analys av köket på Länsmansgården i Åkersberga, Skånsta 2:171. Rapport 2017:11', 'Linderson, Hans. 2017. Dendrokronologisk analys av köket på Länsmansgården i Åkersberga, Skånsta 2:171. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2017:11. Lund: Lunds Universitet.'),
+            (7993, 'Linderson, Hans','2006', 'Dendrokronologisk analys av Linde kyrka, Gotland. Rapport 2006:24', 'Linderson, Hans. 2006. Dendrokronologisk analys av Linde kyrka, Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:24. Lund: Lunds Universitet.'),
+            (7994, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Linderöd kyrka. Rapport 2005:12', 'Linderson, Hans. 2005. Dendrokronologisk analys av Linderöd kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:12. Lund: Lunds Universitet.'),
+            (7995, 'Linderson, Hans','2009', 'Dendrokronologisk analys av loftboden på Ekeby 2:6, Söderbykarl socken, Norrtälje. Rapport 2009:28', 'Linderson, Hans. 2009. Dendrokronologisk analys av loftboden på Ekeby 2:6, Söderbykarl socken, Norrtälje. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:28. Lund: Lunds Universitet.'),
+            (7996, 'Linderson, Hans','2009', 'Dendrokronologisk analys av loftboden på Erikskulle, Söderbykarl socken, Norrtälje - en komplettering. Rapport 2009:64', 'Linderson, Hans. 2009. Dendrokronologisk analys av loftboden på Erikskulle, Söderbykarl socken, Norrtälje - en komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:64. Lund: Lunds Universitet.'),
+            (7997, 'Linderson, Hans','2009', 'Dendrokronologisk analys av loftboden på Erikskulle, Söderbykarl socken, Norrtälje. Rapport 2009:29', 'Linderson, Hans. 2009. Dendrokronologisk analys av loftboden på Erikskulle, Söderbykarl socken, Norrtälje. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:29. Lund: Lunds Universitet.'),
+            (7998, 'Linderson, Hans','2009', 'Dendrokronologisk analys av loftboden Snåret i Riala socken, Norrtälje. Rapport 2009:65', 'Linderson, Hans. 2009. Dendrokronologisk analys av loftboden Snåret i Riala socken, Norrtälje. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:65. Lund: Lunds Universitet.'),
+            (7999, 'Linderson, Hans','2001', 'Dendrokronologisk analys av Lohärads Prästgård 1:9, Slättorp, Norrtälje. Rapport 2001:22', 'Linderson, Hans. 2001. Dendrokronologisk analys av Lohärads Prästgård 1:9, Slättorp, Norrtälje. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2001:22. Lund: Lunds Universitet.'),
+            (8000, 'Linderson, Hans','2013', 'Dendrokronologisk analys av långhuset och koret i Värna kyrka i Östergötland. Rapport 2013:52', 'Linderson, Hans. 2013. Dendrokronologisk analys av långhuset och koret i Värna kyrka i Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:52. Lund: Lunds Universitet.'),
+            (8001, 'Linderson, Hans','2002', 'Dendrokronologisk analys av lösvirke i tornet på Hovdala slott, Hässleholm. Rapport 2002:8', 'Linderson, Hans. 2002. Dendrokronologisk analys av lösvirke i tornet på Hovdala slott, Hässleholm. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2002:8. Lund: Lunds Universitet.'),
+            (8002, 'Linderson, Hans','2011', 'Dendrokronologisk analys av manbyggnaden tillhörande Brunsta gård i Nyköping. Rapport 2011:27', 'Linderson, Hans. 2011. Dendrokronologisk analys av manbyggnaden tillhörande Brunsta gård i Nyköping. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2011:27. Lund: Lunds Universitet.'),
+            (8003, 'Linderson, Hans','2013', 'Dendrokronologisk analys av mangådsbyggnaden på Stämmeryd 113, Nybro kommun. Rapport 2013:29', 'Linderson, Hans. 2013. Dendrokronologisk analys av mangådsbyggnaden på Stämmeryd 113, Nybro kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:29. Lund: Lunds Universitet.'),
+            (8004, 'Linderson, Hans','2005', 'Dendrokronologisk analys av mangårdsbyggnaden på Fröjden, Skedhult 1:3 i Edsbruk, Kalmar län. Rapport 2002:31', 'Linderson, Hans. 2005. Dendrokronologisk analys av mangårdsbyggnaden på Fröjden, Skedhult 1:3 i Edsbruk, Kalmar län. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2002:31. Lund: Lunds Universitet.'),
+            (8005, 'Linderson, Hans','2015', 'Dendrokronologisk analys av mangårdsbyggnaden på Lilla Rätö Gård, Västervik. Rapport 2015:26', 'Linderson, Hans. 2015. Dendrokronologisk analys av mangårdsbyggnaden på Lilla Rätö Gård, Västervik. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:26. Lund: Lunds Universitet.'),
+            (8006, 'Linderson, Hans','2005', 'Dendrokronologisk analys av mangårdsbyggnaden på Skedshult 8:2 i Edsbruk, Kalmar län. Rapport 2005:32', 'Linderson, Hans. 2005. Dendrokronologisk analys av mangårdsbyggnaden på Skedshult 8:2 i Edsbruk, Kalmar län. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:32. Lund: Lunds Universitet.'),
+            (8007, 'Linderson, Hans','2013', 'Dendrokronologisk analys av Mangårdsbyggnaden på Vallsnäs 1:13, Unnaryd, Hylte kommun. Rapport 2013:39', 'Linderson, Hans. 2013. Dendrokronologisk analys av Mangårdsbyggnaden på Vallsnäs 1:13, Unnaryd, Hylte kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:39. Lund: Lunds Universitet.'),
+            (8008, 'Linderson, Hans','2005', 'Dendrokronologisk analys av mellangården på Lövö 2:16 i Mönsterås kommun. Rapport 2005:48', 'Linderson, Hans. 2005. Dendrokronologisk analys av mellangården på Lövö 2:16 i Mönsterås kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:48. Lund: Lunds Universitet.'),
+            (8009, 'Linderson, Hans','2011', 'Dendrokronologisk analys av Mellby kyrka i Eksjö kn. Rapport 2011:32', 'Linderson, Hans. 2011. Dendrokronologisk analys av Mellby kyrka i Eksjö kn. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2011:32. Lund: Lunds Universitet.'),
+            (8010, 'Linderson, Hans','2013', 'Dendrokronologisk analys av Mellby kyrkas klockstapel, Eksjö kommun. Rapport 2013:1', 'Linderson, Hans. 2013. Dendrokronologisk analys av Mellby kyrkas klockstapel, Eksjö kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:1. Lund: Lunds Universitet.'),
+            (8011, 'Linderson, Hans','2015', 'Dendrokronologisk analys av Måketorpsgården, Kulturen i Lund - komplettering. Rapport 2015:73', 'Linderson, Hans. 2015. Dendrokronologisk analys av Måketorpsgården, Kulturen i Lund - komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:73. Lund: Lunds Universitet.'),
+            (8012, 'Linderson, Hans','2003', 'Dendrokronologisk analys av Noors Herrgård, Norrtälje, Uppland. Rapport 2003:14', 'Linderson, Hans. 2003. Dendrokronologisk analys av Noors Herrgård, Norrtälje, Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:14. Lund: Lunds Universitet.'),
+            (8013, 'Linderson, Hans','2003', 'Dendrokronologisk analys av nordvästra flygeln på Spargott, öster Landskrona. Rapport 2003:7', 'Linderson, Hans. 2003. Dendrokronologisk analys av nordvästra flygeln på Spargott, öster Landskrona. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:7. Lund: Lunds Universitet.'),
+            (8014, 'Linderson, Hans','2008', 'Dendrokronologisk analys av norra flygelbyggnaden på Harpsund i Sörmland. Rapport 2008:25', 'Linderson, Hans. 2008. Dendrokronologisk analys av norra flygelbyggnaden på Harpsund i Sörmland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2008:25. Lund: Lunds Universitet.'),
+            (8015, 'Linderson, Hans','2010', 'Dendrokronologisk analys av norra flygeln och stallet på Fjellskifte säteri, Sörmland. Rapport 2010:36', 'Linderson, Hans. 2010. Dendrokronologisk analys av norra flygeln och stallet på Fjellskifte säteri, Sörmland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:36. Lund: Lunds Universitet.'),
+            (8016, 'Linderson, Hans','2007', 'Dendrokronologisk analys av norra flygeln på Bisslinge gård, Sollentuna. Rapport 2007:22', 'Linderson, Hans. 2007. Dendrokronologisk analys av norra flygeln på Bisslinge gård, Sollentuna. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2007:22. Lund: Lunds Universitet.'),
+            (8017, 'Linderson, Hans','2008', 'Dendrokronologisk analys av norra flygelns västra gavel på Husby 1:1, Nyköpings kommun. Rapport 2008:36', 'Linderson, Hans. 2008. Dendrokronologisk analys av norra flygelns västra gavel på Husby 1:1, Nyköpings kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2008:36. Lund: Lunds Universitet.'),
+            (8018, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Norra Mellby kyrka. Rapport 2005:10', 'Linderson, Hans. 2005. Dendrokronologisk analys av Norra Mellby kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:10. Lund: Lunds Universitet.'),
+            (8019, 'Linderson, Hans','2019', 'Dendrokronologisk analys av Norra Mellby kyrka. Rapport 2019:57', 'Linderson, Hans. 2019. Dendrokronologisk analys av Norra Mellby kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2019:57. Lund: Lunds Universitet.'),
+            (8020, 'Linderson, Hans','2009', 'Dendrokronologisk analys av Norra Rörums klockstapel. Rapport 2009:50', 'Linderson, Hans. 2009. Dendrokronologisk analys av Norra Rörums klockstapel. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:50. Lund: Lunds Universitet.'),
+            (8021, 'Linderson, Hans','2015', 'Dendrokronologisk analys av Norra Solberga gamla kyrka, Nässjö kommun. Rapport 2015:28', 'Linderson, Hans. 2015. Dendrokronologisk analys av Norra Solberga gamla kyrka, Nässjö kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:28. Lund: Lunds Universitet.'),
+            (8022, 'Linderson, Hans','2016', 'Dendrokronologisk analys av Norra Åsums kyrka, Kristianstads kommun, Skåne. Rapport 2016:2', 'Linderson, Hans. 2016. Dendrokronologisk analys av Norra Åsums kyrka, Kristianstads kommun, Skåne. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:2. Lund: Lunds Universitet.'),
+            (8023, 'Linderson, Hans','2014', 'Dendrokronologisk analys av Nylund-torpet med lillstuga samt "likboden" på Flöxhults säteri, Älghult. Rapport 2014:51', 'Linderson, Hans. 2014. Dendrokronologisk analys av Nylund-torpet med lillstuga samt "likboden" på Flöxhults säteri, Älghult. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:51. Lund: Lunds Universitet.'),
+            (8024, 'Linderson, Hans','2009', 'Dendrokronologisk analys av Orkesta klockstapel, Vallentuna. Rapport 2009:27', 'Linderson, Hans. 2009. Dendrokronologisk analys av Orkesta klockstapel, Vallentuna. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:27. Lund: Lunds Universitet.'),
+            (8025, 'Linderson, Hans','2015', 'Dendrokronologisk analys av Ottenby Kungsgårds södra flygel, Öland. Rapport 2015:14', 'Linderson, Hans. 2015. Dendrokronologisk analys av Ottenby Kungsgårds södra flygel, Öland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:14. Lund: Lunds Universitet.'),
+            (8026, 'Linderson, Hans','2006', 'Dendrokronologisk analys av pappersmagasinet, mangårdsbyggnaden samt kompletterande undersökning i bruksbyggnaden på handpappersbruket i Örsjöfors, Vimmerby. Rapport 2006:51', 'Linderson, Hans. 2006. Dendrokronologisk analys av pappersmagasinet, mangårdsbyggnaden samt kompletterande undersökning i bruksbyggnaden på handpappersbruket i Örsjöfors, Vimmerby. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:51. Lund: Lunds Universitet.'),
+            (8027, 'Linderson, Hans','2011', 'Dendrokronologisk analys av parstuga och magasin tillhörande Brunsta gård i Nyköping. Rapport 2011:25.', 'Linderson, Hans. 2011. Dendrokronologisk analys av parstuga och magasin tillhörande Brunsta gård i Nyköping. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2011:25.. Lund: Lunds Universitet.'),
+            (8028, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Perstorps kyrka. Rapport 2005:6', 'Linderson, Hans. 2005. Dendrokronologisk analys av Perstorps kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:6. Lund: Lunds Universitet.'),
+            (8029, 'Linderson, Hans','2015', 'Dendrokronologisk analys av portar i Skönberga och Bjälbo kyrkor i Östergötland. Rapport 2015:15', 'Linderson, Hans. 2015. Dendrokronologisk analys av portar i Skönberga och Bjälbo kyrkor i Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:15. Lund: Lunds Universitet.'),
+            (8030, 'Linderson, Hans','2016', 'Dendrokronologisk analys av portlidret på Borntorp 1:1 norr om Massum by i Uppland. Rapport 2016:28', 'Linderson, Hans. 2016. Dendrokronologisk analys av portlidret på Borntorp 1:1 norr om Massum by i Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:28. Lund: Lunds Universitet.'),
+            (8031, 'Linderson, Hans','2016', 'Dendrokronologisk analys av prover från Ciselören 1 & 2 samt Komministern 2 i Eksjö. Rapport 2016:15', 'Linderson, Hans. 2016. Dendrokronologisk analys av prover från Ciselören 1 & 2 samt Komministern 2 i Eksjö. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:15. Lund: Lunds Universitet.'),
+            (8032, 'Linderson, Hans','2015', 'Dendrokronologisk analys av prover från fd handelsboden i Stensjö by i Stora malm socken, Södermanland. Rapport 2015:70', 'Linderson, Hans. 2015. Dendrokronologisk analys av prover från fd handelsboden i Stensjö by i Stora malm socken, Södermanland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:70. Lund: Lunds Universitet.'),
+            (8033, 'Linderson, Hans','2017', 'Dendrokronologisk analys av prover från Fröken Löfgrens gård, Linköping. Rapport 2017:53', 'Linderson, Hans. 2017. Dendrokronologisk analys av prover från Fröken Löfgrens gård, Linköping. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2017:53. Lund: Lunds Universitet.'),
+            (8034, 'Linderson, Hans','2011', 'Dendrokronologisk analys av prover från Lye, Sjonhem och Norrlanda, Gotland. ', 'Linderson, Hans. 2011. Dendrokronologisk analys av prover från Lye, Sjonhem och Norrlanda, Gotland. . Lund: Lunds Universitet.'),
+            (8035, 'Linderson, Hans','2015', 'Dendrokronologisk analys av prover från Stora Hulterska 2:1, "Gamla stuga", Tuna socken, Nyköping. Rapport 2015:52', 'Linderson, Hans. 2015. Dendrokronologisk analys av prover från Stora Hulterska 2:1, "Gamla stuga", Tuna socken, Nyköping. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:52. Lund: Lunds Universitet.'),
+            (8036, 'Linderson, Hans','2011', 'Dendrokronologisk analys av prover från vapenhus och långhus, Västermo kyrka. Rapport 2011:10', 'Linderson, Hans. 2011. Dendrokronologisk analys av prover från vapenhus och långhus, Västermo kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2011:10. Lund: Lunds Universitet.'),
+            (8037, 'Linderson, Hans','2010', 'Dendrokronologisk analys av prover från visthusbod, Karkebo 1:3, Östhammars kommun, Uppland. Rapport 2010:19', 'Linderson, Hans. 2010. Dendrokronologisk analys av prover från visthusbod, Karkebo 1:3, Östhammars kommun, Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:19. Lund: Lunds Universitet.'),
+            (8038, 'Linderson, Hans','2005', 'Dendrokronologisk analys av pålar i Brönnestad klockstapel. Rapport 2005:25', 'Linderson, Hans. 2005. Dendrokronologisk analys av pålar i Brönnestad klockstapel. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:25. Lund: Lunds Universitet.'),
+            (8039, 'Linderson, Hans','2010', 'Dendrokronologisk analys av Ristomta gård. Rapport 2010:37', 'Linderson, Hans. 2010. Dendrokronologisk analys av Ristomta gård. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:37. Lund: Lunds Universitet.'),
+            (8040, 'Linderson, Hans','2019', 'Dendrokronologisk analys av romansk dörr i Häglinge kyrka. Rapport 2019:60', 'Linderson, Hans. 2019. Dendrokronologisk analys av romansk dörr i Häglinge kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2019:60. Lund: Lunds Universitet.'),
+            (8041, 'Linderson, Hans','2013', 'Dendrokronologisk analys av ryggåsstugan på fastigheten, Repslagaren 9, Kalmar. Rapport 2013:49', 'Linderson, Hans. 2013. Dendrokronologisk analys av ryggåsstugan på fastigheten, Repslagaren 9, Kalmar. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:49. Lund: Lunds Universitet.'),
+            (8042, 'Linderson, Hans','2003', 'Dendrokronologisk analys av Ryssby kyrka i Kalmar kommun. Rapport 2003:19', 'Linderson, Hans. 2003. Dendrokronologisk analys av Ryssby kyrka i Kalmar kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:19. Lund: Lunds Universitet.'),
+            (8043, 'Linderson, Hans','2010', 'Dendrokronologisk analys av sakristian i Härnevi kyrka, Uppland. Rapport 2010:56', 'Linderson, Hans. 2010. Dendrokronologisk analys av sakristian i Härnevi kyrka, Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:56. Lund: Lunds Universitet.'),
+            (8044, 'Linderson, Hans','2010', 'Dendrokronologisk analys av Sankt Olofs träskulpturen i Tidersrums kyrka, Östergötland. Rapport 2010:50', 'Linderson, Hans. 2010. Dendrokronologisk analys av Sankt Olofs träskulpturen i Tidersrums kyrka, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:50. Lund: Lunds Universitet.'),
+            (8045, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Sjömanshemmet på Södermalm, Stockholm. Rapport 2005:25', 'Linderson, Hans. 2005. Dendrokronologisk analys av Sjömanshemmet på Södermalm, Stockholm. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:25. Lund: Lunds Universitet.'),
+            (8046, 'Linderson, Hans','2008', 'Dendrokronologisk analys av Skabersjö slott, södra flygeln. Rapport 2008:55', 'Linderson, Hans. 2008. Dendrokronologisk analys av Skabersjö slott, södra flygeln. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2008:55. Lund: Lunds Universitet.'),
+            (8047, 'Linderson, Hans','2002', 'Dendrokronologisk analys av Skeppsås kyrka, Östergötland. Rapport 2002:54', 'Linderson, Hans. 2002. Dendrokronologisk analys av Skeppsås kyrka, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2002:54. Lund: Lunds Universitet.'),
+            (8048, 'Linderson, Hans','2004', 'Dendrokronologisk analys av Slevringe gård i Östergötland. Rapport 2004:04', 'Linderson, Hans. 2004. Dendrokronologisk analys av Slevringe gård i Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2004:04. Lund: Lunds Universitet.'),
+            (8049, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Slättåkra lillegård, Vetlanda. Rapport 2005:52', 'Linderson, Hans. 2005. Dendrokronologisk analys av Slättåkra lillegård, Vetlanda. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:52. Lund: Lunds Universitet.'),
+            (8050, 'Linderson, Hans','2010', 'Dendrokronologisk analys av Smedstorps slott. Rapport 2010:11', 'Linderson, Hans. 2010. Dendrokronologisk analys av Smedstorps slott. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:11. Lund: Lunds Universitet.'),
+            (8051, 'Linderson, Hans','2015', 'Dendrokronologisk analys av Smålandsstugan från Skubbhult, Slottsskogsparken i Göteborg. Rapport 2015:64', 'Linderson, Hans. 2015. Dendrokronologisk analys av Smålandsstugan från Skubbhult, Slottsskogsparken i Göteborg. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:64. Lund: Lunds Universitet.'),
+            (8052, 'Linderson, Hans','2003', 'Dendrokronologisk analys av soldattorp, Sköldsborg 1:1, Askeby socken, Linköping. Rapport 2003:25', 'Linderson, Hans. 2003. Dendrokronologisk analys av soldattorp, Sköldsborg 1:1, Askeby socken, Linköping. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:25. Lund: Lunds Universitet.'),
+            (8053, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Sonnorps huvudbyggnad och östra respektive västra flygeln, Motala. Rapport 2005:51', 'Linderson, Hans. 2005. Dendrokronologisk analys av Sonnorps huvudbyggnad och östra respektive västra flygeln, Motala. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:51. Lund: Lunds Universitet.'),
+            (8054, 'Linderson, Hans','2012', 'Dendrokronologisk analys av sorgenfri, lusthuset, förfallen bod, klockstapel, gamla ladugården eller mangårdsbyggnaden på Flöxhults säteri, Älghult. Rapport 2012:39', 'Linderson, Hans. 2012. Dendrokronologisk analys av sorgenfri, lusthuset, förfallen bod, klockstapel, gamla ladugården eller mangårdsbyggnaden på Flöxhults säteri, Älghult. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:39. Lund: Lunds Universitet.'),
+            (8055, 'Linderson, Hans','2013', 'Dendrokronologisk analys av stadshus av "Hofréns-typ" på fastigheten Fältskären 4, Kalmar. Rapport 2013:50', 'Linderson, Hans. 2013. Dendrokronologisk analys av stadshus av "Hofréns-typ" på fastigheten Fältskären 4, Kalmar. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:50. Lund: Lunds Universitet.'),
+            (8056, 'Linderson, Hans','2001', 'Dendrokronologisk analys av stallbyggnaden på Mellanköpinge 4:4, Trelleborg. Rapport 2001:40', 'Linderson, Hans. 2001. Dendrokronologisk analys av stallbyggnaden på Mellanköpinge 4:4, Trelleborg. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2001:40. Lund: Lunds Universitet.'),
+            (8057, 'Linderson, Hans','2001', 'Dendrokronologisk analys av Steninge Slott, Uppland. Rapport 2001:41', 'Linderson, Hans. 2001. Dendrokronologisk analys av Steninge Slott, Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2001:41. Lund: Lunds Universitet.'),
+            (8058, 'Linderson, Hans','2001', 'Dendrokronologisk analys av Stockholms slott, kv Tre Kronor, projekt nr 310 18-143. Rapport 2001:23', 'Linderson, Hans. 2001. Dendrokronologisk analys av Stockholms slott, kv Tre Kronor, projekt nr 310 18-143. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2001:23. Lund: Lunds Universitet.'),
+            (8059, 'Linderson, Hans','2009', 'Dendrokronologisk analys av stöttningsvirke i anslutning till gravstenar i koret, Sanda kyrka, Gotland. Rapport 2009:41', 'Linderson, Hans. 2009. Dendrokronologisk analys av stöttningsvirke i anslutning till gravstenar i koret, Sanda kyrka, Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:41. Lund: Lunds Universitet.'),
+            (8060, 'Linderson, Hans','2004', 'Dendrokronologisk analys av sydportalen i Rogslösa kyrka, Dals härad, Östergötland. Rapport 2004:38', 'Linderson, Hans. 2004. Dendrokronologisk analys av sydportalen i Rogslösa kyrka, Dals härad, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2004:38. Lund: Lunds Universitet.'),
+            (8061, 'Linderson, Hans','2004', 'Dendrokronologisk analys av syllarna i Brönnestad klockstapel. Rapport 2004:13', 'Linderson, Hans. 2004. Dendrokronologisk analys av syllarna i Brönnestad klockstapel. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2004:13. Lund: Lunds Universitet.'),
+            (8062, 'Linderson, Hans','2011', 'Dendrokronologisk analys av sädesmagasinet och gammelgården på Kleva gård, Gnesta, Södermanland. Rapport 2011:20', 'Linderson, Hans. 2011. Dendrokronologisk analys av sädesmagasinet och gammelgården på Kleva gård, Gnesta, Södermanland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2011:20. Lund: Lunds Universitet.'),
+            (8063, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Särslövs kyrka. Rapport 2005:7', 'Linderson, Hans. 2005. Dendrokronologisk analys av Särslövs kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:7. Lund: Lunds Universitet.'),
+            (8064, 'Linderson, Hans','2016', 'Dendrokronologisk analys av tak- och golv-virke i långhuset och västtornet i Härads kyrka, Södermanland, Strängnäs stift. Rapport 2016:62', 'Linderson, Hans. 2016. Dendrokronologisk analys av tak- och golv-virke i långhuset och västtornet i Härads kyrka, Södermanland, Strängnäs stift. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:62. Lund: Lunds Universitet.'),
+            (8065, 'Linderson, Hans','2012', 'Dendrokronologisk analys av takspån samt taktrobrädor i Hagebyhöga kyrka, Aska församling, Östergötland. Rapport 2012:55', 'Linderson, Hans. 2012. Dendrokronologisk analys av takspån samt taktrobrädor i Hagebyhöga kyrka, Aska församling, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:55. Lund: Lunds Universitet.'),
+            (8066, 'Linderson, Hans','2012', 'Dendrokronologisk analys av takstolar i "Lutan", Dalby kyrka. Rapport 2012:38', 'Linderson, Hans. 2012. Dendrokronologisk analys av takstolar i "Lutan", Dalby kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:38. Lund: Lunds Universitet.'),
+            (8067, 'Linderson, Hans','2001', 'Dendrokronologisk analys av takstolar i långhuset, Hellvi kyrka, Gotland. Rapport 2001:37', 'Linderson, Hans. 2001. Dendrokronologisk analys av takstolar i långhuset, Hellvi kyrka, Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2001:37. Lund: Lunds Universitet.'),
+            (8068, 'Linderson, Hans','2015', 'Dendrokronologisk analys av takstolen i Kumla kyrka, Mjölby kommun. Rapport 2015:29', 'Linderson, Hans. 2015. Dendrokronologisk analys av takstolen i Kumla kyrka, Mjölby kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:29. Lund: Lunds Universitet.'),
+            (8069, 'Linderson, Hans','2009', 'Dendrokronologisk analys av takstolen i långhuset, Garda kyrka, Gotland - komplettering. Rapport 2009:47', 'Linderson, Hans. 2009. Dendrokronologisk analys av takstolen i långhuset, Garda kyrka, Gotland - komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:47. Lund: Lunds Universitet.'),
+            (8070, 'Linderson, Hans','2013', 'Dendrokronologisk analys av takvirke i ryggåsstugan på Fåglarp 1:1, Eksjö kommun. Rapport 2013:2', 'Linderson, Hans. 2013. Dendrokronologisk analys av takvirke i ryggåsstugan på Fåglarp 1:1, Eksjö kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:2. Lund: Lunds Universitet.'),
+            (8071, 'Linderson, Hans','2014', 'Dendrokronologisk analys av timmerstommen i Torö kyrka Nynäshamns kommun, Södermanland. Rapport 2014:17', 'Linderson, Hans. 2014. Dendrokronologisk analys av timmerstommen i Torö kyrka Nynäshamns kommun, Södermanland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:17. Lund: Lunds Universitet.'),
+            (8072, 'Linderson, Hans','2013', 'Dendrokronologisk analys av timmerstommen på Mangårdsbyggnaden på Biby säteri, Eskilstuna kommun. Rapport 2013:24', 'Linderson, Hans. 2013. Dendrokronologisk analys av timmerstommen på Mangårdsbyggnaden på Biby säteri, Eskilstuna kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:24. Lund: Lunds Universitet.'),
+            (8073, 'Linderson, Hans','2003', 'Dendrokronologisk analys av tornet i Vickleby kyrka på öland. Rapport 2003:39', 'Linderson, Hans. 2003. Dendrokronologisk analys av tornet i Vickleby kyrka på öland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:39. Lund: Lunds Universitet.'),
+            (8074, 'Linderson, Hans','2011', 'Dendrokronologisk analys av tornet i Älvestads kyrka Östergötland - komplettering (2010:49). Rapport 2011:50', 'Linderson, Hans. 2011. Dendrokronologisk analys av tornet i Älvestads kyrka Östergötland - komplettering (2010:49). Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2011:50. Lund: Lunds Universitet.'),
+            (8075, 'Linderson, Hans','2010', 'Dendrokronologisk analys av tornet i Älvestads kyrka Östergötland. Rapport 2010:49', 'Linderson, Hans. 2010. Dendrokronologisk analys av tornet i Älvestads kyrka Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:49. Lund: Lunds Universitet.'),
+            (8076, 'Linderson, Hans','2003', 'Dendrokronologisk analys av tornet, Södra Möckleby kyrka på Öland. Rapport 2003:31', 'Linderson, Hans. 2003. Dendrokronologisk analys av tornet, Södra Möckleby kyrka på Öland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:31. Lund: Lunds Universitet.'),
+            (8077, 'Linderson, Hans','2003', 'Dendrokronologisk analys av tornkonstruktionen i Hejde kyrka på Gotland. Rapport 2003:24', 'Linderson, Hans. 2003. Dendrokronologisk analys av tornkonstruktionen i Hejde kyrka på Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:24. Lund: Lunds Universitet.'),
+            (8078, 'Linderson, Hans','2006', 'Dendrokronologisk analys av Torpa prästgård i Ydre, Östergötland. Rapport 2006:03', 'Linderson, Hans. 2006. Dendrokronologisk analys av Torpa prästgård i Ydre, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:03. Lund: Lunds Universitet.'),
+            (8079, 'Linderson, Hans','2007', 'Dendrokronologisk analys av torpet på Stenkumla Forsa, Gotland. Rapport 2007:15', 'Linderson, Hans. 2007. Dendrokronologisk analys av torpet på Stenkumla Forsa, Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2007:15. Lund: Lunds Universitet.'),
+            (8080, 'Linderson, Hans','2004', 'Dendrokronologisk analys av torpet Uggelbo 1:1, Järlåsa församling, Uppland. Rapport 2004:39', 'Linderson, Hans. 2004. Dendrokronologisk analys av torpet Uggelbo 1:1, Järlåsa församling, Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2004:39. Lund: Lunds Universitet.'),
+            (8081, 'Linderson, Hans','2010', 'Dendrokronologisk analys av Tosterups slott, tornet, vinkällaren och gamla pannrummet med angränsande rum. Rapport 2010:4', 'Linderson, Hans. 2010. Dendrokronologisk analys av Tosterups slott, tornet, vinkällaren och gamla pannrummet med angränsande rum. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:4. Lund: Lunds Universitet.'),
+            (8082, 'Linderson, Hans','2009', 'Dendrokronologisk analys av Tovastugan, Nyköping. Rapport 2009:56', 'Linderson, Hans. 2009. Dendrokronologisk analys av Tovastugan, Nyköping. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2009:56. Lund: Lunds Universitet.'),
+            (8083, 'Linderson, Hans','2002', 'Dendrokronologisk analys av tre byggnader i Eksjö. Rapport 2002:21', 'Linderson, Hans. 2002. Dendrokronologisk analys av tre byggnader i Eksjö. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2002:21. Lund: Lunds Universitet.'),
+            (8084, 'Linderson, Hans','2004', 'Dendrokronologisk analys av tre golvbjälkar i Ekeby kyrkas långhus på Gotland. Rapport 2004:40', 'Linderson, Hans. 2004. Dendrokronologisk analys av tre golvbjälkar i Ekeby kyrkas långhus på Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2004:40. Lund: Lunds Universitet.'),
+            (8085, 'Linderson, Hans','2012', 'Dendrokronologisk analys av tre objekt på Överselö kyrka i Strängnäs kommun. Rapport 2012:65', 'Linderson, Hans. 2012. Dendrokronologisk analys av tre objekt på Överselö kyrka i Strängnäs kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:65. Lund: Lunds Universitet.'),
+            (8086, 'Linderson, Hans','2008', 'Dendrokronologisk analys av Träne kyrka i Skåne. Rapport 2008:21', 'Linderson, Hans. 2008. Dendrokronologisk analys av Träne kyrka i Skåne. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2008:21. Lund: Lunds Universitet.'),
+            (8087, 'Linderson, Hans','2006', 'Dendrokronologisk analys av två olikåldriga bjälklag i Gammelgarn kastal på Gotland. Rapport 2006:10', 'Linderson, Hans. 2006. Dendrokronologisk analys av två olikåldriga bjälklag i Gammelgarn kastal på Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:10. Lund: Lunds Universitet.'),
+            (8088, 'Linderson, Hans','2015', 'Dendrokronologisk analys av två visthusbodar från Hamra, nu placerade på Viggesbo i Vimmerby. Rapport 2015:11', 'Linderson, Hans. 2015. Dendrokronologisk analys av två visthusbodar från Hamra, nu placerade på Viggesbo i Vimmerby. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:11. Lund: Lunds Universitet.'),
+            (8089, 'Linderson, Hans','2016', 'Dendrokronologisk analys av två äppelträd på fastigheten Lögla 1:2, Bergshamra, Norrtälje, Uppland. Rapport 2016:32', 'Linderson, Hans. 2016. Dendrokronologisk analys av två äppelträd på fastigheten Lögla 1:2, Bergshamra, Norrtälje, Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2016:32. Lund: Lunds Universitet.'),
+            (8090, 'Linderson, Hans','2013', 'Dendrokronologisk analys av Tångerda gård, Vetlanda. Rapport 2013:21', 'Linderson, Hans. 2013. Dendrokronologisk analys av Tångerda gård, Vetlanda. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2013:21. Lund: Lunds Universitet.'),
+            (8091, 'Linderson, Hans','2002', 'Dendrokronologisk analys av Uthuslängan och Brännvinsboden på Kista, Väddö i Uppland. Rapport 2002:19', 'Linderson, Hans. 2002. Dendrokronologisk analys av Uthuslängan och Brännvinsboden på Kista, Väddö i Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2002:19. Lund: Lunds Universitet.'),
+            (8092, 'Linderson, Hans','2011', 'Dendrokronologisk analys av Vadsbro kyrkas klockstapel, Flen, Sörmland. Rapport 2011:65', 'Linderson, Hans. 2011. Dendrokronologisk analys av Vadsbro kyrkas klockstapel, Flen, Sörmland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2011:65. Lund: Lunds Universitet.'),
+            (8093, 'Linderson, Hans','2010', 'Dendrokronologisk analys av vapenhuset och sakristian i Hagby kyrka, Kalmar, ersätter rapport 2006:50. Rapport 2010:10', 'Linderson, Hans. 2010. Dendrokronologisk analys av vapenhuset och sakristian i Hagby kyrka, Kalmar, ersätter rapport 2006:50. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:10. Lund: Lunds Universitet.'),
+            (8094, 'Linderson, Hans','2008', 'Dendrokronologisk analys av Viggeby 1:1 i Uppland. Rapport 2008:43', 'Linderson, Hans. 2008. Dendrokronologisk analys av Viggeby 1:1 i Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2008:43. Lund: Lunds Universitet.'),
+            (8095, 'Linderson, Hans','2003', 'Dendrokronologisk analys av virke från Farstorps kyrka i Hästveda. Rapport 2003:42', 'Linderson, Hans. 2003. Dendrokronologisk analys av virke från Farstorps kyrka i Hästveda. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:42. Lund: Lunds Universitet.'),
+            (8096, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Visseltofta kyrka. Rapport 2005:9', 'Linderson, Hans. 2005. Dendrokronologisk analys av Visseltofta kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:9. Lund: Lunds Universitet.'),
+            (8097, 'Linderson, Hans','2015', 'Dendrokronologisk analys av visthusboden på Slottsskogsparken i Göteborg - komplettering av rapport 2014:23. Rapport 2015:65', 'Linderson, Hans. 2015. Dendrokronologisk analys av visthusboden på Slottsskogsparken i Göteborg - komplettering av rapport 2014:23. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:65. Lund: Lunds Universitet.'),
+            (8098, 'Linderson, Hans','2005', 'Dendrokronologisk analys av Våthults kyrka. Rapport 2005:28', 'Linderson, Hans. 2005. Dendrokronologisk analys av Våthults kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:28. Lund: Lunds Universitet.'),
+            (8099, 'Linderson, Hans','2012', 'Dendrokronologisk analys av vägg- och takspån samt takstolar och väggvirke i Vireda kyrka, Aneby kommun. Rapport 2012:52', 'Linderson, Hans. 2012. Dendrokronologisk analys av vägg- och takspån samt takstolar och väggvirke i Vireda kyrka, Aneby kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:52. Lund: Lunds Universitet.'),
+            (8100, 'Linderson, Hans','2012', 'Dendrokronologisk analys av väggspån samt golv och väggvirke i Ingatorpsboden, Eksjö kommun-komplettering. Rapport 2012:66', 'Linderson, Hans. 2012. Dendrokronologisk analys av väggspån samt golv och väggvirke i Ingatorpsboden, Eksjö kommun-komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:66. Lund: Lunds Universitet.'),
+            (8101, 'Linderson, Hans','2002', 'Dendrokronologisk analys av Värmdö kyrka. Rapport 2002:52', 'Linderson, Hans. 2002. Dendrokronologisk analys av Värmdö kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2002:52. Lund: Lunds Universitet.'),
+            (8102, 'Linderson, Hans','2003', 'Dendrokronologisk analys av Västergårds äldsta länga, öster Landskrona. Rapport 2003:9', 'Linderson, Hans. 2003. Dendrokronologisk analys av Västergårds äldsta länga, öster Landskrona. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:9. Lund: Lunds Universitet.'),
+            (8103, 'Linderson, Hans','2008', 'Dendrokronologisk analys av västra långhuset i Värmdö kyrka. Rapport 2008:10', 'Linderson, Hans. 2008. Dendrokronologisk analys av västra långhuset i Värmdö kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2008:10. Lund: Lunds Universitet.'),
+            (8104, 'Linderson, Hans','2014', 'Dendrokronologisk analys av ängsladan på Lilla Björkudden, Järsnäs socken, Jönköping. Rapport 2014:2', 'Linderson, Hans. 2014. Dendrokronologisk analys av ängsladan på Lilla Björkudden, Järsnäs socken, Jönköping. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:2. Lund: Lunds Universitet.'),
+            (8105, 'Linderson, Hans','2007', 'Dendrokronologisk analys av ängsladan på Torhult 1:17, Torsås. Rapport 2007:4', 'Linderson, Hans. 2007. Dendrokronologisk analys av ängsladan på Torhult 1:17, Torsås. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2007:4. Lund: Lunds Universitet.'),
+            (8106, 'Linderson, Hans','2002', 'Dendrokronologisk analys av ängsstugan i Qvarnarp, Eksjö. Rapport 2002:23', 'Linderson, Hans. 2002. Dendrokronologisk analys av ängsstugan i Qvarnarp, Eksjö. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2002:23. Lund: Lunds Universitet.'),
+            (8107, 'Linderson, Hans','2014', 'Dendrokronologisk analys av östra väggen på mangårdsbyggnaden på Skålsta 2:3, Knivsta kommun. Rapport 2014:06', 'Linderson, Hans. 2014. Dendrokronologisk analys av östra väggen på mangårdsbyggnaden på Skålsta 2:3, Knivsta kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2014:06. Lund: Lunds Universitet.'),
+            (8108, 'Linderson, Hans','2007', 'Dendrokronologisk analys och byggnadsrådgivning av en byggnad på Tofta 1:6, Nässjö kommun. Rapport 2007:38', 'Linderson, Hans. 2007. Dendrokronologisk analys och byggnadsrådgivning av en byggnad på Tofta 1:6, Nässjö kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2007:38. Lund: Lunds Universitet.'),
+            (8109, 'Linderson, Hans','2003', 'Dendrokronologisk analys Wrangelska palatset, Riddarholmen i Stockholm. Rapport 2003:17', 'Linderson, Hans. 2003. Dendrokronologisk analys Wrangelska palatset, Riddarholmen i Stockholm. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2003:17. Lund: Lunds Universitet.'),
+            (8110, 'Eggertsson, Olafur','1996', 'Dendrokronologisk analys. 1996-03-11', 'Eggertsson, Olafur. 1996. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1996-03-11. Lund: Lunds Universitet.'),
+            (8111, 'Eggertsson, Olafur','1996', 'Dendrokronologisk analys. 1996-06-10', 'Eggertsson, Olafur. 1996. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1996-06-10. Lund: Lunds Universitet.'),
+            (8112, 'Eggertsson, Olafur','1996', 'Dendrokronologisk analys. 1996-08-19', 'Eggertsson, Olafur. 1996. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1996-08-19. Lund: Lunds Universitet.'),
+            (8113, 'Eggertsson, Olafur','1996', 'Dendrokronologisk analys. 1996-09-06', 'Eggertsson, Olafur. 1996. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1996-09-06. Lund: Lunds Universitet.'),
+            (8114, 'Eggertsson, Olafur','1996', 'Dendrokronologisk analys. 1996-10-03', 'Eggertsson, Olafur. 1996. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1996-10-03. Lund: Lunds Universitet.'),
+            (8115, 'Eggertsson, Olafur','1997', 'Dendrokronologisk analys. 1997-01-27', 'Eggertsson, Olafur. 1997. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1997-01-27. Lund: Lunds Universitet.'),
+            (8116, 'Eggertsson, Ólafur','1997', 'Dendrokronologisk analys. 1997-02-21', 'Eggertsson, Ólafur. 1997. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1997-02-21. Lund: Lunds Universitet.'),
+            (8117, 'Eggertsson, Olafur','1997', 'Dendrokronologisk analys. 1997-06-11', 'Eggertsson, Olafur. 1997. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1997-06-11. Lund: Lunds Universitet.'),
+            (8118, 'Eggertsson, Olafur','1997', 'Dendrokronologisk analys. 1997-08-07', 'Eggertsson, Olafur. 1997. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1997-08-07. Lund: Lunds Universitet.'),
+            (8119, 'Eggertsson, Olafur','1997', 'Dendrokronologisk analys. 1997-08-13', 'Eggertsson, Olafur. 1997. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1997-08-13. Lund: Lunds Universitet.'),
+            (8120, 'Eggertsson, Ólafur','1997', 'Dendrokronologisk analys. 1997-08-20', 'Eggertsson, Ólafur. 1997. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1997-08-20. Lund: Lunds Universitet.'),
+            (8121, 'Eggertsson, Olafur','1997', 'Dendrokronologisk analys. 1997-09-29', 'Eggertsson, Olafur. 1997. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1997-09-29. Lund: Lunds Universitet.'),
+            (8122, 'Eggertsson, Olafur','1997', 'Dendrokronologisk analys. 1997-10-30', 'Eggertsson, Olafur. 1997. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1997-10-30. Lund: Lunds Universitet.'),
+            (8123, 'Eggertsson, Olafur','1997', 'Dendrokronologisk analys. 1997-12-10', 'Eggertsson, Olafur. 1997. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1997-12-10. Lund: Lunds Universitet.'),
+            (8124, 'Eggertsson, Olafur','1998', 'Dendrokronologisk analys. 1998-01-27', 'Eggertsson, Olafur. 1998. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1998-01-27. Lund: Lunds Universitet.'),
+            (8125, 'Eggertsson, Olafur','1998', 'Dendrokronologisk analys. 1998-02-16', 'Eggertsson, Olafur. 1998. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1998-02-16. Lund: Lunds Universitet.'),
+            (8126, 'Eggertsson, Olafur','1998', 'Dendrokronologisk analys. 1998-06-02', 'Eggertsson, Olafur. 1998. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1998-06-02. Lund: Lunds Universitet.'),
+            (8127, 'Eggertsson, Olafur','1998', 'Dendrokronologisk analys. 1998-07-01', 'Eggertsson, Olafur. 1998. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1998-07-01. Lund: Lunds Universitet.'),
+            (8128, 'Eggertsson, Olafur','1998', 'Dendrokronologisk analys. 1998-08-10', 'Eggertsson, Olafur. 1998. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1998-08-10. Lund: Lunds Universitet.'),
+            (8129, 'Eggertsson, Olafur','1998', 'Dendrokronologisk analys. 1998-11-20', 'Eggertsson, Olafur. 1998. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1998-11-20. Lund: Lunds Universitet.'),
+            (8130, 'Eggertsson, Olafur','1998', 'Dendrokronologisk analys. 1998-12-10', 'Eggertsson, Olafur. 1998. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1998-12-10. Lund: Lunds Universitet.'),
+            (8131, 'Eggertsson, Olafur','1998', 'Dendrokronologisk analys. 1998-12-16', 'Eggertsson, Olafur. 1998. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1998-12-16. Lund: Lunds Universitet.'),
+            (8132, 'Eggertsson, Olafur','1999', 'Dendrokronologisk analys. 1999-03-02', 'Eggertsson, Olafur. 1999. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1999-03-02. Lund: Lunds Universitet.'),
+            (8133, 'Eggertsson, Olafur','1999', 'Dendrokronologisk analys. 1999-03-23', 'Eggertsson, Olafur. 1999. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1999-03-23. Lund: Lunds Universitet.'),
+            (8134, 'Eggertsson, Olafur','1999', 'Dendrokronologisk analys. 1999-05-03', 'Eggertsson, Olafur. 1999. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1999-05-03. Lund: Lunds Universitet.'),
+            (8135, 'Eggertsson, Olafur','1999', 'Dendrokronologisk analys. 1999-10-06', 'Eggertsson, Olafur. 1999. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1999-10-06. Lund: Lunds Universitet.'),
+            (8136, 'Eggertsson, Olafur','1999', 'Dendrokronologisk analys. 1999-11-08', 'Eggertsson, Olafur. 1999. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1999-11-08. Lund: Lunds Universitet.'),
+            (8137, 'Eggertsson, Ólafur','1999', 'Dendrokronologisk analys. 1999-11-22', 'Eggertsson, Ólafur. 1999. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1999-11-22. Lund: Lunds Universitet.'),
+            (8138, 'Eggertsson, Olafur','1999', 'Dendrokronologisk analys. 1999-12-08', 'Eggertsson, Olafur. 1999. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1999-12-08. Lund: Lunds Universitet.'),
+            (8139, 'Eggertsson, Olafur','1999', 'Dendrokronologisk analys. 1999-12-13', 'Eggertsson, Olafur. 1999. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 1999-12-13. Lund: Lunds Universitet.'),
+            (8140, 'Eggertsson, Olafur','2000', 'Dendrokronologisk analys. 2000-02-24', 'Eggertsson, Olafur. 2000. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2000-02-24. Lund: Lunds Universitet.'),
+            (8141, 'Eggertsson, Ólafur','2000', 'Dendrokronologisk analys. 2000-04-28', 'Eggertsson, Ólafur. 2000. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2000-04-28. Lund: Lunds Universitet.'),
+            (8142, 'Linderson, Hans','2000', 'Dendrokronologisk analys. 2000-06-26', 'Linderson, Hans. 2000. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2000-06-26. Lund: Lunds Universitet.'),
+            (8143, 'Linderson, Hans','2000', 'Dendrokronologisk analys. 2000-10-18', 'Linderson, Hans. 2000. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2000-10-18. Lund: Lunds Universitet.'),
+            (8144, 'Linderson, Hans','2000', 'Dendrokronologisk analys. 2000-10-19', 'Linderson, Hans. 2000. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2000-10-19. Lund: Lunds Universitet.'),
+            (8145, 'Linderson, Hans','2000', 'Dendrokronologisk analys. 2000-11-01', 'Linderson, Hans. 2000. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2000-11-01. Lund: Lunds Universitet.'),
+            (8146, 'Linderson, Hans','2000', 'Dendrokronologisk analys. 2000-11-14', 'Linderson, Hans. 2000. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2000-11-14. Lund: Lunds Universitet.'),
+            (8147, 'Linderson, Hans','2000', 'Dendrokronologisk analys. 2000-11-21', 'Linderson, Hans. 2000. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2000-11-21. Lund: Lunds Universitet.'),
+            (8148, 'Linderson, Hans','2000', 'Dendrokronologisk analys. 2000-11-22', 'Linderson, Hans. 2000. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2000-11-22. Lund: Lunds Universitet.'),
+            (8149, 'Linderson, Hans','2000', 'Dendrokronologisk analys. 2000-11-30', 'Linderson, Hans. 2000. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2000-11-30. Lund: Lunds Universitet.'),
+            (8150, 'Linderson, Hans','2000', 'Dendrokronologisk analys. 2000-12-20', 'Linderson, Hans. 2000. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2000-12-20. Lund: Lunds Universitet.'),
+            (8151, 'Linderson, Hans','2001', 'Dendrokronologisk analys. 2001-01-10', 'Linderson, Hans. 2001. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2001-01-10. Lund: Lunds Universitet.'),
+            (8152, 'Linderson, Hans','2001', 'Dendrokronologisk analys. 2001-01-22', 'Linderson, Hans. 2001. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2001-01-22. Lund: Lunds Universitet.'),
+            (8153, 'Linderson, Hans','2001', 'Dendrokronologisk analys. 2001-02-14', 'Linderson, Hans. 2001. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2001-02-14. Lund: Lunds Universitet.'),
+            (8154, 'Linderson, Hans','2001', 'Dendrokronologisk analys. 2001-02-22', 'Linderson, Hans. 2001. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2001-02-22. Lund: Lunds Universitet.'),
+            (8155, 'Linderson, Hans','2001', 'Dendrokronologisk analys. 2001-04-05', 'Linderson, Hans. 2001. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2001-04-05. Lund: Lunds Universitet.'),
+            (8156, 'Linderson, Hans','2001', 'Dendrokronologisk analys. 2001-05-02', 'Linderson, Hans. 2001. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2001-05-02. Lund: Lunds Universitet.'),
+            (8157, 'Linderson, Hans','2001', 'Dendrokronologisk analys av tornrummet, Bro kyrka, Gotland. Rapport 2001:36', 'Linderson, Hans. 2001. Dendrokronologisk analys av tornrummet, Bro kyrka, Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2001:36. Lund: Lunds Universitet.'),
+            (8158, 'Linderson, Hans','2001', 'Dendrokronologisk analys. 2001-05-03', 'Linderson, Hans. 2001. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2001-05-03. Lund: Lunds Universitet.'),
+            (8159, 'Linderson, Hans','2001', 'Dendrokronologisk analys. 2001-05-17', 'Linderson, Hans. 2001. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2001-05-17. Lund: Lunds Universitet.'),
+            (8160, 'Linderson, Hans','2001', 'Dendrokronologisk analys. 2001-05-21', 'Linderson, Hans. 2001. Dendrokronologisk analys. Nationella laboratoriet för vedanatomi och dendrokronologi 2001-05-21. Lund: Lunds Universitet.'),
+            (8161, 'Bartholin, Thomas','1994', 'Dendrokronologisk analyse af "Mjölnargården", Djurgården 1:1. 1994-06-21', 'Bartholin, Thomas. 1994. Dendrokronologisk analyse af "Mjölnargården", Djurgården 1:1. Nationella laboratoriet för vedanatomi och dendrokronologi 1994-06-21. Lund: Lunds Universitet.'),
+            (8162, 'Bartholin, Thomas','1995', 'Dendrokronologisk analyse af Bisslinge gård. 1995-05-23', 'Bartholin, Thomas. 1995. Dendrokronologisk analyse af Bisslinge gård. Nationella laboratoriet för vedanatomi och dendrokronologi 1995-05-23. Lund: Lunds Universitet.'),
+            (8163, 'Bartholin, Thomas','1991', 'Dendrokronologisk analyse af diverse bygninger på Smedstorp, Norra Vi socken, Östergötland. 1991-12-10', 'Bartholin, Thomas. 1991. Dendrokronologisk analyse af diverse bygninger på Smedstorp, Norra Vi socken, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi 1991-12-10. Lund: Lunds Universitet.'),
+            (8164, 'Bartholin, Thomas','1987', 'Dendrokronologisk analyse af dör fra Ö Skrukeby kirke. 1987-05-13', 'Bartholin, Thomas. 1987. Dendrokronologisk analyse af dör fra Ö Skrukeby kirke. Nationella laboratoriet för vedanatomi och dendrokronologi 1987-05-13. Lund: Lunds Universitet.'),
+            (8165, 'Bartholin, Thomas','1994', 'Dendrokronologisk analyse af egeplanka, Häglinge. 1994-11-25', 'Bartholin, Thomas. 1994. Dendrokronologisk analyse af egeplanka, Häglinge. Nationella laboratoriet för vedanatomi och dendrokronologi 1994-11-25. Lund: Lunds Universitet.'),
+            (8166, 'Bartholin, Thomas','1995', 'Dendrokronologisk analyse af Gimo Herrgård. 1995-02-28', 'Bartholin, Thomas. 1995. Dendrokronologisk analyse af Gimo Herrgård. Nationella laboratoriet för vedanatomi och dendrokronologi 1995-02-28. Lund: Lunds Universitet.'),
+            (8167, 'Bartholin, Thomas','1992', 'Dendrokronologisk analyse af hus i Frötuna sn, Uppland. 1992-03-20', 'Bartholin, Thomas. 1992. Dendrokronologisk analyse af hus i Frötuna sn, Uppland. Nationella laboratoriet för vedanatomi och dendrokronologi 1992-03-20. Lund: Lunds Universitet.'),
+            (8168, 'Bartholin, Thomas','1995', 'Dendrokronologisk analyse af loftbod, Krogsfall, V. Eneby sn, nu Trädgårdsföreningen, Linköping. 1995-03-23', 'Bartholin, Thomas. 1995. Dendrokronologisk analyse af loftbod, Krogsfall, V. Eneby sn, nu Trädgårdsföreningen, Linköping. Nationella laboratoriet för vedanatomi och dendrokronologi 1995-03-23. Lund: Lunds Universitet.'),
+            (8169, 'Bartholin, Thomas','1992', 'Dendrokronologisk analyse af långhuset i Tumbo kyrka. 1992-11-17', 'Bartholin, Thomas. 1992. Dendrokronologisk analyse af långhuset i Tumbo kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi 1992-11-17. Lund: Lunds Universitet.'),
+            (8170, 'Bartholin, Thomas','1995', 'Dendrokronologisk analyse af pröve fra bostadshus, Kolstad 1:1, Mjölby sn. 1995-05-23', 'Bartholin, Thomas. 1995. Dendrokronologisk analyse af pröve fra bostadshus, Kolstad 1:1, Mjölby sn. Nationella laboratoriet för vedanatomi och dendrokronologi 1995-05-23. Lund: Lunds Universitet.'),
+            (8171, 'Bartholin, Thomas','1993', 'Dendrokronologisk analyse af pröver fra bodbyggnad invid Svarttorpsån i Hävla nedre bruk. 1993-04-14', 'Bartholin, Thomas. 1993. Dendrokronologisk analyse af pröver fra bodbyggnad invid Svarttorpsån i Hävla nedre bruk. Nationella laboratoriet för vedanatomi och dendrokronologi 1993-04-14. Lund: Lunds Universitet.'),
+            (8172, 'Bartholin, Thomas','1993', 'Dendrokronologisk analyse af pröver fra bodbyggnad på Boqvistudden, Fångö, Gryt sn. 1993-02-22', 'Bartholin, Thomas. 1993. Dendrokronologisk analyse af pröver fra bodbyggnad på Boqvistudden, Fångö, Gryt sn. Nationella laboratoriet för vedanatomi och dendrokronologi 1993-02-22. Lund: Lunds Universitet.'),
+            (8173, 'Bartholin, Thomas','1991', 'Dendrokronologisk analyse af pröver fra diverse kvarterer i Stockholm. 1991-12-03', 'Bartholin, Thomas. 1991. Dendrokronologisk analyse af pröver fra diverse kvarterer i Stockholm. Nationella laboratoriet för vedanatomi och dendrokronologi 1991-12-03. Lund: Lunds Universitet.'),
+            (8174, 'Bartholin, Thomas','1992', 'Dendrokronologisk analyse af pröver fra flygelbyggnaden, Trehörna Säteri, Trehörna sn, Östergötland. 1992-03-30', 'Bartholin, Thomas. 1992. Dendrokronologisk analyse af pröver fra flygelbyggnaden, Trehörna Säteri, Trehörna sn, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi 1992-03-30. Lund: Lunds Universitet.'),
+            (8175, 'Bartholin, Thomas','1985', 'Dendrokronologisk analyse af pröver fra korsvirkesgård, St. Harrie 26. 1985-09-13', 'Bartholin, Thomas. 1985. Dendrokronologisk analyse af pröver fra korsvirkesgård, St. Harrie 26. Nationella laboratoriet för vedanatomi och dendrokronologi 1985-09-13. Lund: Lunds Universitet.'),
+            (8176, 'Bartholin, Thomas','1993', 'Dendrokronologisk analyse af pröver fra Kummelnäs gård. 1993-04-14', 'Bartholin, Thomas. 1993. Dendrokronologisk analyse af pröver fra Kummelnäs gård. Nationella laboratoriet för vedanatomi och dendrokronologi 1993-04-14. Lund: Lunds Universitet.'),
+            (8177, 'Bartholin, Thomas','1993', 'Dendrokronologisk analyse af pröver fra Orangeriet på Grävsten, Bankekind sn. 1993-02-22', 'Bartholin, Thomas. 1993. Dendrokronologisk analyse af pröver fra Orangeriet på Grävsten, Bankekind sn. Nationella laboratoriet för vedanatomi och dendrokronologi 1993-02-22. Lund: Lunds Universitet.'),
+            (8178, 'Bartholin, Thomas','1993', 'Dendrokronologisk analyse af pröver fra tornet i Örberga ka. 1993-11-30', 'Bartholin, Thomas. 1993. Dendrokronologisk analyse af pröver fra tornet i Örberga ka. Nationella laboratoriet för vedanatomi och dendrokronologi 1993-11-30. Lund: Lunds Universitet.'),
+            (8179, 'Bartholin, Thomas','1991', 'Dendrokronologisk analyse af pröver fra Viby gård og Överby väderkvarn. 1991-11-22', 'Bartholin, Thomas. 1991. Dendrokronologisk analyse af pröver fra Viby gård og Överby väderkvarn. Nationella laboratoriet för vedanatomi och dendrokronologi 1991-11-22. Lund: Lunds Universitet.'),
+            (8180, 'Bartholin, Thomas','1995', 'Dendrokronologisk analyse af pröver udtaget på Glimmingehus 19950831. 1995-11-20', 'Bartholin, Thomas. 1995. Dendrokronologisk analyse af pröver udtaget på Glimmingehus 19950831. Nationella laboratoriet för vedanatomi och dendrokronologi 1995-11-20. Lund: Lunds Universitet.'),
+            (8181, 'Bartholin, Thomas','1994', 'Dendrokronologisk analyse af Rogslösa kyrka, Östergötland. 1994-01-24', 'Bartholin, Thomas. 1994. Dendrokronologisk analyse af Rogslösa kyrka, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi 1994-01-24. Lund: Lunds Universitet.'),
+            (8182, 'Bartholin, Thomas','1993', 'Dendrokronologisk analyse af smideshammare i smedjan, Övre Häfla bruk. 1993-10-21', 'Bartholin, Thomas. 1993. Dendrokronologisk analyse af smideshammare i smedjan, Övre Häfla bruk. Nationella laboratoriet för vedanatomi och dendrokronologi 1993-10-21. Lund: Lunds Universitet.'),
+            (8183, 'Bartholin, Thomas','1985', 'Dendrokronologisk analyse af Sundbyvik gård, Tumbo sn, Södermanland. 1985-12-09', 'Bartholin, Thomas. 1985. Dendrokronologisk analyse af Sundbyvik gård, Tumbo sn, Södermanland. Nationella laboratoriet för vedanatomi och dendrokronologi 1985-12-09. Lund: Lunds Universitet.'),
+            (8184, 'Bartholin, Thomas','1993', 'Dendrokronologisk analyse af torpet Stenstugan, Vippröste, Ulrika sn. 1993-11-22', 'Bartholin, Thomas. 1993. Dendrokronologisk analyse af torpet Stenstugan, Vippröste, Ulrika sn. Nationella laboratoriet för vedanatomi och dendrokronologi 1993-11-22. Lund: Lunds Universitet.'),
+            (8185, 'Bartholin, Thomas','1985', 'Dendrokronologisk analyse af trä fra fastigheten Billsta 2:10, Överjärna, Södertälje kommun', 'Bartholin, Thomas. 1985. Dendrokronologisk analyse af trä fra fastigheten Billsta 2:10, Överjärna, Södertälje kommun. Lund: Lunds Universitet.'),
+            (8186, 'Bartholin, Thomas','1993', 'Dendrokronologisk analyse af tömmer fra Glimmingehus 1992. 1993-01-21', 'Bartholin, Thomas. 1993. Dendrokronologisk analyse af tömmer fra Glimmingehus 1992. Nationella laboratoriet för vedanatomi och dendrokronologi 1993-01-21. Lund: Lunds Universitet.'),
+            (8187, 'Bartholin, Thomas','1987', 'Dendrokronologisk analyse af tömmer fra Linköpings slott. 1987-05-13', 'Bartholin, Thomas. 1987. Dendrokronologisk analyse af tömmer fra Linköpings slott. Nationella laboratoriet för vedanatomi och dendrokronologi 1987-05-13. Lund: Lunds Universitet.'),
+            (8188, 'Bartholin, Thomas','1986', 'Dendrokronologisk datering af "Lilla Rotsunda". 1986-10-31', 'Bartholin, Thomas. 1986. Dendrokronologisk datering af "Lilla Rotsunda". Nationella laboratoriet för vedanatomi och dendrokronologi 1986-10-31. Lund: Lunds Universitet.'),
+            (8189, 'Bartholin, Thomas','1989', 'Dendrokronologisk datering af boningshus og loft, Finntorp, Skedevi sn. 1989-11-30', 'Bartholin, Thomas. 1989. Dendrokronologisk datering af boningshus og loft, Finntorp, Skedevi sn. Nationella laboratoriet för vedanatomi och dendrokronologi 1989-11-30. Lund: Lunds Universitet.'),
+            (8190, 'Bartholin, Thomas','1990', 'Dendrokronologisk datering af bostadshus på Smedstorp, Norra Vi socken, Östergötland. 1990-02-01', 'Bartholin, Thomas. 1990. Dendrokronologisk datering af bostadshus på Smedstorp, Norra Vi socken, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi 1990-02-01. Lund: Lunds Universitet.'),
+            (8191, 'Bartholin, Thomas','1992', 'Dendrokronologisk datering af helgenskabene i Ö. Vram kirke, Skåne. 1992-09-08', 'Bartholin, Thomas. 1992. Dendrokronologisk datering af helgenskabene i Ö. Vram kirke, Skåne. Nationella laboratoriet för vedanatomi och dendrokronologi 1992-09-08. Lund: Lunds Universitet.'),
+            (8192, 'Bartholin, Thomas','1990', 'Dendrokronologisk datering af kluven golvstock fra visthusbod fra gård i Östergötlands skogsbygd. 1990-05-03', 'Bartholin, Thomas. 1990. Dendrokronologisk datering af kluven golvstock fra visthusbod fra gård i Östergötlands skogsbygd. Nationella laboratoriet för vedanatomi och dendrokronologi 1990-05-03. Lund: Lunds Universitet.'),
+            (8193, 'Bartholin, Thomas','1989', 'Dendrokronologisk datering af kv Novisen 5, Visby, Gotland. 1989-09-12', 'Bartholin, Thomas. 1989. Dendrokronologisk datering af kv Novisen 5, Visby, Gotland. Nationella laboratoriet för vedanatomi och dendrokronologi 1989-09-12. Lund: Lunds Universitet.'),
+            (8194, 'Bartholin, Thomas','1989', 'Dendrokronologisk datering af kyrkbod ved Örs kyrka, Småland. Rapport 1989-11-30', 'Bartholin, Thomas. 1989. Dendrokronologisk datering af kyrkbod ved Örs kyrka, Småland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 1989-11-30. Lund: Lunds Universitet.'),
+            (8195, 'Linderson, Hans','2012', 'Dendrokronologisk och vedanatomisk analys av takspån samt en taktrobräda i Torpa kyrka, Ydre, kommun, Östergötland. Rapport 2012:54', 'Linderson, Hans. 2012. Dendrokronologisk och vedanatomisk analys av takspån samt en taktrobräda i Torpa kyrka, Ydre, kommun, Östergötland. Rapport 2012:54. Lund: Lunds Universitet.'),
+            (8196, 'Linderson, Hans','2012', 'Dendrokronologisk och vedanatomisk analys av vägg-och takspån samt en dalränna i Asby kyrka, Ydre kommun, Östergötland. Rapport 2012:53', 'Linderson, Hans. 2012. Dendrokronologisk och vedanatomisk analys av vägg-och takspån samt en dalränna i Asby kyrka, Ydre kommun, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2012:53. Lund: Lunds Universitet.'),
+            (8197, 'Bartholin, Thomas & Kriig, Stefan','1986', 'Dendrokronologisk rapport. 1986-11-26', 'Bartholin, Thomas & Kriig, Stefan. 1986. Dendrokronologisk rapport. Nationella laboratoriet för vedanatomi och dendrokronologi 1986-11-26. Lund: Lunds Universitet.'),
+            (8198, 'Bartholin, Thomas','1987', 'Dendrokronologisk rapport. 1987-02-12', 'Bartholin, Thomas. 1987. Dendrokronologisk rapport. Nationella laboratoriet för vedanatomi och dendrokronologi 1987-02-12. Lund: Lunds Universitet.'),
+            (8199, 'Bartholin, Thomas','1987', 'Dendrokronologisk undersögelse af "Stabbamöllan" ved Stadsmuseet. 1987-02-04', 'Bartholin, Thomas. 1987. Dendrokronologisk undersögelse af "Stabbamöllan" ved Stadsmuseet. Nationella laboratoriet för vedanatomi och dendrokronologi 1987-02-04. Lund: Lunds Universitet.'),
+            (8200, 'Bartholin, Thomas','1989', 'Dendrokronologisk undersögelse af bjälkelag i tornet i Bankekind kirke, Ög. 1989-12-20', 'Bartholin, Thomas. 1989. Dendrokronologisk undersögelse af bjälkelag i tornet i Bankekind kirke, Ög. Nationella laboratoriet för vedanatomi och dendrokronologi 1989-12-20. Lund: Lunds Universitet.'),
+            (8201, 'Bartholin, Thomas','1990', 'Dendrokronologisk undersögelse af det gamla rådhuset i Vadstena. 1990-03-30', 'Bartholin, Thomas. 1990. Dendrokronologisk undersögelse af det gamla rådhuset i Vadstena. Nationella laboratoriet för vedanatomi och dendrokronologi 1990-03-30. Lund: Lunds Universitet.'),
+            (8202, 'Bartholin, Thomas','1988', 'Dendrokronologisk undersögelse af eg i kirker på Öland. 1988-09-21', 'Bartholin, Thomas. 1988. Dendrokronologisk undersögelse af eg i kirker på Öland. Nationella laboratoriet för vedanatomi och dendrokronologi 1988-09-21. Lund: Lunds Universitet.'),
+            (8203, 'Bartholin, Thomas','1990', 'Dendrokronologisk undersögelse af Hov kyrka. 1990-03-30', 'Bartholin, Thomas. 1990. Dendrokronologisk undersögelse af Hov kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi 1990-03-30. Lund: Lunds Universitet.'),
+            (8204, 'Bartholin, Thomas','1987', 'Dendrokronologisk undersögelse af Härlöv k:a, Klokkestabel. Rapport 1987-08-07', 'Bartholin, Thomas. 1987. Dendrokronologisk undersögelse af Härlöv k:a, Klokkestabel. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 1987-08-07. Lund: Lunds Universitet.'),
+            (8205, 'Bartholin, Thomas','1984', 'Dendrokronologisk undersögelse af kälderen på Landsnora Kvarn, Sollentuna. 1984-09-04', 'Bartholin, Thomas. 1984. Dendrokronologisk undersögelse af kälderen på Landsnora Kvarn, Sollentuna. Nationella laboratoriet för vedanatomi och dendrokronologi 1984-09-04. Lund: Lunds Universitet.'),
+            (8206, 'Bartholin, Thomas','1987', 'Dendrokronologisk undersögelse af Kärnan. 1987-02-04', 'Bartholin, Thomas. 1987. Dendrokronologisk undersögelse af Kärnan. Nationella laboratoriet för vedanatomi och dendrokronologi 1987-02-04. Lund: Lunds Universitet.'),
+            (8207, 'Bartholin, Thomas','1987', 'Dendrokronologisk undersögelse af Mariakirken. 1987-02-04', 'Bartholin, Thomas. 1987. Dendrokronologisk undersögelse af Mariakirken. Nationella laboratoriet för vedanatomi och dendrokronologi 1987-02-04. Lund: Lunds Universitet.'),
+            (8208, 'Bartholin, Thomas','1991', 'Dendrokronologisk undersögelse af pröver fra Bankekind kyrka, Tornet. 1991-02-12', 'Bartholin, Thomas. 1991. Dendrokronologisk undersögelse af pröver fra Bankekind kyrka, Tornet. Nationella laboratoriet för vedanatomi och dendrokronologi 1991-02-12. Lund: Lunds Universitet.'),
+            (8209, 'Bartholin, Thomas','1989', 'Dendrokronologisk undersögelse af tagstolen i Horn kyrka, Östergötland. 1989-12-20', 'Bartholin, Thomas. 1989. Dendrokronologisk undersögelse af tagstolen i Horn kyrka, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi 1989-12-20. Lund: Lunds Universitet.'),
+            (8210, 'Bartholin, Thomas','1990', 'Dendrokronologisk undersögelse af takstol over långhuset på Herrestads kyrke, Östergötland. 1990-01-11', 'Bartholin, Thomas. 1990. Dendrokronologisk undersögelse af takstol over långhuset på Herrestads kyrke, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi 1990-01-11. Lund: Lunds Universitet.'),
+            (8211, 'Bartholin, Thomas','1990', 'Dendrokronologisk undersögelse af tornet på Fivelstad kyrka, Östergötland. 1990-01-11', 'Bartholin, Thomas. 1990. Dendrokronologisk undersögelse af tornet på Fivelstad kyrka, Östergötland. Nationella laboratoriet för vedanatomi och dendrokronologi 1990-01-11. Lund: Lunds Universitet.'),
+            (8212, 'Bartholin, Thomas','1993', 'Dendrokronologiske analyser i St. Lars kyrka, Linköping. 1993-11-24', 'Bartholin, Thomas. 1993. Dendrokronologiske analyser i St. Lars kyrka, Linköping. Nationella laboratoriet för vedanatomi och dendrokronologi 1993-11-24. Lund: Lunds Universitet.'),
+            (8213, 'Bartholin, Thomas','1990', 'Dendrokronologiske undersögelser i Glimmingehus. 1990-08-17', 'Bartholin, Thomas. 1990. Dendrokronologiske undersögelser i Glimmingehus. Nationella laboratoriet för vedanatomi och dendrokronologi 1990-08-17. Lund: Lunds Universitet.'),
+            (8214, 'Bartholin, Thomas','1991', 'Dendrokronologiske undersögelser i Mariakirken i Helsingborg. 1991-09-00', 'Bartholin, Thomas. 1991. Dendrokronologiske undersögelser i Mariakirken i Helsingborg. Nationella laboratoriet för vedanatomi och dendrokronologi 1991-09-00. Lund: Lunds Universitet.'),
+            (8215, 'Bartholin, Thomas','1991', 'Dendrokronologiske undersögelser i Ravlunda Kirke, Skåne. (SK dnr 6753/88). 1991-02-06', 'Bartholin, Thomas. 1991. Dendrokronologiske undersögelser i Ravlunda Kirke, Skåne. (SK dnr 6753/88). Nationella laboratoriet för vedanatomi och dendrokronologi 1991-02-06. Lund: Lunds Universitet.'),
+            (8216, 'Bartholin, Thomas','1984', 'Hessensteinska palatset. 1984-03-20', 'Bartholin, Thomas. 1984. Hessensteinska palatset. Nationella laboratoriet för vedanatomi och dendrokronologi 1984-03-20. Lund: Lunds Universitet.'),
+            (8217, 'Linderson, Hans','2006', 'Kompletterande dendrokronologisk analys på Arby kyrka. Rapport 2006:18', 'Linderson, Hans. 2006. Kompletterande dendrokronologisk analys på Arby kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:18. Lund: Lunds Universitet.'),
+            (8218, 'Linderson, Hans','2007', 'Komplettering av den dendrokronologiska analysen av det astronomiska uret i Lunds domkyrka. Rapport 2007:36', 'Linderson, Hans. 2007. Komplettering av den dendrokronologiska analysen av det astronomiska uret i Lunds domkyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2007:36. Lund: Lunds Universitet.'),
+            (8219, 'Linderson, Hans','2010', 'Komplettering av den dendrokronologiska analysen av det astronomiska uret i Lunds domkyrka. Rapport 2010:15', 'Linderson, Hans. 2010. Komplettering av den dendrokronologiska analysen av det astronomiska uret i Lunds domkyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:15. Lund: Lunds Universitet.'),
+            (8220, 'Linderson, Hans','2005', 'Komplettering av dendrokronologisk analys på huvudbyggnad, rättarbostad, mejeri samt I Viggesbo, Vimmerby. Rapport 2005:1', 'Linderson, Hans. 2005. Komplettering av dendrokronologisk analys på huvudbyggnad, rättarbostad, mejeri samt I Viggesbo, Vimmerby. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2005:1. Lund: Lunds Universitet.'),
+            (8221, 'Pantzar, Cecilia','2011', 'Timmerhus i Uppland. Inventering av äldre timmerhus i Uppland 2007-2008, Stockholms län. Rapport 2011:29. Stockholms läns museum, Stockholm.', 'Pantzar, Cecilia. 2011. Timmerhus i Uppland. Inventering av äldre timmerhus i Uppland 2007-2008, Stockholms län. Rapport 2011:29. Stockholms läns museum, Stockholm.'),
+            (8222, 'Bartholin, Thomas','1985', 'Rapport over dendrokronologiske undersögelser i Verksgatan. 1985-12-08', 'Bartholin, Thomas. 1985. Rapport over dendrokronologiske undersögelser i Verksgatan. Nationella laboratoriet för vedanatomi och dendrokronologi 1985-12-08. Lund: Lunds Universitet.'),
+            (8223, 'Bartholin, Thomas','1985', 'Rydboholm slott. 1985-03-07', 'Bartholin, Thomas. 1985. Rydboholm slott. Nationella laboratoriet för vedanatomi och dendrokronologi 1985-03-07. Lund: Lunds Universitet.'),
+            (8224, 'Callahan, William J','1983', 'Västra Klagstorps kyrka. 1983-03-28', 'Callahan, William J. 1983. Västra Klagstorps kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi 1983-03-28. Lund: Lunds Universitet.'),
+            (8225, 'Linderson, Hans','2015', 'Dendrokronologisk analys av Farhults kyrka, Höganäs kommun. Rapport 2015:17', 'Linderson, Hans. 2015. Dendrokronologisk analys av Farhults kyrka, Höganäs kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:17. Lund: Lunds Universitet.'),
+            (8226, 'Linderson, Hans','2015', 'Dendrokronologisk analys av Ottenby Kungsgårds södra flygel, Öland - komplettering (2015:14). Rapport 2015:18', 'Linderson, Hans. 2015. Dendrokronologisk analys av Ottenby Kungsgårds södra flygel, Öland - komplettering (2015:14). Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2015:18. Lund: Lunds Universitet.'),
+            (8227, 'Linderson, Hans','2010', 'Dendrokronologisk analys av porttornet och vagnslidret på Hovdala slott. Rapport 2010:53', 'Linderson, Hans. 2010. Dendrokronologisk analys av porttornet och vagnslidret på Hovdala slott. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2010:53. Lund: Lunds Universitet.'),
+            (8228, 'Linderson, Hans','2018', 'Dendrokronologisk analys av takstolen i Rogslösa kyrka, Vadstena kommun. Rapport 2018:89', 'Linderson, Hans. 2018. Dendrokronologisk analys av takstolen i Rogslösa kyrka, Vadstena kommun. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2018:89. Lund: Lunds Universitet.'),
+            (8229, 'Bartholin, Thomas','1987', 'Dendrokronologisk analyse af Grävsten Herregård. 1987-06-11', 'Bartholin, Thomas. 1987. Dendrokronologisk analyse af Grävsten Herregård. Nationella laboratoriet för vedanatomi och dendrokronologi 1987-06-11. Lund: Lunds Universitet.'),
+            (8230, 'Bartholin, Thomas','1991', 'Dendrokronologisk datering af Rydboholms Slot. Supplement til rapport af 19850307. 1991-04-23', 'Bartholin, Thomas. 1991. Dendrokronologisk datering af Rydboholms Slot. Supplement til rapport af 19850307. Nationella laboratoriet för vedanatomi och dendrokronologi 1991-04-23. Lund: Lunds Universitet.'),
+            (8231, 'Bartholin, Thomas','1987', 'Dendrokronologisk rapport. 1987-01-23', 'Bartholin, Thomas. 1987. Dendrokronologisk rapport. Nationella laboratoriet för vedanatomi och dendrokronologi 1987-01-23. Lund: Lunds Universitet.'),
+            (8232, 'VDL','n.d.', 'Unpublished lab report', 'VDL. n.d. Unpublished lab report. Lund: Lunds Universitet.'),
+            (8233, 'Linderson, Hans','2006', 'Dendrokronologisk analys av tornet i Södra Möckleby kyrka. Rapport 2006:49', 'Linderson, Hans. 2006. Dendrokronologisk analys av tornet i Södra Möckleby kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi, Rapport 2006:49. Lund: Lunds Universitet.')
+        );
+
+        insert into tbl_sample_types(sample_type_id, "type_name", "description") ( values
+            (20, 'Photograph', 'Sample consists of a photograph which has been the basis for measurements (e.g. photograph of dendrochronological cross-section). '),
+            (21, 'Tracing', 'A thin paper is placed on the sample surface and a pencil is used to trace the features (e.g. in dendrochronology used to trace the ring-width pattern onto the paper).'),
+            (22, 'Poster putty', 'Poster putty is applied to the surface of the sample in order to create an imprint (e.g. in dendrochronology used to imprint the ring-width sequence). ')
+        );
+
+
+        insert into tbl_dendro_lookup(dendro_lookup_id, method_id, "name", "description") ( values
+            (141, 10, 'Non-measured tree rings', 'Estimated number of non measured tree rings outside the outermost measured tree ring.'),
+            (142, 10, 'Non-measured sapwood rings', 'Estimated number of non-measured sapwood rings outside the outermost measured tree ring.')
+        );
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
-    
+
 end $$;
 commit;
