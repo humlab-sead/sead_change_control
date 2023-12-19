@@ -5,7 +5,7 @@
 20180501_DDL_RESTAPI_GENERATE_SCHEMA 2019-04-08T14:33:10Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/209:  Schema used by PostgREST REST API publication of SEAD base tables
 20180501_DDL_RESTAPI_CREATE_SAMPLE_AGE_RANGES 2019-04-08T14:38:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/210:  Views (site_sample_taxon_abundance and sample_age_ranges) published via REST API
 20190101_DDL_FACET_SCHEMA 2019-06-22T09:32:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/160: SEAD Query API schema DDL.
-20190101_DML_FACET_SCHEMA 2019-06-22T09:33:04Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/160: SEAD Query API schema DML.
+20190101_DML_FACETS 2019-06-22T09:33:04Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/160: SEAD Query API schema DML.
 20191011_DDL_ECOCODE_GEOJSON_EXPORT 2019-10-12T17:14:27Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/64: Greatly improved Ecocode GeoJSON export
 
 @2019.12 2019-12-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2019 December release

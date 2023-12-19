@@ -1,5 +1,4 @@
--- Verify sead_api: 20190101_DML_FACET_SCHEMA
--- Deploy sead_api:20190101_DML_FACET_SCHEMA to pg
+-- Verify sead_api: 20190101_DML_FACETS
 
 /****************************************************************************************************************
   Author        Roger Mähler
