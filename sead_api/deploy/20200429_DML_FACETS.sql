@@ -1,4 +1,4 @@
--- Deploy sead_api: 20200429_DML_FACET_UPDATES
+-- Deploy sead_api: 20200429_DML_FACETS
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2020
@@ -21,6 +21,11 @@ begin
 
         set search_path = facet, pg_catalog;
         set client_encoding = 'UTF8';
+
+        if current_database() not like 'sead_staging%' then
+            raise exception 'This script must be run in sead_staging!';
+        end if;
+
         s_aggregate_facets = $aggregate_facets$
         [
             {
@@ -138,9 +143,9 @@ begin
         ]
 $aggregate_facets$;
 
+
 		s_facets = $facets$
         [
-
             {
                 "facet_id": 3,
                 "facet_code": "tbl_denormalized_measured_values_33_0",
@@ -820,7 +825,7 @@ $aggregate_facets$;
                 "facet_code": "dataset_master",
                 "display_title": "Master datasets",
                 "description": "Master datasets",
-                "facet_group_id":"2",
+                "facet_group_id": "2",
                 "facet_type_id": 1,
                 "category_id_expr": "tbl_dataset_masters.master_set_id ",
                 "category_name_expr": "tbl_dataset_masters.master_name",
