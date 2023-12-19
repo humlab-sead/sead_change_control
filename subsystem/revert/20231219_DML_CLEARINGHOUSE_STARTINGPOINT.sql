@@ -1,0 +1,7 @@
+-- Revert subsystem:20231219_DML_CLEARINGHOUSE_STARTINGPOINT from pg
+
+BEGIN;
+
+-- XXX Add DDLs here.
+
+COMMIT;
