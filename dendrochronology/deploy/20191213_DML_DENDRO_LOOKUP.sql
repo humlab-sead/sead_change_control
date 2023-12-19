@@ -165,7 +165,8 @@ begin
         from new_locations a /*
         left join tbl_locations b
             on a.location_id = b.location_id
-        where b.location_id is null*/;
+        where b.location_id is null*/
+		on conflict do nothing;
 
         --alter table tbl_sample_group_sampling_contexts alter column sampling_context type character varying(80);
 
@@ -193,6 +194,12 @@ begin
         left join tbl_sample_location_types b
             on a.sample_location_type_id = b.sample_location_type_id
         where b.sample_location_type_id is null*/;
+		
+        /* ID 550 is also inserted in 20191213_DML_CERAMICS_LOOKUP */
+		insert into tbl_feature_types (feature_type_id, feature_type_name, feature_type_description)
+		values
+			(550, 'Unknown', 'Feature type is either of a unknown character or not specified')
+		on conflict (feature_type_id) do nothing;
 
         WITH new_feature_types (feature_type_id, feature_type_name, feature_type_description) AS (VALUES
             (503, 'Barrier', NULL),
@@ -234,21 +241,20 @@ begin
             (539, 'Wooden feature', NULL),
             (540, 'Wooden floor', NULL),
             (541, 'Wooden house foundation', NULL),
-
             (542, 'Wooden plank', NULL),
             (543, 'Wooden sill', NULL),
             (544, 'Wooden trackway', NULL),
             (545, 'Wooden tub', NULL),
             (546, 'Wooden wall', NULL),
             (547, 'Profile ', 'A wall of a trench/test pit in an archaeological excavation, depicting the layers at the site and often sampled.'),
-            (548, 'Excavation area', NULL),
-            (550, 'Unknown', 'Feature type is either of a unknown character or not specified')
+            (548, 'Excavation area', NULL)
         ) insert into tbl_feature_types (feature_type_id, feature_type_name, feature_type_description, date_updated)
         select a.feature_type_id, a.feature_type_name, a.feature_type_description, '2019-12-20 13:45:52.60401+00'
-        from new_feature_types a /*
+        from new_feature_types a
+        /*
         left join tbl_feature_types b
             on a.feature_type_id = b.feature_type_id
-        where b.feature_type_id is null*/;
+        where b.feature_type_id is null */;
 
         WITH new_data_type_groups (data_type_group_id, data_type_group_name, description) AS (VALUES
             (19, 'Geographical','Geographical data either as a value or as a string.')
@@ -482,6 +488,12 @@ begin
             on a.biblio_id = b.biblio_id
         where b.biblio_id is null*/;
 
+		/* ID 67 also inserted in 20191213_DML_CERAMICS_LOOKUP */
+		insert into tbl_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, location_id)
+		values
+            (67, 'Environmental Archaeology Lab Dept. of Philosophical, Historical & Religious Studies', 'Umeå University', 'Mattias', 'Sjölander', 'mattias.sjolander@umu.se', 'http://www.idesam.umu.se/om/personal/?uid=masj0062&guiseId=360086&orgId=4864cb4234d0bf7c77c65d7f78ffca7ecaf285c7&name=Mattias%20Sj%c3%b6lander', 205)
+		on conflict (contact_id) do nothing;
+
         WITH new_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, location_id) AS (VALUES
 --            (1, 'Environmental Archaeology Lab
 --        Dept. of Philosophical, Historical & Religious Studes', 'Umeå University
@@ -517,8 +529,7 @@ begin
             (62, NULL, NULL, 'Ólafur', 'Eggertsson', NULL, NULL, NULL),
             (63, NULL, NULL, 'Thomas', 'Bartholin', NULL, NULL, NULL),
             (64, NULL, NULL, 'Unspecified', NULL, NULL, NULL, NULL),
-            (65, NULL, NULL, 'Private', NULL, NULL, NULL, NULL),
-            (67, 'Environmental Archaeology Lab Dept. of Philosophical, Historical & Religious Studies', 'Umeå University', 'Mattias', 'Sjölander', 'mattias.sjolander@umu.se', 'http://www.idesam.umu.se/om/personal/?uid=masj0062&guiseId=360086&orgId=4864cb4234d0bf7c77c65d7f78ffca7ecaf285c7&name=Mattias%20Sj%c3%b6lander', 205)
+            (65, NULL, NULL, 'Private', NULL, NULL, NULL, NULL)
         ) insert into tbl_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, location_id, date_updated)
         select a.contact_id, a.address_1, a.address_2, a.first_name, a.last_name, a.email, a.url, a.location_id, '2019-12-20 13:45:52.60401+00'
         from new_contacts a /*

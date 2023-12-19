@@ -411,6 +411,157 @@ begin
         select a.location_id, a.location_name, a.location_type_id, '2019-12-20 13:45:52.481448+00'
         from new_locations a;
 
+		/* These location are used by ceramics but inserted 20191213_DML_DENDRO_LOOKUP (remove CR dependency) */
+		insert into tbl_locations (location_id, location_name, location_type_id)
+			(values
+            (3736, 'Jönköpings län', 2),
+            (3737, 'Kalmar län', 2),
+            (3738, 'Kronobergs län', 2),
+            (3739, 'Alvesta kommun', 2),
+            (3740, 'Borgholm kommun', 2),
+            (3741, 'Eksjö kommun', 2),
+            (3742, 'Emmaboda kommun', 2),
+            (3743, 'Gislaved kommun', 2),
+            (3744, 'Hultsfred kommun', 2),
+            (3745, 'Hylte kommun', 2),
+            (3746, 'Högsby kommun', 2),
+            (3747, 'Jönköping kommun', 2),
+            (3748, 'Kalmar kommun', 2),
+            (3749, 'Lessebo kommun', 2),
+            (3750, 'Ljungby kommun', 2),
+            (3751, 'Mönsterås kommun', 2),
+            (3752, 'Nybro kommun', 2),
+            (3753, 'Oskarshamn kommun', 2),
+            (3754, 'Tranås kommun', 2),
+            (3755, 'Uppvidinge kommun', 2),
+            (3756, 'Vaggeryd kommun', 2),
+            (3757, 'Vetlanda kommun', 2),
+            (3758, 'Vimmerby kommun', 2),
+            (3759, 'Värnamo kommun', 2),
+            (3760, 'Västervik kommun', 2),
+            (3761, 'Växjö kommun', 2),
+            (3762, 'Aneby socken', 2),
+            (3763, 'Björkö socken', 2),
+            (3764, 'Bottnaryd socken', 2),
+            (3765, 'Burseryd socken', 2),
+            (3766, 'Dädesjö socken', 2),
+            (3767, 'Döderhult socken', 2),
+            (3768, 'Fagerhult socken', 2),
+            (3769, 'Föra socken', 2),
+            (3770, 'Hagby socken', 2),
+            (3771, 'Huskvarna socken', 2),
+            (3772, 'Höreda socken', 2),
+            (3773, 'Ingatorp socken', 2),
+            (3774, 'Jät socken', 2),
+            (3775, 'Kalmar stad socken', 2),
+            (3776, 'Kristdala socken', 2),
+            (3777, 'Kånna socken', 2),
+            (3778, 'Källa socken', 2),
+            (3779, 'Linderås socken', 2),
+            (3780, 'Ljuder socken', 2),
+            (3781, 'Madesjö socken', 2),
+            (3782, 'Mortorp socken', 2),
+            (3783, 'Målilla-Gårdveda socken', 2),
+            (3784, 'Månsarp socken', 2),
+            (3785, 'Mönsterås socken', 2),
+            (3786, 'Nävelsjö socken', 2),
+            (3787, 'Rumskulla  socken', 2),
+            (3788, 'Skatelöv socken', 2),
+            (3789, 'Svenarum socken', 2),
+            (3790, 'Södra Unnaryd socken', 2),
+            (3791, 'Tånnö socken', 2),
+            (3792, 'Vetlanda socken', 2),
+            (3793, 'Vimmerby socken', 2),
+            (3794, 'Visingsö socken', 2),
+            (3795, 'Vissefjärda socken', 2),
+            (3796, 'Västervik socken', 2),
+            (3797, 'Ålem socken', 2),
+            (3798, 'Åseda socken', 2),
+            (3799, 'Älghult socken', 2),
+            (3800, 'Osby kommun', 2),
+            (3801, 'Örkeneds socken', 2),
+            (3802, 'Axebo', 2),
+            (3803, 'Brunstorp', 2),
+            (3804, 'Bråten', 2),
+            (3805, 'Byestad', 2),
+            (3806, 'Bökhult', 2),
+            (3807, 'Dädesjö', 2),
+            (3808, 'Edema', 2),
+            (3809, 'Ejdern', 2),
+            (3810, 'Fallebotorp', 2),
+            (3811, 'Flöxhult', 2),
+            (3812, 'Föra', 2),
+            (3813, 'Göberga', 2),
+            (3814, 'Hagby', 2),
+            (3815, 'Hagetorp', 2),
+            (3816, 'Hattmakaren', 2),
+            (3817, 'Hellerö', 2),
+            (3818, 'Hyltan ', 2),
+            (3819, 'Hökagården', 2),
+            (3820, 'Jät', 2),
+            (3821, 'Klyvaren', 2),
+            (3822, 'Kronobäck', 2),
+            (3823, 'Källa', 2),
+            (3824, 'Lilla Rätö ', 2),
+            (3825, 'Mortorp', 2),
+            (3826, 'Måcketorp', 2),
+            (3827, 'Målajord', 2),
+            (3828, 'Näktergalen', 2),
+            (3829, 'Näset ', 2),
+            (3830, 'Nävelsjö', 2),
+            (3831, 'Oset', 2),
+            (3832, 'Ripan', 2),
+            (3833, 'Rådmannen', 2),
+            (3834, 'Räpplinge', 2),
+            (3835, 'Rödjenäs', 2),
+            (3836, 'S:ta Gertruds kyrka ', 2),
+            (3837, 'Skatelövs torp', 2),
+            (3838, 'Skedebäckshult', 2),
+            (3839, 'Skoflickaren ', 2),
+            (3840, 'Skrikebo', 2),
+            (3841, 'Skäveryd', 2),
+            (3842, 'Slammarp', 2),
+            (3843, 'Smedbyn', 2),
+            (3844, 'Strömsrum ', 2),
+            (3845, 'Trollestorp', 2),
+            (3846, 'Uranäs', 2),
+            (3847, 'Viggesbo', 2),
+            (3848, 'Vinäs', 2),
+            (3849, 'Yxenhaga', 2),
+            (3850, 'Övrabo', 2),
+            (3851, 'Vaggeryd kommun', 2),
+            (3852, 'Algutsboda socken', 2),
+            (3853, 'Gamleby socken', 2),
+            (3854, 'Gladhammar socken', 2),
+            (3855, 'Hagshult socken', 2),
+            (3856, 'Målilla socken', 2),
+            (3857, 'Rumskulla socken', 2),
+            (3858, 'Sjösås socken', 2),
+            (3859, 'Södra Vi socken', 2),
+            (3860, 'Växjö socken', 2),
+            (3861, 'Abborre', 2),
+            (3862, 'Ansvaret', 2),
+            (3863, 'Diplomaten', 2),
+            (3864, 'Gladhammar', 2),
+            (3865, 'Kronobäck ', 2),
+            (3866, 'kv Druvan/Dovhjorten', 2),
+            (3867, 'Kvarnholmen', 2),
+            (3868, 'Rostock', 2),
+            (3869, 'Skirsnäs', 2),
+            (3870, 'Tyresbo', 2),
+            (3871, 'Vi ', 2),
+            (3872, 'Västra kajen', 2),
+            (3873, 'Åldermannen ', 2),
+            (3888, 'Öland', 18),
+            (3889, 'Hakarp socken', 2),
+            (3890, 'Jönköping', 4),
+            (3891, 'Kalmar socken', 2),
+            (3892, 'Lofta socken', 2),
+            (3893, 'Räpplinge socken', 2),
+            (3894, 'Västra Ed', 4)
+		)
+			on conflict do nothing;
+
         new_id =  171;
         with new_methods (method_id, description, method_abbrev_or_alt_name, method_group_id, method_name, record_type_id) as (values
 			(new_id + 0, 'A piece of the ceramic sherd is cut off, fastened to a microscope slide, ground down to 0,03 mm, and polished. The tempering grains and clay is then studied under a microscope to determine clay content, fraction size, sorting and tempering content. These are all determined ocularly. The max grain size and total percent tempering is determined by marking the tempering grains in a photograph projected from the camera connected to the microscope and calculating in the program.', 'Petrographic', 9, 'Petrographic microscopy', 21),
@@ -419,6 +570,12 @@ begin
 		) insert into tbl_methods (method_id, description, method_abbrev_or_alt_name, method_group_id, method_name, record_type_id, date_updated)
         select a.method_id, a.description, a.method_abbrev_or_alt_name, a.method_group_id, a.method_name, a.record_type_id, '2019-12-20 13:45:52.481448+00'
         from new_methods a;
+
+		/* ID 67 also inserted in 20191213_DML_DENDRO_LOOKUP */
+		insert into tbl_contacts (contact_id, address_1, address_2, first_name, last_name, email, url, location_id)
+		values
+            (67, 'Environmental Archaeology Lab Dept. of Philosophical, Historical & Religious Studies', 'Umeå University', 'Mattias', 'Sjölander', 'mattias.sjolander@umu.se', 'http://www.idesam.umu.se/om/personal/?uid=masj0062&guiseId=360086&orgId=4864cb4234d0bf7c77c65d7f78ffca7ecaf285c7&name=Mattias%20Sj%c3%b6lander', 205)
+		on conflict (contact_id) do nothing;
 
 		new_id = 70;
         with new_contacts (contact_id, address_1, address_2, location_id, email, first_name, last_name, url) as (values
@@ -855,6 +1012,12 @@ begin
 		) insert into tbl_dimensions (dimension_id, dimension_abbrev, dimension_description, dimension_name, unit_id, method_group_id, date_updated)
 		select a.dimension_id, a.dimension_abbrev, a.dimension_description, a.dimension_name, a.unit_id::int, a.method_group_id::int, '2019-12-20 13:45:52.481448+00'
 		from new_dimensions a;
+
+		/* ID 550 is also inserted in 20191213_DML_DENDRO_LOOKUP */
+		insert into tbl_feature_types (feature_type_id, feature_type_name, feature_type_description)
+		values
+			(550, 'Unknown', 'Feature type is either of a unknown character or not specified')
+		on conflict (feature_type_id) do nothing;
 
 		new_id = 551;
 		with new_feature_types (feature_type_id, feature_type_name, feature_type_description) as (values
