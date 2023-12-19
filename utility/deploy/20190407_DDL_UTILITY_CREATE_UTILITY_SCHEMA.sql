@@ -238,4 +238,22 @@ begin;
     end
     $function$;
 
+    create or replace function get_all_table_counts(p_schema_name text = 'public')
+        returns table (
+            schema_name text,
+            table_name text,
+            count bigint
+        ) as $$
+    declare _t record;
+    begin
+        for _t in (select schemaname, tablename from pg_tables where schemaname = p_schema_name) loop
+            return query execute format('select %L::text as schema_name, %L::text as table_name, count(*)::bigint as count from %I.%I',
+                _t.schemaname,
+                _t.tablename,
+                _t.schemaname,
+                _t.tablename
+            );
+        end loop;
+    end $$ language plpgsql;
+
 commit;
