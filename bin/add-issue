@@ -4,6 +4,8 @@ SHELL=/bin/bash
 
 set -e
 
+. $(dirname "$0")/utility.sh
+
 usage_message=$(cat <<EOF
 usage: add-issue --change CR --body BODY OPTIONS...
 
@@ -99,7 +101,7 @@ do
         --*)
             echo "error: invalid option $1"
             usage
-            exit 64 
+            exit 64
         ;;
         *)
             POSITIONAL+=("$1")
@@ -110,9 +112,19 @@ done
 
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-if [ -z "$g_change" ] || [ -z "$g_project" ] || [ -z "$g_body" ]; then
-    echo "error: missing required option --project, --change or --body"
+
+if [ -z "$g_change" ] || [ -z "$g_body" ]; then
+    echo "error: missing required option --change or --body"
     exit 64
+fi
+
+
+if [ -z "$g_project" ]; then
+    g_project=$(find_project "$g_change")
+    if [ -z "$g_project" ]; then
+        echo "error: $g_change not found in any project"
+        exit 64
+    fi
 fi
 
 if [ ! -f "$g_project/sqitch.plan" ]; then
@@ -132,7 +144,7 @@ fi
 issue_body=$(cat <<EOF
 
 Change project: [$g_project](https://github.com/humlab-sead/sead_change_control/blob/master/${g_project}/sqitch.plan)
-Change request: Created CR [$g_change](https://github.com/humlab-sead/sead_change_control/blob/master/${g_project}/deploy/${g_change}.sql)
+Change request: [$g_change](https://github.com/humlab-sead/sead_change_control/blob/master/${g_project}/deploy/${g_change}.sql)
 
 $g_body
 $g_comment
@@ -182,7 +194,7 @@ update_plan() {
     file_name="$project_name/sqitch.plan"
 
     awk -v keyword="$change_name" -v comment="$issue_url: " '
-        $1 == keyword {sub(/#/, "# " comment)} 
+        $1 == keyword {sub(/#/, "# " comment)}
         1' $file_name  > temp.txt && mv -f temp.txt $file_name
 
 }
