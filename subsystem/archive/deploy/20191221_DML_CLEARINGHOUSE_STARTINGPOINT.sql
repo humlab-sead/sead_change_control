@@ -40,7 +40,7 @@ set constraints fk_tbl_user_roles_role_id deferred;
 \cd /repo/subsystem/deploy
 
 
--- These tables are set by install script 20191217_DDL_CLEARINGHOUSE_SYSTEM
+-- These tables are initialized by install script 20191217_DDL_CLEARINGHOUSE_SYSTEM
 -- \copy clearing_house.tbl_clearinghouse_data_provider_grades from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_clearinghouse_data_provider_grades.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 -- \copy clearing_house.tbl_clearinghouse_info_references from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_clearinghouse_info_references.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 -- \copy clearing_house.tbl_clearinghouse_reject_entity_types from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_clearinghouse_reject_entity_types.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
@@ -68,9 +68,9 @@ set constraints fk_tbl_user_roles_role_id deferred;
 \copy clearing_house.tbl_dataset_submission_types from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_dataset_submission_types.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy clearing_house.tbl_dataset_submissions from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_dataset_submissions.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy clearing_house.tbl_datasets from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_datasets.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
-\copy clearing_house.tbl_dendro from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_dendro.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
-\copy clearing_house.tbl_dendro_date_notes from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_dendro_date_notes.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
-\copy clearing_house.tbl_dendro_dates from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_dendro_dates.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+-- \copy clearing_house.tbl_dendro from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_dendro.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+-- \copy clearing_house.tbl_dendro_date_notes from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_dendro_date_notes.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+-- \copy clearing_house.tbl_dendro_dates from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_dendro_dates.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy clearing_house.tbl_features from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_features.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy clearing_house.tbl_isotope_measurements from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_isotope_measurements.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy clearing_house.tbl_isotopes from program 'zcat -qac 20191221_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_isotopes.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
