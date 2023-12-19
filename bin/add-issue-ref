@@ -1,0 +1,110 @@
+#!/bin/bash
+
+SHELL=/bin/bash
+
+set -e
+
+. $(dirname "$0")/utility.sh
+
+usage_message=$(cat <<EOF
+usage: add-issue --change CR --body BODY OPTIONS...
+
+Uses Github CLI tool "gh" to a add a comment to a CRs issue with:
+    - A URL link to the Github issue will be added to the Sqitch project plan.
+    - A URL link to the CRs SQL deploy file will be added to the issue body.
+
+If an existing issue is specified (--issue-id), then this issue will be related to the CR instead of creating a new one.
+
+If change is not found, no action is taken.
+
+    --change CR             Change that new issue will belong to.
+    --body BODY             Additional text to add in comment.
+    --issue-id ISSUE        Use issue ISSUE instead of creating a new one.
+
+Example:
+
+bin/add-issue-ref --change YYYYMMDD_XYZ --project general
+
+EOF
+)
+
+function usage() {
+    echo "$usage_message"
+}
+
+g_change=
+g_today=$(date +%Y-%m-%d)
+g_issue_id=
+g_body=
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --change|-c)
+            g_change="$2";
+            shift 2;
+        ;;
+        --body|-b)
+            g_body="$2";
+            shift 2;
+        ;;
+        --issue-id)
+            g_issue_id="$2";
+            shift 2;
+        ;;
+        --no-update-plan|-u)
+            g_update_plan="NO";
+            shift;
+        ;;
+        --help|-h)
+            usage
+            exit 0
+        ;;
+        --*)
+            echo "error: invalid option $1"
+            usage
+            exit 64
+        ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+if [ -z "$g_change" ]; then
+    echo "error: missing required option --change"
+    exit 64
+fi
+
+g_project=$(find_project "$g_change")
+
+if [ -z "$g_project" ]; then
+    echo "error: $g_change not found in any project"
+    exit 64
+fi
+
+if [ -z "$g_issue_id" ]; then
+    g_issue_id=$(get_cr_issue_id $g_project $g_change)
+    if [ -z "$g_issue_id" ]; then
+        echo "error: unable to extract issue id from project's plan"
+        exit 64
+    fi
+fi
+
+issue_body=$(cat <<EOF
+
+Change project: [$g_project](https://github.com/humlab-sead/sead_change_control/blob/master/${g_project}/sqitch.plan)
+Change request: [$g_change](https://github.com/humlab-sead/sead_change_control/blob/master/${g_project}/deploy/${g_change}.sql)
+
+$g_body
+
+EOF
+)
+
+gh issue comment ${g_issue_id} --body "$issue_body"

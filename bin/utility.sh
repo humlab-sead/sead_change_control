@@ -16,6 +16,17 @@ function get_projects() {
     echo $(grep -v '^#' $projects_file | grep -v '^[[:space:]]*$')
 }
 
+function find_project() {
+    local cr=$1
+    local projects=$(get_projects)
+    for project in $projects; do
+        if [ -f "$project/deploy/${cr}.sql" ]; then
+            echo $project
+            return
+        fi
+    done
+}
+
 function get_cr_issue_url() {
     local project=$1
     local change=$2
