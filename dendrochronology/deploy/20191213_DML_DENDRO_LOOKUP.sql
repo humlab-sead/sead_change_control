@@ -307,15 +307,6 @@ begin
             on a.dendro_lookup_id = b.dendro_lookup_id
         where b.dendro_lookup_id is null*/;
 
-        WITH new_error_uncertainties (error_uncertainty_id, error_uncertainty_type, description) AS (VALUES
-            (1, 'Ca','The error of a date is estimated as being circa (e.g. 1800 + ca 20 years)')
-        ) insert into tbl_error_uncertainties (error_uncertainty_id, error_uncertainty_type, description, date_updated)
-        select a.error_uncertainty_id, a.error_uncertainty_type, a.description, '2019-12-20 13:45:52.60401+00'
-        from new_error_uncertainties a/*
-        left join tbl_error_uncertainties b
-            on a.error_uncertainty_id = b.error_uncertainty_id
-        where b.error_uncertainty_id is null*/;
-
         WITH new_age_types (age_type_id, age_type, description) AS (VALUES
             (1, 'AD','Anno Domini, Christian era; calendar era dates according to the Gregorian calendar.')
         ) insert into tbl_age_types (age_type_id, age_type, description, date_updated)
@@ -324,17 +315,6 @@ begin
         left join tbl_age_types b
             on a.age_type_id = b.age_type_id
         where b.age_type_id is null*/;
-
-        WITH new_season_or_qualifier (season_or_qualifier_id, season_or_qualifier_type, description) AS (VALUES
-            (1, 'Winter','Felling date estimated as being during the winter, which is the resting period of the tree'),
-            (2, 'Summer','Summer period (at most May to August) for the estimated felling date of a tree'),
-            (3, 'After','When the waney edge is missing in dendrochronological analysis the felling date is estimated after the date of the outermost tree ring')
-        ) insert into tbl_season_or_qualifier (season_or_qualifier_id, season_or_qualifier_type, description, date_updated)
-        select a.season_or_qualifier_id, a.season_or_qualifier_type, a.description, '2019-12-20 13:45:52.60401+00'
-        from new_season_or_qualifier a/*
-        left join tbl_season_or_qualifier b
-            on a.season_or_qualifier_id = b.season_or_qualifier_id
-        where b.season_or_qualifier_id is null*/;
 
         WITH new_sample_description_types (sample_description_type_id, type_name, type_description) AS (VALUES
             (30, 'Wood function','Function or format of the wood'),
@@ -573,9 +553,7 @@ begin
         perform sead_utility.sync_sequence('public', 'tbl_data_types');
         perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
         perform sead_utility.sync_sequence('public', 'tbl_dendro_lookup');
-        perform sead_utility.sync_sequence('public', 'tbl_error_uncertainties');
         perform sead_utility.sync_sequence('public', 'tbl_age_types');
-        perform sead_utility.sync_sequence('public', 'tbl_season_or_qualifier');
         perform sead_utility.sync_sequence('public', 'tbl_sample_description_types');
         perform sead_utility.sync_sequence('public', 'tbl_biblio');
         perform sead_utility.sync_sequence('public', 'tbl_contacts');
