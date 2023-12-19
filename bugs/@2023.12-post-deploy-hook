@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+gzip_submissions() {
+    file=$1
+    if [ -f "$file" ]; then
+        gzip $file ;
+    fi
+}
+
+# gzip_submissions $SCRIPT_DIR/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/bugs_import_schema.sql
+# gzip_submissions $SCRIPT_DIR/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/public_data_diff.sql
