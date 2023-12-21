@@ -3,7 +3,10 @@
 Author         roger
 Date           
 Description    
+  Date          2020-01-09
 Prerequisites  
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/205
+  Description   Deploy of Clearinghouse submission {5}.
 Reviewer
 Approver
 Idempotent     NO
