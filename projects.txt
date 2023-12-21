@@ -1,8 +1,10 @@
 # This file should specify all Sqitch projects in order of deployment.
 
-utility
+sead_model
 security
+utility
 general
+mal
 archaeobotany
 bugs
 isotope
