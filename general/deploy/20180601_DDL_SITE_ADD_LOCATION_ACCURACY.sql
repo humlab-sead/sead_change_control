@@ -1,5 +1,17 @@
 -- Deploy general: 20180601_DDL_SITE_ADD_LOCATION_ACCURACY
 
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2018-06-01
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/170
+  Description   Accuracy of highest location resolution level.
+  Prerequisites
+  Reviewer
+  Approver
+  Idempotent    Yes
+  Notes
+*****************************************************************************************************************/
+
 begin;
 
 do $$

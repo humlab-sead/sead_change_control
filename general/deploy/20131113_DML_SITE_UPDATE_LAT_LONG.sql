@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-04-15
-  Description   Origin is sead_master_8/sead_master_9 consolidation
+  Date          2013-11-13
+  Description   https://github.com/humlab-sead/sead_change_control/issues/151: Set latitude/longitude on 61 sites
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/181: https://github.com/humlab-sead/sead_change_control/issues/151
   Prerequisites 
   Reviewer      
   Approver      

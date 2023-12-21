@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-05-03
+  Description   Increase length of field attribute_type to accomodate large values from Bugs
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/101
   Prerequisites
   Reviewer
   Approver

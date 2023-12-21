@@ -3,7 +3,8 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2023-11-29
-  Description   
+  Description   CR from issue https://github.com/humlab-sead/sbdi/issues/1
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/141
   Prerequisites 
   Reviewer      
   Approver      

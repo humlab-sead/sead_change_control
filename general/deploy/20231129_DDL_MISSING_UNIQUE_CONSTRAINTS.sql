@@ -3,7 +3,8 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2023-11-29
-  Description   
+  Description   Add missing unique constraints to the SEAD database.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/142
   Prerequisites 
   Reviewer      
   Approver      

@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2022-09-23
+  Description   Deprecate chronology controls tables.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/93
   Prerequisites
   Reviewer
   Approver
@@ -36,11 +37,11 @@ begin
             drop table if exists clearing_house.tbl_chron_control_types;
 
             /* ClearingHouse: delete data related to tables */
-            delete from clearing_house.tbl_clearinghouse_submission_tables where table_name_underscored = 'tbl_chron_controls';
-            delete from clearing_house_commit.tbl_sead_table_keys where table_name = 'tbl_chron_controls';
+            -- delete from clearing_house.tbl_clearinghouse_submission_tables where table_name_underscored = 'tbl_chron_controls';
+            -- delete from clearing_house_commit.tbl_sead_table_keys where table_name = 'tbl_chron_controls';
 
-            delete from clearing_house.tbl_clearinghouse_submission_tables where table_name_underscored = 'tbl_chron_control_types';
-            delete from clearing_house_commit.tbl_sead_table_keys where table_name = 'tbl_chron_control_types';
+            -- delete from clearing_house.tbl_clearinghouse_submission_tables where table_name_underscored = 'tbl_chron_control_types';
+            -- delete from clearing_house_commit.tbl_sead_table_keys where table_name = 'tbl_chron_control_types';
 
         end;
 

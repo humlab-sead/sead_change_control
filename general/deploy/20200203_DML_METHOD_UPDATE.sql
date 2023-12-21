@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2020-02-03
+  Description   //github.com/humlab-sead/sead_change_control/issues/38: Remove newline in description
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/38
   Prerequisites
   Reviewer
   Approver

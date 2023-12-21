@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-04-10
+  Description   Create index on FK feature_id.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/174
   Prerequisites
   Reviewer
   Approver

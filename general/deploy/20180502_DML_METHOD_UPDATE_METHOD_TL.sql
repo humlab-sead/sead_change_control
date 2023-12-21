@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author
-  Date          2019-05-02
-  Description
+  Date          2018-05-02
+  Description   Update description for method TL.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/189
   Prerequisites
   Reviewer
   Approver

@@ -1,4 +1,17 @@
 -- Deploy general: 20231123_DDL_BIBLIO_UUID
+
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2023-11-23
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/144
+  Description   Add UUID to bibliographic data.
+  Prerequisites
+  Reviewer
+  Approver
+  Idempotent    Yes
+  Notes
+*****************************************************************************************************************/
+
 /*
     select format('select * from %s', table_name)
     from sead_utility.foreign_key_columns

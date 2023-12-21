@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-04-22
-  Description   
+  Date          2012-12-20
+  Description   Origin for update is diff between sead_master_9/sead_master_8.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/188
   Prerequisites 
   Reviewer      
   Approver      

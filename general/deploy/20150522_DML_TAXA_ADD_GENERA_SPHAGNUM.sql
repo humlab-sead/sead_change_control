@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2015-05-22
+  Description   Add genera Sphagnum. Origin is sead_master_8 consolidation.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/187
   Prerequisites
   Reviewer
   Approver

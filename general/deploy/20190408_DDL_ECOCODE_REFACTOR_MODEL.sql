@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author
-  Date
-  Description
+  Date          2019-04-08
+  Description   Alter type for columns name, abbreviation
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/169
   Prerequisites
   Reviewer
   Approver

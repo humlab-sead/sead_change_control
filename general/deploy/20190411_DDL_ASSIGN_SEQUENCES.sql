@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-04-11
+  Description   Assign sequence as default
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/177
   Prerequisites
   Reviewer
   Approver

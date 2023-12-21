@@ -1,4 +1,17 @@
 -- Deploy general: 20190408_DDL_DATASET_CREATE_TABLE_DATASET_METHODS
+
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2019-04-08
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/167
+  Description   Add new table
+  Prerequisites
+  Reviewer
+  Approver
+  Idempotent    Yes
+  Notes
+*****************************************************************************************************************/
+
 begin;
 
     do $$

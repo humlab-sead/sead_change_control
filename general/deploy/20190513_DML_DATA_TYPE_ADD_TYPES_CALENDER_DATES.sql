@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-05-13
+  Description   https://github.com/humlab-sead/sead_change_control/issues/152: Add Calender Dates
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/192: https://github.com/humlab-sead/sead_change_control/issues/152
   Prerequisites
   Reviewer
   Approver

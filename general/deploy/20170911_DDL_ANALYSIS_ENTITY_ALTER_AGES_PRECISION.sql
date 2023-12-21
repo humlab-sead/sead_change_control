@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Phil Buckland
-  Date          2017-09.11
-  Description   Changed numeric ranges of values to 20,5 to match tbl_relative_ages
+  Date          2017-09-11
+  Description   PIB: Changed numeric ranges of values to 20,5 to match tbl_relative_ages
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/166
   Prerequisites
   Reviewer
   Approver

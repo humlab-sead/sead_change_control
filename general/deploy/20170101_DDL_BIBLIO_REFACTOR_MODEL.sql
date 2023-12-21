@@ -1,9 +1,10 @@
 -- Deploy general: 20170101_DDL_BIBLIO_REFACTOR_MODEL
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description   give a brief change description
+  Date          2017-01-01
+  Description   Refactor bibliographic data to a less complex model.
   Prerequisites
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/18
   Reviewer
   Approver
   Idempotent    Yes

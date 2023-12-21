@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-10-14
+  Description   Resolves #100 Updates NULL MAL master_set_id in tbl_datasets
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/16
   Prerequisites
   Reviewer
   Approver

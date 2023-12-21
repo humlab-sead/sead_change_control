@@ -1,5 +1,17 @@
 -- Deploy general: 20170906_DDL_RELATIVE_DATES_ALTER_RELATION
 
+/****************************************************************************************************************
+  Author        Phil Buckland
+  Date          2017-09-06
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/4
+  Description   Alter FK from physical_sample_id to analysis_entity_id
+  Prerequisites
+  Reviewer
+  Approver
+  Idempotent    Yes
+  Notes
+*****************************************************************************************************************/
+
 begin;
 do $$
 begin

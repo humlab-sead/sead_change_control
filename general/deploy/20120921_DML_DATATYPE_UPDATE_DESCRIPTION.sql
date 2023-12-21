@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-04-15
-  Description   
+  Date          2012-09-21
+  Description   Add three types
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/183
   Prerequisites 
   Reviewer      
   Approver      

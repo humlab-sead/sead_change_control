@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author
-  Date
-  Description
+  Date          2018-06-07
+  Description   Change type of tbl_sample_group_sampling_contexts.sampling_context
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/184
   Prerequisites
   Reviewer
   Approver

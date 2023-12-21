@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description   
+  Date          2018-06-01
+  Description   Drop old views.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/171
   Prerequisites 
   Reviewer      
   Approver      

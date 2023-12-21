@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description   
+  Date          2018-06-01
+  Description   Drop deprecated table.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/172
   Prerequisites 
   Reviewer      
   Approver      

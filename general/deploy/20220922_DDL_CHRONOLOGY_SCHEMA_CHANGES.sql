@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2022-10-23
-  Description
+  Date          2022-09-22
+  Description   Changes to chronology tables.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/92
   Prerequisites
   Reviewer
   Approver

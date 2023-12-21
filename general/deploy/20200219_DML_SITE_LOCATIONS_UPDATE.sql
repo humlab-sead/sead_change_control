@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2020-02-19
+  Description   MAL QoS: Removed 2 site locations
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/54
   Prerequisites
   Reviewer
   Approver

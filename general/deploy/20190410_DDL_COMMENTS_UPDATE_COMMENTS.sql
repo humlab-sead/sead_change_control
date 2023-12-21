@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-04-10
+  Description   Comment diffs on table/columns with respect to sead_master_8.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/178
   Prerequisites
   Reviewer
   Approver

@@ -1,5 +1,17 @@
 -- Deploy general: 20170911_DDL_CHRONOLOGIES_REFACTOR_MODEL
 
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2017-09-11
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/168: https://github.com/humlab-sead/sead_change_control/issues/150
+  Description   Allow relation to multiple sample groups
+  Prerequisites
+  Reviewer
+  Approver
+  Idempotent    Yes
+  Notes
+*****************************************************************************************************************/
+
 begin;
 
     do $$

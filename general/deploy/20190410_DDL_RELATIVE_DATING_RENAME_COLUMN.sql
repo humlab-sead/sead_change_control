@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-04-10
+  Description   Rename column from abbreviation
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/176
   Prerequisites
   Reviewer
   Approver
