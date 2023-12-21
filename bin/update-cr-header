@@ -52,6 +52,7 @@ if [ "$g_project" != "ALL" ] && [ ! -f "$g_project/sqitch.plan" ]; then
     exit 64
 fi
 
+
 if [ "$g_project" == "ALL" ] && [ "$g_change" == "ALL" ]; then
     projects=$(grep -v '^#' ./projects.txt | grep -v '^[[:space:]]*$')
     for project in ${projects} ; do
