@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2022-12-05
+  Description   Update of method id:s for ceramics
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/86
   Prerequisites
   Reviewer
   Approver
