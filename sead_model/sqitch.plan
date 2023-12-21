@@ -1,0 +1,8 @@
+%syntax-version=1.0.0
+%project=sead_model
+%uri=https://github.com/humlab-sead/sead_model
+
+SEAD_DATABASE_MODEL 2023-12-20T15:26:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/217: SEAD database model (public schema)
+SEAD_DATABASE_LOOKUPS 2023-12-20T20:33:57Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/220: Initial set of lookup values in the SEAD database
+
+@2019.12 2019-12-13T15:38:32Z Roger Mähler <roger.mahler@umu.se> # Initial SEAD model 
