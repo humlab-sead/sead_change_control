@@ -21,10 +21,6 @@ begin;
 -- set constraints all deferred;
 \cd /repo/mal/deploy
 
-\copy public.tbl_sites from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_COMMIT/tbl_sites.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
-\copy public.tbl_site_locations from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_COMMIT/tbl_site_locations.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
-\copy public.tbl_site_references from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_COMMIT/tbl_site_references.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
-
 /* Sample group data */
 \copy public.tbl_sample_groups from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_COMMIT/tbl_sample_groups.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_sample_group_description_type_sampling_contexts from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_COMMIT/tbl_sample_group_description_type_sampling_contexts.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
