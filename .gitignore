@@ -108,3 +108,5 @@ venv.bak/
 logs
 output
 src/data
+.vscode/settings.json
+.vscode/launch.json
