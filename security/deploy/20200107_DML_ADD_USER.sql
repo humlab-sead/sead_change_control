@@ -14,12 +14,16 @@ SELECT pg_reload_conf();
 
 do $$
 begin
-    if (select count(*) from pg_roles where rolname='love_eriksson') = 0 then
-        --drop user if exists love_eriksson;
+    
+    grant usage on schema public to mattias;
+    grant usage on schema public to johan;
 
+    grant humlab_read TO mattias;
+    grant humlab_read to johan;
+
+    if (select count(*) from pg_roles where rolname='love_eriksson') = 0 then
         create user love_eriksson
             with login nosuperuser inherit nocreatedb nocreaterole noreplication valid until '2020-06-01';
-
     end if;
 
     grant connect on database sead_staging, sead_production, sead_master_8, sead_master_9 to love_eriksson;
