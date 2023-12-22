@@ -90,6 +90,7 @@ ${replacement}" "$file"
 function update_cr_header(){
     local project=$1
     local change=$2
+    local types=$3
 
     change="${change##*/}"
     change="${change%.*}"
@@ -99,7 +100,10 @@ function update_cr_header(){
         exit 64
     fi
 
-    for type in deploy revert verify ; do
+    if [ -z "$types" ]; then
+        types=(deploy)
+    fi
+    for type in "${types[@]}"; do
 
         local filename="$project/$type/$change.sql"
         if [ ! -f $filename ]; then
