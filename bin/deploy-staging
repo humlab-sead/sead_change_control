@@ -27,7 +27,7 @@ g_sync_sequences=NO
 g_target_tag=
 g_target_chain_tag=
 g_ignore_git_tags=NO
-
+g_deploy_starting_point=NO
 default_projects=$(get_projects)
 # default_projects=$(find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy \; -print)
 
@@ -63,6 +63,7 @@ usage: deploy-staging OPTIONS...
                                     Optional if "--create" is specified, else ignored. Default rename.
     --deploy-to-tag TAG             Sqitch deploy to tag. Optional. Set tag to "latest" for full deploy.
     --deploy-chain-to-tag TAG       Sqitch deploy entire chain of databases up to tag. Optional. Set tag to "latest" for full deploy.
+    --deploy-starting-point         Create staringpoint, then exit.
     --sqitch-project PROJECT        Sqitch project to deploy
 
 examples
@@ -149,6 +150,9 @@ do
         ;;
         --deploy-chain-to-tag)
             g_target_chain_tag="$2"; shift; shift
+        ;;
+        --deploy-starting-point)
+            g_deploy_starting_point="YES"; shift;
         ;;
         --on-conflict)
             g_conflict_resolution="$2"; shift; shift;
@@ -396,6 +400,12 @@ function setup_target() {
 	    echo "info:  creating database ${target_name} using template ${source_name}..."
 	    dbexec "postgres" "create database ${target_name} with template ${source_name} owner sead_master;"
 
+	elif [ "${source_type}" == "empty" ]; then
+
+	    echo "info:  creating empty database ${target_name}..."
+	    dbexec "postgres" "create database ${target_name} owner sead_master;"
+	    dbexec "$target_name" "drop schema if exists public;"
+
 	elif [ "${source_type}" == "dump" ]; then
 
 	    if [ "${source_name}" == "" ]; then
@@ -600,9 +610,9 @@ function deploy_chain_to_tag()
         if [ "$tag" == "$target_tag" ]; then
             break
         fi
-        
+
         # FIXME: add flag to create each database in chain from dump
-        
+
         source_type="db"
         source_name=$tag_target_name
 
@@ -637,6 +647,11 @@ fi
 if [ "$g_create_snapshot" == "YES" ]; then
     create_snapshot
     exit 64
+fi
+
+if [ "$g_deploy_starting_point" == "YES" ]; then
+    setup_target $g_target_name $g_create_database $g_source_type $g_source_name $g_conflict_resolution
+    exit 0
 fi
 
 git pull &> /dev/null
