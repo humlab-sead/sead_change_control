@@ -1,16 +1,26 @@
--- Deploy sead_model:SEAD_DATABASE_LOOKUPS to pg
+-- Deploy sead_model: SEAD_DATABASE_LOOKUPS
 
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2023-12-21
   Issue         https://github.com/humlab-sead/sead_change_control/issues/220
-  Description   
+  Description   Initial set of lookup values in the SEAD database
   Prerequisites 
   Reviewer      
   Approver      
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
+set client_min_messages to warning;
+
+\set autocommit off;
+
+begin;
+
+set constraints all deferred;
+\cd /repo/sead_model/deploy
+
+
 \copy public.tbl_activity_types from program 'zcat -qac mal/data/tbl_activity_types.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_aggregate_order_types from program 'zcat -qac mal/data/tbl_aggregate_order_types.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_alt_ref_types from program 'zcat -qac mal/data/tbl_alt_ref_types.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
@@ -35,3 +45,5 @@
 \copy public.tbl_seasons from program 'zcat -qac mal/data/tbl_seasons.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_species_association_types from program 'zcat -qac mal/data/tbl_species_association_types.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_units from program 'zcat -qac mal/data/tbl_units.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+
+commit;
