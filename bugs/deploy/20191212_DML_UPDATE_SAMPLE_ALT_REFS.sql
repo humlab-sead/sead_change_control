@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-12-12
+  Description   Insert 'Bugs sample code' record into tbl_alt_ref_types.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/194
   Prerequisites
   Reviewer
   Approver

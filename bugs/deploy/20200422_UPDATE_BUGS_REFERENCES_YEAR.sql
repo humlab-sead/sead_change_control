@@ -3,7 +3,8 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2020-04-22
-  Description
+  Description   Update erroneous year in BugsCEP references
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/69
   Prerequisites
   Reviewer
   Approver

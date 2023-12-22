@@ -2,8 +2,8 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description   New association type names needed for Bugs import
+  Date          2019-05-03
+  Description   Add new association type names to accomodate Bugs import
   Prerequisites
   Reviewer
   Approver

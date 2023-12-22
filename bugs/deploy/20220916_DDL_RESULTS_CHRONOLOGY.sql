@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2022-09-18
-  Description
+  Date          2022-09-16
+  Description   Add chronology dating data to Bugs physical samples.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/17
   Prerequisites	csvkit
   Reviewer
   Approver

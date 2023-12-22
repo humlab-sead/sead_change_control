@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-05-03
+  Description   Bugs import schema
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/200
   Reviewer
   Approver
   Idempotent    Yes

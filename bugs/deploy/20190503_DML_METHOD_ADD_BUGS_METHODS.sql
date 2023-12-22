@@ -3,7 +3,7 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-05-03
-  Description   New Bugs methods needed for bugs import
+  Description   Add new methods to accomodate Bugs import
   Prerequisites
   Reviewer
   Approver

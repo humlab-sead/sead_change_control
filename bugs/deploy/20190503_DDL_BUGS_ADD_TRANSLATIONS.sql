@@ -1,9 +1,10 @@
--- Deploy bugs:CS_BUGS_20190503_ADD_TRANSLATIONS to pg
+-- Deploy bugs: 20190503_DDL_BUGS_ADD_TRANSLATIONS
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-05-03
+  Description   Add bugs import value translations
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/201
   Reviewer
   Approver
   Idempotent    Yes

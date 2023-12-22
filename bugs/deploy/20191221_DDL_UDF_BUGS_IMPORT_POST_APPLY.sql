@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-12-21
+  Description   UDF for Bugs import updates after import
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/42
   Prerequisites
   Reviewer
   Approver

@@ -3,7 +3,8 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-05-03
-  Description   New dating labs including "Unknown" to accomodate Bugs import
+  Description   Add unknown dating lab to accomodate Bugs import
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/191
   Prerequisites
   Reviewer
   Approver

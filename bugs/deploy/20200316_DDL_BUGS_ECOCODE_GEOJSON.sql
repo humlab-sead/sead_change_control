@@ -1,9 +1,10 @@
--- Deploy sead_api: 20200316_DDL_BUGS_ECOCODE_GEOJSON
+-- Deploy bugs: 20200316_DDL_BUGS_ECOCODE_GEOJSON
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2020-03-16
+  Description   GeoJSON export for Bugs Ecocodes ecocode_system_id 2
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/64
   Prerequisites
   Reviewer
   Approver

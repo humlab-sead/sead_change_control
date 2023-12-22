@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description   
+  Date          2023-12-11
+  Description   Full (inital) non-incremental import of BugsCEP data version 20230705.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/162
   Prerequisites 
   Reviewer      
   Approver      
