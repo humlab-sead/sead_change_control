@@ -2,6 +2,8 @@
 %project=mal
 %uri=https://github.com/humlab-sead/mal
 
+20100101_DML_SUBMISSION_MAL_000_LOOKUPS 2023-12-22T12:14:33Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/222: Initial MAL lookup data (equivalent to sead_master_9)
 20100101_DML_SUBMISSION_MAL_000_COMMIT 2023-12-21T11:12:44Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/221: Initial MAL data (equivalent to sead_master_9)
 
 @2019.12 2023-12-21T15:38:32Z Roger Mähler <roger.mahler@umu.se> # Initial MAL import
+
