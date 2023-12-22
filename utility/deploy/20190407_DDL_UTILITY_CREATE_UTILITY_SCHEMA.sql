@@ -1,5 +1,14 @@
 -- Deploy utility: 20190407_DDL_UTILITY_CREATE_UTILITY_SCHEMA
-
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2019-04-07
+  Description   Schema for DB global utility objects
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/202
+  Prerequisites 
+  Reviewer      
+  Approver      
+  Idempotent    Yes
+*****************************************************************************************************************/
 
 begin;
 

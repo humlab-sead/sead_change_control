@@ -1,16 +1,14 @@
 -- Deploy utility: 20190407_DDL_UTILITY_SYNC_ALL_SEQUENCES
-/*
-**  Change request ID       20190407_DDL_UTILITY_SYNC_ALL_SEQUENCES
-**  Change request tag
-**  Change origin
-**  Description             Resets all sequences to MAX value of parent column
-**  Motivation              Use whenever sequences are out-of-sync
-**  Dependencies
-**  Timestamp
-**  Rollback                N/A
-**  Commited
-**  Idempotent              YES
-**/
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2019-04-07
+  Description   Resets all sequences to MAX value of parent column
+  Issue        
+  Prerequisites 
+  Reviewer      
+  Approver      
+  Idempotent    Yes
+*****************************************************************************************************************/
 
 drop view if exists sead_utility.out_of_sync_sequences;
 drop view if exists sead_utility.id_sequences;

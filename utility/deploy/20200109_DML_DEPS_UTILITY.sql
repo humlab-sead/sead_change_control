@@ -1,14 +1,13 @@
 -- Deploy utility: 20200109_DML_DEPS_UTILITY
-
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2020-01-09
-  Description
-  Prerequisites
-  Reviewer
-  Approver
+  Description   Table dependency function
+  Issue        
+  Prerequisites 
+  Reviewer      
+  Approver      
   Idempotent    Yes
-  Notes
 *****************************************************************************************************************/
 
 create or replace function table_dependency_levels()

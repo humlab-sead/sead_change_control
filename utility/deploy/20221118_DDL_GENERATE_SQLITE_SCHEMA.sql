@@ -1,14 +1,13 @@
 -- Deploy utility: 20221118_DDL_GENERATE_SQLITE_SCHEMA
-
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
-  Prerequisites
-  Reviewer
-  Approver
+  Date          2022-11-18
+  Description   UDFs for generating Sqlite schema
+  Issue        
+  Prerequisites 
+  Reviewer      
+  Approver      
   Idempotent    Yes
-  Notes
 *****************************************************************************************************************/
 
 begin;

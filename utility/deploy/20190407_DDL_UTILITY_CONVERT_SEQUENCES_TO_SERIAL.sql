@@ -1,17 +1,19 @@
 -- Deploy utility: 20190407_DDL_UTILITY_CONVERT_SEQUENCES_TO_SERIAL
-/*
-**  Change request ID       SEAD_CR_00000
-**  Change request tag
-**  Change origin
-**  Description             Assign "owned by column" to all public sequences
-**                          I.e. makes all incrementals local to specific table column
-**  Motivation              Enables sequence auto removal
-**  Dependencies
-**  Timestamp
-**  Rollback                Execute OWNED BY NONE for each table
-**  Commited
-**  Idempotent              YES
-**/
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2019-04-07
+  Description   Assign an "owned by" column to all public sequences
+  Issue        
+  Prerequisites 
+  Reviewer      
+  Approver      
+  Idempotent    Yes
+  Note          Assign "owned by column" to all public sequences
+                I.e. makes all incrementals local to specific table column
+                Enables sequence auto removal
+  Rollback      Execute OWNED BY NONE for each table
+*****************************************************************************************************************/
+
 
 do $$
 declare

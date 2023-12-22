@@ -1,5 +1,14 @@
 -- Deploy utility: 20190407_DDL_UTILITY_CREATE_TABLE_DEPENDENCY_VIEW
--- requires: CREATE_UTILITY_SCHEMA
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2019-04-07
+  Description   View that returns table inter-dependencies
+  Issue        
+  Prerequisites 
+  Reviewer      
+  Approver      
+  Idempotent    Yes
+*****************************************************************************************************************/
 
 begin;
 

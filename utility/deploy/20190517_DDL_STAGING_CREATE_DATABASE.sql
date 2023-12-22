@@ -1,9 +1,8 @@
 -- Deploy utility: 20190517_DDL_STAGING_CREATE_DATABASE
-
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-05-17
+  Description   Create a new staging database
   Prerequisites
   Reviewer
   Approver

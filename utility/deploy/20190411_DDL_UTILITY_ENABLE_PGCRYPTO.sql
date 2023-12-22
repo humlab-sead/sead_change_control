@@ -1,9 +1,8 @@
 -- Deploy utility: 20190411_DDL_UTILITY_ENABLE_PGCRYPTO
-
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description   
+  Date          2019-04-11
+  Description   Enable pgcrypt
   Prerequisites 
   Reviewer      
   Approver      

@@ -1,9 +1,8 @@
 -- Deploy utility: 20190411_DDL_UTILITY_ENABLE_TABLEFUNC
-
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-04-11
-  Description   Enables crosstabs etc.
+  Description   Enable tablefunc
   Prerequisites
   Reviewer
   Approver
