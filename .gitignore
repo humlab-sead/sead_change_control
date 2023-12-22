@@ -110,3 +110,5 @@ output
 src/data
 .vscode/settings.json
 .vscode/launch.json
+
+*.session.sql
