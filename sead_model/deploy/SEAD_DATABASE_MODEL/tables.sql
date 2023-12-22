@@ -77,7 +77,7 @@ CREATE TABLE "public"."tbl_abundance_elements" (
   "record_type_id" int4,
   "element_name" varchar(100) COLLATE "pg_catalog"."default" NOT NULL,
   "element_description" text COLLATE "pg_catalog"."default",
-  § "date_updated" timestamptz(6) DEFAULT now()
+  "date_updated" timestamptz(6) DEFAULT now()
 );
 CREATE TABLE "public"."tbl_abundance_ident_levels" (
   "abundance_ident_level_id" serial primary key,
@@ -291,12 +291,14 @@ CREATE TABLE "public"."tbl_coordinate_method_dimensions" (
   "date_updated" timestamptz(6) DEFAULT now()
 );
 CREATE TABLE "public"."tbl_data_type_groups" (
-  "data_type_group_id" serial primary key "data_type_group_name" varchar(25) COLLATE "pg_catalog"."default",
+  "data_type_group_id" serial primary key,
+  "data_type_group_name" varchar(25) COLLATE "pg_catalog"."default",
   "date_updated" timestamptz(6) DEFAULT now(),
   "description" text COLLATE "pg_catalog"."default"
 );
 CREATE TABLE "public"."tbl_data_types" (
-  "data_type_id" serial primary key "data_type_group_id" int4 NOT NULL,
+  "data_type_id" serial primary key,
+  "data_type_group_id" int4 NOT NULL,
   "data_type_name" varchar(25) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
   "date_updated" timestamptz(6) DEFAULT now(),
   "definition" text COLLATE "pg_catalog"."default"
@@ -309,7 +311,8 @@ CREATE TABLE "public"."tbl_dataset_contacts" (
   "date_updated" timestamptz(6) DEFAULT now()
 );
 CREATE TABLE "public"."tbl_dataset_masters" (
-  "master_set_id" serial primary key "contact_id" int4,
+  "master_set_id" serial primary key,
+  "contact_id" int4,
   "biblio_id" int4,
   "master_name" varchar(100) COLLATE "pg_catalog"."default",
   "master_notes" text COLLATE "pg_catalog"."default",
@@ -853,8 +856,8 @@ CREATE TABLE "public"."tbl_sample_images" (
 CREATE TABLE "public"."tbl_sample_location_type_sampling_contexts" (
   "sample_location_type_sampling_context_id" serial primary key,
   "sampling_context_id" int4 NOT NULL,
-  "sample_location_type_id" int4 not null,
-  ! ! ! WAS SERIAL ! ! ! "date_updated" timestamptz(6) DEFAULT now()
+  "sample_location_type_id" int4 not null, -- Note was SERIAL
+  "date_updated" timestamptz(6) DEFAULT now()
 );
 CREATE TABLE "public"."tbl_sample_location_types" (
   "sample_location_type_id" serial primary key,
