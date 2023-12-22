@@ -1,4 +1,14 @@
 -- Deploy security: 20190622_DDL_FACET_USERS
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2019-06-22
+  Description   SEAD Queary API roles and priviliages
+  Prerequisites
+  Reviewer
+  Approver
+  Idempotent    Yes
+  Notes
+*****************************************************************************************************************/
 do $$
 begin
     if not exists (select from pg_catalog.pg_roles where rolname = 'querysead_owner') then
