@@ -1,15 +1,15 @@
 -- Deploy subsystem: 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2019-12-17
+  Description   Deploy of Clearinghouse Transport System.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/216
+  Prerequisites 
+  Reviewer      
+  Approver      
+  Idempotent    Yes
+*****************************************************************************************************************/
 
-/***************************************************************************
-Author         roger
-Date
-Description
-Prerequisites
-Reviewer
-Approver
-Idempotent     YES
-Notes          Use --single-transactin on execute!
-***************************************************************************/
 --set constraints all deferred;
 set client_min_messages to warning;
 -- set autocommit off;

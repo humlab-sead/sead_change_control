@@ -1,16 +1,14 @@
 -- Deploy subsystem: 20231219_DML_CLEARINGHOUSE_STARTINGPOINT
-
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2023-12-19
-  Description
-  Prerequisites
-  Reviewer
-  Approver
+  Description   Setup ClearingHouse with only ceramics and isotope data
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/214
+  Prerequisites 
+  Reviewer      
+  Approver      
   Idempotent    Yes
-  Notes
 *****************************************************************************************************************/
-
 
 do $$
 begin
