@@ -1,9 +1,10 @@
 -- Deploy sead_api: 20191011_DDL_ECOCODE_GEOJSON_EXPORT
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2019-10-11
+  Description   Greatly improved Ecocode GeoJSON export
   Prerequisites
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/64
   Reviewer
   Approver
   Idempotent    Yes

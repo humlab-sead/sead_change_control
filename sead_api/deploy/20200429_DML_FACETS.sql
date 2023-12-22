@@ -1,9 +1,10 @@
 -- Deploy sead_api: 20200429_DML_FACETS
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2020
-  Description
+  Date          2020-04-29
+  Description   Facet specifications updates
   Prerequisites
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/212
   Reviewer
   Approver
   Idempotent    Yes

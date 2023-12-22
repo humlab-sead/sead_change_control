@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2020-01-20
+  Description   New domain facets
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/149
   Prerequisites
   Reviewer
   Approver

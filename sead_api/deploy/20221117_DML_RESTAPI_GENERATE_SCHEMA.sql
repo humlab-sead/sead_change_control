@@ -1,22 +1,17 @@
 -- Deploy sead_api: 20221117_DML_RESTAPI_GENERATE_SCHEMA
 
 /****************************************************************************************************************
-  Change author
-    Roger Mähler, 2018-06-12
-  Change description
-    Generate schema POSTGREST REST API publication of SEAD base table
-  Risk assessment
-  Planning
-    Low risk
-  Change execution and rollback
-    Apply this script.
-    Steps to verify change: N/A
-    Steps to rollback change: N/A
-  Change prerequisites (e.g. tests)
-  Change reviewer
-  Change Approver Signoff
-  Notes:
+  Author        Roger Mähler
+  Date          2022-11-17
+  Description   Refresh REST API schema
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/157
+  Prerequisites
+  Reviewer
+  Approver
+  Idempotent    Yes
+  Notes
 *****************************************************************************************************************/
+
 Set client_min_messages = warning;
 
 select sead_utility.create_postgrest_default_api_schema();

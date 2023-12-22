@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2020-04-22
+  Description   Relative dates rerouted from samples to analysis
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/71
   Prerequisites
   Reviewer
   Approver

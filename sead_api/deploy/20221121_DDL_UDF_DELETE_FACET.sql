@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2022-11-21
+  Description   Delete facet UDF
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/155
   Prerequisites
   Reviewer
   Approver

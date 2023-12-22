@@ -3,7 +3,8 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2022-09-23
-  Description
+  Description   Changes table FK constraints to cascade
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/39
   Prerequisites
   Reviewer
   Approver

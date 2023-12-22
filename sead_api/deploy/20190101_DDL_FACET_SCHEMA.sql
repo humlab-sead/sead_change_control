@@ -3,7 +3,8 @@
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-01-01
-  Description
+  Description   SEAD Query API schema DDL.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/160
   Reviewer
   Approver
   Idempotent    Yes

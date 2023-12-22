@@ -1,4 +1,15 @@
 -- Deploy sead_api: 20201221_DDL_ECL_RESTAPI_VIEWS
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2020-12-21
+  Description   New views for ECL REST AOI
+  Prerequisites
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/158
+  Reviewer
+  Approver
+  Idempotent    Yes
+  Notes
+*****************************************************************************************************************/
 
 begin;
 do $$

@@ -1,9 +1,10 @@
--- Deploy sead_api: 20190101_DML_FACETS
+-- Deploy sead_api: 20190101_DML_FACETS_LOOKUP
 
 /****************************************************************************************************************
   Author        Roger Mähler
   Date          2019-01-01
-  Description
+  Description   Was part of 20190101_DML_FACETS
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/213
   Reviewer
   Approver rollback
   Idempotent    Yes

@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2020-04-29
+  Description   Better handling of updates to an existing facet
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/211
   Prerequisites
   Reviewer
   Approver

@@ -3,22 +3,11 @@
 BEGIN;
 
 /****************************************************************************************************************
-  Change author
-    Roger Mähler, 2018-0-
-  Change description
-    New schema used for POSTGREST REST API publication of SEAD base table
-  Risk assessment
-  Planning
-    Low risk
-  Change execution and rollback
-    Apply this script.
-    Steps to verify change: N/A
-    Steps to rollback change: N/A
-  Change prerequisites (e.g. tests)
-  Change reviewer
-  Change Approver Signoff
-  Notes:
-  Impact on dependent modules
+  Date          2018-05-01
+  Author        Roger Mähler
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/210
+  Description   Views (site_sample_taxon_abundance and sample_age_ranges) published via REST API
+    			New schema used for POSTGREST REST API publication of SEAD base table
 *****************************************************************************************************************/
 
 create or replace view postgrest_default_api.site_sample_taxon_abundance as

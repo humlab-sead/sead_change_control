@@ -3,8 +3,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2022-08-31
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/91
+  Description   New dendro facets (see issue #91)
   Prerequisites
   Reviewer
   Approver

@@ -1,9 +1,10 @@
 -- Deploy sead_api: 20200201_DDL_ECOCODE_GEOJSON_EXPORT
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2020-02-01
+  Description   Loves bugfixes
   Prerequisites
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/64
   Reviewer
   Approver
   Idempotent    Yes

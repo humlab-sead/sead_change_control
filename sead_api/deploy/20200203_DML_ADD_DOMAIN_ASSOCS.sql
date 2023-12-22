@@ -1,10 +1,11 @@
 -- Deploy sead_api: 20200203_DML_ADD_DOMAIN_ASSOCS
 
 /****************************************************************************************************************
-  species_author        Roger Mähler
-  Date          2019-01-01
-  Description
-  Prerequisitess
+  Author        Roger Mähler
+  Date          2020-02-03
+  Description   New domain facets associations
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/149
+  Prerequisites
   Reviewer
   Approver
   Idempotent    Yes

@@ -3,7 +3,9 @@
 /****************************************************************************************************************
   Change author
     Roger Mähler, 2018-06-12
-  Change description
+  Date          2018-05-01
+  Description   Schema used by PostgREST REST API publication of SEAD base tables
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/209
     New schema used for POSTGREST REST API publication of SEAD base table
   Risk assessment
   Planning
