@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-11-04
-  Description
+  Date          2019-12-13
+  Description   Isotope lookup data
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/14
   Prerequisites
   Reviewer
   Approver

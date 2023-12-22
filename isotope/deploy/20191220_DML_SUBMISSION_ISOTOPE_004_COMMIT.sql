@@ -1,14 +1,15 @@
 -- Deploy isotope: 20191220_DML_SUBMISSION_ISOTOPE_004_COMMIT
 /***************************************************************************
-Author         roger
-Date
-Description
-Prerequisites
-Reviewer
-Approver
-Idempotent     NO
-Notes          Use --single-transaction on execute!
+  Author         Roger Mähler
+  Date          2019-12-20
+  Description   Deploy of Clearinghouse submission {4}.
+  Prerequisites
+  Reviewer
+  Approver
+  Idempotent     NO
+  Notes          Use --single-transaction on execute!
 ***************************************************************************/
+
 set client_min_messages to warning;
 \set autocommit off;
 
