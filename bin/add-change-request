@@ -86,7 +86,8 @@ if [ -z "$issue_id" ] && [ "$create_issue" == "YES" ]; then
 
     issue_body=$(cat <<EOF
 
-Project: $project
+Change project: [$project](https://github.com/humlab-sead/sead_change_control/blob/master/${project}/sqitch.plan)
+Change request: [$change](https://github.com/humlab-sead/sead_change_control/blob/master/${project}/deploy/${change}.sql)
 
 $note
 
@@ -106,7 +107,7 @@ EOF
 
 elif [ -n "$issue_id" ]; then
     
-    gh issue comment $issue_id --body "Created CR [$change](https://github.com/humlab-sead/sead_change_control/blob/master/${project}/deploy/${change}.sql)."
+    gh issue comment $issue_id --body "Change request: [$change](https://github.com/humlab-sead/sead_change_control/blob/master/${project}/deploy/${change}.sql)."
     
 fi
 
