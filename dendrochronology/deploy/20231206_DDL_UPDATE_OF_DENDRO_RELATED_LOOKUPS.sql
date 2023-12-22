@@ -1,13 +1,14 @@
 -- Deploy dendrochronology: 20231206_DDL_UPDATE_OF_DENDRO_RELATED_LOOKUPS
 /****************************************************************************************************************
-Author        Roger Mähler
-Date          2023-12-06
-Description   See https://github.com/humlab-sead/sead_change_control/issues/153 
-Prerequisites 
-Reviewer      
-Approver      
-Idempotent    Yes
-Notes
+  Author        Roger Mähler
+  Date          2023-12-06
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/153
+  Description   Lookup data related to the dendrochronological project needs updating.
+  Prerequisites 
+  Reviewer      
+  Approver      
+  Idempotent    Yes
+  Notes
  *****************************************************************************************************************/
 begin;
 

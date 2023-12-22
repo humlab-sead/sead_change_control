@@ -1,5 +1,16 @@
 -- Deploy dendrochronology: 20191213_DDL_DENDRO_MODEL
 
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2019-01-01
+  Description   
+  Prerequisites 
+  Reviewer      
+  Approver      
+  Idempotent    Yes
+  Notes
+*****************************************************************************************************************/
+
 begin;
 
 do $$

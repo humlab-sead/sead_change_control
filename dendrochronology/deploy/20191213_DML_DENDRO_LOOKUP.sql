@@ -1,9 +1,19 @@
 -- Deploy dendrochronology: 20191213_DML_DENDRO_LOOKUP
+/****************************************************************************************************************
+  Author        Mattias Sjölander
+  Date          2019-12-13
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/148
+  Description   Add dendrochronology lookup data
+  Prerequisites 
+  Reviewer      
+  Approver      
+  Idempotent    Yes
+  Notes
+*****************************************************************************************************************/
 
 begin;
 do $$
 begin
-
     begin
 
         -- taxon_id = 39622 (näst i tur), genus_id = 432 och species = sp.

@@ -1,9 +1,10 @@
 -- Deploy dendrochronology: 20221121_DML_QSE_DENDRO_DATING
  /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2022-11-21
+  Description   Dendro dating reporting view (JvB)
   Prerequisites
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/156
   Reviewer
   Approver
   Idempotent    Yes

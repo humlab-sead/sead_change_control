@@ -1,4 +1,17 @@
--- Deploy dendrochronology: 20191213_DDL_DENDRO_MODEL
+-- Deploy dendrochronology: 20231120_DML_DENDRO_MODEL
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2023-11-20
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/135
+  Description   Update of 20191213_DDL_DENDRO_MODEL
+  Prerequisites
+  Reviewer
+  Approver
+  Idempotent    Yes
+  Notes         This script assumes that all dendro data has been removed from the database.
+                This script is a part of the solution to the issue #135.
+*****************************************************************************************************************/
+
 
 begin;
 

@@ -1,16 +1,15 @@
 -- Deploy dendrochronology: 20231120_DML_DENDRO_LOOKUP
-
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
-  Description
+  Date          2023-11-20
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/136
+  Description   New dendrochronology lookup data.
   Prerequisites
   Reviewer
   Approver
   Idempotent    Yes
   Notes         This script assumes that all dendro data has been removed from the database.
                 This script is a part of the solution to the issue 135.
-  Issue https://github.com/humlab-sead/sead_change_control/issues/135
 *****************************************************************************************************************/
 
 begin;

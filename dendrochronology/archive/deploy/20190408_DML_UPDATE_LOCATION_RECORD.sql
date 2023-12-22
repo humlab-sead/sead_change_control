@@ -1,5 +1,15 @@
--- Deploy general: 20190408_DML_UPDATE_LOCATION_RECORD
+-- Deploy dendrochronology: 20190408_DML_UPDATE_LOCATION_RECORD
 
+/****************************************************************************************************************
+  Author        Roger Mähler
+  Date          2019-01-01
+  Description   
+  Prerequisites 
+  Reviewer      
+  Approver      
+  Idempotent    Yes
+  Notes
+*****************************************************************************************************************/
 
 begin;
 do $$

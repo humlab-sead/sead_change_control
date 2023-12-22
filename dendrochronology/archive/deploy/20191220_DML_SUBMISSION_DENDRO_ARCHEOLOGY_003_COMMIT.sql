@@ -9,6 +9,7 @@ Approver
 Idempotent     NO
 Notes          Use --single-transaction on execute!
 ***************************************************************************/
+
 set client_min_messages to warning;
 \set autocommit off;
 begin;
