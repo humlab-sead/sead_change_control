@@ -92,7 +92,7 @@ CREATE TABLE "public"."tbl_abundance_modifications" (
   "date_updated" timestamptz(6) DEFAULT now()
 );
 CREATE TABLE "public"."tbl_abundances" (
-  "abundance_id" serial primary key,
+  "abundance_id" bigserial primary key,
   "taxon_id" int4 NOT NULL,
   "analysis_entity_id" int4 NOT NULL,
   "abundance_element_id" int4,
@@ -139,7 +139,7 @@ CREATE TABLE "public"."tbl_alt_ref_types" (
   "description" text COLLATE "pg_catalog"."default"
 );
 CREATE TABLE "public"."tbl_analysis_entities" (
-  "analysis_entity_id" serial primary key,
+  "analysis_entity_id" bigserial primary key,
   "physical_sample_id" int4,
   "dataset_id" int4,
   "date_updated" timestamptz(6) DEFAULT now()
@@ -573,7 +573,7 @@ CREATE TABLE "public"."tbl_measured_value_dimensions" (
   "measured_value_id" int4 NOT NULL
 );
 CREATE TABLE "public"."tbl_measured_values" (
-  "measured_value_id" serial primary key,
+  "measured_value_id" bigserial primary key,
   "analysis_entity_id" int4 NOT NULL,
   "date_updated" timestamptz(6) DEFAULT now(),
   "measured_value" numeric(20, 10) NOT NULL
