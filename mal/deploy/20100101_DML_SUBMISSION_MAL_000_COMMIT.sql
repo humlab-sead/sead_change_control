@@ -32,7 +32,6 @@ set constraints all deferred;
 \copy public.tbl_collections_or_journals from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_COMMIT/tbl_collections_or_journals.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_contacts from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_COMMIT/tbl_contacts.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_coordinate_method_dimensions from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_COMMIT/tbl_coordinate_method_dimensions.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
-\copy public.tbl_data_type_groups from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_COMMIT/tbl_data_type_groups.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_dataset_masters from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_COMMIT/tbl_dataset_masters.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_datasets from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_COMMIT/tbl_datasets.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_dating_labs from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_COMMIT/tbl_dating_labs.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');

@@ -25,6 +25,7 @@ set constraints all deferred;
 \copy public.tbl_aggregate_order_types from program 'zcat -qac SEAD_DATABASE_LOOKUPS/tbl_aggregate_order_types.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_alt_ref_types from program 'zcat -qac SEAD_DATABASE_LOOKUPS/tbl_alt_ref_types.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_contact_types from program 'zcat -qac SEAD_DATABASE_LOOKUPS/tbl_contact_types.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+\copy public.tbl_data_type_groups from program 'zcat -qac SEAD_DATABASE_LOOKUPS/tbl_data_type_groups.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_data_types from program 'zcat -qac SEAD_DATABASE_LOOKUPS/tbl_data_types.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_dataset_submission_types from program 'zcat -qac SEAD_DATABASE_LOOKUPS/tbl_dataset_submission_types.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_feature_types from program 'zcat -qac SEAD_DATABASE_LOOKUPS/tbl_feature_types.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
