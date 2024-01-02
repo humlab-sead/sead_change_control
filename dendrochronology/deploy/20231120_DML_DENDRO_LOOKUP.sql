@@ -992,6 +992,8 @@ begin
             (141, 10, 'Non-measured tree rings', 'Estimated number of non measured tree rings outside the outermost measured tree ring.'),
             (142, 10, 'Non-measured sapwood rings', 'Estimated number of non-measured sapwood rings outside the outermost measured tree ring.')
         );
+        
+        perform sead_utility.sync_sequences('public');
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
