@@ -211,7 +211,7 @@ begin
 
     execute v_sql into v_next_id;
 
-    v_next_id = coalesce(v_next_id, 1);
+    v_next_id = greatest(coalesce(v_next_id, 1), 1);
     v_seq_id  = pg_get_serial_sequence(format('%s', p_table_name), p_column_name);
 
     perform setval(v_seq_id, v_next_id);
