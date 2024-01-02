@@ -4,6 +4,7 @@
   Author        Roger Mähler
   Date          2019-05-03
   Description   Add new association type names to accomodate Bugs import
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/226
   Prerequisites
   Reviewer
   Approver
@@ -15,6 +16,8 @@ begin;
 do $$
 begin
     begin
+        perform sead_utility.sync_sequences('public', 'tbl_species_association_types', 'association_type_id');
+
         with new_species_association_types(association_type_name) as (
             values
                 ('dung in burrows parasitised by'),
@@ -57,6 +60,8 @@ begin
         update tbl_species_association_types set association_type_name = 'is cuckoo parasite in burrows of' where association_type_name = 'cuckoo parasite in burrows of';
         update tbl_species_association_types set association_type_name = 'is semi-parasitic with' where association_type_name = 'semi-parasitic with';
         update tbl_species_association_types set association_type_name = 'is parasite of' where association_type_name = 'parasite of';
+
+        perform sead_utility.sync_sequences('public', 'tbl_species_association_types', 'association_type_id');
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
