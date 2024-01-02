@@ -27,6 +27,8 @@ begin
             on a.data_type_id = b.data_type_id
           where b.data_type_id is null;
 
+        perform sead_utility.sync_sequences('public', 'tbl_data_types', 'data_type_id');
+
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
