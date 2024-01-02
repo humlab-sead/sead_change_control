@@ -17,6 +17,7 @@ do $$
 begin
 
     begin
+        perform sead_utility.sync_sequences('public', 'tbl_alt_ref_types', 'alt_ref_type_id');
 
         insert into tbl_alt_ref_types (alt_ref_type_id, alt_ref_type, description, date_updated)
         	values (12, 'Bugs sample code', 'Unique identifier for (physical) samples in the BugsCEP database', '2019-12-20 13:45:51.878824+00')
@@ -29,6 +30,7 @@ begin
         -- 	  on conflict (sample_alt_ref_id) do update
         -- 	 	set alt_ref = excluded.alt_ref,
         -- 			physical_sample_id = excluded.physical_sample_id;
+        perform sead_utility.sync_sequences('public', 'tbl_alt_ref_types', 'alt_ref_type_id');
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
