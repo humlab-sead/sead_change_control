@@ -11,6 +11,9 @@
 *****************************************************************************************************************/
 
 begin;
+    set role sead_master;
+    create schema if not exists public;
+    reset role;
 
     create schema if not exists sead_utility;
 
@@ -53,7 +56,7 @@ begin;
     $$  language sql;
 
 
-    create or replace view sead_utility.view_table_columns as (
+    create or replace view sead_utility.table_columns as (
         with fk_constraint as (
             select distinct fk.conrelid, fk.confrelid, fk.conkey,
                     fk.confrelid::regclass::information_schema.sql_identifier as fk_table_name,
@@ -133,8 +136,8 @@ begin;
         v_view_name = 'sead_utility.view_consolidated_' || p_fk_column_name;
         for v_table_name, v_pk_column_name in
             select fk.table_name, pk.column_name as pk_column_name
-            from sead_utility.view_table_columns fk
-            join sead_utility.view_table_columns pk
+            from sead_utility.table_columns fk
+            join sead_utility.table_columns pk
               on pk.table_name = fk.table_name
              and pk.is_pk = 'YES'
             where fk.is_fk = 'YES'
@@ -247,7 +250,7 @@ begin;
     end
     $function$;
 
-    create or replace function get_all_table_counts(p_schema_name text = 'public')
+    create or replace function sead_utility.get_all_table_counts(p_schema_name text = 'public')
         returns table (
             schema_name text,
             table_name text,
@@ -265,7 +268,7 @@ begin;
         end loop;
     end $$ language plpgsql;
 
-    create view sead_utility.view_fk_index_check2 as
+    create view sead_utility.foreign_keys_index_check2 as
         select c.connamespace::regclass, conrelid::regclass as table_with_fk, a.attname as fk_column
         from pg_attribute a 
         join pg_constraint c on a.attnum = any(c.conkey)
@@ -282,7 +285,7 @@ begin;
          and c.connamespace = 'public'::regnamespace;
 	
     -- check FKs there's no matching index on the target column
-    create view sead_utility.view_fk_index_check as
+    create view sead_utility.foreign_keys_index_check as
         with fk_actions (code, action) as ( values 
             ('a', 'error'),
             ('r', 'restrict'),
@@ -402,6 +405,24 @@ begin;
             --         or parent_writes > 1000
             --         or parent_mb > 10 )
         order by issue_sort, table_mb desc, table_name, fk_name;
+
+        create or replace function sead_utility.pascal_case_to_underscore(p_token character varying) returns character varying
+        as $$
+        begin
+            return lower(regexp_replace(p_token,'([[:lower:]]|[0-9])([[:upper:]]|[0-9]$)','\1_\2','g'));
+        end 
+        $$ language 'plpgsql';
+
+        create or replace function sead_utility.underscore_to_pascal_case(str text, lower_first bool=false) returns text as $$
+        declare v_result text;
+        begin
+            v_result = replace(initcap(str), '_', '');
+            if lower_first = true then
+                v_result = concat(lower(substring(v_result from 1 for 1)), substring(v_result from 2));
+            end if;
+            return v_result;
+        end;
+        $$ language plpgsql;
 
 
 commit;
