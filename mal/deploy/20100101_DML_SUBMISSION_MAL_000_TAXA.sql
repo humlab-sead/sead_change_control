@@ -33,3 +33,7 @@ begin;
 \copy public.tbl_taxonomic_order from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_TAXA/tbl_taxonomic_order.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 
 commit;
+
+do $$ begin
+  perform sead_utility.sync_sequences('public');
+end $$;

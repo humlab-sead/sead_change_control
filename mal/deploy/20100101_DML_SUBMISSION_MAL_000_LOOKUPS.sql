@@ -47,3 +47,7 @@ begin;
 \copy public.tbl_site_references from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_LOOKUPS/tbl_site_references.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 
 commit;
+
+do $$ begin
+  perform sead_utility.sync_sequences('public');
+end $$;
