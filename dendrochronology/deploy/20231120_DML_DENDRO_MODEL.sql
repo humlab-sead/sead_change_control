@@ -18,6 +18,7 @@ begin;
 do $$
 begin
 	begin
+        set role sead_master;
 
         if sead_utility.table_exists('public'::text, 'tbl_dendro_lookup'::text) = true then
             raise exception sqlstate 'GUARD';
@@ -134,6 +135,8 @@ begin
             is '20130722PIB: Added field dating_uncertainty_id to cater for >< etc.
         20130722pib: prefixed fieldnames age_younger and age_older with "cal_" to conform with equivalent names in other tables';
 
+        reset role;
+        
     exception when sqlstate 'GUARD' then
         raise notice 'already executed';
     end;
