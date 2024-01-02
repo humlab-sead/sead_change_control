@@ -17,6 +17,7 @@ do $$
 begin
     begin
 
+        perform sead_utility.sync_sequences('public', 'tbl_dating_labs', 'dating_lab_id');
 
         with new_dating_labs (international_lab_id, lab_name, country_id) as (
             values
@@ -33,6 +34,8 @@ begin
             from new_dating_labs n
             left join tbl_dating_labs x using (international_lab_id)
             where x.lab_name is null;
+
+        perform sead_utility.sync_sequences('public', 'tbl_dating_labs', 'dating_lab_id');
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
