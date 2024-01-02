@@ -100,7 +100,7 @@ begin
                 on delete no action
         );
 
-        create table public.tbl_dendro_date_notes
+        create table if not exists tbl_dendro_date_notes
         (
             dendro_date_note_id serial primary key,
             dendro_date_id integer not null,
