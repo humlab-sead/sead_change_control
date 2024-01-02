@@ -565,21 +565,23 @@ begin
             on a.project_stage_id = b.project_stage_id
         where b.project_stage_id is null*/;
 
-        perform sead_utility.sync_sequence('public', 'tbl_feature_types');
-        perform sead_utility.sync_sequence('public', 'tbl_locations');
-        perform sead_utility.sync_sequence('public', 'tbl_sample_group_sampling_contexts');
-        perform sead_utility.sync_sequence('public', 'tbl_sample_location_types');
-        perform sead_utility.sync_sequence('public', 'tbl_feature_types');
-        perform sead_utility.sync_sequence('public', 'tbl_data_type_groups');
-        perform sead_utility.sync_sequence('public', 'tbl_data_types');
-        perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
-        perform sead_utility.sync_sequence('public', 'tbl_dendro_lookup');
-        perform sead_utility.sync_sequence('public', 'tbl_age_types');
-        perform sead_utility.sync_sequence('public', 'tbl_sample_description_types');
-        perform sead_utility.sync_sequence('public', 'tbl_biblio');
-        perform sead_utility.sync_sequence('public', 'tbl_contacts');
-        perform sead_utility.sync_sequence('public', 'tbl_project_types');
-        perform sead_utility.sync_sequence('public', 'tbl_project_stages');
+        -- perform sead_utility.sync_sequence('public', 'tbl_feature_types');
+        -- perform sead_utility.sync_sequence('public', 'tbl_locations');
+        -- perform sead_utility.sync_sequence('public', 'tbl_sample_group_sampling_contexts');
+        -- perform sead_utility.sync_sequence('public', 'tbl_sample_location_types');
+        -- perform sead_utility.sync_sequence('public', 'tbl_feature_types');
+        -- perform sead_utility.sync_sequence('public', 'tbl_data_type_groups');
+        -- perform sead_utility.sync_sequence('public', 'tbl_data_types');
+        -- perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
+        -- perform sead_utility.sync_sequence('public', 'tbl_dendro_lookup');
+        -- perform sead_utility.sync_sequence('public', 'tbl_age_types');
+        -- perform sead_utility.sync_sequence('public', 'tbl_sample_description_types');
+        -- perform sead_utility.sync_sequence('public', 'tbl_biblio');
+        -- perform sead_utility.sync_sequence('public', 'tbl_contacts');
+        -- perform sead_utility.sync_sequence('public', 'tbl_project_types');
+        -- perform sead_utility.sync_sequence('public', 'tbl_project_stages');
+
+        perform sead_utility.sync_sequences('public');
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
