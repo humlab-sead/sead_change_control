@@ -19,19 +19,7 @@ declare d_date_updated text;
 begin
 
     begin
-		perform sead_utility.sync_sequence('public', 'tbl_locations');
-        perform sead_utility.sync_sequence('public', 'tbl_methods');
-		perform sead_utility.sync_sequence('public', 'tbl_contacts');
-        perform sead_utility.sync_sequence('public', 'tbl_alt_ref_types');
-		perform sead_utility.sync_sequence('public', 'tbl_biblio');
-		perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
-		perform sead_utility.sync_sequence('public', 'tbl_units');
-		perform sead_utility.sync_sequence('public', 'tbl_dimensions');
-		perform sead_utility.sync_sequence('public', 'tbl_feature_types');
-		perform sead_utility.sync_sequence('public', 'tbl_relative_ages');
-		perform sead_utility.sync_sequence('public', 'tbl_sample_group_description_types');
-		perform sead_utility.sync_sequence('public', 'tbl_sample_types');
-		perform sead_utility.sync_sequence('public', 'tbl_ceramics_lookup');
+		perform sead_utility.sync_sequences('public');
 
         d_date_updated = '2019-12-20 13:45:52.481448+00';
 
@@ -1265,19 +1253,7 @@ begin
 		select a.ceramics_lookup_id, a.name, a.method_id, a.description, '2019-12-20 13:45:52.481448+00'
 		from new_ceramics_lookup a;
 
-		perform sead_utility.sync_sequence('public', 'tbl_locations');
-        perform sead_utility.sync_sequence('public', 'tbl_methods');
-		perform sead_utility.sync_sequence('public', 'tbl_contacts');
-        perform sead_utility.sync_sequence('public', 'tbl_alt_ref_types');
-		perform sead_utility.sync_sequence('public', 'tbl_biblio');
-		perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
-		perform sead_utility.sync_sequence('public', 'tbl_units');
-		perform sead_utility.sync_sequence('public', 'tbl_dimensions');
-		perform sead_utility.sync_sequence('public', 'tbl_feature_types');
-		perform sead_utility.sync_sequence('public', 'tbl_relative_ages');
-		perform sead_utility.sync_sequence('public', 'tbl_sample_group_description_types');
-		perform sead_utility.sync_sequence('public', 'tbl_sample_types');
-		perform sead_utility.sync_sequence('public', 'tbl_ceramics_lookup');
+		perform sead_utility.sync_sequences('public');
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
