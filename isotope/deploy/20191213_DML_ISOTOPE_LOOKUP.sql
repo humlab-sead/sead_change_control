@@ -356,13 +356,9 @@ begin
             on a.location_id = b.location_id
         where b.location_id is null*/;
 
-        -- perform sead_utility.sync_sequence('public', 'tbl_dataset_masters');
-        -- perform sead_utility.sync_sequence('public', 'tbl_sample_location_types');
-        -- perform sead_utility.sync_sequence('public', 'tbl_data_types');
-        -- perform sead_utility.sync_sequence('public', 'tbl_isotope_types');
-        -- perform sead_utility.sync_sequence('public', 'tbl_contacts');
-        -- perform sead_utility.sync_sequence('public', 'tbl_biblio');
-        -- perform sead_utility.sync_sequence('public', 'tbl_locations');
+        perform sead_utility.sync_sequences('public');
+
+
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
