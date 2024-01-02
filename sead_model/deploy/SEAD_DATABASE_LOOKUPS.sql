@@ -48,3 +48,8 @@ set constraints all deferred;
 \copy public.tbl_units from program 'zcat -qac SEAD_DATABASE_LOOKUPS/tbl_units.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 
 commit;
+
+do $$
+begin
+  perform sead_utility.sync_sequences('public');
+end $$;
