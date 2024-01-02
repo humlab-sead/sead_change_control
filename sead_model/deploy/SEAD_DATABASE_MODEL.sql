@@ -11,35 +11,29 @@
   Notes         The model is based on the SEAD database sead_master_9
 *****************************************************************************************************************/
 
-set statement_timeout = 0;
-set lock_timeout = 0;
-set idle_in_transaction_session_timeout = 0;
 set client_encoding = 'UTF8';
 set standard_conforming_strings = on;
-
-select
-    pg_catalog.set_config('search_path', '', false);
-
-set check_function_bodies = false;
-set xmloption = content;
 set client_min_messages = warning;
-set row_security = off;
 
-create schema public;
+-- select
+--     pg_catalog.set_config('search_path', '', false);
+set role sead_master;
 
-alter schema public owner to postgres;
+create schema if not exists publics;
 
 comment on schema public is 'standard public schema';
-
-set client_min_messages to warning;
 
 \set autocommit off;
 \cd /repo/sead_model/deploy
 begin;
-\i SEAD_DATABASE_MODEL/tables.sql
-\i SEAD_DATABASE_MODEL/foreignkeys.sql
-\i SEAD_DATABASE_MODEL/indexes.sql
-\i SEAD_DATABASE_MODEL/grants.sql
-\i SEAD_DATABASE_MODEL/comments.sql
+
+
+\i SEAD_DATABASE_MODEL/tables.sql;
+\i SEAD_DATABASE_MODEL/foreignkeys.sql;
+\i SEAD_DATABASE_MODEL/indexes.sql;
+\i SEAD_DATABASE_MODEL/grants.sql;
+\i SEAD_DATABASE_MODEL/comments.sql;
+
 commit;
 
+reset role;
