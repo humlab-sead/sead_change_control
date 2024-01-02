@@ -27,6 +27,8 @@ note=
 today=$(date +%Y-%m-%d)
 issue_id=
 create_issue=NO
+# script_dir=$(dirname $0)
+script_dir=$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -114,3 +116,5 @@ fi
 note="# https://github.com/humlab-sead/sead_change_control/issues/${issue_id}: $note"
 
 sqitch add "$change" --set today="$today" -C $project -n "$note" "${POSITIONAL[@]}"
+
+$script_dir/update-cr-header --change $change --project $project
