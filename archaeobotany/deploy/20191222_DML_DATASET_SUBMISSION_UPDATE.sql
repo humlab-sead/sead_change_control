@@ -22,28 +22,6 @@
         -- Ny submission_type: 15, Compilation into SEAD via external TILIA => XML => (Excel) => XML => CH => SEAD
 *****************************************************************************************************************/
 
-/****************************************************************************************************************
-  Author        Roger Mähler
-  Date          2019-01-01
-  Description
-  Prerequisites
-  Reviewer
-  Approver
-  Idempotent    Yes
-  Notes
-        BugsData:   submission_type: 5  contact_id: Phil submitted_data: (date_updated from dataset)
-        MAL_Data:   submission_type: 7 (om Eriks client) contact_id: Phil submitted_data: (date_updated from dataset)
-
-        Iso_Data:   submission_type: 14 contact_id: Phil submitted_data: (date_updated from dataset)
-        Dendro:     submission_type: 14 / Compilation into SEAD from another database
-        Ceramic:    submission_type: 14 / Compilation into SEAD from another database
-        Pollen:     submission_type: 15 / Compilation into SEAD from another database
-
-        -- Ny submission_type: 13, Compilation into SEAD via (articles + Excel) => Excel => XML => CH => SEAD
-        -- Ny submission_type: 14, Compilation into SEAD via external DB (excel) => Excel => XML => CH => SEAD
-        -- Ny submission_type: 15, Compilation into SEAD via external TILIA => XML => (Excel) => XML => CH => SEAD
-*****************************************************************************************************************/
-
 begin;
 do $$
 begin
@@ -53,6 +31,8 @@ begin
         -- if sead_utility.column_exists('public'::text, 'table_name'::text, 'column_name'::text) = TRUE then
         --     raise exception SQLSTATE 'GUARD';
         -- end if;
+        perform sead_utility.sync_sequences('public', 'tbl_dataset_submission_types');
+        perform sead_utility.sync_sequences('public', 'tbl_dataset_submissions');
 
         insert into public.tbl_dataset_submission_types(submission_type_id, submission_type, description)
 	        values
@@ -101,6 +81,9 @@ begin
         	  and s.dataset_submission_id is null
         	  and d.master_set_id in (2)
               and d.method_id = 14;
+              
+        perform sead_utility.sync_sequences('public', 'tbl_dataset_submission_types');
+        perform sead_utility.sync_sequences('public', 'tbl_dataset_submissions');
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
