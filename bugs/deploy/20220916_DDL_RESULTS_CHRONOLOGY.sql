@@ -190,8 +190,6 @@ do $$
     declare missing_count_sheets int;
     begin
 
-        perform sead_utility.sync_sequences();
-
         /* Unknown count sheets */
         missing_count_sheets = (
             select count(*) --site_name, count_sheet_code, string_agg(sample_name, ', ')
@@ -301,6 +299,8 @@ begin
     begin
         v_now = now();
 
+        perform sead_utility.sync_sequences('public');
+
         /* add text column that specifies how age was selected (semicolon seperated string) */
         alter table tbl_analysis_entity_ages
             add column if not exists dating_specifier text;
@@ -379,7 +379,7 @@ begin
 
         end loop;
 
-        perform sead_utility.sync_sequences();
+        perform sead_utility.sync_sequences('public');
 
     end;
 end $$;
