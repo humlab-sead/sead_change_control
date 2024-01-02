@@ -24,8 +24,9 @@ begin
         --delete from bugs_import.bugs_type_translations;
         --delete from bugs_import.id_based_translations;
 
-		perform sead_utility.sync_sequences('bugs_import', 'bugs_type_translations', 'type_translation_id');
-		perform sead_utility.sync_sequences('bugs_import', 'id_based_translations', 'id_based_translation_id');
+		-- perform sead_utility.sync_sequences('bugs_import', 'bugs_type_translations', 'type_translation_id');
+		-- perform sead_utility.sync_sequences('bugs_import', 'id_based_translations', 'id_based_translation_id');
+        perform sead_utility.sync_sequences('bugs_import');
 		
 		with new_bugs_type_translations (bugs_table, bugs_column, triggering_column_value, target_column, replacement_value) as (
             values
@@ -256,6 +257,8 @@ begin
             insert into bugs_import.id_based_translations (bugs_definition, bugs_table, target_column, replacement_value) 
                 select bugs_definition, bugs_table, target_column, replacement_value
                 from new_id_based_translations;
+
+        perform sead_utility.sync_sequences('bugs_import');
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
