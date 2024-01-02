@@ -4,6 +4,7 @@
   Author        Roger Mähler
   Date          2019-05-03
   Description   Add new methods to accomodate Bugs import
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/225
   Prerequisites
   Reviewer
   Approver
@@ -44,7 +45,6 @@ begin
         -- insert into "public"."tbl_methods"("method_id", "biblio_id", "date_updated", "description", "method_abbrev_or_alt_name", "method_group_id", "method_name", "record_type_id", "unit_id")
         --     values (156, NULL, '2018-05-02 14:13:47.999285+02', 'Age determined to geological period using undefined (or possibly multiple) method(s).', 'GeolPer', 19, 'Geological period (unspecified)', 0, NULL)
         --         on conflict (method_id) do nothing;
-
 
         perform sead_utility.sync_sequence('public', 'tbl_methods', 'method_id');
 
