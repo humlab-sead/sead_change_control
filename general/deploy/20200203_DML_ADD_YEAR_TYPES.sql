@@ -25,6 +25,8 @@ begin
          	(3, 'Radiometric', 'Radiometric years (but not C14)', '2020-02-09 11:31:15.327791+00')
     on conflict (years_type_id) do nothing;
 
+  perform sead_utility.sync_sequences('public', 'tbl_years_types', 'years_type_id');
+  
 end $$;
 
 commit;
