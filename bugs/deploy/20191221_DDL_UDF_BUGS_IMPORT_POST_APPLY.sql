@@ -18,6 +18,8 @@ create or replace function bugs_import.post_import_updates() returns void langua
 as $$
 begin
 
+    perform sead_utility.sync_sequences('public', 'tbl_dataset_submissions', 'dataset_submission_id');
+    perform sead_utility.sync_sequences('public', 'tbl_alt_ref_types', 'alt_ref_type_id');
 
     update tbl_ecocode_groups
         set ecocode_system_id = 3
@@ -47,6 +49,9 @@ begin
         where TRUE
          and b.bugs_table = 'TSample'
          and x.alt_ref is null;
+
+    perform sead_utility.sync_sequences('public', 'tbl_dataset_submissions', 'dataset_submission_id');
+    perform sead_utility.sync_sequences('public', 'tbl_alt_ref_types', 'alt_ref_type_id');
 
 end;
 $$;
