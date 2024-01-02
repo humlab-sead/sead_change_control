@@ -58,6 +58,7 @@ begin
         --     raise exception 'Exists SEAD_taxon_id in Dyntaxa data that does not exist in SEAD.';
         -- end if;
 
+        perform sead_utility.sync_sequences('public', 'tbl_taxonomic_order', 'taxonomic_order_id');
 
         insert into public.tbl_taxonomic_order(taxon_id, taxonomic_code, taxonomic_order_system_id, date_updated)
           select "SEAD_taxon_id"::int as taxon_id, "Dyntaxa_taxonID"::numeric(18,10) as taxonomic_code, v_system_id, '2023-11-29'
@@ -65,6 +66,9 @@ begin
           join tbl_taxa_tree_master taxa
             on taxa.taxon_id = tmp."SEAD_taxon_id"::int;
             
+        perform sead_utility.sync_sequences('public', 'tbl_taxonomic_order', 'taxonomic_order_id');
+        perform sead_utility.sync_sequences('public', 'tbl_taxonomic_order_systems', 'taxonomic_order_system_id');
+        
     end;
     
 end $$;
