@@ -35,6 +35,8 @@ begin
           and method_abbrev_or_alt_name = 'Dendro'
           and record_type_id <> 20;
 
+        perform sead_utility.sync_sequences('public', 'tbl_record_types', 'record_type_id');
+        
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
