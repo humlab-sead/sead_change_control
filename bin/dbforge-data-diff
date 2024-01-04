@@ -1,0 +1,99 @@
+#!/bin/bash
+
+scriptDir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+dbHost=humlabseadserv.srv.its.umu.se
+dbUser=humlab_admin
+dbSchema=public
+dbTarget=
+targetFolder=
+templateFile=${scriptDir}/resources/dbforge-data-diff.dcomp
+
+if [ -f ~/vault/.default.sead.server ]; then
+    dbHost=`cat ~/vault/.default.sead.server`
+fi
+
+if [ -f ~/vault/.default.sead.username ]; then
+    dbUser=`cat ~/vault/.default.sead.username`
+fi
+
+if [ ! -f "$templateFile" ]; then
+    echo "error: template file not found: ${templateFile}"
+    exit 64
+fi
+
+# Check if we run in WSL2
+# if ! grep -qE "(Microsoft|WSL)" /proc/version &> /dev/null ; then
+#     echo "This script is only for WSL2 since it uses dbForge Data Compare for PostgreSQL"
+#     exit 64
+# fi
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        --host|-h)
+            dbHost="$2"; shift; shift
+        ;;
+        --user|-u)
+            dbUser="$2"; shift; shift
+        ;;
+        --source-database|--source|-s)
+            dbSource="$2"; shift; shift
+        ;;
+        --target-database|--target|-t)
+            dbTarget="$2"; shift; shift
+        ;;
+        --schema)
+            dbSchema="$2"; shift; shift
+        ;;
+        --folder)
+            targetFolder="$2"; shift; shift
+        ;;
+        *)
+            echo "error: invalid option $1"
+            exit 64
+        ;;
+    esac
+done
+
+if [ -z "$dbHost" ] || [ -z "$dbUser" ]; then
+    echo "error: missing --host or --user"
+    exit 64
+fi
+
+if [ -z "$dbSource" ] || [ -z "$dbTarget" ]; then
+    echo "error: missing source or target database"
+    exit 64
+fi
+
+if [ "$dbSource" == "$dbTarget" ]; then
+    echo "error: source and target databases must be different"
+    exit 64
+fi
+
+if [ -z "$dbSchema" ]; then
+    echo "error: missing schema (--schema)"
+    exit 64
+fi
+
+if [ -z "$targetFolder" ]; then
+    targetFolder=${dbSource}_vs_${dbTarget}_${dbSchema}__$(date +%Y%m%d%H%M%S)
+    mkdir -p ${targetFolder}
+fi
+
+dbForgePath=/mnt/c/Program\ Files/Devart/dbForge\ Data\ Compare\ for\ PostgreSQL/datacompare.exe
+compFilePath=${targetFolder}/${dbTarget}_vs_${dbSource}_.dcomp
+reportPath=${targetFolder}/${dbTarget}_vs_${dbSource}_${dbSchema}.xlsx
+logPath=${targetFolder}/${dbTarget}_vs_${dbSource}_${dbSchema}.log
+syncPath=${targetFolder}/${dbTarget}_vs_${dbSource}_${dbSchema}.sql
+
+connectionString="User Id=${DBUSER};Host=${DBHOST};Port=5432;Database=postgres;Unicode=True;Connection Timeout=15;Integrated Security=False"
+
+sed -e "s/CONNECTION_STRING/${connectionString}/g" \
+    -e "s/SOURCE_DBNAME/${dbSource}/g" \
+    -e "s/TARGET_DBNAME/${dbTarget}/g" \
+    -e "s/SCHEMA_NAME/${dbSchema}/g" ${templateFile} # &> ${compFilePath}
+
+# ${dbForgePath} /datacompare /compfile:${compFilePath} /report:${reportPath} /reportformat:xls /includeobjects:Diff /log:${logPath} /sync:${syncPath}
