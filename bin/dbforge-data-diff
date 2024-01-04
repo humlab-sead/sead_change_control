@@ -8,6 +8,7 @@ dbSchema=public
 dbTarget=
 targetFolder=
 templateFile=${scriptDir}/resources/dbforge-data-diff.dcomp
+createDiff=YES
 
 if [ -f ~/vault/.default.sead.server ]; then
     dbHost=`cat ~/vault/.default.sead.server`
@@ -50,6 +51,25 @@ do
         ;;
         --folder)
             targetFolder="$2"; shift; shift
+        ;;
+        --template)
+            templateFile="$2"; shift; shift
+        ;;
+        --no-diff)
+            createDiff="NO"; shift
+        ;;
+        --help|-h)
+            echo "Usage: dbforge-data-diff [options]"
+            echo "Options:"
+            echo "  --host|-h <host>            Database host"
+            echo "  --user|-u <user>            Database user"
+            echo "  --source|-s <database>      Source database"
+            echo "  --target|-t <database>      Target database"
+            echo "  --schema <schema>           Schema to compare"
+            echo "  --folder <folder>           Target folder"
+            echo "  --template <template>       Template file"
+            echo "  --no-diff                   Do not create diff file"
+            exit 0
         ;;
         *)
             echo "error: invalid option $1"
