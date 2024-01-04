@@ -18,6 +18,8 @@ begin
 
     begin
 
+        drop view if exists facet.view_abundance;
+        
         /* Review/rewrite of facet helper view */
         create or replace view facet.view_abundance as
             with analysis as (
