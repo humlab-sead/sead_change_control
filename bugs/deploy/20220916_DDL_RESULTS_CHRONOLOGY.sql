@@ -77,8 +77,8 @@ do $$
         /* Explode componded keys */
         update results_chronology_temp
         set site_name = split_part(identifier, '|', 1),
-        count_sheet_code = split_part(identifier, '|', 2),
-        sample_name = split_part(identifier, '|', 3);
+            count_sheet_code = split_part(identifier, '|', 2),
+            sample_name = split_part(identifier, '|', 3);
 
 
         /* Add SEAD sample group identity */
@@ -117,7 +117,7 @@ do $$
 
         */
         
-        with corrected_sample_names(sample_name, new_sample_name) as (values
+        with corrected_sample_names(faulty_sample_name, correct_sample_name) as (values
             ('apr-06', '2906/4'),     /* Strange Excel conversion */
             ('jun-21', '2721/6'),     /* Strange Excel conversion */
             ('Column_A_F4', 'F4'),
@@ -154,10 +154,9 @@ do $$
             ('3b2', '3d2'),              /* Strange, typo? */
             ('3d3', '3b3') 
         ) update results_chronology_temp as t
-            set sample_name = x.corrected_sample_name
+            set sample_name = x.correct_sample_name
         from corrected_sample_names x
-        where x.sample_name = t.sample_name
-            and  x.sample_name != t.sample_name;
+        where x.faulty_sample_name = t.sample_name;
 
 
 
@@ -165,9 +164,9 @@ do $$
             select *
             from (values
                 ('9,00E+05', '900000'), ('1,00E+05', '100000'), ('3,00E+05', '300000'), ('4,00E+05', '400000')
-            ) as Y(faulty_age, corrected_age)
+            ) as Y(faulty_age, correct_age)
         ) update results_chronology_temp as t
-            set "AgeFrom" = x.corrected_age
+            set "AgeFrom" = x.correct_age
         from corrected_ages x
         where x.faulty_age = t."AgeFrom";
 
@@ -175,13 +174,12 @@ do $$
             select *
             from (values
                 ('9,00E+05', '900000'), ('1,00E+05', '100000'), ('3,00E+05', '300000'), ('4,00E+05', '400000')
-            ) as Y(faulty_age, corrected_age)
+            ) as Y(faulty_age, correct_age)
         ) update results_chronology_temp as t
-            set "AgeTo" = x.corrected_age
+            set "AgeTo" = x.correct_age
         from corrected_ages x
         where x.faulty_age = t."AgeTo";
 
-    end
 end $$;
 
 
