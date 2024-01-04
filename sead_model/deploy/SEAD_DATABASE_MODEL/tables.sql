@@ -256,7 +256,7 @@ CREATE TABLE "public"."tbl_dataset_submissions" (
   "dataset_id" int4 NOT NULL,
   "submission_type_id" int4 NOT NULL,
   "contact_id" int4 NOT NULL,
-  "date_submitted" date NOT NULL,
+  "date_submitted" text NULL,
   "notes" text COLLATE "pg_catalog"."default",
   "date_updated" timestamptz(6) DEFAULT now()
 );
