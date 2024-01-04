@@ -1,0 +1,7 @@
+-- Verify bugs: 20231211_DML_SUBMISSION_BUGS_20231219_COMMIT
+
+BEGIN;
+
+-- XXX Add verifications here.
+
+ROLLBACK;

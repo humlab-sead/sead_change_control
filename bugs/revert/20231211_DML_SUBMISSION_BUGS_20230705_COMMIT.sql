@@ -1,7 +1,0 @@
--- Revert bugs: 20231211_DML_SUBMISSION_BUGS_20230705_COMMIT
-
-BEGIN;
-
--- XXX Add DDLs here.
-
-COMMIT;
