@@ -45,5 +45,8 @@
         "**/node_modules/*/**": true,
         "**/.hg/store/**": true,
         "**/logs/**": true,
-    }
+    },
+    "black-formatter.interpreter": [
+        "/home/roger/.cache/pypoetry/virtualenvs/sead-clearinghouse-import-OH0GXtQP-py3.11/bin/python"
+    ],
 }
