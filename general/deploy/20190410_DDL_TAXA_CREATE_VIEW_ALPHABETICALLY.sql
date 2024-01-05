@@ -22,6 +22,7 @@ begin
             raise exception SQLSTATE 'GUARD';
         end if;
 
+        set role sead_master;
         create or replace view "public"."view_taxa_alphabetically" as
             select o.order_id,
                 o.order_name as "order",
@@ -40,7 +41,8 @@ begin
                 left join tbl_taxa_tree_authors a on ((s.author_id = a.author_id)))
             order by o.order_name, f.family_name, g.genus_name, s.species;
 
-
+        reset role;
+        
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
