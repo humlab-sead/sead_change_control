@@ -2,9 +2,9 @@
 %project=utility
 %uri=https://github.com/humlab-sead/sead/utility
 
-20180613_DDL_AUDIT_DEPLOY_AUDIT_SYSTEM 2019-04-09T08:53:03Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/5: https://github.com/2ndQuadrant/audit-trigger
 20190401_DDL_UTILITY_SCHEMA 2019-04-07T09:00:06Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/202:  Schema for DB global utility objects
 20190407_DDL_UTILITY_SYNC_ALL_SEQUENCES 2019-04-05T14:12:09Z Roger Mähler <roger.mahler@umu.se> # Resets all sequences to MAX value of parent column
+20180613_DDL_AUDIT_DEPLOY_AUDIT_SYSTEM 2019-04-09T08:53:03Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/5: https://github.com/2ndQuadrant/audit-trigger
 
 @2000.00 2019-12-13T15:38:32Z Roger Mähler <roger.mahler@umu.se> # Initial SEAD model 
 
