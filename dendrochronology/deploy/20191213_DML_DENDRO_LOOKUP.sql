@@ -15,7 +15,7 @@ begin;
 do $$
 begin
     begin
-        insert into tbl_sample_group_description_types (sample_group_description_typeid, type_name, type_description) (
+        insert into tbl_sample_group_description_types (sample_group_description_type_id, type_name, type_description) (
             values
                 (52, 'Alias', 'Different types of alias; mainly used for the buildings in dendro related data.'),
                 (53, 'Structure event' ,'Descriptions of events which have affected a structure. '),
