@@ -15,7 +15,21 @@ begin;
 do $$
 begin
     begin
-
+        insert into tbl_sample_group_description_types (sample_group_description_typeid, type_name, type_description) (
+            values
+                (52, 'Alias', 'Different types of alias; mainly used for the buildings in dendro related data.'),
+                (53, 'Structure event' ,'Descriptions of events which have affected a structure. '),
+                (54, 'Roof material' ,'Specification of the roof material, that is what the the outer part is covered with  (e.g. clay tiles, grass, concrete). '),
+                (55, 'Roof type' ,'Specification of the roof type (e.g. purlin roof). '),
+                (56, 'Framework facade' ,'Specification of the technique and material used for the facade. (e.g. "wood panel, standing")'),
+                (57, 'Framework technique' ,'Specification of the technique used for the framework of the structure. (e.g. "timber framing")'),
+                (58, 'Framework material' ,'Specification of the material used for the framework of the structure. (e.g. "wood, lying timber", "masonry)'),
+                (59, 'Construction levels' ,'Specification of how many levels a structure has (in the case of churches and other complex buildings the building parts are entered). '),
+                (60, 'Construction type' ,'Specification of the building plan, shape and specific construction. (e.g. sacristy, loft shed, porch, log cabin)'),
+                (61, 'Construction function' ,'Specification of a construction''s function, what fuction did, or does, it serve? (e.g. a residential house could be a croft or fishing cabin, an outbuilding a smithy, or an outbuilding a cellar)'),
+                (62, 'Construction purpose' ,'Used to describe the function of a construction using wider umbrella terms. i.e. whether it is is/was used for housing, worship, etc.  (e.g. outbuilding, church, shed)')
+        );
+															   
         -- taxon_id = 39622 (näst i tur), genus_id = 432 och species = sp.
         insert into tbl_taxa_tree_master (taxon_id, author_id, genus_id, species, date_updated)
 	        values (39622, null, 432, 'sp.', '2019-12-20 13:45:52.60401+00');
@@ -191,13 +205,13 @@ begin
         where b.sampling_context_id is null*/;
 
         WITH new_sample_location_types (sample_location_type_id, location_type, location_type_description) AS (VALUES
-            (71, 'Sampled section', 'A description of the sampled area. i.e. what building or what part of the building was sampled, and possibly its function. (e.g. Västtorn, östra ladan, kor, långhus).'),
+            (71, 'Sampled section', 'A description of the sampled area. i.e. what building or what part of the building was sampled, and possibly its function. (e.g. "western tower", "eastern barn", "chancel").'),
             (72, 'Building level', 'On what floor was the sample/-s retrieved.'),
             (73, 'Room', 'In what room of the building was the sample/-s retrieved.'),
             (74, 'Construction part', 'What type of construction part (e.g. wall, roof beam) was sampled.'),
-            (75, 'Sampled direction', 'Description of what direction the sampled area is (e.g. byggnadens östra sida, nära norra hörnet).'),
-            (76, 'Sampled area', 'Description of the area in the room/building that was sampled (e.g. dörr, under trappan, takstol).'),
-            (77, 'Sampled object', 'Description of the object, or part of object, was sampled (e.g. 3:e timmervarv, sparre, grov bjälke, dörrkarm). ')
+            (75, 'Sampled direction', 'Description of what direction the sampled area is (e.g. "eastern side", "northern corner").'),
+            (76, 'Sampled area', 'Description of the area in the room/building that was sampled (e.g. "door", "beneath stairs", "truss").'),
+            (77, 'Sampled object', 'Description of the object, or part of object, was sampled (e.g. "3rd log from bottom", "doorframe", "beam").')
         ) insert into tbl_sample_location_types (sample_location_type_id, location_type, location_type_description, date_updated)
         select a.sample_location_type_id, a.location_type, a.location_type_description, '2019-12-20 13:45:52.60401+00'
         from new_sample_location_types a /*
@@ -295,22 +309,24 @@ begin
             on a.master_set_id = b.master_set_id
         where b.master_set_id is null*/;
 
+    update tbl_season_types set description = 'A division of the year, marked by changes in weather. This can include multiple seasons (e.g. winter-spring, summer-winter).' where season_type_id = 10;
+    
         WITH new_dendro_lookup (dendro_lookup_id, method_id, name, description, date_updated) AS (VALUES
             (121, 10, 'Tree species', 'Species name of the tree the sample came from.', '2018-05-31 16:24:11.022085+02'),
             (122, 10, 'Tree rings', 'Number of tree rings inferred as years.', '2018-05-31 16:24:11.022085+02'),
-            (123, 10, 'earlywood/late wood', 'A notation on whether the outermost part of the tree grew early in the growing season or late in the growing season.', '2018-05-31 16:24:11.022085+02'),
-            (124, 10, 'No. of radius ', 'Number of radius analysed.', '2018-05-31 16:24:11.022085+02'),
-            (125, 10, '3 time series', 'A notation on whether 3 time series have been analysed for the sample. ', '2018-05-31 16:24:11.022085+02'),
-            (126, 10, 'Sapwood (Sp)', 'The outer layers of a tree, between the pith and the cambium. ', '2018-05-31 16:24:11.022085+02'),
+            (123, 10, 'Earlywood/Latewood', 'A notation on whether the outermost part of the tree grew early in the growing season or late in the growing season.', '2018-05-31 16:24:11.022085+02'),
+            (124, 10, 'Number of analysed radii.', 'Number of radius analysed.', '2018-05-31 16:24:11.022085+02'),
+            (125, 10, 'EW/LW measurements', 'Record of whether the earlywood and latewood of each ring has been measured separately.', '2018-05-31 16:24:11.022085+02'),
+            (126, 10, 'Number of sapwood rings in a sample.', 'The outer layers of a tree, between the pith and the cambium. ', '2018-05-31 16:24:11.022085+02'),
             (127, 10, 'Bark (B)', 'Whether bark was present in the sample. ', '2018-05-31 16:24:11.022085+02'),
-            (128, 10, 'Waney edge (W)', 'The last formed tree ring before felling or sampling. Presence of this represents the last year of growth.', '2018-05-31 16:24:11.022085+02'),
-            (129, 10, 'Pith (P)', 'The central core of a tree stem or twig.', '2018-05-31 16:24:11.022085+02'),
-            (130, 10, 'Tree age ≥', 'The analysed age of the tree.', '2018-05-31 16:24:11.022085+02'),
-            (131, 10, 'Tree age ≤', 'The analysed age of the tree.', '2018-05-31 16:24:11.022085+02'),
-            (132, 10, 'Inferred growth year ≥', 'The growth year inferred from the analysed tree rings. ', '2018-05-31 16:24:11.022085+02'),
-            (133, 10, 'Inferred growth year ≤', 'The growth year inferred from the analysed tree rings. ', '2018-05-31 16:24:11.022085+02'),
-            (134, 10, 'Estimated felling year', ' The felling year, inferred from the  analysed outermost tree-ring date', '2018-05-31 16:24:11.022085+02'),
-            (135, 10, 'Estimated felling year, lower accuracy', ' The felling year, inferred from the  analysed tree rings, with lower accuracy', '2018-05-31 16:24:11.022085+02'),
+            (128, 10, 'Waney edge (W)', 'The outermost ring immediately inside the bark. Presence of this represents the last year of growth and the exact felling year.', '2018-05-31 16:24:11.022085+02'),
+            (129, 10, 'Pith (P)', 'The innermost ring of a tree stem or twig.', '2018-05-31 16:24:11.022085+02'),
+            (130, 10, 'Tree age ≥', 'The minimum estimated age of the tree.', '2018-05-31 16:24:11.022085+02'),
+            (131, 10, 'Tree age ≤', 'The maximum estimated age of the tree.', '2018-05-31 16:24:11.022085+02'),
+            (132, 10, 'Inferred growth year ≥', 'The minimum estimated growth year as inferred from the analysed tree rings.', '2018-05-31 16:24:11.022085+02'),
+            (133, 10, 'Inferred growth year ≤', 'The maximal estimated growth year as inferred from the analysed tree rings.', '2018-05-31 16:24:11.022085+02'),
+            (134, 10, 'Estimated felling year', 'The felling year as inferred from the analysed outermost tree-ring date', '2018-05-31 16:24:11.022085+02'),
+            (135, 10, 'Possible estimated felling year', 'Used for samples where dating has not been succesful but a non-statistically satisfactory dating suggestion is given.', '2018-05-31 16:24:11.022085+02'),
             (136, 10, 'Provenance', 'The provenance of the sampled tree, inferred by comparing the sample with others. ', '2018-05-31 16:24:11.022085+02'),
             (137, 10, 'Outermost tree-ring date', 'The date of the outermost tree-ring', '2018-05-31 16:24:11.022085+02'),
             (138, 10, 'Not dated', 'Used to mark samples as not having been succesfully dated, i. e. analysed but not dated', '2018-05-31 16:24:11.022085+02'),

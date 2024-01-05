@@ -9,3 +9,5 @@
 20231120_DML_DENDRO_MODEL 2023-12-18T15:03:51Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/135: Update of 20191213_DDL_DENDRO_MODEL
 @2023.12
 20221121_DML_DENDRO_LOOKUP_STANDARD_UPDATE 2022-11-21T09:44:47Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/89: Dendro lookups standardization and update
+@2023.12
+20231206_DDL_UPDATE_OF_DENDRO_RELATED_LOOKUPS 2023-12-06T08:43:01Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/153: Lookup data related to the dendrochronological project needs updating.
