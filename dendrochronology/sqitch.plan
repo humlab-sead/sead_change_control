@@ -12,8 +12,7 @@
 20231120_DML_DENDRO_LOOKUP 2023-11-20T07:41:12Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/136: New dendrochronology lookup data.
 20221121_DML_DENDRO_ADD_ANALYSIS_METHODS 2022-11-21T09:51:06Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/141:  Add analysis methods for dendro humlab-sead/sead_general_database/#4
 
-# @2022.12 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 December release
-
+@2022.12 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 December release
 
 20221121_DML_QSE_DENDRO_DATING 2022-11-21T15:37:40Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/156:  Dendro dating reporting view (JvB)
 
