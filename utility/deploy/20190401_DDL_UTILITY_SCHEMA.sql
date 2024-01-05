@@ -11,11 +11,73 @@
 *****************************************************************************************************************/
 
 begin;
+
     set role sead_master;
-    create schema if not exists public;
+    create schema if not exists public authorization sead_master;
     reset role;
 
     create schema if not exists sead_utility;
+
+    create or replace procedure sead_utility.set_schema_privilege(p_schema_name text, p_user_name text, level text, variadic p_for_roles text[] default null) as $$
+    declare
+        command text;
+        v_for_role text;
+    begin
+
+        if p_for_roles is null or array_length(p_for_roles, 1) < 1 or p_for_roles[0] is null then
+             p_for_roles = array['current_user'];
+        end if;
+
+        foreach v_for_role in array p_for_roles loop
+            -- Revoke all privileges first
+            command := format('
+                revoke all on all tables in schema %1$I from %2$I; 
+                revoke all on all sequences in schema %1$I from %2$I; 
+                revoke all on all functions in schema %1$I from %2$I; 
+                alter default privileges in schema %1$I for role %3$s revoke all on tables from %2$I; 
+                alter default privileges in schema %1$I for role %3$s revoke all on sequences from %2$I; 
+                alter default privileges in schema %1$I for role %3$s revoke all on functions from %2$I;
+            ', p_schema_name, p_user_name, v_for_role);
+            execute command;
+
+            -- Grant privileges based on the level
+            if level = 'read' then
+                command := format('
+                    grant select on all tables in schema %1$I to %2$I; 
+                    grant select on all sequences in schema %1$I to %2$I; 
+                    grant execute on all functions in schema %1$I to %2$I; 
+                    alter default privileges in schema %1$I for role %3$s grant select on tables to %2$I; 
+                    alter default privileges in schema %1$I for role %3$s grant select on sequences to %2$I; 
+                    alter default privileges in schema %1$I for role %3$s grant execute on functions to %2$I;
+                ', p_schema_name, p_user_name, v_for_role);
+            elsif level = 'read/write' then
+                command := format('
+                    grant all on all tables in schema %1$I to %2$I; 
+                    grant all on all sequences in schema %1$I to %2$I; 
+                    grant execute on all functions in schema %1$I to %2$I; 
+                    alter default privileges in schema %1$I for role %3$s grant all on tables to %2$I; 
+                    alter default privileges in schema %1$I for role %3$s grant all on sequences to %2$I; 
+                    alter default privileges in schema %1$I for role %3$s grant execute on functions to %2$I;
+                ', p_schema_name, p_user_name, v_for_role);
+            elsif level = 'admin' then
+                command := format('
+                    grant all on schema %1$I to %2$I; 
+                    grant all on all tables in schema %1$I to %2$I; 
+                    grant all on all sequences in schema %1$I to %2$I; 
+                    grant all on all functions in schema %1$I to %2$I; 
+                    alter default privileges in schema %1$I for role %3$s grant all on tables to %2$I; 
+                    alter default privileges in schema %1$I for role %3$s grant all on sequences to %2$I; 
+                    alter default privileges in schema %1$I for role %3$s grant all on functions to %2$I;
+                ', p_schema_name, p_user_name, v_for_role);
+            end if;
+
+            if command is not null then
+                -- raise notice '%', command;
+                execute command;
+            end if;
+        end loop;
+    end;
+    $$ language plpgsql;
 
     create or replace function sead_utility.schema_exists(p_schema_name text)
       returns bool as
@@ -224,7 +286,7 @@ begin;
     end $$ language plpgsql;
 
     create or replace function sead_utility.constraint_exists(s_schema_name text, s_table_name text, variadic v_columns text[])
-    returns text
+        returns text
     language plpgsql
         as $function$
             declare v_constraint_name text;
@@ -235,13 +297,13 @@ begin;
         select tc.constraint_name into v_constraint_name
         from information_schema.table_constraints as tc 
         join information_schema.key_column_usage as kcu
-        on tc.constraint_name = kcu.constraint_name
+          on tc.constraint_name = kcu.constraint_name
         join information_schema.constraint_column_usage as ccu
-        on ccu.constraint_name = tc.constraint_name
+          on ccu.constraint_name = tc.constraint_name
         where tc.constraint_type = 'UNIQUE'
-        and tc.constraint_schema = s_schema_name
-        and tc.table_name=s_table_name
-        and kcu.column_name = any(v_columns)
+          and tc.constraint_schema = s_schema_name
+          and tc.table_name=s_table_name
+          and kcu.column_name = any(v_columns)
         group by tc.constraint_name, tc.table_name, kcu.column_name
         having count(*) = array_length(v_columns, 1);
 
@@ -424,5 +486,67 @@ begin;
         end;
         $$ language plpgsql;
 
+
+    create or replace function sead_utility.chown(in_schema character varying, new_owner character varying)
+        returns void as $$
+        declare
+            object_types varchar[];
+            object_classes varchar[];
+            object_type record;
+            r record;
+        begin
+            object_types = '{type,table,table,sequence,index,view}';
+            object_classes = '{c,t,r,S,i,v}';
+
+            for object_type in
+                select unnest(object_types) type_name,
+                            unnest(object_classes) code
+            loop
+                for r in
+                    select n.nspname, c.relname
+                    from pg_class c, pg_namespace n
+                    where n.oid = c.relnamespace
+                        and nspname = in_schema
+                        and relkind = object_type.code
+                loop
+                raise notice 'Changing ownership of % %.% to %',
+                            object_type.type_name,
+                            r.nspname, r.relname, new_owner;
+                execute format(
+                    'alter %s %I.%I owner to %I'
+                    , object_type.type_name, r.nspname, r.relname,new_owner);
+                end loop;
+            end loop;
+
+            for r in
+                select  p.proname, n.nspname,
+                pg_catalog.pg_get_function_identity_arguments(p.oid) args
+                from    pg_catalog.pg_namespace n
+                join    pg_catalog.pg_proc p
+                on      p.pronamespace = n.oid
+                where   n.nspname = in_schema
+            loop
+                raise notice 'Changing ownership of function %.%(%) to %',
+                            r.nspname, r.proname, r.args, new_owner;
+                execute format(
+                'alter function %I.%I (%s) owner to %I', r.nspname, r.proname, r.args, new_owner);
+            end loop;
+
+            for r in
+                select *
+                from pg_catalog.pg_namespace n
+                join pg_catalog.pg_ts_dict d
+                on d.dictnamespace = n.oid
+                where n.nspname = in_schema
+            loop
+                execute format(
+                'alter text search dictionary %I.%I owner to %I', r.nspname, r.dictname, new_owner );
+            end loop;
+        end $$ language plpgsql;
+
+    call sead_utility.set_schema_privilege('sead_utility', 'sead_master', 'admin', 'humlab_admin');
+    call sead_utility.set_schema_privilege('sead_utility', 'sead_read', 'read', 'humlab_admin', 'sead_master');
+
+    -- Call sead_utility.set_schema_privilege with empty variadic parameter to set privileges for current user
 
 commit;
