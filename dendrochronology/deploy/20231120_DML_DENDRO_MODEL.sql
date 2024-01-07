@@ -83,6 +83,10 @@ begin
             age_older integer,
             age_younger integer,
             date_updated timestamp with time zone default now(),
+            constraint fk_dendro_dates_season_id foreign key (season_id)
+                references public.tbl_seasons (season_id) match simple
+                on update no action
+                on delete no action,
             constraint fk_dendro_dates_analysis_entity_id foreign key (analysis_entity_id)
                 references public.tbl_analysis_entities (analysis_entity_id) match simple
                 on update no action
@@ -112,18 +116,14 @@ begin
                 on update no action
                 on delete no action
         );
-
-        alter table tbl_dendro_lookup owner to "sead_master";
-        alter table tbl_dendro owner to "sead_master";
-        alter table tbl_dendro_dates owner to sead_master;
-        alter table tbl_dendro_date_notes owner to sead_master;
-        alter table tbl_age_types owner to sead_master;
+        
+        --call sead_utility.set_schema_privilege('sead_utility', 'sead_read', 'read', 'humlab_admin', 'sead_master');
 
         grant all on table tbl_dendro_dates to sead_read, postgres;
         grant select on table tbl_dendro_dates to humlab_read;
 
         grant select on table tbl_dendro_date_notes to humlab_read;
-        grant all on table tbl_dendro_date_notes to postgres, sead_master, sead_read;
+        grant all on table tbl_dendro_date_notes to postgres, sead_read;
 
         grant all on table tbl_age_types to sead_read, humlab_admin, postgres;
 
@@ -134,7 +134,6 @@ begin
         comment on table public.tbl_dendro_dates
             is '20130722PIB: Added field dating_uncertainty_id to cater for >< etc.
         20130722pib: prefixed fieldnames age_younger and age_older with "cal_" to conform with equivalent names in other tables';
-
         reset role;
         
     exception when sqlstate 'GUARD' then
