@@ -80,8 +80,8 @@ begin
             dendro_lookup_id integer not null,
             age_type_id integer not null,
             analysis_entity_id integer not null,
-            age_older integer,
-            age_younger integer,
+            age_older integer null,
+            age_younger integer null,
             date_updated timestamp with time zone default now(),
             constraint fk_dendro_dates_season_id foreign key (season_id)
                 references public.tbl_seasons (season_id) match simple
