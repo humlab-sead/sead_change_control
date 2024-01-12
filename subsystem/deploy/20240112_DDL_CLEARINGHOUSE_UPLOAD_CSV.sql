@@ -16,7 +16,7 @@ begin;
 do $$
 begin
 
-create or replace procedure clearing_house.fn_extract_csv_upload_to_staging_tables(p_submission_id int) as $BODY$
+create or replace function clearing_house.fn_extract_csv_upload_to_staging_tables(p_submission_id int) returns void as $BODY$
 begin
 
 	if not exists (
@@ -130,6 +130,7 @@ begin
          And c.column_name = v.column_name;
 
 End $BODY$ Language plpgsql;
+
 
     
 end $$;
