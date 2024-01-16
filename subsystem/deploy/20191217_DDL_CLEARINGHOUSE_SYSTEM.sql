@@ -1830,7 +1830,7 @@ Begin
     Return Query
         Select	d.submission_id																as submission_id,
                 substring(d.xml::text from '^<([[:alnum:]]+).*>')::character varying(255)	as table_name,
-                (xpath('//@length', d.xml))[1]::text::int								    as row_count
+                (xpath('/*/@length', d.xml))[1]::text::int								    as row_count
         From (
             Select x.submission_id, unnest(xpath('/sead-data-upload/*', x.xml)) As xml
             From clearing_house.tbl_clearinghouse_submissions as x
@@ -1864,7 +1864,7 @@ Begin
         Select	d.submission_id                                   							as submission_id,
                 d.table_name																as table_name,
                 substring(d.xml::text from '^<([[:alnum:]]+).*>')::character varying(255)	as column_name,
-                (xpath('//@class', d.xml))[1]::character varying(255)					as column_type
+                (xpath('/*/@class', d.xml))[1]::character varying(255)					as column_type
         From (
             Select x.submission_id, t.table_name, unnest(xpath('/sead-data-upload/' || t.table_name || '/*[not(@clonedId)][1]/*', xml)) As xml
             From clearing_house.tbl_clearinghouse_submissions x
@@ -1910,9 +1910,9 @@ Begin
             From (
                 Select	d.submission_id																			as submission_id,
                         replace(substring(d.xml::text from '^<([[:alnum:]\.]+).*>'), 'com.sead.database.', '')	as table_name,
-                        ((xpath('//@id', d.xml))[1])::character varying(255)									as local_db_id,
-                        ((xpath('//@clonedId', d.xml))[1])::character varying(255)							as public_db_id_attribute,
-                        ((xpath('//clonedId/text()', d.xml))[1])::character varying(255)						as public_db_id_value
+                        ((xpath('/*/@id', d.xml))[1])::character varying(255)									as local_db_id,
+                        ((xpath('/*/@clonedId', d.xml))[1])::character varying(255)							as public_db_id_attribute,
+                        ((xpath('/*/clonedId/text()', d.xml))[1])::character varying(255)						as public_db_id_value
                 From submission_xml_data_rows as d
             ) As v;
 
@@ -1954,8 +1954,8 @@ Begin
         ), record_value_xml As (
             Select	x.submission_id																				As submission_id,
                     replace(substring(x.xml::text from '^<([[:alnum:]\.]+).*>'), 'com.sead.database.', '')		As table_name,
-                    nullif((xpath('//@id', x.xml))[1]::character varying(255), 'NULL')::numeric::int			As local_db_id,
-                    nullif((xpath('//@clonedId', x.xml))[1]::character varying(255), 'NULL')::numeric::int	    As public_db_id,
+                    nullif((xpath('/*/@id', x.xml))[1]::character varying(255), 'NULL')::numeric::int			As local_db_id,
+                    nullif((xpath('/*/@clonedId', x.xml))[1]::character varying(255), 'NULL')::numeric::int	    As public_db_id,
                     unnest(xpath( '/*/*', x.xml))																As xml
             From record_xml x
         )   Select	x.submission_id																				As submission_id,
@@ -1963,10 +1963,10 @@ Begin
                     x.local_db_id																				As local_db_id,
                     x.public_db_id																				As public_db_id,
                     substring(x.xml::character varying(255) from '^<([[:alnum:]]+).*>')::character varying(255)	As column_name,
-                    nullif((xpath('//@class', x.xml))[1]::character varying, 'NULL')::character varying		    As column_type,
-                    nullif((xpath('//@id', x.xml))[1]::character varying(255), 'NULL')::numeric::int			As fk_local_db_id,
-                    nullif((xpath('//@clonedId', x.xml))[1]::character varying(255), 'NULL')::numeric::int	    As fk_public_db_id,
-                    nullif((xpath('//text()', x.xml))[1]::text, 'NULL')::text									As value
+                    nullif((xpath('/*/@class', x.xml))[1]::character varying, 'NULL')::character varying		    As column_type,
+                    nullif((xpath('/*/@id', x.xml))[1]::character varying(255), 'NULL')::numeric::int			As fk_local_db_id,
+                    nullif((xpath('/*/@clonedId', x.xml))[1]::character varying(255), 'NULL')::numeric::int	    As fk_public_db_id,
+                    nullif((xpath('/*/text()', x.xml))[1]::text, 'NULL')::text									As value
             From record_value_xml x;
 End
 $BODY$;
