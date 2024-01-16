@@ -27,7 +27,6 @@ note=
 today=$(date +%Y-%m-%d)
 issue_id=
 create_issue=NO
-# script_dir=$(dirname $0)
 script_dir=$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
 
 POSITIONAL=()
