@@ -28,7 +28,7 @@ begin;
                  dataset_method_id serial primary key,
                  dataset_id int4 not null,
                  method_id int4 not null,
-                 date_updated timestamptz(6) default now(),
+                 date_updated timestamp with time zone default now(),
                  constraint "fk_tbl_dataset_methods_to_tbl_datasets" foreign key ("dataset_id")
                     references tbl_datasets ("dataset_id") on delete no action on update no action,
                  constraint "fk_tbl_dataset_methods_to_tbl_methods" foreign key ("method_id")
