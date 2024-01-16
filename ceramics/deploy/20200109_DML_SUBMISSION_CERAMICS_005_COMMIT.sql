@@ -1,16 +1,16 @@
 -- Deploy ceramics: 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT
 /***************************************************************************
-Author         roger
-Date           
-Description    
+  Author        Roger
+  Date           
+  Description    
   Date          2020-01-09
-Prerequisites  
+  Prerequisites  
   Issue         https://github.com/humlab-sead/sead_change_control/issues/205
   Description   Deploy of Clearinghouse submission {5}.
-Reviewer
-Approver
-Idempotent     NO
-Notes          Use --single-transaction on execute!
+  Reviewer
+  Approver
+  Idempotent     NO
+  Notes          Use --single-transaction on execute!
 ***************************************************************************/
 set constraints all deferred;
 set client_min_messages to warning;
