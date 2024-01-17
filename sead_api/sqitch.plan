@@ -39,9 +39,8 @@
 20221117_DML_RESTAPI_GENERATE_SCHEMA 2022-11-17T09:36:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/157:  Refresh REST API schema
 20220831_DDL_NEW_DENDRO_FACETS 2022-08-31T08:15:42Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/91:  New dendro facets (see issue #91)
 20220923_DDL_FACET_SCHEMA_UPDATE 2022-09-23T09:36:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/39: Changes table FK constraints to cascade
+20221121_DDL_UDF_DELETE_FACET 2022-11-21T11:45:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/155:  Delete facet UDF
 
 @2022.12 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 October release
-
-20221121_DDL_UDF_DELETE_FACET 2022-11-21T11:45:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/155:  Delete facet UDF
 
 @2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
