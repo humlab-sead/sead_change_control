@@ -156,20 +156,3 @@ $facets$;
 
 end $$;
 commit;
-                    -- {
-                    --     "sequence_id": 1,
-                    --     "table_name": "tbl_locations",
-                    --     "udf_call_arguments": null,
-                    --     "alias":  "countries"
-                    -- },
-                    -- {
-                    --     "sequence_id": 2,
-                    --     "table_name": "tbl_site_locations",
-                    --     "udf_call_arguments": null,
-                    --     "alias":  null
-                    -- }
-
-select * -- delete
-from facet.facet_table
-where facet_id = 48
-
