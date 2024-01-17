@@ -41,7 +41,7 @@ function usage() {
     echo "usage: $script_name [--host HOST] [--port PORT] [--database DATABASE] --user USERNAME --id ID --project PROJECT [--force] [--dry-run] "
     echo "  advanced option:"
     echo ""
-    echo "       --force                    Force overwrite of existing target folder if exists"
+    echo "       --force                  Force overwrite of existing target folder if exists"
     echo "       --temp-folder=dir        Override default temporary folder (not recommended)"
     exit 64
 }
@@ -257,19 +257,20 @@ function create_change_request()
     local project=$3
     local temp_folder=$4
     local note=$5
+    local issue_id=$6
 
     if [ "$note" == "" ]; then
         note="Deploy of Clearinghouse submission {$submission_id}."
     fi
 
-    if [ "$g_related_issue_id" != "" ]; then
-        note="$note See issue https://https://github.com/humlab-sead/sead_change_control/issues/$g_related_issue_id."
+    if [ "$issue_id" != "" ]; then
+        note="$note See issue https://github.com/humlab-sead/sead_change_control/issues/$issue_id."
     fi
 
     echo "info: adding CR task $cr_name..."
 
     if [ ! -f $temp_folder/${cr_name}.sql ]; then
-        echo "failure: cannot add CR task since $temp_folder/${cr_name}.sql is missing"
+        echo "failure: cannot add CR task since $temp_folder/$cr_name.sql is missing"
         exit 64
     fi
 
@@ -277,11 +278,11 @@ function create_change_request()
     local deploy_file=$deploy_folder/${cr_name}.sql
 
     if [ -f $deploy_file ]; then
-        echo "failure: CR task ${cr_name}.sql already exists (cannot resolve conflict)"
+        echo "failure: CR task $cr_name.sql already exists (cannot resolve conflict)"
         exit 64
     fi
 
-    ${script_dir}/add-change-request --project ${project} --change {$cr_name} $g_create_issue --note "$note"
+    ${script_dir}/add-change-request --project ${project} --change $cr_name $g_create_issue --note "$note"
 
     mv -f $temp_folder/${cr_name}.sql $deploy_file
     mv -f $temp_folder $deploy_folder/
@@ -303,5 +304,5 @@ generate_data $g_submission_id $g_temp_folder
 generate_deploy $g_submission_id $g_cr_name $g_project $g_temp_folder
 
 if [ "$g_dry_run" != "YES" ]; then
-    create_change_request $g_submission_id $g_cr_name $g_project $g_temp_folder $g_note
+    create_change_request $g_submission_id $g_cr_name $g_project $g_temp_folder $g_note $g_related_issue_id
 fi
