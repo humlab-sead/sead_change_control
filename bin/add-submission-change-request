@@ -1,0 +1,307 @@
+#!/bin/bash
+
+. $(dirname "$0")/utility.sh
+
+SHELL=/bin/bash
+
+export PGCLIENTENCODING=UTF8
+
+set -e
+
+script_dir=$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+script_name=`basename "$0"`
+
+g_host=
+g_user=
+g_port=5432
+g_database=
+g_submission_id=0
+g_project=
+g_force=0
+g_dry_run=
+g_temp_folder=
+g_related_issue_id=
+g_create_issue=--create-issue
+g_cr_name=
+g_note=
+
+if [ -f ~/vault/.default.sead.server ]; then
+    g_host=$(head -n 1 ~/vault/.default.sead.server)
+fi
+
+if [ -f ~/vault/.default.sead.username ]; then
+    g_user=$(head -n 1 ~/vault/.default.sead.username)
+fi
+
+function usage() {
+    local usage_error="$1"
+    if [ "$usage_error" != "" ]; then
+        echo "error: $usage_error"
+    fi
+    echo "usage: $script_name [--host HOST] [--port PORT] [--database DATABASE] --user USERNAME --id ID --project PROJECT [--force] [--dry-run] "
+    echo "  advanced option:"
+    echo ""
+    echo "       --force                    Force overwrite of existing target folder if exists"
+    echo "       --temp-folder=dir        Override default temporary folder (not recommended)"
+    exit 64
+}
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --host|-h)
+            g_host="$2";
+            shift 2;
+        ;;
+        --port)
+            g_port="$2";
+            shift 2;
+        ;;
+        --user|-U)
+            g_user="$2";
+            shift 2;
+        ;;
+        --database|-d)
+            g_database="$2";
+            shift 2;
+        ;;
+        --id|-i|--submission-id)
+            g_submission_id="$2";
+            shift 2;
+        ;;
+        --project|-C|--plan-file)
+            g_project="$2";
+            shift 2;
+        ;;
+        --temporary-folder|--temp|-t)
+            g_temp_folder="$2";
+            shift 2;
+        ;;
+        -f|--force)
+            g_force="YES";
+            shift;
+        ;;
+        -x|--dry-run)
+            g_dry_run="YES";
+            shift;
+        ;;
+        --note|-n)
+            g_note="$2";
+            shift 2;
+        ;;
+        --related-issue-id)
+            g_related_issue_id="$2";
+            shift 2;
+        ;;
+        --no-create-issue)
+            g_create_issue="";
+            shift;
+        ;;
+        --help|-h)
+            usage;
+            exit 0;
+        ;;
+        --*)
+            usage  "error: invalid option $1"
+            exit 64
+        ;;
+        *)
+            POSITIONAL+=("$1") # save it in an array for later
+            shift
+        ;;
+    esac
+done
+
+function check_options() {
+    if [ "$g_project" == "" ]; then
+        usage "project must be specified (--project)";
+    fi
+
+    if [ ! -f "$g_project/sqitch.plan" ]; then
+        usage "project $g_project does not exist or is not a sqitch project";
+    fi
+
+    if [ "$g_host" == "" ] || [ "$g_user" == "" ]; then
+        usage "database host and/or user not specified (--user and --host)";
+    fi
+
+    if [ "$g_submission_id" == "0" ]; then
+        usage "submission id must be specified (--id)";
+    fi
+
+    if [ "$g_database" == "" ]; then
+        usage "database must be specified (--database)";
+    fi
+}
+
+function print_options()
+{
+    if [ "$g_dry_run" == "YES" ]; then
+        echo "notice: dry run, no changes will be made"
+        echo "g_host: $g_host"
+        echo "g_user: $g_user"
+        echo "g_port: $g_port"
+        echo "g_database: $g_database"
+        echo "g_submission_id: $g_submission_id"
+        echo "g_project: $g_project"
+        echo "g_force: $g_force"
+        echo "g_dry_run: $g_dry_run"
+        echo "g_temp_folder: $g_temp_folder"
+        echo "g_cr_name: $g_cr_name"
+        echo "g_note: $g_note"
+        echo "g_related_issue_id: $g_related_issue_id"
+        echo "g_create_issue: $g_create_issue"
+    fi
+}
+
+function dbexec() {
+    opt=$1
+    sql="$2"
+    psql -h $g_host -U $g_user -d $g_database -p $g_port --no-password --single-transaction -q -X -1 -v ON_ERROR_STOP=1 $opt "$sql"
+    if [ $? -ne 0 ];  then
+        echo "fatal: psql command failed, deploy aborted." >&2
+        echo "$sql" >&2
+        exit 64
+    fi
+}
+
+function get_datatype() {
+    dt_sql="select min(data_types) from clearing_house.tbl_clearinghouse_submissions where submission_id = $g_submission_id"
+    dt_x=`psql -h $g_host -U $g_user -d $g_database -p $g_port -X -A -t -c "$dt_sql"`
+    dt_x=${dt_x/ /_}
+    if [ "$dt_x" == "" ]; then
+        usage "submission has an undefined data type."
+    fi
+    echo "$dt_x"
+}
+
+function generate_cr_name() {
+    day=$(date +%Y%m%d)
+    zid=`printf "%03d" ${g_submission_id}`
+    dt_y=`get_datatype`
+    cr_x="${day}_DML_SUBMISSION_${dt_y^^}_${zid}_COMMIT"
+    echo "${cr_x^^}"
+}
+
+function generate_data() {
+
+    local submission_id=$1
+    local temp_folder=$2
+
+    mkdir -p $g_temp_folder
+
+
+    sql="
+        do \$\$
+        begin
+            perform clearing_house_commit.resolve_primary_keys(${submission_id}, 'public', FALSE);
+        end \$\$ language plpgsql;
+";
+
+    echo $sql | psql -h $g_host -U $g_user -d $g_database -p $g_port --no-password -q -X -1 -v ON_ERROR_STOP=1
+
+    dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($submission_id, '$temp_folder', true)) to STDOUT;" \
+        | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g' >> "$temp_folder/copy_out.sql"
+
+    dbexec -f "$temp_folder/copy_out.sql"
+
+ }
+
+function generate_deploy() {
+
+    local submission_id=$1
+    local cr_name=$2
+    local project=$3
+    local temp_folder=$4
+    local cr_author=`getent passwd $USER | cut -d ':' -f 5 | cut -d ',' -f 1`
+
+    echo "Deploy $g_project: $cr_name"
+    echo "/***************************************************************************" >> $temp_folder/${cr_name}.sql
+    echo "  Author         $cr_author"                                                  >> $temp_folder/${cr_name}.sql
+    echo "  Date           $day"                                                        >> $temp_folder/${cr_name}.sql
+    echo "  Description    $g_note"                                                     >> $temp_folder/${cr_name}.sql
+    echo "  Prerequisites  "                                                            >> $temp_folder/${cr_name}.sql
+    echo "  Reviewer"                                                                   >> $temp_folder/${cr_name}.sql
+    echo "  Approver"                                                                   >> $temp_folder/${cr_name}.sql
+    echo "  Idempotent     NO!"                                                         >> $temp_folder/${cr_name}.sql
+    echo "  Notes          Use --single-transaction on execute!"                        >> $temp_folder/${cr_name}.sql
+    echo "***************************************************************************/" >> $temp_folder/${cr_name}.sql
+
+    #echo "BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE;"                             >> $temp_folder/${cr_name}.sql
+    echo "set client_encoding = 'UTF8';"                                                >> $temp_folder/${cr_name}.sql
+    echo "set constraints all deferred;"                                                >> $temp_folder/${cr_name}.sql
+    echo "set client_min_messages to warning;"                                          >> $temp_folder/${cr_name}.sql
+    echo "\set autocommit off;"                                                         >> $temp_folder/${cr_name}.sql
+    echo "begin;"                                                                       >> $temp_folder/${cr_name}.sql
+
+    # FIXME: relative cd should be enough /repo assumes docker-sqitch
+    echo "\cd /repo/$project/deploy"                                                    >> $temp_folder/${cr_name}.sql
+
+    dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($submission_id, '$temp_folder', false)) to STDOUT; " \
+        | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g'                         >> $temp_folder/${cr_name}.sql
+
+	echo "select clearing_house_commit.allocate_sequence_ids();"                        >> $temp_folder/${cr_name}.sql
+	echo "select clearing_house_commit.commit_submission($submission_id);"              >> $temp_folder/${cr_name}.sql
+
+	echo "commit;"                                                                      >> $temp_folder/${cr_name}.sql
+}
+
+
+function create_change_request()
+{
+    local submission_id=$1
+    local cr_name=$2
+    local project=$3
+    local temp_folder=$4
+    local note=$5
+
+    if [ "$note" == "" ]; then
+        note="Deploy of Clearinghouse submission {$submission_id}."
+    fi
+
+    if [ "$g_related_issue_id" != "" ]; then
+        note="$note See issue https://https://github.com/humlab-sead/sead_change_control/issues/$g_related_issue_id."
+    fi
+
+    echo "info: adding CR task $cr_name..."
+
+    if [ ! -f $temp_folder/${cr_name}.sql ]; then
+        echo "failure: cannot add CR task since $temp_folder/${cr_name}.sql is missing"
+        exit 64
+    fi
+
+    local deploy_folder=./${project}/deploy
+    local deploy_file=$deploy_folder/${cr_name}.sql
+
+    if [ -f $deploy_file ]; then
+        echo "failure: CR task ${cr_name}.sql already exists (cannot resolve conflict)"
+        exit 64
+    fi
+
+    ${script_dir}/add-change-request --project ${project} --change {$cr_name} $g_create_issue --note "$note"
+
+    mv -f $temp_folder/${cr_name}.sql $deploy_file
+    mv -f $temp_folder $deploy_folder/
+}
+
+check_options
+
+g_cr_name=`generate_cr_name`
+
+if [ "$g_temp_folder" == "" ]; then
+    g_temp_folder="./tmp/$g_cr_name"
+    rm -rf "$g_temp_folder"
+    echo "notice: using $g_temp_folder as temporary folder"
+fi
+
+print_options
+
+generate_data $g_submission_id $g_temp_folder
+generate_deploy $g_submission_id $g_cr_name $g_project $g_temp_folder
+
+if [ "$g_dry_run" != "YES" ]; then
+    create_change_request $g_submission_id $g_cr_name $g_project $g_temp_folder $g_note
+fi
