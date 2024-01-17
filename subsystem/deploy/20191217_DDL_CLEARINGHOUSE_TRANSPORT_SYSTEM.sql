@@ -9,7 +9,6 @@
   Approver      
   Idempotent    Yes
 *****************************************************************************************************************/
-
 --set constraints all deferred;
 set client_min_messages to warning;
 -- set autocommit off;
@@ -490,11 +489,11 @@ begin
     select array_to_string(array_agg(
                 case
                     when is_pk = 'YES'  then
-                        format(E'\t\t\tcase when e.transport_id <= 0 then null else e.transport_id end as %I', column_name)
+                        format(E'\t\t\tcase when e.transport_id <= 0 then null else e.transport_id end::%2$s as %1$I', column_name, data_type)
                     when is_fk = 'YES' then
-                        format(E'\t\t\tcase when e.%I > 0 then e.%I else fk%s.transport_id end as %s', column_name, column_name, ordinal_position, column_name)
+                        format(E'\t\t\tcase when e.%1$I > 0 then e.%1$I else fk%2$s.transport_id end::%3$s as %1$s', column_name, ordinal_position, data_type)
                     when column_name = 'date_updated' then
-                        format(E'\t\t\tcase when e.date_updated is null then now() else e.date_updated end as %s', column_name)
+                        format(E'\t\t\tcase when e.date_updated is null then now() else e.date_updated end::%2$s as %1$s', column_name, data_type)
                     else
                         E'\t\t\te.' || column_name
                 end order by ordinal_position), E',\n') as field_clauses,
@@ -672,6 +671,66 @@ begin
 
 end $xyz$ language plpgsql;
 
+-- select clearing_house_commit.rollback_commit(1)
+
+create or replace function clearing_house_commit.rollback_commit(p_submission_id int)
+returns void as
+$$
+declare
+  v_data record;
+  v_sql text;
+  v_sql_script text = '';
+  v_sql_count_template text;
+  v_sql_delete_template text;
+  v_record_count int;
+begin
+
+	v_sql_count_template := '
+		select count(*)
+		from clearing_house.%s
+		where submission_id = %s
+		  and transport_id is not null;
+	';
+
+	v_sql_delete_template = '
+		delete from public.%s
+		where %s in (
+			select transport_id
+			from clearing_house.%s
+			where submission_id = %s
+			  and transport_id is not null
+		);
+	';
+
+	for v_data in (
+
+		select distinct t.table_name, t.pk_name, coalesce(x.sort_order, 999) as sort_key
+		from clearing_house_commit.tbl_sead_tables t
+		left join clearing_house_commit.sorted_table_names() x
+		  on x.table_name = t.table_name
+		order by 3 desc
+
+	) Loop
+
+		v_sql := format(v_sql_count_template, v_data.table_name, p_submission_id);
+
+		execute v_sql into v_record_count;
+
+		if v_record_count > 0 then
+
+			v_sql = format(v_sql_delete_template, v_data.table_name, v_data.pk_name, v_data.table_name, p_submission_id);
+
+			raise info 'Table %: %', v_data.table_name, v_record_count;
+
+			v_sql_script = v_sql_script || v_sql;
+
+		end if;
+
+	End Loop;
+
+	raise info '%', v_sql_script;
+
+end $$ language plpgsql;
 select clearing_house_commit.generate_sead_tables();
 select clearing_house_commit.generate_resolve_functions('public', false);
 -- commit;
