@@ -7,7 +7,7 @@ CREATE TABLE "public"."tbl_abundance_elements" (
 );
 CREATE TABLE "public"."tbl_abundance_ident_levels" (
   "abundance_ident_level_id" serial primary key,
-  "abundance_id" int4 NOT NULL,
+  "abundance_id" bigint NOT NULL,
   "identification_level_id" int4 NOT NULL,
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -20,7 +20,7 @@ CREATE TABLE "public"."tbl_abundance_modifications" (
 CREATE TABLE "public"."tbl_abundances" (
   "abundance_id" bigserial primary key,
   "taxon_id" int4 NOT NULL,
-  "analysis_entity_id" int4 NOT NULL,
+  "analysis_entity_id" bigint NOT NULL,
   "abundance_element_id" int4,
   "abundance" int4 NOT NULL DEFAULT 0,
   "date_updated" timestamp with time zone DEFAULT now()
@@ -54,7 +54,7 @@ CREATE TABLE "public"."tbl_aggregate_sample_ages" (
 CREATE TABLE "public"."tbl_aggregate_samples" (
   "aggregate_sample_id" serial primary key,
   "aggregate_dataset_id" int4 NOT NULL,
-  "analysis_entity_id" int4 NOT NULL,
+  "analysis_entity_id" bigint NOT NULL,
   "aggregate_sample_name" varchar(50) COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -75,20 +75,20 @@ CREATE TABLE "public"."tbl_analysis_entity_ages" (
   "age" numeric(20, 10) NOT NULL,
   "age_older" numeric(15, 5),
   "age_younger" numeric(15, 5),
-  "analysis_entity_id" int4,
+  "analysis_entity_id" bigint,
   "chronology_id" int4,
   "date_updated" timestamp with time zone DEFAULT now()
 );
 CREATE TABLE "public"."tbl_analysis_entity_dimensions" (
   "analysis_entity_dimension_id" serial primary key,
-  "analysis_entity_id" int4 NOT NULL,
+  "analysis_entity_id" bigint NOT NULL,
   "dimension_id" int4 NOT NULL,
   "dimension_value" numeric NOT NULL,
   "date_updated" timestamp with time zone DEFAULT now()
 );
 CREATE TABLE "public"."tbl_analysis_entity_prep_methods" (
   "analysis_entity_prep_method_id" serial primary key,
-  "analysis_entity_id" int4 NOT NULL,
+  "analysis_entity_id" bigint NOT NULL,
   "method_id" int4 NOT NULL,
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -124,7 +124,7 @@ CREATE TABLE "public"."tbl_biblio_keywords" (
 );
 CREATE TABLE "public"."tbl_ceramics" (
   "ceramics_id" serial primary key,
-  "analysis_entity_id" int4 NOT NULL,
+  "analysis_entity_id" bigint NOT NULL,
   "ceramics_measurement_id" int4 NOT NULL,
   "measurement_value" varchar COLLATE "pg_catalog"."default" NOT NULL,
   "date_updated" timestamp with time zone DEFAULT now()
@@ -296,7 +296,7 @@ CREATE TABLE "public"."tbl_dating_uncertainty" (
 );
 CREATE TABLE "public"."tbl_dendro" (
   "dendro_id" serial primary key,
-  "analysis_entity_id" int4 NOT NULL,
+  "analysis_entity_id" bigint NOT NULL,
   "dendro_measurement_id" int4 NOT NULL,
   "measurement_value" varchar COLLATE "pg_catalog"."default" NOT NULL,
   "date_updated" timestamp with time zone DEFAULT now()
@@ -309,7 +309,7 @@ CREATE TABLE "public"."tbl_dendro_date_notes" (
 );
 CREATE TABLE "public"."tbl_dendro_dates" (
   "dendro_date_id" serial primary key,
-  "analysis_entity_id" int4 NOT NULL,
+  "analysis_entity_id" bigint NOT NULL,
   "cal_age_younger" int4,
   "dating_uncertainty_id" int4,
   "years_type_id" int4,
@@ -391,7 +391,7 @@ CREATE TABLE "public"."tbl_geochron_refs" (
 );
 CREATE TABLE "public"."tbl_geochronology" (
   "geochron_id" serial primary key,
-  "analysis_entity_id" int4 NOT NULL,
+  "analysis_entity_id" bigint NOT NULL,
   "dating_lab_id" int4,
   "lab_number" varchar(40) COLLATE "pg_catalog"."default",
   "age" numeric(20, 5),
@@ -496,11 +496,11 @@ CREATE TABLE "public"."tbl_measured_value_dimensions" (
   "date_updated" timestamp with time zone DEFAULT now(),
   "dimension_id" int4 NOT NULL,
   "dimension_value" numeric(18, 10) NOT NULL,
-  "measured_value_id" int4 NOT NULL
+  "measured_value_id" bigint NOT NULL
 );
 CREATE TABLE "public"."tbl_measured_values" (
   "measured_value_id" bigserial primary key,
-  "analysis_entity_id" int4 NOT NULL,
+  "analysis_entity_id" bigint NOT NULL,
   "date_updated" timestamp with time zone DEFAULT now(),
   "measured_value" numeric(20, 10) NOT NULL
 );
@@ -1011,7 +1011,7 @@ CREATE TABLE "public"."tbl_taxonomy_notes" (
 );
 CREATE TABLE "public"."tbl_tephra_dates" (
   "tephra_date_id" serial primary key,
-  "analysis_entity_id" int4 NOT NULL,
+  "analysis_entity_id" bigint NOT NULL,
   "date_updated" timestamp with time zone DEFAULT now(),
   "notes" text COLLATE "pg_catalog"."default",
   "tephra_id" int4 NOT NULL,
