@@ -544,6 +544,21 @@ begin;
             end loop;
         end $$ language plpgsql;
 
+
+        create or replace function sead_utility.get_column_type(p_schema text, p_table text, p_column text)
+        returns text as $$
+        declare
+            v_data_type text;
+        begin
+            select data_type into v_data_type
+            from information_schema.columns
+            where table_schema = p_schema
+            and table_name = p_table
+            and column_name = p_column;
+            return v_data_type;
+        end;
+        $$ language plpgsql;
+
     call sead_utility.set_schema_privilege('sead_utility', 'sead_master', 'admin', 'humlab_admin');
     call sead_utility.set_schema_privilege('sead_utility', 'sead_read', 'read', 'humlab_admin', 'sead_master');
 
