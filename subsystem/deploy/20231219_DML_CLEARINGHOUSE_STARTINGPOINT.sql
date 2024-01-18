@@ -88,5 +88,6 @@ set constraints fk_tbl_user_roles_role_id deferred;
 \copy clearing_house.tbl_sites from program 'zcat -qac 20231219_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_sites.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy clearing_house.tbl_units from program 'zcat -qac 20231219_DML_CLEARINGHOUSE_STARTINGPOINT/tbl_units.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 
+select sead_utility.sync_sequences('clearing_house');
 
 commit;
