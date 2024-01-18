@@ -135,3 +135,16 @@ function update_cr_header(){
     done
 
 }
+
+check_only_one_set() {
+    local count=0
+    for var in "$@"; do
+        [[ -n $var ]] && let count++
+    done
+
+    if (( count == 1 )); then
+        return 0
+    else
+        return 1
+    fi
+}
