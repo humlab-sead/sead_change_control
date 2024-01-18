@@ -203,7 +203,7 @@ function generate_data() {
 
     echo $sql | psql -h $g_host -U $g_user -d $g_database -p $g_port --no-password -q -X -1 -v ON_ERROR_STOP=1
 
-    dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($submission_id, '$temp_folder', true)) to STDOUT;" \
+    dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($submission_id, '', true)) to STDOUT;" \
         | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g' >> "$temp_folder/copy_out.sql"
 
     dbexec -f "$temp_folder/copy_out.sql"
@@ -232,15 +232,15 @@ function generate_deploy() {
 
     #echo "BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE;"                             >> $temp_folder/${cr_name}.sql
     echo "set client_encoding = 'UTF8';"                                                >> $temp_folder/${cr_name}.sql
-    echo "set constraints all deferred;"                                                >> $temp_folder/${cr_name}.sql
     echo "set client_min_messages to warning;"                                          >> $temp_folder/${cr_name}.sql
     echo "\set autocommit off;"                                                         >> $temp_folder/${cr_name}.sql
     echo "begin;"                                                                       >> $temp_folder/${cr_name}.sql
+    echo "set constraints all deferred;"                                                >> $temp_folder/${cr_name}.sql
 
     # FIXME: relative cd should be enough /repo assumes docker-sqitch
     echo "\cd /repo/$project/deploy"                                                    >> $temp_folder/${cr_name}.sql
 
-    dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($submission_id, '$temp_folder', false)) to STDOUT; " \
+    dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($submission_id, '$cr_name', false)) to STDOUT; " \
         | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g'                         >> $temp_folder/${cr_name}.sql
 
 	echo "select clearing_house_commit.allocate_sequence_ids();"                        >> $temp_folder/${cr_name}.sql
