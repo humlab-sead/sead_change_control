@@ -578,9 +578,11 @@ create or replace function clearing_house_commit.generate_copy_in_script(
     p_entity_name text,
     p_table_name text,
     p_pk_name text,
-    p_target_folder text = '/tmp'
+    p_target_folder text = '/tmp',
+    p_delete_existing boolean = FALSE,
 ) returns text as $$
 declare v_sql text;
+declare v_delete_sql text;
 begin
 
     -- from program ''gunzip < %s/submission_%s_%s.zip''
@@ -595,9 +597,7 @@ drop table if exists clearing_house_commit.temp_#TABLE#;
 create table clearing_house_commit.temp_#TABLE# as select * from public.#TABLE# where FALSE;
 
 \\copy clearing_house_commit.temp_#TABLE# from program ''zcat -qac #DIR#/submission_#ID#_#ENTITY#.gz'' with (FORMAT text, DELIMITER E''\t'', ENCODING ''utf-8'');
-
-delete from public.#TABLE#
-    where #PK# in (select #PK# from clearing_house_commit.temp_#TABLE#);
+#DELETE-SQL#
 
 insert into public.#TABLE#
     select *
@@ -609,6 +609,11 @@ select clearing_house_commit.reset_serial_id(''public'', ''#TABLE#'', ''#PK#'');
 drop table if exists clearing_house_commit.temp_#TABLE#;
 ';
 
+    v_delete_sql = case when p_delete_existing then E'
+delete from public.#TABLE#
+    where #PK# in (select #PK# from clearing_house_commit.temp_#TABLE#);' else '' end;
+
+    v_sql = replace(v_sql, '#DELETE-SQL#', v_delete_sql);
     v_sql = replace(v_sql, '#TABLE#', p_table_name);
     v_sql = replace(v_sql, '#ID#', p_submission_id::text);
     v_sql = replace(v_sql, '#ENTITY#', p_entity_name);
