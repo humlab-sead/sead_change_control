@@ -26,6 +26,7 @@ g_display_status=NO
 g_sync_sequences=NO
 g_target_tag=
 g_target_chain_tag=
+g_target_single_cr=
 g_ignore_git_tags=NO
 g_deploy_starting_point=NO
 default_projects=$(get_projects)
@@ -66,6 +67,7 @@ Options:
     --deploy-to-tag TAG             Specify the Sqitch deploy tag. Optional. Set tag to "latest" for full deployment
     --deploy-chain-to-tag TAG       Deploy the entire chain of databases up to the specified tag. Optional. Set tag to "latest" for full deployment
     --deploy-starting-point         Create a starting point, then exit
+    --deploy-single-change-request  Only deploy given CR, then exit
     --sqitch-project PROJECT        Specify the Sqitch project to deploy
 
 Examples:
@@ -156,6 +158,9 @@ do
         --deploy-starting-point)
             g_deploy_starting_point="YES"; shift;
         ;;
+        --deploy-single-change-request)
+            g_target_single_cr="$2"; shift; shift
+        ;;
         --on-conflict)
             g_conflict_resolution="$2"; shift; shift;
         ;;
@@ -173,23 +178,25 @@ done
 
 
 function usage() {
-
+    local error_message="$1"
+    if [ "$error_message" != "" ]; then
+        echo "error: $error_message"
+    fi
     echo "$usage_message"
+    # if [ "$error_message" != "" ]; then
+        exit 64
+    # fi  
 }
 
 function create_snapshot()
 {
 
     if [ "${g_source_name}" == "" ]; then
-        echo "error: you must specify source database name";
-        usage
-        exit 64
+        usage "error: you must specify source database name"
     fi
 
     if [ "${g_target_name}" != "" ] || [ "${g_target_tag}" != "" ]  || [ "${g_source_type}" == "dump" ] ; then
-        echo "error: invalid options for snapshot";
-        usage
-        exit 64
+        usage "error: invalid options for snapshot"
     fi
 
     snapshot_name=./starting_point/${g_source_name}_`date "+%Y%m%d"`.sql
@@ -214,31 +221,35 @@ function verify_options()
     fi
 
     if [ "$g_create_snapshot" == "YES" ] && [ "$g_create_database" == "YES" ]; then
-        echo "error: cannot create snapshot AND database at the same time"
-        usage
-        exit 64
+        usage "error: cannot create snapshot AND database at the same time"
     fi
 
-    if [ "$g_target_chain_tag" != "" ] && [ "$g_target_tag" != "" ]; then
-        echo "error: cannot specify both --deploy-to-tag and --deploy-chain-to-tag"
-        usage
-        exit 64
+    check_only_one_set "$g_target_chain_tag" "$g_target_tag" "$g_target_single_cr"
+    if [ $? -ne 0 ]; then
+        usage "error: you can only specify one of --deploy-to-tag, --deploy-chain-to-tag or --deploy-single-change-request"
     fi
 
     if [ "$g_create_snapshot" == "YES" ]; then
         return
     fi
 
-    if [ "$g_target_name" == "" ]; then
-        echo "error: you need to specify name of target database (--target-db-name)";
-        usage
-        exit 64
+    if [ "$g_target_single_cr" != "" ]; then
+        if [ "$g_create_database" == "YES" ];  then
+            usage "error: cannot create database and deploy single CR at the same time"
+        fi
+        if [ "${g_source_name}" != "" ] || [ "${g_source_type}" != "" ] ; then
+            usage "error: --source and --source-type are not allowed when deploying single CR";
+        fi
+        return
+    fi
+
+    if [ "$g_ignore_git_tags" != "YES" ]; then
+        # Only one of these tags will be set
+        check_that_sqitch_tags_exist_in_git "$g_target_tag$g_target_chain_tag" "YES"
     fi
 
     if [ "$g_target_name" == "sead_production" ]; then
-        echo "error: you are **not** allowed to deploy directly to sead_production!";
-        usage
-        exit 64
+        usage "error: you are **not** allowed to deploy directly to sead_production!";
     fi
 
     if [ "$g_create_database" == "NO" ]; then
@@ -469,6 +480,18 @@ function check_that_sqitch_tags_exist_in_git()
     fi
 }
 
+function verify_target_database()
+{
+    local target_name=$1
+
+    local target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
+
+    if [ "$target_db_exists" != "1" ]; then
+        echo "error: target ${target_name} does not exist"
+        exit 64
+    fi
+}
+
 function deploy_to_tag()
 {
     # Deploys all project to specified release tag
@@ -486,12 +509,7 @@ function deploy_to_tag()
         target_tag=
     fi
 
-    local target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
-
-    if [ "$target_db_exists" != "1" ]; then
-        echo "error: target ${target_name} does not exist"
-        exit 64
-    fi
+    verify_target_database $target_name
 
     if [ "$g_sync_sequences" == "YES" ] && [ "${source_type}" != "dump" ]; then
         echo "info: syncing sequences (prior to deploy)..."
@@ -572,7 +590,6 @@ function deploy_to_tag()
                 sync_sequences
             fi
 
-
         done
 
         if [ "$tag" == "$target_tag" ]; then
@@ -585,6 +602,45 @@ function deploy_to_tag()
 
 }
 
+function deploy_single_cr()
+{
+    # Deploy a single change request
+
+    local target_name=$1
+    local cr_name=$2
+
+    if [ "$cr_name" == "" ]; then
+        echo "error: CR to deploy not specified"
+        exit 0
+    fi
+    
+    local project=$(find_project "$cr_name")
+
+    if [ -z "$project" ]; then
+        echo "error: $cr_name not found in any project"
+        exit 64
+    fi
+
+    verify_target_database $target_name
+
+    local target_uri="db:pg://${dbuser}@${dbhost}/${target_name}"
+
+    echo "info: deploying CR $cr_name"
+
+    local echo_mode=
+
+    if [ $g_dry_run == "YES" ]; then
+        echo_mode="echo "
+    fi
+
+    $echo_mode sqitch deploy --target ${target_uri} --mode change --no-verify -C $project --to $cr_name # >> $log_file
+
+    if [ "$g_sync_sequences" == "YES" ]; then
+        echo "info: syncing sequences (post deploy \"${sqitch_project}\")..."
+        $echo_mode sync_sequences
+    fi
+
+}
 
 function deploy_chain_to_tag()
 {
@@ -654,14 +710,11 @@ git pull &> /dev/null
 
 verify_options
 
-if [ "$g_ignore_git_tags" != "YES" ]; then
-    # Only one of these tags will be set
-    check_that_sqitch_tags_exist_in_git "$g_target_tag$g_target_chain_tag" "YES"
-fi
-
 setup_credentials
 
-if [ "$g_target_chain_tag" != "" ]; then
+if [ "$g_target_single_cr" != "" ]; then
+    deploy_single_cr $g_target_name $g_target_single_cr
+elif [ "$g_target_chain_tag" != "" ]; then
     deploy_chain_to_tag "$g_target_name" "$g_target_chain_tag" "$g_source_type" "$g_source_name"
 else
     if [ "$g_create_database" == "YES" ]; then
