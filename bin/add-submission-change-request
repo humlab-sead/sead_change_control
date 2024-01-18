@@ -203,7 +203,7 @@ function generate_data() {
 
     echo $sql | psql -h $g_host -U $g_user -d $g_database -p $g_port --no-password -q -X -1 -v ON_ERROR_STOP=1
 
-    dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($submission_id, '', true)) to STDOUT;" \
+    dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($submission_id, '$temp_folder', true)) to STDOUT;" \
         | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g' >> "$temp_folder/copy_out.sql"
 
     dbexec -f "$temp_folder/copy_out.sql"
