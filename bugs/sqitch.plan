@@ -18,7 +18,7 @@
 
 @2022.12 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 December release
 
-20231211_DML_SUBMISSION_BUGS_20230705_COMMIT 2023-12-11T16:09:29Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/162: Full (inital) non-incremental import of BugsCEP data version 20230705.
+20231211_DML_SUBMISSION_BUGS_20231219_COMMIT 2023-12-11T16:09:29Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/162: Full (inital) non-incremental import of BugsCEP data version 20230705.
 
 20220916_DDL_RESULTS_CHRONOLOGY 2022-09-16T13:35:07Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/17: Add chronology dating data to Bugs physical samples.
 
