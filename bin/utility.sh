@@ -148,3 +148,30 @@ check_only_one_set() {
         return 1
     fi
 }
+
+
+function basename_without_extension() {
+    local path=$1
+    local base=$(basename -- "$path")
+    echo "${base%.*}"
+}
+
+function dirname_without_trailing_slash() {
+    local path=$1
+    local dir=$(dirname -- "$path")
+    echo "${dir%/}"
+}
+
+function get_absolute_path() {
+    local path=$1
+    local dir=$(dirname_without_trailing_slash "$path")
+    local base=$(basename_without_extension "$path")
+    echo "$dir/$base"
+}
+
+function get_absolute_path_without_extension() {
+    local path=$1
+    local dir=$(dirname_without_trailing_slash "$path")
+    local base=$(basename_without_extension "$path")
+    echo "$dir/$base"
+}
