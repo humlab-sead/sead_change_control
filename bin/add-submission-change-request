@@ -193,7 +193,6 @@ function generate_data() {
 
     mkdir -p $g_temp_folder
 
-
     sql="
         do \$\$
         begin
@@ -234,10 +233,18 @@ function generate_deploy() {
     echo "set client_encoding = 'UTF8';"                                                >> $temp_folder/${cr_name}.sql
     echo "set client_min_messages to warning;"                                          >> $temp_folder/${cr_name}.sql
     echo "\set autocommit off;"                                                         >> $temp_folder/${cr_name}.sql
+
+    echo ""                                                                             >> $temp_folder/${cr_name}.sql
+    echo "do \$\$"                                                                      >> $temp_folder/${cr_name}.sql
+    echo "begin"                                                                        >> $temp_folder/${cr_name}.sql
+    echo "    perform sead_utility.set_fk_is_deferrable('public', true, false);"        >> $temp_folder/${cr_name}.sql
+    echo "end \$\$ language plpgsql;"                                                   >> $temp_folder/${cr_name}.sql
+    echo ""                                                                             >> $temp_folder/${cr_name}.sql
+
     echo "begin;"                                                                       >> $temp_folder/${cr_name}.sql
     echo "set constraints all deferred;"                                                >> $temp_folder/${cr_name}.sql
 
-    # FIXME: relative cd should be enough /repo assumes docker-sqitch
+    # NOTE: relative cd if OS command, /repo assumes running sqitch via Docker
     echo "\cd /repo/$project/deploy"                                                    >> $temp_folder/${cr_name}.sql
 
     dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($submission_id, '$cr_name', false)) to STDOUT; " \
@@ -247,6 +254,14 @@ function generate_deploy() {
 	echo "select clearing_house_commit.commit_submission($submission_id);"              >> $temp_folder/${cr_name}.sql
 
 	echo "commit;"                                                                      >> $temp_folder/${cr_name}.sql
+
+    echo ""                                                                             >> $temp_folder/${cr_name}.sql
+    echo "do \$\$"                                                                      >> $temp_folder/${cr_name}.sql
+    echo "begin"                                                                        >> $temp_folder/${cr_name}.sql
+    echo "    perform sead_utility.set_fk_is_deferrable('public', false, false);"       >> $temp_folder/${cr_name}.sql
+    echo "end \$\$ language plpgsql;"                                                   >> $temp_folder/${cr_name}.sql
+    echo ""                                                                             >> $temp_folder/${cr_name}.sql
+
 }
 
 
@@ -291,6 +306,15 @@ function create_change_request()
 check_options
 
 g_cr_name=`generate_cr_name`
+
+if [ -f "$g_project/deploy/$g_cr_name.sql" ]; then
+    echo "fatal: CR task $g_cr_name already exists, please remove it before adding new."
+    exit 64
+fi
+
+if grep -q "$g_cr_name" "$g_project/sqitch.plan"; then
+    echo "fatal: CR $g_cr_name already exists in $g_project/sqitch.plan, please remove it before adding new."
+fi
 
 if [ "$g_temp_folder" == "" ]; then
     g_temp_folder="./tmp/$g_cr_name"
