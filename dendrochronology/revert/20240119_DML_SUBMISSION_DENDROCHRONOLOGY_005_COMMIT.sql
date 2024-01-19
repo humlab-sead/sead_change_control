@@ -1,0 +1,7 @@
+-- Revert dendrochronology:20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT from pg
+
+BEGIN;
+
+-- XXX Add DDLs here.
+
+COMMIT;
