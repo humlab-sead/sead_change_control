@@ -1365,7 +1365,7 @@ Begin
 	)
 	Loop
         drop_script := format('Drop Table If Exists %I.%I CASCADE;', target_schema, x.table_name);
-        create_script := clearing_house.fn_script_public_db_entity_table(x.source_schema, target_schema, x.table_name);
+        create_script := clearing_house.fn_script_public_db_entity_table(x.source_schema::text, target_schema, x.table_name::text);
         If p_dry_run Then
             Raise Notice '%', drop_script;
             Raise Notice '%', create_script;
@@ -1592,7 +1592,7 @@ Begin
 	) Loop
 
 		drop_script = format('Drop View If Exists %I.%I CASCADE;', target_schema, v_row.view_name);
-		create_script := clearing_house.fn_script_local_union_public_entity_view(target_schema, local_schema, v_row.public_schema, v_row.table_name);
+		create_script := clearing_house.fn_script_local_union_public_entity_view(target_schema, local_schema, v_row.public_schema::text, v_row.table_name::text);
 
         Insert Into clearing_house.tbl_clearinghouse_sead_create_view_log (create_script, drop_script) Values (create_script, drop_script);
 
