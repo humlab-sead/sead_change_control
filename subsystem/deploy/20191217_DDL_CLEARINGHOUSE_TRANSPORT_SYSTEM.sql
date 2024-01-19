@@ -579,7 +579,7 @@ create or replace function clearing_house_commit.generate_copy_in_script(
     p_table_name text,
     p_pk_name text,
     p_target_folder text = '/tmp',
-    p_delete_existing boolean = FALSE,
+    p_delete_existing boolean = FALSE
 ) returns text as $$
 declare v_sql text;
 declare v_delete_sql text;
