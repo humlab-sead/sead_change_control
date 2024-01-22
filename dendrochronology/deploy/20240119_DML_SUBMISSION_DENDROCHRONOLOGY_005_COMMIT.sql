@@ -511,5 +511,8 @@ commit;
 do $$
 begin
     perform sead_utility.set_fk_is_deferrable('public', false, false);
+    perform sead_utility.sync_sequences('public');
+    perform sead_utility.sync_sequences('bugs_import');
+    
 end $$ language plpgsql;
 
