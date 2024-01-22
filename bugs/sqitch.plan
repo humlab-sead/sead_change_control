@@ -20,7 +20,7 @@
 
 20231211_DML_SUBMISSION_BUGS_20231219_COMMIT 2023-12-11T16:09:29Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/162: Full (inital) non-incremental import of BugsCEP data version 20230705.
 20220916_DDL_RESULTS_CHRONOLOGY 2022-09-16T13:35:07Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/17: Add chronology dating data to Bugs physical samples.
-20200422_UPDATE_BUGS_REFERENCES_YEAR 2020-04-22T15:19:18Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/69: Update erroneous year in BugsCEP references
+20200422_DML_UPDATE_BUGS_REFERENCES_YEAR 2020-04-22T15:19:18Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/69: Update erroneous year in BugsCEP references
 
 20200316_DDL_BUGS_ECOCODE_GEOJSON 2020-03-16T14:37:27Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/64: GeoJSON export for Bugs Ecocodes ecocode_system_id 2
 20191212_DML_UPDATE_SAMPLE_ALT_REFS 2019-12-12T13:29:25Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/194:  Insert 'Bugs sample code' record into tbl_alt_ref_types.
