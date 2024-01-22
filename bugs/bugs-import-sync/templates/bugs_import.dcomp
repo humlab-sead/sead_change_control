@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), compare document file -->
+<!-- Modifying this generated file will probably render it invalid -->
+<CompareDocument>
+  <Properties>
+    <DatabaseProvider>77a9b459-6f15-4675-8e18-cdd88f58e376</DatabaseProvider>
+    <ProviderVersion>3.1.789.0</ProviderVersion>
+    <SchemaVersion>2.1</SchemaVersion>
+  </Properties>
+  <Source Type="Database">
+    <ConnectionModel>
+      <PropertyValue Name="Database">77a9b459-6f15-4675-8e18-cdd88f58e376</PropertyValue>
+      <PropertyValue Name="Id">8ad69b68-fd5c-4643-a658-741bfc04ddaa</PropertyValue>
+      <PropertyValue Name="ConnectionString" xml:space="preserve">CONNECTION_STRING</PropertyValue>
+      <PropertyValue Name="ExecutionTimeout">0</PropertyValue>
+    </ConnectionModel>
+    <Schema>SOURCE_DBNAME</Schema>
+  </Source>
+  <Target Type="Database">
+    <ConnectionModel>
+      <PropertyValue Name="Database">77a9b459-6f15-4675-8e18-cdd88f58e376</PropertyValue>
+      <PropertyValue Name="Id">8ad69b68-fd5c-4643-a658-741bfc04ddaa</PropertyValue>
+      <PropertyValue Name="ConnectionString" xml:space="preserve">CONNECTION_STRING</PropertyValue>
+      <PropertyValue Name="ExecutionTimeout">0</PropertyValue>
+    </ConnectionModel>
+    <Schema>TARGET_DBNAME</Schema>
+  </Target>
+  <Filter Value="0" />
+  <HideUnmodifiedColumns>False</HideUnmodifiedColumns>
+  <Options>
+    <PropertyValue Name="IgnoreLobColumns">false</PropertyValue>
+    <PropertyValue Name="IgnoreSerialColumns">false</PropertyValue>
+    <PropertyValue Name="MappingIgnoreCase">false</PropertyValue>
+    <PropertyValue Name="ExcludeObjectsByMask">false</PropertyValue>
+    <PropertyValue Name="ToleranceInterval">false</PropertyValue>
+    <PropertyValue Name="IgnoreLeadingSpaces">true</PropertyValue>
+    <PropertyValue Name="IgnoreInternalSpaces">true</PropertyValue>
+    <PropertyValue Name="IgnoreEndOfLine">true</PropertyValue>
+    <PropertyValue Name="MappingIgnoreSpaces">true</PropertyValue>
+    <PropertyValue Name="IgnoreCase">false</PropertyValue>
+    <PropertyValue Name="IgnoreTrailingSpaces">true</PropertyValue>
+    <PropertyValue Name="IsIgnoreTime">false</PropertyValue>
+    <PropertyValue Name="CompareViews">false</PropertyValue>
+    <PropertyValue Name="RoundFloatTypes">false</PropertyValue>
+    <PropertyValue Name="IsEmptyStringEqualsNull">false</PropertyValue>
+    <PropertyValue Name="AppendTimestamp">true</PropertyValue>
+    <PropertyValue Name="MappingIgnoreUnderscores">false</PropertyValue>
+    <PropertyValue Name="HideSystemSchemas">false</PropertyValue>
+    <PropertyValue Name="IgnoreColumnsByMask">true</PropertyValue>
+    <PropertyValue Name="MappingColumnsMaskUseRegexp">false</PropertyValue>
+    <PropertyValue Name="MappingColumnsMask" xml:space="preserve">*ModifiedDate*,*CreatedOn*,*UpdatedBy*,*date_updated*</PropertyValue>
+    <PropertyValue Name="ExcludeObjectsMaskUseRegexp">false</PropertyValue>
+    <PropertyValue Name="ExcludeObjectsMask" xml:space="preserve">*Table*</PropertyValue>
+    <PropertyValue Name="IncludeObjectsByMask">false</PropertyValue>
+    <PropertyValue Name="IncludeObjectsMaskUseRegexp">false</PropertyValue>
+    <PropertyValue Name="IncludeObjectsMask" xml:space="preserve">*</PropertyValue>
+    <PropertyValue Name="IgnoreComputedColumns">true</PropertyValue>
+    <PropertyValue Name="ExcludeNewAddedObjects">false</PropertyValue>
+    <PropertyValue Name="CompareTables">true</PropertyValue>
+    <PropertyValue Name="RoundFloatTypesUpTo" xml:space="preserve">3</PropertyValue>
+    <PropertyValue Name="ToleranceIntervalValue" xml:space="preserve">0</PropertyValue>
+    <PropertyValue Name="CheckDifferent">true</PropertyValue>
+    <PropertyValue Name="CheckOnlyInSource">true</PropertyValue>
+    <PropertyValue Name="CheckOnlyInTarget">true</PropertyValue>
+    <PropertyValue Name="CheckIdentical">false</PropertyValue>
+  </Options>
+  <ModifiedObjects />
+  <SynchronizationOptions>
+    <PropertyValue Name="ExecuteAsSingleTransaction">true</PropertyValue>
+    <PropertyValue Name="DisableRules">true</PropertyValue>
+    <PropertyValue Name="DisableDmlTriggers">true</PropertyValue>
+    <PropertyValue Name="CheckConcurrencyUpdates">false</PropertyValue>
+    <PropertyValue Name="BulkInsert">true</PropertyValue>
+    <PropertyValue Name="DropCheckConstraints">false</PropertyValue>
+    <PropertyValue Name="DisableForeignKeys">true</PropertyValue>
+    <PropertyValue Name="DropKeys">false</PropertyValue>
+    <PropertyValue Name="ExcludeComments">false</PropertyValue>
+    <PropertyValue Name="SynchronizeViaFiles">false</PropertyValue>
+    <PropertyValue Name="SynchronizeType">1</PropertyValue>
+    <PropertyValue Name="SynchronizationFileName" xml:space="preserve" />
+    <PropertyValue Name="SynchronizationEditorFileName" xml:space="preserve" />
+    <PropertyValue Name="OpenScriptInEditor">false</PropertyValue>
+    <PropertyValue Name="RefreshAfterSynchronization">true</PropertyValue>
+    <PropertyValue Name="OpenScriptsFolder">false</PropertyValue>
+    <PropertyValue Name="RemoveControlChars">false</PropertyValue>
+    <PropertyValue Name="PureScript">false</PropertyValue>
+    <PropertyValue Name="GenerateScriptHeader">true</PropertyValue>
+    <PropertyValue Name="CommitPageLength" xml:space="preserve">100</PropertyValue>
+    <PropertyValue Name="UseSchemaNamePrefix">false</PropertyValue>
+    <PropertyValue Name="ExecuteCustomScriptTypeBefore">0</PropertyValue>
+    <PropertyValue Name="EmbeddedScriptBefore" xml:space="preserve" />
+    <PropertyValue Name="ExternalScriptBefore" xml:space="preserve" />
+    <PropertyValue Name="ExecuteCustomScriptTypeAfter">0</PropertyValue>
+    <PropertyValue Name="IncludeStatementUSEBefore">false</PropertyValue>
+    <PropertyValue Name="EmbeddedScriptAfter" xml:space="preserve" />
+    <PropertyValue Name="ExternalScriptAfter" xml:space="preserve" />
+    <PropertyValue Name="IncludeStatementUSEAfter">false</PropertyValue>
+  </SynchronizationOptions>
+  <Mapping>
+    <Schemas>
+      <Object SourceName="audit" TargetName="audit" State="DefaultMapped" Included="False" />
+      <Object SourceName="bugs_import" TargetName="bugs_import" State="DefaultMapped" Included="True" />
+      <Object SourceName="clearing_house" TargetName="clearing_house" State="DefaultMapped" Included="False" />
+      <Object SourceName="clearing_house_commit" TargetName="clearing_house_commit" State="DefaultMapped" Included="False" />
+      <Object SourceName="facet" TargetName="facet" State="DefaultMapped" Included="False" />
+      <Object SourceName="postgrest_api" TargetName="postgrest_api" State="DefaultMapped" Included="False" />
+      <Object SourceName="postgrest_default_api" TargetName="postgrest_default_api" State="DefaultMapped" Included="False" />
+      <Object SourceName="public" TargetName="public" State="DefaultMapped" Included="False" />
+      <Object SourceName="sead_utility" TargetName="sead_utility" State="DefaultMapped" Included="False" />
+      <Object SourceName="sqitch" TargetName="sqitch" State="DefaultMapped" Included="False" />
+    </Schemas>
+    <ComparedObjects>
+      <Object SourceName="bugs_import.bugs_errors" TargetName="bugs_import.bugs_errors" SourceType="Table" TargetType="Table" />
+      <Object SourceName="bugs_import.bugs_trace" TargetName="bugs_import.bugs_trace" SourceType="Table" TargetType="Table" />
+      <Object SourceName="bugs_import.bugs_type_translations" TargetName="bugs_import.bugs_type_translations" SourceType="Table" TargetType="Table" />
+      <Object SourceName="bugs_import.id_based_translations" TargetName="bugs_import.id_based_translations" SourceType="Table" TargetType="Table" />
+    </ComparedObjects>
+  </Mapping>
+  <Issues />
+</CompareDocument>

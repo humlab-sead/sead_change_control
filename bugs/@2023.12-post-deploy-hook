@@ -9,5 +9,5 @@ gzip_submissions() {
     fi
 }
 
-gzip_submissions $script_dir/deploy/20231211_DML_SUBMISSION_BUGS_20231219_COMMIT/sead_staging_202212_vs_sead_staging_bugs_DEPLOY_public_202401031734.sql
-gzip_submissions $script_dir/deploy/20231211_DML_SUBMISSION_BUGS_20231219_COMMIT/sead_staging_202212_vs_sead_staging_bugs_DEPLOY_bugs_import_202401031724.sql
+gzip_submissions $script_dir/deploy/20231211_DML_SUBMISSION_BUGS_20231219_COMMIT/public.sql
+gzip_submissions $script_dir/deploy/20231211_DML_SUBMISSION_BUGS_20231219_COMMIT/bugs_import.sql
