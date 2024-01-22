@@ -74,7 +74,7 @@ update results_chronology_temp set "source" = 'stratigraphic_sequences' where "s
 do $$
     begin
 
-        /* Explode componded keys */
+        /* Explode compound keys */
         update results_chronology_temp
         set site_name = split_part(identifier, '|', 1),
             count_sheet_code = split_part(identifier, '|', 2),
@@ -116,7 +116,7 @@ do $$
                 group by sample_group_id
 
         */
-        
+
         with corrected_sample_names(faulty_sample_name, correct_sample_name) as (values
             ('apr-06', '2906/4'),     /* Strange Excel conversion */
             ('jun-21', '2721/6'),     /* Strange Excel conversion */
@@ -152,7 +152,7 @@ do $$
             ('147_5-150cm', '147#5-150cm'),
             ('92_5-95cm', '92#5-95cm'),
             ('3b2', '3d2'),              /* Strange, typo? */
-            ('3d3', '3b3') 
+            ('3d3', '3b3')
         ) update results_chronology_temp as t
             set sample_name = x.correct_sample_name
         from corrected_sample_names x
@@ -182,33 +182,21 @@ do $$
 
 end $$;
 
-
 do $$
     begin
-    declare missing_count_sheets int;
-    begin
-
-        /* Unknown count sheets */
-        missing_count_sheets = (
-            select count(*) --site_name, count_sheet_code, string_agg(sample_name, ', ')
-            from results_chronology_temp
-            where sample_group_id is null
-        );
-
-        if missing_count_sheets > 0 then
-            raise notice 'error: unknown count sheet codes detected. Import prohibited!';
-            raise notice 'warning: error encountered but ROLLBACK IS DISABLED!';
-            /* NOTE! Check is disabled during development */
-            -- raise exception SQLSTATE 'GUARD';
-            -- select site_name, count_sheet_code, string_agg(sample_name, ', ')
-            -- from results_chronology_temp
-            -- where sample_group_id is null
-            -- group by site_name, count_sheet_code;
-
-        end if;
-
-    end;
-
+    declare v_site_name text;
+	declare v_count_sheet_code text;
+	declare v_sample_names text;
+	begin
+		for v_site_name, v_count_sheet_code, v_sample_names in (
+			select site_name, count_sheet_code, string_agg(sample_name, ', ')
+			from results_chronology_temp
+			where sample_group_id is null
+			group by site_name, count_sheet_code
+		) loop
+			raise notice 'warning: unknown count sheet "%" in site "%", sample name(s) "%"', v_site_name, v_count_sheet_code, v_sample_names;
+		end loop;
+	end;
 end $$;
 
 /* Assign SEAD identity to physical samples */
@@ -225,50 +213,40 @@ with physical_sample as (
         -- t.sample_name ~ '^0[0-9]+$' and d.sample_name ~ '^0[0-9]+$' and t.sample_name::int = d.sample_name::int
     );
 
+do $$
+    begin
+    declare v_site_name text;
+	declare v_count_sheet_code text;
+	declare v_sample_names text;
+	begin
+		for v_site_name, v_count_sheet_code, v_sample_names in (
+			select site_name, count_sheet_code, string_agg(sample_name, ', ')
+			from results_chronology_temp
+			where sample_group_id is null
+			group by site_name, count_sheet_code
+		) loop
+			raise notice 'warning: unknown count sheet "%" in site "%", sample name(s) "%"', v_site_name, v_count_sheet_code, v_sample_names;
+		end loop;
+	end;
+end $$;
 
 do $$
     begin
-    declare unknown_sample_names int;
-    begin
-
-        unknown_sample_names = (
-            with faulty_sample_names as (
-                select sample_group_id, sample_name
-                from results_chronology_temp
-                where sample_group_id is not NULL
-                and physical_sample_id is null
-                and not Coalesce("Chosen_C14", "Chosen_OtherRadio", "Chosen_Calendar", "Chosen_Period") is null
-            )
-                /* Correct codes per sample group */
-                select count(*) -- sample_group_id, string_agg(ps.sample_name, ', ')
-                from tbl_physical_samples ps
-                join tbl_sample_groups pg using (sample_group_id)
-                where sample_group_id in (
-                    select sample_group_id
-                    from faulty_sample_names
-                )
-                --group by sample_group_id
-        );
-
-        if unknown_sample_names > 0 then
-            raise notice 'error: unknown sample names detected. Import prohibited!';
-            raise notice 'WARNING: ROLLBACK IS DISABLED!';
-            /* NOTE! Check is disabled during development */
-            -- raise exception SQLSTATE 'GUARD';
-
-            /* List faulty names:
-                select sample_group_id, sample_name
-                from results_chronology_temp
-                where sample_group_id is not NULL
-                and physical_sample_id is null
-                and not Coalesce("Chosen_C14", "Chosen_OtherRadio", "Chosen_Calendar", "Chosen_Period") is null;
-
-             */
-
-        end if;
-
-    end;
-
+    declare v_site_name text;
+	declare v_count_sheet_code text;
+	declare v_sample_names text;
+	begin
+		for v_site_name, v_count_sheet_code, v_sample_names in (
+			select site_name, count_sheet_code, string_agg(sample_name, ', ')
+			from results_chronology_temp
+			where sample_group_id is not NULL
+			  and physical_sample_id is null
+			  and not Coalesce("Chosen_C14", "Chosen_OtherRadio", "Chosen_Calendar", "Chosen_Period") is null
+			group by site_name, count_sheet_code
+		) loop
+			raise notice 'warning: unknown sample names "%" in site "%", count sheet "%"', v_sample_names, v_site_name, v_count_sheet_code;
+		end loop;
+	end;
 end $$;
 
 
