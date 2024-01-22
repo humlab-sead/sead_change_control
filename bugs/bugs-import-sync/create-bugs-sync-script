@@ -1,0 +1,151 @@
+#!/bin/bash
+# FIXME: BugsCEP import - Create CR script after import
+SHELL=/bin/bash
+
+set -e
+
+script_dir=$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+
+if [ ! -L "$script_dir/datacompare.com" ]; then
+    ln -s /mnt/c/Program\ Files/Devart/dbForge\ Data\ Compare\ for\ PostgreSQL/datacompare.com $script_dir/datacompare.com
+fi
+
+g_server=
+g_user=
+g_template_filename=
+g_target_folder=./output
+g_source_database=sead_staging_202312_bugs
+g_target_database=sead_staging_202312
+g_upload=YES
+
+if [ -f ~/vault/.default.sead.server ]; then
+    g_server=`cat ~/vault/.default.sead.server`
+fi
+
+if [ -f ~/vault/.default.sead.username ]; then
+    g_user=`cat  ~/vault/.default.sead.username`
+fi
+
+function usage() {
+    error_message=$1
+    if [ ! -z "$error_message" ]; then
+        echo "Error: $error_message"
+        echo ""
+    fi
+    echo "Usage: $0 --template-filename [ FILENAME | ALL ]] --folder TARGET-FOLDER"
+    echo ""
+    echo "options:"
+    echo "  --templates-filename    Compare (dcomp) filename or ALL för using all files in templates folder"
+    echo "  --folder                Root target folder (default ./output)"
+    echo "  --source-database       Source database"
+    echo "  --target-database       Target database to be synced"
+    echo "  --host                  Database server name"
+    echo "  --user                  Database user name"
+    echo "  --no-upload             Don't copy output to server "
+    exit 64
+}
+
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --template-filename|--template|-t)
+            g_template_filename="$2";
+            shift 2;
+        ;;
+         --target-folder|--folder|-o)
+            g_target_folder="$2";
+            shift 2;
+        ;;
+        --source-database)
+            g_source_database="$2";
+            shift 2;
+        ;;
+        --target-database)
+            g_target_database="$2";
+            shift 2;
+        ;;
+        --host|h)
+            g_server="$2";
+            shift 2;
+        ;;
+        --no-upload)
+            g_upload="NO";
+            shift;
+        ;;
+        --help|-h)
+            usage
+            exit 0
+        ;;
+        --help|-h)
+            usage
+            exit 0
+        ;;
+        --*)
+            usage "error: invalid option $1"
+            exit 64
+        ;;
+        *)
+            POSITIONAL+=("$1") # save it in an array for later
+            shift
+        ;;
+    esac
+done
+
+g_connection_string="User Id=$g_user;Host=$g_server;Port=5432;Database=postgres;Unicode=True;Connection Timeout=15;Integrated Security=False"
+
+function basename_without_extension() {
+    local path=$1
+    local base=$(basename -- "$path")
+    echo "${base%.*}"
+}
+
+function create_sync_script()
+{
+    local template_filename=$1
+    local target_folder=$2
+    local source_database=$3
+    local target_database=$4
+
+    if [ "$template_filename" == "" ]; then
+        usage "error: no dbForge template project filename specified"
+    fi
+
+    if [ "$target_folder" == "" ]; then
+        usage "error: no target folder specified"
+    fi
+
+    local template_basename=$(basename_without_extension "$template_filename")
+    local today=$(date +%Y-%m-%d)
+    local sub_folder="${target_folder}/${source_database}_vs_${target_database}_${today}"
+    local dcomp_path="${sub_folder}/${template_basename}.dcomp"
+    local sync_path="${sub_folder}/${template_basename}.sql"
+    local log_path="${sub_folder}/${template_basename}.log"
+
+    mkdir -p "${sub_folder}"
+
+    rm -f ${sub_folder}/${template_basename}.*
+
+    sed "s/CONNECTION_STRING/$g_connection_string/; s/SOURCE_DBNAME/$source_database/; s/TARGET_DBNAME/$target_database/" $template_filename > ${dcomp_path}
+
+    $script_dir/datacompare.com /datacompare /compfile:"$dcomp_path" /report:${sub_folder} /reportformat:xls /includeobjects:Diff /log:${log_path} /sync:${sync_path}
+
+    gzip ${sub_folder}/*.sql
+}
+
+if [ "$g_template_filename" == "ALL" ]; then
+    for file in $script_dir/templates/*.dcomp
+    do
+        echo "Processing $file"
+        create_sync_script $file ${g_target_folder} ${g_source_database} ${g_target_database}
+    done
+else
+    create_sync_script $g_template_filename ${g_target_folder} ${g_source_database} ${g_target_database}
+fi
+
+if [ "$g_upload" == "YES" ]; then
+    scp -r ${sub_folder} $USER@$g_server:~/source/sead_change_control/bugs
+fi
