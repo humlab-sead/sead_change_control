@@ -39,7 +39,7 @@ begin
     	  and s.dataset_submission_id is null
     	  and d.master_set_id = 1;
 
-    /* Add alt. refs. bot imported by the Bugs import system */
+    /* Add alt. refs. not imported by the Bugs import system */
     insert into tbl_sample_alt_refs (alt_ref, physical_sample_id, alt_ref_type_id, date_updated)
         select bugs_identifier, sead_reference_id, 12, '2019-12-22 13:15:56.363305+00'
         from bugs_import.bugs_trace b
