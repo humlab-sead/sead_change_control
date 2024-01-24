@@ -39,10 +39,12 @@ function get_cr_issue_url() {
 
     change="${change##*/}"
     change="${change%.*}"
-
     url=$(grep -e "^${change}" $project/sqitch.plan | grep -o 'https://github.com/humlab-sead/sead_change_control/issues/[0-9]*:')
     if [ -z "$url" ]; then
-        return
+        url=$(grep -e "^${change}" $project/sqitch.plan | grep -o 'https://github.com/humlab-sead/sead_change_control/issues/[0-9]*')
+        if [ -z "$url" ]; then
+            return
+        fi
     fi
     echo ${url%:}
 }
@@ -117,6 +119,7 @@ function update_cr_header(){
 -- ${type^} $project: $change" $filename
 
         local issue_url=$(get_cr_issue_url $project $change)
+
         if [ ! -z "$issue_url" ]; then
             echo "$issue_url"
             replace_or_add_line $filename "  Issue" "\ \ Issue         $issue_url" 7
