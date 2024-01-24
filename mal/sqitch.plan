@@ -9,7 +9,18 @@
 @2000.00 2023-12-21T15:38:32Z Roger Mähler <roger.mahler@umu.se> # Initial MAL import
 @2019.12 2023-12-21T15:38:32Z Roger Mähler <roger.mahler@umu.se> # Initial MAL import
 
+20200210_DML_MAL_QOS_UPDATE_01 2020-02-09T10:53:43Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/45: MAL dataset update mainly regarding geographical and macrofossil data
+
+@2020.01 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Jan release
+@2020.02 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 Feb release
+
+20200422_DML_MAL_QOS_UPDATE_02 2020-04-22T14:28:50Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/66: MAL dataset Quality Assurance (part #2)
+20200422_DML_MAL_TAXA_SP_SPP_QOS_UPDATE 2020-04-22T14:51:08Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/66: tbl_taxa_tree_master duplicates of sp. and spp.
+
+@2020.03 2022-11-18T10:25:16Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
+
 20221206_DML_QUALITY_CONTROL_DATASETS_UPDATES 2022-12-06T14:43:06Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/145:
+20221205_DML_QUALITY_CONTROL_BIBLIO_UPDATES 2022-12-06T13:15:15Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/146:
 
 @2022.12 2023-12-21T15:38:32Z Roger Mähler <roger.mahler@umu.se> # December 2022 release
 
