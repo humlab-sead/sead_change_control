@@ -1,0 +1,7 @@
+-- Revert ceramics:20221206_DML_QUALITY_CONTROL_DATASETS_CERAMICS_UPDATES from pg
+
+BEGIN;
+
+-- XXX Add DDLs here.
+
+COMMIT;
