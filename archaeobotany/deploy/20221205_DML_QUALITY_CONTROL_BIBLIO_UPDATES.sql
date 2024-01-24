@@ -2,8 +2,9 @@
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2019-01-01
+  Date          2022-12-05
   Description
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/146
   Prerequisites
   Reviewer
   Approver
