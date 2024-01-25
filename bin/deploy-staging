@@ -511,7 +511,7 @@ function deploy_to_tag()
 
     verify_target_database $target_name
 
-    if [ "$g_sync_sequences" == "YES" ] && [ "${source_type}" != "dump" ]; then
+    if [ "$g_sync_sequences" == "YES" ] && [ "${source_type}" != "dump" ] && [ "${source_type}" != "empty" ]; then
         echo "info: syncing sequences (prior to deploy)..."
 	    sync_sequences
     fi
