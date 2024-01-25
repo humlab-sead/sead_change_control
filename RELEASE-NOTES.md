@@ -50,7 +50,7 @@ Changes to dendrochronology data
 - 20231129_DML_ADD_TAXONOMIC_ORDER_DYNTAXA: Added SBDI taxonomic order `Dyntaxa` ([Create species mapping in SEAD](https://github.com/humlab-sead/sbdi/issues/1), [#141](https://github.com/humlab-sead/sead_change_control/issues/141))
 - 20231120_DML_DENDRO_LOOKUP: Additional dendro-related lookups ([#136](https://github.com/humlab-sead/sead_change_control/issues/136), [#153](https://github.com/humlab-sead/sead_change_control/issues/153))
 - 20231120_DML_DENDRO_LOOKUP: Fix handling of lookups common to both CRs ([#20](https://github.com/humlab-sead/sead_change_control/issues/20), [#148](https://github.com/humlab-sead/sead_change_control/issues/148), [2316d0f](https://github.com/humlab-sead/sead_change_control/commit/2316d0f3b8f54c9982f120f8c9fa4439d97860ff))
-- 20231120_DML_DENDRO_MODEL: Revised. Added missing FK constraint to `tbl_seasons` ([#135](https://github.com/humlab-sead/sead_change_control/issues/135), https://github.com/humlab-sead/sead_change_control/blob/f0a84e6273050d244f160e390a09f6c4d9963dff/dendrochronology/deploy/20231120_DML_DENDRO_MODEL.sql)
+- 20231120_DML_DENDRO_MODEL: Revised. Added missing FK constraint to `tbl_seasons` ([#135](https://github.com/humlab-sead/sead_change_control/issues/135), [f0a84e6](https://github.com/humlab-sead/sead_change_control/blob/f0a84e6273050d244f160e390a09f6c4d9963dff/dendrochronology/deploy/20231120_DML_DENDRO_MODEL.sql))
 
 Changes to BugsCEP data
 
