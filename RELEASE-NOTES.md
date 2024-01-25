@@ -23,7 +23,7 @@ Changes to SEAD schema (SEAD_DATABASE_MODEL, #217):
 - Explicit sequence definitions and defaults have been replaced with "serial" (int4) or "bigserial" (bigint)
 - Default serial data type (most often a PK) is hence changed to integer (int) instead of bigint.
 - Tables "tbl_analysis_entities", "tbl_abundances" and "tbl_measured_values" only tables with "bigserial" OK.
-- PK column types have been changed to `serial/bigserial not null`, explicit sequenced removed (#217, #220) https://github.com/humlab-sead/sead_change_control/commit/76aecd1c7aa5a81ab2ad38346769892e3f9f51e9).
+- PK column types have been changed to `serial/bigserial not null`, explicit sequenced removed (#217, #220, 76aecd1c7aa5a81ab2ad38346769892e3f9f51e9).
 - FK column types changed to match referenced PK column type (https://github.com/humlab-sead/sead_change_control/commit/ddfb52b0beff03c976c42f81e36a97e6b3ce56e7). Previously PK defined as sequence was `bigint`, FKs were `int` (#224).
 - It is a simple task to change type from "serial" to "bigserial" when needed.
 - All _views_ in public schema have been dropped (deprecated):
