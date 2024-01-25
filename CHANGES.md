@@ -54,12 +54,14 @@ Changes to dendrochronology data
 
 Changes to BugsCEP data
 
-- 20231211_DML_SUBMISSION_BUGS_20231219_COMMIT: A full import of BugsCEP database dated 2023-12-19.
-- 20220916_DDL_RESULTS_CHRONOLOGY: Adds chronology dating data to BugsCEP physical samples (#17).
+- 20231211_DML_SUBMISSION_BUGS_20231219_COMMIT: A full import of BugsCEP database dated 2023-12-19 (#162).
+- 20220916_DDL_RESULTS_CHRONOLOGY: Adds chronology dating data to BugsCEP physical samples (#17, #248).
 - 20200422_DML_UPDATE_BUGS_REFERENCES_YEAR (#69, update of erroneous year in BugsCEP references).
 - 20200316_DDL_BUGS_ECOCODE_GEOJSON Moved to (#64, @2023-12 since it is dependent on 20231211_DML_SUBMISSION_BUGS_20231219_COMMIT)
 
-Deprecated changes related to BugsCEP data
+Note: See issue #248 for a log of warnings occuring when deploying 20220916_DDL_RESULTS_CHRONOLOGY.
+
+Deprecated changes related to BugsCEP data:
 
 - 20191221_DML_SUBMISSION_BUGS_20190303_COMMIT (#204, replaced by #162, first BugsCEP import).
 - 20191012_DML_ASSOCIATION_TYPE_UPDATES (#15, moved to #226)
@@ -357,7 +359,7 @@ same as
       bin/add-submission-change-request --id 5 --database sead_staging_202212 --project dendrochronology --note "Dendrochronology V6"
       ```
 
-1. Using `sead_change_control` on `wsl2` (need access to dbForege DataCompare):
+1. Using `sead_change_control` deploy new `sead_staging` databases:
 
 ### Release Checklist
 
