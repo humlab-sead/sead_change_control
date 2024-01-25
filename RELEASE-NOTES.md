@@ -23,8 +23,8 @@ Changes to SEAD schema (SEAD_DATABASE_MODEL, #217):
 - Explicit sequence definitions and defaults have been replaced with "serial" (int4) or "bigserial" (bigint)
 - Default serial data type (most often a PK) is hence changed to integer (int) instead of bigint.
 - Tables "tbl_analysis_entities", "tbl_abundances" and "tbl_measured_values" only tables with "bigserial" OK.
-- PK column types have been changed to `serial/bigserial not null`, explicit sequenced removed (#217, #220, 76aecd1c7aa5a81ab2ad38346769892e3f9f51e9).
-- FK column types changed to match referenced PK column type (https://github.com/humlab-sead/sead_change_control/commit/ddfb52b0beff03c976c42f81e36a97e6b3ce56e7). Previously PK defined as sequence was `bigint`, FKs were `int` (#224).
+- PK column types have been changed to `serial/bigserial not null`, explicit sequenced removed (#217, #220, [76aecd1]https://github.com/humlab-sead/sead_change_control/commit/76aecd1c7aa5a81ab2ad38346769892e3f9f51e9)).
+- FK column types changed to match referenced PK column type ([ddfb52b]https://github.com/humlab-sead/sead_change_control/commit/ddfb52b0beff03c976c42f81e36a97e6b3ce56e7)). Previously PK defined as sequence was `bigint`, FKs were `int` (#224).
 - It is a simple task to change type from "serial" to "bigserial" when needed.
 - All _views_ in public schema have been dropped (deprecated):
    - view_taxa_tree
@@ -38,8 +38,8 @@ Changes to SEAD schema (SEAD_DATABASE_MODEL, #217):
 - All _user defined_ types in public schema have been removed (deprecated).
 - Comments on tables & columns have now LF as linebreak (was CR/LF).
 - ~~Timestamp is now timestamp(6), e.g. the same but with explicit precision~~.
-- 20240104_DDL_DATE_SUBMITTED_TYPE: Type of `date_submitted` changed from `date` to `text` (#219, #228, https://github.com/humlab-sead/sead_change_control/commit/f7058d482966021446f57b4fd7b0aa7ae7a6db44)
-- Missing FK indexes have been added to a number of tables (#202, https://github.com/humlab-sead/sead_change_control/commit/f2f20e7e3cb7aace1a9b2c7e86a8ada56ed355be, [indexes.sql](https://github.com/humlab-sead/sead_change_control/blob/master/sead_model/deploy/SEAD_DATABASE_MODEL/indexes.sql))
+- 20240104_DDL_DATE_SUBMITTED_TYPE: Type of `date_submitted` changed from `date` to `text` (#219, #228, [f7058d4]https://github.com/humlab-sead/sead_change_control/commit/f7058d482966021446f57b4fd7b0aa7ae7a6db44))
+- Missing FK indexes have been added to a number of tables (#202, [f2f20e7]https://github.com/humlab-sead/sead_change_control/commit/f2f20e7e3cb7aace1a9b2c7e86a8ada56ed355be), [indexes.sql](https://github.com/humlab-sead/sead_change_control/blob/master/sead_model/deploy/SEAD_DATABASE_MODEL/indexes.sql))
 
 ### SEAD Data Changes
 
@@ -49,7 +49,7 @@ Changes to dendrochronology data
 - 20231206_DDL_UPDATE_OF_DENDRO_RELATED_LOOKUPS: Add additional dendro lookup data related to new submission (#153, #218)
 - 20231129_DML_ADD_TAXONOMIC_ORDER_DYNTAXA: Added SBDI taxonomic order `Dyntaxa` ([Create species mapping in SEAD](https://github.com/humlab-sead/sbdi/issues/1), #141)
 - 20231120_DML_DENDRO_LOOKUP: Additional dendro-related lookups (#136, #153)
-- 20231120_DML_DENDRO_LOOKUP: Fix handling of lookups common to both CRs (#20, #148, https://github.com/humlab-sead/sead_change_control/commit/2316d0f3b8f54c9982f120f8c9fa4439d97860ff)
+- 20231120_DML_DENDRO_LOOKUP: Fix handling of lookups common to both CRs (#20, #148, [2316d0f]https://github.com/humlab-sead/sead_change_control/commit/2316d0f3b8f54c9982f120f8c9fa4439d97860ff))
 - 20231120_DML_DENDRO_MODEL: Revised. Added missing FK constraint to `tbl_seasons` (#135, https://github.com/humlab-sead/sead_change_control/blob/f0a84e6273050d244f160e390a09f6c4d9963dff/dendrochronology/deploy/20231120_DML_DENDRO_MODEL.sql)
 
 Changes to BugsCEP data
@@ -100,7 +100,7 @@ Changes to Clearing House Data
 
 - 20191221_DML_CLEARINGHOUSE_STARTINGPOINT: Deprecated (with old dendro data)
 - 20231219_DML_CLEARINGHOUSE_STARTINGPOINT: Starting point with only ceramics and isotope data (#214)
-- 20191217_DDL_CLEARINGHOUSE_SYSTEM: Revised, pinned table identities (#215, https://github.com/humlab-sead/sead_change_control/commit/1b3cc075277fc490b6b17c3f3aa2be28c09641a4)
+- 20191217_DDL_CLEARINGHOUSE_SYSTEM: Revised, pinned table identities (#215, [1b3cc07]https://github.com/humlab-sead/sead_change_control/commit/1b3cc075277fc490b6b17c3f3aa2be28c09641a4))
 
 ### Changes to CR Projects and Existing CRs
 
@@ -112,12 +112,12 @@ Structural changes
    - Removed `submissions` project (#197)
    - CRs (not all, need help here) have been moved to correct folder (#197).
    - The SEAD model DDL scripts are stored in tables.sql, foreign_keys.sql, comments.sql, grants.sql, indexes.sql.
-- All CRs have been update with link to corresponding Github issue (https://github.com/humlab-sead/sead_change_control/commit/dcc4717bc454480c8867403068f5dee0dd3c3ed3, ...).
+- All CRs have been update with link to corresponding Github issue ([dcc4717]https://github.com/humlab-sead/sead_change_control/commit/dcc4717bc454480c8867403068f5dee0dd3c3ed3), ...).
 
 Mostly house cleaning changes
 
 - 20190408_DML_UPDATE_LOCATION_RECORD deprecated (merged into #20)
-- 20120921_DML_RECORD_TYPE_UPDATE_PLANTS_POLLEN: Raise error if target records are missing (https://github.com/humlab-sead/sead_change_control/commit/b273ea4b274c00c44a7c454b6ae60d87a2eaff25)
+- 20120921_DML_RECORD_TYPE_UPDATE_PLANTS_POLLEN: Raise error if target records are missing ([b273ea4]https://github.com/humlab-sead/sead_change_control/commit/b273ea4b274c00c44a7c454b6ae60d87a2eaff25))
 - 20231207_DML_FACET_GRAPH_UPDATE: removed (empty CR)
 - 20200422_UPDATE_BUGS_REFERENCES_YEAR: Changed so that update targets `bugs_reference` instead of `biblio_id`.
 - 20221205_DML_CERAMICS_METHOD_ID_UPDATE: Update by explicit method names.
@@ -127,8 +127,8 @@ Mostly house cleaning changes
 - 20170810_DDL_DATAARC_DATASRC_API: Deprecated (replaced by #000)
 - 20191012_DDL_FACET_MEASURED_VALUE_UDF: Merged into 20190101_DDL_FACET_SCHEMA in prior release (#160)
 - 20190101_DML_FACETS_LOOKUP: Moved facet lookups to separate CR (#160, #213)
-- 20231120_DML_DENDRO_LOOKUP, 20191213_DML_CERAMICS_LOOKUP: Fix handling of lookups common to both CRs (#20, #148, https://github.com/humlab-sead/sead_change_control/commit/2316d0f3b8f54c9982f120f8c9fa4439d97860ff)
-- 20200507_DDL_FACET_ABUNDANCE_UPDATE: Fixed failure in update of view caused by changes underlying table schemas (https://github.com/humlab-sead/sead_change_control/commit/35f86894199fd8914c3077410e4000b69b4f00ce) 
+- 20231120_DML_DENDRO_LOOKUP, 20191213_DML_CERAMICS_LOOKUP: Fix handling of lookups common to both CRs (#20, #148, [2316d0f]https://github.com/humlab-sead/sead_change_control/commit/2316d0f3b8f54c9982f120f8c9fa4439d97860ff))
+- 20200507_DDL_FACET_ABUNDANCE_UPDATE: Fixed failure in update of view caused by changes underlying table schemas ([35f8689]https://github.com/humlab-sead/sead_change_control/commit/35f86894199fd8914c3077410e4000b69b4f00ce)) 
 
 ### Changes to SEAD Clearing House Import System (https://vscode.dev/github/humlab-sead/sead_clearinghouse_import/pull/28)
 
@@ -174,37 +174,38 @@ Improved and more resiliant version:
 
 Improvements to `add-change-request` script 
 
-- Added options to create and link Github issue (https://github.com/humlab-sead/sead_change_control/commit/42f5ca37753d3b867fed9f0ccf62c3b0f10d49bf)
+- Added options to create and link Github issue ([42f5ca3]https://github.com/humlab-sead/sead_change_control/commit/42f5ca37753d3b867fed9f0ccf62c3b0f10d49bf))
 
 Improvements to `deploy-staging` script 
 
-- Resolved #161 (https://github.com/humlab-sead/sead_change_control/commit/ec75ff051bc176dca0e6b96c86b566c888203bdb)
-- Added `--help` option (https://github.com/humlab-sead/sead_change_control/commit/680cecdd6c4f5dc8e6d94560a561ea9ace57e306)
-- Refactored common logic to utility script (https://github.com/humlab-sead/sead_change_control/commit/f70cd3133e47eec31510109076b3931751de1c12)
-- Added option `--deploy-starting-point` (https://github.com/humlab-sead/sead_change_control/commit/96c1dfa1104a17210a87aac0430d9a5ecd9bed5f)
-- Fixed help text and added `empty` starting point (https://github.com/humlab-sead/sead_change_control/commit/f265afaddde126933f1a8a39f51a34c90b855d7e)
-- Added `--deploy-single-change-request` (https://github.com/humlab-sead/sead_change_control/commit/50d86ba8d55783d98cfedf4d6afc206a00b7713c)
-- Added `--sync-sequences` (https://github.com/humlab-sead/sead_change_control/commit/
+- Resolved #161 ([ec75ff0]https://github.com/humlab-sead/sead_change_control/commit/ec75ff051bc176dca0e6b96c86b566c888203bdb))
+- Added `--help` option ([680cecd]https://github.com/humlab-sead/sead_change_control/commit/680cecdd6c4f5dc8e6d94560a561ea9ace57e306))
+- Refactored common logic to utility script ([f70cd31]https://github.com/humlab-sead/sead_change_control/commit/f70cd3133e47eec31510109076b3931751de1c12))
+- Added option `--deploy-starting-point` ([96c1dfa]https://github.com/humlab-sead/sead_change_control/commit/96c1dfa1104a17210a87aac0430d9a5ecd9bed5f))
+- Fixed help text and added `empty` starting point ([f265afa]https://github.com/humlab-sead/sead_change_control/commit/f265afaddde126933f1a8a39f51a34c90b855d7e))
+- Added `--deploy-single-change-request` ([50d86ba]https://github.com/humlab-sead/sead_change_control/commit/50d86ba8d55783d98cfedf4d6afc206a00b7713c))
+- Added `--sync-sequences` ([
+9bfa21]https://github.com/humlab-sead/sead_change_control/commit/)
 9bfa21eedb17551914ed380e0a1dfe6607da6e16)
-- Added before/after deploy hooks that are bash scripts executed before a project's release targeting a certain deploy tag. This hooks must be placed in a project's root folder and be named as `@YYYY-MM-pre-deploy-hook` and `@YYYY-MM-post-deploy-hook` and reside in project's folder. `@YYYY-MM` must be a valid tag in the project's `sqitch.plan` (e.g. `bugs/@2023.12-post-deploy-hook`). The hooks can be used for e.g. decompressing/compressing large files used by CRs that target specified tag (#133, #162,https://github.com/humlab-sead/sead_change_control/commit/e589995d136bf036bbc242f37429d0199b4121b8, https://github.com/humlab-sead/sead_change_control/commit/bd5dd60dc7aeb7460f38fe3a8b21cf0810463215)
-- Each database can now be deployed in order of deploy tags in one go (https://github.com/humlab-sead/sead_change_control/commit/a9afa0552769bd3cf024afb02d4173af9b6076f3).
-- Added option to prevent release if specified tag doesn't exist in git (https://github.com/humlab-sead/sead_change_control/commit/bd5dd60dc7aeb7460f38fe3a8b21cf0810463215)
+- Added before/after deploy hooks that are bash scripts executed before a project's release targeting a certain deploy tag. This hooks must be placed in a project's root folder and be named as `@YYYY-MM-pre-deploy-hook` and `@YYYY-MM-post-deploy-hook` and reside in project's folder. `@YYYY-MM` must be a valid tag in the project's `sqitch.plan` (e.g. `bugs/@2023.12-post-deploy-hook`). The hooks can be used for e.g. decompressing/compressing large files used by CRs that target specified tag (#133, #162,[e589995]https://github.com/humlab-sead/sead_change_control/commit/e589995d136bf036bbc242f37429d0199b4121b8), [bd5dd60]https://github.com/humlab-sead/sead_change_control/commit/bd5dd60dc7aeb7460f38fe3a8b21cf0810463215))
+- Each database can now be deployed in order of deploy tags in one go ([a9afa05]https://github.com/humlab-sead/sead_change_control/commit/a9afa0552769bd3cf024afb02d4173af9b6076f3)).
+- Added option to prevent release if specified tag doesn't exist in git ([bd5dd60]https://github.com/humlab-sead/sead_change_control/commit/bd5dd60dc7aeb7460f38fe3a8b21cf0810463215))
 - Fixed problems occuring when kicking out users during deployment (#161)
-- Added file `projects.txt` that pins order in which projects are deployed (#132, https://github.com/humlab-sead/sead_change_control/commit/d0cc9544aad6e9c21e2767dc7e3ba510aadaf55d)
+- Added file `projects.txt` that pins order in which projects are deployed (#132, [d0cc954]https://github.com/humlab-sead/sead_change_control/commit/d0cc9544aad6e9c21e2767dc7e3ba510aadaf55d))
 - Default deploy order: `utility sead_model security general mal archaeobotany dendrochronology bugs isotope ceramics subsystem sead_api`
 
 Other improvements
 - Added script `add-issue` that given a CR creates a placeholder issue (or links an existing issue) and updates links in CR script, and adds a link in the issue to the deploy script.
 - Added script `add-issue-refs` that uses Github CLI client `gh` to add comment in existing CR issue with links to CR SQL deploy script.
-- Added script `tag-projects` that assigns a tag to all projects (https://github.com/humlab-sead/sead_change_control/commit/391f93671b3c80ce3420c033da26c39e4ed872a4)
-- Added script `rm-cr` (https://github.com/humlab-sead/sead_change_control/commit/a600a6151d55093b651e35dc79e8773ce9637628) ... https://github.com/humlab-sead/sead_change_control/commit/43a4fd3e23b5d3cdba98ff848af4b4eaf0e92f45 that archives a CR.
-- Added script `mv-cr` (https://github.com/humlab-sead/sead_change_control/commit/8ffa4954a5291a5bd03011658b44412fa653bfb6) ... https://github.com/humlab-sead/sead_change_control/commit/e504177e262002647fc65c6767f08abe6ff1c0d4 that moves a CR to another project while preserving links to code and issue, and also preserving deploy tag.
-- Added script `update-cr-header` (https://github.com/humlab-sead/sead_change_control/commit/e504177e262002647fc65c6767f08abe6ff1c0d4)... that updates CR name and link to Github issue in CR's deploy file.
+- Added script `tag-projects` that assigns a tag to all projects ([391f936]https://github.com/humlab-sead/sead_change_control/commit/391f93671b3c80ce3420c033da26c39e4ed872a4))
+- Added script `rm-cr` ([a600a61]https://github.com/humlab-sead/sead_change_control/commit/a600a6151d55093b651e35dc79e8773ce9637628)) ... [43a4fd3]https://github.com/humlab-sead/sead_change_control/commit/43a4fd3e23b5d3cdba98ff848af4b4eaf0e92f45) that archives a CR.
+- Added script `mv-cr` ([8ffa495]https://github.com/humlab-sead/sead_change_control/commit/8ffa4954a5291a5bd03011658b44412fa653bfb6)) ... [e504177]https://github.com/humlab-sead/sead_change_control/commit/e504177e262002647fc65c6767f08abe6ff1c0d4) that moves a CR to another project while preserving links to code and issue, and also preserving deploy tag.
+- Added script `update-cr-header` ([e504177]https://github.com/humlab-sead/sead_change_control/commit/e504177e262002647fc65c6767f08abe6ff1c0d4))... that updates CR name and link to Github issue in CR's deploy file.
 
 Improvements to `dump-database` script
 
-- Added option to exclude owners and privileges (https://github.com/humlab-sead/sead_change_control/commit/4f2eda96f3e2cedea9491be572f0ad3c1747676d)
-- Added option to compress data file (https://github.com/humlab-sead/sead_change_control/commit/1f4e582e25386e0e929da10a8c8aa9953078beb2)
+- Added option to exclude owners and privileges ([4f2eda9]https://github.com/humlab-sead/sead_change_control/commit/4f2eda96f3e2cedea9491be572f0ad3c1747676d))
+- Added option to compress data file ([1f4e582]https://github.com/humlab-sead/sead_change_control/commit/1f4e582e25386e0e929da10a8c8aa9953078beb2))
 
 New script `create-bugs-sync-script`
 
@@ -216,34 +217,34 @@ New script `create-bugs-sync-script`
 New script `add-submission-change-request`
 
 - This script bundles a data submission residing in `ready-to-commit` state in the SEAD Clearing House System.
-- The script originates from SEAD Clearing House system but has been improved and made more resilient. (https://github.com/humlab-sead/sead_change_control/commit/8ffa4954a5291a5bd03011658b44412fa653bfb6) ... (https://github.com/humlab-sead/sead_change_control/commit/e504177e262002647fc65c6767f08abe6ff1c0d4)
+- The script originates from SEAD Clearing House system but has been improved and made more resilient. ([8ffa495]https://github.com/humlab-sead/sead_change_control/commit/8ffa4954a5291a5bd03011658b44412fa653bfb6)) ... ([e504177]https://github.com/humlab-sead/sead_change_control/commit/e504177e262002647fc65c6767f08abe6ff1c0d4))
 - This script is part of the workflow that submits a new data submission into SEAD production via SEAD Change Control System.
 
 
 ### Changes to SEAD SQL Utility Scripts (UDFs in schema sead_utility)
 
-- Added UDF `sead_utility.constraint_exists` (#202, https://github.com/humlab-sead/sead_change_control/commit/59ff112c26a86c3fee4c414d49ab9e4ee17406cd)
-- Added UDF `sead_utility.get_all_table_counts` (https://github.com/humlab-sead/sead_change_control/commit/16407381c37d5a3c6ee237aa645b42b326ff5f3c)
-- Added view `sead_utility.view_fk_index_check` (#202, https://github.com/humlab-sead/sead_change_control/commit/dea947fb3904be7be749c3de4a85e70899e333d2). Renamed to `foreign_keys_index_check` (https://github.com/humlab-sead/sead_change_control/commit/bf54b98469a40a6bdfd4b1e9663b8b37b96634fb)
-- Added UDP `sead_utility.set_schema_privilege` for assigning privileges (https://github.com/humlab-sead/sead_change_control/commit/59ac0419efaf6484375888e281270f3ce19d34ba)
-- Added UDF `sead_utility.chown` for changing object's owner (https://github.com/humlab-sead/sead_change_control/commit/59ac0419efaf6484375888e281270f3ce19d34ba)
-- Added UDF `sead_utility.get_column_type` that returns column's type (https://github.com/humlab-sead/sead_change_control/commit/95985c763712fcde9a152b30848c1353b914db75)
+- Added UDF `sead_utility.constraint_exists` (#202, [59ff112]https://github.com/humlab-sead/sead_change_control/commit/59ff112c26a86c3fee4c414d49ab9e4ee17406cd))
+- Added UDF `sead_utility.get_all_table_counts` ([1640738]https://github.com/humlab-sead/sead_change_control/commit/16407381c37d5a3c6ee237aa645b42b326ff5f3c))
+- Added view `sead_utility.view_fk_index_check` (#202, [dea947f]https://github.com/humlab-sead/sead_change_control/commit/dea947fb3904be7be749c3de4a85e70899e333d2)). Renamed to `foreign_keys_index_check` ([bf54b98]https://github.com/humlab-sead/sead_change_control/commit/bf54b98469a40a6bdfd4b1e9663b8b37b96634fb))
+- Added UDP `sead_utility.set_schema_privilege` for assigning privileges ([59ac041]https://github.com/humlab-sead/sead_change_control/commit/59ac0419efaf6484375888e281270f3ce19d34ba))
+- Added UDF `sead_utility.chown` for changing object's owner ([59ac041]https://github.com/humlab-sead/sead_change_control/commit/59ac0419efaf6484375888e281270f3ce19d34ba))
+- Added UDF `sead_utility.get_column_type` that returns column's type ([95985c7]https://github.com/humlab-sead/sead_change_control/commit/95985c763712fcde9a152b30848c1353b914db75))
 
 ### Changes Related to BugsCEP Import System
 
-- 20190503_DDL_BUGS_SETUP_SCHEMA: Revised. Added unique constraints and (ignore dupes) triggers on `bugs_import.bugs_type_translations` and `bugs_import.id_based_translations` (https://github.com/humlab-sead/sead_change_control/commit/b0a705a32790a5f29ce433d721f11580c22f2ee8).
+- 20190503_DDL_BUGS_SETUP_SCHEMA: Revised. Added unique constraints and (ignore dupes) triggers on `bugs_import.bugs_type_translations` and `bugs_import.id_based_translations` ([b0a705a]https://github.com/humlab-sead/sead_change_control/commit/b0a705a32790a5f29ce433d721f11580c22f2ee8)).
 
 ### Bug fixes
 
 - CRs are applied in wrong order (#132)
 - [20200429_DDL_UDF_FACET_UPDATE: Missing domain facet children](https://github.com/humlab-sead/sead_change_control/issues/140) (#140)
 - [20220916_DDL_RESULTS_CHRONOLOGY: Error in dataset name](https://github.com/humlab-sead/sead_change_control/issues/143) (#143)
-- 20190407_DDL_UTILITY_SYNC_ALL_SEQUENCES: Revised, prevent incorrect initialisation of sequences: (https://github.com/humlab-sead/sead_change_control/commit/8f8b160624ad42ab0b6cdcb79bf217d7a9b955a0)
-- 20190407_DDL_UTILITY_CREATE_UTILITY_SCHEMA: Revised, fixed wrong (humlab_admin) object owner (https://github.com/humlab-sead/sead_change_control/commit/bf54b98469a40a6bdfd4b1e9663b8b37b96634fb).
-- Fixed several CRs neglected to update sequences after explicit identity insert (https://github.com/humlab-sead/sead_change_control/commit/df1f2048d0d1dd7c6e1c84a21392281260e08610 through https://github.com/humlab-sead/sead_change_control/commit/bff0dd4c6d2d5aa3be48ffee6d6ebe57eadbd9a6)
-- 20220916_DDL_RESULTS_CHRONOLOGY: Revised, fixed assignment of incorrect count sheet code (https://github.com/humlab-sead/sead_change_control/commit/36ce4e43ef0b63eebd8d2c5b4fdbfd0558ddb035).
-- 20220916_DDL_RESULTS_CHRONOLOGY: Revised, fixed error caused by new BugsCEP data that doesn't exist CR (https://github.com/humlab-sead/sead_change_control/commit/3423b896476fe8d478b9bef12a14fb9e0e30b7b9)
-- 20240112_DDL_CLEARINGHOUSE_UPLOAD_CSV: Fixed bug in xpath queries (https://github.com/humlab-sead/sead_change_control/commit/9f8026809a7e8dc2d35b640b45c7b88235bf3f1a).
+- 20190407_DDL_UTILITY_SYNC_ALL_SEQUENCES: Revised, prevent incorrect initialisation of sequences: ([8f8b160]https://github.com/humlab-sead/sead_change_control/commit/8f8b160624ad42ab0b6cdcb79bf217d7a9b955a0))
+- 20190407_DDL_UTILITY_CREATE_UTILITY_SCHEMA: Revised, fixed wrong (humlab_admin) object owner ([bf54b98]https://github.com/humlab-sead/sead_change_control/commit/bf54b98469a40a6bdfd4b1e9663b8b37b96634fb)).
+- Fixed several CRs neglected to update sequences after explicit identity insert ([df1f204]https://github.com/humlab-sead/sead_change_control/commit/df1f2048d0d1dd7c6e1c84a21392281260e08610) through [bff0dd4]https://github.com/humlab-sead/sead_change_control/commit/bff0dd4c6d2d5aa3be48ffee6d6ebe57eadbd9a6))
+- 20220916_DDL_RESULTS_CHRONOLOGY: Revised, fixed assignment of incorrect count sheet code ([36ce4e4]https://github.com/humlab-sead/sead_change_control/commit/36ce4e43ef0b63eebd8d2c5b4fdbfd0558ddb035)).
+- 20220916_DDL_RESULTS_CHRONOLOGY: Revised, fixed error caused by new BugsCEP data that doesn't exist CR ([3423b89]https://github.com/humlab-sead/sead_change_control/commit/3423b896476fe8d478b9bef12a14fb9e0e30b7b9))
+- 20240112_DDL_CLEARINGHOUSE_UPLOAD_CSV: Fixed bug in xpath queries ([9f80268]https://github.com/humlab-sead/sead_change_control/commit/9f8026809a7e8dc2d35b640b45c7b88235bf3f1a)).
 
 ### Known Issues and Problems
 
