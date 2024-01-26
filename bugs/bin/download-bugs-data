@@ -1,0 +1,10 @@
+#!/bin/bash
+
+g_today=$(date +%Y%m%d)
+g_user_agent="Mozilla/5.0 (Windows NT x.y; rv:10.0) Gecko/20100101 Firefox/10.0"
+g_url=https://www.bugscep.com/downloads/bugsdata.zip
+
+wget -d --user-agent="$g_user_agent"  $g_url -O ./bugsdata/bugsdata_${g_today}.zip
+
+unzip ./bugsdata/bugsdata_yyyymmdd.zip bugsdata.mdb
+mv bugsdata.mdb ./bugsdata/bugsdata._${g_today}.mdb
