@@ -1,0 +1,95 @@
+#!/bin/bash
+###################################################################################################
+# This script adds completion for --change option to bin/rm-cr
+#
+# _change_completion is a function that generates possible completions for the --change option.
+# It uses find to locate all SQL files in the deploy directory, extracts their basenames using basename, and removes the .sql extension using sed.
+# The complete command associates the _change_completion function with the completion of the --change option for your script.
+# After adding this code to your script, when you type --change and press TAB, it will autocomplete with the available SQL files in the deploy directory.
+
+_project_change_completion() {
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    # opts="--project --change"
+
+    # if [[ ${cur} == -* ]] ; then
+    #     COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    #     return 0
+    # fi
+    if [[ ${cur} == -* ]] ; then
+        return 0
+    fi
+
+    if [ "${prev}" == "--project" ] ; then
+        script_dir=$(dirname $(which ${COMP_WORDS[0]}))
+        local projects_file=$(realpath $script_dir/../projects.txt)
+        local projects=$(grep -v '^#' $projects_file | grep -v '^[[:space:]]*$')
+        COMPREPLY=( $(compgen -W "${projects}" -- ${cur}) )
+        return 0
+    fi
+
+    local project
+    for ((i=0; i<${#COMP_WORDS[@]}-1; i++)); do
+        if [[ "${COMP_WORDS[i]}" == "--project" ]]; then
+            project="${COMP_WORDS[i+1]}"
+            break
+        fi
+    done
+
+    if [ "${prev}" == "--change" ] ; then
+
+        if [ -z "$project" ]; then
+            crs=$(cat */sqitch.plan | awk '!/^[%@]/ && NF {print $1}' | sort | uniq)
+        else
+            crs=$(cat $project/sqitch.plan | awk '!/^[%@]/ && NF {print $1}' | sort | uniq)
+        fi
+
+        COMPREPLY=( $(compgen -W "${crs}" -- ${cur}) )
+        return 0
+    fi
+
+}
+
+_options_completion() {
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    local opts="$1"
+    if [[ ${cur} == -* ]] ; then
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        return 0
+    fi
+}
+
+_rm_cr_completion() {
+    # _options_completion "--project --change --no-archive" ||
+    _project_change_completion
+}
+
+_mv_cr_completion() {
+    _options_completion "--from-project --to-project --change --tag --update-plan" || _project_change_completion
+}
+
+_add_change_request() {
+    _options_completion "--change --project --note --issue-id --create-issue --help" || _project_change_completion
+}
+
+_add_issue() {
+    _options_completion "--project --title --body --label --assignee --milestone --help"
+}
+
+_update_cr_header() {
+    _options_completion "--change --project --help" || _project_change_completion
+}
+
+# _deploy_staging_completion() {
+#     _options_completion ""
+# }
+
+complete -F _rm_cr_completion bin/rm-cr
+# complete -F _mv_cr_completion bin/mv-cr
+# complete -F _add_change_request bin/add-change-request
+# complete -F _add_issue bin/add-issue
+# complete -F _update_cr_header bin/update-cr-header
+
+
