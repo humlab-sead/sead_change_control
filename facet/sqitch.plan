@@ -1,0 +1,34 @@
+%syntax-version=1.0.0
+%project=sead_api
+%uri=https://github.com/humlab-sead/sead-api
+
+20190101_DDL_FACET_SCHEMA 2019-06-22T09:32:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/160: SEAD Query API schema DDL.
+20190101_DML_FACETS_LOOKUP 2023-12-19T09:26:08Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/213: Was part of 20190101_DML_FACETS
+20190101_DML_FACETS 2019-06-22T09:33:04Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/160: SEAD Query API schema DML.
+
+@2019.12 2019-12-13T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2019 December release
+
+20200203_DML_FACET_UI_ELEMENTS_UPDATE 2020-02-03T15:49:17Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/37: Change displayed name and sort order
+
+@2020.01 2020-01-29T11:53:00Z Roger Mähler <roger.mahler@umu.se> # 2020 January release
+@2020.02 2020-03-16T14:47:53Z Roger Mähler <roger.mahler@umu.se> # @2020.02 release
+
+20200203_DDL_ADD_DOMAIN_TABLE 2020-02-03T13:48:27Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/149: New domain facets table
+20200120_DML_ADD_DOMAIN_FACETS 2020-01-30T15:55:11Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/149: New domain facets
+20200203_DML_ADD_DOMAIN_ASSOCS 2020-02-03T13:47:15Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/149: New domain facets associations
+20200422_DML_FACET_GRAPH_REROUTE 2020-04-22T11:18:02Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/71: Relative dates rerouted from samples to analysis
+20200429_DDL_UDF_FACET_UPDATE 2020-04-30T08:16:18Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/211:  Better handling of updates to an existing facet
+20200429_DML_FACETS 2020-04-29T16:51:56Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/212: Facet specifications updates
+20200507_DDL_RESULT_FIELD_UPDATE 2020-05-08T08:20:54Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/71: Add not null constraint on table_name
+20200507_DDL_FACET_ABUNDANCE_UPDATE 2020-05-08T08:21:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/71: Rewrite of helper view
+20200507_DDL_FACET_GRAPH_UPDATE 2020-05-08T08:23:48Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/71: Add missing edge
+20200507_DDL_FACET_SCHEMA_UPDATE 2020-05-08T08:49:47Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/71: Schema improvements / cleanups
+
+@2020.03 2020-04-16T17:31:05Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
+
+20220831_DDL_NEW_DENDRO_FACETS 2022-08-31T08:15:42Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/91:  New dendro facets (see issue #91)
+20220923_DDL_FACET_SCHEMA_UPDATE 2022-09-23T09:36:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/39: Changes table FK constraints to cascade
+20221121_DDL_UDF_DELETE_FACET 2022-11-21T11:45:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/155:  Delete facet UDF
+
+@2022.12 2022-10-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2022 October release
+@2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
