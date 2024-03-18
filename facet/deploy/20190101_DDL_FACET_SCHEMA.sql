@@ -310,7 +310,7 @@ returns table (
 begin
 
     return query
-        select mv.analysis_entity_id, mv.measured_value
+        select mv.analysis_entity_id::int, mv.measured_value
         from tbl_measured_values mv
         join tbl_analysis_entities ae using (analysis_entity_id)
         join tbl_datasets ds using (dataset_id)
