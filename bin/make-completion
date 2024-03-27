@@ -62,8 +62,14 @@ _options_completion() {
 }
 
 _rm_cr_completion() {
-    # _options_completion "--project --change --no-archive" ||
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    local opts="--project --change --no-archive"
+    if [[ ${cur} == -* ]] ; then
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        return 0
+    fi
     _project_change_completion
+    # _options_completion "--project --change --no-archive" || _project_change_completion
 }
 
 _mv_cr_completion() {
