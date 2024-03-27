@@ -4,7 +4,7 @@
   Author        Roger Mähler
   Date          2024-03-27
   Description   Resolves region/country facets conflict
-  Issue         https://github.com/humlab-sead/sead_change_control/issues/127
+  Issue         https://github.com/humlab-sead/sead_query_api/issues/127
   Prerequisites 
   Reviewer      
   Approver      
