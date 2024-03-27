@@ -34,3 +34,4 @@
 @2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
 
 20240327_DML_FACET_ISSUE_127 2024-03-27T12:00:28Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/260:  # https://github.com/humlab-sead/sead_change_control/issues/127: Resolves region/country facets conflict
+20240327_DML_FACET_LOCATION_TYPE 2024-03-27T12:35:50Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/261: New location type facet
