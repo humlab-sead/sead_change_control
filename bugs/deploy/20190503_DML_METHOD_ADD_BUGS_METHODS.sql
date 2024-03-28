@@ -20,9 +20,9 @@ begin
         perform sead_utility.sync_sequence('public', 'tbl_methods', 'method_id');
 
         with new_methods (method_id, method_abbrev_or_alt_name, method_group_id, method_name, record_type_id, unit_id, description) as (values
-                (159, 'Cal',20,'Calibrated radiocarbon date (method unspecified)',null,8,'Calendar years date provided by the calibration of a radiocarbon age. Exact dating method unspecified.'),
-                (163, 'CalAMS',20,'Calibrated AMS radiocarbon date',null,8,'Calendar years date provided by calibration of an AMS radiocarbon age.'),
-                (156, 'GeolPer',19,'Geological period (unspecified years)',null,15,'Age determined to geological period using undefined (or possibly multiple) method(s).'),
+                (159, 'Cal',20,'Calibrated radiocarbon date (method unspecified)',19,8,'Calendar years date provided by the calibration of a radiocarbon age. Exact dating method unspecified.'),
+                (163, 'CalAMS',20,'Calibrated AMS radiocarbon date',19,8,'Calendar years date provided by calibration of an AMS radiocarbon age.'),
+                (156, 'GeolPer',19,'Geological period (unspecified years)',19,15,'Age determined to geological period using undefined (or possibly multiple) method(s).'),
                 (167, 'Interp 14C',3,'Interpolated C14',19,7,'Dating using the interpolation of 14C dates from other samples (give details in dating notes)'),
                 (169, 'ESR',21,'Electron Spin Resonance',19,15,'Dating based on the trapped charges of electrons, electron spin resonance dating.'),
                 (170, 'He-U',3,'Helium-Uranium',19,15,'Dating based on the production of helium during the radioactive decay of uranium and thorium.'),
