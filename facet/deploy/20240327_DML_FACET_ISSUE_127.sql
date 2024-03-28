@@ -5,9 +5,9 @@
   Date          2024-03-27
   Description   Resolves region/country facets conflict
   Issue         https://github.com/humlab-sead/sead_query_api/issues/127
-  Prerequisites 
-  Reviewer      
-  Approver      
+  Prerequisites
+  Reviewer
+  Approver
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
@@ -47,7 +47,7 @@ begin
 				);
 			delete from facet.table where table_id = v_shortcut_table_id;
 		end if;
-	
+
         v_site_table_id = (select max(table_id) from facet.table where table_or_udf_name = 'tbl_sites');
         v_shortcut_table_id = (select max(table_id) + 1 from facet.table);
 
@@ -112,6 +112,12 @@ begin
                         "table_name": "facet.site_location_shortcut",
                         "udf_call_arguments": null,
                         "alias":  "region"
+                    } ],
+                    {
+                        "sequence_id": 2,
+                        "table_name": "tbl_sites",
+                        "udf_call_arguments": null,
+                        "alias":  null
                     } ],
                 "clauses": [
                     {
