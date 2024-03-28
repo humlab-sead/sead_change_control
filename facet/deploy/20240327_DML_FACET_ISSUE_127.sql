@@ -99,7 +99,7 @@ begin
                 "facet_group_id":"2",
                 "facet_type_id": 1,
                 "category_id_expr": "region.location_id ",
-                "category_name_expr": "region.location_name || '  ' || tbl_sites.site_name",
+                "category_name_expr": "region.location_name",
                 "sort_expr": "region.location_name",
                 "is_applicable": true,
                 "is_default": false,
@@ -112,13 +112,7 @@ begin
                         "table_name": "facet.site_location_shortcut",
                         "udf_call_arguments": null,
                         "alias":  "region"
-                    } ],
-                    {
-                        "sequence_id": 2,
-                        "table_name": "tbl_sites",
-                        "udf_call_arguments": null,
-                        "alias":  null
-                    } ],
+                    }],
                 "clauses": [
                     {
                         "clause": "region.location_type_id in (2, 7, 14, 16, 18)",
