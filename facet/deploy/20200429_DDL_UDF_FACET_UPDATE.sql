@@ -69,7 +69,7 @@ begin
                 end if;
             end if;
 
-            insert into facet.facet (facet_id, facet_code, display_title, description, facet_group_id, facet_type_id, category_id_expr, category_name_expr, sort_expr, is_applicable, is_default, aggregate_type, aggregate_title, aggregate_facet_id)
+            insert into facet.facet (facet_id, facet_code, display_title, description, facet_group_id, facet_type_id, category_id_expr, category_id_type, category_name_expr, sort_expr, is_applicable, is_default, aggregate_type, aggregate_title, aggregate_facet_id)
                 (values (
                     i_facet_id,
                     (j_facet ->> 'facet_code')::text,
@@ -78,6 +78,7 @@ begin
                     (j_facet ->> 'facet_group_id')::int,
                     (j_facet ->> 'facet_type_id')::text::int,
                     (j_facet ->> 'category_id_expr')::text,
+                    (j_facet ->> 'category_id_type')::text,
                     (j_facet ->> 'category_name_expr')::text,
                     (j_facet ->> 'sort_expr')::text,
                     (j_facet ->> 'is_applicable')::boolean,
@@ -94,6 +95,7 @@ begin
                     facet_group_id = excluded.facet_group_id,
                     facet_type_id = excluded.facet_type_id,
                     category_id_expr = excluded.category_id_expr,
+                    category_id_type = excluded.category_id_type,
                     category_name_expr = excluded.category_name_expr,
                     sort_expr = excluded.sort_expr,
                     is_applicable = excluded.is_applicable,
@@ -154,6 +156,7 @@ begin
                 "facet_group_id":"%s",
                 "facet_type_id": %s,
                 "category_id_expr": "%s",
+                "category_id_type": "%s",
                 "category_name_expr": "%s",
                 "sort_expr": "%s",
                 "is_applicable": %s,
@@ -221,6 +224,7 @@ begin
                     r_facet.facet_group_id,
                     r_facet.facet_type_id,
                     r_facet.category_id_expr,
+                    r_facet.category_id_type,
                     r_facet.category_name_expr,
                     r_facet.sort_expr,
                     case when r_facet.is_applicable = TRUE then 'true' else 'false' end,
