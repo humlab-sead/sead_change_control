@@ -107,6 +107,7 @@ begin
             facet_type_id integer not null references facet_type(facet_type_id),
             category_id_expr character varying(256) not null,
             category_id_type character varying(80) not null default('integer'),
+            category_id_operator character varying(80) not null default('='),
             category_name_expr character varying(256) not null,
             sort_expr character varying(256) not null,
             is_applicable boolean not null,
@@ -206,6 +207,7 @@ begin
             left join public.tbl_locations on ((tbl_locations.location_id = tbl_site_locations.location_id)))
             group by tbl_sites.site_id, tbl_sites.site_name, tbl_sites.site_description, tbl_site_natgridrefs.natgridref, tbl_sites.latitude_dd, tbl_sites.longitude_dd, tbl_site_preservation_status.preservation_status_or_threat;
 
+		-- FIXME Deprecate in favor of facet.abundance_taxon
 		create or replace view facet.view_abundance
 		 as
 		 select tbl_abundances.analysis_entity_id,
@@ -375,7 +377,9 @@ begin
 		end if;
 	end if;
 
-	insert into facet.facet (facet_id, facet_code, display_title, description, facet_group_id, facet_type_id, category_id_expr, category_id_type, category_name_expr, sort_expr, is_applicable, is_default, aggregate_type, aggregate_title, aggregate_facet_id)
+	insert into facet.facet (
+		facet_id, facet_code, display_title, description, facet_group_id, facet_type_id, category_id_expr, category_id_type, category_id_operator,
+		category_name_expr, sort_expr, is_applicable, is_default, aggregate_type, aggregate_title, aggregate_facet_id)
 		(values (
 			i_facet_id,
 			(j_facet ->> 'facet_code')::text,
@@ -385,6 +389,7 @@ begin
 			(j_facet ->> 'facet_type_id')::text::int,
 			(j_facet ->> 'category_id_expr')::text,
 			(j_facet ->> 'category_id_type')::text,
+			(j_facet ->> 'category_id_operator')::text,
 			(j_facet ->> 'category_name_expr')::text,
 			(j_facet ->> 'sort_expr')::text,
 			(j_facet ->> 'is_applicable')::boolean,
@@ -437,6 +442,7 @@ create or replace function facet.export_facets_to_json()
 				"facet_type_id": %s,
 				"category_id_expr": "%s",
 				"category_id_type": "%s",
+				"category_id_operator": "%s",
 				"category_name_expr": "%s",
 				"sort_expr": "%s",
 				"is_applicable": %s,
@@ -499,6 +505,7 @@ create or replace function facet.export_facets_to_json()
 				r_facet.facet_type_id,
 				r_facet.category_id_expr,
 				r_facet.category_id_type,
+				r_facet.category_id_operator,
 				r_facet.category_name_expr,
 				r_facet.sort_expr,
 				case when r_facet.is_applicable = TRUE then 'true' else 'false' end,

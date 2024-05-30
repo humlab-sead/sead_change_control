@@ -465,7 +465,8 @@ begin
             (9, 'undefined', false),
             (1, 'discrete', false),
             (2, 'range', true),
-            (3, 'geo', true)
+            (3, 'geopolygon', true),
+            (4, 'rangesintersect', true)
         ) on conflict (facet_type_id) do update
             set facet_type_name = excluded.facet_type_name,
                 reload_as_target = excluded.reload_as_target;
@@ -491,7 +492,8 @@ begin
             ('single_item', true, 'TemplateFieldCompiler', false, false, true, '{0}'),
             ('link_item', true, 'TemplateFieldCompiler', false, false, true, '{0}'),
             ('link_item_filtered', true, 'TemplateFieldCompiler', false, false, true, '{0}'),
-            ('sort_item', false, 'TemplateFieldCompiler', false, true, false, '{0}')
+            ('sort_item', false, 'TemplateFieldCompiler', false, true, false, '{0}'),
+            ('count_distinct_item', true, 'TemplateFieldCompiler', true, false, false, 'COUNT({0}) AS count_distinct_of_{0}')
         ) on conflict (field_type_id) do update
             set is_result_value = excluded.is_result_value,
                 sql_field_compiler = excluded.sql_field_compiler,
@@ -504,16 +506,16 @@ begin
             (1, 'sitename', 'tbl_sites', 'tbl_sites.site_name', 'Site name', 'single_item', true, NULL, NULL),
             (2, 'record_type', 'tbl_record_types', 'tbl_record_types.record_type_name', 'Record type(s)', 'text_agg_item', true, NULL, NULL),
             (3, 'analysis_entities', 'tbl_analysis_entities', 'tbl_analysis_entities.analysis_entity_id', 'Filtered records', 'single_item', true, NULL, NULL),
-            (4, 'site_link', 'tbl_sites', 'tbl_sites.site_id', 'Full report', 'link_item', true, 'api/report/show_site_details.php?site_id', 'Show site report'),
-            (5, 'site_link_filtered', 'tbl_sites', 'tbl_sites.site_id', 'Filtered report', 'link_item', true, 'api/report/show_site_details.php?site_id', 'Show filtered report'),
-            (6, 'aggregate_all_filtered', 'tbl_aggregate_samples', '''Aggregated''::text', 'Filtered report', 'link_item_filtered', true, 'api/report/show_details_all_levels.php?level', NULL),
-            (7, 'sample_group_link', 'tbl_sample_groups', 'tbl_sample_groups.sample_group_id', 'Full report', 'link_item', true, 'api/report/show_sample_group_details.php?sample_group_id', NULL),
-            (8, 'sample_group_link_filtered', 'tbl_sample_groups', 'tbl_sample_groups.sample_group_id', 'Filtered report', 'link_item', true, 'api/report/show_sample_group_details.php?sample_group_id', NULL),
+            (4, 'site_link', 'tbl_sites', 'tbl_sites.site_id', 'Full report', 'link_item', true, 'deprecated', 'Show site report'),
+            (5, 'site_link_filtered', 'tbl_sites', 'tbl_sites.site_id', 'Filtered report', 'link_item', true, 'deprecated', 'Show filtered report'),
+            (6, 'aggregate_all_filtered', 'tbl_aggregate_samples', '''Aggregated''::text', 'Filtered report', 'link_item_filtered', true, 'deprecated', NULL),
+            (7, 'sample_group_link', 'tbl_sample_groups', 'tbl_sample_groups.sample_group_id', 'Full report', 'link_item', true, 'deprecated', NULL),
+            (8, 'sample_group_link_filtered', 'tbl_sample_groups', 'tbl_sample_groups.sample_group_id', 'Filtered report', 'link_item', true, 'deprecated', NULL),
             (9, 'abundance', 'tbl_abundances', 'tbl_abundances.abundance', 'number of taxon_id', 'single_item', true, NULL, NULL),
             (10, 'taxon_id', 'tbl_abundances', 'tbl_abundances.taxon_id', 'Taxon id  (specie)', 'single_item', true, NULL, NULL),
             (11, 'dataset', 'tbl_datasets', 'tbl_datasets.dataset_name', 'Dataset', 'single_item', true, NULL, NULL),
-            (12, 'dataset_link', 'tbl_datasets', 'tbl_datasets.dataset_id', 'Dataset details', 'single_item', true, 'client/show_dataset_details.php?dataset_id', NULL),
-            (13, 'dataset_link_filtered', 'tbl_datasets', 'tbl_datasets.dataset_id', 'Filtered report', 'single_item', true, 'client/show_dataset_details.php?dataset_id', NULL),
+            (12, 'dataset_link', 'tbl_datasets', 'tbl_datasets.dataset_id', 'Dataset details', 'single_item', true, 'deprecated', NULL),
+            (13, 'dataset_link_filtered', 'tbl_datasets', 'tbl_datasets.dataset_id', 'Filtered report', 'single_item', true, 'deprecated', NULL),
             (14, 'sample_group', 'tbl_sample_groups', 'tbl_sample_groups.sample_group_name', 'Sample group', 'single_item', true, NULL, NULL),
             (15, 'methods', 'tbl_methods', 'tbl_methods.method_name', 'Method', 'single_item', true, NULL, NULL),
             (18, 'category_id', NULL, 'category_id', 'Site ID', 'single_item', true, NULL, NULL),

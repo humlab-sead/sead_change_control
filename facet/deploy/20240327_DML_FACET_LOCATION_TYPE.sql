@@ -37,6 +37,7 @@ begin
                 "facet_type_id": 1,
                 "category_id_expr": "tbl_location_types.location_type_id",
                 "category_id_type": "integer",
+                "category_id_operator": "=",
                 "category_name_expr": "tbl_location_types.location_type",
                 "sort_expr": "tbl_location_types.location_type",
                 "is_applicable": true,
