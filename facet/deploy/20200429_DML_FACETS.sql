@@ -1159,9 +1159,9 @@ $aggregate_facets$;
             },
             {
                 "facet_id": 48,
-                "facet_code": "construction_type",
-                "display_title": "Construction types",
-                "description": "Construction types",
+                "facet_code": "constructions",
+                "display_title": "Constructions",
+                "description": "Constructions",
                 "facet_group_id": "1",
                 "facet_type_id": "1",
                 "category_id_expr": "tbl_sample_group_descriptions.sample_group_description_id",

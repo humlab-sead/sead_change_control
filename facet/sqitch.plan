@@ -38,3 +38,4 @@
 20240403_DML_GEOPOLY_FACET 2024-04-02T06:38:13Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/268: See https://github.com/humlab-sead/sead_query_api/issues/94
 20240403_DML_RANGES_INTERSECT_FACET 2024-04-02T06:52:26Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/269: See https://github.com/humlab-sead/sead_query_api/issues/118 and https://github.com/humlab-sead/sead_query_api/issues/115
 20240530_DML_TAXA_FACET 2024-05-30T07:31:29Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/279: Fix faulty inner join using helper view
+20240530_DML_CONSTRUCTION_TYPE 2024-05-30T12:47:29Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/271: New facet Construction Type
