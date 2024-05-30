@@ -35,3 +35,4 @@
 
 20240327_DML_FACET_ISSUE_127 2024-03-27T12:00:28Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/260:  # https://github.com/humlab-sead/sead_change_control/issues/127: Resolves region/country facets conflict
 20240327_DML_FACET_LOCATION_TYPE 2024-03-27T12:35:50Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/261: New location type facet
+20240530_DML_TAXA_FACET 2024-05-30T07:31:29Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/279: Fix faulty inner join using helper view
