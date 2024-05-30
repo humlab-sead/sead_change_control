@@ -879,9 +879,9 @@ $aggregate_facets$;
             },
             {
                 "facet_id": 38,
-                "facet_code": "dataset_master",
-                "display_title": "Master datasets",
-                "description": "Master datasets",
+                "facet_code": "dataset_provider",
+                "display_title": "Dataset provider",
+                "description": "Dataset provider",
                 "facet_group_id": "2",
                 "facet_type_id": 1,
                 "category_id_expr": "tbl_dataset_masters.master_set_id ",
