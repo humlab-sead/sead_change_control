@@ -20,3 +20,5 @@
 
 @2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
 
+
+20240530_DML_DENDRO_METHOD_UNIT 2024-05-30T11:44:38Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/281: Fix incorrect unit in Dendrochronlogy method
