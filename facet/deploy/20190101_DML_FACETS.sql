@@ -772,8 +772,8 @@ $aggregate_facets$;
             {
                 "facet_id": 35,
                 "facet_code": "tbl_biblio_modern",
-                "display_title": "Bibligraphy modern",
-                "description": "Bibligraphy modern",
+                "display_title": "Bibliography modern",
+                "description": "Bibliography modern",
                 "facet_group_id":"1",
                 "facet_type_id": 1,
                 "category_id_expr": "facet.view_taxa_biblio.biblio_id",
@@ -804,8 +804,8 @@ $aggregate_facets$;
             {
                 "facet_id": 36,
                 "facet_code": "tbl_biblio_sample_groups",
-                "display_title": "Bibligraphy sites/Samplegroups",
-                "description": "Bibligraphy sites/Samplegroups",
+                "display_title": "Bibliography sites/Samplegroups",
+                "description": "Bibliography sites/Samplegroups",
                 "facet_group_id":"1",
                 "facet_type_id": 1,
                 "category_id_expr": "tbl_biblio.biblio_id",
@@ -839,8 +839,8 @@ $aggregate_facets$;
             {
                 "facet_id": 37,
                 "facet_code": "tbl_biblio_sites",
-                "display_title": "Bibligraphy sites",
-                "description": "Bibligraphy sites",
+                "display_title": "Bibliography sites",
+                "description": "Bibliography sites",
                 "facet_group_id":"1",
                 "facet_type_id": 1,
                 "category_id_expr": "tbl_biblio.biblio_id",

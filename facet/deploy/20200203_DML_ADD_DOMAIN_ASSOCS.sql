@@ -273,7 +273,7 @@ do $$
 			('species_author', 10),
 			('feature_type', 11),
 			('tbl_biblio_modern', 12),
-			-- ('Bibligraphy fossil', 13), -- missing
+			-- ('Bibliography fossil', 13), -- missing
 			('country', 14),
 			('sites', 15),
 			('sample_groups', 16),
@@ -301,7 +301,7 @@ do $$
 			('species_author', 10),
 			('feature_type', 11),
 			('tbl_biblio_modern', 12),
-			-- ('Bibligraphy fossil', 13), -- missing
+			-- ('Bibliography fossil', 13), -- missing
 			('country', 14),
 			('sites', 15),
 			('sample_groups', 16),
@@ -329,7 +329,7 @@ do $$
 			('species_author', 10),
 			('feature_type', 11),
 			('tbl_biblio_modern', 12),
-			-- ('Bibligraphy fossil', 13), -- missing
+			-- ('Bibliography fossil', 13), -- missing
 			('country', 14),
 			('sites', 15),
 			('sample_groups', 16),
@@ -350,7 +350,7 @@ do $$
 			('relative_age_name', 4),
 			('feature_type', 5),
 			('tbl_biblio_modern', 6),
-			-- ('Bibligraphy fossil', 7), -- missing
+			-- ('Bibliography fossil', 7), -- missing
 			('country', 8),
 			('sites', 9),
 			('sample_groups', 10),
@@ -374,7 +374,7 @@ do $$
 			('species_author', 6),
 			('feature_type', 7),
 			('tbl_biblio_modern', 8),
-			-- ('Bibligraphy fossil', 9), -- missing
+			-- ('Bibliography fossil', 9), -- missing
 			('country', 10),
 			('sites', 11),
 			('sample_groups', 12),
@@ -392,7 +392,7 @@ do $$
 			('relative_age_name', 2),
 			('feature_type', 7),
 			('tbl_biblio_modern', 8),
-			-- ('Bibligraphy fossil', 9), -- missing
+			-- ('Bibliography fossil', 9), -- missing
 			('country', 10),
 			('sites', 11),
 			('sample_groups', 12),
@@ -409,7 +409,7 @@ do $$
 			('relative_age_name', 2),
 			('feature_type', 7),
 			('tbl_biblio_modern', 8),
-			-- ('Bibligraphy fossil', 9), -- missing
+			-- ('Bibliography fossil', 9), -- missing
 			('country', 10),
 			('sites', 11),
 			('sample_groups', 12),
