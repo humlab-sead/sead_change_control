@@ -65,7 +65,7 @@ delete from facet.facet_table
 delete from facet.table
     where table_or_udf_name = ''%1$s'';
 
-drop table if exists public.tbl_dendro_measurements;
+drop table if exists public.''%1$s'';
             
         ', p_table_name, v_view_name, v_entity_name);
 
