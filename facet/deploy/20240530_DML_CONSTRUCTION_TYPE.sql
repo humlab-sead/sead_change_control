@@ -64,7 +64,7 @@ begin
 			"facet_code": "construction_purpose",
 			"display_title": "Construction purpose",
 			"description": "Construction purpose",
-			"facet_group_id":"6",
+			"facet_group_id":"1",
 			"facet_type_id": 1,
 			"category_id_expr": "facet.sample_group_construction_purposes.purpose_id",
 			"category_id_type": "text",
