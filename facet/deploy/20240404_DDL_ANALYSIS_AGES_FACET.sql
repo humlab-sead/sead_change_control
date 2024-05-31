@@ -4,7 +4,7 @@
   Author        Roger Mähler
   Date          2024-04-04
   Description   Analysis ages range intersect facet.
-  Issue         https://github.com/humlab-sead/sead_change_control/issues/
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/285
   Prerequisites 
   Reviewer      
   Approver      
