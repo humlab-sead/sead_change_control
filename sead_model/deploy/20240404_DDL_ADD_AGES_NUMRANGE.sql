@@ -17,8 +17,6 @@ begin;
 do $$
 begin
 
-    set client_encoding = 'UTF8';
-
     alter table public.tbl_analysis_entity_ages
         drop column if exists age_range;
 
@@ -47,7 +45,6 @@ begin
                     coalesce(age_younger::int, age_older::int) + 1
                 )
             	end) stored;
-
 
 end $$;
 commit;
