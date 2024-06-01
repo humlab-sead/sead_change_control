@@ -1,16 +1,17 @@
--- Deploy facet: 20240403_DML_RANGES_INTERSECT_FACET
+-- Deploy facet: 20240404_DDL_DENDRO_AGE_RANGE_FACET
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2024-04-03
-  Description   See https://github.com/humlab-sead/sead_query_api/issues/118 and https://github.com/humlab-sead/sead_query_api/issues/115
-  Issue         https://github.com/humlab-sead/sead_change_control/issues/269
+  Date          2024-04-04
+  Description   Generic age range filter for dendrchronology. Return both estimated felling year and outermost tree ring.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/290
   Prerequisites 
   Reviewer      
   Approver      
   Idempotent    Yes
   Notes
 *****************************************************************************************************************/
+
 
 begin;
 do $$
@@ -20,22 +21,13 @@ begin
 
     set client_encoding = 'UTF8';
 
-    if not exists (select 1 from facet.facet_type where facet_type_id = 4) then
-        insert into facet.facet_type (facet_type_id, facet_type_name, reload_as_target)
-            values (4, 'rangesintersect', TRUE);
-    end if;
-.facet drop column if exists category_id_operator;
-
-    alter table facet.facet
-        add column if not exists category_id_operator varchar(40) not null DEFAULT ('=');
-
     s_facets = $facets$
     [
         {
             "facet_id": 53,
             "facet_code": "dendro_age_contained_by",
-            "display_title": "Dendro chronology age ranges",
-            "description": "Dendrochronology ages (contained by)",
+            "display_title": "Dendrochronology ages",
+            "description": "Generic age range filter for dendrchronology. Return both estimated felling year and outermost tree ring.",
             "facet_group_id":"2",
             "facet_type_id": 4,
             "category_id_expr": "tbl_dendro_dates.age_range",
@@ -79,5 +71,3 @@ $facets$;
           
 end $$;
 commit;
-
-
