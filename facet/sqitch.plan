@@ -26,7 +26,6 @@
 
 @2020.03 2020-04-16T17:31:05Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
 
-20220831_DDL_NEW_DENDRO_FACETS 2022-08-31T08:15:42Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/91:  New dendro facets (see issue #91)
 20220923_DDL_FACET_SCHEMA_UPDATE 2022-09-23T09:36:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/39: Changes table FK constraints to cascade
 20221121_DDL_UDF_DELETE_FACET 2022-11-21T11:45:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/155:  Delete facet UDF
 
@@ -42,3 +41,4 @@
 20240530_DML_DATASET_PROVIDERS 2024-05-30T14:08:48Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/131: Rename of Master Datasets
 20240530_DML_FACET_MISSPELLING 2024-05-31T11:41:03Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/105: Bibliography misspelled in several facets.
 20240404_DDL_ANALYSIS_AGES_FACET 2024-05-31T13:32:21Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/285:  # https://github.com/humlab-sead/sead_change_control/issues/: Analysis entity aged range intersect facet.
+20240404_DDL_CATEGORY_OPERATOR 2024-06-01T08:52:26Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/289: Add category operator to facet schema
