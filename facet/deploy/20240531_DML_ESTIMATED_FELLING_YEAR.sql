@@ -32,7 +32,7 @@ begin
             "facet_type_id": 4,
             "category_id_expr": "tbl_dendro_dates.age_range",
             "category_id_type": "int4range",
-            "category_id_operator": "<@",
+            "category_id_operator": "@>",
             "category_name_expr": "tbl_dendro_dates.age_range",
             "sort_expr": "1",
             "is_applicable": true,
