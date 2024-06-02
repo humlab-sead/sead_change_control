@@ -26,3 +26,5 @@
 20200316_DDL_BUGS_ECOCODE_GEOJSON 2020-03-16T14:37:27Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/64: GeoJSON export for Bugs Ecocodes ecocode_system_id 2
 
 @2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
+
+20240602_DML_RRB_KOCH_UPDATE 2024-06-02T10:37:26Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/116: No value in descriptive text field.
