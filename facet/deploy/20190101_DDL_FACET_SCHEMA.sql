@@ -295,6 +295,12 @@ begin
         create index idx_table_relation_fk1 on facet.table_relation using btree (source_table_id);
         create index idx_table_relation_fk2 on facet.table_relation using btree (target_table_id);
 
+		create or replace view facet.relation_weight as
+			select table_relation_id, r.source_table_id, s.table_or_udf_name as source_table, r.target_table_id, t.table_or_udf_name as target_table, r.weight
+			from facet.table_relation r
+			join facet.table s on s.table_id = r.source_table_id
+			join facet.table t on t.table_id = r.target_table_id;
+
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
