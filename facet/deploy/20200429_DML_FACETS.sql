@@ -1019,7 +1019,7 @@ $aggregate_facets$;
                 "category_id_expr": "tbl_rdb_systems.rdb_system_id",
                 "category_id_type": "integer",
                 "category_id_operator": "=",
-                "category_name_expr": "tbl_rdb_systems.rdb_system",
+                "category_name_expr": "concat_ws(' ', tbl_rdb_systems.rdb_system, tbl_locations.location_name)",
                 "sort_expr": "tbl_rdb_systems.rdb_system",
                 "is_applicable": true,
                 "is_default": false,
@@ -1032,7 +1032,13 @@ $aggregate_facets$;
                         "table_name": "tbl_rdb_systems",
                         "udf_call_arguments": null,
                         "alias":  null
-                    } ],
+                    },
+                    {
+                        "sequence_id": 2,
+                        "table_name": "tbl_locations",
+                        "udf_call_arguments": null,
+                        "alias":  null
+                    }],
                 "clauses": [  ]
             },
             {

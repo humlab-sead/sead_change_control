@@ -42,3 +42,4 @@
 20240404_DDL_ANALYSIS_AGES_FACET 2024-05-31T13:32:21Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/285:  # https://github.com/humlab-sead/sead_change_control/issues/: Analysis entity aged range intersect facet.
 20240404_DDL_CATEGORY_OPERATOR 2024-06-01T08:52:26Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/289: Add category operator to facet schema
 20240404_DDL_DENDRO_AGE_RANGE_FACET 2024-06-01T09:17:53Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/290: Generic age range filter for dendrchronology. Return both estimated felling year and outermost tree ring.
+20240601_DML_RRB_SYSTEMS_FACET 2024-06-02T09:38:46Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/115: Add location name to displayed text
