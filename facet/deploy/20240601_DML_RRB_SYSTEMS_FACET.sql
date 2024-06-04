@@ -20,12 +20,6 @@ begin
 
     set client_encoding = 'UTF8';
 
-create or replace view facet.relation_weight as
-	select table_relation_id, s.table_id, s.table_or_udf_name, t.table_id, t.table_or_udf_name, r.weight
-	from facet.table_relation r
-	join facet.table s on s.table_id = r.source_table_id
-	join facet.table t on t.table_id = r.target_table_id;
-
     -- Update weight to 25 for tbl_rdb_systems (143) -> tbl_locations (35)
     update facet.table_relation
         set weight = 25
