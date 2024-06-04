@@ -106,6 +106,8 @@ begin
             facet_group_id integer not null references facet_group(facet_group_id),
             facet_type_id integer not null references facet_type(facet_type_id),
             category_id_expr character varying(256) not null,
+            category_id_type character varying(80) not null default('integer'),
+            category_id_operator character varying(80) not null default('='),
             category_name_expr character varying(256) not null,
             sort_expr character varying(256) not null,
             is_applicable boolean not null,
@@ -205,6 +207,7 @@ begin
             left join public.tbl_locations on ((tbl_locations.location_id = tbl_site_locations.location_id)))
             group by tbl_sites.site_id, tbl_sites.site_name, tbl_sites.site_description, tbl_site_natgridrefs.natgridref, tbl_sites.latitude_dd, tbl_sites.longitude_dd, tbl_site_preservation_status.preservation_status_or_threat;
 
+		-- FIXME Deprecate in favor of facet.abundance_taxon
 		create or replace view facet.view_abundance
 		 as
 		 select tbl_abundances.analysis_entity_id,
@@ -292,6 +295,12 @@ begin
         create index idx_table_relation_fk1 on facet.table_relation using btree (source_table_id);
         create index idx_table_relation_fk2 on facet.table_relation using btree (target_table_id);
 
+		create or replace view facet.relation_weight as
+			select table_relation_id, r.source_table_id, s.table_or_udf_name as source_table, r.target_table_id, t.table_or_udf_name as target_table, r.weight
+			from facet.table_relation r
+			join facet.table s on s.table_id = r.source_table_id
+			join facet.table t on t.table_id = r.target_table_id;
+
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
@@ -310,7 +319,7 @@ returns table (
 begin
 
     return query
-        select mv.analysis_entity_id, mv.measured_value
+        select mv.analysis_entity_id::int, mv.measured_value
         from tbl_measured_values mv
         join tbl_analysis_entities ae using (analysis_entity_id)
         join tbl_datasets ds using (dataset_id)
@@ -374,7 +383,9 @@ begin
 		end if;
 	end if;
 
-	insert into facet.facet (facet_id, facet_code, display_title, description, facet_group_id, facet_type_id, category_id_expr, category_name_expr, sort_expr, is_applicable, is_default, aggregate_type, aggregate_title, aggregate_facet_id)
+	insert into facet.facet (
+		facet_id, facet_code, display_title, description, facet_group_id, facet_type_id, category_id_expr, category_id_type, category_id_operator,
+		category_name_expr, sort_expr, is_applicable, is_default, aggregate_type, aggregate_title, aggregate_facet_id)
 		(values (
 			i_facet_id,
 			(j_facet ->> 'facet_code')::text,
@@ -383,6 +394,8 @@ begin
 			(j_facet ->> 'facet_group_id')::int,
 			(j_facet ->> 'facet_type_id')::text::int,
 			(j_facet ->> 'category_id_expr')::text,
+			(j_facet ->> 'category_id_type')::text,
+			(j_facet ->> 'category_id_operator')::text,
 			(j_facet ->> 'category_name_expr')::text,
 			(j_facet ->> 'sort_expr')::text,
 			(j_facet ->> 'is_applicable')::boolean,
@@ -434,6 +447,8 @@ create or replace function facet.export_facets_to_json()
 				"facet_group_id":"%s",
 				"facet_type_id": %s,
 				"category_id_expr": "%s",
+				"category_id_type": "%s",
+				"category_id_operator": "%s",
 				"category_name_expr": "%s",
 				"sort_expr": "%s",
 				"is_applicable": %s,
@@ -495,6 +510,8 @@ create or replace function facet.export_facets_to_json()
 				r_facet.facet_group_id,
 				r_facet.facet_type_id,
 				r_facet.category_id_expr,
+				r_facet.category_id_type,
+				r_facet.category_id_operator,
 				r_facet.category_name_expr,
 				r_facet.sort_expr,
 				case when r_facet.is_applicable = TRUE then 'true' else 'false' end,

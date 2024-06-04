@@ -34,6 +34,7 @@ g_change=
 g_project=
 g_update_plan=YES
 g_note=
+g_no_archive=
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -55,6 +56,10 @@ do
         ;;
         --no-update-plan|-u)
             g_update_plan="NO";
+            shift;
+        ;;
+        --no-archive|-a)
+            g_no_archive="YES";
             shift;
         ;;
         --help|-h)
@@ -83,20 +88,42 @@ if [ -z "$g_change" ]; then
     fi
 fi
 
-if [ -z "$g_projects" ]; then
+if [ -z "$g_project" ]; then
     g_projects=$(find . -name "sqitch.plan" -type f -exec dirname \{\} \;)
 else
-    g_projects=$(echo "$g_projects" | tr "," "\n")
+    # g_projects=$(echo "$g_projects" | tr "," "\n")
+    g_projects="$g_project"
+fi
+
+function delete_change() {
+    local project="$1"
+    local change="$2"
+    if [ ! -d "$project" ]; then
+        echo "error: project $project does not exist!"
+        exit 64
+    fi
+    if [ ! -f "$project/deploy/${g_change}.sql" ]; then
+        echo "error: change $change does not exist in project $project!"
+        exit 64
+    fi
+    for type in deploy revert verify ; do
+        rm -f "$project/$type/${change}.sql"
+    done
+    grep -v -e "$change" "$project/sqitch.plan" > "$project/sqitch.plan.tmp"
+    mv -f "$project/sqitch.plan.tmp" "$project/sqitch.plan"
+    echo "info: change $change removed from project $project!"
+    exit 0
+}
+
+if [ "$g_no_archive" == "YES" ]; then
+    delete_change "$g_project" "$g_change"
+    exit 0
 fi
 
 for project in $g_projects; do
     if [ -f "$project/deploy/${g_change}.sql" ]; then
         mkdir -p $project/archive/deploy $project/archive/revert $project/archive/verify
         for type in deploy revert verify ; do
-            # if [ ! -f "$project/$type/${g_change}.sql" ]; then
-            #     echo "Change $project/$type/${g_change}.sql does not exist"
-            #     exit 64
-            # fi
             mv "$project/$type/${g_change}.sql" "$project/archive/$type/${g_change}.sql"
         done
 

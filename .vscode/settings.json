@@ -31,14 +31,14 @@
     "Prettier-SQL.logicalOperatorNewline": "before",
     "Prettier-SQL.newlineBeforeSemicolon": false,
     "Prettier-SQL.tabulateAlias": true,
-    "python.testing.pytestArgs": [
-        "src"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": false,
-    "python.analysis.enablePytestSupport": false,
-    "python.testing.autoTestDiscoverOnSaveEnabled": false,
-    "python.testing.pytestPath": "",
+    // "python.testing.pytestArgs": [
+    //     "src"
+    // ],
+    // "python.testing.unittestEnabled": false,
+    // "python.testing.pytestEnabled": false,
+    // "python.analysis.enablePytestSupport": false,
+    // "python.testing.autoTestDiscoverOnSaveEnabled": false,
+    // "python.testing.pytestPath": "",
     "files.watcherExclude": {
         "**/.git/objects/**": true,
         "**/.git/subtree-cache/**": true,

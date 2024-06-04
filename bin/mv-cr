@@ -7,7 +7,7 @@ set -e
 . $(dirname "$0")/utility.sh
 
 usage_message=$(cat <<EOF
-usage: rm-cr OPTIONS...
+usage: mv-cr OPTIONS...
 
 Move a change from one project to another project. 
 If change is not found, no action is taken.

@@ -1,44 +1,54 @@
 #!/bin/bash
 #
-# Creates a copy of a source database.
+# Creates a copy of a database.
 
 source .env
 
-source_db="sead_production"
-target_db=""
-drop_if_exists=no
-allow_deploy_to_production=no
-sync_sequences=no
-dbhost=""
-dbuser=""
+g_source_db="sead_production"
+g_target_db=""
+g_drop_if_exists=no
+g_allow_deploy_to_production=no
+g_sync_sequences=no
+g_host=$(dnsdomainname -A)
+g_port=5432
+g_user=
 
 if [ -f ~/vault/.default.sead.server ]; then
-    dbhost=`cat ~/vault/.default.sead.server`
+    g_host=`cat ~/vault/.default.sead.server`
 fi
 
 if [ -f ~/vault/.default.sead.username ]; then
-    dbuser=`cat  ~/vault/.default.sead.username`
+    g_user=`cat  ~/vault/.default.sead.username`
 fi
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
-    key="$1"
+    local key="$1"
     case $key in
-        --source)
-            source_db="$2"; shift; shift
+        --source-database|--source-db|--source|-s)
+            g_source_db="$2"; shift 2;
         ;;
-        --target)
-            target_db="$2"; shift; shift
+        --target-database|--target-db|--target|-t)
+            g_target_db="$2"; shift 2;
+        ;;
+        --port|-p)
+            g_port="$2"; shift 2;
+        ;;
+        --user|-U)
+            g_user="$2"; shift 2;
+        ;;
+        --host|-h)
+            g_host="$2"; shift 2;
         ;;
         --force)
-            drop_if_exists=yes; shift
+            g_drop_if_exists=yes; shift
         ;;
         --allow-production)
-            allow_deploy_to_production=yes; shift
+            g_allow_deploy_to_production=yes; shift
         ;;
         --sync-sequences)
-            sync_sequences=yes; shift
+            g_sync_sequences=yes; shift
         ;;
         *)
         POSITIONAL+=("$1")
@@ -47,124 +57,109 @@ do
     esac
 done
 
-set -- "${POSITIONAL[@]}" # restore positional parameters
-
-echo_error() {
-  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
-}
+set -- "${POSITIONAL[@]}"
 
 function usage()
 {
+    local error_message=$1
+    if [ "$error_message" != "" ]; then
+        echo "$error_message"
+    fi
     echo "usage: copy-database [--source dbname] --target dbname [--force]"
-    echo "Creates new database using source as template. Source defaults to production."
+    echo "Creates new database using source as template."
     echo ""
-    echo "   --source                  source database name"
+    echo "   --source                  source database name (default: sead_production)"
     echo "   --target                  target database name"
+    echo "   --host                    host name"
+    echo "   --user                    user name"
+    echo "   --port                    host port "
     echo "   --force                   drop target if exists"
     echo "   --sync-sequences          sync sequences in target after create"
     echo "   --allow-production        explicitly allow deploy to production"
-    echo ""
-}
-
-if [ "$target_db" == "$source_db" ]; then
-        echo_error "fatal: source and target cannot be the same!"
-        exit 64
-fi
-
-if [ "$target_db" == "sead_production" ]; then
-    if [ "$allow_deploy_to_production" != "yes" ]; then
-        echo_error "fatal: you are not allowed to target production!"
-        exit 64
-    fi
-fi
-
-if [ "$target_db" == "" ]; then
-    usage
     exit 64
+}
+
+if [ "$g_target_db" == "$g_source_db" ]; then
+    usage "fatal: source and target cannot be the same!"
 fi
 
-##############################################################################
-# Execute SQL statement on target_db.
-# Globals: dbhost, dbuser, target_db
-# Arguments: SQL statement
-##############################################################################
-dbexec() {
-    psql -bqw -h $dbhost -U $dbuser -c "$1" $target_db
-}
-
-##############################################################################
-# Kicks out users connect to database.
-# Globals: dbhost, dbuser
-##############################################################################
-kickout() {
-    echo "Kicking out users from $1..."
-    xsql="select pg_terminate_backend(pid) from pg_stat_activity where datname = '$1' and pid <> pg_backend_pid();"
-    psql -bqw -h $dbhost -U $dbuser -c "$xsql" "postgres" &> /dev/null
-    #> /dev/null 2>&1
-    if [ $? -ne 0 ];  then
-        echo_error "fatal: kickout failed! Deploy aborted." >&2
-        exit 64
+if [ "$g_target_db" == "sead_production" ]; then
+    if [ "$allow_deploy_to_production" != "yes" ]; then
+        usage "fatal: you are not allowed to target production!"
     fi
-}
-
-sync_sequences() {
-    echo "Syncing sequences in $1..."
-    xsql="select sead_utility.sync_sequences();"
-    psql -bqw -h $dbhost -U $dbuser -c "$xsql" "$1" &> /dev/null
-    #> /dev/null 2>&1
-    if [ $? -ne 0 ];  then
-        echo_error "fatal: sync failed!" >&2
-        exit 64
-    fi
-}
-
-##############################################################################
-# Drops database.
-# Globals: dbhost, dbuser, target_db
-##############################################################################
-drop_target() {
-    kickout $target_db
-    echo "Dropping ${target_db} if exists..."
-    dropdb --echo --host=$dbhost --username=$dbuser --no-password "$target_db" &> /dev/null
-    # > /dev/null 2>&1
-}
-
-drop_target_with_force() {
-    # This works for Postgresql version >= 13
-    echo "Dropping ${target_db} if exists..."
-    dbexec "drop database ${target_db} with (force);" &> /dev/null
-}
-
-drop_target_with_force2() {
-    echo "Dropping ${target_db} if exists..."
-    dbexec "alter database  ${target_db} connection limit 0;" &> /dev/null
-    # dbexec "update pg_database set datallowconn = 'false' where datname = '${target_db}';"
-    kickout $target_db
-    drop_target
-}
-
-##############################################################################
-# Creates target database as a copy of source database
-# Globals: dbhost, dbuser, source_db, target_db
-##############################################################################
-create_target() {
-    kickout $source_db
-    echo "Creating database $target_db..."
-    createdb --echo --owner=sead_master --host=$dbhost --username=$dbuser --no-password --encoding="UTF8" -T "$source_db" "$target_db" &> /dev/null
-    # > /dev/null
-    if [ $? -ne 0 ];  then
-        echo_error "fatal: create failed!" >&2
-        exit 64
-    fi
-}
-
-if [ "$drop_if_exists" == "yes" ]; then
-    drop_target_with_force2
 fi
 
-create_target
+if [ "$g_target_db" == "" ]; then
+    usage
+fi
 
-if [ "$sync_sequences" == "yes" ]; then
-    kickout $target_db
-    sync_sequences $target_db
+function execute_sql() {
+    local database="$1"
+    local sql="$2"
+    psql -bqw -h $g_host -p "$g_port" -U $g_user -c "$sql" $database
+    if [ $? -ne 0 ];  then
+        echo "fatal: sql failed!"
+        ecit 64
+    fi
+}
+
+function kickout() {
+    local database="$1"
+    local sql="select pg_terminate_backend(pid) from pg_stat_activity where datname = '$database' and pid <> pg_backend_pid();"
+    echo "Kicking out users from $database..."
+    execute_sql "postgres" "$sql"
+}
+
+function sync_sequences() {
+    local database="$1"
+    echo "Syncing sequences in $database..."
+    execute_sql $database "select sead_utility.g_sync_sequences();"
+}
+
+function drop_database() {
+    local database="$1"
+
+    echo "Dropping ${database} if exists..."
+    # execute_sql "postgres" $port "alter database ${database} connection limit 0;"
+    execute_sql $database "drop database ${database} with (force);"
+    # kickout $database $port
+    # dropdb --echo --host=$g_host --username=$g_user --port $port -w "$database"
+}
+
+function database_exists() {
+    local database="$1"
+    local value="$(psql -h $g_host -p $g_port -U $g_user -w --dbname=postgres -tAc "select 1 from pg_database where datname='${database}'" )"
+    echo "$value"
+}
+
+function create_database_by_template() {
+
+    local database="$1"
+    local template_name="$2"
+    local db_exists="$(database_exists $database)"
+
+    if [ "$db_exists" == "1" ]; then
+        if [ "$force" == "yes" ]; then
+            drop_database $database
+        else
+            echo "fatal: database $database already exists. Use --force to drop it."
+            exit 64
+        fi
+    fi
+
+    echo "Creating database $database using $template_name as template..."
+    kickout $template_name
+    createdb --echo --owner=sead_master -h $g_host -p $g_port -U $g_user -w --encoding="UTF8" -T "$template_name" "$database"
+    if [ $? -ne 0 ];  then
+        echo "fatal: create failed!"
+        exit 64
+    fi
+}
+
+echo drop_database $g_target_db $g_drop_if_exists
+
+echo create_database_by_template $g_source_db $g_target_db
+
+if [ "$g_sync_sequences" == "yes" ]; then
+    echo sync_sequences $g_target_db
 fi

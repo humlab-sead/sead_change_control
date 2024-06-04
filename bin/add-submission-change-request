@@ -24,6 +24,7 @@ g_related_issue_id=
 g_create_issue=--create-issue
 g_cr_name=
 g_note=
+g_only_data=
 
 if [ -f ~/vault/.default.sead.server ]; then
     g_host=$(head -n 1 ~/vault/.default.sead.server)
@@ -100,6 +101,11 @@ do
             g_create_issue="";
             shift;
         ;;
+        --only-data)
+            g_only_data="YES";
+            g_create_issue=
+            shift;
+        ;;
         --help|-h)
             usage;
             exit 0;
@@ -116,13 +122,6 @@ do
 done
 
 function check_options() {
-    if [ "$g_project" == "" ]; then
-        usage "project must be specified (--project)";
-    fi
-
-    if [ ! -f "$g_project/sqitch.plan" ]; then
-        usage "project $g_project does not exist or is not a sqitch project";
-    fi
 
     if [ "$g_host" == "" ] || [ "$g_user" == "" ]; then
         usage "database host and/or user not specified (--user and --host)";
@@ -134,6 +133,18 @@ function check_options() {
 
     if [ "$g_database" == "" ]; then
         usage "database must be specified (--database)";
+    fi
+
+    if [ "$g_only_data" == "YES" ]; then
+        return
+    fi
+
+    if [ "$g_project" == "" ]; then
+        usage "project must be specified (--project)";
+    fi
+
+    if [ ! -f "$g_project/sqitch.plan" ]; then
+        usage "project $g_project does not exist or is not a sqitch project";
     fi
 }
 
@@ -174,6 +185,7 @@ function get_datatype() {
     dt_x=${dt_x/ /_}
     if [ "$dt_x" == "" ]; then
         usage "submission has an undefined data type."
+        exit 64
     fi
     echo "$dt_x"
 }
@@ -222,6 +234,7 @@ function generate_deploy() {
     echo "  Author         $cr_author"                                                  >> $temp_folder/${cr_name}.sql
     echo "  Date           $day"                                                        >> $temp_folder/${cr_name}.sql
     echo "  Description    $g_note"                                                     >> $temp_folder/${cr_name}.sql
+    echo "  Issue                 "                                                     >> $temp_folder/${cr_name}.sql
     echo "  Prerequisites  "                                                            >> $temp_folder/${cr_name}.sql
     echo "  Reviewer"                                                                   >> $temp_folder/${cr_name}.sql
     echo "  Approver"                                                                   >> $temp_folder/${cr_name}.sql
@@ -325,8 +338,13 @@ fi
 print_options
 
 generate_data $g_submission_id $g_temp_folder
-generate_deploy $g_submission_id $g_cr_name $g_project $g_temp_folder
 
-if [ "$g_dry_run" != "YES" ]; then
-    create_change_request $g_submission_id $g_cr_name $g_project $g_temp_folder $g_note $g_related_issue_id
+if [ "$g_only_data" != "YES" ]; then
+
+    generate_deploy $g_submission_id $g_cr_name $g_project $g_temp_folder
+
+    if [ "$g_dry_run" != "YES" ]; then
+        create_change_request $g_submission_id $g_cr_name $g_project $g_temp_folder $g_note $g_related_issue_id
+    fi
+
 fi

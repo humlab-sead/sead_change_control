@@ -24,4 +24,5 @@
 
 @2022.12 2023-12-21T15:38:32Z Roger Mähler <roger.mahler@umu.se> # December 2022 release
 
-
+20240601_DML_BIBLIO_EMPTY_YEARS 2024-06-01T13:48:00Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/291: Update bibligraphic entries with empty year with year found in reference
+20240602_DML_MAL_CONTACT_UPDATE 2024-06-02T11:00:26Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/108: Update phil's contact information.

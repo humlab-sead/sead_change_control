@@ -1,0 +1,6 @@
+@2019.12
+20191012_DDL_FACET_MEASURED_VALUE_UDF 2019-10-12T17:18:45Z Roger Mähler <roger.mahler@umu.se> # Facet UDF (replaces materialized view)
+@2022.12
+20220831_DDL_NEW_DENDRO_FACETS 2022-08-31T08:15:42Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/91:  New dendro facets (see issue #91)
+
+20240403_DML_RANGES_INTERSECT_FACET 2024-04-02T06:52:26Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/269: See https://github.com/humlab-sead/sead_query_api/issues/118 and https://github.com/humlab-sead/sead_query_api/issues/115

@@ -12,3 +12,6 @@ SEAD_DATABASE_LOOKUPS 2023-12-20T20:33:57Z Roger Mähler <roger.mahler@umu.se> #
 
 @2019.12 2019-12-13T15:38:32Z Roger Mähler <roger.mahler@umu.se> # December 2019 release
 
+
+20240530_DDL_UDF_DROP_DEPRECATED_TABLES 2024-05-31T09:43:28Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/70: Drop deprecated dendro/ceramics tables
+20240404_DDL_ADD_AGES_NUMRANGE 2024-05-31T13:33:38Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/286:  # https://github.com/humlab-sead/sead_change_control/issues/: Add analysis entity aged range.

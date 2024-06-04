@@ -1,7 +1,9 @@
+-- Deploy dendrochronology: 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT
 /***************************************************************************
   Author         Roger Mähler
   Date           
-  Description    Dendrochronology V6
+  Description    New building data from Lund Dendrochronology lab
+  Issue          https://github.com/humlab-sead/sead_change_control/issues/218
   Prerequisites  
   Reviewer
   Approver

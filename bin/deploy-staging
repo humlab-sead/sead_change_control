@@ -4,8 +4,6 @@
 
 export PGCLIENTENCODING=UTF8
 
-#echo "x.x.1.181" >  ~/.default.sead.server
-#echo "x" >  ~/.default.sead.username
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 DEFAULT_SOURCE_DB_NAME=sead_master_9
@@ -29,26 +27,35 @@ g_target_chain_tag=
 g_target_single_cr=
 g_ignore_git_tags=NO
 g_deploy_starting_point=NO
-default_projects=$(get_projects)
-# default_projects=$(find . -maxdepth 1 -mindepth 1 -type d -exec test -e {}/deploy \; -print)
+g_rename_end_of_chain=NO
 
-default_server="humlabseadserv.srv.its.umu.se"
+default_projects=$(get_projects)
 
 log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${g_target_name}_${g_source_type}.log"
 
+g_user=
+g_host=
+g_port=
+
 if [[ -f "$DOT_HOST_FILE" ]]; then
-    dbhost=`cat $DOT_HOST_FILE`
+    g_host=`cat $DOT_HOST_FILE`
 fi
+
+if [ "$g_host" == "" ]; then
+    g_host=$(dnsdomainname -A)
+fi
+
 if [[ -f "$DOT_USER_FILE" ]]; then
-    dbuser=`cat $DOT_USER_FILE`
+    g_user=`cat $DOT_USER_FILE`
 fi
 
 usage_message=$(cat <<EOF
 Usage: deploy-staging [OPTIONS]...
 
 Options:
-    --host SERVERNAME               Specify the target server (default: ${dbhost})
-    --user USERNAME                 Specify the user on the target server (default: ${dbuser})
+    --host SERVERNAME               Specify the server name (default: ${g_host})
+    --port PORT                     Specify the port number (default: 5433)
+    --user USERNAME                 Specify the user on the target server (default: ${g_user})
     --target-db-name DBNAME         Specify the target database name (required)
     --create-database               Create a new database from the specified source
     --create-snapshot               Create a snapshot of the database
@@ -69,6 +76,7 @@ Options:
     --deploy-starting-point         Create a starting point, then exit
     --deploy-single-change-request  Only deploy given CR, then exit
     --sqitch-project PROJECT        Specify the Sqitch project to deploy
+    --rename-end-of-chain           Rename the last database in the chain to the target name (e.g. removes tag)
 
 Examples:
 
@@ -88,7 +96,12 @@ EOF
 )
 
 function usage() {
+    error_message="$1"
+    if [ "$error_message" != "" ]; then
+        echo "error: $error_message"
+    fi
     echo "$usage_message"
+    exit 64
 }
 
 POSITIONAL=()
@@ -98,10 +111,13 @@ do
 
     case $key in
         --host)
-            dbhost="$2"; shift; shift
+            g_host="$2"; shift; shift
         ;;
         --user)
-            dbuser="$2"; shift; shift
+            g_user="$2"; shift; shift
+        ;;
+        --port)
+            g_port="$2"; shift; shift
         ;;
         --target-db-name)
             g_target_name="$2"; shift; shift
@@ -155,6 +171,9 @@ do
         --deploy-chain-to-tag)
             g_target_chain_tag="$2"; shift; shift
         ;;
+        --rename-end-of-chain-to-target-name)
+            g_rename_end_of_chain="YES"; shift;
+        ;;
         --deploy-starting-point)
             g_deploy_starting_point="YES"; shift;
         ;;
@@ -165,9 +184,7 @@ do
             g_conflict_resolution="$2"; shift; shift;
         ;;
         --*)
-            echo "error: invalid option $1"
-            usage
-            exit 64
+            usage "error: invalid option $1"
         ;;
         *)
             POSITIONAL+=("$1") # save it in an array for later
@@ -202,22 +219,28 @@ function create_snapshot()
     snapshot_name=./starting_point/${g_source_name}_`date "+%Y%m%d"`.sql
 
     if [ "$g_dry_run" == "YES" ]; then
-        echo pg_dump -C -c --if-exists -d "${g_source_name}" -h "$dbhost" -F p -U $dbuser -f $snapshot_name
+        echo pg_dump -C -c --if-exists -d "${g_source_name}" -h "$g_host" -p "$g_port" -F p -U $g_user -f $snapshot_name
     else
-        pg_dump -C -c --if-exists -d "${g_source_name}" -h "$dbhost" -F p -U $dbuser -f $snapshot_name
+        pg_dump -C -c --if-exists -d "${g_source_name}" -h "$g_host" -p "$g_port" -F p -U $g_user -f $snapshot_name
         gzip $snapshot_name
     fi
 }
 
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-
 function verify_options()
 {
 
-    if [ "$dbhost" != "$default_server" ]; then
-        echo "error: this script can  (for now) only be executed on $default_server";
-        exit 64
+    if [ "$g_host" == "" ]; then
+        usage "error: host not specified. Use --host or set default in $DOT_HOST_FILE"
+    fi
+
+    if [ "$g_user" == "" ]; then
+        usage "error: user not specified. Use --user or set default in $DOT_USER_FILE"
+    fi
+
+    if [ "$g_port" == "" ]; then
+        usage "error: port not specified. Use --port PORT option"
     fi
 
     if [ "$g_create_snapshot" == "YES" ] && [ "$g_create_database" == "YES" ]; then
@@ -241,6 +264,12 @@ function verify_options()
             usage "error: --source and --source-type are not allowed when deploying single CR";
         fi
         return
+    fi
+
+    if [ "$rename_end_of_chain" == "YES" ]; then
+        if [ "$g_target_chain_tag" == "" ]; then
+            usage "error: --rename-end-of-chain requires --deploy-chain-to-tag"
+        fi
     fi
 
     if [ "$g_ignore_git_tags" != "YES" ]; then
@@ -269,15 +298,11 @@ function verify_options()
     elif [ "$g_create_database" == "YES" ]; then
 
         if [ "${g_source_type}" != "empty" ] && [ "${g_source_type}" != "db" ] && [ "${g_source_type}" != "dump" ]; then
-            echo "error: you need to specify a valid source type (empty, dump or db) for new database";
-            usage
-            exit 64
+            usage "error: you need to specify a valid source type (empty, dump or db) for new database";
         fi
 
         if [ "${g_source_name}" == "" ] && [ "$g_source_type" != "empty" ]; then
-            echo "error: source ${g_source_type} name not specified"
-            usage
-            exit 64
+            usage "error: source ${g_source_type} name not specified"
         fi
 
     fi
@@ -286,15 +311,12 @@ function verify_options()
 
 function setup_credentials()
 {
-
     if [ "$SQITCH_USERNAME" == "" ]; then
-        export SQITCH_USERNAME=${dbuser}
+        export SQITCH_USERNAME=${g_user}
     fi
 
     if [ "$SQITCH_USERNAME" == "" ]; then
-        echo "error: username not specified"
-        usage
-        exit 64
+        usage "error: username not specified"
     fi
 
     if [ "$SQITCH_PASSWORD" == "" ]; then
@@ -302,21 +324,19 @@ function setup_credentials()
             echo "info: using credentials found in vault"
             source "${DOT_SQITCH_FILE}"
         else
-            echo "error: password not specified (SQITCH_PASSWORD not defined and ${DOT_SQITCH_FILE} not found)"
-            usage
-            exit 64
+            usage "error: password not specified (SQITCH_PASSWORD not defined and ${DOT_SQITCH_FILE} not found)"
         fi
     fi
 }
 
-function dbexec() {
-    db_name=$1
+function execute_sql() {
+    database=$1
     sql=$2
     if [ "$g_dry_run" == "YES" ]; then
-        echo psql -v ON_ERROR_STOP=1 --host=$dbhost --username=$dbuser --no-password --dbname=$db_name --command "$sql"
+        echo psql -v ON_ERROR_STOP=1 --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=$database --command "$sql"
     else
         echo $sql >> $log_file
-        psql -v ON_ERROR_STOP=1 --host=$dbhost --username=$dbuser --no-password --dbname=$db_name --command "$sql" >> $log_file
+        psql -v ON_ERROR_STOP=1 --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=$database --command "$sql" >> $log_file
         if [ $? -ne 0 ];  then
             echo "fatal: psql command failed! Deploy aborted." >&2
             exit 64
@@ -325,13 +345,13 @@ function dbexec() {
 }
 
 function dbexecgz() {
-    db_name=$1
+    database=$1
     gz_file=$2
     if [ "$g_dry_run" == "YES" ]; then
-        echo "info: executing file $gz_file on $db_name..."
+        echo "info: executing file $gz_file on $database..."
     else
         echo "info: executing file $gz_file..." >> $log_file
-        zcat $gz_file | psql -v ON_ERROR_STOP=1 --host=$dbhost --username=$dbuser --no-password --dbname=$db_name >> $log_file
+        zcat $gz_file | psql -v ON_ERROR_STOP=1 --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=$database >> $log_file
         if [ $? -ne 0 ];  then
             echo "fatal: psql command failed! Deploy aborted." >&2
             exit 64
@@ -349,7 +369,7 @@ function kick_out_users() {
           and pid <> pg_backend_pid();
 ____EOF
     )
-    dbexec "postgres" "$sql" >& /dev/null
+    execute_sql "postgres" "$sql" >& /dev/null
 }
 
 function setup_target() {
@@ -367,7 +387,7 @@ function setup_target() {
 
     echo "info: setting up a new database ${target_name}..."
 
-    local target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
+    local target_db_exists="$( psql --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
 
 	if [ "$target_db_exists" = "1" ]
 	then
@@ -381,14 +401,14 @@ function setup_target() {
 		    echo "info:  renaming ${target_name} to ${deprecated_name}..."
 
 		    sql="alter database ${target_name} rename to ${deprecated_name};"
-		    dbexec "postgres" "$sql"
+		    execute_sql "postgres" "$sql"
 
 	    elif [ "$conflict_resolution" == "drop" ]; then
 
 		    echo "info:  dropping ${target_name}..."
 
 		    sql="drop database if exists ${target_name};"
-		    dbexec "postgres" "$sql"
+		    execute_sql "postgres" "$sql"
 
 	    else
 		    echo "error:  target database ${target_name} exists. Drop database or use --on-conflict [drop|rename] to resolve"
@@ -399,32 +419,28 @@ function setup_target() {
 	if [ "${source_type}" == "db" ]; then
 
 	    if [ "${source_name}" == "" ]; then
-		    echo "error:  source database not specified"
-		    usage
-		    exit 64
+		    usage "error:  source database not specified"
 	    fi
 
 	    echo "info:  creating database ${target_name} using template ${source_name}..."
-	    dbexec "postgres" "create database ${target_name} with template ${source_name} owner sead_master;"
+	    execute_sql "postgres" "create database ${target_name} with template ${source_name} owner sead_master;"
 
 	elif [ "${source_type}" == "empty" ]; then
 
 	    echo "info:  creating empty database ${target_name}..."
-	    dbexec "postgres" "create database ${target_name} owner sead_master;"
-	    dbexec "$target_name" "drop schema if exists public;"
+	    execute_sql "postgres" "create database ${target_name} owner sead_master;"
+	    execute_sql "$target_name" "drop schema if exists public;"
 
 	elif [ "${source_type}" == "dump" ]; then
 
 	    if [ "${source_name}" == "" ]; then
-		    echo "error:  source sql.gz file not specified"
-		    usage
-		    exit 64
+		    usage "error:  source sql.gz file not specified"
 	    fi
 
 	    echo "info:  creating database ${target_name} using dump \"$source_name\"..."
-	    dbexec "postgres" "create database ${target_name} owner sead_master;"
+	    execute_sql "postgres" "create database ${target_name} owner sead_master;"
 
-	    dbexec "$target_name" "drop schema if exists public;"
+	    execute_sql "$target_name" "drop schema if exists public;"
 
 	    echo "info:  applying source SQL script..."
 	    dbexecgz "$target_name" "$source_name"
@@ -440,7 +456,7 @@ function setup_target() {
 
 function sync_sequences()
 {
-    dbexec "${g_target_name}" "select sead_utility.sync_sequences();"
+    execute_sql "${g_target_name}" "select sead_utility.sync_sequences();"
 }
 
 
@@ -448,7 +464,7 @@ function deployed_tags()
 {
     local target_name=$1
     local target_project=$2
-    local target_uri="db:pg://${dbuser}@${dbhost}/${target_name}"
+    local target_uri="db:pg://${g_user}@${g_host}:${g_port}/${target_name}"
     echo `sqitch status --target $target_uri -C ./$target_project --show-tags | grep -E "^# +@"| awk '{ print $2 ; }' ;`
 }
 
@@ -484,7 +500,7 @@ function verify_target_database()
 {
     local target_name=$1
 
-    local target_db_exists="$( psql --host=$dbhost --username=$dbuser --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
+    local target_db_exists="$( psql --host=$g_host --port=$g_port --username=$g_user --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
 
     if [ "$target_db_exists" != "1" ]; then
         echo "error: target ${target_name} does not exist"
@@ -516,7 +532,7 @@ function deploy_to_tag()
 	    sync_sequences
     fi
 
-    local target_uri="db:pg://${dbuser}@${dbhost}/${target_name}"
+    local target_uri="db:pg://${g_user}@${g_host}:${g_port}/${target_name}"
 
     local known_release_tags=$(grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
 
@@ -597,9 +613,6 @@ function deploy_to_tag()
         fi
 
     done
-
-    # less $log_file
-
 }
 
 function deploy_single_cr()
@@ -623,7 +636,7 @@ function deploy_single_cr()
 
     verify_target_database $target_name
 
-    local target_uri="db:pg://${dbuser}@${dbhost}/${target_name}"
+    local target_uri="db:pg://${g_user}@${g_host}:${g_port}/${target_name}"
 
     echo "info: deploying CR $cr_name"
 
@@ -633,7 +646,7 @@ function deploy_single_cr()
         echo_mode="echo "
     fi
 
-    $echo_mode sqitch deploy --target ${target_uri} --mode change --no-verify -C $project --to $cr_name # >> $log_file
+    $echo_mode sqitch deploy --target ${target_uri} --mode change --no-verify -C $project --to $cr_name
 
     if [ "$g_sync_sequences" == "YES" ]; then
         echo "info: syncing sequences (post deploy \"${sqitch_project}\")..."
@@ -663,18 +676,21 @@ function deploy_chain_to_tag()
             break
         fi
 
-        # FIXME: add flag to create each database in chain from dump
-
         source_type="db"
         source_name=$tag_target_name
 
     done
+
+    if [ "$g_rename_end_of_chain" == "YES" ]; then
+        echo "info: renaming last database to $g_target_name"
+        execute_sql "postgres" "alter database ${tag_target_name} rename to ${g_target_name};"
+    fi
 }
 
 function display_project_status()
 {
     echo "info: Changes not deployed in \"$g_target_name\":"
-    target_uri="db:pg://${dbuser}@${dbhost}/${g_target_name}"
+    target_uri="db:pg://${g_user}@${g_host}:${g_port}/${g_target_name}"
 
     for sqitch_project in $default_projects; do
         echo "info: pending CRs \"$sqitch_project\": "
