@@ -72,24 +72,23 @@ begin
         alter table tbl_biblio
             add column if not exists biblio_uuid UUID not null default uuid_generate_v4(),
             add constraint pk_tbl_biblio_uuid unique (biblio_uuid);
-		
-        create table if not exists bibliography_references (
-            uuid UUID not null,
-            biblio_uuid UUID not null,
-            date_updated timestamp with time zone DEFAULT now(),
-            primary key (uuid, biblio_uuid),
-			constraint fk_bibliography_references_tbl_biblio_uuid foreign key (biblio_uuid)
-			  references public.tbl_biblio (biblio_uuid) match simple
-				on update no action
-				on delete no action
-        );
+
+        -- create table if not exists bibliography_references (
+        --     uuid UUID not null,
+        --     biblio_uuid UUID not null,
+        --     primary key (uuid, biblio_uuid),
+		-- 	constraint fk_bibliography_references_tbl_biblio_uuid foreign key (biblio_uuid)
+		-- 	  references public.tbl_biblio (biblio_uuid) match simple
+		-- 		on update no action
+		-- 		on delete no action
+        -- );
 
         v_sql_add_uuid_template = '
             alter table %1$s
                 add column if not exists %2$s_uuid UUID not null default uuid_generate_v4(),
                 add constraint pk_%1$s_uuid unique (%2$s_uuid);
         ';
-
+/*
         v_sql_add_fk_template = '
             alter table %1$s
                 add column if not exists biblio_uuid UUID null,
@@ -114,12 +113,13 @@ begin
         ';
 
         v_sql_insert_by_table_template = '
-            insert into bibliography_references (uuid, biblio_uuid, date_updated)
-                select %1$s.%4$s, tbl_biblio.biblio_uuid, %2$s.date_updated
+            insert into bibliography_references (uuid, biblio_uuid)
+                select %1$s.%4$s, tbl_biblio.biblio_uuid
                 from %1$s
                 join %2$s using (%3$s)
                 join tbl_biblio using (biblio_id);
         ';
+*/
 
         /*
             Entity tables that has a bibliographic reference (foreign key constrint to bibliography).
@@ -148,9 +148,9 @@ begin
             raise notice 'Executing: %', v_sql;
             execute v_sql;
 
-            v_sql = format(v_sql_insert_by_fk_template, v_table_name, v_uuid_name);
-            raise notice 'Executing: %', v_sql;
-            execute v_sql;
+            -- v_sql = format(v_sql_insert_by_fk_template, v_table_name, v_uuid_name);
+            -- raise notice 'Executing: %', v_sql;
+            -- execute v_sql;
 
         end loop;
 
@@ -164,7 +164,7 @@ begin
         for v_table_name, v_relation_name, v_id_name, v_uuid_name in (
             select *
             from (values 
-                ('tbl_relative_ages', 'tbl_relative_age_refs', 'relative_age_id', 'relative_age_uuid'),			                -- empty, rename to tbl_relative_age_references
+                ('tbl_relative_ages', 'tbl_relative_age_refs', 'relative_age_id', 'relative_age_uuid'),			         -- empty, rename to tbl_relative_age_references
                 ('tbl_sites', 'tbl_site_references', 'site_id', 'site_uuid'),                                            -- tbl_site_references
                 ('tbl_sample_groups', 'tbl_sample_group_references', 'sample_group_id', 'sample_group_uuid'),                    --
                 ('tbl_geochronology', 'tbl_geochron_refs', 'geochron_id', 'geochron_id'),                                  -- empty, rename to tbl_geochron_references
@@ -177,15 +177,15 @@ begin
             raise notice 'Executing: %', v_sql;
             execute v_sql;
 
-            v_sql = format(v_sql_insert_by_table_template, v_table_name, v_relation_name, v_id_name, v_uuid_name);
-            raise notice 'Executing: %', v_sql;
-            execute v_sql;
+            -- v_sql = format(v_sql_insert_by_table_template, v_table_name, v_relation_name, v_id_name, v_uuid_name);
+            -- raise notice 'Executing: %', v_sql;
+            -- execute v_sql;
 
         end loop;
 
         /*
             Add forreign key references to bibliography (UUID)
-            These tables are relation tables that also contains attriibutes and/or relations to other tables
+            These tables are relation tables that also contains attributes and/or relations to other tables
         */
 
         for v_table_name, v_id_name, v_uuid_name in (
@@ -201,9 +201,9 @@ begin
             raise notice 'Executing: %', v_sql;
             execute v_sql;
 
-            v_sql = format(v_sql_update_fk_template, v_table_name);
-            raise notice 'Executing: %', v_sql;
-            execute v_sql;
+            -- v_sql = format(v_sql_update_fk_template, v_table_name);
+            -- raise notice 'Executing: %', v_sql;
+            -- execute v_sql;
 
             -- FIXME: Should we also add records to bibliography_references?
 
