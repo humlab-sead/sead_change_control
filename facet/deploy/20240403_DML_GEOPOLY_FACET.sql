@@ -61,5 +61,18 @@ $facets$;
     perform facet.create_or_update_facet(v.facet::jsonb)
     from jsonb_array_elements(j_facets) as v(facet);
 
+    insert into facet.facet_children (facet_code, child_facet_code, position)
+        select facet_code, 'sites_polygon', position
+        from  (values
+            ('geoarchaeology', 99),
+            ('archaeobotany', 99),
+            ('dendrochronology', 99),
+            ('palaeoentomology', 99),
+            ('isotope', 99),
+            ('pollen', 99),
+            ('ceramic', 99)
+        ) as v(facet_code, position)
+            on conflict (facet_code, child_facet_code) do nothing;
+
 end $$;
 commit;
