@@ -6,7 +6,7 @@ source .env
 
 g_source_db="sead_production"
 g_target_db=""
-g_drop_if_exists=no
+g_force=no
 g_allow_deploy_to_production=no
 g_sync_sequences=no
 g_host=$(dnsdomainname -A)
@@ -24,7 +24,7 @@ fi
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
-    local key="$1"
+    key="$1"
     case $key in
         --source-database|--source-db|--source|-s)
             g_source_db="$2"; shift 2;
@@ -42,7 +42,7 @@ do
             g_host="$2"; shift 2;
         ;;
         --force)
-            g_drop_if_exists=yes; shift
+            g_force=yes; shift
         ;;
         --allow-production)
             g_allow_deploy_to_production=yes; shift
@@ -66,16 +66,19 @@ function usage()
         echo "$error_message"
     fi
     echo "usage: copy-database [--source dbname] --target dbname [--force]"
-    echo "Creates new database using source as template."
+    echo "Creates a new database using source as template."
     echo ""
-    echo "   --source                  source database name (default: sead_production)"
-    echo "   --target                  target database name"
+    echo "   --source-database         source database name (default: sead_production)"
+    echo "   --target-database         target database name"
     echo "   --host                    host name"
     echo "   --user                    user name"
     echo "   --port                    host port "
     echo "   --force                   drop target if exists"
     echo "   --sync-sequences          sync sequences in target after create"
     echo "   --allow-production        explicitly allow deploy to production"
+    echo ""
+    echo "Example:"
+    echo "   copy-database --source sead_staging --target sead_staging_development --port 5433 --host humlabseadserv.srv.its.umu.se"
     exit 64
 }
 
@@ -134,31 +137,29 @@ function database_exists() {
 
 function create_database_by_template() {
 
-    local database="$1"
-    local template_name="$2"
-    local db_exists="$(database_exists $database)"
+    local source_db="$1"
+    local target_db="$2"
+    local target_db_exists="$(database_exists $target_db)"
 
-    if [ "$db_exists" == "1" ]; then
-        if [ "$force" == "yes" ]; then
-            drop_database $database
+    if [ "$target_db_exists" == "1" ]; then
+        if [ "$g_force" == "yes" ]; then
+            drop_database $target_db
         else
-            echo "fatal: database $database already exists. Use --force to drop it."
+            echo "fatal: database $target_db already exists. Use --force to drop it."
             exit 64
         fi
     fi
 
-    echo "Creating database $database using $template_name as template..."
-    kickout $template_name
-    createdb --echo --owner=sead_master -h $g_host -p $g_port -U $g_user -w --encoding="UTF8" -T "$template_name" "$database"
+    echo "Creating database $target_db using $source_db as template..."
+    kickout $source_db
+    createdb --echo --owner=sead_master -h $g_host -p $g_port -U $g_user -w --encoding="UTF8" -T "$source_db" "$target_db"
     if [ $? -ne 0 ];  then
         echo "fatal: create failed!"
         exit 64
     fi
 }
 
-echo drop_database $g_target_db $g_drop_if_exists
-
-echo create_database_by_template $g_source_db $g_target_db
+create_database_by_template $g_source_db $g_target_db
 
 if [ "$g_sync_sequences" == "yes" ]; then
     echo sync_sequences $g_target_db
