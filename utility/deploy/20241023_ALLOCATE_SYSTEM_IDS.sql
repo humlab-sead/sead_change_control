@@ -68,7 +68,7 @@ begin
             v_query text;
         begin
             v_query := format('select max(%s) from %s', quote_ident(p_column_name), quote_ident(p_table_name));
-            raise notice '%', v_query;
+            -- raise notice '%', v_query;
             execute v_query into v_next_id;
 
             select max(system_id) into v_next_id
