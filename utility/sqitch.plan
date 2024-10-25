@@ -30,3 +30,4 @@
 20221118_DDL_GENERATE_SQLITE_SCHEMA 2022-11-18T11:46:27Z Roger Mähler <roger.mahler@umu.se> # UDFs for generating Sqlite schema
 20240530_DDL_UDF_DROP_TABLE_SCRIPT 2024-05-31T09:40:03Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/282: UDF that generates drop table script
 20241023_ALLOCATE_SYSTEM_IDS 2024-10-23T14:07:15Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/322: Helpful utilities for pre-allocating SEAD system IDs
+20241025_STORE_VIEW_DEFINITIONS 2024-10-25T12:24:58Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/324: Helpful utilities for remporary drop of view
