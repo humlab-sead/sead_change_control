@@ -17,3 +17,4 @@ SEAD_DATABASE_LOOKUPS 2023-12-20T20:33:57Z Roger Mähler <roger.mahler@umu.se> #
 20240404_DDL_ADD_AGES_NUMRANGE 2024-05-31T13:33:38Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/286:  # https://github.com/humlab-sead/sead_change_control/issues/: Add analysis entity aged range.
 
 20231123_DDL_BIBLIO_UUID 2023-11-20T07:41:12Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/144: Add UUID to bibliographic data.
+20241025_DIMENSIONS_ALTER_TYPE 2024-10-25T12:05:40Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/323: Increase size of descriptive field in dimensions
