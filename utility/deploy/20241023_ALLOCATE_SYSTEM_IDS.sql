@@ -92,15 +92,13 @@ begin
         p_table_name text,
         p_column_name text,
         p_system_id text = NULL,
-        p_data record = NULL
+        p_data jsonb = NULL
     ) returns integer as $udf$
         declare 
             v_next_id int;
-            v_json_data jsonb := null;
         begin
 
             v_next_id = sead_utility.get_next_system_id(p_table_name, p_column_name);
-            v_json_data = case when p_data is not null then row_to_json(p_data) else null end;
             insert into sead_utility.system_id_allocations (
                 table_name,
                 column_name,
@@ -115,7 +113,7 @@ begin
                 p_submission_identifier,
                 p_change_request_identifier,
                 p_system_id,
-                case when p_data is not null then row_to_json(p_data) else null end,
+                p_data,
                 v_next_id
             );
             return v_next_id;
