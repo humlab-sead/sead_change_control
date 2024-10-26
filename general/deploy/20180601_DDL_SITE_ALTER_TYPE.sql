@@ -9,7 +9,7 @@
   Reviewer
   Approver
   Idempotent    Yes
-  Notes
+  Notes         2024-10-23: Changes added to SEAD_DATA_BASE_MODEL change request (SEAD starting point)
 *****************************************************************************************************************/
 
 begin;
@@ -17,18 +17,8 @@ do $$
 begin
 
     begin
-        if (select count(*)
-            from INFORMATION_SCHEMA.COLUMNS
-            where table_schema='public'
-              and table_name = 'tbl_dimensions'
-              and column_name = 'dimension_abbrev'
-              and character_maximum_length = 16) = 1
-        then
-            raise exception sqlstate 'GUARD';
-        end if;
-
-        alter table tbl_dimensions alter column "dimension_abbrev" type character varying(16) collate "pg_catalog"."default";
-        alter table tbl_sample_alt_refs alter column "alt_ref" type character varying(60) collate "pg_catalog"."default";
+        alter table tbl_dimensions alter column "dimension_abbrev" type character varying(40) collate "pg_catalog"."default";
+        alter table tbl_sample_alt_refs alter column "alt_ref" type character varying(80) collate "pg_catalog"."default";
         alter table tbl_sites alter column "site_name" type character varying(60) collate "pg_catalog"."default";
 
     exception when sqlstate 'GUARD' then
