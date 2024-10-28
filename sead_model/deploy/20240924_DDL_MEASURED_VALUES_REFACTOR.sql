@@ -17,7 +17,7 @@ do $$
 begin
 
     begin
-		drop table if exists "tbl_analysis_fuzzy_numerical_ranges";
+		-- drop table if exists "tbl_analysis_fuzzy_numerical_ranges";
         drop table if exists "tbl_analysis_numerical_values";
         drop table if exists "tbl_analysis_categorical_values";
         drop table if exists "tbl_analysis_numerical_ranges";
@@ -46,36 +46,36 @@ begin
         create table "tbl_analysis_numerical_values" (
             "analysis_numerical_value_id" bigserial primary key,
             "analysis_value_id" bigint not null,
-            "uncertainty" varchar(256) null,
+            "uncertainty" bool null,
             "qualifier" varchar(256) null,
             "value" decimal(20,10) null
         );
 
-        create table "tbl_analysis_fuzzy_numerical_ranges" (
-            "analysis_value_range_id" bigserial primary key,
-            "analysis_value_id" bigint not null,
-            "lower_value_id" bigint not null,
-            "upper_value_id" bigint not null
-        );
+        -- create table "tbl_analysis_fuzzy_numerical_ranges" (
+        --     "analysis_value_range_id" bigserial primary key,
+        --     "analysis_value_id" bigint not null,
+        --     "lower_value_id" bigint not null,
+        --     "upper_value_id" bigint not null
+        -- );
 
         create table "tbl_analysis_numerical_ranges" (
             "analysis_value_range_id" bigserial primary key,
             "analysis_value_id" bigint not null,
             "range" numrange not null
-            -- "low_uncertainty_indicator" bool null,
-            -- "high_uncertainty_indicator" bool null,
-            -- "low_modifier" varchar(256) null,
-            -- "high_modifier" varchar(256) null
+            "low_uncertainty" bool null,
+            "high_uncertainty" bool null,
+            "low_qualifier" varchar(60) null,
+            "high_qualifier" varchar(60) null
         );
 
         create table "tbl_analysis_integer_ranges" (
             "analysis_value_range_id" bigserial primary key,
             "analysis_value_id" bigint not null,
             "range" int4range not null
-            -- "low_uncertainty_indicator" varchar(256) null,
-            -- "high_uncertainty_indicator" varchar(256) null,
-            -- "low_modifier" varchar(256) null,
-            -- "high_modifier" varchar(256) null
+            "low_uncertainty" bool null,
+            "high_uncertainty" bool null,
+            "low_qualifier" varchar(60) null,
+            "high_qualifier" varchar(60) null
         );
 
         create table "tbl_value_categories" (
@@ -110,9 +110,9 @@ begin
         alter table "tbl_analysis_categorical_values" add constraint "fk_tbl_analysis_categorical_values_tbl_analysis_values" foreign key ("analysis_value_id") references "tbl_analysis_values" ("analysis_value_id");
         alter table "tbl_analysis_categorical_values" add constraint "fk_tbl_analysis_categorical_values_tbl_value_category_items" foreign key ("value_category_item_id") references "tbl_value_category_items" ("value_category_item_id");
         alter table "tbl_analysis_numerical_values" add constraint "fk_tbl_analysis_numerical_values_tbl_analysis_values" foreign key ("analysis_value_id") references "tbl_analysis_values" ("analysis_value_id");
-        alter table "tbl_analysis_fuzzy_numerical_ranges" add constraint "fk_tbl_analysis_value_ranges_tbl_analysis_numerical_values_1" foreign key ("lower_value_id") references "tbl_analysis_numerical_values" ("analysis_numerical_value_id");
-        alter table "tbl_analysis_fuzzy_numerical_ranges" add constraint "fk_tbl_analysis_value_ranges_tbl_analysis_numerical_values_2" foreign key ("upper_value_id") references "tbl_analysis_numerical_values" ("analysis_numerical_value_id");
-        alter table "tbl_analysis_fuzzy_numerical_ranges" add constraint "fk_tbl_analysis_value_ranges_tbl_analysis_values" foreign key ("analysis_value_id") references "tbl_analysis_values" ("analysis_value_id");
+        -- alter table "tbl_analysis_fuzzy_numerical_ranges" add constraint "fk_tbl_analysis_value_ranges_tbl_analysis_numerical_values_1" foreign key ("lower_value_id") references "tbl_analysis_numerical_values" ("analysis_numerical_value_id");
+        -- alter table "tbl_analysis_fuzzy_numerical_ranges" add constraint "fk_tbl_analysis_value_ranges_tbl_analysis_numerical_values_2" foreign key ("upper_value_id") references "tbl_analysis_numerical_values" ("analysis_numerical_value_id");
+        -- alter table "tbl_analysis_fuzzy_numerical_ranges" add constraint "fk_tbl_analysis_value_ranges_tbl_analysis_values" foreign key ("analysis_value_id") references "tbl_analysis_values" ("analysis_value_id");
         alter table "tbl_analysis_integer_ranges" add constraint "fk_tbl_analysis_integer_ranges_tbl_analysis_values" foreign key ("analysis_value_id") references "tbl_analysis_values" ("analysis_value_id");
         alter table "tbl_analysis_numerical_ranges" add constraint "fk_tbl_analysis_numerical_ranges_tbl_analysis_values" foreign key ("analysis_value_id") references "tbl_analysis_values" ("analysis_value_id");
         alter table "tbl_analysis_values" add constraint "fk_tbl_analysis_values_tbl_analysis_entities_1" foreign key ("analysis_entity_id") references "tbl_analysis_entities" ("analysis_entity_id");
