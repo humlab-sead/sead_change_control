@@ -332,7 +332,7 @@ CREATE TABLE "public"."tbl_dendro_measurements" (
 CREATE TABLE "public"."tbl_dimensions" (
   "dimension_id" serial primary key,
   "date_updated" timestamp with time zone DEFAULT now(),
-  "dimension_abbrev" varchar(10) COLLATE "pg_catalog"."default",
+  "dimension_abbrev" varchar(40) COLLATE "pg_catalog"."default",
   "dimension_description" text COLLATE "pg_catalog"."default",
   "dimension_name" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "unit_id" int4,
