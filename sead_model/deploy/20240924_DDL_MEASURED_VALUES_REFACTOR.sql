@@ -17,74 +17,112 @@ do $$
 begin
 
     begin
+		drop table if exists "tbl_analysis_fuzzy_numerical_ranges";
+        drop table if exists "tbl_analysis_numerical_values";
+        drop table if exists "tbl_analysis_categorical_values";
+        drop table if exists "tbl_analysis_numerical_ranges";
+        drop table if exists "tbl_analysis_integer_ranges";
+        drop table if exists "tbl_analysis_values";
+        drop table if exists "tbl_value_classes";
+        drop table if exists "tbl_value_category_items";
+        drop table if exists "tbl_value_categories";
+        drop table if exists "tbl_value_types";
 
-        /* tbl_analysis_values */
-    
-        create table tbl_analysis_values (
-            "analysis_value_id" int primary key,
-            "analysis_entity_id" int not null,
-            "analysis_value" varchar(256) not null,
-            "value_class_id" int not null
+
+        create table "tbl_analysis_values" (
+            "analysis_value_id" bigserial primary key,
+            "value_class_id" int not null,
+            "analysis_entity_id" bigint not null,
+            "analysis_value" varchar(256),
+            "boolean_value" boolean null
+        );
+        
+        create table "tbl_analysis_categorical_values" (
+            "analysis_categorical_value_id" int primary key,
+            "analysis_value_id" bigint not null,
+            "value_category_item_id" int not null
         );
 
-        alter table tbl_analysis_values 
-            add constraint "fk_analysis_values_analysis_entity_id"
-                foreign key ("analysis_entity_id") references tbl_analysis_entities ("analysis_entity_id")
-                    on delete no action on update cascade;
+        create table "tbl_analysis_numerical_values" (
+            "analysis_numerical_value_id" bigserial primary key,
+            "analysis_value_id" bigint not null,
+            "uncertainty" varchar(256) null,
+            "qualifier" varchar(256) null,
+            "value" decimal(20,10) null
+        );
 
-        alter table tbl_analysis_values
-            add constraint "fk_analysis_values_value_category_id"
-                foreign key ("value_category_id") references tbl_value_category ("value_category_id")
-                    on delete no action on update cascade;
+        create table "tbl_analysis_fuzzy_numerical_ranges" (
+            "analysis_value_range_id" bigserial primary key,
+            "analysis_value_id" bigint not null,
+            "lower_value_id" bigint not null,
+            "upper_value_id" bigint not null
+        );
 
+        create table "tbl_analysis_numerical_ranges" (
+            "analysis_value_range_id" bigserial primary key,
+            "analysis_value_id" bigint not null,
+            "range" numrange not null
+            -- "low_uncertainty_indicator" bool null,
+            -- "high_uncertainty_indicator" bool null,
+            -- "low_modifier" varchar(256) null,
+            -- "high_modifier" varchar(256) null
+        );
 
-        alter table tbl_analysis_values
-            add constraint "fk_analysis_values_unit_id"
-                foreign key ("unit_id") references tbl_units ("unit_id")
-                    on delete no action on update cascade;
+        create table "tbl_analysis_integer_ranges" (
+            "analysis_value_range_id" bigserial primary key,
+            "analysis_value_id" bigint not null,
+            "range" int4range not null
+            -- "low_uncertainty_indicator" varchar(256) null,
+            -- "high_uncertainty_indicator" varchar(256) null,
+            -- "low_modifier" varchar(256) null,
+            -- "high_modifier" varchar(256) null
+        );
 
+        create table "tbl_value_categories" (
+            "value_category_id" bigint primary key,
+            "name" varchar(80),
+            "description" varchar(512)
+        );
 
-        alter table tbl_analysis_values
-            add constraint "fk_analysis_values_value_type_id"
-                foreign key ("value_type_id") references tbl_analysis_value_types ("value_type_id")
-                    on delete no action on update cascade;
+        create table "tbl_value_category_items" (
+            "value_category_item_id" int primary key,
+            "value_category_id" int,
+            "name" varchar(80),
+            "description" varchar(512)
+        );
 
+        create table "tbl_value_classes" (
+            "value_class_id" int not null primary key,
+            "value_category_id" int,
+            "value_type_id" int not null,
+            "method_id" int not null,
+            "name" varchar(80) not null,
+            "description" varchar(512) not null
+        );
 
-        alter table tbl_analysis_values
-            add constraint "fk_analysis_values_value_class_id"
-                foreign key ("value_class_id") references tbl_analysis_value_class ("value_class_id")
-                    on delete no action on update cascade;
-
-
-        /* tbl_analysis_value_types */
-
-        create table tbl_analysis_value_types (
+        create table "tbl_value_types" (
             "value_type_id" int primary key,
             "unit_id" int not null,
-            "type_id" int not null, -- What was the perpose of this? Base type??? (int, numeric etc.)
+            "data_type_id" int null,
             "description" varchar(256) not null
         );
 
-        alter table tbl_analysis_value_types
-            add constraint "fk_analysis_value_types_unit_id"
-                foreign key ("unit_id") references tbl_units ("unit_id")
-                    on delete no action on update cascade;
+        alter table "tbl_analysis_categorical_values" add constraint "fk_tbl_analysis_categorical_values_tbl_analysis_values" foreign key ("analysis_value_id") references "tbl_analysis_values" ("analysis_value_id");
+        alter table "tbl_analysis_categorical_values" add constraint "fk_tbl_analysis_categorical_values_tbl_value_category_items" foreign key ("value_category_item_id") references "tbl_value_category_items" ("value_category_item_id");
+        alter table "tbl_analysis_numerical_values" add constraint "fk_tbl_analysis_numerical_values_tbl_analysis_values" foreign key ("analysis_value_id") references "tbl_analysis_values" ("analysis_value_id");
+        alter table "tbl_analysis_fuzzy_numerical_ranges" add constraint "fk_tbl_analysis_value_ranges_tbl_analysis_numerical_values_1" foreign key ("lower_value_id") references "tbl_analysis_numerical_values" ("analysis_numerical_value_id");
+        alter table "tbl_analysis_fuzzy_numerical_ranges" add constraint "fk_tbl_analysis_value_ranges_tbl_analysis_numerical_values_2" foreign key ("upper_value_id") references "tbl_analysis_numerical_values" ("analysis_numerical_value_id");
+        alter table "tbl_analysis_fuzzy_numerical_ranges" add constraint "fk_tbl_analysis_value_ranges_tbl_analysis_values" foreign key ("analysis_value_id") references "tbl_analysis_values" ("analysis_value_id");
+        alter table "tbl_analysis_integer_ranges" add constraint "fk_tbl_analysis_integer_ranges_tbl_analysis_values" foreign key ("analysis_value_id") references "tbl_analysis_values" ("analysis_value_id");
+        alter table "tbl_analysis_numerical_ranges" add constraint "fk_tbl_analysis_numerical_ranges_tbl_analysis_values" foreign key ("analysis_value_id") references "tbl_analysis_values" ("analysis_value_id");
+        alter table "tbl_analysis_values" add constraint "fk_tbl_analysis_values_tbl_analysis_entities_1" foreign key ("analysis_entity_id") references "tbl_analysis_entities" ("analysis_entity_id");
+        alter table "tbl_value_category_items" add constraint "fk_tbl_value_category_items_tbl_value_categories" foreign key ("value_category_id") references "tbl_value_categories" ("value_category_id");
+        alter table "tbl_value_classes" add constraint "fk_tbl_value_classes_tbl_value_categories" foreign key ("value_category_id") references "tbl_value_categories" ("value_category_id");
+        alter table "tbl_value_classes" add constraint "fk_tbl_value_classes_tbl_value_types" foreign key ("value_type_id") references "tbl_value_types" ("value_type_id");
+        alter table "tbl_value_types" add constraint "fk_tbl_analysis_value_types_tbl_units" foreign key ("unit_id") references "tbl_units" ("unit_id");
+        alter table "tbl_value_types" add constraint "fk_tbl_analysis_value_types_tbl_data_types" foreign key ("data_type_id") references "tbl_data_types" ("data_type_id");
 
-        -- alter table tbl_analysis_value_types
-        --     add constraint "fk_analysis_value_types_type_id"
-        --         foreign key ("type_id") references tbl_???_types ("type_id")
-        --             on delete no action on update cascade;
-
-
-        /* tbl_analysis_values */
-    
-        create table tbl_analysis_value_class (
-            "analysis_value_class_id" int primary key,
-            "method_id" int not null,
-            "name" varchar(256) not null,
-            "description" varchar(1024) not null,
-            "date_updated" timestamp with time zone DEFAULT now()
-        );
+        comment on table "tbl_value_classes" is 'this entity represents descriptive information of a "column" in the numerical values stored as a spreadsheet paradigm.';
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
