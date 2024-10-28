@@ -17,7 +17,7 @@ do $$
 begin
 
     begin
-		-- drop table if exists "tbl_analysis_fuzzy_numerical_ranges";
+		drop table if exists "tbl_analysis_fuzzy_numerical_ranges";
         drop table if exists "tbl_analysis_numerical_values";
         drop table if exists "tbl_analysis_categorical_values";
         drop table if exists "tbl_analysis_numerical_ranges";
@@ -61,7 +61,7 @@ begin
         create table "tbl_analysis_numerical_ranges" (
             "analysis_value_range_id" bigserial primary key,
             "analysis_value_id" bigint not null,
-            "range" numrange not null
+            "range" numrange not null,
             "low_uncertainty" bool null,
             "high_uncertainty" bool null,
             "low_qualifier" varchar(60) null,
@@ -71,7 +71,7 @@ begin
         create table "tbl_analysis_integer_ranges" (
             "analysis_value_range_id" bigserial primary key,
             "analysis_value_id" bigint not null,
-            "range" int4range not null
+            "range" int4range not null,
             "low_uncertainty" bool null,
             "high_uncertainty" bool null,
             "low_qualifier" varchar(60) null,
