@@ -60,3 +60,7 @@
 20231129_DDL_MISSING_UNIQUE_CONSTRAINTS 2023-11-29T14:55:46Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/142: Add missing unique constraints to the SEAD database.
 
 20240327_DML_METHODS_MISSING_RECORD_TYPES 2024-03-28T06:55:31Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/262: See https://github.com/humlab-sead/sead_query_api/issues/113
+20241028_DML_UPDATE_INCORRECT_COORDINATES 2024-10-28T08:16:26Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/320: Update of some incorrect corrdinates
+
+@2024.12 2024-10-28T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2024 December release
+
