@@ -54,7 +54,7 @@ begin
 
         create table "tbl_value_types" (
             "value_type_id" int primary key,
-            "unit_id" int not null references "tbl_units" ("unit_id"),
+            "unit_id" int null references "tbl_units" ("unit_id"),
             "data_type_id" int null references "tbl_data_types" ("data_type_id"),
             "precision" int null default null,
             "name" varchar(80) not null,
