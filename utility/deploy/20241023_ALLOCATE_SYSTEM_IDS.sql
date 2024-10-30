@@ -120,5 +120,30 @@ begin
         end;
         $udf$ language plpgsql;
 
+    create or replace function sead_utility.get_allocated_id(
+        p_submission_identifier text,
+        p_change_request_identifier text,
+        p_table_name text,
+        p_column_name text,
+        p_system_id text = NULL
+    ) 
+        returns integer as $udf$
+        declare
+            v_alloc_system_id integer;
+        begin
+
+            select max(alloc_system_id::int)
+                into v_alloc_system_id
+                    from sead_utility.system_id_allocations
+                    where submission_identifier = v_submission_identifier
+                    and change_request_identifier = v_change_request_identifier
+                    and table_name = p_table_name
+                    and column_name = p_column_name
+                    and external_system_id = p_system_id
+            ;
+            return v_alloc_system_id;
+        end;
+        $udf$ language plpgsql;
+
 end $block$;
 commit;
