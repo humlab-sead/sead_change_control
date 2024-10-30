@@ -18,7 +18,7 @@ begin
 
     begin
 		-- drop table if exists "tbl_analysis_fuzzy_numerical_ranges";
-        drop table if exists "tbl_analysis_value_dimensions"
+        drop table if exists "tbl_analysis_value_dimensions";
         drop table if exists "tbl_analysis_numerical_values";
         drop table if exists "tbl_analysis_categorical_values";
         drop table if exists "tbl_analysis_numerical_ranges";
@@ -28,8 +28,6 @@ begin
         drop table if exists "tbl_value_type_items";
         drop table if exists "tbl_value_types";
 		drop table if exists "tbl_value_qualifiers";
-        drop table if exists "tbl_value_category_items";
-        drop table if exists "tbl_value_qualifiers";
 
         create table tbl_value_qualifiers (
             "qualifier_id" serial primary key,
@@ -53,6 +51,22 @@ begin
             insert into tbl_value_qualifiers (qualifier_symbol, "description")
             select qualifier_symbol, "description" from qualifiers_data;
 
+
+        create table "tbl_value_types" (
+            "value_type_id" int primary key,
+            "unit_id" int not null references "tbl_units" ("unit_id"),
+            "data_type_id" int null references "tbl_data_types" ("data_type_id"),
+            "precision" int null default null,
+            "name" varchar(80) not null,
+            "description" text not null
+        );
+
+        create table "tbl_value_type_items" (
+            "value_type_item_id" int primary key,
+            "value_type_id" int not null references "tbl_value_types" ("value_type_id"),
+            "name" varchar(80) null default null,
+            "description" text null default null
+        );
 
         create table "tbl_analysis_values" (
             "analysis_value_id" bigserial primary key,
@@ -105,22 +119,6 @@ begin
             "high_is_uncertain" bool null,
             "low_qualifier" text null references tbl_value_qualifiers(qualifier_symbol),
             "high_qualifier" text null references tbl_value_qualifiers(qualifier_symbol)
-        );
-
-        create table "tbl_value_types" (
-            "value_type_id" int primary key,
-            "unit_id" int not null references "tbl_units" ("unit_id"),
-            "data_type_id" int null references "tbl_data_types" ("data_type_id"),
-            "precision" int null default null,
-            "name" varchar(80) not null,
-            "description" text not null
-        );
-
-        create table "tbl_value_type_items" (
-            "value_type_item_id" int primary key,
-            "value_type_id" int not null references "tbl_value_types" ("value_type_id"),
-            "name" varchar(80) null default null,
-            "description" text null default null
         );
 
         create table "tbl_value_classes" (
