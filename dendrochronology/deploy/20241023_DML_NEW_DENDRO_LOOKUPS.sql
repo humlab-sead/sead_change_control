@@ -1838,9 +1838,6 @@ begin
             	), sampling_context, description
             from new_data;
 
-        
-        alter table tbl_dimensions alter column "dimension_abbrev" type character varying(20) collate "pg_catalog"."default";
-    
     with new_data (system_id, dimension_abbrev, dimension_name, dimension_description, unit_id, method_group_id) as (
 		values
             ('1', 'Sampling height (cm)', 'Sampling height in centimetres', 'Height at which a sample was retrieved. Positive values denotes distance measured from the ground-level. ', '16', '14'),
