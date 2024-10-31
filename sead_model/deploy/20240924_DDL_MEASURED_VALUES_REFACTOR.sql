@@ -91,7 +91,7 @@ begin
             "analysis_value_id" bigserial primary key,
             "value_class_id" int not null,
             "analysis_entity_id" bigint not null references "tbl_analysis_entities" ("analysis_entity_id"),
-            "analysis_value" varchar(256),
+            "analysis_value" text null default null,
             "flag_value" boolean null default null,
             "is_uncertain" boolean null default null,
             "is_flag" boolean null default null, -- if the value is a flag value, could be deduced from value type table though
