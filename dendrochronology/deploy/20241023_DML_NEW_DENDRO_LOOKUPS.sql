@@ -19,9 +19,8 @@ do $$
     declare v_change_request_identifier text;
 begin
 
-    v_submission_identifier = 'dendro_lookup_import_oct_2024.xlsx'
-    v_change_request_identifier = '20241023_DML_NEW_DENDRO_LOOKUPS'
-
+    v_submission_identifier = 'dendro_lookup_import_oct_2024.xlsx';
+    v_change_request_identifier = '20241023_DML_NEW_DENDRO_LOOKUPS';
 
     with new_data (system_id, location_name, location_type_id) as (
         values
@@ -2738,32 +2737,87 @@ begin
             from new_data;
 
 
-    with new_data ("system_id", "method_id", "name", "description") as (
+    with new_data ("system_id", "unit_id", "data_type_id", "name", "base_type", "precision", "description") as (
         values
-            ('1', '10', 'Tree species', 'Species name of the tree the sample came from.'),
-            ('2', '10', 'Tree rings', 'Number of measured tree rings inferred as years.'),
-            ('3', '10', 'Earlywood/Latewood', 'A notation in case the outermost ring is not complete. +ew in case only earlywood is present, -lw in case some part of the latewood is missing'),
-            ('4', '10', 'Number of analysed radii.', 'Number of analysed radii.'),
-            ('5', '10', 'EW/LW measurements', 'Record of whether the earlywood and latewood of each ring has been measured separately.'),
-            ('6', '10', 'Number of sapwood rings in a sample.', 'Number of sapwood rings, which is the outer layers of a tree, between the heartwood and cambium. '),
-            ('7', '10', 'Bark (B)', 'Whether bark was present in the sample. '),
-            ('8', '10', 'Waney edge (W)', 'The last formed tree ring before felling or sampling. Presence of this represents the last year of growth.'),
-            ('9', '10', 'Pith (P)', 'Number of rings missing between the core of the tree and the first measured ring. '),
-            ('10', '10', 'Tree age ≥', 'The analysed age of the tree.'),
-            ('11', '10', 'Tree age ≤', 'The analysed age of the tree.'),
-            ('12', '10', 'Inferred growth year ≥', 'The growth year inferred from the analysed tree rings. '),
-            ('13', '10', 'Inferred growth year ≤', 'The growth year inferred from the analysed tree rings. '),
-            ('14', '10', 'Estimated felling year', 'The felling year as inferred from the analysed outermost tree-ring date'),
-            ('15', '10', 'Possible estimated felling year', 'Used for samples where dating has not been succesful but a non-statistically satisfactory dating suggestion is given.'),
-            ('16', '10', 'Provenance', 'The provenance of the sampled tree, inferred by comparing the sample with others. '),
-            ('17', '10', 'Outermost tree-ring date', 'The date of the outermost tree-ring'),
-            ('18', '10', 'Not dated', 'Used to mark samples as not having been succesfully dated, i. e. analysed but not dated'),
-            ('19', '10', 'Date note', 'Notes on  a sample.'),
-            ('20', '10', 'Provenance comment', 'Comments on the provenance of a sample'),
-            ('21', '10', 'Non-measured tree rings', 'Estimated number of non-measured tree rings outside the outermost measured tree ring.'),
-            ('22', '10', 'Non-measured sapwood rings', 'Estimated number of non-measured sapwood rings outside the outermost measured tree ring.')
+            ('0', null, null, 'Not used', 'text', null, 'Not used'),
+            ('1', null, '5', 'Count', 'integer', null, 'An (positive) integer result of an analysis'),
+            ('2', null, '19', 'Early/Latewood', 'category', null, 'Dendro: Early/Latewood'),
+            ('3', null, null, 'Boolean', 'boolean', null, 'A boolean (true/false/yes,no) value'),
+            ('4', null, '19', 'Waney edge (W)', 'category', null, 'Dendro: Waney edge (W)'),
+            ('5', null, null, 'Age in years', 'integer', null, 'Age of something in years'),
+            ('6', '8', null, 'Year', 'integer', null, 'A calendar year'),
+            ('7', null, null, 'Note', 'text', null, 'A note of something'),
+            ('8', null, null, 'Label', 'text', null, 'A designation of something'),
+            ('9', null, null, 'Identifier', 'text', null, 'An identification of something'),
+            ('10', '8', null, 'Year range', 'int4range', null, 'A range of years')
         )
-    	    insert into tbl_value_classes ("value_class_id", "value_type_id", "value_category_id", "method_id", "name", "description")
+    	    insert into tbl_value_types ("value_type_id", "unit_id", "data_type_id", "name", "base_type", "precision", "description")
+            select 
+                sead_utility.allocate_system_id(
+	                v_submission_identifier,
+	                v_change_request_identifier,
+	                'tbl_value_types',
+	                'value_type_id',
+	                new_data.system_id::text,
+	                row_to_json(new_data.*)::jsonb
+            	), "unit_id"::int, "data_type_id"::int, "name", "base_type", "precision"::int, "description"
+            from new_data;
+
+    with new_data ("system_id", "value_type_id", "name", "description") as (
+        values
+            ('1', '2', '-ew', '-ew'),
+            ('2', '2', '+ew', '+ew'),
+            ('3', '2', '-lw', '-lw'),
+            ('4', '2', '+lw', '+lw'),
+            ('5', '4', 'W', 'W'),
+            ('6', '4', 'not W', 'not W')
+        )
+    	    insert into tbl_value_type_items ("value_type_item_id", "value_type_id", "name", "description")
+            select 
+                sead_utility.allocate_system_id(
+	                v_submission_identifier,
+	                v_change_request_identifier,
+	                'tbl_value_type_items',
+	                'value_type_item_id',
+	                new_data.system_id::text,
+	                row_to_json(new_data.*)::jsonb
+            	),
+				sead_utility.get_allocated_id(
+					v_submission_identifier,
+					v_change_request_identifier,
+					'tbl_value_types',
+					'value_type_id',
+					"value_type_id"
+				)::int,
+				"name", "description"
+            from new_data;
+
+    with new_data ("system_id", "method_id", "name", "description", "value_type_id") as (
+        values
+            ('1', '10', 'Tree species', 'Species name of the tree the sample came from.', '0'),
+            ('2', '10', 'Tree rings', 'Number of measured tree rings inferred as years.', '1'),
+            ('3', '10', 'Earlywood/Latewood', 'A notation in case the outermost ring is not complete. +ew in case only earlywood is present, -lw in case some part of the latewood is missing', '2'),
+            ('4', '10', 'Number of analysed radii.', 'Number of analysed radii.', '1'),
+            ('5', '10', 'EW/LW measurements', 'Record of whether the earlywood and latewood of each ring has been measured separately.', '3'),
+            ('6', '10', 'Number of sapwood rings in a sample.', 'Number of sapwood rings, which is the outer layers of a tree, between the heartwood and cambium. ', '1'),
+            ('7', '10', 'Bark (B)', 'Whether bark was present in the sample. ', '3'),
+            ('8', '10', 'Waney edge (W)', 'The last formed tree ring before felling or sampling. Presence of this represents the last year of growth.', '4'),
+            ('9', '10', 'Pith (P)', 'Number of rings missing between the core of the tree and the first measured ring. ', '1'),
+            ('10', '10', 'Tree age ≥', 'The analysed age of the tree.', '5'),
+            ('11', '10', 'Tree age ≤', 'The analysed age of the tree.', '5'),
+            ('12', '10', 'Inferred growth year ≥', 'The growth year inferred from the analysed tree rings. ', '6'),
+            ('13', '10', 'Inferred growth year ≤', 'The growth year inferred from the analysed tree rings. ', '6'),
+            ('14', '10', 'Estimated felling year', 'The felling year as inferred from the analysed outermost tree-ring date', '8'),
+            ('15', '10', 'Possible estimated felling year', 'Used for samples where dating has not been succesful but a non-statistically satisfactory dating suggestion is given.', '8'),
+            ('16', '10', 'Provenance', 'The provenance of the sampled tree, inferred by comparing the sample with others. ', '7'),
+            ('17', '10', 'Outermost tree-ring date', 'The date of the outermost tree-ring', '8'),
+            ('18', '10', 'Not dated', 'Used to mark samples as not having been succesfully dated, i. e. analysed but not dated', '3'),
+            ('19', '10', 'Date note', 'Notes on  a sample.', '7'),
+            ('20', '10', 'Provenance comment', 'Comments on the provenance of a sample', '7'),
+            ('21', '10', 'Non-measured tree rings', 'Estimated number of non-measured tree rings outside the outermost measured tree ring.', '1'),
+            ('22', '10', 'Non-measured sapwood rings', 'Estimated number of non-measured sapwood rings outside the outermost measured tree ring1', '1')
+        )
+    	    insert into tbl_value_classes ("value_class_id", "method_id", "name", "description", "value_type_id")
             select 
                 sead_utility.allocate_system_id(
 	                v_submission_identifier,
@@ -2772,8 +2826,40 @@ begin
 	                'value_class_id',
 	                new_data.system_id::text,
 	                row_to_json(new_data.*)::jsonb
-            	), "method_id"::int, "value_type_id"::int, null, "name", "description"
+            	),
+				"method_id"::int,
+				"name",
+				"description", 
+				sead_utility.get_allocated_id(
+					v_submission_identifier,
+					v_change_request_identifier,
+					'tbl_value_types',
+					'value_type_id',
+					"value_type_id"
+				)
             from new_data;
-    
+
+
+    with new_data(qualifier_symbol, "description") as (
+        values
+            ('<', 'Less than. The value is smaller than the compared value.'),
+            ('>', 'Greater than. The value is larger than the compared value.'),
+            ('=', 'Equal to. The value is exactly equal to the compared value.'),
+            ('<=', 'Less than or equal to. The value is smaller than or equal to the compared value.'),
+            ('>=', 'Greater than or equal to. The value is larger than or equal to the compared value.'),
+            ('~', 'Approximately equal to. The value is roughly around the compared value, but not exact.'),
+            ('≈', 'Almost equal to. The value is very close to the compared value but may not be exactly the same.'),
+            ('≠', 'Not equal to. The value is different from the compared value.'),
+            ('≅', 'Approximately congruent to. Often used in geometry to represent values that are congruent or similar.'),
+            ('±', 'Plus-minus. Indicates a value range where the actual value could be either greater or smaller by a specific amount.'),
+            ('≈ but ≠', 'Almost equal to but not the same. The value is very close to the compared value but not be exactly the same.')
+        )
+        insert into tbl_value_qualifiers (qualifier_symbol, "description")
+            select qualifier_symbol, "description"
+            from new_data
+                on conflict (qualifier_symbol) do update
+                    set "description" = excluded."description";
+
+
 end $$;
 commit;
