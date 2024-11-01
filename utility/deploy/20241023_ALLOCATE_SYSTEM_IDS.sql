@@ -120,6 +120,23 @@ begin
         end;
         $udf$ language plpgsql;
 
+    create or replace function sead_utility.release_allocated_ids(
+        p_submission_identifier text,
+        p_change_request_identifier text=null,
+        p_table_name text=null,
+        p_column_name text=null
+    ) 
+        returns void as $udf$
+        begin
+            delete from sead_utility.system_id_allocations
+            where submission_identifier = p_submission_identifier   
+            and (p_change_request_identifier is null or change_request_identifier = p_change_request_identifier)
+            and (p_table_name is null or table_name = p_table_name)
+            and (p_column_name is null or column_name = p_column_name)
+            ;
+        end;
+        $udf$ language plpgsql;
+
     create or replace function sead_utility.get_allocated_id(
         p_submission_identifier text,
         p_change_request_identifier text,
