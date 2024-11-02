@@ -15,28 +15,28 @@
 begin;
 do $$
 begin
-
     begin
+ 
+ 	drop view if exists encoded_dendro_analysis_values;
 
-    drop view if exists encoded_dendro_analysis_values;
-    create or replace view encoded_dendro_analysis_values as
+	create or replace view encoded_dendro_analysis_values as
         with raw_values as (
             select av.analysis_value_id,
                 value_class_id,
                 trim(analysis_value) as analysis_value,
 				base_type,
-                trim(analysis_value) ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠)' as has_qualifier,
-                case when trim(analysis_value) ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠)'
-                    then substring(trim(analysis_value) from '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠)')
+                trim(analysis_value) ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära)' as has_qualifier,
+                case when trim(analysis_value) ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära)'
+                    then substring(trim(analysis_value) from '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära)')
                 end as qualifier,
                 trim(analysis_value) ~ '[\?]$' as has_uncertainty_indicator,
-                case when trim(analysis_value) ~ '[\?]$' 
-                    then trim(substring(trim(analysis_value) from '([\?])$'))
-                end as uncertainty_indicator,
-                trim(analysis_value) ~ '^\d{3,4}\-\d{3,4}$' or trim(analysis_value) ~ '^\d+±\d+$' as is_range,
-                trim(analysis_value) ~ '^V ?\d{4}/\d{2,4}$' as is_winter,
-                trim(analysis_value) ~ '^E \d{3,4}$' as is_estimated_year,
-                trim(analysis_value) ~ '^[a-zA-ZåäöÅÄÖ]{2,} \d{4}$' as is_year_with_specifier,
+                substring(trim(analysis_value) from '([\?])$') as uncertainty_indicator,
+                trim(analysis_value) ~ '^\d{3,4}\s*\-\s*\d{3,4}$' or trim(analysis_value) ~ '^-?\d+\s*±\s*\d+$' as is_range,
+                trim(analysis_value) ~ '^\d{3,4}\s*\-\s*\d{3,4}$' as is_lower_upper_range,
+                trim(analysis_value) ~ '^-?\d+\s*±\s*\d+$' as is_plus_minus_range,
+                trim(analysis_value) ~ '^V\s*\d{4}/\d{2,4}$' as is_winter_year,
+                trim(analysis_value) ~ '^E\s*\d{3,4}$' as is_after_year,
+                trim(analysis_value) ~ '^[a-zA-ZåäöÅÄÖ]{2,}\s+\d{4}$' as is_year_with_specifier,
                 (LENGTH(analysis_value) > 50 or vt.base_type = 'text') as is_note
             from tbl_analysis_values av
             join tbl_value_classes vc using (value_class_id)
@@ -45,31 +45,77 @@ begin
             select analysis_value_id,
                 case
                     when has_qualifier and not has_uncertainty_indicator
-                        then regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠)', '', 'i')
+                        then regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära)', '', 'i')
                     when not has_qualifier and has_uncertainty_indicator
                         then regexp_replace(analysis_value, '[\?]$', '', 'i')
                     when has_qualifier and has_uncertainty_indicator
-                        then regexp_replace(regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠)', '', 'i'), '[\?]$', '', 'i')
-                    else analysis_value
+                        then regexp_replace(regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära)', '', 'i'), '[\?]$', '', 'i')
+                else analysis_value
                 end as stripped_value
             from raw_values
         ), value_pattern as (
             select 
                 analysis_value_id,
-					case when is_estimated_year then 'E YYYY'
+				case when is_after_year then 'E YYYY'
 					when is_year_with_specifier then 'SPECIFIER YYYY'
-					when is_winter then 'V YYYY/YY'
+					when is_winter_year then 'V YYYY/YY'
 					when is_range then 'RANGE'
 					when sead_utility.is_numeric(stripped_value) then 'INTEGER'
 					when lower(analysis_value) = 'undefined' then 'UNDEFINED'
 					when is_note then 'NOTE' else upper(stripped_value)
-			end as "pattern"
+			    end as "pattern"
 			from raw_values
 			join stripped_values using (analysis_value_id)
-		), typed_values as (
-			select analysis_value_id,
-                case when base_type = 'integer'
-                    and sead_utility.is_integer(stripped_value) then stripped_value::int else null
+		), intermediate_typed_values as (
+            select analysis_value_id, lower_upper_range_value,
+					plus_minus_year_value, plus_minus_value, plus_minus_qualifier,
+					after_year_value, after_qualifier,
+					winter_value, year_with_season_value, season_specifier
+            from raw_values
+            left join lateral (
+                select 
+                    -- array[
+                    --     (regexp_matches(analysis_value, '^(\d{3,4})\s*-\s*(\d{3,4})$'))[1]::integer,
+                    --     (regexp_matches(analysis_value, '^(\d{3,4})\s*-\s*(\d{3,4})$'))[2]::integer--, '[]'
+                    -- ] as lower_upper_range_value
+                    int4range(
+                        (regexp_matches(analysis_value, '^(\d{3,4})\s*-\s*(\d{3,4})$'))[1]::integer,
+                        (regexp_matches(analysis_value, '^(\d{3,4})\s*-\s*(\d{3,4})$'))[2]::integer, '[]'
+                    ) as lower_upper_range_value
+                where is_lower_upper_range
+            ) as lower_upper_range_table on true
+            left join lateral (
+                select 
+					(regexp_matches(analysis_value, '^(-?\d+)\s*±\s*(\d+)$'))[1]::integer as plus_minus_year_value,
+					(regexp_matches(analysis_value, '^(-?\d+)\s*±\s*(\d+)$'))[1]::integer as plus_minus_value,
+					'±' as plus_minus_qualifier
+                where is_plus_minus_range
+            ) as plus_minus_range_table on true
+            left join lateral (
+                select 
+                    array[
+                        (regexp_matches(analysis_value, '^V\s*(\d{4})/(\d{2,4})$'))[1]::integer,
+                        (regexp_matches(analysis_value, '^V\s*(\d{4})/(\d{2,4})$'))[2]::integer --, '[]'
+                    ] as winter_value
+                where is_winter_year
+            ) as winter_table on true
+            left join lateral (
+                select (regexp_matches(analysis_value, '^E\s*(\d{3,4})$'))[1]::integer as after_year_value, 'E' as after_qualifier
+                where is_after_year
+            ) as after_year_table on true
+            left join lateral (
+                select (regexp_matches(analysis_value, '^([a-zA-ZåäöÅÄÖ]{2,})\s*(\d{4})$'))[1] as season_specifier,
+                       (regexp_matches(analysis_value, '^([a-zA-ZåäöÅÄÖ]{2,})\s*(\d{4})$'))[2]::integer as year_with_season_value
+                where is_year_with_specifier
+            ) as year_with_specifier_table on true
+        ), typed_values as (
+            select analysis_value_id,
+                case
+                    when base_type = 'integer' and sead_utility.is_integer(stripped_value) then stripped_value::int
+                    when is_year_with_specifier then year_with_season_value
+                    when after_year_value is not null then after_year_value
+                    when winter_value is not null then winter_value[0]
+                    else null
                 end as integer_value,
                 case when base_type = 'numeric'
                     and sead_utility.is_numeric(stripped_value) then stripped_value::decimal(20,10) else null
@@ -84,48 +130,52 @@ begin
                         else null
                     end
                 else null
-                end as boolean_value
-			from raw_values
-			join stripped_values using (analysis_value_id)
+                end as boolean_value --,
+                -- coalesce(lower_upper_range_value, plus_minus_range_value) as range_value
+            from raw_values
+            join stripped_values using (analysis_value_id)
+            join intermediate_typed_values using (analysis_value_id)
 		)
             select 
                 analysis_value_id,
+				analysis_value,
                 value_class_id,
                 vc.name as value_class_name,
                 vt.name as value_type_name,
                 vt.base_type,
-                has_uncertainty_indicator,
                 uncertainty_indicator,
-                has_qualifier,
-                qualifier,
-                integer_value,
+                coalesce(qualifier, season_specifier, plus_minus_qualifier, after_qualifier),
                 decimal_value,
                 boolean_value,
+				lower_upper_range_value,
+				plus_minus_year_value,
+				plus_minus_value,
                 pattern
             from raw_values
             join value_pattern p using (analysis_value_id)
             join stripped_values ss using (analysis_value_id)
 			join typed_values tv using (analysis_value_id)
             join tbl_value_classes vc using (value_class_id)
-            join tbl_value_types vt using (value_type_id);
+            join tbl_value_types vt using (value_type_id)
+            join intermediate_typed_values using (analysis_value_id);
 			
-		
+			
 	--where base_type = 'integer'
 	--group by ss."name", "value_class_id", "has_uncertainty_indicator", "value", "qualifier"
 	--order by vc.value_class_id
 
-
-
     /* all data */
     with existing_dendro_data as (
-        select vc.value_class_id, d.analysis_entity_id, measurement_value
+        select vc."value_class_id", d."analysis_entity_id", "measurement_value"
         from tbl_dendro d
         join tbl_dendro_lookup dl using (dendro_lookup_id)
         join tbl_value_classes vc using (name)
     )
-        insert into tbl_analysis_values (value_class_id, analysis_entity_id, analysis_value, flag_value, is_uncertain, is_flag, is_undefined, is_indeterminable, is_anomaly)
-            select value_class_id, analysis_entity_id, measurement_value, null, null, null, null, null, null
-            from existing_dendro_data;
+        insert into tbl_analysis_values ("value_class_id", "analysis_entity_id", "analysis_value", "flag_value", "is_uncertain", "is_flag", "is_undefined", "is_indeterminable", "is_anomaly")
+            select d."value_class_id", d."analysis_entity_id", d."measurement_value", null, null, null, null, null, null
+            from existing_dendro_data d
+            left join tbl_analysis_values av using ("analysis_entity_id")
+            where av."analysis_entity_id" is null;
        
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
