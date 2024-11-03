@@ -30,9 +30,9 @@ begin
                 value_class_id,
                 analysis_value,
 				base_type,
-                analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)' as has_qualifier,
-                case when analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)'
-                    then substring(analysis_value from '(?i)^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)')
+                analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)' as has_qualifier,
+                case when analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)'
+                    then substring(analysis_value from '(?i)^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)')
                 end as qualifier,
                 analysis_value ~* '^eventuellt|\?$' as has_uncertainty_indicator,
                 substring(analysis_value from '(?i)^eventuellt|\?$') as uncertainty_indicator,
@@ -50,11 +50,14 @@ begin
             select analysis_value_id,
                 trim(case
                     when has_qualifier and not has_uncertainty_indicator
-                        then regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)', '', 'i')
+                        then regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)', '', 'i')
                     when not has_qualifier and has_uncertainty_indicator
-                        then regexp_replace(analysis_value, '[\?]$', '', 'i')
+                        then regexp_replace(analysis_value, '(?i)^eventuellt|\?$', '', 'i')
                     when has_qualifier and has_uncertainty_indicator
-                        then regexp_replace(regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)', '', 'i'), '[\?]$', '', 'i')
+                        then regexp_replace(
+                                regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)', '', 'i'),
+                                '(?i)^eventuellt|\?$', '', 'i'
+                            )
                 else analysis_value
                 end) as stripped_value
             from raw_values
@@ -144,7 +147,8 @@ begin
                 vt.name as value_type_name,
                 vt.base_type,
                 uncertainty_indicator,
-                coalesce(qualifier, season_specifier, plus_minus_qualifier, after_qualifier) as qualifier,
+                coalesce(qualifier, plus_minus_qualifier, after_qualifier) as qualifier,
+                season_specifier,
                 decimal_value,
                 boolean_value,
                 integer_value,
