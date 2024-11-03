@@ -30,12 +30,12 @@ begin
                 value_class_id,
                 analysis_value,
 				base_type,
-                analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära)' as has_qualifier,
-                case when analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära)'
-                    then substring(analysis_value from '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära)')
+                analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)' as has_qualifier,
+                case when analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)'
+                    then substring(analysis_value from '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)')
                 end as qualifier,
-                analysis_value ~ '[\?]$' as has_uncertainty_indicator,
-                substring(analysis_value from '([\?])$') as uncertainty_indicator,
+                analysis_value ~ '^eventuellt|\?$' as has_uncertainty_indicator,
+                substring(analysis_value from '^eventuellt|\?$') as uncertainty_indicator,
                 analysis_value ~ '^\d{3,4}\s*\-\s*\d{3,4}$' or analysis_value ~ '^-?\d+\s*±\s*\d+$' as is_range,
                 analysis_value ~ '^\d{3,4}\s*\-\s*\d{3,4}$' as is_lower_upper_range,
                 analysis_value ~ '^-?\d+\s*±\s*\d+$' as is_plus_minus_range,
@@ -50,11 +50,11 @@ begin
             select analysis_value_id,
                 trim(case
                     when has_qualifier and not has_uncertainty_indicator
-                        then regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära)', '', 'i')
+                        then regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)', '', 'i')
                     when not has_qualifier and has_uncertainty_indicator
                         then regexp_replace(analysis_value, '[\?]$', '', 'i')
                     when has_qualifier and has_uncertainty_indicator
-                        then regexp_replace(regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära)', '', 'i'), '[\?]$', '', 'i')
+                        then regexp_replace(regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)', '', 'i'), '[\?]$', '', 'i')
                 else analysis_value
                 end) as stripped_value
             from raw_values
@@ -147,6 +147,7 @@ begin
                 coalesce(qualifier, season_specifier, plus_minus_qualifier, after_qualifier) as qualifier,
                 decimal_value,
                 boolean_value,
+                integer_value,
 				lower_upper_range_value,
 				plus_minus_year_value,
 				plus_minus_value,
@@ -160,9 +161,9 @@ begin
             join intermediate_typed_values using (analysis_value_id);
 			
 			
-	--where base_type = 'integer'
-	--group by ss."name", "value_class_id", "has_uncertainty_indicator", "value", "qualifier"
-	--order by vc.value_class_id
+        --where base_type = 'integer'
+        --group by ss."name", "value_class_id", "has_uncertainty_indicator", "value", "qualifier"
+        --order by vc.value_class_id
 
     /* all data */
     with existing_dendro_data as (
@@ -176,7 +177,67 @@ begin
             from existing_dendro_data d
             left join tbl_analysis_values av using ("analysis_entity_id")
             where av."analysis_entity_id" is null;
-       
+
+
+    /* SET UNDEFINED FLAG */
+    update tbl_analysis_values av
+        set is_undefined = True
+    from encoded_dendro_analysis_values x
+    where x.analysis_value_id = av.analysis_value_id
+    and x.pattern = 'UNDEFINED';
+    
+    /* SET UNCERTAINTY FLAG */
+    update tbl_analysis_values av
+        set is_uncertain = True
+    from encoded_dendro_analysis_values x
+    where x.analysis_value_id = av.analysis_value_id
+    and uncertainty_indicator is not null
+    and base_type != 'text';
+
+    /* SET INDETERMINABLE FLAG */
+    update tbl_analysis_values av
+        set is_indeterminable = True
+    from encoded_dendro_analysis_values x
+    where x.analysis_value_id = av.analysis_value_id
+    and pattern = 'INDETERMINABLE';
+
+    /* SET QUALIFIER VALUES */
+    /* Currently qualifier only exists in typed data:
+    update tbl_analysis_values av
+        set qualifier = qualifier
+    from encoded_dendro_analysis_values x
+    where x.analysis_value_id = av.analysis_value_id
+    and qualifier is not NULL;
+    */
+
+    /* SET ALL BOOLEAN VALUES */
+    insert into tbl_analysis_boolean_values ("analysis_value_id", "qualifier", "value")
+        select "analysis_value_id", "qualifier", "boolean_value"
+        from encoded_dendro_analysis_values av
+        where TRUE
+        and "base_type" = 'boolean'
+        and "boolean_value" is not null;
+        
+    /* ALL INTEGER VALUES */
+    insert into tbl_analysis_integer_values ("analysis_value_id", "qualifier", "value")
+        select analysis_value_id, qualifier, integer_value
+        from encoded_dendro_analysis_values av
+        where TRUE
+        and base_type = 'integer'
+        and pattern = 'INTEGER'
+        and integer_value is not null;
+
+    /* ALL CATEGORICAL VALUES */
+    insert into tbl_analysis_categorical_values ("analysis_value_id", /*"qualifier",*/ "value_type_item_id")
+        select analysis_value_id, /* qualifier, */ ti.value_type_item_id
+        from encoded_dendro_analysis_values av
+        join tbl_value_classes vc using (value_class_id)
+        join tbl_value_types vt using (value_type_id)
+        join tbl_value_type_items ti using (value_type_id)
+        where TRUE
+        and av.base_type = 'category'
+        and upper(av.analysis_value) = upper(ti.name);
+
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
