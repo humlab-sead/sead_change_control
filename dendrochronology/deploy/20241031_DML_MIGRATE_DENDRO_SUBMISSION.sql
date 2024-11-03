@@ -32,10 +32,10 @@ begin
 				base_type,
                 analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)' as has_qualifier,
                 case when analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)'
-                    then substring(analysis_value from '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)')
+                    then substring(analysis_value from '(?i)^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|max)')
                 end as qualifier,
-                analysis_value ~ '^eventuellt|\?$' as has_uncertainty_indicator,
-                substring(analysis_value from '^eventuellt|\?$') as uncertainty_indicator,
+                analysis_value ~* '^eventuellt|\?$' as has_uncertainty_indicator,
+                substring(analysis_value from '(?i)^eventuellt|\?$') as uncertainty_indicator,
                 analysis_value ~ '^\d{3,4}\s*\-\s*\d{3,4}$' or analysis_value ~ '^-?\d+\s*±\s*\d+$' as is_range,
                 analysis_value ~ '^\d{3,4}\s*\-\s*\d{3,4}$' as is_lower_upper_range,
                 analysis_value ~ '^-?\d+\s*±\s*\d+$' as is_plus_minus_range,
