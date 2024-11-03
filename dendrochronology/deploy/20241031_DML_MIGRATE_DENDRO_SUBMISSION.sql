@@ -160,10 +160,6 @@ begin
             join tbl_value_types vt using (value_type_id)
             join intermediate_typed_values using (analysis_value_id);
 			
-			
-        --where base_type = 'integer'
-        --group by ss."name", "value_class_id", "has_uncertainty_indicator", "value", "qualifier"
-        --order by vc.value_class_id
 
     /* all data */
     with existing_dendro_data as (
