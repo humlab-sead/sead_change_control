@@ -22,6 +22,8 @@ begin
     v_submission_identifier = 'dendro_lookup_import_oct_2024.xlsx';
     v_change_request_identifier = '20241023_DML_NEW_DENDRO_LOOKUPS';
 
+    perform sead_utility.release_allocated_ids(v_submission_identifier);
+
     with new_data (system_id, location_name, location_type_id) as (
         values
             ('1', 'Skärstad socken', '2'),
@@ -2794,7 +2796,7 @@ begin
 
     with new_data ("system_id", "method_id", "name", "description", "value_type_id") as (
         values
-            ('1', '10', 'Tree species', 'Species name of the tree the sample came from.', '0'),
+            ('1', '10', 'Tree species', 'Species name of the tree the sample came from.', '8'),
             ('2', '10', 'Tree rings', 'Number of measured tree rings inferred as years.', '1'),
             ('3', '10', 'Earlywood/Latewood', 'A notation in case the outermost ring is not complete. +ew in case only earlywood is present, -lw in case some part of the latewood is missing', '2'),
             ('4', '10', 'Number of analysed radii.', 'Number of analysed radii.', '1'),
@@ -2807,10 +2809,10 @@ begin
             ('11', '10', 'Tree age ≤', 'The analysed age of the tree.', '5'),
             ('12', '10', 'Inferred growth year ≥', 'The growth year inferred from the analysed tree rings. ', '6'),
             ('13', '10', 'Inferred growth year ≤', 'The growth year inferred from the analysed tree rings. ', '6'),
-            ('14', '10', 'Estimated felling year', 'The felling year as inferred from the analysed outermost tree-ring date', '8'),
-            ('15', '10', 'Possible estimated felling year', 'Used for samples where dating has not been succesful but a non-statistically satisfactory dating suggestion is given.', '8'),
+            ('14', '10', 'Estimated felling year', 'The felling year as inferred from the analysed outermost tree-ring date', '10'),
+            ('15', '10', 'Possible estimated felling year', 'Used for samples where dating has not been succesful but a non-statistically satisfactory dating suggestion is given.', '10'),
             ('16', '10', 'Provenance', 'The provenance of the sampled tree, inferred by comparing the sample with others. ', '7'),
-            ('17', '10', 'Outermost tree-ring date', 'The date of the outermost tree-ring', '8'),
+            ('17', '10', 'Outermost tree-ring date', 'The date of the outermost tree-ring', '10'),
             ('18', '10', 'Not dated', 'Used to mark samples as not having been succesfully dated, i. e. analysed but not dated', '3'),
             ('19', '10', 'Date note', 'Notes on  a sample.', '7'),
             ('20', '10', 'Provenance comment', 'Comments on the provenance of a sample', '7'),
