@@ -111,13 +111,13 @@ begin
             left join lateral (
                 select
                     (regexp_matches(stripped_value, '^(\d{3,4})$'))[1]::integer as after_year_value,
-                    'E' as after_qualifier
+                    'efter' as after_qualifier
                 where is_after_year
             ) as after_year_table on true
             left join lateral (
                 select 
-                    (regexp_matches(stripped_value, '^([a-zA-ZåäöÅÄÖ]{2,})\s*\d{4}$'))[1] as season_specifier,
-                    (regexp_matches(stripped_value, '^[a-zA-ZåäöÅÄÖ]{2,}\s*(\d{4})$'))[1]::integer as year_with_season_value
+                    (regexp_matches(stripped_value, '^([a-zA-ZåäöÅÄÖ]{2,})\s*(\d{4})$'))[1] as season_specifier,
+                    (regexp_matches(stripped_value, '^([a-zA-ZåäöÅÄÖ]{2,})\s*(\d{4})$'))[2]::integer as year_with_season_value
                 where is_year_with_specifier
             ) as year_with_specifier_table on true
         ), typed_values as (
@@ -156,7 +156,7 @@ begin
                 vt.base_type,
                 uncertainty_indicator,
                 coalesce(qualifier, plus_minus_qualifier, after_qualifier) as qualifier,
-                season_specifier,
+                case when is_winter_year then 'V' else season_specifier end as season_specifier,
                 decimal_value,
                 boolean_value,
                 integer_value,
@@ -179,7 +179,7 @@ begin
         join tbl_dendro_lookup dl using (dendro_lookup_id)
         join tbl_value_classes vc using (name)
     )
-        insert into tbl_analysis_values ("value_class_id", "analysis_entity_id", "analysis_value", "flag_value", "is_uncertain", "is_flag", "is_undefined", "is_indeterminable", "is_anomaly")
+        insert into tbl_analysis_values ("value_class_id", "analysis_entity_id", "analysis_value", "boolean_value", "is_uncertain", "is_boolean", "is_undefined", "is_indeterminable", "is_anomaly")
             select d."value_class_id", d."analysis_entity_id", d."measurement_value", null, null, null, null, null, null
             from existing_dendro_data d
             left join tbl_analysis_values av using ("analysis_entity_id")
@@ -236,14 +236,28 @@ begin
 
     /* ALL CATEGORICAL VALUES */
     insert into tbl_analysis_categorical_values ("analysis_value_id", /*"qualifier",*/ "value_type_item_id")
-        select analysis_value_id, /* qualifier, */ ti.value_type_item_id
+        select analysis_value_id, /* qualifier, */ ti."value_type_item_id"
         from encoded_dendro_analysis_values av
         join tbl_value_classes vc using (value_class_id)
         join tbl_value_types vt using (value_type_id)
         join tbl_value_type_items ti using (value_type_id)
         where TRUE
-        and av.base_type = 'category'
-        and upper(av.analysis_value) = upper(ti.name);
+        and av."base_type" = 'category'
+        and upper(av."analysis_value") = upper(ti."name");
+
+    /* SPECIAL CASE: NOT DATED (BOOLEAN VALUES) */
+    insert into tbl_analysis_boolean_values ("analysis_value_id", "qualifier", "value")
+        select "analysis_value_id", "qualifier", True
+        from encoded_dendro_analysis_values av
+        where TRUE
+        and value_class_id = 18
+        and analysis_value is not null;
+
+	/* FINAL: UPDATE boolean_value BASED ON INSERTED VALUES */
+	update tbl_analysis_values v
+		set boolean_value = b."value", is_boolean = True
+	from tbl_analysis_boolean_values b
+	where v."analysis_value_id" = b."analysis_value_id";
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
