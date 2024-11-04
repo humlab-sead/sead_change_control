@@ -25,46 +25,49 @@ begin
             select analysis_value_id, analysis_entity_id, value_class_id, trim(analysis_value) as analysis_value
             from tbl_analysis_values
             join (select distinct analysis_entity_id from tbl_dendro) using (analysis_entity_id)
-        ), raw_values as (
+        ), analysis_values_without_uncertanty as (
+            select analysis_value_id,
+                analysis_value ~* '^eventuellt|\?$' as has_uncertainty_indicator,
+                substring(analysis_value from '(?i)^eventuellt|\?$') as uncertainty_indicator,
+                trim(case
+                    when analysis_value ~* '^eventuellt|\?$' then regexp_replace(analysis_value, '(?i)^eventuellt|\?$', '', 'i')
+                    else analysis_value
+                end) as value_without_uncertainty
+            from analysis_values
+        ), analysis_values_with_flags as (
             select
                 analysis_value_id,
                 value_class_id,
                 analysis_value,
 				base_type,
-                analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)' or
-                    analysis_value ~* '^E\s*\d{3,4}$' as has_qualifier,
-                case when analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)'
-                    then substring(analysis_value from '(?i)^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)')
+                value_without_uncertainty ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)' or
+                    value_without_uncertainty ~* '^E\s*\d{3,4}$' as has_qualifier,
+                case when value_without_uncertainty ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)'
+                    then substring(value_without_uncertainty from '(?i)^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)')
                 end as qualifier,
-                analysis_value ~* '^eventuellt|\?$' as has_uncertainty_indicator,
-                substring(analysis_value from '(?i)^eventuellt|\?$') as uncertainty_indicator,
-                analysis_value ~ '^\d{3,4}\s*\-\s*\d{3,4}$' or analysis_value ~ '^-?\d+\s*±\s*\d+$' as is_range,
-                analysis_value ~ '^\d{3,4}\s*\-\s*\d{3,4}$' as is_lower_upper_range,
-                analysis_value ~ '^-?\d+\s*±\s*\d+$' as is_plus_minus_range,
-                analysis_value ~ '^V\s*\d{4}/\d{2,4}$' as is_winter_year,
-                analysis_value ~ '^E\s*\d{3,4}$' as is_after_year,
-                analysis_value ~ '^[a-zA-ZåäöÅÄÖ]{2,}\s+\d{4}$' as is_year_with_specifier,
-                (LENGTH(analysis_value) > 50 or vt.base_type = 'text') as is_note
-            from analysis_values av
+                has_uncertainty_indicator,
+                uncertainty_indicator,
+                value_without_uncertainty ~ '^\d{3,4}\s*\-\s*\d{3,4}$' or value_without_uncertainty ~ '^-?\d+\s*±\s*\d+$' as is_range,
+                value_without_uncertainty ~ '^\d{3,4}\s*\-\s*\d{3,4}$' as is_lower_upper_range,
+                value_without_uncertainty ~ '^-?\d+\s*±\s*\d+$' as is_plus_minus_range,
+                value_without_uncertainty ~ '^V\s*\d{4}/\d{2,4}$' as is_winter_year,
+                value_without_uncertainty ~ '^E\s*\d{3,4}$' as is_after_year,
+                value_without_uncertainty ~ '^[a-zA-ZåäöÅÄÖ]{2,}\s+\d{4}$' as is_year_with_specifier,
+                (LENGTH(value_without_uncertainty) > 50 or vt.base_type = 'text') as is_note
+            from analysis_values
+            join analysis_values_without_uncertanty using (analysis_value_id)
             join tbl_value_classes vc using (value_class_id)
             join tbl_value_types vt using (value_type_id)
         ), stripped_values as (
             select analysis_value_id,
                 trim(case
                     when is_after_year then regexp_replace(analysis_value, '^E\s*', '', 'i')
-                    when is_winter_year then  regexp_replace(analysis_value, '^V\s*', '', 'i')
-                    when has_qualifier and not has_uncertainty_indicator
-                        then regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)', '', 'i')
-                    when not has_qualifier and has_uncertainty_indicator
-                        then regexp_replace(analysis_value, '(?i)^eventuellt|\?$', '', 'i')
-                    when has_qualifier and has_uncertainty_indicator
-                        then regexp_replace(
-                                regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)', '', 'i'),
-                                '(?i)^eventuellt|\?$', '', 'i'
-                            )
-                else analysis_value
+                    when is_winter_year then  regexp_replace(value_without_uncertainty, '^V\s*', '', 'i')
+                    when has_qualifier then regexp_replace(value_without_uncertainty, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)', '', 'i')
+                    else value_without_uncertainty
                 end) as stripped_value
-            from raw_values
+            from analysis_values_with_flags
+            join analysis_values_without_uncertanty using (analysis_value_id)
         ), value_pattern as (
             select 
                 analysis_value_id,
@@ -76,21 +79,19 @@ begin
 					when lower(analysis_value) = 'undefined' then 'UNDEFINED'
 					when is_note then 'NOTE' else upper(stripped_value)
 			    end as "pattern"
-			from raw_values
+			from analysis_values_with_flags
 			join stripped_values using (analysis_value_id)
 		), intermediate_typed_values as (
-            select analysis_value_id, lower_upper_range_value,
+            select analysis_value_id, lower_range_value, upper_range_value,
 					plus_minus_year_value, plus_minus_value, plus_minus_qualifier,
 					after_year_value, after_qualifier,
 					winter_value, year_with_season_value, season_specifier
-            from raw_values
+            from analysis_values_with_flags
 			join stripped_values using (analysis_value_id)
             left join lateral (
                 select 
-                    int4range(
-                        (regexp_matches(stripped_value, '^(\d{3,4})\s*-\s*(\d{3,4})$'))[1]::integer,
-                        (regexp_matches(stripped_value, '^(\d{3,4})\s*-\s*(\d{3,4})$'))[2]::integer, '[]'
-                    ) as lower_upper_range_value
+                    (regexp_matches(stripped_value, '^(\d{3,4})\s*-\s*(\d{3,4})$'))[1]::integer as lower_range_value,
+                    (regexp_matches(stripped_value, '^(\d{3,4})\s*-\s*(\d{3,4})$'))[2]::integer as upper_range_value
                 where is_lower_upper_range
             ) as lower_upper_range_table on true
             left join lateral (
@@ -143,7 +144,7 @@ begin
                     end
                     else null
                 end as boolean_value
-            from raw_values
+            from analysis_values_with_flags
             join stripped_values using (analysis_value_id)
             join intermediate_typed_values using (analysis_value_id)
 		)
@@ -160,11 +161,12 @@ begin
                 decimal_value,
                 boolean_value,
                 integer_value,
-				lower_upper_range_value,
+				lower_range_value,
+				upper_range_value,
 				plus_minus_year_value,
 				plus_minus_value,
                 pattern
-            from raw_values
+            from analysis_values_with_flags
             join value_pattern p using (analysis_value_id)
             join stripped_values ss using (analysis_value_id)
 			join typed_values tv using (analysis_value_id)
