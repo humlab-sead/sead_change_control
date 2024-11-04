@@ -124,7 +124,6 @@ begin
         ), typed_values as (
             select analysis_value_id,
                 case
-                    when base_type = 'integer' and sead_utility.is_integer(stripped_value) then stripped_value::int
                     when base_type in ('integer', 'int4range') and sead_utility.is_integer(stripped_value) then stripped_value::int
                     when is_year_with_specifier then year_with_season_value
                     when after_year_value is not null then after_year_value
