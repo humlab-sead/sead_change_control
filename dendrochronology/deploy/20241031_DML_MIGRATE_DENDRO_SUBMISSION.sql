@@ -125,6 +125,7 @@ begin
             select analysis_value_id,
                 case
                     when base_type = 'integer' and sead_utility.is_integer(stripped_value) then stripped_value::int
+                    when base_type in ('integer', 'int4range') and sead_utility.is_integer(stripped_value) then stripped_value::int
                     when is_year_with_specifier then year_with_season_value
                     when after_year_value is not null then after_year_value
                     when winter_value is not null then winter_value[1]
@@ -247,6 +248,100 @@ begin
         and av."base_type" = 'category'
         and upper(av."analysis_value") = upper(ti."name");
 
+
+	/* POSSIBLE ESTIMATED FELLING YEAR */
+	/* Possible estimated felling year */
+	insert into public.tbl_analysis_dating_ranges(
+		analysis_value_id, low_value, high_value, low_is_uncertain, high_is_uncertain,
+		low_qualifier, high_qualifier, age_type_id, season_id, dating_uncertainty_id
+	)
+		select analysis_value_id, plus_minus_year_value - plus_minus_value, plus_minus_year_value + plus_minus_value, false, false,
+				null, null, 1 as age_type_id, null as season_id, null as dating_uncertainty_id, -- uncertainty????
+				qualifier
+		from encoded_dendro_analysis_values
+		where value_class_id = 15
+		  and plus_minus_year_value is not null
+		  
+  		union all
+		  
+		select analysis_value_id, lower_range_value, upper_range_value, false, false,
+				null, null, 1 as age_type_id, null as season_id, null as dating_uncertainty_id, -- uncertainty????
+				qualifier
+		from encoded_dendro_analysis_values
+		where value_class_id = 15
+		  and coalesce(lower_range_value, upper_range_value) is not null
+		  and uncertainty_indicator is not null
+
+		union all
+
+		with seasons_lookup(lookup_name, season_id) as (
+			values 
+				('V', 16),
+				('Sommar', 14),
+				('Juni', 6),
+				('Våren', 13),
+				('Sommaren', 14),
+				('Sensommaren', 14)
+		), uncertainty_lookup(lookup_name, uncertainty_id) as (
+			values
+				('<', 1),
+				('>', 2),
+				('~', 6),
+				('nära', 6),
+				('före', 1),
+				('efter', 2),
+				('max', 1),
+				('eventuellt', 7),
+				('?', 8)
+		)
+            select analysis_value_id, integer_value, null, false, false,
+                    qualifier, null, 1 as age_type_id, sl.season_id, ul.uncertainty_id
+            from encoded_dendro_analysis_values
+            left join seasons_lookup sl on sl."lookup_name" = "season_specifier"
+            left join uncertainty_lookup ul on ul."lookup_name" = "uncertainty_indicator"
+            where value_class_id = 15
+              and integer_value is not null;
+
+-- "dating_uncertainty_id"	"uncertainty"
+-- 1	Ca.
+-- 2	<
+-- 3	>
+-- 4	From
+-- 5	To
+-- 6	From ca.
+-- 7	To ca.
+-- 8	?
+
+/*
+"uncertainty"	"description"
+Ca.	Indication that the date is approximate, with unspecified or unquantifiable errors.
+<	(For radiometric dates only). Oldest possible age of sample, often representing open ended dating where only one extreme limit is known. Occasionally used as part of a >< pair to define approximate age range.
+>	(For radiometric dates only). Youngest possible age of sample, often representing open ended dating where only one extreme limit is known. Occasionally used as part of a >< pair to define approximate age range.
+From	Oldest possible age of sample, usually part of a from-to pair, but could be used to represent open ended dating.
+To	Youngest possible age of sample, usually part of a from-to pair, but could be used to represent open ended dating.
+From ca.	Approximate oldest possible age of sample, usually part of a from-to pair, but could be used to represent open ended dating.
+To ca.	Approximate youngest possible age of sample, usually part of a from-to pair, but could be used to represent open ended dating.
+?	Dating is disputable.
+*/
+
+    /* DENDRO DATES 
+        select *
+            from seasons_lookup
+        SELECT
+        dendro_date_id,
+        analysis_entity_id,
+        dendro_lookup_id,
+        age_older,
+        age_younger,
+        age_type_id, -- AD
+        '****',
+        season_id,
+        dating_uncertainty_id,
+        age_range
+    FROM public.tbl_dendro_dates;
+    */
+
+	
     /* SPECIAL CASE: NOT DATED (BOOLEAN VALUES) */
     insert into tbl_analysis_boolean_values ("analysis_value_id", "qualifier", "value")
         select "analysis_value_id", "qualifier", True
