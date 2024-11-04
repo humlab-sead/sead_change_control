@@ -17,6 +17,7 @@ do $$
 begin
     begin
  
+
  	drop view if exists encoded_dendro_analysis_values;
 
 	create or replace view encoded_dendro_analysis_values as
@@ -30,7 +31,8 @@ begin
                 value_class_id,
                 analysis_value,
 				base_type,
-                analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)' as has_qualifier,
+                analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)' or
+                    analysis_value ~* '^E\s*\d{3,4}$' as has_qualifier,
                 case when analysis_value ~* '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)'
                     then substring(analysis_value from '(?i)^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)')
                 end as qualifier,
@@ -49,6 +51,8 @@ begin
         ), stripped_values as (
             select analysis_value_id,
                 trim(case
+                    when is_after_year then regexp_replace(analysis_value, '^E\s*', '', 'i')
+                    when is_winter_year then  regexp_replace(analysis_value, '^V\s*', '', 'i')
                     when has_qualifier and not has_uncertainty_indicator
                         then regexp_replace(analysis_value, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)', '', 'i')
                     when not has_qualifier and has_uncertainty_indicator
@@ -80,36 +84,40 @@ begin
 					after_year_value, after_qualifier,
 					winter_value, year_with_season_value, season_specifier
             from raw_values
+			join stripped_values using (analysis_value_id)
             left join lateral (
                 select 
                     int4range(
-                        (regexp_matches(analysis_value, '^(\d{3,4})\s*-\s*(\d{3,4})$'))[1]::integer,
-                        (regexp_matches(analysis_value, '^(\d{3,4})\s*-\s*(\d{3,4})$'))[2]::integer, '[]'
+                        (regexp_matches(stripped_value, '^(\d{3,4})\s*-\s*(\d{3,4})$'))[1]::integer,
+                        (regexp_matches(stripped_value, '^(\d{3,4})\s*-\s*(\d{3,4})$'))[2]::integer, '[]'
                     ) as lower_upper_range_value
                 where is_lower_upper_range
             ) as lower_upper_range_table on true
             left join lateral (
                 select 
-					(regexp_matches(analysis_value, '^(-?\d+)\s*±\s*(\d+)$'))[1]::integer as plus_minus_year_value,
-					(regexp_matches(analysis_value, '^(-?\d+)\s*±\s*(\d+)$'))[1]::integer as plus_minus_value,
+					(regexp_matches(stripped_value, '^(-?\d+)\s*±\s*(\d+)$'))[1]::integer as plus_minus_year_value,
+					(regexp_matches(stripped_value, '^(-?\d+)\s*±\s*(\d+)$'))[2]::integer as plus_minus_value,
 					'±' as plus_minus_qualifier
                 where is_plus_minus_range
             ) as plus_minus_range_table on true
             left join lateral (
                 select 
                     array[
-                        (regexp_matches(analysis_value, '^V\s*(\d{4})/(\d{2,4})$'))[1]::integer,
-                        (regexp_matches(analysis_value, '^V\s*(\d{4})/(\d{2,4})$'))[2]::integer --, '[]'
+                        (regexp_matches(stripped_value, '(\d{4})/(\d{2,4})$'))[1]::integer,
+                        (regexp_matches(stripped_value, '(\d{4})/(\d{2,4})$'))[2]::integer
                     ] as winter_value
                 where is_winter_year
             ) as winter_table on true
             left join lateral (
-                select (regexp_matches(analysis_value, '^E\s*(\d{3,4})$'))[1]::integer as after_year_value, 'E' as after_qualifier
+                select
+                    (regexp_matches(stripped_value, '^(\d{3,4})$'))[1]::integer as after_year_value,
+                    'E' as after_qualifier
                 where is_after_year
             ) as after_year_table on true
             left join lateral (
-                select (regexp_matches(analysis_value, '^([a-zA-ZåäöÅÄÖ]{2,})\s*(\d{4})$'))[1] as season_specifier,
-                       (regexp_matches(analysis_value, '^([a-zA-ZåäöÅÄÖ]{2,})\s*(\d{4})$'))[2]::integer as year_with_season_value
+                select 
+                    (regexp_matches(stripped_value, '^([a-zA-ZåäöÅÄÖ]{2,})\s*\d{4}$'))[1] as season_specifier,
+                    (regexp_matches(stripped_value, '^[a-zA-ZåäöÅÄÖ]{2,}\s*(\d{4})$'))[1]::integer as year_with_season_value
                 where is_year_with_specifier
             ) as year_with_specifier_table on true
         ), typed_values as (
@@ -118,7 +126,7 @@ begin
                     when base_type = 'integer' and sead_utility.is_integer(stripped_value) then stripped_value::int
                     when is_year_with_specifier then year_with_season_value
                     when after_year_value is not null then after_year_value
-                    when winter_value is not null then winter_value[0]
+                    when winter_value is not null then winter_value[1]
                     else null
                 end as integer_value,
                 case when base_type = 'numeric'
@@ -163,7 +171,6 @@ begin
             join tbl_value_classes vc using (value_class_id)
             join tbl_value_types vt using (value_type_id)
             join intermediate_typed_values using (analysis_value_id);
-			
 
     /* all data */
     with existing_dendro_data as (
