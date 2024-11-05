@@ -61,7 +61,7 @@ begin
         ), stripped_values as (
             select analysis_value_id,
                 trim(case
-                    when is_after_year then regexp_replace(analysis_value, '^E\s*', '', 'i')
+                    when is_after_year then regexp_replace(value_without_uncertainty, '^E\s*', '', 'i')
                     when is_winter_year then  regexp_replace(value_without_uncertainty, '^V\s*', '', 'i')
                     when has_qualifier then regexp_replace(value_without_uncertainty, '^(<|>|=|<=|>=|~|≈|≠|≅|±|≈ but ≠|nära|före|efter|max)', '', 'i')
                     else value_without_uncertainty
@@ -151,12 +151,13 @@ begin
             select 
                 analysis_value_id,
 				analysis_value,
+                stripped_value,
                 value_class_id,
                 vc.name as value_class_name,
                 vt.name as value_type_name,
                 vt.base_type,
                 uncertainty_indicator,
-                coalesce(qualifier, plus_minus_qualifier, after_qualifier) as qualifier,
+                lower(coalesce(qualifier, plus_minus_qualifier, after_qualifier)) as qualifier,
                 case when is_winter_year then 'V' else season_specifier end as season_specifier,
                 decimal_value,
                 boolean_value,
@@ -245,35 +246,15 @@ begin
         join tbl_value_type_items ti using (value_type_id)
         where TRUE
         and av."base_type" = 'category'
-        and upper(av."analysis_value") = upper(ti."name");
+        and upper(av."stripped_value") = upper(ti."name");
 
 
 	/* POSSIBLE ESTIMATED FELLING YEAR */
-	/* Possible estimated felling year */
 	insert into public.tbl_analysis_dating_ranges(
 		analysis_value_id, low_value, high_value, low_is_uncertain, high_is_uncertain,
 		low_qualifier, high_qualifier, age_type_id, season_id, dating_uncertainty_id
 	)
-		select analysis_value_id, plus_minus_year_value - plus_minus_value, plus_minus_year_value + plus_minus_value, false, false,
-				null, null, 1 as age_type_id, null as season_id, null as dating_uncertainty_id, -- uncertainty????
-				qualifier
-		from encoded_dendro_analysis_values
-		where value_class_id = 15
-		  and plus_minus_year_value is not null
-		  
-  		union all
-		  
-		select analysis_value_id, lower_range_value, upper_range_value, false, false,
-				null, null, 1 as age_type_id, null as season_id, null as dating_uncertainty_id, -- uncertainty????
-				qualifier
-		from encoded_dendro_analysis_values
-		where value_class_id = 15
-		  and coalesce(lower_range_value, upper_range_value) is not null
-		  and uncertainty_indicator is not null
-
-		union all
-
-		with seasons_lookup(lookup_name, season_id) as (
+  		with seasons_lookup(lookup_name, season_id) as (
 			values 
 				('V', 16),
 				('Sommar', 14),
@@ -293,8 +274,24 @@ begin
 				('eventuellt', 7),
 				('?', 8)
 		)
+            select analysis_value_id, plus_minus_year_value - plus_minus_value, plus_minus_year_value + plus_minus_value, false, false,
+                    null, qualifier, 1 as age_type_id, null as season_id, null::int as dating_uncertainty_id -- uncertainty????
+            from encoded_dendro_analysis_values
+            where value_class_id = 15
+              and plus_minus_year_value is not null
+            
+            union all
+            
+            select analysis_value_id, lower_range_value, upper_range_value, false, false,
+                    qualifier, null, 1 as age_type_id, null::int as season_id, null as dating_uncertainty_id -- uncertainty????
+            from encoded_dendro_analysis_values
+            where value_class_id = 15
+              and coalesce(lower_range_value, upper_range_value) is not null
+
+            union all
+
             select analysis_value_id, integer_value, null, false, false,
-                    qualifier, null, 1 as age_type_id, sl.season_id, ul.uncertainty_id
+                    qualifier, null, 1 as age_type_id, sl.season_id::int, ul.uncertainty_id
             from encoded_dendro_analysis_values
             left join seasons_lookup sl on sl."lookup_name" = "season_specifier"
             left join uncertainty_lookup ul on ul."lookup_name" = "uncertainty_indicator"
@@ -340,7 +337,6 @@ To ca.	Approximate youngest possible age of sample, usually part of a from-to pa
     FROM public.tbl_dendro_dates;
     */
 
-	
     /* SPECIAL CASE: NOT DATED (BOOLEAN VALUES) */
     insert into tbl_analysis_boolean_values ("analysis_value_id", "qualifier", "value")
         select "analysis_value_id", "qualifier", True
