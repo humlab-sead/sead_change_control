@@ -1,0 +1,112 @@
+#!/bin/bash
+#
+# Patches/applies one or more change requests (or any SQL file) to a database.
+
+source .env
+
+. $(dirname "$0")/utility.sh
+
+g_db=sead_staging_development
+g_host=$(dnsdomainname -A)
+g_port=5433
+g_user=
+
+if [ -f ~/vault/.default.sead.server ]; then
+    g_host=`cat ~/vault/.default.sead.server`
+fi
+
+if [ -f ~/vault/.default.sead.username ]; then
+    g_user=`cat  ~/vault/.default.sead.username`
+fi
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        --database|-d)
+            g_db="$2"; shift 2;
+        ;;
+        --port|-p)
+            g_port="$2"; shift 2;
+        ;;
+        --user|-U)
+            g_user="$2"; shift 2;
+        ;;
+        --host|-h)
+            g_host="$2"; shift 2;
+        ;;
+        *)
+        POSITIONAL+=("$1")
+        shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}"
+
+g_crs=$@
+
+function usage()
+{
+    local error_message=$1
+    if [ "$error_message" != "" ]; then
+        echo "$error_message"
+    fi
+    echo "usage: patch-cr --database DBNAME [--host HOST] [--port PORT] [--user USER] CHANGE_REQUEST_NAME..."
+    echo "Creates a new database using source as template."
+    echo ""
+    echo "   --database    target database name"
+    echo "   --host        host name"
+    echo "   --user        user name"
+    echo "   --port        host port"
+    echo ""
+    echo "Example:"
+    echo "    bin/patch-cr --port 5433 --database sead_staging 20240924_DDL_MEASURED_VALUES_REFACTOR"
+    exit 64
+}
+
+function execute_sql() {
+    local database="$1"
+    local sql="$2"
+    psql -bqw -h $g_host -p "$g_port" -U $g_user -c "$sql" $database
+    if [ $? -ne 0 ];  then
+        echo "fatal: sql failed!"
+        ecit 64
+    fi
+}
+
+function kickout() {
+    local database="$1"
+    local sql="select pg_terminate_backend(pid) from pg_stat_activity where datname = '$database' and pid <> pg_backend_pid();"
+    echo "Kicking out users from $database..."
+    execute_sql "postgres" "$sql" &> /dev/null
+}
+
+if [ "$g_db" == "" ]; then
+    usage 'fatal: target database not specified!'
+fi
+
+if [ "$g_crs" == "" ]; then
+    usage 'fatal: you need to specify CRs!'
+fi
+
+for g_cr in $g_crs; do
+    g_project=$(find_project "$g_cr")
+    if [ "$g_project" == "" ]; then
+        usage "fatal: patch ${g_cr} not found!"
+    fi
+    g_cr_file="$g_project/deploy/${g_cr}.sql"
+    if [ ! -f "$g_cr_file" ]; then
+        usage "fatal: cr file $g_cr_file not found!"
+    fi
+done
+
+kickout $g_db
+
+for g_cr in $g_crs; do
+    g_project=$(find_project "$g_cr")
+    g_patch_file="$g_project/deploy/$g_cr.sql"
+    psql -h $g_host -p $g_port -U $g_user -w --dbname=$g_db --file $g_patch_file -v ON_ERROR_STOP=1
+done
+
