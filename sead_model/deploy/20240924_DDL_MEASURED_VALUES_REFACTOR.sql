@@ -15,29 +15,37 @@
 begin;
 do $$
 begin
-    drop view if exists "encoded_dendro_analysis_values";
-    drop table if exists "tbl_analysis_value_dimensions";
-    drop table if exists "tbl_analysis_numerical_values";
-    drop table if exists "tbl_analysis_numerical_ranges";
-    drop table if exists "tbl_analysis_integer_values";
-    drop table if exists "tbl_analysis_integer_ranges";
-    drop table if exists "tbl_analysis_categorical_values";
-    drop table if exists "tbl_analysis_boolean_values";
-    drop table if exists "tbl_analysis_dating_ranges";
-    drop table if exists "tbl_analysis_value_taxon_counts";
-    drop table if exists "tbl_analysis_values";
-    drop table if exists "tbl_value_classes";
-    drop table if exists "tbl_value_type_items";
-    drop table if exists "tbl_value_types";
-    drop table if exists "tbl_value_qualifiers";
+    drop table if exists "tbl_analysis_value_dimensions" cascade;
+    drop table if exists "tbl_analysis_numerical_values" cascade;
+    drop table if exists "tbl_analysis_numerical_ranges" cascade;
+    drop table if exists "tbl_analysis_integer_values" cascade;
+    drop table if exists "tbl_analysis_integer_ranges" cascade;
+    drop table if exists "tbl_analysis_categorical_values" cascade;
+    drop table if exists "tbl_analysis_boolean_values" cascade;
+    drop table if exists "tbl_analysis_dating_ranges" cascade;
+    drop table if exists "tbl_analysis_value_taxon_counts" cascade;
+    drop table if exists "tbl_analysis_values" cascade;
+    drop table if exists "tbl_value_classes" cascade;
+    drop table if exists "tbl_value_type_items" cascade;
+    drop table if exists "tbl_value_types" cascade;
+    drop table if exists "tbl_value_qualifier_symbols" cascade;
+    drop table if exists "tbl_value_qualifiers" cascade;
     
     begin
  
         create table "tbl_value_qualifiers" (
-            "qualifier_id" serial primary key,
-            "qualifier_symbol" text not null unique,
+            "symbol" text primary key,
             "description" text not null
         );
+
+        create table "tbl_value_qualifier_symbols" (
+            "symbol" text not null primary key,
+            "cardinal_symbol" text not null references "tbl_value_qualifiers" ("symbol")
+        );
+
+        -- create view value_qualifier_symbols_escaped as
+        --     select distinct regexp_replace(symbol, '(\.|\^|\$|\||\(|\)|\{|\}|\*|\+|\?|\[|\]])', '\\\1', 'g') as symbol
+        --     from tbl_value_qualifier_symbols;
 
         create table "tbl_value_types" (
             "value_type_id" int primary key,
@@ -72,6 +80,7 @@ begin
             "description" text not null
         );
 
+        -- Allow for multiple value classes to be associated with a single value type
         -- create table "tbl_value_class_types" (
         --     "value_class_type_id" serial primary key,
         --     "name" text not null unique,
@@ -104,22 +113,25 @@ begin
         create table "tbl_analysis_integer_values" (
             "analysis_integer_value_id" bigserial primary key,
             "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
-            "qualifier" text null references tbl_value_qualifiers(qualifier_symbol),
-            "value" int null default null
+            "qualifier" text null references tbl_value_qualifier_symbols(symbol),
+            "value" int null default null,
+            "is_variant" bool null default null
         );
 
         create table "tbl_analysis_categorical_values" (
             "analysis_categorical_value_id" bigserial primary key,
             "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
             "value_type_item_id" int not null references "tbl_value_type_items" ("value_type_item_id"),
-            "value" decimal(20,10) null default null -- optional value
+            "value" decimal(20,10) null default null, -- optional value,
+            "is_variant" bool null default null
         );
 
         create table "tbl_analysis_numerical_values" (
             "analysis_numerical_value_id" bigserial primary key,
             "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
-            "qualifier" text null references tbl_value_qualifiers(qualifier_symbol),
-            "value" decimal(20,10) null
+            "qualifier" text null references tbl_value_qualifier_symbols(symbol),
+            "value" decimal(20,10) null,
+            "is_variant" bool null default null
         );
 
         create table "tbl_analysis_numerical_ranges" (
@@ -128,8 +140,9 @@ begin
             "value" numrange not null,
             "low_is_uncertain" bool null,
             "high_is_uncertain" bool null,
-            "low_qualifier" text null references tbl_value_qualifiers(qualifier_symbol),
-            "high_qualifier" text null references tbl_value_qualifiers(qualifier_symbol)
+            "low_qualifier" text null references tbl_value_qualifier_symbols(symbol),
+            "high_qualifier" text null references tbl_value_qualifier_symbols(symbol),
+            "is_variant" bool null default null
         );
 
         create table "tbl_analysis_integer_ranges" (
@@ -139,8 +152,9 @@ begin
             "high_value" int null,
             "low_is_uncertain" bool null,
             "high_is_uncertain" bool null,
-            "low_qualifier" text null references tbl_value_qualifiers(qualifier_symbol),
-            "high_qualifier" text null references tbl_value_qualifiers(qualifier_symbol)
+            "low_qualifier" text null references tbl_value_qualifier_symbols(symbol),
+            "high_qualifier" text null references tbl_value_qualifier_symbols(symbol),
+            "is_variant" bool null default null
         );
 
         create table "tbl_analysis_dating_ranges" (
@@ -151,11 +165,12 @@ begin
             "high_value" int null,
             "low_is_uncertain" bool null,
             "high_is_uncertain" bool null,
-            "low_qualifier" text null references tbl_value_qualifiers(qualifier_symbol),
-            "high_qualifier" text null references tbl_value_qualifiers(qualifier_symbol),
+            "low_qualifier" text null references tbl_value_qualifier_symbols(symbol),
+            "high_qualifier" text null references tbl_value_qualifier_symbols(symbol),
             "age_type_id" int not null default(1) references tbl_age_types ("age_type_id"),
             "season_id" int null default null references tbl_seasons("season_id"),
-            "dating_uncertainty_id" int null default null references tbl_dating_uncertainty("dating_uncertainty_id")
+            "dating_uncertainty_id" int null default null references tbl_dating_uncertainty("dating_uncertainty_id"),
+            "is_variant" bool null default null
         );
 
         create table "tbl_analysis_value_dimensions" (
