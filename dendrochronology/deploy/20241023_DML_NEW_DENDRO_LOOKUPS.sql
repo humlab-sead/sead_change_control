@@ -2771,8 +2771,9 @@ begin
             ('2', '2', '+ew', '+ew'),
             ('3', '2', '-lw', '-lw'),
             ('4', '2', '+lw', '+lw'),
-            ('5', '4', 'W', 'W'),
-            ('6', '4', 'not W', 'not W')
+            ('5', '2', '-llw', '-llw'),
+            ('6', '4', 'W', 'W'),
+            ('7', '4', 'ej W', 'ej W')
         )
     	    insert into tbl_value_type_items ("value_type_item_id", "value_type_id", "name", "description")
             select 
@@ -2794,32 +2795,33 @@ begin
 				"name", "description"
             from new_data;
 
-    with new_data ("system_id", "method_id", "name", "description", "value_type_id") as (
+    with new_data ("system_id", "method_id", "name", "description", "value_type_id", "parent_id") as (
         values
-            ('1', '10', 'Tree species', 'Species name of the tree the sample came from.', '8'),
-            ('2', '10', 'Tree rings', 'Number of measured tree rings inferred as years.', '1'),
-            ('3', '10', 'Earlywood/Latewood', 'A notation in case the outermost ring is not complete. +ew in case only earlywood is present, -lw in case some part of the latewood is missing', '2'),
-            ('4', '10', 'Number of analysed radii.', 'Number of analysed radii.', '1'),
-            ('5', '10', 'EW/LW measurements', 'Record of whether the earlywood and latewood of each ring has been measured separately.', '3'),
-            ('6', '10', 'Number of sapwood rings in a sample.', 'Number of sapwood rings, which is the outer layers of a tree, between the heartwood and cambium. ', '1'),
-            ('7', '10', 'Bark (B)', 'Whether bark was present in the sample. ', '3'),
-            ('8', '10', 'Waney edge (W)', 'The last formed tree ring before felling or sampling. Presence of this represents the last year of growth.', '4'),
-            ('9', '10', 'Pith (P)', 'Number of rings missing between the core of the tree and the first measured ring. ', '1'),
-            ('10', '10', 'Tree age ≥', 'The analysed age of the tree.', '5'),
-            ('11', '10', 'Tree age ≤', 'The analysed age of the tree.', '5'),
-            ('12', '10', 'Inferred growth year ≥', 'The growth year inferred from the analysed tree rings. ', '6'),
-            ('13', '10', 'Inferred growth year ≤', 'The growth year inferred from the analysed tree rings. ', '6'),
-            ('14', '10', 'Estimated felling year', 'The felling year as inferred from the analysed outermost tree-ring date', '10'),
-            ('15', '10', 'Possible estimated felling year', 'Used for samples where dating has not been succesful but a non-statistically satisfactory dating suggestion is given.', '10'),
-            ('16', '10', 'Provenance', 'The provenance of the sampled tree, inferred by comparing the sample with others. ', '7'),
-            ('17', '10', 'Outermost tree-ring date', 'The date of the outermost tree-ring', '10'),
-            ('18', '10', 'Not dated', 'Used to mark samples as not having been succesfully dated, i. e. analysed but not dated', '3'),
-            ('19', '10', 'Date note', 'Notes on  a sample.', '7'),
-            ('20', '10', 'Provenance comment', 'Comments on the provenance of a sample', '7'),
-            ('21', '10', 'Non-measured tree rings', 'Estimated number of non-measured tree rings outside the outermost measured tree ring.', '1'),
-            ('22', '10', 'Non-measured sapwood rings', 'Estimated number of non-measured sapwood rings outside the outermost measured tree ring1', '1')
+            ('1', '10', 'Tree species', 'Species name of the tree the sample came from.', '8', null),
+            ('2', '10', 'Tree rings', 'Number of measured tree rings inferred as years.', '1', null),
+            ('3', '10', 'Earlywood/Latewood', 'A notation in case the outermost ring is not complete. +ew in case only earlywood is present, -lw in case some part of the latewood is missing', '2', null),
+            ('4', '10', 'Number of analysed radii.', 'Number of analysed radii.', '1', null),
+            ('5', '10', 'EW/LW measurements', 'Record of whether the earlywood and latewood of each ring has been measured separately.', '3', null),
+            ('6', '10', 'Number of sapwood rings in a sample.', 'Number of sapwood rings, which is the outer layers of a tree, between the heartwood and cambium. ', '1', null),
+            ('7', '10', 'Bark (B)', 'Whether bark was present in the sample. ', '3', null),
+            ('8', '10', 'Waney edge (W)', 'The last formed tree ring before felling or sampling. Presence of this represents the last year of growth.', '4', null),
+            ('9', '10', 'Pith (P)', 'Number of rings missing between the core of the tree and the first measured ring. ', '1', null),
+            ('10', '10', 'Tree age ≥', 'The analysed age of the tree.', '5', null),
+            ('11', '10', 'Tree age ≤', 'The analysed age of the tree.', '5', null),
+            ('12', '10', 'Inferred growth year ≥', 'The growth year inferred from the analysed tree rings. ', '6', null),
+            ('13', '10', 'Inferred growth year ≤', 'The growth year inferred from the analysed tree rings. ', '6', null),
+            ('14', '10', 'Estimated felling year', 'The felling year as inferred from the analysed outermost tree-ring date', '10', null),
+            ('15', '10', 'Possible estimated felling year', 'Used for samples where dating has not been succesful but a non-statistically satisfactory dating suggestion is given.', '10', null),
+            ('16', '10', 'Provenance', 'The provenance of the sampled tree, inferred by comparing the sample with others. ', '7', null),
+            ('17', '10', 'Outermost tree-ring date', 'The date of the outermost tree-ring', '10', null),
+            ('18', '10', 'Not dated', 'Used to mark samples as not having been succesfully dated, i. e. analysed but not dated', '3', null),
+            ('19', '10', 'Date note', 'Notes on  a sample.', '7', null),
+            ('20', '10', 'Provenance comment', 'Comments on the provenance of a sample', '7', null),
+            ('21', '10', 'Non-measured tree rings', 'Estimated number of non-measured tree rings outside the outermost measured tree ring.', '1', null),
+            ('22', '10', 'Non-measured sapwood rings', 'Estimated number of non-measured sapwood rings outside the outermost measured tree ring1', '1', null),
+            ('23', '10', 'Sapwood indicator', 'Indicates if sample has sapwood, which is the outer layers of a tree, between the heartwood and cambium. ', '1', '6')
         )
-    	    insert into tbl_value_classes ("value_class_id", "method_id", "name", "description", "value_type_id")
+    	    insert into tbl_value_classes ("value_class_id", "method_id", "name", "description", "value_type_id", "parent_id")
             select 
                 sead_utility.allocate_system_id(
 	                v_submission_identifier,
@@ -2838,29 +2840,76 @@ begin
 					'tbl_value_types',
 					'value_type_id',
 					"value_type_id"
-				)
+				),
+                "parent_id"::int
             from new_data;
 
-
-    with new_data(qualifier_symbol, "description") as (
+    with new_data("symbol", "description") as (
         values
             ('<', 'Less than. The value is smaller than the compared value.'),
             ('>', 'Greater than. The value is larger than the compared value.'),
             ('=', 'Equal to. The value is exactly equal to the compared value.'),
             ('<=', 'Less than or equal to. The value is smaller than or equal to the compared value.'),
             ('>=', 'Greater than or equal to. The value is larger than or equal to the compared value.'),
+            ('~<=', 'Approximately less than or equal to (informal, text-friendly)'),
+            ('~>=', 'Approximately greater than or equal to the compared value.'),
             ('~', 'Approximately equal to. The value is roughly around the compared value, but not exact.'),
             ('≈', 'Almost equal to. The value is very close to the compared value but may not be exactly the same.'),
             ('≠', 'Not equal to. The value is different from the compared value.'),
-            ('≅', 'Approximately congruent to. Often used in geometry to represent values that are congruent or similar.'),
             ('±', 'Plus-minus. Indicates a value range where the actual value could be either greater or smaller by a specific amount.'),
-            ('≈ but ≠', 'Almost equal to but not the same. The value is very close to the compared value but not be exactly the same.')
+            ('≈ but ≠', 'Almost equal to but not the same. The value is very close to the compared value but not be exactly the same.'),
+            ('≃', 'The value might be the same as the compared value (or asymptotically equal to or).')
+            -- ('≍', 'Equivalence in an approximate or qualitative sense'),
+            -- ('≈≤', 'Roughly less than or equal to'),
+            -- ('≈≥', 'Roughly greater than or equal to'),
+            -- ('⪅', 'Less than or equal to with approximation (e.g., less than or similar to)'),
+            -- ('⪆', 'Greater than or equal to with approximation'),
+            -- ('≐', 'Almost equal to but not he same (sometimes used to show close but not identical values)'),
+            -- ('≅', 'Approximately congruent to. Often used in geometry to represent values that are congruent or similar.'),
+            -- ('≈', 'Approximately equal to'),
+            -- ('≉', 'Not approximately equal to'),
+            -- ('≅', 'Congruent to (often used for "approximately equal" in a looser sense)'),
+            -- ('∼', 'Similar to or roughly equal to'),
+            -- ('≲', 'Precedes or is approximately less than'),
+            -- ('≳', 'Succeeds or is approximately greater than'),
+            -- ('⩽', 'Less than or asymptotically equal to'),
+            -- ('⩾', 'Greater than or asymptotically equal to'),
+            -- ('⊆', 'Subset of (can imply that one set of values is within another)'),
+            -- ('⊂', 'Proper subset of (sometimes used for strict inclusion in ranges)'),
+            -- ('⊇', 'Superset of (used for containing another set or range)'),
+            -- ('⊃', 'Proper superset of'),
+            -- ('∈', 'Element of (to show inclusion within a set or interval)'),
+            -- ('∉', 'Not an element of'),
+
         )
-        insert into tbl_value_qualifiers (qualifier_symbol, "description")
-            select qualifier_symbol, "description"
+        insert into tbl_value_qualifiers ("symbol", "description")
+            select "symbol", "description"
             from new_data
-                on conflict (qualifier_symbol) do update
-                    set "description" = excluded."description";
+              on conflict ("symbol") do
+                update set "description" = excluded."description";
+                        
+    with new_data("cardinal_symbol", "aliases") as (
+        values
+            ('<', array['less than', 'mindre än', 'före', 'to']),
+            ('>', array['more than', 'mer än', 'efter']),
+            ('=', array['equal to', 'lika med']),
+            ('<=', array['at most', 'max', 'högst']),
+            ('>=', array['at least', 'min', 'minst', 'from']),
+            ('~<=', array['to ca.', '≈≤']),
+            ('~>=', array['from ca.', '⪆']),
+            ('~', array['close to', '∼', '≈', 'ca', 'ca.']),
+            ('≠', array['not equal to', 'skiljt från']),
+            ('±', array['plus/minus']),
+            ('≈ but ≠', array['≐', 'nära']),
+            ('≃', array['eventuellt'])
+        )
+
+        insert into tbl_value_qualifier_symbols ("symbol", "cardinal_symbol")
+            select unnest(aliases) as symbol, "cardinal_symbol"
+            from new_data
+            union
+            select "cardinal_symbol", "cardinal_symbol"
+            from new_data;
 
 
 end $$;
