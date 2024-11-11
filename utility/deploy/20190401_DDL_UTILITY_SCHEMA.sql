@@ -568,6 +568,15 @@ begin;
         end;
         $$ language plpgsql immutable;
 
+        create or replace function sead_utility.is_integer(text) returns boolean as $$
+        begin
+            perform $1::integer;
+            return true;
+        exception when others then
+            return false;
+        end;
+        $$ language plpgsql immutable;
+
 
     call sead_utility.set_schema_privilege('sead_utility', 'sead_master', 'admin', 'humlab_admin');
     call sead_utility.set_schema_privilege('sead_utility', 'sead_read', 'read', 'humlab_admin', 'sead_master');
