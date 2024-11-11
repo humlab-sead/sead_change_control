@@ -309,15 +309,13 @@ begin
             on a.master_set_id = b.master_set_id
         where b.master_set_id is null*/;
 
-    update tbl_season_types set description = 'A division of the year, marked by changes in weather. This can include multiple seasons (e.g. winter-spring, summer-winter).' where season_type_id = 10;
-    
         WITH new_dendro_lookup (dendro_lookup_id, method_id, name, description, date_updated) AS (VALUES
             (121, 10, 'Tree species', 'Species name of the tree the sample came from.', '2018-05-31 16:24:11.022085+02'),
             (122, 10, 'Tree rings', 'Number of tree rings inferred as years.', '2018-05-31 16:24:11.022085+02'),
             (123, 10, 'Earlywood/Latewood', 'A notation on whether the outermost part of the tree grew early in the growing season or late in the growing season.', '2018-05-31 16:24:11.022085+02'),
             (124, 10, 'Number of analysed radii.', 'Number of radius analysed.', '2018-05-31 16:24:11.022085+02'),
             (125, 10, 'EW/LW measurements', 'Record of whether the earlywood and latewood of each ring has been measured separately.', '2018-05-31 16:24:11.022085+02'),
-            (126, 10, 'Number of sapwood rings in a sample.', 'The outer layers of a tree, between the pith and the cambium. ', '2018-05-31 16:24:11.022085+02'),
+            (126, 10, 'Sapwood (Sp)', 'Number of sapwood rings in a sample.', '2018-05-31 16:24:11.022085+02'),
             (127, 10, 'Bark (B)', 'Whether bark was present in the sample. ', '2018-05-31 16:24:11.022085+02'),
             (128, 10, 'Waney edge (W)', 'The outermost ring immediately inside the bark. Presence of this represents the last year of growth and the exact felling year.', '2018-05-31 16:24:11.022085+02'),
             (129, 10, 'Pith (P)', 'The innermost ring of a tree stem or twig.', '2018-05-31 16:24:11.022085+02'),
