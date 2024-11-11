@@ -16,8 +16,16 @@ begin;
 do $$
 begin
     begin
- 
 
+    -- create or replace function sead_utility.is_integer(text) returns boolean as $apa$
+    -- begin
+    --     perform $1::integer;
+    --     return true;
+    -- exception when others then
+    --     return false;
+    -- end;
+    -- $apa$ language plpgsql immutable;
+    
  	drop view if exists encoded_dendro_analysis_values;
     drop view if exists typed_analysis_values;
 
@@ -47,30 +55,32 @@ begin
         from "tbl_analysis_value_taxon_counts";
 
 	create or replace view encoded_dendro_analysis_values as
-        with anomaly_values("analysis_value_id", "analysis_value", "corrected_value", "is_variant") as (
-            with anomalies("value_class_id", "analysis_value", "corrected_value") as (
-                values
-                    (6, '35 eller 11', ARRAY['35', '11']),
-                    (15, '1745 eller 1748', ARRAY['1745', '1748']),
-                    (15, 'C14-datering visar på ålder efter 951', ARRAY['E 951']),
-                    (15, 'E 1260 1260-1320', ARRAY['1260-1320']),
-                    (8, 'W eller nära W', ARRAY['W', 'nära W']),
-                    (6, '71-72', ARRAY['71', '72']),
-                    (6, '2e', ARRAY['2']),
-                    (8, 'B', ARRAY['W']),
-                    (15, 'E 1709 1710-1723', ARRAY['1710-1723']),
-                    (6, '19/37', ARRAY['19', '37']),
-                    (14, '1647 eller 1647 eller 1648 eller 1648', ARRAY['1647', '1648']),
-                    (14, '1508 ? eller 1508 ?', ARRAY['1508?', '1509?']),
-                    (14, '1137 eller 1137', ARRAY['1137-1138'])
-                )
-                    select  "analysis_value_id",
-                            "analysis_value",
-                            unnest("corrected_value"),
-                            array_length("corrected_value", 1) > 1 as "is_variant"
-                    from anomalies
-                    join tbl_analysis_values a using (value_class_id, analysis_value)
-        ), regular_expressions as (
+        with
+        -- anomaly_values("analysis_value_id", "analysis_value", "corrected_value", "is_variant") as (
+        --     with anomalies("value_class_id", "analysis_value", "corrected_value") as (
+        --         values
+        --             (6, '35 eller 11', ARRAY['35', '11']),
+        --             (15, '1745 eller 1748', ARRAY['1745', '1748']),
+        --             (15, 'C14-datering visar på ålder efter 951', ARRAY['E 951']),
+        --             (15, 'E 1260 1260-1320', ARRAY['1260-1320']),
+        --             (8, 'W eller nära W', ARRAY['W', 'nära W']),
+        --             (6, '71-72', ARRAY['71', '72']),
+        --             (6, '2e', ARRAY['2']),
+        --             (8, 'B', ARRAY['W']),
+        --             (15, 'E 1709 1710-1723', ARRAY['1710-1723']),
+        --             (6, '19/37', ARRAY['19', '37']),
+        --             (14, '1647 eller 1647 eller 1648 eller 1648', ARRAY['1647', '1648']),
+        --             (14, '1508 ? eller 1508 ?', ARRAY['1508?', '1509?']),
+        --             (14, '1137 eller 1137', ARRAY['1137-1138'])
+        --         )
+        --             select  "analysis_value_id",
+        --                     "analysis_value",
+        --                     unnest("corrected_value"),
+        --                     array_length("corrected_value", 1) > 1 as "is_variant"
+        --             from anomalies
+        --             join tbl_analysis_values a using (value_class_id, analysis_value)
+        -- ), 
+        regular_expressions as (
             select  '^\d{3,4}\s*\-\s*\d{3,4}$' as regex_is_year_range,
                     '^(\d{3,4})\s*-\s*(\d{3,4})$' as regex_year_range_extract,
                     '^(-?\d+)\s*±\s*(\d+)$' as regex_plus_minus_extract,
@@ -98,11 +108,12 @@ begin
             select  vc."analysis_value_id",
                     vc."analysis_entity_id",
                     vc."value_class_id",
-                    trim(coalesce("corrected_value", vc."analysis_value")) as analysis_value,
-                    "is_variant"
+                    vc."analysis_value"
+                    -- trim(coalesce("corrected_value", vc."analysis_value")) as analysis_value
+                    --, "is_variant"
             from tbl_analysis_values vc
             join analysis_entities using (analysis_entity_id)
-            left join anomaly_values using (analysis_value_id)
+            -- left join anomaly_values using (analysis_value_id)
         ), analysis_values_without_uncertanty as (
             select analysis_value_id,
                 analysis_value ~* '^eventuellt|\?$' as has_uncertainty_indicator,
@@ -131,8 +142,8 @@ begin
                 value_without_uncertainty ~ "regex_is_winter_year" as is_winter_year,
                 value_without_uncertainty ~ "regex_is_after_year" as is_after_year,
                 value_without_uncertainty ~ "regex_is_year_with_specifier" as is_year_with_specifier,
-                (LENGTH(value_without_uncertainty) > 50 or vt.base_type = 'text') as is_note,
-                is_variant
+                (LENGTH(value_without_uncertainty) > 50 or vt.base_type = 'text') as is_note
+                --, is_variant
             from analysis_values
             join analysis_values_without_uncertanty using (analysis_value_id)
             join tbl_value_classes vc using (value_class_id)
@@ -248,8 +259,8 @@ begin
 				upper_range_value,
 				plus_minus_year_value,
 				plus_minus_value,
-                pattern,
-                is_variant
+                pattern
+                --, is_variant
             from analysis_values_with_flags
             join value_pattern p using (analysis_value_id)
             join stripped_values ss using (analysis_value_id)
