@@ -22,6 +22,7 @@ begin
     v_submission_identifier = 'dendro_lookup_import_oct_2024.xlsx';
     v_change_request_identifier = '20241023_DML_NEW_DENDRO_LOOKUPS';
 
+
     perform sead_utility.release_allocated_ids(v_submission_identifier);
 
     with new_data (system_id, location_name, location_type_id) as (
@@ -2802,7 +2803,7 @@ begin
             ('3', '10', 'Earlywood/Latewood', 'A notation in case the outermost ring is not complete. +ew in case only earlywood is present, -lw in case some part of the latewood is missing', '2', null),
             ('4', '10', 'Number of analysed radii.', 'Number of analysed radii.', '1', null),
             ('5', '10', 'EW/LW measurements', 'Record of whether the earlywood and latewood of each ring has been measured separately.', '3', null),
-            ('6', '10', 'Number of sapwood rings in a sample.', 'Number of sapwood rings, which is the outer layers of a tree, between the heartwood and cambium. ', '1', null),
+            ('6', '10', 'Sapwood (Sp)', 'Number of sapwood rings, which is the outer layers of a tree, between the heartwood and cambium. ', '1', null),
             ('7', '10', 'Bark (B)', 'Whether bark was present in the sample. ', '3', null),
             ('8', '10', 'Waney edge (W)', 'The last formed tree ring before felling or sampling. Presence of this represents the last year of growth.', '4', null),
             ('9', '10', 'Pith (P)', 'Number of rings missing between the core of the tree and the first measured ring. ', '1', null),
@@ -2911,6 +2912,17 @@ begin
             select "cardinal_symbol", "cardinal_symbol"
             from new_data;
 
+    -- Update of existing data (see https://github.com/humlab-sead/sead_change_control/issues/312)
+    with new_data ("project_stage_id", "stage_name", "description") as (
+        values
+            (6, 'Dendrochronological investigation', 'An investigation using tree rings to determine the age of wood. Sampling includes living, felled, and dead trees.')
+    )
+        insert into tbl_project_stages ("project_stage_id", "stage_name", "description")
+        select "project_stage_id", "stage_name", "description"
+        from new_data
+          on conflict ("project_stage_id") do update
+        set "stage_name" = excluded."stage_name",
+            "description" = excluded."description";
 
 end $$;
 commit;

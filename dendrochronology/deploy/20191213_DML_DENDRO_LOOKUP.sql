@@ -571,7 +571,7 @@ begin
         where b.project_type_id is null*/;
 
         WITH new_project_stages (project_stage_id, stage_name, description) AS (VALUES
-            (6, 'Dendrochronological study', 'An investigation using tree rings to determine the age of wood. Sampling in historic building investigation and archaeological contexts.')
+            (6, 'Dendrochronological investigation', 'An investigation using tree rings to determine the age of wood. Sampling includes living, felled, and dead trees.')
         ) insert into tbl_project_stages (project_stage_id, stage_name, description, date_updated)
         select a.project_stage_id, a.stage_name, a.description, '2019-12-20 13:45:52.60401+00'
         from new_project_stages a /*
