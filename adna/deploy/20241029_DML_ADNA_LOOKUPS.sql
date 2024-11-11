@@ -4,7 +4,7 @@
   Author        Roger Mähler
   Date          2024-10-29
   Description   Lookups for aDNA test data
-  Issue         https://github.com/humlab-sead/sead_change_control/issues/325
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/318
   Prerequisites 
   Reviewer      
   Approver      
