@@ -6,7 +6,7 @@ source .env
 
 . $(dirname "$0")/utility.sh
 
-g_db=sead_staging_development
+g_db=
 g_host=$(dnsdomainname -A)
 g_port=5433
 g_user=
