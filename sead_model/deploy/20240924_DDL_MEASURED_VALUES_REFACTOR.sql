@@ -31,6 +31,23 @@ begin
     drop table if exists "tbl_value_qualifier_symbols" cascade;
     drop table if exists "tbl_value_qualifiers" cascade;
     
+
+    grant select on "tbl_analysis_value_dimensions" to public;
+    grant select on "tbl_analysis_numerical_values" to public;
+    grant select on "tbl_analysis_numerical_ranges" to public;
+    grant select on "tbl_analysis_integer_values" to public;
+    grant select on "tbl_analysis_integer_ranges" to public;
+    grant select on "tbl_analysis_categorical_values" to public;
+    grant select on "tbl_analysis_boolean_values" to public;
+    grant select on "tbl_analysis_dating_ranges" to public;
+    grant select on "tbl_analysis_value_taxon_counts" to public;
+    grant select on "tbl_analysis_values" to public;
+    grant select on "tbl_value_classes" to public;
+    grant select on "tbl_value_type_items" to public;
+    grant select on "tbl_value_types" to public;
+    grant select on "tbl_value_qualifier_symbols" to public;
+    grant select on "tbl_value_qualifiers" to public;
+    
     begin
  
         create table "tbl_value_qualifiers" (
