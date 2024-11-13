@@ -48,6 +48,7 @@
 
 @2020.03 2020-04-26T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2020 March release
 
+20241113_DDL_ADD_UNIQUE_CONSTRAINTS 2024-11-13T14:37:15Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/328: Add unique constraint for alternative keys
 20220922_DDL_CHRONOLOGY_SCHEMA_CHANGES 2022-09-22T12:25:39Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/92: Changes to chronology tables.
 20220923_DDL_DEPRECATE_CHRON_CONTROLS 2022-09-23T07:51:38Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/93: Deprecate chronology controls tables.
 
