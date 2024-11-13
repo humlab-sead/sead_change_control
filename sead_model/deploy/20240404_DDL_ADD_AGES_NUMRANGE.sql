@@ -9,7 +9,7 @@
   Reviewer      
   Approver      
   Idempotent    Yes
-  Notes
+  Notes         tbl_analysis_entity_ages.age_range added as a backdated update to SEAD_DATABASE_MODEL/tables.sql
 *****************************************************************************************************************/
 
 

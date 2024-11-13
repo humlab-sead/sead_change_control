@@ -77,7 +77,16 @@ CREATE TABLE "public"."tbl_analysis_entity_ages" (
   "age_younger" numeric(15, 5),
   "analysis_entity_id" bigint,
   "chronology_id" int4,
-  "date_updated" timestamp with time zone DEFAULT now()
+  "date_updated" timestamp with time zone DEFAULT now(),
+  "dating_specifier" text,
+  "age_range" int4range null
+      generated always as (
+          case when age_younger is null and age_older is null then null
+          else int4range(
+              coalesce(age_younger::int, age_older::int),
+              coalesce(age_older::int, age_younger::int) + 1
+          )
+        end) stored
 );
 CREATE TABLE "public"."tbl_analysis_entity_dimensions" (
   "analysis_entity_dimension_id" serial primary key,
