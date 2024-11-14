@@ -27,7 +27,7 @@ CREATE TABLE "public"."tbl_abundances" (
 );
 CREATE TABLE "public"."tbl_activity_types" (
   "activity_type_id" serial primary key,
-  "activity_type" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+  "activity_type" varchar(50) unique  COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
   "description" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -41,7 +41,7 @@ CREATE TABLE "public"."tbl_aggregate_datasets" (
 );
 CREATE TABLE "public"."tbl_aggregate_order_types" (
   "aggregate_order_type_id" serial primary key,
-  "aggregate_order_type" varchar(60) COLLATE "pg_catalog"."default" NOT NULL,
+  "aggregate_order_type" varchar(60) unique  COLLATE "pg_catalog"."default" NOT NULL,
   "date_updated" timestamp with time zone DEFAULT now(),
   "description" text COLLATE "pg_catalog"."default"
 );
@@ -60,7 +60,7 @@ CREATE TABLE "public"."tbl_aggregate_samples" (
 );
 CREATE TABLE "public"."tbl_alt_ref_types" (
   "alt_ref_type_id" serial primary key,
-  "alt_ref_type" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
+  "alt_ref_type" varchar(50) unique COLLATE "pg_catalog"."default" NOT NULL,
   "date_updated" timestamp with time zone DEFAULT now(),
   "description" text COLLATE "pg_catalog"."default"
 );
@@ -172,7 +172,7 @@ CREATE TABLE "public"."tbl_chronologies" (
   "age_bound_younger" int4,
   "age_model" varchar(80) COLLATE "pg_catalog"."default",
   "age_type_id" int4 NOT NULL,
-  "chronology_name" varchar(80) COLLATE "pg_catalog"."default",
+  "chronology_name" varchar(80) unique COLLATE "pg_catalog"."default",
   "contact_id" int4,
   "date_prepared" timestamp(0),
   "date_updated" timestamp with time zone DEFAULT now(),
@@ -194,7 +194,7 @@ CREATE TABLE "public"."tbl_collections_or_journals" (
 );
 CREATE TABLE "public"."tbl_colours" (
   "colour_id" serial primary key,
-  "colour_name" varchar(30) COLLATE "pg_catalog"."default" NOT NULL,
+  "colour_name" varchar(30) unique COLLATE "pg_catalog"."default" NOT NULL,
   "date_updated" timestamp with time zone DEFAULT now(),
   "method_id" int4 NOT NULL,
   "rgb" int4
@@ -227,14 +227,14 @@ CREATE TABLE "public"."tbl_coordinate_method_dimensions" (
 );
 CREATE TABLE "public"."tbl_data_type_groups" (
   "data_type_group_id" serial primary key,
-  "data_type_group_name" varchar(25) COLLATE "pg_catalog"."default",
+  "data_type_group_name" varchar(25) COLLATE unique "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now(),
   "description" text COLLATE "pg_catalog"."default"
 );
 CREATE TABLE "public"."tbl_data_types" (
   "data_type_id" serial primary key,
   "data_type_group_id" int4 NOT NULL,
-  "data_type_name" varchar(25) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+  "data_type_name" varchar(25) unique COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
   "date_updated" timestamp with time zone DEFAULT now(),
   "definition" text COLLATE "pg_catalog"."default"
 );
@@ -249,7 +249,7 @@ CREATE TABLE "public"."tbl_dataset_masters" (
   "master_set_id" serial primary key,
   "contact_id" int4,
   "biblio_id" int4,
-  "master_name" varchar(100) COLLATE "pg_catalog"."default",
+  "master_name" varchar(100) unique COLLATE "pg_catalog"."default",
   "master_notes" text COLLATE "pg_catalog"."default",
   "url" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
@@ -301,7 +301,7 @@ CREATE TABLE "public"."tbl_dating_uncertainty" (
   "dating_uncertainty_id" serial primary key,
   "date_updated" timestamp with time zone DEFAULT now(),
   "description" text COLLATE "pg_catalog"."default",
-  "uncertainty" varchar COLLATE "pg_catalog"."default"
+  "uncertainty" varchar unique COLLATE "pg_catalog"."default"
 );
 CREATE TABLE "public"."tbl_dendro" (
   "dendro_id" serial primary key,
@@ -362,7 +362,7 @@ CREATE TABLE "public"."tbl_ecocode_groups" (
   "date_updated" timestamp with time zone DEFAULT now(),
   "definition" text COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
   "ecocode_system_id" int4 DEFAULT 0,
-  "name" varchar(150) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+  "name" varchar(150) unique COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
   "abbreviation" varchar(255) COLLATE "pg_catalog"."default"
 );
 CREATE TABLE "public"."tbl_ecocode_systems" (
@@ -370,7 +370,7 @@ CREATE TABLE "public"."tbl_ecocode_systems" (
   "biblio_id" int4,
   "date_updated" timestamp with time zone DEFAULT now(),
   "definition" text COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
-  "name" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+  "name" varchar(50) unique COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
   "notes" text COLLATE "pg_catalog"."default"
 );
 CREATE TABLE "public"."tbl_ecocodes" (
@@ -420,8 +420,8 @@ CREATE TABLE "public"."tbl_horizons" (
 );
 CREATE TABLE "public"."tbl_identification_levels" (
   "identification_level_id" serial primary key,
-  "identification_level_abbrev" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
-  "identification_level_name" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+  "identification_level_abbrev" varchar(50)  COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+  "identification_level_name" varchar(50)  unique COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
   "notes" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -429,7 +429,7 @@ CREATE TABLE "public"."tbl_image_types" (
   "image_type_id" serial primary key,
   "date_updated" timestamp with time zone DEFAULT now(),
   "description" text COLLATE "pg_catalog"."default",
-  "image_type" varchar(40) COLLATE "pg_catalog"."default" NOT NULL
+  "image_type" varchar(40) unique COLLATE "pg_catalog"."default" NOT NULL
 );
 CREATE TABLE "public"."tbl_imported_taxa_replacements" (
   "imported_taxa_replacement_id" serial primary key,
@@ -462,7 +462,7 @@ CREATE TABLE "public"."tbl_location_types" (
   "location_type_id" serial primary key,
   "date_updated" timestamp with time zone DEFAULT now(),
   "description" text COLLATE "pg_catalog"."default",
-  "location_type" varchar(40) COLLATE "pg_catalog"."default"
+  "location_type" varchar(40) unique COLLATE "pg_catalog"."default"
 );
 CREATE TABLE "public"."tbl_locations" (
   "location_id" serial primary key,
@@ -517,14 +517,14 @@ CREATE TABLE "public"."tbl_method_groups" (
   "method_group_id" serial primary key,
   "date_updated" timestamp with time zone DEFAULT now(),
   "description" text COLLATE "pg_catalog"."default" NOT NULL,
-  "group_name" varchar(100) COLLATE "pg_catalog"."default" NOT NULL
+  "group_name" varchar(100) unique COLLATE "pg_catalog"."default" NOT NULL
 );
 CREATE TABLE "public"."tbl_methods" (
   "method_id" serial primary key,
   "biblio_id" int4,
   "date_updated" timestamp with time zone DEFAULT now(),
   "description" text COLLATE "pg_catalog"."default" NOT NULL,
-  "method_abbrev_or_alt_name" varchar(50) COLLATE "pg_catalog"."default",
+  "method_abbrev_or_alt_name" varchar(50) unique COLLATE "pg_catalog"."default",
   "method_group_id" int4 NOT NULL,
   "method_name" varchar(50) COLLATE "pg_catalog"."default" NOT NULL,
   "record_type_id" int4,
@@ -532,7 +532,7 @@ CREATE TABLE "public"."tbl_methods" (
 );
 CREATE TABLE "public"."tbl_modification_types" (
   "modification_type_id" serial primary key,
-  "modification_type_name" varchar(128) COLLATE "pg_catalog"."default",
+  "modification_type_name" varchar(128) unique COLLATE "pg_catalog"."default",
   "modification_type_description" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -553,13 +553,13 @@ CREATE TABLE "public"."tbl_physical_samples" (
 );
 CREATE TABLE "public"."tbl_project_stages" (
   "project_stage_id" serial primary key,
-  "stage_name" varchar COLLATE "pg_catalog"."default",
+  "stage_name" varchar unique COLLATE "pg_catalog"."default",
   "description" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
 CREATE TABLE "public"."tbl_project_types" (
   "project_type_id" serial primary key,
-  "project_type_name" varchar COLLATE "pg_catalog"."default",
+  "project_type_name" varchar unique COLLATE "pg_catalog"."default",
   "description" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -615,7 +615,7 @@ CREATE TABLE "public"."tbl_rdb_systems" (
 );
 CREATE TABLE "public"."tbl_record_types" (
   "record_type_id" serial primary key,
-  "record_type_name" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+  "record_type_name" varchar(50) unique COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
   "record_type_description" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -627,7 +627,7 @@ CREATE TABLE "public"."tbl_relative_age_refs" (
 );
 CREATE TABLE "public"."tbl_relative_age_types" (
   "relative_age_type_id" serial primary key,
-  "age_type" varchar COLLATE "pg_catalog"."default",
+  "age_type" varchar unique COLLATE "pg_catalog"."default",
   "description" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -683,7 +683,7 @@ CREATE TABLE "public"."tbl_sample_description_sample_group_contexts" (
 );
 CREATE TABLE "public"."tbl_sample_description_types" (
   "sample_description_type_id" serial primary key,
-  "type_name" varchar(255) COLLATE "pg_catalog"."default",
+  "type_name" varchar(255) unique COLLATE "pg_catalog"."default",
   "type_description" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -718,7 +718,7 @@ CREATE TABLE "public"."tbl_sample_group_description_type_sampling_contexts" (
 );
 CREATE TABLE "public"."tbl_sample_group_description_types" (
   "sample_group_description_type_id" serial primary key,
-  "type_name" varchar(255) COLLATE "pg_catalog"."default",
+  "type_name" varchar(255) unique COLLATE "pg_catalog"."default",
   "type_description" varchar COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -796,7 +796,7 @@ CREATE TABLE "public"."tbl_sample_location_type_sampling_contexts" (
 );
 CREATE TABLE "public"."tbl_sample_location_types" (
   "sample_location_type_id" serial primary key,
-  "location_type" varchar(255) COLLATE "pg_catalog"."default",
+  "location_type" varchar(255) unique COLLATE "pg_catalog"."default",
   "location_type_description" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -816,7 +816,7 @@ CREATE TABLE "public"."tbl_sample_notes" (
 );
 CREATE TABLE "public"."tbl_sample_types" (
   "sample_type_id" serial primary key,
-  "type_name" varchar(40) COLLATE "pg_catalog"."default" NOT NULL,
+  "type_name" varchar(40) unique  COLLATE "pg_catalog"."default" NOT NULL,
   "description" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -824,12 +824,12 @@ CREATE TABLE "public"."tbl_season_types" (
   "season_type_id" serial primary key,
   "date_updated" timestamp with time zone DEFAULT now(),
   "description" text COLLATE "pg_catalog"."default",
-  "season_type" varchar(30) COLLATE "pg_catalog"."default"
+  "season_type" varchar(30) unique COLLATE "pg_catalog"."default"
 );
 CREATE TABLE "public"."tbl_seasons" (
   "season_id" serial primary key,
   "date_updated" timestamp with time zone DEFAULT now(),
-  "season_name" varchar(20) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
+  "season_name" varchar(20) unique COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
   "season_type" varchar(30) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
   "season_type_id" int4,
   "sort_order" int2 DEFAULT 0
@@ -896,7 +896,7 @@ CREATE TABLE "public"."tbl_sites" (
 );
 CREATE TABLE "public"."tbl_species_association_types" (
   "association_type_id" serial primary key,
-  "association_type_name" varchar(255) COLLATE "pg_catalog"."default",
+  "association_type_name" varchar(255) unique COLLATE "pg_catalog"."default",
   "association_description" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
@@ -1069,8 +1069,8 @@ CREATE TABLE "public"."tbl_units" (
   "unit_id" serial primary key,
   "date_updated" timestamp with time zone DEFAULT now(),
   "description" text COLLATE "pg_catalog"."default",
-  "unit_abbrev" varchar(15) COLLATE "pg_catalog"."default",
-  "unit_name" varchar(50) COLLATE "pg_catalog"."default" NOT NULL
+  "unit_abbrev" varchar(15) unique COLLATE "pg_catalog"."default",
+  "unit_name" varchar(50) unique COLLATE "pg_catalog"."default" NOT NULL
 );
 CREATE TABLE "public"."tbl_updates_log" (
   "updates_log_id" int4 NOT NULL primary key,
@@ -1079,7 +1079,7 @@ CREATE TABLE "public"."tbl_updates_log" (
 );
 CREATE TABLE "public"."tbl_years_types" (
   "years_type_id" serial primary key,
-  "name" varchar COLLATE "pg_catalog"."default" NOT NULL,
+  "name" varchar unique COLLATE "pg_catalog"."default" NOT NULL,
   "description" text COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
