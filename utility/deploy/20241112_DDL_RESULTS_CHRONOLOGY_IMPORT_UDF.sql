@@ -17,7 +17,7 @@ begin;
 do $$
 begin
 
-    drop table if exists bugs_import.results_chronology_import;
+    -- drop table if exists bugs_import.results_chronology_import;
 
     create table if not exists bugs_import.results_chronology_import (
         "id" serial primary key,
@@ -77,6 +77,11 @@ begin
 
             v_now = now();
 
+            if (select count(*) from bugs_import.results_chronology_import where "change_request" = p_change_request) = 0 then
+                raise notice 'No data to import for %', p_change_request;
+                return;
+            end if;
+
             /* Explode compound keys */
             update bugs_import.results_chronology_import 
                 set "site_name" = split_part("identifier", '|', 1),
@@ -90,25 +95,25 @@ begin
                 select distinct "bugs_identifier" as count_sheet_code, "sead_reference_id" as sample_group_id
                 from bugs_import."bugs_trace"
                 where "bugs_table" = 'TCountsheet'
-                and "sead_table" = 'tbl_sample_groups'
-                and "manipulation_type" = 'INSERT'
+                  and "sead_table" = 'tbl_sample_groups'
+                  and "manipulation_type" = 'INSERT'
             )
                 update bugs_import.results_chronology_import d
-                    set "sample_group_id" = t."sample_group_id"
+                   set "sample_group_id" = t."sample_group_id"
                 from bugs_translation t
-                where t."count_sheet_code" = d."count_sheet_code"
-                and d."change_request" = p_change_request;
+                where d."change_request" = p_change_request
+                  and t."count_sheet_code" = d."count_sheet_code";
 
             /* Assign SEAD identity to physical samples */
             update bugs_import.results_chronology_import d
-                set physical_sample_id = t."physical_sample_id"
+               set physical_sample_id = t."physical_sample_id"
             from tbl_physical_samples t
             where d."change_request" = p_change_request
               and t."sample_group_id" = d."sample_group_id"
               and t."sample_name" = d."sample_name";
 
             update bugs_import.results_chronology_import
-                set "is_ok" = false, "error" = 'No dating data'
+               set "is_ok" = false, "error" = 'No dating data'
             where "change_request" = p_change_request
               and "is_ok"
               and Coalesce("Chosen_C14", "Chosen_OtherRadio", "Chosen_Calendar", "Chosen_Period") is null;
@@ -116,8 +121,8 @@ begin
             update bugs_import.results_chronology_import
                 set "is_ok" = false, "error" = 'Unknown count sheet'
             where "change_request" = p_change_request
-                and "is_ok"
-                and "sample_group_id" is null;
+              and "is_ok"
+              and "sample_group_id" is null;
 
             update bugs_import.results_chronology_import
                 set "is_ok" = false, "error" = 'Unknown sample group'
@@ -133,6 +138,7 @@ begin
             for v_count_sheet_code in (
                 select distinct count_sheet_code
                 from bugs_import.results_chronology_import
+                where "change_request" = p_change_request
                 order by count_sheet_code
             )
             loop
