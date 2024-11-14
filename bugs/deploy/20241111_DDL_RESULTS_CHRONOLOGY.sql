@@ -48,11 +48,11 @@ tbl_chronologies: kopplas på Sample group ID
 
 begin;
 
-\copy bugs_import.results_chronology_import ("identifier","Chosen_C14","Chosen_OtherRadio","Chosen_Calendar","Chosen_Period","AgeFrom","AgeTo") from 'bugs/deploy/20241111_DDL_RESULTS_CHRONOLOGY/archeological_sites_csvcut.csv'  with ( format csv,  header, quote '"', delimiter ',',  encoding 'utf-8' );
+\copy bugs_import.results_chronology_import ("identifier","Chosen_C14","Chosen_OtherRadio","Chosen_Calendar","Chosen_Period","AgeFrom","AgeTo") from 'deploy/20241111_DDL_RESULTS_CHRONOLOGY/archeological_sites_csvcut.csv'  with ( format csv,  header, quote '"', delimiter ',',  encoding 'utf-8' );
 
 update bugs_import.results_chronology_import set "change_request" = '20241111_DDL_RESULTS_CHRONOLOGY', "source" = 'archeological_sites' where "source" is null;
 
-\copy bugs_import.results_chronology_import ("identifier","Chosen_C14","Chosen_OtherRadio","Chosen_Calendar","Chosen_Period","AgeFrom","AgeTo") from 'bugs/deploy/20241111_DDL_RESULTS_CHRONOLOGY/stratigraphic_sequences_csvcut.csv'  with ( format csv,  header, quote '"', delimiter ',',  encoding 'utf-8' );
+\copy bugs_import.results_chronology_import ("identifier","Chosen_C14","Chosen_OtherRadio","Chosen_Calendar","Chosen_Period","AgeFrom","AgeTo") from 'deploy/20241111_DDL_RESULTS_CHRONOLOGY/stratigraphic_sequences_csvcut.csv'  with ( format csv,  header, quote '"', delimiter ',',  encoding 'utf-8' );
 
 update bugs_import.results_chronology_import set "change_request" = '20241111_DDL_RESULTS_CHRONOLOGY', "source" = 'stratigraphic_sequences' where "source" is null;
 
