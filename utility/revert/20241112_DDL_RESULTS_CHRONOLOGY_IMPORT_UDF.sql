@@ -1,0 +1,7 @@
+-- Revert utility:20241112_DDL_RESULTS_CHRONOLOGY_IMPORT_UDF from pg
+
+BEGIN;
+
+-- XXX Add DDLs here.
+
+COMMIT;
