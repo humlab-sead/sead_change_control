@@ -174,7 +174,8 @@ begin
                             case when "Chosen_Period"::int = 1 then 'Chosen_Period' else null end
                         ], ';', null)
                     from bugs_import.results_chronology_import
-                    where "count_sheet_code" = v_count_sheet_code
+                    where "change_request" = p_change_request
+                      and "count_sheet_code" = v_count_sheet_code
                       and "is_ok"
                       and "analysis_entity_id" is null
                       and "dataset_id" is null
