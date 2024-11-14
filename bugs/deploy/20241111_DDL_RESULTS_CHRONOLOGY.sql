@@ -56,12 +56,10 @@ update bugs_import.results_chronology_import set "change_request" = '20241111_DD
 
 update bugs_import.results_chronology_import set "change_request" = '20241111_DDL_RESULTS_CHRONOLOGY', "source" = 'stratigraphic_sequences' where "source" is null;
 
-/*
 do $$
 begin
     perform sead_utility.import_pending_results_chronologies('20241111_DDL_RESULTS_CHRONOLOGY');
 end $$;
-*/
 
 end;
 

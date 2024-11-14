@@ -130,10 +130,10 @@ with corrected_ages as (
     where x.faulty_age = t."AgeTo";
 
 
--- do $$
--- begin
---     perform sead_utility.import_pending_results_chronologies('20220916_DDL_RESULTS_CHRONOLOGY');
--- end $$;
+do $$
+begin
+    perform sead_utility.import_pending_results_chronologies('20220916_DDL_RESULTS_CHRONOLOGY');
+end $$;
 
 commit;
 
