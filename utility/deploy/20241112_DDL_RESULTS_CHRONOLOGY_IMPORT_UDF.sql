@@ -17,7 +17,7 @@ begin;
 do $$
 begin
 
-    -- drop table if exists bugs_import.results_chronology_import;
+    drop table if exists bugs_import.results_chronology_import;
 
     create table if not exists bugs_import.results_chronology_import (
         "id" serial primary key,
@@ -127,8 +127,14 @@ begin
             update bugs_import.results_chronology_import
                 set "is_ok" = false, "error" = 'Unknown sample group'
             where "change_request" = p_change_request
-            and "is_ok"
-            and "physical_sample_id" is null;
+              and "is_ok"
+              and "physical_sample_id" is null;
+
+            update bugs_import.results_chronology_import
+                set "is_ok" = false, "error" = 'Invalid age range'
+            where "AgeFrom" is not null
+              and "AgeTo" is not null
+              and coalesce("AgeTo"::int, "AgeFrom"::int) > coalesce("AgeFrom"::int, "AgeTo"::int);
 
             perform sead_utility.sync_sequences('public');
 
@@ -183,29 +189,60 @@ begin
                 )
                 loop
 
-                    if (select count(*)
-                        from tbl_analysis_entities
-                        where physical_sample_id = v_physical_sample_id
-                         and dataset_id = v_dataset_id
-                    ) > 0 then
+                    v_analysis_entity_id = (select max(analysis_entity_id) from tbl_analysis_entities where physical_sample_id = v_physical_sample_id and dataset_id = v_dataset_id);
+
+                    if v_analysis_entity_id is not null then
+
                         raise notice 'Physical sample % already exists in dataset %', v_physical_sample_id, v_dataset_id;
+
+                        update tbl_analysis_entity_ages
+                            set "age_older" = v_age_from,
+                                "age_younger" = v_age_to,
+                                "dating_specifier" = v_dating_specifier
+                        where "analysis_entity_id" = v_analysis_entity_id;
+
+                        -- insert into tbl_analysis_entity_ages("analysis_entity_id", "age", "age_older", "age_younger", "chronology_id", "dating_specifier")
+                        --     values (v_analysis_entity_id, null, v_age_from, v_age_to, null, v_dating_specifier)
+                        --         on conflict ("analysis_entity_id") do update
+                        --             set "age_older" = v_age_from,
+                        --                 "age_younger" = v_age_to,
+                        --                 "dating_specifier" = v_dating_specifier;
+
                         update bugs_import.results_chronology_import
-                            set "is_ok" = false, "error" = 'Physical sample already exists in dataset'
+                            set "is_ok" = false,
+                                "error" = 'Physical sample already exists in dataset',
+                                "analysis_entity_id" = (select max(analysis_entity_id) from tbl_analysis_entities where physical_sample_id = v_physical_sample_id and dataset_id = v_dataset_id)
                             where "id" = v_id;
+
                         continue;
+
+                    else
+
+                        insert into tbl_analysis_entities("physical_sample_id", "dataset_id")
+                            values (v_physical_sample_id, v_dataset_id)
+                                returning "analysis_entity_id" into v_analysis_entity_id;
+
+                        begin
+
+                            insert into tbl_analysis_entity_ages("analysis_entity_id", "age", "age_older", "age_younger", "chronology_id", "dating_specifier")
+                                values (v_analysis_entity_id, null, v_age_from, v_age_to, null, v_dating_specifier);
+
+                        exception
+                            when others then
+                                v_note = format('Failed to insert age (%s, %s) for %s: %s', v_age_from, v_age_to, v_analysis_entity_id, SQLERRM);
+                                raise notice '%', v_note;
+                                update bugs_import.results_chronology_import
+                                    set "is_ok" = false, "error" = v_note
+                                    where "id" = v_id;
+                                continue;
+                        end;
+                        
+                        update bugs_import.results_chronology_import
+                            set "analysis_entity_id" = v_analysis_entity_id,
+                                "dataset_id" = v_dataset_id
+                        where "id" = v_id;
+                        
                     end if;
-
-                    insert into tbl_analysis_entities("physical_sample_id", "dataset_id")
-                        values (v_physical_sample_id, v_dataset_id)
-                            returning "analysis_entity_id" into v_analysis_entity_id;
-
-                    insert into tbl_analysis_entity_ages("analysis_entity_id", "age", "age_older", "age_younger", "chronology_id", "dating_specifier")
-                        values (v_analysis_entity_id, null, v_age_from, v_age_to, null, v_dating_specifier);
-
-                    update bugs_import.results_chronology_import
-                        set "analysis_entity_id" = v_analysis_entity_id,
-                            "dataset_id" = v_dataset_id
-                    where "id" = v_id;
                     
                 end loop;
 

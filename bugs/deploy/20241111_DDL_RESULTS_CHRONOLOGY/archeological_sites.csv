@@ -1,0 +1,151 @@
+identifier;dataset_identifier;RADIO_CalibC14_yrmin;RADIO_CalibC14_yrmax;RADIO;CAL_From_BP;CAL_To_BP;CAL_DatingMethod;CAL__BP;CALENDAR;PER_Notes;PER_BeginBP;PER_EndBP;PERIOD;P1_RADIO_To;P1_RADIO_From;P3_CAL_To;P3_CAL_From;P4_PER_To;P4_PER_From;Chosen_C14;Chosen_OtherRadio;Chosen_Calendar;Chosen_Period;RadioAndCalendarAvailable;NoDates;AgeFrom;AgeTo
+Järrestad|COUN001745|S2II;Järrestad|COUN001745;;;False;;;Typo;950;True;;1550;400;True;;;950;950;400;1550;;;True;;;;950;950
+Järrestad|COUN001745|S2III;Järrestad|COUN001745;;;False;;;Typo;950;True;;1550;400;True;;;950;950;400;1550;;;True;;;;950;950
+Järrestad|COUN001745|S3;Järrestad|COUN001745;;;False;1150;1050;Typo;;True;;1550;400;True;;;1050;1150;400;1550;;;True;;;;1150;1050
+Järrestad|COUN001745|S2I;Järrestad|COUN001745;;;False;;;Typo;950;True;;1550;400;True;;;950;950;400;1550;;;True;;;;950;950
+Záblacany, Polesovice|COUN001702|BugsPresence;Záblacany, Polesovice|COUN001702;;;False;950;850;Typo;;True;;;;False;;;850;950;;;;;True;;;;950;850
+Uherský Brod|COUN001701|BugsPresence;Uherský Brod|COUN001701;;;False;550;350;Typo;;True;;1550;400;True;;;350;550;400;1550;;;True;;;;550;350
+Järrestad|COUN001745|S1;Järrestad|COUN001745;;;False;1350;1250;Typo;;True;;1550;400;True;;;1250;1350;400;1550;;;True;;;;1350;1250
+Fréjus: Camelin|COUN001721|BugsPresence;Fréjus: Camelin|COUN001721;;;False;1900;1850;Typo;;True;;2009;1500;True;;;1850;1900;1500;2009;;;True;;;;1900;1850
+Zürich-Parkhaus Opéra|COUN001742|BugsPresence;Zürich-Parkhaus Opéra|COUN001742;;;False;5399;4799;CalAMS;;True;;6449;3649;True;;;4799;5399;3649;6449;;;True;;;;5399;4799
+Baston|COUN001691|C1064;Baston|COUN001691;;;False;;;;;False;fill of pit.;1907;1540;True;;;;;1540;1907;;;;True;;;1907;1540
+Baston|COUN001691|C168_1;Baston|COUN001691;;;False;;;;;False;;1907;1540;True;;;;;1540;1907;;;;True;;;1907;1540
+Baston|COUN001691|C168_2;Baston|COUN001691;;;False;;;;;False;;1907;1540;True;;;;;1540;1907;;;;True;;;1907;1540
+Baston|COUN001691|C196;Baston|COUN001691;;;False;;;;;False;3rd - 4th Century;1907;1540;True;;;;;1540;1907;;;;True;;;1907;1540
+Bedford: Duck Mill Lane|COUN001690|BugsPresence;Bedford: Duck Mill Lane|COUN001690;;;False;;;;;False;;1550;400;True;;;;;400;1550;;;;True;;;1550;400
+Boreham: Great Holts Farm|COUN001747|S971;Boreham: Great Holts Farm|COUN001747;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Boreham: Great Holts Farm|COUN001747|S972;Boreham: Great Holts Farm|COUN001747;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Boreham: Great Holts Farm|COUN001747|S973;Boreham: Great Holts Farm|COUN001747;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Brussels: St Marie d'Oignies|COUN001696|BugsPresence;Brussels: St Marie d'Oignies|COUN001696;;;False;;;;;False;Reliquary is after 1300.;1550;400;True;;;;;400;1550;;;;True;;;1550;400
+Chester-le-Street|COUN001748|BugsPresence;Chester-le-Street|COUN001748;;;False;;;;;False;;1907;1540;True;;;;;1540;1907;;;;True;;;1907;1540
+Cults Loch|COUN001693|S207;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S210;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S212;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S510;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S512;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S513;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S515;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S604;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S616;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S622;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S629;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S633;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S634;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Cults Loch|COUN001693|S635;Cults Loch|COUN001693;;;False;;;;;False;;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Dambach|COUN001707|S45;Dambach|COUN001707;;;False;;;;;False;;2005;1500;True;;;;;1500;2005;;;;True;;;2005;1500
+Dambach|COUN001707|S46;Dambach|COUN001707;;;False;;;;;False;;2005;1500;True;;;;;1500;2005;;;;True;;;2005;1500
+Dambach|COUN001707|S47;Dambach|COUN001707;;;False;;;;;False;;2005;1500;True;;;;;1500;2005;;;;True;;;2005;1500
+Dambach|COUN001707|S48;Dambach|COUN001707;;;False;;;;;False;;2005;1500;True;;;;;1500;2005;;;;True;;;2005;1500
+Dambach|COUN001707|S49;Dambach|COUN001707;;;False;;;;;False;;2005;1500;True;;;;;1500;2005;;;;True;;;2005;1500
+Dambach|COUN001707|S50;Dambach|COUN001707;;;False;;;;;False;;2005;1500;True;;;;;1500;2005;;;;True;;;2005;1500
+Dambach|COUN001708|S12;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S13;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S14;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S15;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S16;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S17;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S18;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S19;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S20;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S21;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S22;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S23;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S24;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001708|S25;Dambach|COUN001708;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001709|S26;Dambach|COUN001709;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001709|S27;Dambach|COUN001709;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001709|S28;Dambach|COUN001709;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001709|S29;Dambach|COUN001709;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001709|S30;Dambach|COUN001709;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001709|S31;Dambach|COUN001709;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001709|S32;Dambach|COUN001709;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001709|S33;Dambach|COUN001709;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001709|S34;Dambach|COUN001709;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001709|S35;Dambach|COUN001709;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001710|S36;Dambach|COUN001710;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001710|S37;Dambach|COUN001710;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001710|S38;Dambach|COUN001710;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001710|S39;Dambach|COUN001710;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001710|S40;Dambach|COUN001710;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001710|S41;Dambach|COUN001710;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Dambach|COUN001710|S42;Dambach|COUN001710;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Edercloon|COUN001749|LBA;Edercloon|COUN001749;;;False;;;;;False;;3549;2599;True;;;;;2599;3549;;;;True;;;3549;2599
+Edercloon|COUN001749|LBA-EIA;Edercloon|COUN001749;;;False;;;;;False;;3549;1949;True;;;;;1949;3549;;;;True;;;3549;1949
+Edercloon|COUN001749|Lneo-EBA;Edercloon|COUN001749;;;False;;;;;False;;4949;3649;True;;;;;3649;4949;;;;True;;;4949;3649
+Edercloon|COUN001749|Neolithic;Edercloon|COUN001749;;;False;;;;;False;;6449;3649;True;;;;;3649;6449;;;;True;;;6449;3649
+Egham: Thorpe Lea Nurseries|COUN001726|BugsPresence;Egham: Thorpe Lea Nurseries|COUN001726;;;False;;;;;False;;1907;1540;True;;;;;1540;1907;;;;True;;;1907;1540
+Florida Keys Wreck|COUN001722|BugsPresence;Florida Keys Wreck|COUN001722;;;False;328;328;HistCal;;True;;;;False;;;328;328;;;;;True;;;;328;328
+Gran Canaria (Museums)|COUN001743|BugsPresence;Gran Canaria (Museums)|COUN001743;1179;1524;True;1533;1262;CalAMS;;True;;;;False;1179;1524;1262;1533;;;True;;;;True;;1524;1179
+Hissar|COUN001720|BugsPresence;Hissar|COUN001720;2960;3313;True;;;;;False;;3549;1949;True;2960;3313;;;1949;3549;True;;;;;;3313;2960
+Hurbanovo|COUN001757|Pit;Hurbanovo|COUN001757;1733;1918;True;;;;;False;;2005;1500;True;1733;1918;;;1500;2005;True;;;;;;1918;1733
+Ii Hamina|COUN001687|CH2B;Ii Hamina|COUN001687;;;False;;;;;False;;1550;400;True;;;;;400;1550;;;;True;;;1550;400
+Ii Hamina|COUN001687|CH46;Ii Hamina|COUN001687;;;False;;;;;False;;1550;400;True;;;;;400;1550;;;;True;;;1550;400
+Ii Hamina|COUN001687|CH47;Ii Hamina|COUN001687;;;False;;;;;False;;1550;400;True;;;;;400;1550;;;;True;;;1550;400
+Ii Hamina|COUN001687|CH55;Ii Hamina|COUN001687;;;False;;;;;False;;1550;400;True;;;;;400;1550;;;;True;;;1550;400
+Ii Hamina|COUN001687|CH56;Ii Hamina|COUN001687;;;False;;;;;False;;1550;400;True;;;;;400;1550;;;;True;;;1550;400
+Iona|COUN001695|S123;Iona|COUN001695;;;False;1370;1290;Typo;;True;;1550;400;True;;;1290;1370;400;1550;;;True;;;;1370;1290
+Kalverev|COUN001755|BugsPresence;Kalverev|COUN001755;;;False;700;695;Dendro;;True;;1550;400;True;;;695;700;400;1550;;;True;;;;700;695
+Kangeq|COUN001692|A-S1;Kangeq|COUN001692;524;639;True;;;;;False;;400;0;True;524;639;;;0;400;True;;;;;;639;524
+Kangeq|COUN001692|C-S1;Kangeq|COUN001692;330;516;True;;;;;False;;400;0;True;330;516;;;0;400;True;;;;;;516;330
+Kangeq|COUN001692|C-S10;Kangeq|COUN001692;;;False;;;;;False;;400;0;True;;;;;0;400;;;;True;;;400;0
+Kangeq|COUN001692|C-S11;Kangeq|COUN001692;;;False;;;;;False;;400;0;True;;;;;0;400;;;;True;;;400;0
+Kangeq|COUN001692|C-S12;Kangeq|COUN001692;528;642;True;;;;;False;;400;0;True;528;642;;;0;400;True;;;;;;642;528
+Kangeq|COUN001692|C-S2;Kangeq|COUN001692;;;False;;;;;False;;400;0;True;;;;;0;400;;;;True;;;400;0
+Kangeq|COUN001692|C-S3;Kangeq|COUN001692;;;False;;;;;False;;400;0;True;;;;;0;400;;;;True;;;400;0
+Kangeq|COUN001692|C-S4;Kangeq|COUN001692;547;650;True;;;;;False;;400;0;True;547;650;;;0;400;True;;;;;;650;547
+Kangeq|COUN001692|C-S5;Kangeq|COUN001692;;;False;;;;;False;;400;0;True;;;;;0;400;;;;True;;;400;0
+Kangeq|COUN001692|C-S6;Kangeq|COUN001692;;;False;;;;;False;;400;0;True;;;;;0;400;;;;True;;;400;0
+Kangeq|COUN001692|C-S7;Kangeq|COUN001692;516;627;True;;;;;False;;400;0;True;516;627;;;0;400;True;;;;;;627;516
+Kangeq|COUN001692|C-S8;Kangeq|COUN001692;;;False;;;;;False;;400;0;True;;;;;0;400;;;;True;;;400;0
+Kangeq|COUN001692|C-S9;Kangeq|COUN001692;;;False;;;;;False;;400;0;True;;;;;0;400;;;;True;;;400;0
+Kings Stanley|COUN001704|Fishpond_1375;Kings Stanley|COUN001704;;;False;;;;;False;;1550;400;True;;;;;400;1550;;;;True;;;1550;400
+Lachish|COUN001760|BugsPresence;Lachish|COUN001760;;;False;3099;3149;Typo;;True;;;;False;;;3149;3099;;;;;True;;;;3099;3149
+Les Bagnoles|COUN001753|BugsPresence;Les Bagnoles|COUN001753;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Les Bagnoles|COUN001753|Well_250;Les Bagnoles|COUN001753;;;False;;;;;False;;6449;3649;True;;;;;3649;6449;;;;True;;;6449;3649
+Les Bagnoles|COUN001753|Well_990;Les Bagnoles|COUN001753;;;False;;;;;False;;6449;3649;True;;;;;3649;6449;;;;True;;;6449;3649
+Les Bagnoles|COUN001753|Well_994;Les Bagnoles|COUN001753;;;False;;;;;False;;6449;3649;True;;;;;3649;6449;;;;True;;;6449;3649
+London: James St.|COUN001706|BugsPresence;London: James St.|COUN001706;;;False;1275;1225;Typo;;True;;1540;884;True;;;1225;1275;884;1540;;;True;;;;1275;1225
+Meare Village East|COUN001741|BugsPresence;Meare Village East|COUN001741;;;False;;;;;False;Material from Meare Village West identified by Blair as B pisi but on holes only.;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Mikulcice|COUN001699|BugsPresence;Mikulcice|COUN001699;;;False;1250;1050;Typo;;True;;1550;400;True;;;1050;1250;400;1550;;;True;;;;1250;1050
+Mohelnice|COUN001700|BugsPresence;Mohelnice|COUN001700;;;False;;;Unknown;4500;True;;6449;3649;True;;;4500;4500;3649;6449;;;True;;;;4500;4500
+Mohelnice|COUN001703|BugsPresence;Mohelnice|COUN001703;;;False;;;Typo;4749;True;;6449;3649;True;;;4749;4749;3649;6449;;;True;;;;4749;4749
+Mynydd Parys|COUN001730|S1;Mynydd Parys|COUN001730;3642;3974;True;;;;;False;;4449;2549;True;3642;3974;;;2549;4449;True;;;;;;3974;3642
+Mynydd Parys|COUN001730|S3_1-2;Mynydd Parys|COUN001730;3696;3974;True;;;;;False;;4449;2549;True;3696;3974;;;2549;4449;True;;;;;;3974;3696
+Mynydd Parys|COUN001730|S3_11;Mynydd Parys|COUN001730;3696;3974;True;;;;;False;;4449;2549;True;3696;3974;;;2549;4449;True;;;;;;3974;3696
+Mynydd Parys|COUN001730|S3_14;Mynydd Parys|COUN001730;3696;3974;True;;;;;False;;4449;2549;True;3696;3974;;;2549;4449;True;;;;;;3974;3696
+Mynydd Parys|COUN001730|S3_15;Mynydd Parys|COUN001730;3696;3974;True;;;;;False;;4449;2549;True;3696;3974;;;2549;4449;True;;;;;;3974;3696
+Mynydd Parys|COUN001730|S3_3-5;Mynydd Parys|COUN001730;3696;3974;True;;;;;False;;4449;2549;True;3696;3974;;;2549;4449;True;;;;;;3974;3696
+Mynydd Parys|COUN001730|S3_9A-6;Mynydd Parys|COUN001730;3696;3974;True;;;;;False;;4449;2549;True;3696;3974;;;2549;4449;True;;;;;;3974;3696
+Mynydd Parys|COUN001730|S3_9B;Mynydd Parys|COUN001730;3696;3974;True;;;;;False;;4449;2549;True;3696;3974;;;2549;4449;True;;;;;;3974;3696
+Odense|COUN001758|BugsPresence;Odense|COUN001758;;;False;980;780;ChronoCal14C;;True;pit containing cat skeletons;1150;850;True;;;780;980;850;1150;;;True;;;;980;780
+Peterborough: Long Causeway|COUN001686|BugsPresence;Peterborough: Long Causeway|COUN001686;;;False;;;;;False;;1550;400;True;;;;;400;1550;;;;True;;;1550;400
+Salford|COUN001689|BugsPresence;Salford|COUN001689;;;False;;;;;False;Not clear in the report which spp came from which context.;2599;1900;True;;;;;1900;2599;;;;True;;;2599;1900
+Santorini (Thera)|COUN001752|3C;Santorini (Thera)|COUN001752;;;False;;;;;False;;3549;2599;True;;;;;2599;3549;;;;True;;;3549;2599
+Santorini (Thera)|COUN001752|S5;Santorini (Thera)|COUN001752;;;False;;;;;False;;3549;2599;True;;;;;2599;3549;;;;True;;;3549;2599
+Santorini (Thera)|COUN001752|S6;Santorini (Thera)|COUN001752;;;False;;;;;False;;3549;2599;True;;;;;2599;3549;;;;True;;;3549;2599
+Santorini (Thera)|COUN001752|Sewer;Santorini (Thera)|COUN001752;;;False;;;;;False;;3549;2599;True;;;;;2599;3549;;;;True;;;3549;2599
+Standlake: Old Shifford Farm|COUN001727|BugsPresence;Standlake: Old Shifford Farm|COUN001727;;;False;;;;;False;;1907;1540;True;;;;;1540;1907;;;;True;;;1907;1540
+Unlocated Mummy 2|COUN001688|Mummy;Unlocated Mummy 2|COUN001688;;;False;2749;2699;HistCal;;True;;;;False;;;2699;2749;;;;;True;;;;2749;2699
+Valmagne Abbey Cartulary|COUN001724|BugsPresence;Valmagne Abbey Cartulary|COUN001724;;;False;550;451;Typo;;True;;;;False;;;451;550;;;;;True;;;;550;451
+Waterford: Barronstrand St|COUN001698|BugsPresence;Waterford: Barronstrand St|COUN001698;;;False;;;;;False;;1550;400;True;;;;;400;1550;;;;True;;;1550;400
+Winchester: Cathedral Close|COUN001697|309-10;Winchester: Cathedral Close|COUN001697;;;False;;;;;False;;;;False;;;;;;;;;;;;True;;
+Winchester: Cathedral Close|COUN001697|322-3;Winchester: Cathedral Close|COUN001697;;;False;;;;;False;Later Prehisotric to Roman;1907;1540;True;;;;;1540;1907;;;;True;;;1907;1540
+Winchester: Lower Brook Street|COUN001750|244-1;Winchester: Lower Brook Street|COUN001750;;;False;950;900;Typo;;True;;1540;884;True;;;900;950;884;1540;;;True;;;;950;900
+Winchester: Lower Brook Street|COUN001750|244-2;Winchester: Lower Brook Street|COUN001750;;;False;950;900;Typo;;True;;1540;884;True;;;900;950;884;1540;;;True;;;;950;900
+Winchester: Lower Brook Street|COUN001750|244-3;Winchester: Lower Brook Street|COUN001750;;;False;950;900;Typo;;True;;1540;884;True;;;900;950;884;1540;;;True;;;;950;900
+Winchester: Lower Brook Street|COUN001750|244-4;Winchester: Lower Brook Street|COUN001750;;;False;950;900;Typo;;True;;1540;884;True;;;900;950;884;1540;;;True;;;;950;900
+Winchester: Lower Brook Street|COUN001750|266-1;Winchester: Lower Brook Street|COUN001750;;;False;950;900;Typo;;True;;1540;884;True;;;900;950;884;1540;;;True;;;;950;900
+Winchester: Lower Brook Street|COUN001750|266-2;Winchester: Lower Brook Street|COUN001750;;;False;950;900;Typo;;True;;1540;884;True;;;900;950;884;1540;;;True;;;;950;900
+Winchester: Lower Brook Street|COUN001750|271;Winchester: Lower Brook Street|COUN001750;;;False;950;900;Typo;;True;;1540;884;True;;;900;950;884;1540;;;True;;;;950;900
+Winchester: Lower Brook Street|COUN001750|283-1;Winchester: Lower Brook Street|COUN001750;;;False;1000;950;Typo;;True;;1540;884;True;;;950;1000;884;1540;;;True;;;;1000;950
+Winchester: Lower Brook Street|COUN001750|283-2;Winchester: Lower Brook Street|COUN001750;;;False;1000;950;Typo;;True;;1540;884;True;;;950;1000;884;1540;;;True;;;;1000;950
+Winchester: Lower Brook Street|COUN001750|283-3;Winchester: Lower Brook Street|COUN001750;;;False;1000;950;Typo;;True;;1540;884;True;;;950;1000;884;1540;;;True;;;;1000;950
+Winchester: Lower Brook Street|COUN001750|294;Winchester: Lower Brook Street|COUN001750;;;False;950;900;Typo;;True;;1540;884;True;;;900;950;884;1540;;;True;;;;950;900
+Worcester: The Hive|COUN001738|BugsPresence;Worcester: The Hive|COUN001738;;;False;315;285;HistCal;;True;;400;0;True;;;285;315;0;400;;;True;;;;315;285
+Worcester: The Hive|COUN001738|S1;Worcester: The Hive|COUN001738;;;False;315;285;HistCal;;True;;400;0;True;;;285;315;0;400;;;True;;;;315;285
+Worcester: The Hive|COUN001738|S2;Worcester: The Hive|COUN001738;;;False;315;285;HistCal;;True;;400;0;True;;;285;315;0;400;;;True;;;;315;285
+Worcester: The Hive|COUN001738|S3;Worcester: The Hive|COUN001738;;;False;315;285;HistCal;;True;;400;0;True;;;285;315;0;400;;;True;;;;315;285
+Worcester: The Hive|COUN001738|S4;Worcester: The Hive|COUN001738;;;False;315;285;HistCal;;True;;400;0;True;;;285;315;0;400;;;True;;;;315;285
+Worcester: The Hive|COUN001738|S5;Worcester: The Hive|COUN001738;;;False;315;285;HistCal;;True;;400;0;True;;;285;315;0;400;;;True;;;;315;285
+Worcester: The Hive|COUN001738|S6;Worcester: The Hive|COUN001738;;;False;315;285;HistCal;;True;;400;0;True;;;285;315;0;400;;;True;;;;315;285
+York: Walmgate 1995|COUN001739|C32;York: Walmgate 1995|COUN001739;;;False;;;;;False;;1550;400;True;;;;;400;1550;;;;True;;;1550;400
