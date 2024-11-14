@@ -168,10 +168,10 @@ begin
                 for v_id, v_sample_group_id, v_physical_sample_id, v_age_from, v_age_to, v_dating_specifier in (
                     select "id",  "sample_group_id", "physical_sample_id", "AgeFrom"::int, "AgeTo"::int,
                         array_to_string(Array[
-                            case when "Chosen_C14"::int = 1 then 'Chosen_C14' else null end,
-                            case when "Chosen_OtherRadio"::int = 1 then 'Chosen_OtherRadio' else null end,
-                            case when "Chosen_Calendar"::int = 1 then 'Chosen_Calendar' else null end,
-                            case when "Chosen_Period"::int = 1 then 'Chosen_Period' else null end
+                            case when "Chosen_C14" = '1' or "Chosen_C14" = 'True' then 'Chosen_C14' else null end,
+                            case when "Chosen_OtherRadio" = '1' or "Chosen_OtherRadio" = 'True' then 'Chosen_OtherRadio' else null end,
+                            case when "Chosen_Calendar" = '1' or "Chosen_Calendar" = 'True' then 'Chosen_Calendar' else null end,
+                            case when "Chosen_Period" = '1' or "Chosen_Period" = 'True' then 'Chosen_Period' else null end
                         ], ';', null)
                     from bugs_import.results_chronology_import
                     where "change_request" = p_change_request
