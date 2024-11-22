@@ -16,6 +16,7 @@ begin;
 do $$
 begin
     drop table if exists "tbl_analysis_value_dimensions" cascade;
+    drop table if exists "tbl_analysis_identifiers" cascade;
     drop table if exists "tbl_analysis_numerical_values" cascade;
     drop table if exists "tbl_analysis_numerical_ranges" cascade;
     drop table if exists "tbl_analysis_integer_values" cascade;
@@ -23,7 +24,8 @@ begin
     drop table if exists "tbl_analysis_categorical_values" cascade;
     drop table if exists "tbl_analysis_boolean_values" cascade;
     drop table if exists "tbl_analysis_dating_ranges" cascade;
-    drop table if exists "tbl_analysis_value_taxon_counts" cascade;
+    drop table if exists "tbl_analysis_taxon_counts" cascade;
+    drop table if exists "tbl_analysis_notes" cascade;
     drop table if exists "tbl_analysis_values" cascade;
     drop table if exists "tbl_value_classes" cascade;
     drop table if exists "tbl_value_type_items" cascade;
@@ -33,6 +35,7 @@ begin
     
 
     grant select on "tbl_analysis_value_dimensions" to public;
+    grant select on "tbl_analysis_identifiers" to public;
     grant select on "tbl_analysis_numerical_values" to public;
     grant select on "tbl_analysis_numerical_ranges" to public;
     grant select on "tbl_analysis_integer_values" to public;
@@ -40,7 +43,8 @@ begin
     grant select on "tbl_analysis_categorical_values" to public;
     grant select on "tbl_analysis_boolean_values" to public;
     grant select on "tbl_analysis_dating_ranges" to public;
-    grant select on "tbl_analysis_value_taxon_counts" to public;
+    grant select on "tbl_analysis_taxon_counts" to public;
+    grant select on "tbl_analysis_notes" to public;
     grant select on "tbl_analysis_values" to public;
     grant select on "tbl_value_classes" to public;
     grant select on "tbl_value_type_items" to public;
@@ -151,6 +155,12 @@ begin
             "is_variant" bool null default null
         );
 
+        create table "tbl_analysis_identifiers" (
+            "analysis_identifier_id" bigserial primary key,
+            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
+            "value" text not null
+        );
+
         create table "tbl_analysis_numerical_ranges" (
             "analysis_numerical_range_id" bigserial primary key,
             "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
@@ -190,6 +200,12 @@ begin
             "is_variant" bool null default null
         );
 
+        create table "tbl_analysis_notes" (
+            "analysis_note_id" bigserial primary key,
+            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
+            "value" text not null
+        );
+
         create table "tbl_analysis_value_dimensions" (
             "analysis_value_dimension_id" serial primary key,
             "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
@@ -197,8 +213,8 @@ begin
             "value" numeric(20,10) not null
         );
 
-        create table "tbl_analysis_value_taxon_counts" (
-            "analysis_value_dimension_id" serial primary key,
+        create table "tbl_analysis_taxon_counts" (
+            "analysis_taxon_count_id" serial primary key,
             "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
             "taxon_id" int not null references "tbl_taxa_tree_master" ("taxon_id"),
             "value" numeric(20,10) not null
