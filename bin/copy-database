@@ -21,6 +21,29 @@ if [ -f ~/vault/.default.sead.username ]; then
     g_user=`cat  ~/vault/.default.sead.username`
 fi
 
+function usage()
+{
+    local error_message=$1
+    if [ "$error_message" != "" ]; then
+        echo "$error_message"
+    fi
+    echo "usage: copy-database [--source dbname] --target dbname [--force]"
+    echo "Creates a new database using source as template."
+    echo ""
+    echo "   --source-database         source database name (default: sead_production)"
+    echo "   --target-database         target database name"
+    echo "   --host                    host name"
+    echo "   --user                    user name"
+    echo "   --port                    host port "
+    echo "   --force                   drop target if exists"
+    echo "   --sync-sequences          sync sequences in target after create"
+    echo "   --allow-production        explicitly allow deploy to production"
+    echo ""
+    echo "Example:"
+    echo "   copy-database --source sead_staging --target sead_staging_development --port 5433 --host humlabseadserv.srv.its.umu.se"
+    exit 64
+}
+
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
@@ -51,36 +74,12 @@ do
             g_sync_sequences=yes; shift
         ;;
         *)
-        POSITIONAL+=("$1")
-        shift
+            usage "fatal: unknown option $1"
         ;;
     esac
 done
 
 set -- "${POSITIONAL[@]}"
-
-function usage()
-{
-    local error_message=$1
-    if [ "$error_message" != "" ]; then
-        echo "$error_message"
-    fi
-    echo "usage: copy-database [--source dbname] --target dbname [--force]"
-    echo "Creates a new database using source as template."
-    echo ""
-    echo "   --source-database         source database name (default: sead_production)"
-    echo "   --target-database         target database name"
-    echo "   --host                    host name"
-    echo "   --user                    user name"
-    echo "   --port                    host port "
-    echo "   --force                   drop target if exists"
-    echo "   --sync-sequences          sync sequences in target after create"
-    echo "   --allow-production        explicitly allow deploy to production"
-    echo ""
-    echo "Example:"
-    echo "   copy-database --source sead_staging --target sead_staging_development --port 5433 --host humlabseadserv.srv.its.umu.se"
-    exit 64
-}
 
 if [ "$g_target_db" == "$g_source_db" ]; then
     usage "fatal: source and target cannot be the same!"
@@ -102,7 +101,7 @@ function execute_sql() {
     psql -bqw -h $g_host -p "$g_port" -U $g_user -c "$sql" $database
     if [ $? -ne 0 ];  then
         echo "fatal: sql failed!"
-        ecit 64
+        exit 64
     fi
 }
 
@@ -143,6 +142,7 @@ function create_database_by_template() {
 
     if [ "$target_db_exists" == "1" ]; then
         if [ "$g_force" == "yes" ]; then
+            kickout $target_db
             drop_database $target_db
         else
             echo "fatal: database $target_db already exists. Use --force to drop it."
