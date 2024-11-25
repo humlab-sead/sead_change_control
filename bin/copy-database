@@ -123,7 +123,7 @@ function drop_database() {
 
     echo "Dropping ${database} if exists..."
     # execute_sql "postgres" $port "alter database ${database} connection limit 0;"
-    execute_sql $database "drop database ${database} with (force);"
+    execute_sql "postgres" "drop database ${database} with (force);" > /dev/null
     # kickout $database $port
     # dropdb --echo --host=$g_host --username=$g_user --port $port -w "$database"
 }
