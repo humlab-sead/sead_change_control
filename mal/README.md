@@ -15,7 +15,7 @@ This database is equivalent to `sead_master_9`.
 Generate a script of the database as startingpoint for cr SEAD_DATABASE_MODEL.
 
 ```bash
-pg_dump -U humlab_admin -h humlabseadserv.srv.its.umu.se \
+pg_dump -U humlab_admin -h hostname \
         -d sead_staging_mal --schema-only --format=p \
         --no-security-labels --no-tablespaces --file=sead_model/public_pg_dump.sql --schema=public --create
 ```

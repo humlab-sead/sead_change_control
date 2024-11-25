@@ -123,7 +123,7 @@ bin/tag-projects--help
 ```man
 usage: deploy-staging OPTIONS...
 
-    --host SERVERNAME               Target server (humlabseadserv.srv.its.umu.se)
+    --host SERVERNAME               Target server DEFAULT_SERVER
     --user USERNAME                 User on target server (humlab_admin)
     --target-db-name DBNAME         Target database name. Mandatory.
     --create-database               Create a fresh database from given source.

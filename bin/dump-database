@@ -5,17 +5,17 @@ source .env
 DOT_HOST_FILE=~/vault/.default.sead.server
 DOT_USER_FILE=~/vault/.default.sead.username
 
-dbsource=
-dbhost=$(hostname -A)
-dbuser="humlab_admin"
-compress_dump=no
+g_database=
+g_host=$(hostname -A)
+g_user="humlab_admin"
+g_compress_dump=no
 
 if [[ -f "$DOT_HOST_FILE" ]]; then
-    dbhost=`cat $DOT_HOST_FILE`
+    g_host=`cat $DOT_HOST_FILE`
 fi
 
 if [[ -f "$DOT_USER_FILE" ]]; then
-    dbuser=`cat $DOT_USER_FILE`
+    g_user=`cat $DOT_USER_FILE`
 fi
 
 POSITIONAL=()
@@ -24,10 +24,10 @@ do
     key="$1"
     case $key in
         --database)
-            dbsource="$2"; shift; shift;
+            g_database="$2"; shift; shift;
         ;;
         --compress-dump)
-            compress_dump="yes"; shift;
+            g_compress_dump="yes"; shift;
         ;;
         *)
             POSITIONAL+=("$1")
@@ -49,19 +49,19 @@ function usage()
     exit 64
 }
 
-if [ "$dbsource" == "" ]; then
+if [ "$g_database" == "" ]; then
     usage
 fi
 
-dump_filename=${dbsource}_$(date +'%Y%m%d_%H%M%S').sql
+g_filename=${g_database}_$(date +'%Y%m%d_%H%M%S').sql
 
-pg_dump --file=${dump_filename} --format=p \
+pg_dump --file=${g_filename} --format=p \
         --create --clean \
-        --dbname=$dbsource --username=$dbuser \
-        --host=humlabseadserv.srv.its.umu.se \
+        --dbname=$g_database --username=$g_user \
+        --host=$g_host \
         --if-exists --blobs --no-tablespaces \
         --no-owner --no-privileges
 
-if [ "$compress_dump" == "yes" ]; then
-    gzip $dump_filename
+if [ "$g_compress_dump" == "yes" ]; then
+    gzip $g_filename
 fi

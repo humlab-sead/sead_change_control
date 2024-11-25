@@ -2,8 +2,8 @@
 
 scriptDir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-dbHost=humlabseadserv.srv.its.umu.se
-dbUser=humlab_admin
+g_host=$(dnsdomainname -A)
+g_user=
 dbSchema=public
 dbTarget=
 targetFolder=
@@ -11,11 +11,11 @@ templateFile=${scriptDir}/resources/dbforge-data-diff.dcomp
 createDiff=YES
 
 if [ -f ~/vault/.default.sead.server ]; then
-    dbHost=`cat ~/vault/.default.sead.server`
+    g_host=`cat ~/vault/.default.sead.server`
 fi
 
 if [ -f ~/vault/.default.sead.username ]; then
-    dbUser=`cat ~/vault/.default.sead.username`
+    g_user=`cat ~/vault/.default.sead.username`
 fi
 
 if [ ! -f "$templateFile" ]; then
@@ -35,10 +35,10 @@ do
     key="$1"
     case $key in
         --host|-h)
-            dbHost="$2"; shift; shift
+            g_host="$2"; shift; shift
         ;;
         --user|-u)
-            dbUser="$2"; shift; shift
+            g_user="$2"; shift; shift
         ;;
         --source-database|--source|-s)
             dbSource="$2"; shift; shift
@@ -78,7 +78,7 @@ do
     esac
 done
 
-if [ -z "$dbHost" ] || [ -z "$dbUser" ]; then
+if [ -z "$g_host" ] || [ -z "$g_user" ]; then
     echo "error: missing --host or --user"
     exit 64
 fi
@@ -109,7 +109,7 @@ reportPath=${targetFolder}/${dbTarget}_vs_${dbSource}_${dbSchema}.xlsx
 logPath=${targetFolder}/${dbTarget}_vs_${dbSource}_${dbSchema}.log
 syncPath=${targetFolder}/${dbTarget}_vs_${dbSource}_${dbSchema}.sql
 
-connectionString="User Id=${DBUSER};Host=${DBHOST};Port=5432;Database=postgres;Unicode=True;Connection Timeout=15;Integrated Security=False"
+connectionString="User Id=${g_user};Host=${g_host};Port=5432;Database=postgres;Unicode=True;Connection Timeout=15;Integrated Security=False"
 
 sed -e "s/CONNECTION_STRING/${connectionString}/g" \
     -e "s/SOURCE_DBNAME/${dbSource}/g" \

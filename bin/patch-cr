@@ -69,7 +69,7 @@ function usage()
 function execute_sql() {
     local database="$1"
     local sql="$2"
-    psql -bqw -h $g_host -p "$g_port" -U $g_user -c "$sql" $database
+    psql -bqw -h $g_host -p "$g_port" -U $g_user -c "$sql" $database > /dev/null
     if [ $? -ne 0 ];  then
         echo "fatal: sql failed!"
         ecit 64
@@ -79,7 +79,6 @@ function execute_sql() {
 function kickout() {
     local database="$1"
     local sql="select pg_terminate_backend(pid) from pg_stat_activity where datname = '$database' and pid <> pg_backend_pid();"
-    echo "Kicking out users from $database..."
     execute_sql "postgres" "$sql" &> /dev/null
 }
 
@@ -107,6 +106,6 @@ kickout $g_db
 for g_cr in $g_crs; do
     g_project=$(find_project "$g_cr")
     g_patch_file="$g_project/deploy/$g_cr.sql"
-    psql -h $g_host -p $g_port -U $g_user -w --dbname=$g_db --file $g_patch_file -v ON_ERROR_STOP=1
+    psql -h $g_host -p $g_port -U $g_user -w --dbname=$g_db --file $g_patch_file -q -v ON_ERROR_STOP=1
 done
 

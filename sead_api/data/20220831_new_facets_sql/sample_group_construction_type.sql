@@ -1,4 +1,3 @@
--- Active: 1661931903212@@humlabseadserv.srv.its.umu.se@5432@sead_staging@public
 select group_description, count(distinct analysis_entity_id)
 from tbl_sites s
 join tbl_sample_groups sg using (site_id)

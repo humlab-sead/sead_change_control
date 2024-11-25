@@ -3,7 +3,8 @@ SHELL := /bin/bash
 RED=\033[0;31m
 NO_COLOR=\033[0m
 
-DEFAULT_SERVER := humlabseadserv.srv.its.umu.se
+DB_HOST := $(shell dnsdomainname -A)
+DB_USER := $(shell cat ~/vault/.default.sead.username)
 TARGET_DATABASES_ALL := $(shell grep "\[target" sqitch.conf | grep -oP "\".*\"")
 SOURCE_STARTING_POINT := ./starting_point/sead_master_9_public.sql.gz
 TARGET_RELEASE := @2020.03
@@ -30,6 +31,10 @@ export SQITCH_PASSWORD
 ifndef SQITCH_PASSWORD
 	$(error SQITCH_PASSWORD is not set)
 endif
+
+apa:
+	@echo $(DB_HOST)
+	@echo $(DB_USER)
 
 .PHONY: help
 help:
@@ -111,7 +116,7 @@ clean-repository-guard:
 	fi
 
 psql-staging:
-	psql -h $(DEFAULT_SERVER) -d sead_staging -U humlab_admin
+	psql -h $(DB_HOST) -d sead_staging -U $(DB_USER
 
 # .PHONY: ask-for-password
 # .ONESHELL: ask-for-password
@@ -165,7 +170,7 @@ TARGET_STAGING_DATABASE=sead_staging_incremental_deploy
 # 	@./bin/deploy-staging --target-db-name $(TARGET_STAGING_DATABASE) --deploy-to-tag @2020.03
 
 # psql-@2020.02:
-# 	psql -h $(DEFAULT_SERVER) -d $(TARGET_STAGING_DATABASE) -U humlab_admin
+# 	psql -h $(DB_HOST) -d $(TARGET_STAGING_DATABASE) -U $(DB_USER
 
 repos:
 	@sead_repositories="$(shell gh repo list humlab-sead --json "name" --jq '["name"],(.[] | [.name]) | @tsv')" \
@@ -193,7 +198,7 @@ TARGET_RELEASE := @2022.12
 target_prefix="sead_staging_test"
 
 clearinghouse-initial-data-snapshot:
-	pg_dump -h humlabseadserv.srv.its.umu.se -U humlab_admin -d sead_production_202002 --schema=clearing_house --data-only --blobs --format=p --encoding=UTF8 -f 2020190115_DML_CLEARINGHOUSE_DATA.sql
+	pg_dump -h $(DB_HOST) -U $(DB_USER -d sead_production_202002 --schema=clearing_house --data-only --blobs --format=p --encoding=UTF8 -f 2020190115_DML_CLEARINGHOUSE_DATA.sql
 
 staging_databases: staging_databases_prepare staging_databases_create staging_databases_cleanup
 	@echo "Done!"
@@ -222,8 +227,8 @@ staging_databases_create:
 db-diff:
 	@pushd . \
 	 && cd src/sead_utility \
-	 && poetry run python compare_options.py public.json -h $(DEFAULT_SERVER) -u humlab_admin \
-		-s public -sd sead_staging -td sead_staging_test_202002 -o ./output -r humlab_admin -dc \
+	 && poetry run python compare_options.py public.json -h $(DB_HOST) -u $(DB_USER \
+		-s public -sd sead_staging -td sead_staging_test_202002 -o ./output -r $(DB_USER -dc \
 	 && popd \
 
 deploy-log:
@@ -241,12 +246,12 @@ deploy-log:
 # 		./bin/file-versions $$project/sqitch.plan /tmp/$$project ; \
 # 		shopt -s nullglob ; \
 # 		for file in /tmp/$$project/sqitch.plan* ; do \
-# 			echo sqitch check --target db:pg://humlab_admin@humlabseadserv.srv.its.umu.se/sead_staging --plan-file $$file ; \
+# 			echo sqitch check --target db:pg://$(DB_USER@$(HOST)/sead_staging --plan-file $$file ; \
 # 		done ; \
 # 		shopt -u nullglob ; \
 # 	done
 
 sqitch-verify-all-revisions:
 	@for project in $(projects); do \
-		sqitch verify --target db:pg://humlab_admin@humlabseadserv.srv.its.umu.se/sead_production_201912 --plan-file $$project/sqitch.plan ; \
+		sqitch verify --target db:pg://$(DB_USER@$(DB_HOST)/sead_production_201912 --plan-file $$project/sqitch.plan ; \
 	done
