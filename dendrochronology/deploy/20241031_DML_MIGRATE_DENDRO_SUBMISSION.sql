@@ -326,22 +326,22 @@ begin
         set is_undefined = True
     from encoded_dendro_analysis_values x
     where x.analysis_value_id = av.analysis_value_id
-    and x.pattern = 'UNDEFINED';
+      and x.pattern = 'UNDEFINED';
     
     /* SET UNCERTAINTY FLAG */
     update tbl_analysis_values av
         set is_uncertain = True
     from encoded_dendro_analysis_values x
     where x.analysis_value_id = av.analysis_value_id
-    and uncertainty_indicator is not null
-    and base_type != 'text';
+      and uncertainty_indicator is not null
+      and base_type != 'text';
 
     /* SET INDETERMINABLE FLAG */
     update tbl_analysis_values av
         set is_indeterminable = True
     from encoded_dendro_analysis_values x
     where x.analysis_value_id = av.analysis_value_id
-    and pattern = 'INDETERMINABLE';
+      and pattern = 'INDETERMINABLE';
 
     /* SET QUALIFIER VALUES */
     /* Currently qualifier only exists in typed data:
@@ -357,17 +357,17 @@ begin
         select "analysis_value_id", "qualifier", "boolean_value"
         from encoded_dendro_analysis_values av
         where TRUE
-        and "base_type" = 'boolean'
-        and "boolean_value" is not null;
+          and "base_type" = 'boolean'
+          and "boolean_value" is not null;
         
     /* ALL INTEGER VALUES */
     insert into tbl_analysis_integer_values ("analysis_value_id", "qualifier", "value")
         select analysis_value_id, qualifier, integer_value
         from encoded_dendro_analysis_values av
         where TRUE
-        and base_type = 'integer'
-        and pattern = 'INTEGER'
-        and integer_value is not null;
+          and base_type = 'integer'
+          and pattern = 'INTEGER'
+          and integer_value is not null;
 
     /* ALL CATEGORICAL VALUES */
     insert into tbl_analysis_categorical_values ("analysis_value_id", /*"qualifier",*/ "value_type_item_id")
@@ -377,9 +377,17 @@ begin
         join tbl_value_types vt using (value_type_id)
         join tbl_value_type_items ti using (value_type_id)
         where TRUE
-        and av."base_type" = 'category'
-        and upper(av."stripped_value") = upper(ti."name");
+          and av."base_type" = 'category'
+          and upper(av."stripped_value") = upper(ti."name");
 
+    insert into tbl_analysis_notes ("analysis_value_id", "value")
+        select av.analysis_value_id, dn.note
+        from tbl_analysis_entities ae
+        join tbl_dendro_dates dd using (analysis_entity_id)
+        join tbl_dendro_date_notes dn using (dendro_date_id)
+        join tbl_analysis_values av using (analysis_entity_id)
+        where true
+          and av.value_class_id in (14, 17);
 
 	/* YEAR RANGES */
 	insert into public.tbl_analysis_dating_ranges(
@@ -469,7 +477,34 @@ begin
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
-    
+    drop view if exists postgrest_api.qse_dendro_dating;
+
+    -- create or replace view postgrest_api.qse_dendro_dating as
+    --     select distinct ps.physical_sample_id,
+    --         ae.analysis_entity_id,
+    --         dl.name as "date_type",
+    --         ps.sample_name as "sample",
+    --         t.age_type as "age_type",
+    --         dd.age_older as "older",
+    --         dd.age_younger as "younger",
+    --         s.season_name as "season"
+    --         -- dd.error_plus AS plus,
+    --         -- dd.error_minus AS minus,
+    --         -- eu.error_uncertainty_type AS error_uncertainty,
+    --         -- soq.season_or_qualifier_type AS season
+    --     from tbl_physical_samples ps
+    --     join tbl_analysis_entities ae on ps.physical_sample_id = ae.physical_sample_id
+    --     join tbl_dendro_dates dd on ae.analysis_entity_id = dd.analysis_entity_id
+    --     left join tbl_seasons s using ("season_id")
+    --     left join tbl_age_types t using ("age_type_id")
+    --     left join tbl_dendro_lookup dl using ("dendro_lookup_id");
+
+    -- alter view if exists postgrest_api.qse_dendro_dating owner to postgrest;
+
+    -- grant all privileges on table postgrest_api.qse_dendro_dating to humlab_admin;
+
+    -- comment on view postgrest_api.qse_dendro_dating  is null;
+
 end $$;
 commit;
 
