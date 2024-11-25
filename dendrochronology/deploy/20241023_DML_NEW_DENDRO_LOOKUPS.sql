@@ -2812,7 +2812,32 @@ begin
             ('21', '10', 'Non-measured tree rings', 'Estimated number of non-measured tree rings outside the outermost measured tree ring.', '1', null),
             ('22', '10', 'Non-measured sapwood rings', 'Estimated number of non-measured sapwood rings outside the outermost measured tree ring1', '1', null),
             ('23', '10', 'Sapwood indicator', 'Indicates if sample has sapwood, which is the outer layers of a tree, between the heartwood and cambium. ', '1', '6')
-        )
+        ), value_types ("system_id", "public_id") as (
+			values
+                (0, 0),
+                (1, 1),
+                (2, sead_utility.get_allocated_id(
+					v_submission_identifier,
+					v_change_request_identifier,
+					'tbl_value_types',
+					'value_type_id',
+					'2'
+				)),
+                (3, 3),
+                (4, sead_utility.get_allocated_id(
+					v_submission_identifier,
+					v_change_request_identifier,
+					'tbl_value_types',
+					'value_type_id',
+					'4'
+				)),
+                (5, 5),
+                (6, 6),
+                (7, 7),
+                (8, 8),
+                (9, 9),
+                (10, 10)
+	    )
     	    insert into tbl_value_classes ("value_class_id", "method_id", "name", "description", "value_type_id", "parent_id")
             select 
                 sead_utility.allocate_system_id(
@@ -2820,21 +2845,17 @@ begin
 	                v_change_request_identifier,
 	                'tbl_value_classes',
 	                'value_class_id',
-	                new_data.system_id::text,
-	                row_to_json(new_data.*)::jsonb
+	                n.system_id::text,
+	                row_to_json(n.*)::jsonb
             	),
-				"method_id"::int,
-				"name",
-				"description", 
-				sead_utility.get_allocated_id(
-					v_submission_identifier,
-					v_change_request_identifier,
-					'tbl_value_types',
-					'value_type_id',
-					"value_type_id"
-				),
-                "parent_id"::int
-            from new_data;
+				n."method_id"::int,
+				n."name",
+				n."description", 
+				vt."public_id",
+                n."parent_id"::int
+            from new_data n
+            join value_types vt
+              on n."system_id" = vt."system_id"::text;
 
     -- Update of existing data (see https://github.com/humlab-sead/sead_change_control/issues/312)
     with new_data ("project_stage_id", "stage_name", "description") as (

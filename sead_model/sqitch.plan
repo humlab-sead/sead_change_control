@@ -18,5 +18,5 @@ SEAD_DATABASE_LOOKUPS 2023-12-20T20:33:57Z Roger Mähler <roger.mahler@umu.se> #
 
 20231123_DDL_BIBLIO_UUID 2023-11-20T07:41:12Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/144: Add UUID to bibliographic data.
 20240924_DDL_MEASURED_VALUES_REFACTOR 2024-09-25T12:19:00Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/319: Refactor of neasured value DB model to make it more generic
-20240924_DML_MEASURED_VALUES_REFACTOR 2024-11-18T13:18:02Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/330: Initial generic metadata for analysis values
+20240924_DML_MEASURED_VALUES_LOOKUPS 2024-11-18T13:18:02Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/330: Initial generic metadata for analysis values
 20241025_DIMENSIONS_ALTER_TYPE 2024-10-25T12:05:40Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/323: Increase size of descriptive field in dimensions

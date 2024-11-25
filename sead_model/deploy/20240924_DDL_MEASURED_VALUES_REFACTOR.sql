@@ -34,24 +34,6 @@ begin
     drop table if exists "tbl_value_qualifiers" cascade;
     
 
-    grant select on "tbl_analysis_value_dimensions" to public;
-    grant select on "tbl_analysis_identifiers" to public;
-    grant select on "tbl_analysis_numerical_values" to public;
-    grant select on "tbl_analysis_numerical_ranges" to public;
-    grant select on "tbl_analysis_integer_values" to public;
-    grant select on "tbl_analysis_integer_ranges" to public;
-    grant select on "tbl_analysis_categorical_values" to public;
-    grant select on "tbl_analysis_boolean_values" to public;
-    grant select on "tbl_analysis_dating_ranges" to public;
-    grant select on "tbl_analysis_taxon_counts" to public;
-    grant select on "tbl_analysis_notes" to public;
-    grant select on "tbl_analysis_values" to public;
-    grant select on "tbl_value_classes" to public;
-    grant select on "tbl_value_type_items" to public;
-    grant select on "tbl_value_types" to public;
-    grant select on "tbl_value_qualifier_symbols" to public;
-    grant select on "tbl_value_qualifiers" to public;
-    
     begin
  
         create table "tbl_value_qualifiers" (
@@ -64,10 +46,6 @@ begin
             "cardinal_symbol" text not null references "tbl_value_qualifiers" ("symbol")
         );
 
-        -- create view value_qualifier_symbols_escaped as
-        --     select distinct regexp_replace(symbol, '(\.|\^|\$|\||\(|\)|\{|\}|\*|\+|\?|\[|\]])', '\\\1', 'g') as symbol
-        --     from tbl_value_qualifier_symbols;
-
         create table "tbl_value_types" (
             "value_type_id" int primary key,
             "unit_id" int null references "tbl_units" ("unit_id"),
@@ -77,12 +55,6 @@ begin
             "precision" int null default null,
             "description" text not null
         );
-
-        -- create table "tbl_value_type_record_type_constraints" (
-        --     "value_type_record_type_id" serial primary key,
-        --     "value_type_id" int not null key references "tbl_value_types" ("value_type_id"),
-        --     "record_type_id" int null references "tbl_record_types" ("record_type_id")
-        -- );
 
         create table "tbl_value_type_items" (
             "value_type_item_id" int primary key,
@@ -100,15 +72,6 @@ begin
             "name" varchar(80) not null,
             "description" text not null
         );
-
-        -- Allow for multiple value classes to be associated with a single value type
-        -- create table "tbl_value_class_types" (
-        --     "value_class_type_id" serial primary key,
-        --     "name" text not null unique,
-        --     "description" text not null,
-        --     "value_class_id" int not null references "tbl_value_classes" ("value_class_id"),
-        --     "value_type_id" int not null references "tbl_value_types" ("value_type_id") 
-        -- );
 
         create table "tbl_analysis_values" (
             "analysis_value_id" bigserial primary key,
@@ -223,6 +186,24 @@ begin
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
+    
+    grant select on "tbl_analysis_value_dimensions" to public;
+    grant select on "tbl_analysis_identifiers" to public;
+    grant select on "tbl_analysis_numerical_values" to public;
+    grant select on "tbl_analysis_numerical_ranges" to public;
+    grant select on "tbl_analysis_integer_values" to public;
+    grant select on "tbl_analysis_integer_ranges" to public;
+    grant select on "tbl_analysis_categorical_values" to public;
+    grant select on "tbl_analysis_boolean_values" to public;
+    grant select on "tbl_analysis_dating_ranges" to public;
+    grant select on "tbl_analysis_taxon_counts" to public;
+    grant select on "tbl_analysis_notes" to public;
+    grant select on "tbl_analysis_values" to public;
+    grant select on "tbl_value_classes" to public;
+    grant select on "tbl_value_type_items" to public;
+    grant select on "tbl_value_types" to public;
+    grant select on "tbl_value_qualifier_symbols" to public;
+    grant select on "tbl_value_qualifiers" to public;
     
 end $$;
 commit;

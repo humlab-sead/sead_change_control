@@ -1,4 +1,4 @@
--- Deploy sead_model: 20240924_DML_MEASURED_VALUES_REFACTOR
+-- Deploy sead_model: 20240924_DML_MEASURED_VALUES_LOOKUPS
 
 /****************************************************************************************************************
   Author        Roger Mähler
@@ -30,7 +30,7 @@ begin
             (8, null, null, 'Label', 'text', null, 'A designation of something'),
             (9, null, null, 'Identifier', 'text', null, 'An identification of something'),
             (10, '8', null, 'Year range', 'int4range', null, 'A range of years'),
-            (11, null, '8', 'Measurement', 'decimal', null, 'A decimal measurement result of an  analysis.')
+            (11, null, '8', 'Measurement', 'decimal', null, 'A decimal measurement result of an analysis.')
         )
     	    insert into tbl_value_types ("value_type_id", "unit_id", "data_type_id", "name", "base_type", "precision", "description")
             select "value_type_id", "unit_id"::int, "data_type_id"::int, "name", "base_type", "precision"::int, "description"
