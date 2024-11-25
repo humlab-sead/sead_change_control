@@ -1,0 +1,122 @@
+#!/bin/bash
+
+SHELL=/bin/bash
+
+set -e
+
+. $(dirname "$0")/utility.sh
+
+usage_message=$(cat <<EOF
+usage: rename-cr OPTIONS...
+
+Rename a change without moving to another project. 
+If change is not found, no action is taken.
+
+    --change                Change to remove.
+    --to-project NAME       Project change should be moved to.
+    --tag TAG               Move change to TAG in destination plan.
+    --no-update-plan        Do not update Sqitch plans.
+
+Example:
+
+bin/rename-cr CHANGE NEW-CHANGE
+
+EOF
+)
+
+function usage() {
+    if [ "$1" != "" ]; then
+        echo "$1"
+    fi
+    echo "$usage_message"
+}
+
+g_change=
+g_project=
+g_update_plan=YES
+g_run=
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --project|-f)
+            g_project="$2";
+            shift 2;
+        ;;
+        --no-update-plan|-u)
+            g_update_plan="NO";
+            shift;
+        ;;
+        --dry-run)
+            g_run="echo";
+            shift;
+        ;;
+        --help|-h)
+            usage
+            exit 0
+        ;;
+        --*)
+            echo "error: invalid option $1"
+            usage
+            exit 64 
+        ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+if [ "$#" -ne 2 ]; then
+    usage "error: missing required arguments"
+    exit 1
+fi
+
+g_cr=$1
+g_cr_new=$2
+
+if [ "$g_project" == "" ]; then
+    g_project=$(find_project "$g_cr")
+fi
+
+if [ "$g_project" == "" ]; then
+    usage "fatal: patch ${g_cr} not found!"
+fi
+
+if [ ! -f "$g_project/sqitch.plan" ]; then
+    echo "error: project $g_project does not exist"
+    exit 64
+fi
+
+if [ ! -f "$g_project/deploy/${g_cr}.sql" ]; then
+    usage "fatal: change $g_cr not found!"
+fi
+
+
+if [ -f "$g_project/deploy/${g_cr_new}.sql" ]; then
+    echo "error: change $g_cr_new already exists"
+    exit 64
+fi
+
+for type in deploy revert verify; do
+    $g_run mv "$g_project/$type/${g_cr}.sql" "$g_project/$type/${g_cr_new}.sql"
+    $g_run sed -i "s/$g_cr/$g_cr_new/g" "$g_project/$type/${g_cr_new}.sql"
+done
+
+if [ "$g_update_plan" == "YES" ]; then
+
+    $g_run sed -i "s/$g_cr/$g_cr_new/g" "$g_project/sqitch.plan"
+
+    issue_id=$(get_cr_issue_id "$g_project" "$g_cr_new")
+    if [ ! -z "$issue_id" ]; then
+        $g_run gh issue comment -b "Renamed from $g_cr to $g_cr_new." $issue_id
+    fi
+    $g_run gh issue edit $issue_id --title "$g_cr_new"
+fi
+
+echo "Change $g_cr renamed to $g_cr_new."
