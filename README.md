@@ -124,7 +124,7 @@ bin/tag-projects--help
 usage: deploy-staging OPTIONS...
 
     --host SERVERNAME               Target server DEFAULT_SERVER
-    --user USERNAME                 User on target server (humlab_admin)
+    --user USERNAME                 User on target server (USERNAME)
     --target-db-name DBNAME         Target database name. Mandatory.
     --create-database               Create a fresh database from given source.
     --create-snapshot               Create snapshot of database.

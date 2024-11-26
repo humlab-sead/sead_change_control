@@ -6,8 +6,8 @@ DOT_HOST_FILE=~/vault/.default.sead.server
 DOT_USER_FILE=~/vault/.default.sead.username
 
 g_database=
-g_host=$(hostname -A)
-g_user="humlab_admin"
+g_host=$(dnsdomainname -A)
+g_user=
 g_compress_dump=no
 
 if [[ -f "$DOT_HOST_FILE" ]]; then
