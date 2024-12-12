@@ -15,8 +15,6 @@ set client_encoding = 'UTF8';
 set standard_conforming_strings = on;
 set client_min_messages = warning;
 
--- select
---     pg_catalog.set_config('search_path', '', false);
 set role sead_master;
 
 create schema if not exists public;
