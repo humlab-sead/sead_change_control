@@ -44,3 +44,4 @@
 20240404_DDL_DENDRO_AGE_RANGE_FACET 2024-06-01T09:17:53Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/290: Generic age range filter for dendrchronology. Return both estimated felling year and outermost tree ring.
 20240601_DML_RRB_SYSTEMS_FACET 2024-06-02T09:38:46Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/115: Add location name to displayed text
 20240604_DML_SAMPLE_GROUP_FACET 2024-06-04T09:22:55Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/301: Add site name to displayed text
+20240604_DML_GEOCHRONOLOGY_FACET 2024-06-04T10:26:24Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/300: Fix geochronology facet
