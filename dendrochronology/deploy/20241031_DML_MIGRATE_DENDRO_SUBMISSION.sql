@@ -52,7 +52,10 @@ begin
         from "tbl_analysis_dating_ranges"
         union
         select analysis_value_id, 'taxon_count' as key
-        from "tbl_analysis_value_taxon_counts";
+        from "tbl_analysis_taxon_counts"
+        union
+        select analysis_value_id, 'note' as key
+        from "tbl_analysis_notes";
 
 	create or replace view encoded_dendro_analysis_values as
         with
@@ -294,11 +297,15 @@ begin
         left join tbl_seasons using (season_id)
         left join tbl_dating_uncertainty using (dating_uncertainty_id)
     ), existing_dendro_dates as (
-        select "value_class_id", "analysis_entity_id", string_agg(distinct "dendro_value", ' eller ') as "analysis_value"
+        select distinct "value_class_id", "analysis_entity_id", "dendro_value" as "analysis_value"
         from tbl_dendro_dates dd
         join dendro_lookup using (dendro_lookup_id)
         join dendro_date_values using ("analysis_entity_id")
-        group by "analysis_entity_id", "value_class_id"
+        -- select "value_class_id", "analysis_entity_id", string_agg(distinct "dendro_value", ' eller ') as "analysis_value"
+        -- from tbl_dendro_dates dd
+        -- join dendro_lookup using (dendro_lookup_id)
+        -- join dendro_date_values using ("analysis_entity_id")
+        -- group by "analysis_entity_id", "value_class_id"
 
     ), existing_dendro_data as (
         select vc."value_class_id", d."analysis_entity_id", "measurement_value" as "analysis_value"
@@ -313,7 +320,9 @@ begin
             from existing_dendro_data d
             left join tbl_analysis_values av using ("analysis_entity_id")
             where av."analysis_entity_id" is null
+
             union all            
+            
             select d."value_class_id", d."analysis_entity_id", d."analysis_value"
             from existing_dendro_dates d
             left join tbl_analysis_values av using ("analysis_entity_id")
@@ -390,7 +399,7 @@ begin
           and av.value_class_id in (14, 17);
 
 	/* YEAR RANGES */
-	insert into public.tbl_analysis_dating_ranges(
+	insert into tbl_analysis_dating_ranges(
 		analysis_value_id, low_value, high_value, low_is_uncertain, high_is_uncertain,
 		low_qualifier, high_qualifier, age_type_id, season_id, dating_uncertainty_id
 	)
