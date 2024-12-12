@@ -1,0 +1,7 @@
+-- Revert subsystem:20241127_DDL_CLEARINGHOUSE_IMPORT_TABLES from pg
+
+BEGIN;
+
+-- XXX Add DDLs here.
+
+COMMIT;

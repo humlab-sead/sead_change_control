@@ -17,3 +17,5 @@
 @2023.12 2023-12-04T09:00:16Z Roger Mähler <roger.mahler@umu.se> # 2023 December release
 
 
+
+20241127_DDL_CLEARINGHOUSE_IMPORT_TABLES 2024-11-27T15:59:53Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/331: Helper view for Excel import
