@@ -1,0 +1,22 @@
+#!/bin/bash
+
+target_db="sead_staging_development"
+
+g_port=5433
+g_user=
+g_verbose=no
+g_host=$(dnsdomainname -A)
+
+if [ -f ~/vault/.default.sead.server ]; then
+    g_host=`cat ~/vault/.default.sead.server`
+fi
+
+echo $g_host
+
+copy-database --source sead_staging_dev_template --target $target_db --port $g_port --force --host $g_host
+
+bin/patch-cr --port $g_port --database $target_db \
+    20240924_DDL_MEASURED_VALUES_REFACTOR \
+    20240924_DML_MEASURED_VALUES_LOOKUPS \
+    20241023_DML_NEW_DENDRO_LOOKUPS \
+    20241031_DML_MIGRATE_DENDRO_SUBMISSION
