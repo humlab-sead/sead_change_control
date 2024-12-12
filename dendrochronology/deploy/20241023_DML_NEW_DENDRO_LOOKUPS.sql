@@ -2855,7 +2855,7 @@ begin
                 n."parent_id"::int
             from new_data n
             join value_types vt
-              on n."system_id" = vt."system_id"::text;
+              on n."value_type_id" = vt."system_id"::text;
 
     -- Update of existing data (see https://github.com/humlab-sead/sead_change_control/issues/312)
     with new_data ("project_stage_id", "stage_name", "description") as (
