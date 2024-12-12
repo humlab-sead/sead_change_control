@@ -104,8 +104,21 @@ done
 kickout $g_db
 
 for g_cr in $g_crs; do
+
     g_project=$(find_project "$g_cr")
     g_patch_file="$g_project/deploy/$g_cr.sql"
+    g_temp_file="/tmp/$g_cr.sql"
+
+    if grep -q "\/repo" "$g_patch_file"; then
+        sed 's/\/repo/./g' "$g_patch_file" > "$g_temp_file"
+        g_patch_file="$g_temp_file"
+    fi
+
     psql -h $g_host -p $g_port -U $g_user -w --dbname=$g_db --file $g_patch_file -q -v ON_ERROR_STOP=1
+
+    if [ -f "$g_temp_file" ]; then
+        rm -f "$g_temp_file"
+    fi
+
 done
 
