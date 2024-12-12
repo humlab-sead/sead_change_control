@@ -1,0 +1,521 @@
+/*****************************************************************************************************************************
+ **	Function	fn_DD2DMS
+ **	Who			Roger Mähler
+ **	When		2013-10-14
+ **	What		Converts geoposition DD to DMS
+ **	Uses
+ **	Used By     DEPREACTED - NOT USED
+ **	Revisions
+ ******************************************************************************************************************************/
+create or replace function clearing_house.fn_DD2DMS(p_dDecDeg in float, p_sDegreeSymbol in varchar(1) = 'd', p_sMinuteSymbol in varchar(1) = 'm', p_sSecondSymbol in varchar(1) = 's')
+    returns varchar (
+        50
+)
+    as $$
+declare
+    v_iDeg int;
+    v_iMin int;
+    v_dSec float;
+begin
+    v_iDeg := trunc(p_dDecDeg)::int;
+    v_iMin := trunc((abs(p_dDecDeg) - abs(v_iDeg)) * 60)::int;
+    v_dSec := round(((((abs(p_dDecDeg) - abs(v_iDeg)) * 60) - v_iMin) * 60)::numeric, 3)::float;
+    return trim(to_char(v_iDeg, '9999')) || p_sDegreeSymbol::text || trim(to_char(v_iMin, '99')) || p_sMinuteSymbol::text || case when v_dSec = 0::float then
+        '0'
+    else
+        replace(trim(to_char(v_dSec, '99.999')), '.000', '')
+    end || p_sSecondSymbol::text;
+end
+$$
+language plpgsql;
+
+
+/*****************************************************************************************************************************
+ **	Function	fn_pascal_case_to_underscore i.e. pascal/camel_case_to_snake_case
+ **	Who			Roger Mähler
+ **	When		2013-10-14
+ **	What		Converts PascalCase to pascal_case
+ **	Uses
+ **	Used By
+ **	Revisions   Add underscore before digits as well e.g. "address1" becomes "address_1"
+ **              previously: lower(Left(p_token, 1) || regexp_replace(substring(p_token from 2), E'([A-Z])', E'\_\\1','g'));
+ ******************************************************************************************************************************/
+-- Select fn_pascal_case_to_underscore('c14AgeOlder'), clearing_house.fn_pascal_case_to_underscore('address1');
+create or replace function clearing_house.fn_pascal_case_to_underscore(p_token character varying(255))
+    returns character varying (
+        255
+)
+    as $$
+begin
+    return lower(regexp_replace(p_token, '([[:lower:]]|[0-9])([[:upper:]]|[0-9]$)', '\1_\2', 'g'));
+end
+$$
+language plpgsql;
+
+
+/*****************************************************************************************************************************
+ **	Function	fn_java_type_to_PostgreSQL
+ **	Who			Roger Mähler
+ **	When		2013-10-14
+ **	What		Converts Java type to PostgreSQL data type
+ **	Uses
+ **	Used By
+ **	Revisions
+ ******************************************************************************************************************************/
+-- Select fn_pascal_case_to_underscore('RogerMahler')
+create or replace function clearing_house.fn_java_type_to_postgresql(s_type_name character varying)
+    returns character varying
+    language 'plpgsql'
+    as $BODY$
+begin
+    if(lower(s_type_name) in('java.util.date', 'java.sql.date')) then
+        return 'date';
+    end if;
+
+    if(lower(s_type_name) in('java.math.bigdecimal', 'java.lang.double')) then
+        return 'numeric';
+    end if;
+
+    if(lower(s_type_name) in('java.lang.integer', 'java.util.integer', 'java.long.short')) then
+        return 'integer';
+    end if;
+
+    if(lower(s_type_name) = 'java.lang.boolean') then
+        return 'boolean';
+    end if;
+
+    if(lower(s_type_name) in('java.lang.string', 'java.lang.character')) then
+        return 'text';
+    end if;
+
+    if(s_type_name like 'com.sead.database.Tbl%' or s_type_name like 'Tbl%') then
+        return 'integer';
+
+
+        /* FK */
+    end if;
+
+    raise exception 'Fatal error: Java type % encountered in XML not expected', s_type_name;
+end
+$BODY$;
+
+
+/*****************************************************************************************************************************
+ **	Function	fn_table_exists
+ **	Who			Roger Mähler
+ **	When		2013-10-14
+ **	What		Checks if table exists in current DB-schema
+ **	Uses
+ **	Used By
+ **	Revisions
+ ******************************************************************************************************************************/
+-- Select fn_table_exists('tbl_submission_xml_content_meta_tables')
+create or replace function clearing_house.fn_table_exists(p_table_name character varying(255))
+    returns boolean
+    as $$
+declare
+    exists boolean;
+begin
+    select
+        count(*) > 0 into exists
+    from
+        information_schema.tables
+    where
+        table_catalog = CURRENT_CATALOG
+        and table_schema = CURRENT_SCHEMA
+        and table_name = p_table_name;
+    return exists;
+end
+$$
+language plpgsql;
+
+
+/*****************************************************************************************************************************
+ **	Function	fn_get_entity_type_for
+ **	Who			Roger Mähler
+ **	When		2013-10-14
+ **	What		Returns entity type for table
+ **	Uses
+ **	Used By
+ **	Revisions
+ ******************************************************************************************************************************/
+-- Select clearing_house.fn_get_entity_type_for('tbl_sites')
+create or replace function clearing_house.fn_get_entity_type_for(p_table_name character varying(255))
+    returns int
+    as $$
+declare
+    table_entity_type_id int;
+begin
+    select
+        x.entity_type_id into table_entity_type_id
+    from
+        clearing_house.tbl_clearinghouse_reject_entity_types x
+        join clearing_house.tbl_clearinghouse_submission_tables t on x.table_id = t.table_id
+    where
+        table_name_underscored = p_table_name;
+
+    return coalesce(table_entity_type_id, 0);
+end
+$$
+language plpgsql;
+
+
+/*****************************************************************************************************************************
+ **	Function	fn_sead_table_entity_name
+ **	Who			Roger Mähler
+ **	When		2018-10-21
+ **	What        Computes a noun from a sead table name in singular form
+ **	Uses
+ **	Used By     Clearinghouse transfer & commit
+ **	Revisions
+ ******************************************************************************************************************************/
+create or replace function clearing_house.fn_sead_table_entity_name(p_table_name text)
+    returns information_schema.sql_identifier
+    as $$
+begin
+    return replace(
+        case when p_table_name like '%ies' then
+            regexp_replace(p_table_name, 'ies$', 'y')
+        when not p_table_name like '%status' then
+            rtrim(p_table_name, 's')
+        else
+            p_table_name
+        end, 'tbl_', '')::information_schema.sql_identifier as entity_name;
+end;
+$$
+language plpgsql;
+
+-- Drop Function If Exists clearing_house.fn_dba_get_sead_public_db_schema(text, text);
+/*********************************************************************************************************************************
+ **  Function    view_foreign_keys
+ **  When        2019-04-24
+ **  What        Retrieves foreign keys from all schemas
+ **  Who         Roger Mähler
+ **  Uses        information_schema
+ **  Used By     Clearing House installation. DBA.
+ **  Note        Assumes all FK-constraints are single key value
+ **  Revisions
+ **********************************************************************************************************************************/
+create or replace view clearing_house.view_foreign_keys as (
+    with table_columns as (
+        select
+            t.oid,
+            ns.nspname,
+            t.relname,
+            attr.attname,
+            attr.attnum
+        from
+            pg_class t
+            join pg_namespace ns on ns.oid = t.relnamespace
+            join pg_attribute attr on attr.attrelid = t.oid
+                and attr.attnum > 0
+)
+            select distinct
+                t.nspname as schema_name,
+                t.oid as table_oid,
+                t.relname as table_name,
+                t.attname as column_name,
+                t.attnum as attnum,
+                s.nspname as f_schema_name,
+                s.relname as f_table_name,
+                s.attname as f_column_name,
+                s.oid as f_table_oid,
+                t.attnum as f_attnum
+            from
+                pg_constraint
+            join table_columns t on t.oid = pg_constraint.conrelid
+                and t.attnum = pg_constraint.conkey[1]
+                and (t.attnum = any (pg_constraint.conkey))
+            join table_columns s on s.oid = pg_constraint.confrelid
+                and (s.attnum = any (pg_constraint.confkey))
+        where
+            pg_constraint.contype = 'f'::"char");
+
+
+/*********************************************************************************************************************************
+ **  Function    fn_dba_get_sead_public_db_schema
+ **  When        2013-10-18
+ **  What        Retrieves SEAD public db schema catalog
+ **  Who         Roger Mähler
+ **  Uses        INFORMATION_SCHEMA.catalog in SEAD production
+ **  Used By     Clearing House installation. DBA.
+ **  Revisions   2018-06-23 Major rewrite using pg_xxx tables for faster performance and FK inclusion
+ **********************************************************************************************************************************/
+-- select * from clearing_house.fn_dba_get_sead_public_db_schema3('public')
+create or replace function clearing_house.fn_dba_get_sead_public_db_schema(p_schema_name text default 'public', p_owner text default 'sead_master')
+    returns table(
+        table_schema information_schema.sql_identifier,
+        table_name information_schema.sql_identifier,
+        column_name information_schema.sql_identifier,
+        ordinal_position information_schema.cardinal_number,
+        data_type information_schema.character_data,
+        numeric_precision information_schema.cardinal_number,
+        numeric_scale information_schema.cardinal_number,
+        character_maximum_length information_schema.cardinal_number,
+        is_nullable information_schema.yes_or_no,
+        is_pk information_schema.yes_or_no,
+        is_fk information_schema.yes_or_no,
+        fk_table_name information_schema.sql_identifier,
+        fk_column_name information_schema.sql_identifier)
+    language 'plpgsql'
+    as $body$
+begin
+    return query
+    select
+        pg_tables.schemaname::information_schema.sql_identifier as table_schema,
+        pg_tables.tablename::information_schema.sql_identifier as table_name,
+        pg_attribute.attname::information_schema.sql_identifier as column_name,
+        pg_attribute.attnum::information_schema.cardinal_number as ordinal_position,
+        format_type(pg_attribute.atttypid, null)::information_schema.character_data as data_type,
+        case pg_attribute.atttypid
+        when 21
+        /*int2*/
+        then
+            16
+        when 23
+        /*int4*/
+        then
+            32
+        when 20
+        /*int8*/
+        then
+            64
+        when 1700
+        /*numeric*/
+        then
+            case when pg_attribute.atttypmod = - 1 then
+                null
+            else
+((pg_attribute.atttypmod - 4) >> 16) & 65535 -- calculate the precision
+        end
+        when 700
+        /*float4*/
+        then
+            24
+            /*flt_mant_dig*/
+        when 701
+        /*float8*/
+        then
+            53
+            /*dbl_mant_dig*/
+        else
+            null
+        end::information_schema.cardinal_number as numeric_precision,
+        case when pg_attribute.atttypid in(21, 23, 20) then
+            0
+        when pg_attribute.atttypid in(1700) then
+            case when pg_attribute.atttypmod = - 1 then
+                null
+            else
+(pg_attribute.atttypmod - 4) & 65535 -- calculate the scale
+        end
+    else
+        null
+        end::information_schema.cardinal_number as numeric_scale,
+        case when pg_attribute.atttypid not in(1042, 1043)
+            or pg_attribute.atttypmod = - 1 then
+            null
+        else
+            pg_attribute.atttypmod - 4
+        end::information_schema.cardinal_number as character_maximum_length,
+        case pg_attribute.attnotnull
+        when false then
+            'YES'
+        else
+            'NO'
+        end::information_schema.yes_or_no as is_nullable,
+        case when pk.contype is null then
+            'NO'
+        else
+            'YES'
+        end::information_schema.yes_or_no as is_pk,
+        case when fk.table_oid is null then
+            'NO'
+        else
+            'YES'
+        end::information_schema.yes_or_no as is_fk,
+        fk.f_table_name::information_schema.sql_identifier,
+        fk.f_column_name::information_schema.sql_identifier
+    from
+        pg_tables
+        join pg_class on pg_class.relname = pg_tables.tablename
+        join pg_namespace ns on ns.oid = pg_class.relnamespace
+            and ns.nspname = pg_tables.schemaname
+        join pg_attribute on pg_class.oid = pg_attribute.attrelid
+            and pg_attribute.attnum > 0
+        left join pg_constraint pk on pk.contype = 'p'::"char"
+            and pk.conrelid = pg_class.oid
+            and(pg_attribute.attnum = any(pk.conkey))
+        left join clearing_house.view_foreign_keys as fk on fk.table_oid = pg_class.oid
+            and fk.attnum = pg_attribute.attnum
+    where
+        true
+        and pg_tables.tableowner = p_owner
+        and pg_attribute.atttypid <> 0::oid
+        and pg_tables.schemaname = p_schema_name
+    order by
+        table_name,
+        ordinal_position asc;
+end
+$body$;
+
+create or replace function clearing_house.chown(in_schema character varying, new_owner character varying)
+    returns void
+    as $$
+declare
+    object_types varchar[];
+    object_classes varchar[];
+    object_type record;
+    r record;
+begin
+    object_types = '{type,table,table,sequence,index,view}';
+    object_classes = '{c,t,r,S,i,v}';
+
+    for object_type in
+    select
+        unnest(object_types) type_name,
+        unnest(object_classes) code loop
+            for r in
+            select
+                n.nspname,
+                c.relname
+            from
+                pg_class c,
+                pg_namespace n
+            where
+                n.oid = c.relnamespace
+                and nspname = in_schema
+                and relkind = object_type.code loop
+                    raise notice 'Changing ownership of % %.% to %', object_type.type_name, r.nspname, r.relname, new_owner;
+                    execute format('alter %s %I.%I owner to %I', object_type.type_name, r.nspname, r.relname, new_owner);
+                end loop;
+        end loop;
+
+    for r in
+    select
+        p.proname,
+        n.nspname,
+        pg_catalog.pg_get_function_identity_arguments(p.oid) args
+    from
+        pg_catalog.pg_namespace n
+        join pg_catalog.pg_proc p on p.pronamespace = n.oid
+    where
+        n.nspname = in_schema loop
+            raise notice 'Changing ownership of function %.%(%) to %', r.nspname, r.proname, r.args, new_owner;
+            execute format('alter function %I.%I (%s) owner to %I', r.nspname, r.proname, r.args, new_owner);
+        end loop;
+
+    for r in
+    select
+        *
+    from
+        pg_catalog.pg_namespace n
+        join pg_catalog.pg_ts_dict d on d.dictnamespace = n.oid
+    where
+        n.nspname = in_schema loop
+            execute format('alter text search dictionary %I.%I owner to %I', r.nspname, r.dictname, new_owner);
+        end loop;
+end
+$$
+language plpgsql;
+
+
+/*****************************************************************************************************************************
+**	Function	fn_delete_submission
+**	Who			Roger Mähler
+**	When		2018-07-03
+**	What		Completely removes a submission
+**	Uses
+**	Used By
+**	Revisions
+******************************************************************************************************************************/
+-- Select clearing_house.fn_delete_submission(4)
+
+create or replace function clearing_house.fn_delete_submission(p_submission_id int, p_clear_header boolean=false, p_clear_exploded boolean=true)
+returns void as $$
+    declare v_table_name_underscored character varying;
+begin
+
+    if p_clear_exploded then
+        delete from clearing_house.tbl_clearinghouse_submission_xml where submission_id = p_submission_id;
+        delete from clearing_house.tbl_clearinghouse_submission_xml_content_values where submission_id = p_submission_id;
+        delete from clearing_house.tbl_clearinghouse_submission_xml_content_columns where submission_id = p_submission_id;
+        delete from clearing_house.tbl_clearinghouse_submission_xml_content_records where submission_id = p_submission_id;
+        delete from clearing_house.tbl_clearinghouse_submission_xml_content_tables where submission_id = p_submission_id;
+    end if;
+
+    for v_table_name_underscored in (
+        select table_name_underscored
+        from clearing_house.tbl_clearinghouse_submission_tables
+    ) loop
+
+      if exists (
+        select 1
+        from pg_tables
+        where schemaname = 'clearing_house'
+          and tablename  = v_table_name_underscored
+      ) then
+          raise notice 'table %...', v_table_name_underscored;
+          execute format('delete from clearing_house.%s where submission_id = %s;', v_table_name_underscored, p_submission_id);
+        end if;
+    end loop;
+
+    if p_clear_header then
+        delete from clearing_house.tbl_clearinghouse_submissions where submission_id = p_submission_id;
+        perform setval(pg_get_serial_sequence('clearing_house.tbl_clearinghouse_submissions', 'submission_id'), coalesce(max(submission_id), 0) + 1, false)
+        from clearing_house.tbl_clearinghouse_submissions;
+    end if;
+
+    -- raise notice 'done!';
+end $$ language plpgsql;
+
+/*****************************************************************************************************************************
+**	Function	fn_truncate_all_entity_tables
+**	Who			Roger Mähler
+**	When		2018-03-25
+**	What		Truncates all clearinghouse entity tables and resets sequences
+**  Note        NOTE! This Function clears ALL entities in CH tables!
+**	Uses
+**	Revisions
+******************************************************************************************************************************/
+-- Select clearing_house.fn_truncate_all_entity_tables()
+create or replace function clearing_house.fn_truncate_all_entity_tables()
+Returns void As $$
+    Declare x record;
+    Declare command text;
+    Declare item_count int;
+Begin
+
+    -- Raise 'This error raise must be removed before this function will run';
+
+	For x In (
+        Select t.*
+        From clearing_house.tbl_clearinghouse_submission_tables t
+	) Loop
+
+        command = 'select count(*) from clearing_house.' || x.table_name_underscored || ';';
+
+        Raise Notice '%: %', command, item_count;
+
+        Begin
+            Execute command Into item_count;
+            If item_count > 0 Then
+                command = 'TRUNCATE clearing_house.' || x.table_name_underscored || ' RESTART IDENTITY;';
+                Execute command;
+            End If;
+       Exception
+            When undefined_table Then
+                Raise Notice 'Missing: %', x.table_name_underscored;
+                -- Do nothing, and loop to try the UPDATE again.
+       End;
+
+	truncate table clearing_house.tbl_clearinghouse_submission_xml_content_values restart identity cascade;
+	truncate table clearing_house.tbl_clearinghouse_submission_xml_content_columns restart identity cascade;
+	truncate table clearing_house.tbl_clearinghouse_submission_xml_content_records restart identity cascade;
+	truncate table clearing_house.tbl_clearinghouse_submission_xml_content_tables restart identity cascade;
+    truncate table clearing_house.tbl_clearinghouse_submissions restart identity cascade;
+    -- truncate table clearing_house.tbl_clearinghouse_xml_temp restart identity cascade;
+
+	End Loop;
+	End
+$$ Language plpgsql;
