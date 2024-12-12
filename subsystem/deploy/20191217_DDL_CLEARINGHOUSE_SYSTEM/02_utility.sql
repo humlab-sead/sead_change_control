@@ -509,6 +509,7 @@ Begin
                 -- Do nothing, and loop to try the UPDATE again.
        End;
 
+	truncate table clearing_house.tbl_clearinghouse_submission_xml restart identity cascade;
 	truncate table clearing_house.tbl_clearinghouse_submission_xml_content_values restart identity cascade;
 	truncate table clearing_house.tbl_clearinghouse_submission_xml_content_columns restart identity cascade;
 	truncate table clearing_house.tbl_clearinghouse_submission_xml_content_records restart identity cascade;

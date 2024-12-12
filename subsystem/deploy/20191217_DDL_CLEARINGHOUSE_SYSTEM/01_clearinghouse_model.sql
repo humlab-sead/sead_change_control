@@ -10,6 +10,8 @@
  **********************************************************************************************************************************/
 -- Select clearing_house.fn_dba_create_clearing_house_db_model();
 -- Drop Function If Exists fn_dba_create_clearing_house_db_model(BOOLEAN);
+
+
 create or replace procedure clearing_house.create_clearinghouse_model(p_drop_tables boolean = false)
     as $$
     begin
@@ -169,8 +171,6 @@ create or replace procedure clearing_house.create_clearinghouse_model(p_drop_tab
                         data_types character varying(255 ),
                         upload_user_id integer not null,
                         upload_date date not null default now( ),
-                        upload_content text,
-                        "xml" xml,
                         status_text text,
                         claim_user_id integer,
                         claim_date_time date,
@@ -179,6 +179,11 @@ create or replace procedure clearing_house.create_clearinghouse_model(p_drop_tab
                         constraint fk_tbl_submissions_state_id_state_id foreign key(submission_state_id ) references clearing_house.tbl_clearinghouse_submission_states(submission_state_id ) match simple on update no ACTION on delete no ACTION
                     );
 
+
+                    create table if not exists clearing_house.tbl_clearinghouse_submission_xml(
+                        submission_id int primary key,
+                        "xml" xml
+                    );
 
                     /*********************************************************************************************************************************
                      ** XML content tables - intermediate tables using during process
