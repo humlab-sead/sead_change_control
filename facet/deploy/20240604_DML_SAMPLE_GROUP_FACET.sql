@@ -17,9 +17,45 @@ begin;
 do $$
 declare s_facets text;
 declare j_facets jsonb;
+declare i_relation_id int;
+declare i_shortcut_id int;
 begin
 
     set client_encoding = 'UTF8';
+
+    i_shortcut_id = (select max(table_id) from facet.table where table_or_udf_name = 'facet.geochronology_taxa_shortcut')
+
+    if i_shortcut_id is null then
+        i_shortcut_id = (select max(table_id) from facet.table) + 1;
+        insert into facet.table (table_id, schema_name, table_or_udf_name, primary_key_name, is_udf)
+            values (i_shortcut_id, '', 'facet.geochronology_taxa_shortcut', 'xxx', false)
+                on conflict (table_id) do nothing;
+    end if;
+
+    delete from facet.table_relation
+        where i_shortcut_id in (source_table_id, target_table_id;
+
+    i_relation_id = (select max(table_relation_id) from facet.table_relation) + 1;
+
+    insert into facet.table_relation (table_relation_id, source_table_id, target_table_id, weight, source_column_name, target_column_name)
+        values
+            (i_relation_id    , i_shortcut_id, 109, 200, 'taxon_id', 'taxon_id'),
+            (i_relation_id + 1, i_shortcut_id,   4, 200, 'analysis_entity_id', 'analysis_entity_id')
+            on conflict (table_relation_id) do nothing;
+
+    drop view if exists facet.geochronology_taxa_shortcut;
+
+    create or replace view facet.geochronology_taxa_shortcut as
+        with geochronology_taxa as (
+            select aeg.analysis_entity_id, t.taxon_id
+            from tbl_physical_samples ps
+            join tbl_analysis_entities aea using (physical_sample_id)
+            join tbl_abundances a on a.analysis_entity_id = aea.analysis_entity_id
+            join tbl_taxa_tree_master t using (taxon_id)
+            join tbl_analysis_entities aeg using (physical_sample_id)
+            join tbl_geochronology g on g.analysis_entity_id = aeg.analysis_entity_id
+        ) select analysis_entity_id, taxon_id
+        from geochronology_taxa;
 
     s_facets = $facets$
     [
