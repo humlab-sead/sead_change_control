@@ -12,9 +12,15 @@
   Notes
 *****************************************************************************************************************/
 
+set client_encoding = 'UTF8';
+set client_min_messages = warning;
+
+set role sead_master;
+
 begin;
 do $$
 begin
+
     drop table if exists "tbl_analysis_value_dimensions" cascade;
     drop table if exists "tbl_analysis_identifiers" cascade;
     drop table if exists "tbl_analysis_numerical_values" cascade;
@@ -37,13 +43,15 @@ begin
     begin
  
         create table "tbl_value_qualifiers" (
-            "symbol" text primary key,
+            "qualifier_id" int primary key,
+            "symbol" text not null unique,
             "description" text not null
         );
 
         create table "tbl_value_qualifier_symbols" (
-            "symbol" text not null primary key,
-            "cardinal_symbol" text not null references "tbl_value_qualifiers" ("symbol")
+            "symbol_id" int primary key,
+            "symbol" text not null unique,
+            "cardinal_qualifier_id" int not null references "tbl_value_qualifiers" ("qualifier_id")
         );
 
         create table "tbl_value_types" (
@@ -207,3 +215,5 @@ begin
     
 end $$;
 commit;
+
+reset role;

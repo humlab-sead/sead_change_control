@@ -36,22 +36,34 @@ begin
             select "value_type_id", "unit_id"::int, "data_type_id"::int, "name", "base_type", "precision"::int, "description"
             from new_data;
 
+ 
+        create table "tbl_value_qualifiers" (
+            "qualifier_id" int primary key,
+            "symbol" text not null unique,
+            "description" text not null
+        );
 
-    with new_data("symbol", "description") as (
+        create table "tbl_value_qualifier_symbols" (
+            "symbol_id" int primary key,
+            "symbol" text not null unique,
+            "cardinal_qualifier_id" int not null references "tbl_value_qualifiers" ("qualifier_id")
+        );
+
+    with new_data("qualifier_id", "symbol", "description") as (
         values
-            ('<', 'Less than. The value is smaller than the compared value.'),
-            ('>', 'Greater than. The value is larger than the compared value.'),
-            ('=', 'Equal to. The value is exactly equal to the compared value.'),
-            ('<=', 'Less than or equal to. The value is smaller than or equal to the compared value.'),
-            ('>=', 'Greater than or equal to. The value is larger than or equal to the compared value.'),
-            ('~<=', 'Approximately less than or equal to (informal, text-friendly)'),
-            ('~>=', 'Approximately greater than or equal to the compared value.'),
-            ('~', 'Approximately equal to. The value is roughly around the compared value, but not exact.'),
-            ('≈', 'Almost equal to. The value is very close to the compared value but may not be exactly the same.'),
-            ('≠', 'Not equal to. The value is different from the compared value.'),
-            ('±', 'Plus-minus. Indicates a value range where the actual value could be either greater or smaller by a specific amount.'),
-            ('≈ but ≠', 'Almost equal to but not the same. The value is very close to the compared value but not be exactly the same.'),
-            ('≃', 'The value might be the same as the compared value (or asymptotically equal to or).')
+            ( 1, '<', 'Less than. The value is smaller than the compared value.'),
+            ( 2, '>', 'Greater than. The value is larger than the compared value.'),
+            ( 3, '=', 'Equal to. The value is exactly equal to the compared value.'),
+            ( 4, '<=', 'Less than or equal to. The value is smaller than or equal to the compared value.'),
+            ( 5, '>=', 'Greater than or equal to. The value is larger than or equal to the compared value.'),
+            ( 6, '~<=', 'Approximately less than or equal to (informal, text-friendly)'),
+            ( 7, '~>=', 'Approximately greater than or equal to the compared value.'),
+            ( 8, '~', 'Approximately equal to. The value is roughly around the compared value, but not exact.'),
+            ( 9, '≈', 'Almost equal to. The value is very close to the compared value but may not be exactly the same.'),
+            (10, '≠', 'Not equal to. The value is different from the compared value.'),
+            (11, '±', 'Plus-minus. Indicates a value range where the actual value could be either greater or smaller by a specific amount.'),
+            (12, '≈ but ≠', 'Almost equal to but not the same. The value is very close to the compared value but not be exactly the same.'),
+            (13, '≃', 'The value might be the same as the compared value (or asymptotically equal to or).')
             -- ('≍', 'Equivalence in an approximate or qualitative sense'),
             -- ('≈≤', 'Roughly less than or equal to'),
             -- ('≈≥', 'Roughly greater than or equal to'),
@@ -75,12 +87,14 @@ begin
             -- ('∉', 'Not an element of'),
 
         )
-        insert into tbl_value_qualifiers ("symbol", "description")
-            select "symbol", "description"
+        insert into tbl_value_qualifiers ("qualifier_id", "symbol", "description")
+            select "qualifier_id", "symbol", "description"
             from new_data
-              on conflict ("symbol") do
-                update set "description" = excluded."description";
+              on conflict ("qualifier_id") do update
+                set "description" = excluded."description",
+                    "symbol" = excluded."symbol";
                         
+      
     with new_data("cardinal_symbol", "aliases") as (
         values
             ('<', array['less than', 'mindre än', 'före', 'to']),
@@ -95,14 +109,21 @@ begin
             ('±', array['plus/minus']),
             ('≈ but ≠', array['≐', 'nära']),
             ('≃', array['eventuellt'])
-        )
-
-        insert into tbl_value_qualifier_symbols ("symbol", "cardinal_symbol")
-            select unnest(aliases) as symbol, "cardinal_symbol"
+        ),
+		new_data_unested as (
+			select unnest(aliases) as symbol, "cardinal_symbol"
             from new_data
             union
-            select "cardinal_symbol", "cardinal_symbol"
-            from new_data;
+            select "cardinal_symbol" as "symbol", "cardinal_symbol"
+            from new_data
+			join tbl_value_qualifiers on 
+			  "symbol" = "cardinal_symbol"		
+		) insert into tbl_value_qualifier_symbols ("symbol_id", "symbol", "cardinal_qualifier_id")
+            select row_number() over (order by d."symbol"), d."symbol", q."qualifier_id"
+			from new_data_unested d
+			join tbl_value_qualifiers q
+			  on d."cardinal_symbol" = q."symbol"
+			;
 
 end $$;
 commit;
