@@ -225,15 +225,15 @@ Begin
 		Raise Exception 'Fatal error. Unknown column found in XML. Target table %, column %s does not exist.',  x.table_name_underscored,  x.column_name_underscored;
 
 		sql := format('Alter Table clearing_house.%I Add Column %I %s null;',
-            p_table_name, x.column_name_underscored, clearing_house.fn_java_type_to_PostgreSQL(x.data_type)
+            p_table_name, x.column_name_underscored, clearing_house.fn_java_type_to_postgresql(x.data_type)
         );
 
 		Execute sql;
 
-		Raise Notice 'Added new column: % % % [%]', x.table_name_underscored,  x.column_name_underscored , clearing_house.fn_java_type_to_PostgreSQL(x.data_type), sql;
+		Raise Notice 'Added new column: % % % [%]', x.table_name_underscored,  x.column_name_underscored , clearing_house.fn_java_type_to_postgresql(x.data_type), sql;
 
         Insert Into clearing_house.tbl_clearinghouse_sead_unknown_column_log (submission_id, table_name, column_name, column_type, alter_sql)
-            Values (p_submission_id, x.table_name_underscored, x.column_name_underscored, clearing_house.fn_java_type_to_PostgreSQL(x.data_type), sql);
+            Values (p_submission_id, x.table_name_underscored, x.column_name_underscored, clearing_house.fn_java_type_to_postgresql(x.data_type), sql);
 
 	End Loop;
 
