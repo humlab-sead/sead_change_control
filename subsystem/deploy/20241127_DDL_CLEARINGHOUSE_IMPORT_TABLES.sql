@@ -239,19 +239,7 @@ begin
             coalesce(t.fk_column_name, '') as fk_column_name,
             case
                 when is_fk = 'YES' then sead_utility.underscore_to_pascal_case(t.fk_table_name)
-                when data_type = 'integer' then 'java.lang.Integer'
-                when data_type = 'bigint' then 'java.lang.Integer'
-                when data_type = 'smallint' then 'java.lang.Short'
-                when data_type = 'boolean' then 'java.lang.Boolean'
-                when data_type = 'character varying' then 'java.lang.String'
-                when data_type = 'text' then 'java.lang.String'
-                when data_type like 'timestamp%' then 'java.util.Date'
-                when data_type = 'date' then 'java.util.Date'
-                when data_type = 'numeric' then 'java.math.BigDecimal'
-                when data_type = 'uuid' then 'java.util.UUID' -- We must support this
-                when data_type = 'int4range' then 'java.util.IntRange' --This is not supported
-                when data_type = 'numrange' then 'java.util.NumRange'--This is not supported
-                else 'error[' || data_type || ']'
+                else clearing_house.fn_postgresql_java_type(data_type)
             end as class_name
         from sead_utility.table_columns t
         join clearing_house.clearinghouse_import_tables using (table_name)
