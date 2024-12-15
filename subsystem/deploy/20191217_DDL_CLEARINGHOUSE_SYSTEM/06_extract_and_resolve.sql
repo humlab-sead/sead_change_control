@@ -1,4 +1,3 @@
-
 /*****************************************************************************************************************************
 **	Function	fn_get_submission_table_column_names
 **	Who			Roger Mähler
@@ -366,30 +365,6 @@ Begin
          And c.table_id = t.table_id
          And c.column_name = v.column_name;
 
-/*    For x In (Select t.*
-              From clearing_house.tbl_clearinghouse_submission_tables t
-              Join clearing_house.tbl_clearinghouse_submission_xml_content_tables c
-                On c.table_id = t.table_id
-              Where c.submission_id = p_submission_id)
-    Loop
-        Insert Into clearing_house.tbl_clearinghouse_submission_xml_content_values (submission_id, table_id, local_db_id, column_id, fk_flag, fk_local_db_id, fk_public_db_id, value)
-            Select	p_submission_id,
-                    t.table_id,
-                    v.local_db_id,
-                    c.column_id,
-                    Not (v.fk_local_db_id Is Null),
-                    v.fk_local_db_id,
-                    v.fk_public_db_id,
-                    Case When v.value = 'NULL' Then NULL Else v.value End
-            From clearing_house.fn_select_xml_content_values(p_submission_id, x.table_name) v
-            Join clearing_house.tbl_clearinghouse_submission_tables t
-              On t.table_name = v.table_name
-            Join clearing_house.tbl_clearinghouse_submission_xml_content_columns c
-              On c.submission_id = v.submission_id
-             And c.table_id = t.table_id
-             And c.column_name = v.column_name;
-    End Loop;
-*/
 end $$ language plpgsql;
 
 /*****************************************************************************************************************************
@@ -544,13 +519,13 @@ Begin
 
         insert_columns_string := replace(array_to_string(v_field_names, ', '), 'cloned_id', 'public_db_id');
 
-        Select string_agg(field_expr, ', ' Order By field_id)
-            Into select_columns_string
-        From (
-            Select field_id, string_agg(field_part, ' AS ') As field_expr
-            From (Values (v_fields), (v_field_names)) as T(a), unnest(T.a) WITH ORDINALITY x(field_part, field_id)
-            Group By field_id
-        ) As X;
+        select string_agg(field_expr, ', ' order by field_id)
+            into select_columns_string
+        from (
+            select field_id, string_agg(field_part, ' as ') as field_expr
+            from (values (v_fields), (v_field_names)) as t(a), unnest(t.a) with ordinality x(field_part, field_id)
+            group by field_id
+        ) as x;
 
         -- select_columns_string = string_agg(v_fields, ', '); -- Enough, but without column names
 
