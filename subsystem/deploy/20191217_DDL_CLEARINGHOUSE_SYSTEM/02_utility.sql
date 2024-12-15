@@ -7,24 +7,22 @@
  **	Used By     DEPREACTED - NOT USED
  **	Revisions
  ******************************************************************************************************************************/
-create or replace function clearing_house.fn_DD2DMS(p_dDecDeg in float, p_sDegreeSymbol in varchar(1) = 'd', p_sMinuteSymbol in varchar(1) = 'm', p_sSecondSymbol in varchar(1) = 's')
-    returns varchar (
-        50
-)
+create or replace function clearing_house.fn_DD2DMS(p_decimal_degree in float, p_degree_symbol in varchar(1) = 'd', p_minute_symbol in varchar(1) = 'm', p_second_symbol in varchar(1) = 's')
+    returns varchar ( 0)
     as $$
 declare
-    v_iDeg int;
-    v_iMin int;
-    v_dSec float;
+    v_degree int;
+    v_minute int;
+    v_second float;
 begin
-    v_iDeg := trunc(p_dDecDeg)::int;
-    v_iMin := trunc((abs(p_dDecDeg) - abs(v_iDeg)) * 60)::int;
-    v_dSec := round(((((abs(p_dDecDeg) - abs(v_iDeg)) * 60) - v_iMin) * 60)::numeric, 3)::float;
-    return trim(to_char(v_iDeg, '9999')) || p_sDegreeSymbol::text || trim(to_char(v_iMin, '99')) || p_sMinuteSymbol::text || case when v_dSec = 0::float then
+    v_degree := trunc(p_decimal_degree)::int;
+    v_minute := trunc((abs(p_decimal_degree) - abs(v_degree)) * 60)::int;
+    v_second := round(((((abs(p_decimal_degree) - abs(v_degree)) * 60) - v_minute) * 60)::numeric, 3)::float;
+    return trim(to_char(v_degree, '9999')) || p_degree_symbol::text || trim(to_char(v_minute, '99')) || p_minute_symbol::text || case when v_second = 0::float then
         '0'
     else
-        replace(trim(to_char(v_dSec, '99.999')), '.000', '')
-    end || p_sSecondSymbol::text;
+        replace(trim(to_char(v_second, '99.999')), '.000', '')
+    end || p_second_symbol::text;
 end
 $$
 language plpgsql;
@@ -42,9 +40,7 @@ language plpgsql;
  ******************************************************************************************************************************/
 -- Select fn_pascal_case_to_underscore('c14AgeOlder'), clearing_house.fn_pascal_case_to_underscore('address1');
 create or replace function clearing_house.fn_pascal_case_to_underscore(p_token character varying(255))
-    returns character varying (
-        255
-)
+    returns character varying (255)
     as $$
 begin
     return lower(regexp_replace(p_token, '([[:lower:]]|[0-9])([[:upper:]]|[0-9]$)', '\1_\2', 'g'));
@@ -54,7 +50,7 @@ language plpgsql;
 
 
 /*****************************************************************************************************************************
- **	Function	fn_java_type_to_PostgreSQL
+ **	Function	fn_java_type_to_postgresql
  **	Who			Roger Mähler
  **	When		2013-10-14
  **	What		Converts Java type to PostgreSQL data type
@@ -68,37 +64,69 @@ create or replace function clearing_house.fn_java_type_to_postgresql(s_type_name
     language 'plpgsql'
     as $BODY$
 begin
-    if(lower(s_type_name) in('java.util.date', 'java.sql.date')) then
-        return 'date';
-    end if;
 
-    if(lower(s_type_name) in('java.math.bigdecimal', 'java.lang.double')) then
-        return 'numeric';
-    end if;
-
-    if(lower(s_type_name) in('java.lang.integer', 'java.util.integer', 'java.long.short')) then
+    if (s_type_name like 'com.sead.database.Tbl%' or s_type_name like 'Tbl%') then
+        /* FK type must always be of integer type */
         return 'integer';
     end if;
 
-    if(lower(s_type_name) = 'java.lang.boolean') then
-        return 'boolean';
-    end if;
-
-    if(lower(s_type_name) in('java.lang.string', 'java.lang.character')) then
-        return 'text';
-    end if;
-
-    if(s_type_name like 'com.sead.database.Tbl%' or s_type_name like 'Tbl%') then
-        return 'integer';
-
-
-        /* FK */
-    end if;
-
-    raise exception 'Fatal error: Java type % encountered in XML not expected', s_type_name;
+    return case lower(s_type_name)
+            when 'java.util.date' then 'date'
+            when 'java.sql.date' then 'date'
+            when 'java.math.bigdecimal' then 'numeric'
+            when 'java.lang.double' then 'numeric'
+            when 'java.lang.integer' then 'integer'
+            when 'java.util.integer' then 'integer'
+            when 'java.lang.short' then 'integer'
+            when 'java.lang.boolean' then 'boolean'
+            when 'java.lang.string' then 'text'
+            when 'java.lang.character' then 'text'
+            when 'java.util.uuid' then 'uuid'
+            -- the following types are not supported:
+            when 'java.util.intrange' then 'int4range'
+            when 'java.util.numrange' then 'numrange'
+            else 'error[unknown java type: ' || s_type_name || ']'
+        end;
+    -- raise exception 'Fatal error: Java type % encountered in XML not expected', s_type_name;
 end
-$BODY$;
+$BODY$;    
 
+/*****************************************************************************************************************************
+ **	Function	fn_postgresql_java_type
+ **	Who			Roger Mähler
+ **	When		2024-12-15
+ **	What		Converts PostgreSQL type to Java type
+ **	Uses
+ **	Used By
+ **	Revisions
+ ******************************************************************************************************************************/
+-- Select fn_pascal_case_to_underscore('RogerMahler')
+create or replace function clearing_house.fn_postgresql_java_type(s_type_name character varying)
+    returns character varying
+    language 'plpgsql'
+    as $BODY$
+begin
+    if s_type_name like 'timestamp%' then
+        return 'java.util.Date';
+    end if;
+    return case lower(s_type_name)
+        --when is_fk = 'YES' then sead_utility.underscore_to_pascal_case(p_fk_table_name)
+        when 'integer' then 'java.lang.Integer'
+        when 'int' then 'java.lang.Integer'
+        when 'bigint' then 'java.lang.Integer'
+        when 'smallint' then 'java.lang.Short'
+        when 'boolean' then 'java.lang.Boolean'
+        when 'character varying' then 'java.lang.String'
+        when 'text' then 'java.lang.String'
+        when 'date' then 'java.util.Date'
+        when 'numeric' then 'java.math.BigDecimal'
+        when 'uuid' then 'java.util.UUID' -- We must support this
+        when 'int4range' then 'java.util.IntRange' --This is not supported
+        when 'numrange' then 'java.util.NumRange'--This is not supported
+        else 'error[unknown type' || s_type_name || ']'
+    end;
+end
+$BODY$;    
 
 /*****************************************************************************************************************************
  **	Function	fn_table_exists
