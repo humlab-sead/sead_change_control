@@ -8,7 +8,7 @@
  **	Revisions
  ******************************************************************************************************************************/
 create or replace function clearing_house.fn_DD2DMS(p_decimal_degree in float, p_degree_symbol in varchar(1) = 'd', p_minute_symbol in varchar(1) = 'm', p_second_symbol in varchar(1) = 's')
-    returns varchar ( 0)
+    returns varchar (50)
     as $$
 declare
     v_degree int;
