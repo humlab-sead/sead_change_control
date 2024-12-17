@@ -118,7 +118,7 @@ begin
             from new_data
 			join tbl_value_qualifiers on 
 			  "symbol" = "cardinal_symbol"		
-		) insert into tbl_value_qualifier_symbols ("symbol_id", "symbol", "cardinal_qualifier_id")
+		) insert into tbl_value_qualifier_symbols ("qualifier_symbol_id", "symbol", "cardinal_qualifier_id")
             select row_number() over (order by d."symbol"), d."symbol", q."qualifier_id"
 			from new_data_unested d
 			join tbl_value_qualifiers q

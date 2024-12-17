@@ -49,7 +49,7 @@ begin
         );
 
         create table "tbl_value_qualifier_symbols" (
-            "symbol_id" int primary key,
+            "qualifier_symbol_id" int primary key,
             "symbol" text not null unique,
             "cardinal_qualifier_id" int not null references "tbl_value_qualifiers" ("qualifier_id")
         );
@@ -70,7 +70,6 @@ begin
             "name" varchar(80) null default null,
             "description" text null default null
         );
-
 
         create table "tbl_value_classes" (
             "value_class_id" int not null primary key,
