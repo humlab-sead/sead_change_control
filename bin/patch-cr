@@ -10,6 +10,7 @@ g_db=
 g_host=$(dnsdomainname -A)
 g_port=5433
 g_user=
+g_log_level=WARNING
 
 if [ -f ~/vault/.default.sead.server ]; then
     g_host=`cat ~/vault/.default.sead.server`
@@ -36,6 +37,9 @@ do
         --host|-h)
             g_host="$2"; shift 2;
         ;;
+        --log-level|-l)
+            g_log_level="$2"; shift 2;
+        ;;
         *)
         POSITIONAL+=("$1")
         shift
@@ -53,18 +57,23 @@ function usage()
     if [ "$error_message" != "" ]; then
         echo "$error_message"
     fi
-    echo "usage: patch-cr --database DBNAME [--host HOST] [--port PORT] [--user USER] CHANGE_REQUEST_NAME..."
+    echo "usage: patch-cr --database DBNAME [--host HOST] [--port PORT] [--user USER] [--log-level LEVEL] CHANGE_REQUEST_NAME..."
     echo "Creates a new database using source as template."
     echo ""
-    echo "   --database    target database name"
-    echo "   --host        host name"
-    echo "   --user        user name"
-    echo "   --port        host port"
+    echo "   --database         target database name"
+    echo "   --host             host name"
+    echo "   --user             user name"
+    echo "   --port             host port"
+    echo "   --log-level    DEBUG | INFO | NOTICE | WARNING | ERROR"
     echo ""
     echo "Example:"
     echo "    bin/patch-cr --port 5433 --database sead_staging 20240924_DDL_MEASURED_VALUES_REFACTOR"
     exit 64
 }
+
+if [[ ! "$g_log_level" =~ ^(DEBUG|INFO|NOTICE|WARNING|ERROR)$ ]]; then
+    usage "Invalid log level: $LOG_LEVEL"
+fi
 
 function execute_sql() {
     local database="$1"
@@ -114,7 +123,7 @@ for g_cr in $g_crs; do
         g_patch_file="$g_temp_file"
     fi
 
-    psql -h $g_host -p $g_port -U $g_user -w --dbname=$g_db --file $g_patch_file -q -v ON_ERROR_STOP=1
+    psql -h $g_host -p $g_port -U $g_user -w --dbname=$g_db --file $g_patch_file -q -v ON_ERROR_STOP=1  -c "SET client_min_messages TO $log_level;"
 
     if [ -f "$g_temp_file" ]; then
         rm -f "$g_temp_file"
