@@ -36,19 +36,6 @@ begin
             select "value_type_id", "unit_id"::int, "data_type_id"::int, "name", "base_type", "precision"::int, "description"
             from new_data;
 
- 
-        create table "tbl_value_qualifiers" (
-            "qualifier_id" int primary key,
-            "symbol" text not null unique,
-            "description" text not null
-        );
-
-        create table "tbl_value_qualifier_symbols" (
-            "symbol_id" int primary key,
-            "symbol" text not null unique,
-            "cardinal_qualifier_id" int not null references "tbl_value_qualifiers" ("qualifier_id")
-        );
-
     with new_data("qualifier_id", "symbol", "description") as (
         values
             ( 1, '<', 'Less than. The value is smaller than the compared value.'),
