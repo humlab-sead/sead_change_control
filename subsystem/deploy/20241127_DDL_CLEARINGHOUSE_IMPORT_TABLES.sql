@@ -12,6 +12,10 @@
   Notes
 *****************************************************************************************************************/
 
+set client_encoding = 'UTF8';
+set standard_conforming_strings = on;
+set client_min_messages = warning;
+
 begin;
 do $$
 begin

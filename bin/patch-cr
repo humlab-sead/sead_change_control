@@ -123,7 +123,7 @@ for g_cr in $g_crs; do
         g_patch_file="$g_temp_file"
     fi
 
-    psql -h $g_host -p $g_port -U $g_user -w --dbname=$g_db --file $g_patch_file -q -v ON_ERROR_STOP=1  -c "SET client_min_messages TO $log_level;"
+    psql -h $g_host -p $g_port -U $g_user -w --dbname=$g_db --file $g_patch_file -q -v ON_ERROR_STOP=1  -c "set client_min_messages to $g_log_level;"
 
     if [ -f "$g_temp_file" ]; then
         rm -f "$g_temp_file"
