@@ -12,22 +12,38 @@ create or replace function clearing_house.fn_create_schema_type_string(
 	character_maximum_length int,
 	numeric_precision int,
 	numeric_scale int,
-	is_nullable character varying(10)
-) Returns text As $$
-	Declare type_string text;
-Begin
+	is_nullable character varying(10),
+  column_default text = null
+) returns text as $$
+	declare type_string text;
+begin
 	type_string :=  data_type
-		||	Case When data_type = 'character varying' And Coalesce(character_maximum_length, 0) > 0
-                    Then '(' || Coalesce(character_maximum_length::text, '255') || ')'
-				 When data_type = 'numeric' Then
-					Case When numeric_precision Is Null And numeric_scale Is Null Then  ''
-						 When numeric_scale Is Null Then  '(' || numeric_precision::text || ')'
-						 Else '(' || numeric_precision::text || ', ' || numeric_scale::text || ')'
-					End
-				 Else '' End || ' '|| Case When Coalesce(is_nullable,'') = 'YES' Then 'null' Else 'not null' End;
+		||	case
+          when data_type = 'character varying' and coalesce(character_maximum_length, 0) > 0
+            then '(' || coalesce(character_maximum_length::text, '255') || ')'
+				  when data_type = 'numeric'
+            then
+              case
+                when numeric_precision is null and numeric_scale is null then  ''
+                when numeric_scale is null then  '(' || numeric_precision::text || ')'
+                else '(' || numeric_precision::text || ', ' || numeric_scale::text || ')'
+              End
+				  else ''
+        end || ' ' ||
+          case
+            when coalesce(is_nullable,'') = 'YES'
+              then 'null'
+            else 'not null'
+          end ||
+          case
+            when coalesce(column_default, '') != '' then ' default ' || column_default
+            when data_type = 'uuid' then ' default uuid_generate_v4()'
+            else ''
+          end
+        ;
 	return type_string;
 
-End $$ Language plpgsql;
+end $$ language plpgsql;
 
 /*****************************************************************************************************************************
 **	Function	fn_script_public_db_entity_table
@@ -51,7 +67,7 @@ create or replace function clearing_house.fn_script_public_db_entity_table(p_sou
 	Declare pk_columns text;
 Begin
 
-    Select string_agg(column_name || ' ' || clearing_house.fn_create_schema_type_string(data_type, character_maximum_length, numeric_precision, numeric_scale, is_nullable), E',\n        ' ORDER BY ordinal_position ASC),
+    Select string_agg(column_name || ' ' || clearing_house.fn_create_schema_type_string(data_type, character_maximum_length, numeric_precision, numeric_scale, is_nullable, column_default), E',\n        ' ORDER BY ordinal_position ASC),
            string_agg(Case When is_pk = 'YES' Then column_name Else Null End, E', ' ORDER BY ordinal_position ASC)
     Into Strict data_columns, pk_columns
     From clearing_house.fn_dba_get_sead_public_db_schema('public', 'sead_master') s
