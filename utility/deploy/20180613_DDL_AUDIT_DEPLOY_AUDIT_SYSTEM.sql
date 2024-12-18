@@ -101,7 +101,7 @@ begin
     with table_columns as (
         select
             column_name,
-            clearing_house.fn_create_schema_type_string(data_type, character_maximum_length, numeric_precision, numeric_scale, 'YES') as column_type
+            clearing_house.fn_create_schema_type_string(data_type, character_maximum_length, numeric_precision, numeric_scale, 'YES', null) as column_type
         from
             clearing_house.fn_dba_get_sead_public_db_schema('public', 'sead_master') s
         where
