@@ -284,7 +284,8 @@ create or replace function clearing_house.fn_dba_get_sead_public_db_schema(p_sch
         is_pk information_schema.yes_or_no,
         is_fk information_schema.yes_or_no,
         fk_table_name information_schema.sql_identifier,
-        fk_column_name information_schema.sql_identifier)
+        fk_column_name information_schema.sql_identifier,
+        column_default text)
     language 'plpgsql'
     as $body$
 begin
@@ -296,94 +297,70 @@ begin
         pg_attribute.attnum::information_schema.cardinal_number as ordinal_position,
         format_type(pg_attribute.atttypid, null)::information_schema.character_data as data_type,
         case pg_attribute.atttypid
-        when 21
-        /*int2*/
-        then
-            16
-        when 23
-        /*int4*/
-        then
-            32
-        when 20
-        /*int8*/
-        then
-            64
-        when 1700
-        /*numeric*/
-        then
-            case when pg_attribute.atttypmod = - 1 then
+            when 21 /*int2*/ then 16
+            when 23 /*int4*/ then 32
+            when 20 /*int8*/ then 64
+            when 1700 /*numeric*/ then
+                case
+                    when pg_attribute.atttypmod = - 1 then null
+                    else ((pg_attribute.atttypmod - 4) >> 16) & 65535 -- calculate the precision
+                end
+            when 700 /*float4*/ then 24 /*flt_mant_dig*/
+            when 701 /*float8*/ then 53 /*dbl_mant_dig*/
+            else null
+            end::information_schema.cardinal_number as numeric_precision,
+        case
+            when pg_attribute.atttypid in (21, 23, 20) then 0
+            when pg_attribute.atttypid in (1700) then
+                case when pg_attribute.atttypmod = - 1 then
+                    null
+                else
+                    (pg_attribute.atttypmod - 4) & 65535 -- calculate the scale
+                end
+            else
+                null
+            end::information_schema.cardinal_number as numeric_scale,
+        case
+            when pg_attribute.atttypid not in (1042, 1043) or pg_attribute.atttypmod = - 1 then
                 null
             else
-((pg_attribute.atttypmod - 4) >> 16) & 65535 -- calculate the precision
-        end
-        when 700
-        /*float4*/
-        then
-            24
-            /*flt_mant_dig*/
-        when 701
-        /*float8*/
-        then
-            53
-            /*dbl_mant_dig*/
-        else
-            null
-        end::information_schema.cardinal_number as numeric_precision,
-        case when pg_attribute.atttypid in(21, 23, 20) then
-            0
-        when pg_attribute.atttypid in(1700) then
-            case when pg_attribute.atttypmod = - 1 then
-                null
-            else
-(pg_attribute.atttypmod - 4) & 65535 -- calculate the scale
-        end
-    else
-        null
-        end::information_schema.cardinal_number as numeric_scale,
-        case when pg_attribute.atttypid not in(1042, 1043)
-            or pg_attribute.atttypmod = - 1 then
-            null
-        else
-            pg_attribute.atttypmod - 4
-        end::information_schema.cardinal_number as character_maximum_length,
+                pg_attribute.atttypmod - 4
+            end::information_schema.cardinal_number as character_maximum_length,
         case pg_attribute.attnotnull
-        when false then
-            'YES'
-        else
-            'NO'
-        end::information_schema.yes_or_no as is_nullable,
-        case when pk.contype is null then
-            'NO'
-        else
-            'YES'
-        end::information_schema.yes_or_no as is_pk,
-        case when fk.table_oid is null then
-            'NO'
-        else
-            'YES'
-        end::information_schema.yes_or_no as is_fk,
+            when false
+                then 'YES'
+            else 'NO'
+            end::information_schema.yes_or_no as is_nullable,
+        case when pk.contype is null then 'NO' else 'YES' end::information_schema.yes_or_no as is_pk,
+        case when fk.table_oid is null then 'NO' else 'YES' end::information_schema.yes_or_no as is_fk,
         fk.f_table_name::information_schema.sql_identifier,
-        fk.f_column_name::information_schema.sql_identifier
-    from
-        pg_tables
-        join pg_class on pg_class.relname = pg_tables.tablename
-        join pg_namespace ns on ns.oid = pg_class.relnamespace
-            and ns.nspname = pg_tables.schemaname
-        join pg_attribute on pg_class.oid = pg_attribute.attrelid
-            and pg_attribute.attnum > 0
-        left join pg_constraint pk on pk.contype = 'p'::"char"
-            and pk.conrelid = pg_class.oid
-            and(pg_attribute.attnum = any(pk.conkey))
-        left join clearing_house.view_foreign_keys as fk on fk.table_oid = pg_class.oid
-            and fk.attnum = pg_attribute.attnum
-    where
-        true
-        and pg_tables.tableowner = p_owner
-        and pg_attribute.atttypid <> 0::oid
-        and pg_tables.schemaname = p_schema_name
-    order by
-        table_name,
-        ordinal_position asc;
+        fk.f_column_name::information_schema.sql_identifier,
+        d.column_default::text
+    from pg_tables
+    join pg_class
+      on pg_class.relname = pg_tables.tablename
+    join pg_namespace ns
+      on ns.oid = pg_class.relnamespace
+     and ns.nspname = pg_tables.schemaname
+    join pg_attribute
+      on pg_class.oid = pg_attribute.attrelid
+     and pg_attribute.attnum > 0
+    left join pg_constraint pk
+      on pk.contype = 'p'::"char"
+     and pk.conrelid = pg_class.oid
+     and (pg_attribute.attnum = any(pk.conkey))
+    left join clearing_house.view_foreign_keys as fk
+      on fk.table_oid = pg_class.oid
+     and fk.attnum = pg_attribute.attnum
+    left join information_schema.columns d
+      on d.table_schema = pg_tables.schemaname::information_schema.sql_identifier
+     and d.table_name = pg_tables.tablename::information_schema.sql_identifier
+     and d.column_name = pg_attribute.attname::information_schema.sql_identifier        
+    where true
+      and pg_tables.tableowner = p_owner
+      and pg_attribute.atttypid <> 0::oid
+      and pg_tables.schemaname = p_schema_name
+    order by 2, 4 asc;
 end
 $body$;
 
