@@ -34,11 +34,9 @@ begin
     from clearing_house.tbl_clearinghouse_submission_tables t
     join clearing_house.tbl_clearinghouse_submission_xml_content_columns c
       on c.table_id = t.table_id
-    left join clearing_house.view_clearinghouse_ignore_columns i
-      on i.column_name = c.column_name_underscored
     where c.submission_id = p_submission_id
       and t.table_name_underscored = p_table_name_underscored
-      and i.column_name is null
+      and not exists(select 1 from clearing_house.view_clearinghouse_ignore_columns i where c.column_name_underscored like i.column_name)
     group by c.submission_id, t.table_name;
     return v_columns;
 end $$ language plpgsql;
@@ -64,11 +62,9 @@ begin
     from clearing_house.tbl_clearinghouse_submission_tables t
     join clearing_house.tbl_clearinghouse_submission_xml_content_columns c
       on c.table_id = t.table_id
-    left join clearing_house.view_clearinghouse_ignore_columns i
-      on i.column_name = c.column_name_underscored
     where c.submission_id = p_submission_id
       and t.table_name_underscored = p_table_name_underscored
-      and i.column_name is null
+      and not exists(select 1 from clearing_house.view_clearinghouse_ignore_columns i where c.column_name_underscored like i.column_name)
     group by c.submission_id, t.table_name;
     return columns;
 end $$ language plpgsql;
