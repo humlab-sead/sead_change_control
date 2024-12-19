@@ -50,14 +50,14 @@ language plpgsql;
 
 
 /*****************************************************************************************************************************
- **	Function	fn_java_type_to_postgresql
- **	Who			Roger Mähler
- **	When		2013-10-14
- **	What		Converts Java type to PostgreSQL data type
- **	Uses
- **	Used By
- **	Revisions
- ******************************************************************************************************************************/
+**	Function	fn_java_type_to_postgresql
+**	Who			Roger Mähler
+**	When		2013-10-14
+**	What		Converts Java type to PostgreSQL data type
+**	Uses
+**	Used By
+**	Revisions
+******************************************************************************************************************************/
 -- Select fn_pascal_case_to_underscore('RogerMahler')
 create or replace function clearing_house.fn_java_type_to_postgresql(s_type_name character varying)
     returns character varying
@@ -424,104 +424,3 @@ end
 $$
 language plpgsql;
 
-
-/*****************************************************************************************************************************
-**	Function	fn_delete_submission
-**	Who			Roger Mähler
-**	When		2018-07-03
-**	What		Completely removes a submission
-**	Uses
-**	Used By
-**	Revisions
-******************************************************************************************************************************/
--- Select clearing_house.fn_delete_submission(4)
-
-create or replace function clearing_house.fn_delete_submission(p_submission_id int, p_clear_header boolean=false, p_clear_exploded boolean=true)
-returns void as $$
-    declare v_table_name_underscored character varying;
-begin
-
-    if p_clear_exploded then
-        delete from clearing_house.tbl_clearinghouse_submission_xml where submission_id = p_submission_id;
-        delete from clearing_house.tbl_clearinghouse_submission_xml_content_values where submission_id = p_submission_id;
-        delete from clearing_house.tbl_clearinghouse_submission_xml_content_columns where submission_id = p_submission_id;
-        delete from clearing_house.tbl_clearinghouse_submission_xml_content_records where submission_id = p_submission_id;
-        delete from clearing_house.tbl_clearinghouse_submission_xml_content_tables where submission_id = p_submission_id;
-    end if;
-
-    for v_table_name_underscored in (
-        select table_name_underscored
-        from clearing_house.tbl_clearinghouse_submission_tables
-    ) loop
-
-      if exists (
-        select 1
-        from pg_tables
-        where schemaname = 'clearing_house'
-          and tablename  = v_table_name_underscored
-      ) then
-          raise notice 'table %...', v_table_name_underscored;
-          execute format('delete from clearing_house.%s where submission_id = %s;', v_table_name_underscored, p_submission_id);
-        end if;
-    end loop;
-
-    if p_clear_header then
-        delete from clearing_house.tbl_clearinghouse_submissions where submission_id = p_submission_id;
-        perform setval(pg_get_serial_sequence('clearing_house.tbl_clearinghouse_submissions', 'submission_id'), coalesce(max(submission_id), 0) + 1, false)
-        from clearing_house.tbl_clearinghouse_submissions;
-    end if;
-
-    -- raise notice 'done!';
-end $$ language plpgsql;
-
-/*****************************************************************************************************************************
-**	Function	fn_truncate_all_entity_tables
-**	Who			Roger Mähler
-**	When		2018-03-25
-**	What		Truncates all clearinghouse entity tables and resets sequences
-**  Note        NOTE! This Function clears ALL entities in CH tables!
-**	Uses
-**	Revisions
-******************************************************************************************************************************/
--- Select clearing_house.fn_truncate_all_entity_tables()
-create or replace function clearing_house.fn_truncate_all_entity_tables()
-Returns void As $$
-    Declare x record;
-    Declare command text;
-    Declare item_count int;
-Begin
-
-    -- Raise 'This error raise must be removed before this function will run';
-
-	For x In (
-        Select t.*
-        From clearing_house.tbl_clearinghouse_submission_tables t
-	) Loop
-
-        command = 'select count(*) from clearing_house.' || x.table_name_underscored || ';';
-
-        Raise Notice '%: %', command, item_count;
-
-        Begin
-            Execute command Into item_count;
-            If item_count > 0 Then
-                command = 'TRUNCATE clearing_house.' || x.table_name_underscored || ' RESTART IDENTITY;';
-                Execute command;
-            End If;
-       Exception
-            When undefined_table Then
-                Raise Notice 'Missing: %', x.table_name_underscored;
-                -- Do nothing, and loop to try the UPDATE again.
-       End;
-
-	truncate table clearing_house.tbl_clearinghouse_submission_xml restart identity cascade;
-	truncate table clearing_house.tbl_clearinghouse_submission_xml_content_values restart identity cascade;
-	truncate table clearing_house.tbl_clearinghouse_submission_xml_content_columns restart identity cascade;
-	truncate table clearing_house.tbl_clearinghouse_submission_xml_content_records restart identity cascade;
-	truncate table clearing_house.tbl_clearinghouse_submission_xml_content_tables restart identity cascade;
-    truncate table clearing_house.tbl_clearinghouse_submissions restart identity cascade;
-    -- truncate table clearing_house.tbl_clearinghouse_xml_temp restart identity cascade;
-
-	End Loop;
-	End
-$$ Language plpgsql;
