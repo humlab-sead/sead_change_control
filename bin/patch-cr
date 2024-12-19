@@ -100,6 +100,9 @@ if [ "$g_crs" == "" ]; then
 fi
 
 for g_cr in $g_crs; do
+    if [ -f "$g_cr" ]; then
+        continue
+    fi
     g_project=$(find_project "$g_cr")
     if [ "$g_project" == "" ]; then
         usage "fatal: patch ${g_cr} not found!"
@@ -114,9 +117,15 @@ kickout $g_db
 
 for g_cr in $g_crs; do
 
-    g_project=$(find_project "$g_cr")
-    g_patch_file="$g_project/deploy/$g_cr.sql"
-    g_temp_file="/tmp/$g_cr.sql"
+    if [ -f "$g_cr" ]; then
+        g_patch_file="$g_cr"
+        g_temp_file="/tmp/cr-patch-file.sql"
+    else
+        g_project=$(find_project "$g_cr")
+        g_patch_file="$g_project/deploy/$g_cr.sql"
+        g_temp_file="/tmp/$g_cr.sql"
+    fi
+    
 
     if grep -q "\/repo" "$g_patch_file"; then
         sed 's/\/repo/./g' "$g_patch_file" > "$g_temp_file"
