@@ -1,0 +1,100 @@
+#!/bin/bash
+
+target_db="sead_staging_development"
+
+g_port=5433
+g_user=
+g_verbose=no
+g_host=$(dnsdomainname -A)
+
+g_ch_sql_folder=$HOME/source/sead_clearinghouse/src/sql/
+
+if [ -f ~/vault/.default.sead.server ]; then
+    g_host=`cat ~/vault/.default.sead.server`
+fi
+
+if [ -f ~/vault/.default.sead.username ]; then
+    g_user=`cat ~/vault/.default.sead.username`
+fi
+
+set -e
+
+function database_exists() {
+    local host=$1
+    local port=$2
+    local user=$3
+    local database=$4
+    echo $(psql -U "$user" -h "$host" -p "$port" -d postgres -tAc "select 1 from pg_database where datname='$database';")
+}
+
+echo "$(database_exists $g_host $g_port $g_user $target_db)"
+if [ "$(database_exists $g_host $g_port $g_user $target_db)" != "1" ]; then
+    echo "Database '$target_db' does not exist."
+    exit 1
+else
+    echo "Database '$target_db' exists."
+fi
+
+exit 64
+
+copy-database --source sead_staging_dev_template --target $target_db --port $g_port --force --host $g_host
+
+echo "Resetting database $target_db"
+
+echo "Applying MEASURED VALUES patches"
+bin/patch-cr --port $g_port --database $target_db \
+    20240924_DDL_MEASURED_VALUES_REFACTOR \
+    20240924_DML_MEASURED_VALUES_LOOKUPS
+
+echo "Applying DENDRO patches"
+bin/patch-cr --port $g_port --database $target_db \
+    20241023_DML_NEW_DENDRO_LOOKUPS \
+    20241031_DML_MIGRATE_DENDRO_SUBMISSION
+
+echo "Bundling CLEARINGHOUSE SQL"
+
+$g_ch_sql_folder/deploy_change_request.sh --target-folder /tmp --force --change 20191217_DDL_CLEARINGHOUSE_SYSTEM
+
+echo "Applying CLEARINGHOUSE patches"
+bin/patch-cr --port $g_port --database $target_db \
+    /tmp/20191217_DDL_CLEARINGHOUSE_SYSTEM.sql \
+    20241127_DDL_CLEARINGHOUSE_IMPORT_TABLES \
+    20240112_DDL_CLEARINGHOUSE_UPLOAD_CSV \
+    20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM
+
+copy-database --source sead_staging_development --target sead_staging_development_adna --port $g_port --force --host $g_host
+
+IMPORT_SYSTEM_FOLDER=$HOME/source/sead_clearinghouse_import/
+pushd $IMPORT_SYSTEM_FOLDER
+
+if [ -f .python-version ]; then
+    apa=$(cat .python-version)
+    pyenv local $apa
+fi
+
+export PYTHONPATH="$IMPORT_SYSTEM_FOLDER:$PYTHONPATH"
+
+poetry install
+
+poetry run python importer/scripts/import_excel.py ./config.yml data/input/SEAD_aDNA_data_20241114_RM.xlsx --no-timestamp --register --explode \
+    --data-types adna --transfer-format csv --output-folder ./data/output/
+
+popd
+
+g_submission_id=1
+g_issue_id=342
+g_datatype=adna
+
+function generate_cr_name() {
+    local day=$(date +%Y%m%d)
+    local zid=`printf "%03d" ${g_submission_id}`
+    local dt_y=$g_datatype
+    local cr_x="$(date +%Y%m%d)_DML_SUBMISSION_${g_datatype^^}_${zid}_COMMIT"
+    echo "${cr_x^^}"
+}
+
+bin/add-submission-change-request --id $g_submission_id --port 5433 --database $target_db --project adna --related-issue-id $g_issue_id
+
+g_cr_name=`generate_cr_name`
+
+echo "Created $g_cr_name"
