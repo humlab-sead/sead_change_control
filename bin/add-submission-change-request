@@ -13,18 +13,19 @@ script_name=`basename "$0"`
 
 g_host=
 g_user=
-g_port=5432
+g_port=5433
 g_database=
 g_submission_id=0
 g_project=
 g_force=0
 g_dry_run=
 g_temp_folder=
-g_related_issue_id=
-g_create_issue=--create-issue
+g_issue_id=
+g_issue_option=--create-issue
 g_cr_name=
 g_note=
-g_only_data=
+g_only_create_data=
+g_only_list_open=NO 
 
 if [ -f ~/vault/.default.sead.server ]; then
     g_host=$(head -n 1 ~/vault/.default.sead.server)
@@ -39,11 +40,23 @@ function usage() {
     if [ "$usage_error" != "" ]; then
         echo "error: $usage_error"
     fi
-    echo "usage: $script_name [--host HOST] [--port PORT] [--database DATABASE] --user USERNAME --id ID --project PROJECT [--force] [--dry-run] "
+    echo "usage: $script_name [OPTIONS...] --database DBNAME --id ID --project PROJECT --note NOTE"
     echo "  advanced option:"
     echo ""
+    echo "       --host HOST              Target database host (default ~/vault/.default.sead.server)"
+    echo "       --port PORT              Target database port (default 5432)"
+    echo "       --user USERNAME          Target database host (default ~/vault/.default.sead.server)"
+    echo "       --database DBNAME        Target database (mandatory)"
+    echo "       --id ID                  Submission's identity (mandatory)"
+    echo "       --project PROJECT        Target change control project (mandatory)"
     echo "       --force                  Force overwrite of existing target folder if exists"
+    echo "       --dry-run                Do a dry run, no changes will be made"
+    echo "       --no-create-issue        Do not create a Github issue for this submission"
+    echo "       --only-create-data       Only generate data, do not create a change request"
+    echo "       --related-issue-id ID    Link CR to existing Github issue ID related to this submission"
+    echo "       --note NOTE              Change request (and issue) note (default 'Deploy of Clearinghouse submission {ID}.')"
     echo "       --temp-folder=dir        Override default temporary folder (not recommended)"
+    echo "       --list                   Only list available open submissions"
     exit 64
 }
 
@@ -94,16 +107,21 @@ do
             shift 2;
         ;;
         --related-issue-id)
-            g_related_issue_id="$2";
+            g_issue_id="$2";
+            g_issue_option="--issue-id $g_issue_id"
             shift 2;
         ;;
         --no-create-issue)
-            g_create_issue="";
+            g_issue_option="";
             shift;
         ;;
-        --only-data)
-            g_only_data="YES";
-            g_create_issue=
+        --only-create-data|--only-data)
+            g_only_create_data="YES";
+            g_issue_option=
+            shift;
+        ;;
+       --list|list-open)
+            g_only_list_open="YES";
             shift;
         ;;
         --help|-h)
@@ -127,15 +145,19 @@ function check_options() {
         usage "database host and/or user not specified (--user and --host)";
     fi
 
-    if [ "$g_submission_id" == "0" ]; then
-        usage "submission id must be specified (--id)";
-    fi
-
     if [ "$g_database" == "" ]; then
         usage "database must be specified (--database)";
     fi
 
-    if [ "$g_only_data" == "YES" ]; then
+    if [ "$g_only_list_open" == "YES" ]; then
+        return
+    fi
+
+    if [ "$g_submission_id" == "0" ]; then
+        usage "submission id must be specified (--id)";
+    fi
+
+    if [ "$g_only_create_data" == "YES" ]; then
         return
     fi
 
@@ -163,14 +185,14 @@ function print_options()
         echo "g_temp_folder: $g_temp_folder"
         echo "g_cr_name: $g_cr_name"
         echo "g_note: $g_note"
-        echo "g_related_issue_id: $g_related_issue_id"
-        echo "g_create_issue: $g_create_issue"
+        echo "g_issue_id: $g_issue_id"
+        echo "g_issue_option: $g_issue_option"
     fi
 }
 
 function dbexec() {
-    opt=$1
-    sql="$2"
+    local opt=$1
+    local sql="$2"
     psql -h $g_host -U $g_user -d $g_database -p $g_port --no-password --single-transaction -q -X -1 -v ON_ERROR_STOP=1 $opt "$sql"
     if [ $? -ne 0 ];  then
         echo "fatal: psql command failed, deploy aborted." >&2
@@ -180,9 +202,9 @@ function dbexec() {
 }
 
 function get_datatype() {
-    dt_sql="select min(data_types) from clearing_house.tbl_clearinghouse_submissions where submission_id = $g_submission_id"
-    dt_x=`psql -h $g_host -U $g_user -d $g_database -p $g_port -X -A -t -c "$dt_sql"`
-    dt_x=${dt_x/ /_}
+    local dt_sql="select min(data_types) from clearing_house.tbl_clearinghouse_submissions where submission_id = $g_submission_id"
+    local dt_x=`psql -h $g_host -U $g_user -d $g_database -p $g_port -X -A -t -c "$dt_sql"`
+    local dt_x=${dt_x/ /_}
     if [ "$dt_x" == "" ]; then
         usage "submission has an undefined data type."
         exit 64
@@ -191,10 +213,10 @@ function get_datatype() {
 }
 
 function generate_cr_name() {
-    day=$(date +%Y%m%d)
-    zid=`printf "%03d" ${g_submission_id}`
-    dt_y=`get_datatype`
-    cr_x="${day}_DML_SUBMISSION_${dt_y^^}_${zid}_COMMIT"
+    local day=$(date +%Y%m%d)
+    local zid=`printf "%03d" ${g_submission_id}`
+    local dt_y=`get_datatype`
+    local cr_x="${day}_DML_SUBMISSION_${dt_y^^}_${zid}_COMMIT"
     echo "${cr_x^^}"
 }
 
@@ -205,7 +227,7 @@ function generate_data() {
 
     mkdir -p $g_temp_folder
 
-    sql="
+    local sql="
         do \$\$
         begin
             perform clearing_house_commit.resolve_primary_keys(${submission_id}, 'public', FALSE);
@@ -293,6 +315,7 @@ function create_change_request()
 
     if [ "$issue_id" != "" ]; then
         note="$note See issue https://github.com/humlab-sead/sead_change_control/issues/$issue_id."
+        g_issue_option="--issue-id $issue_id"
     fi
 
     echo "info: adding CR task $cr_name..."
@@ -310,13 +333,19 @@ function create_change_request()
         exit 64
     fi
 
-    ${script_dir}/add-change-request --project ${project} --change $cr_name $g_create_issue --note "$note"
+    ${script_dir}/add-change-request --project ${project} --change $cr_name $g_issue_option --note "$note"
 
     mv -f $temp_folder/${cr_name}.sql $deploy_file
     mv -f $temp_folder $deploy_folder/
 }
 
 check_options
+
+if [ "$g_only_list_open" == "YES" ]; then
+    dbexec -c "select submission_id, data_types, upload_date, status_text from \
+        clearing_house.tbl_clearinghouse_submissions where submission_state_id = 2;"
+    exit 0
+fi
 
 g_cr_name=`generate_cr_name`
 
@@ -339,12 +368,12 @@ print_options
 
 generate_data $g_submission_id $g_temp_folder
 
-if [ "$g_only_data" != "YES" ]; then
+if [ "$g_only_create_data" != "YES" ]; then
 
     generate_deploy $g_submission_id $g_cr_name $g_project $g_temp_folder
 
     if [ "$g_dry_run" != "YES" ]; then
-        create_change_request $g_submission_id $g_cr_name $g_project $g_temp_folder $g_note $g_related_issue_id
+        create_change_request $g_submission_id $g_cr_name $g_project $g_temp_folder $g_note $g_issue_id
     fi
 
 fi
