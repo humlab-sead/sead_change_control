@@ -271,6 +271,11 @@ begin;
 		select uuid, biblio_uuid
 		from view_bibliography_references;
 
+	/* We need to update the clearinghouse commit UDFs to include the new columns */
+	/* FIXME: We should also update the clearinghouse schema to include the new columns */
+	
+	perform clearing_house_commit.generate_resolve_functions('public', false);
+
 commit;
 
 reset role;
