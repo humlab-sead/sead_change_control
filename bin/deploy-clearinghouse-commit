@@ -12,13 +12,14 @@ g_force=NO
 g_mode=dryrun
 g_project=subsystem
 g_cr_author=`getent passwd $USER | cut -d ':' -f 5 | cut -d ',' -f 1`
-g_cr_name=20191217_DDL_CLEARINGHOUSE_SYSTEM
-g_description="Deploy of Clearinghouse System"
+g_cr_name=20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM
+g_description="Deploy of Clearinghouse Transport System"
 g_note=
 g_issue_id=
 g_issue_opt=--create-issue
-g_on_schema_exists=drop
-g_schema_name=clearing_house
+g_on_schema_exists=update
+g_schema_name=clearing_house_commit
+
 
 g_real_path=$(readlink -f "${BASH_SOURCE[0]}")
 
@@ -86,7 +87,7 @@ done
 
 function get_cr_id() {
     day=$(date +%Y%m%d)
-    cr_x="${day}_DDL_CLEARINGHOUSE_SYSTEM"
+    cr_x="${day}_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM"
     echo "${cr_x^^}"
 }
 
@@ -132,53 +133,15 @@ function generate_deploy_script() {
     echo "create schema if not exists $g_schema_name authorization clearinghouse_worker;"   >> $work_file
     echo ""                                                                                 >> $work_file
 
-
-    echo "-- 00_assign_privileges.sql"                                                      >> $work_file
-    cat $sql_folder/00_assign_privileges.sql                                                >> $work_file
-    echo ""                                                                                 >> $work_file
-
     echo "set role clearinghouse_worker;"                                                   >> $work_file
     echo ""                                                                                 >> $work_file
 
-    echo "\set autocommit off;"                                                             >> $work_file
-    echo ""                                                                                 >> $work_file
-    echo "\cd /repo/subsystem/deploy"                                                       >> $work_file
-    echo ""                                                                                 >> $work_file
-    echo "begin;"                                                                           >> $work_file
-    echo ""                                                                                 >> $work_file
-
-    for file in $(ls $sql_folder/0[1,2,3,4]*.sql); do
-        echo "-- $file"                                                                     >> $work_file
-        cat $file                                                                           >> $work_file
-        echo ""                                                                             >> $work_file
-    done
-
-    echo "call clearing_house.create_clearinghouse_model(false);"                           >> $work_file
-    echo "call clearing_house.populate_clearinghouse_model();"                              >> $work_file
-    echo "call clearing_house.create_public_model(false, false);"                           >> $work_file
-
-    for file in $(ls $sql_folder/05*.sql); do
+    for file in $(ls $sql_folder/0[1,2,3,4,5]*.sql); do
         echo ""                                                                             >> $work_file
         echo "-- $file"                                                                     >> $work_file
         cat $file                                                                           >> $work_file
         echo ""                                                                             >> $work_file
     done
-
-    for file in $(ls $sql_folder/review/*.sql); do
-        echo ""                                                                             >> $work_file
-        echo "-- $file"                                                                     >> $work_file
-        cat $file                                                                           >> $work_file
-        echo ""                                                                             >> $work_file
-    done
-
-    for file in $(ls $sql_folder/reporting/*.sql); do
-        echo ""                                                                             >> $work_file
-        echo "-- $file"                                                                     >> $work_file
-        cat $file                                                                           >> $work_file
-        echo ""                                                                             >> $work_file
-    done
-
-	echo "commit;"                                                                          >> $work_file
     echo ""                                                                                 >> $work_file
 	echo "reset role;"                                                                      >> $work_file
 
