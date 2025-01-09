@@ -736,6 +736,11 @@ begin
 	raise info '%', v_sql_script;
 
 end $$ language plpgsql;
-select clearing_house_commit.generate_sead_tables();
-select clearing_house_commit.generate_resolve_functions('public', false);
+
+do $$
+begin
+    perform clearing_house_commit.generate_sead_tables();
+    perform clearing_house_commit.generate_resolve_functions('public', false);
+end;
+$$;
 -- commit;
