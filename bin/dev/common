@@ -1,0 +1,18 @@
+#!/bin/bash
+
+g_port=5433
+g_user=
+g_verbose=no
+g_host=$(dnsdomainname -A)
+
+g_ch_sql_folder=$HOME/source/sead_clearinghouse/src/sql/
+
+if [ -f ~/vault/.default.sead.server ]; then
+    g_host=`cat ~/vault/.default.sead.server`
+fi
+
+if [ -f ~/vault/.default.sead.username ]; then
+    g_user=`cat ~/vault/.default.sead.username`
+fi
+
+set -e

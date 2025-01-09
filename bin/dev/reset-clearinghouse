@@ -1,32 +1,10 @@
 #!/bin/bash
 
+script_dir=$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+source $script_dir/common
+
 g_source_db="sead_staging_dev_template"
 g_target_db="sead_staging_development"
-
-g_port=5433
-g_user=
-g_verbose=no
-g_host=$(dnsdomainname -A)
-
-g_ch_sql_folder=$HOME/source/sead_clearinghouse/src/sql/
-
-if [ -f ~/vault/.default.sead.server ]; then
-    g_host=`cat ~/vault/.default.sead.server`
-fi
-
-if [ -f ~/vault/.default.sead.username ]; then
-    g_user=`cat ~/vault/.default.sead.username`
-fi
-
-set -e
-
-# function database_exists() {
-#     local host=$1
-#     local port=$2
-#     local user=$3
-#     local database=$4
-#     echo $(psql -U "$user" -h "$host" -p "$port" -d postgres -tAc "select 1 from pg_database where datname='$database';")
-# }
 
 copy-database --source $g_source_db --target $g_target_db --port $g_port --force --host $g_host
 
@@ -53,4 +31,4 @@ bin/patch-cr --port $g_port --database $g_target_db \
     20240112_DDL_CLEARINGHOUSE_UPLOAD_CSV \
     20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM
 
-copy-database --source sead_staging_development --target sead_staging_development_adna --port $g_port --force --host $g_host
+copy-database --source sead_staging_development --target sead_staging_development_clearinghouse --port $g_port --force --host $g_host

@@ -84,6 +84,7 @@ popd
 g_submission_id=1
 g_issue_id=342
 g_datatype=adna
+g_date=20250108
 
 function generate_cr_name() {
     local day=$(date +%Y%m%d)
@@ -93,8 +94,5 @@ function generate_cr_name() {
     echo "${cr_x^^}"
 }
 
-bin/add-submission-change-request --id $g_submission_id --port 5433 --database $target_db --project adna --related-issue-id $g_issue_id
-
-g_cr_name=`generate_cr_name`
-
-echo "Created $g_cr_name"
+bin/commit-submission --id $g_submission_id --change 20250108_DML_SUBMISSION_ADNA_001_COMMIT \
+    --port 5433 --database $target_db --project adna --related-issue-id $g_issue_id
