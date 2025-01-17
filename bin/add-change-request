@@ -112,7 +112,7 @@ elif [ -n "$issue_id" ]; then
     
 fi
 
-note="# https://github.com/humlab-sead/sead_change_control/issues/${issue_id}: $note"
+note="https://github.com/humlab-sead/sead_change_control/issues/${issue_id}: $note"
 
 sqitch add "$change" --set today="$today" -C $project -n "$note" "${POSITIONAL[@]}"
 
