@@ -18,15 +18,14 @@ g_database=
 g_submission_id=0
 g_project=
 g_force=0
-g_mode=dry_run
-g_temp_folder=./tmp
+g_mode=dryrun
+g_work_folder=./tmp
 g_issue_id=
-g_issue_option=--create-issue
+g_issue_opt=--create-issue
 g_cr_name=
 g_note=
 # g_date=$(date +%Y%m%d)
 g_date=
-g_dry_run=NO
 g_exec_prefix=
 
 if [ -f ~/vault/.default.sead.server ]; then
@@ -42,7 +41,7 @@ function usage() {
     if [ "$usage_error" != "" ]; then
         echo "error: $usage_error"
     fi
-    echo "usage: $script_name --date YYYYMMDD --mode update|new|only_cr|only_data|list --database DBNAME --id ID --project PROJECT --note NOTE [OPTIONS...] "
+    echo "usage: $script_name --date YYYYMMDD --mode update|new|only_data|list --database DBNAME --id ID --project PROJECT --note NOTE [OPTIONS...] "
     echo "  mandatory option:"
     echo ""
     echo "       --date YYYYMMDD          Submission's date (mandatory if --change is not specified)"
@@ -51,7 +50,6 @@ function usage() {
     echo "               new              Generate and add new change request to SEAD Control System."
     echo "               new_or_update    Create new CR or update existing if exists."
     echo "               update           Update deploy script & data in existing change request"
-    echo "               only_cr          Generate change request in target folder but do not update or add to SEAD Control System"
     echo "               only_data        Only generate data, do not create a change request"
     echo "               list             Only list available open submissions"
     echo "       --database DBNAME        Target database (mandatory)"
@@ -66,7 +64,6 @@ function usage() {
     echo "       --user USERNAME          Target database host (default ~/vault/.default.sead.server)"
     echo "       --force                  Force overwrite of existing target folder if exists"
     echo "       --no-create-issue        Do not create a Github issue for this submission"
-    echo "       --only-create-data       Only generate data, do not create a change request"
     echo "       --related-issue-id ID    Link CR to existing Github issue ID related to this submission"
     echo "       --note NOTE              Change request (and issue) note (default 'Deploy of Clearinghouse submission {ID}.')"
     echo "       --temp-folder FOLDER     Override default temporary folder (not recommended)"
@@ -114,7 +111,7 @@ do
             shift 2;
         ;;
         --temp-folder|--temp|-t)
-            g_temp_folder="$2";
+            g_work_folder="$2";
             shift 2;
         ;;
         -f|--force)
@@ -122,7 +119,7 @@ do
             shift;
         ;;
         -x|--dry-run)
-            g_dry_run="YES";
+            g_mode="dryrun";
             g_exec_prefix="echo "
             shift;
         ;;
@@ -132,11 +129,11 @@ do
         ;;
         --related-issue-id)
             g_issue_id="$2";
-            g_issue_option="--issue-id $g_issue_id"
+            g_issue_opt="--issue-id $g_issue_id"
             shift 2;
         ;;
         --no-create-issue)
-            g_issue_option="";
+            g_issue_opt="";
             shift;
         ;;
         --help|-h)
@@ -154,52 +151,9 @@ do
     esac
 done
 
-function check_options() {
-
-    if [ "$g_cr_name" == "" ]; then
-        if [ "$g_date" == "" ]; then
-            usage "CR name or date must be specified (--date YYYYMMDD)";
-        fi
-    fi
-
-    local mode_opts=("new" "update" "new_or_update" "list" "only_cr" "only_data")
-
-    if [[ ! " ${mode_opts[@]} " =~ " ${g_mode} " ]]; then
-        usage "unknown value for option --mode $g_mode";
-    fi
-
-    if [ "$g_host" == "" ] || [ "$g_user" == "" ]; then
-        usage "database host and/or user not specified (--user and --host)";
-    fi
-
-    if [ "$g_database" == "" ]; then
-        usage "database must be specified (--database)";
-    fi
-
-    if [ "$g_mode" == "list" ]; then
-        return
-    fi
-
-    if [ "$g_submission_id" == "0" ]; then
-        usage "submission id must be specified (--id)";
-    fi
-
-    if [ "$g_mode" == "only_cr" ] || [ "$g_mode" == "only_data" ]; then
-        return
-    fi
-
-    if [ "$g_project" == "" ]; then
-        usage "project must be specified (--project)";
-    fi
-
-    if [ ! -f "$g_project/sqitch.plan" ]; then
-        usage "project $g_project does not exist or is not a sqitch project";
-    fi
-}
-
 function print_options()
 {
-    if [ "$g_dry_run" == "YES" ]; then
+    if [ "$g_mode" == "dryrun" ]; then
         echo "notice: dry run, no changes will be made"
         echo "  g_mode: $g_mode"
         echo "  g_date: $g_date"
@@ -207,16 +161,14 @@ function print_options()
         echo "  g_project: $g_project"
         echo "  g_cr_name: $g_cr_name"
         echo "  g_work_folder: $g_work_folder"
-        echo "  g_temp_folder: $g_temp_folder"
         echo "  g_database: $g_database"
         echo "  g_host: $g_host"
         echo "  g_user: $g_user"
         echo "  g_port: $g_port"
         echo "  g_force: $g_force"
-        echo "  g_dry_run: $g_dry_run"
         echo "  g_note: $g_note"
         echo "  g_issue_id: $g_issue_id"
-        echo "  g_issue_option: $g_issue_option"
+        echo "  g_issue_opt: $g_issue_opt"
     fi
 }
 
@@ -282,52 +234,52 @@ function generate_deploy() {
     local work_folder=$4
     local cr_author=`getent passwd $USER | cut -d ':' -f 5 | cut -d ',' -f 1`
 
-    echo "Deploy $g_project: $cr_name"
-    echo "/***************************************************************************" >> $work_folder/${cr_name}.sql
-    echo "  Author         $cr_author"                                                  >> $work_folder/${cr_name}.sql
-    echo "  Date           $day"                                                        >> $work_folder/${cr_name}.sql
-    echo "  Description    $g_note"                                                     >> $work_folder/${cr_name}.sql
-    echo "  Issue                 "                                                     >> $work_folder/${cr_name}.sql
-    echo "  Prerequisites  "                                                            >> $work_folder/${cr_name}.sql
-    echo "  Reviewer"                                                                   >> $work_folder/${cr_name}.sql
-    echo "  Approver"                                                                   >> $work_folder/${cr_name}.sql
-    echo "  Idempotent     NO!"                                                         >> $work_folder/${cr_name}.sql
-    echo "  Notes          Use --single-transaction on execute!"                        >> $work_folder/${cr_name}.sql
-    echo "***************************************************************************/" >> $work_folder/${cr_name}.sql
+    local work_file=$work_folder/${cr_name}.sql
 
-    #echo "BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE;"                             >> $work_folder/${cr_name}.sql
-    echo "set client_encoding = 'UTF8';"                                                >> $work_folder/${cr_name}.sql
-    echo "set client_min_messages to warning;"                                          >> $work_folder/${cr_name}.sql
-    echo "\set autocommit off;"                                                         >> $work_folder/${cr_name}.sql
+    echo "-- Deploy $g_project: $cr_name"                                                      >> $work_file
+    echo "/***************************************************************************"     >> $work_file
+    echo "  Author         $cr_author"                                                      >> $work_file
+    echo "  Date           $day"                                                            >> $work_file
+    echo "  Description    $g_note"                                                         >> $work_file
+    echo "  Issue          "                                                                >> $work_file
+    echo "  Prerequisites  "                                                                >> $work_file
+    echo "  Reviewer"                                                                       >> $work_file
+    echo "  Approver"                                                                       >> $work_file
+    echo "  Idempotent     NO"                                                              >> $work_file
+    echo "  Notes          Use --single-transaction on execute!"                            >> $work_file
+    echo "***************************************************************************/"     >> $work_file
+    #echo "BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE;"                                 >> $work_file
+    echo "set client_encoding = 'UTF8';"                                                    >> $work_file
+    echo "set client_min_messages to warning;"                                              >> $work_file
+    echo "\set autocommit off;"                                                             >> $work_file
 
-    echo ""                                                                             >> $work_folder/${cr_name}.sql
-    echo "do \$\$"                                                                      >> $work_folder/${cr_name}.sql
-    echo "begin"                                                                        >> $work_folder/${cr_name}.sql
-    echo "    perform sead_utility.set_fk_is_deferrable('public', true, false);"        >> $work_folder/${cr_name}.sql
-    echo "end \$\$ language plpgsql;"                                                   >> $work_folder/${cr_name}.sql
-    echo ""                                                                             >> $work_folder/${cr_name}.sql
+    echo ""                                                                                 >> $work_file
+    echo "do \$\$"                                                                          >> $work_file
+    echo "begin"                                                                            >> $work_file
+    echo "    perform sead_utility.set_fk_is_deferrable('public', true, false);"            >> $work_file
+    echo "end \$\$ language plpgsql;"                                                       >> $work_file
+    echo ""                                                                                 >> $work_file
 
-    echo "begin;"                                                                       >> $work_folder/${cr_name}.sql
-    echo "set constraints all deferred;"                                                >> $work_folder/${cr_name}.sql
+    echo "begin;"                                                                           >> $work_file
+    echo "set constraints all deferred;"                                                    >> $work_file
 
     # NOTE: relative cd if OS command, /repo assumes running sqitch via Docker
-    echo "\cd /repo/$project/deploy"                                                    >> $work_folder/${cr_name}.sql
+    echo "\cd /repo/$project/deploy"                                                        >> $work_file
 
     dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($submission_id, '$cr_name', false)) to STDOUT; " \
-        | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g'                         >> $work_folder/${cr_name}.sql
+        | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g'                             >> $work_file
 
-	echo "select clearing_house_commit.allocate_sequence_ids();"                        >> $work_folder/${cr_name}.sql
-	echo "select clearing_house_commit.commit_submission($submission_id);"              >> $work_folder/${cr_name}.sql
+	echo "select clearing_house_commit.allocate_sequence_ids();"                            >> $work_file
+	echo "select clearing_house_commit.commit_submission($submission_id);"                  >> $work_file
 
-	echo "commit;"                                                                      >> $work_folder/${cr_name}.sql
+	echo "commit;"                                                                          >> $work_file
 
-    echo ""                                                                             >> $work_folder/${cr_name}.sql
-    echo "do \$\$"                                                                      >> $work_folder/${cr_name}.sql
-    echo "begin"                                                                        >> $work_folder/${cr_name}.sql
-    echo "    perform sead_utility.set_fk_is_deferrable('public', false, false);"       >> $work_folder/${cr_name}.sql
-    echo "end \$\$ language plpgsql;"                                                   >> $work_folder/${cr_name}.sql
-    echo ""                                                                             >> $work_folder/${cr_name}.sql
-
+    echo ""                                                                                 >> $work_file
+    echo "do \$\$"                                                                          >> $work_file
+    echo "begin"                                                                            >> $work_file
+    echo "    perform sead_utility.set_fk_is_deferrable('public', false, false);"           >> $work_file
+    echo "end \$\$ language plpgsql;"                                                       >> $work_file
+    echo ""                                                                                 >> $work_file
 }
 
 function create_change_request()
@@ -354,7 +306,7 @@ function create_change_request()
 
     if [ "$issue_id" != "" ]; then
         note="$note See issue https://github.com/humlab-sead/sead_change_control/issues/$issue_id."
-        g_issue_option="--issue-id $issue_id"
+        g_issue_opt="--issue-id $issue_id"
     fi
 
     echo "info: adding CR task $cr_name..."
@@ -372,7 +324,7 @@ function create_change_request()
         exit 64
     fi
 
-    $g_exec_prefix ${script_dir}/add-change-request --project ${project} --change $cr_name $g_issue_option --note "$note"
+    $g_exec_prefix ${script_dir}/add-change-request --project ${project} --change $cr_name $g_issue_opt --note "$note"
 
     $g_exec_prefix mv -f $work_folder/${cr_name}.sql $deploy_file
     $g_exec_prefix mv -f $work_folder $deploy_folder/
@@ -384,8 +336,6 @@ function update_change_request()
     local cr_name=$1
     local project=$2
     local work_folder=$3
-
-    echo "info: updating CR task $cr_name..."
 
     local deploy_folder=./${project}/deploy
     local deploy_file=$deploy_folder/${cr_name}.sql
@@ -404,6 +354,52 @@ function update_change_request()
     $g_exec_prefix rm -rf $deploy_folder/${cr_name}
     $g_exec_prefix mkdir -p $deploy_folder/${cr_name}
     $g_exec_prefix mv -f $work_folder/* $deploy_folder/${cr_name}/
+
+    echo "info: done updating CR task $cr_name."
+
+}
+
+function check_setup() {
+
+    if [ "$g_cr_name" == "" ]; then
+        if [ "$g_date" == "" ]; then
+            usage "CR name or date must be specified (--date YYYYMMDD)";
+        fi
+    fi
+
+    local mode_opts=("new" "update" "new_or_update" "list" "only_data")
+
+    if [[ ! " ${mode_opts[@]} " =~ " ${g_mode} " ]]; then
+        usage "unknown value for option --mode $g_mode";
+    fi
+
+    if [ "$g_host" == "" ] || [ "$g_user" == "" ]; then
+        usage "database host and/or user not specified (--user and --host)";
+    fi
+
+    if [ "$g_database" == "" ]; then
+        usage "database must be specified (--database)";
+    fi
+
+    if [ "$g_mode" == "list" ]; then
+        return
+    fi
+
+    if [ "$g_submission_id" == "0" ]; then
+        usage "submission id must be specified (--id)";
+    fi
+
+    if [ "$g_mode" == "only_data" ]; then
+        return
+    fi
+
+    if [ "$g_project" == "" ]; then
+        usage "project must be specified (--project)";
+    fi
+
+    if [ ! -f "$g_project/sqitch.plan" ]; then
+        usage "project $g_project does not exist or is not a sqitch project";
+    fi
 }
 
 if [ "$g_mode" == "list" ]; then
@@ -412,13 +408,14 @@ if [ "$g_mode" == "list" ]; then
     exit 0
 fi
 
-check_options
+check_setup
 
 if [ "$g_cr_name" == "" ]; then
     g_cr_name=`generate_cr_name $g_date`
 fi
 
-g_work_folder="$g_temp_folder/$g_cr_name"
+g_work_folder="$g_work_folder/$g_cr_name"
+g_work_file=$g_work_folder/${g_cr_name}.sql
 
 if [ "$g_mode" != "new_or_update" ]; then
     if  [ -f "$g_project/deploy/$g_cr_name.sql" ]; then
@@ -435,11 +432,6 @@ generate_data $g_submission_id $g_work_folder
 if [ "$g_mode" != "only_data" ]; then
 
     generate_deploy $g_submission_id $g_cr_name $g_project $g_work_folder
-
-    if [ -f "$project/deploy/$cr_name.sql" ]; then
-        echo "fatal: CR task $cr_name already exists, please remove it before adding new."
-        exit 64
-    fi
 
     if [ "$g_mode" == "new" ]; then
         create_change_request $g_submission_id $g_cr_name $g_project $g_work_folder $g_note $g_issue_id
