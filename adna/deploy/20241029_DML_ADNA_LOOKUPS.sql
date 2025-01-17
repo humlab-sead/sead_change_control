@@ -16,13 +16,13 @@ begin;
 do $$
     declare v_new_contact_id int;
     declare v_new_record_type_id int;
+	declare v_new_method_id int;
     declare v_submission_identifier text;
     declare v_change_request_identifier text;
 begin
 
-    v_submission_identifier = 'adna_pilot_lookup_import_oct_2024.xlsx'
-    v_change_request_identifier = '20241029_DML_ADNA_LOOKUPS'
-
+    v_submission_identifier = 'adna_pilot_lookup_import_oct_2024.xlsx';
+    v_change_request_identifier = '20241029_DML_ADNA_LOOKUPS';
 
     with new_data (system_id, location_name, location_type_id) as (
         values
@@ -45,7 +45,7 @@ begin
             ('2', 'SciLifelab Ancient DNA, Norbyvägen 18 A, 752 36, Uppsala University, Uppsala', 'Uppsala', '4233', 'magnus.lundgren@scilifelab.uu.se', 'SciLifelab Ancient DNA', NULL, NULL, 'https://www.scilifelab.se/units/ancient-dna/'),
             ('3', 'Arkeologerna, Statens Historiska Museer', NULL, NULL, 'caroline.ahlstrom.arcini@arkeologerna.com', 'Caroline', 'Arcini Ahlström', NULL, 'https://arkeologerna.com/')
         )
-            insert into tbl_contacts (contact_id, address_1, address_2, email, first_name, last_name) 
+            insert into tbl_contacts (contact_id, address_1, address_2, location_id, email, first_name, last_name, phone_number, url) 
                 select sead_utility.allocate_system_id(
 	                v_submission_identifier,
 	                v_change_request_identifier,
@@ -53,14 +53,14 @@ begin
 	                'contact_id',
 	                new_data.system_id::text,
 	                row_to_json(new_data.*)::jsonb               
-            	), address_1, address_2, location_id, email, first_name, last_name, phone_number, url
+            	), address_1, address_2, location_id::int, email, first_name, last_name, phone_number, url
                 from new_data;
 
     with new_data (system_id, site_preservation_status_id, site_name, site_description, national_site_identifier, latitude_dd, longitude_dd, site_location_accuracy) as (
         values 
             ('1', NULL, 'Skänninge Abbey', NULL, 'L2011:9764', '58.398269', '15.082804', NULL, 'Cultural Heritage site')
         )
-        insert into tbl_sites (system_id, site_preservation_status_id, site_name, site_description, national_site_identifier, latitude_dd, longitude_dd, altitude, site_location_accuracy)
+        insert into tbl_sites (site_id, site_preservation_status_id, site_name, site_description, national_site_identifier, latitude_dd, longitude_dd, altitude, site_location_accuracy)
             select 
                 sead_utility.allocate_system_id(
 	                v_submission_identifier,
@@ -70,7 +70,7 @@ begin
 	                new_data.system_id::text,
 	                row_to_json(new_data.*)::jsonb               
             	), site_preservation_status_id::int, site_name, site_description, national_site_identifier,
-					latitude_dd::numeric(18,10), longitude_dd::numeric(18,10), site_location_accuracy
+					latitude_dd::numeric(18,10), longitude_dd::numeric(18,10), null, site_location_accuracy
             from new_data;
 
     with new_data (system_id, sampling_context, description) as (
@@ -93,7 +93,7 @@ begin
         values
             ('1', 'ancient DNA', 'Extraction, sequencing, and analysis of ancient DNA.')
         )
-		insert into tbl_record_types (system_id, record_type_name, record_type_description)
+		insert into tbl_record_types (record_type_id, record_type_name, record_type_description)
             select 
                 sead_utility.allocate_system_id(
 	                v_submission_identifier,
@@ -105,8 +105,8 @@ begin
             	), record_type_name, record_type_description
             from new_data;
 
-    v_new_record_type_id = sead_utility.get_allocated_system_id(
-        v_submission_identifier, v_change_request_identifier, 'tbl_record_types', 'record_type_id', '1'
+    v_new_record_type_id = sead_utility.get_allocated_id(
+        v_submission_identifier, v_change_request_identifier, 'tbl_record_types'::text, 'record_type_id'::text, '1'::text
     );
 
     with new_data (system_id, biblio_id, method_name, method_abbrev_or_alt_name, description, record_type_id, method_group_id) as (
@@ -122,10 +122,10 @@ begin
 	                'method_id',
 	                new_data.system_id::text,
 	                row_to_json(new_data.*)::jsonb
-            	), biblio_id, method_name, method_abbrev_or_alt_name, description, record_type_id, method_group_id::int
+            	), biblio_id::int, method_name, method_abbrev_or_alt_name, description, record_type_id, method_group_id::int
             from new_data;
 
-    v_new_contact_id = sead_utility.get_allocated_system_id(
+    v_new_contact_id = sead_utility.get_allocated_id(
         v_submission_identifier, v_change_request_identifier, 'tbl_contacts', 'contact_id', '2'
     );
 
@@ -145,13 +145,12 @@ begin
             	), master_name, master_notes, biblio_id::int, contact_id, url
             from new_data;
 
-
     with new_data (system_id, alt_ref_type, description) as (
         values
             ('1', 'Sequence Library ID', 'Sequence library ID code (generated by ADU) generated for aDNA data'),
             ('2', 'Associated DNA library ID', 'DNA library ID associated with a sample')
         )
-		insert into tbl_alt_ref_types (alt_ref_type_id, record_type_name, record_type_description)
+		insert into tbl_alt_ref_types (alt_ref_type_id, alt_ref_type, description)
             select 
                 sead_utility.allocate_system_id(
 	                v_submission_identifier,
@@ -184,7 +183,7 @@ begin
         values
             ('1', 'National Center for Biotechnology Information (NCBI) Taxonomy Database with classification and nomenclature for all organisms in the public sequence databases.', 'NCBI taxonomy')
         ) 
-    	    insert into tbl_taxonomic_order_systems (biblio_id, system_description, system_name)
+    	    insert into tbl_taxonomic_order_systems (taxonomic_order_system_id, system_description, system_name)
             select 
                 sead_utility.allocate_system_id(
 	                v_submission_identifier,
@@ -216,7 +215,7 @@ begin
         v_submission_identifier, v_change_request_identifier, 'tbl_methods', 'method_id', '1'
     );
 
-	with new_data (	with new_data (system_id, method_id, name, description) as (
+	with new_data (system_id, method_id, name, description) as (
         values
             ('1', v_new_method_id, 'organism genome mapped to', 'Organism whose reference sequence / genome assembly was used for sequence alignment'),
             ('2', v_new_method_id, 'reference genome assembly', 'reference sequence / genome assembly name or accession code'),
