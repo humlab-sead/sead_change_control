@@ -2,6 +2,8 @@
 #
 # Patches/applies one or more change requests (or any SQL file) to a database.
 
+set -e
+
 source .env
 
 . $(dirname "$0")/utility.sh
