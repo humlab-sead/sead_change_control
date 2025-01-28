@@ -51,13 +51,13 @@ begin
         create table "tbl_value_qualifier_symbols" (
             "qualifier_symbol_id" int primary key,
             "symbol" text not null unique,
-            "cardinal_qualifier_id" int not null references "tbl_value_qualifiers" ("qualifier_id")
+            "cardinal_qualifier_id" int not null references "tbl_value_qualifiers" ("qualifier_id") deferrable
         );
 
         create table "tbl_value_types" (
             "value_type_id" int primary key,
-            "unit_id" int null references "tbl_units" ("unit_id"),
-            "data_type_id" int null references "tbl_data_types" ("data_type_id"),
+            "unit_id" int null references "tbl_units" ("unit_id") deferrable,
+            "data_type_id" int null references "tbl_data_types" ("data_type_id") deferrable,
             "name" text not null unique,
             "base_type" text not null,
             "precision" int null default null,
@@ -66,24 +66,24 @@ begin
 
         create table "tbl_value_type_items" (
             "value_type_item_id" int primary key,
-            "value_type_id" int not null references "tbl_value_types" ("value_type_id"),
+            "value_type_id" int not null references "tbl_value_types" ("value_type_id") deferrable,
             "name" varchar(80) null default null,
             "description" text null default null
         );
 
         create table "tbl_value_classes" (
             "value_class_id" int not null primary key,
-            "value_type_id" int not null references "tbl_value_types" ("value_type_id"),
-            "method_id" int not null references "tbl_methods" ("method_id"),
-            "parent_id" int null references "tbl_value_classes" ("value_class_id"),
+            "value_type_id" int not null references "tbl_value_types" ("value_type_id") deferrable,
+            "method_id" int not null references "tbl_methods" ("method_id") deferrable,
+            "parent_id" int null references "tbl_value_classes" ("value_class_id") deferrable,
             "name" varchar(80) not null,
             "description" text not null
         );
 
         create table "tbl_analysis_values" (
             "analysis_value_id" bigserial primary key,
-            "value_class_id" int not null references "tbl_value_classes" ("value_class_id"),
-            "analysis_entity_id" bigint not null references "tbl_analysis_entities" ("analysis_entity_id"),
+            "value_class_id" int not null references "tbl_value_classes" ("value_class_id") deferrable,
+            "analysis_entity_id" bigint not null references "tbl_analysis_entities" ("analysis_entity_id") deferrable,
             "analysis_value" text null default null,
             "boolean_value" boolean null default null,
             "is_boolean" boolean null default null, -- if the value is of type boolean, could be deduced from value type table though
@@ -96,97 +96,97 @@ begin
 
         create table "tbl_analysis_boolean_values" (
             "analysis_boolean_value_id" serial primary key,
-            "analysis_value_id" bigint not null unique references "tbl_analysis_values" ("analysis_value_id"),
+            "analysis_value_id" bigint not null unique references "tbl_analysis_values" ("analysis_value_id") deferrable,
 			"qualifier" text null default null,
             "value" bool null default null
         );
 
         create table "tbl_analysis_integer_values" (
             "analysis_integer_value_id" bigserial primary key,
-            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
-            "qualifier" text null references tbl_value_qualifier_symbols(symbol),
+            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id") deferrable,
+            "qualifier" text null references tbl_value_qualifier_symbols(symbol) deferrable,
             "value" int null default null,
             "is_variant" bool null default null
         );
 
         create table "tbl_analysis_categorical_values" (
             "analysis_categorical_value_id" bigserial primary key,
-            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
-            "value_type_item_id" int not null references "tbl_value_type_items" ("value_type_item_id"),
+            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id") deferrable,
+            "value_type_item_id" int not null references "tbl_value_type_items" ("value_type_item_id") deferrable,
             "value" decimal(20,10) null default null, -- optional value,
             "is_variant" bool null default null
         );
 
         create table "tbl_analysis_numerical_values" (
             "analysis_numerical_value_id" bigserial primary key,
-            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
-            "qualifier" text null references tbl_value_qualifier_symbols(symbol),
+            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id") deferrable,
+            "qualifier" text null references tbl_value_qualifier_symbols(symbol) deferrable,
             "value" decimal(20,10) null,
             "is_variant" bool null default null
         );
 
         create table "tbl_analysis_identifiers" (
             "analysis_identifier_id" bigserial primary key,
-            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
+            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id") deferrable,
             "value" text not null
         );
 
         create table "tbl_analysis_numerical_ranges" (
             "analysis_numerical_range_id" bigserial primary key,
-            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
+            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id") deferrable,
             "value" numrange not null,
             "low_is_uncertain" bool null,
             "high_is_uncertain" bool null,
-            "low_qualifier" text null references tbl_value_qualifier_symbols(symbol),
-            "high_qualifier" text null references tbl_value_qualifier_symbols(symbol),
+            "low_qualifier" text null references tbl_value_qualifier_symbols(symbol) deferrable,
+            "high_qualifier" text null references tbl_value_qualifier_symbols(symbol) deferrable,
             "is_variant" bool null default null
         );
 
         create table "tbl_analysis_integer_ranges" (
             "analysis_integer_range_id" bigserial primary key,
-            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
+            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id") deferrable,
             "low_value" int null,
             "high_value" int null,
             "low_is_uncertain" bool null,
             "high_is_uncertain" bool null,
-            "low_qualifier" text null references tbl_value_qualifier_symbols(symbol),
-            "high_qualifier" text null references tbl_value_qualifier_symbols(symbol),
+            "low_qualifier" text null references tbl_value_qualifier_symbols(symbol) deferrable,
+            "high_qualifier" text null references tbl_value_qualifier_symbols(symbol) deferrable,
             "is_variant" bool null default null
         );
 
         create table "tbl_analysis_dating_ranges" (
             "analysis_dating_range_id" bigserial primary key,
-            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
+            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id") deferrable,
             -- "value" int4range not null,
             "low_value" int null,
             "high_value" int null,
             "low_is_uncertain" bool null,
             "high_is_uncertain" bool null,
-            "low_qualifier" text null references tbl_value_qualifier_symbols(symbol),
-            "high_qualifier" text null references tbl_value_qualifier_symbols(symbol),
-            "age_type_id" int not null default(1) references tbl_age_types ("age_type_id"),
-            "season_id" int null default null references tbl_seasons("season_id"),
-            "dating_uncertainty_id" int null default null references tbl_dating_uncertainty("dating_uncertainty_id"),
+            "low_qualifier" text null references tbl_value_qualifier_symbols(symbol) deferrable,
+            "high_qualifier" text null references tbl_value_qualifier_symbols(symbol) deferrable,
+            "age_type_id" int not null default(1) references tbl_age_types ("age_type_id") deferrable,
+            "season_id" int null default null references tbl_seasons("season_id") deferrable,
+            "dating_uncertainty_id" int null default null references tbl_dating_uncertainty("dating_uncertainty_id") deferrable,
             "is_variant" bool null default null
         );
 
         create table "tbl_analysis_notes" (
             "analysis_note_id" bigserial primary key,
-            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
+            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id") deferrable,
             "value" text not null
         );
 
         create table "tbl_analysis_value_dimensions" (
             "analysis_value_dimension_id" serial primary key,
-            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
-            "dimension_id" int not null references "tbl_dimensions" ("dimension_id"),
+            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id") deferrable,
+            "dimension_id" int not null references "tbl_dimensions" ("dimension_id") deferrable,
             "value" numeric(20,10) not null
         );
 
         create table "tbl_analysis_taxon_counts" (
             "analysis_taxon_count_id" serial primary key,
-            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id"),
-            "taxon_id" int not null references "tbl_taxa_tree_master" ("taxon_id"),
+            "analysis_value_id" bigint not null references "tbl_analysis_values" ("analysis_value_id") deferrable,
+            "taxon_id" int not null references "tbl_taxa_tree_master" ("taxon_id") deferrable,
             "value" numeric(20,10) not null
         );
 
