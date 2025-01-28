@@ -6,29 +6,26 @@ source $script_dir/common
 g_source_db="sead_staging_dev_template"
 g_target_db="sead_staging_development"
 
-copy-database --source $g_source_db --target $g_target_db --port $g_port --force --host $g_host
+# copy-database --source $g_source_db --target $g_target_db --port $g_port --force --host $g_host
 
-echo "Resetting database $g_target_db"
+# echo "Resetting database $g_target_db"
 
-echo "Applying MEASURED VALUES patches"
-bin/patch-cr --port $g_port --database $g_target_db \
-    20240924_DDL_MEASURED_VALUES_REFACTOR \
-    20240924_DML_MEASURED_VALUES_LOOKUPS
+# echo "Applying MEASURED VALUES patches"
+# bin/patch-cr --port $g_port --database $g_target_db \
+#     20240924_DDL_MEASURED_VALUES_REFACTOR \
+#     20240924_DML_MEASURED_VALUES_LOOKUPS
 
-echo "Applying DENDRO patches"
-bin/patch-cr --port $g_port --database $g_target_db \
-    20241023_DML_NEW_DENDRO_LOOKUPS \
-    20241031_DML_MIGRATE_DENDRO_SUBMISSION
+# echo "Applying DENDRO patches"
+# bin/patch-cr --port $g_port --database $g_target_db \
+#     20241023_DML_NEW_DENDRO_LOOKUPS \
+#     20241031_DML_MIGRATE_DENDRO_SUBMISSION
 
-echo "Bundling CLEARINGHOUSE SQL"
-
-$g_ch_sql_folder/deploy_change_request.sh --target-folder /tmp --force --change 20191217_DDL_CLEARINGHOUSE_SYSTEM
+# echo "Bundling CLEARINGHOUSE SQL"
 
 echo "Applying CLEARINGHOUSE patches"
-bin/patch-cr --port $g_port --database $g_target_db \
-    /tmp/20191217_DDL_CLEARINGHOUSE_SYSTEM.sql \
-    20241127_DDL_CLEARINGHOUSE_IMPORT_TABLES \
-    20240112_DDL_CLEARINGHOUSE_UPLOAD_CSV \
-    20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM
+bin/patch-cr --port $g_port --database $g_target_db 20191217_DDL_CLEARINGHOUSE_SYSTEM
+bin/patch-cr --port $g_port --database $g_target_db 20241127_DDL_CLEARINGHOUSE_IMPORT_TABLES
+bin/patch-cr --port $g_port --database $g_target_db 20240112_DDL_CLEARINGHOUSE_UPLOAD_CSV
+bin/patch-cr --port $g_port --database $g_target_db 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM
 
 copy-database --source sead_staging_development --target sead_staging_development_clearinghouse --port $g_port --force --host $g_host
