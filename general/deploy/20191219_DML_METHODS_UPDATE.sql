@@ -55,32 +55,32 @@ begin
 			  from updated_data;
 
         update tbl_methods
-            set "description" = temp_method_updates."description",
+            set "description" = temp_method_updates."description"
             from temp_method_updates
             where tbl_methods."method_id" = temp_method_updates."method_id" and tbl_methods."description" <> temp_method_updates."description";
 
         update tbl_methods
-            set "method_abbrev_or_alt_name" = temp_method_updates."method_abbrev_or_alt_name",
+            set "method_abbrev_or_alt_name" = temp_method_updates."method_abbrev_or_alt_name"
             from temp_method_updates
             where tbl_methods."method_id" = temp_method_updates."method_id" and tbl_methods."method_abbrev_or_alt_name" <> temp_method_updates."method_abbrev_or_alt_name";
 
         update tbl_methods
-            set "method_group_id" = temp_method_updates."method_group_id",
+            set "method_group_id" = temp_method_updates."method_group_id"
             from temp_method_updates
             where tbl_methods."method_id" = temp_method_updates."method_id" and tbl_methods."method_group_id" <> temp_method_updates."method_group_id";
 
         update tbl_methods
-            set "method_name" = temp_method_updates."method_name",
+            set "method_name" = temp_method_updates."method_name"
             from temp_method_updates
             where tbl_methods."method_id" = temp_method_updates."method_id" and tbl_methods."method_name" <> temp_method_updates."method_name";
 
         update tbl_methods
-            set "record_type_id" = temp_method_updates."record_type_id",
+            set "record_type_id" = temp_method_updates."record_type_id"
             from temp_method_updates
             where tbl_methods."method_id" = temp_method_updates."method_id" and tbl_methods."record_type_id" <> temp_method_updates."record_type_id";
 
         update tbl_methods
-            set "unit_id" = temp_method_updates."unit_id",
+            set "unit_id" = temp_method_updates."unit_id"
             from temp_method_updates
             where tbl_methods."method_id" = temp_method_updates."method_id" and tbl_methods."unit_id" <> temp_method_updates."unit_id";
         
