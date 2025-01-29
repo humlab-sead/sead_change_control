@@ -46,7 +46,7 @@ tbl_chronologies: kopplas på Sample group ID
 
 begin;
 
--- This change as been backdated to SEAD_DATABASE_MODEL/tables.sql
+-- This change as been backported to SEAD_DATABASE_MODEL/tables.sql
 alter table tbl_analysis_entity_ages
     add column if not exists dating_specifier text;
 
