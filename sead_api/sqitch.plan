@@ -1,6 +1,6 @@
 %syntax-version=1.0.0
 %project=sead_api
-%uri=https://github.com/humlab-sead/sead-api
+%uri=https://github.com/humlab-sead/sead_api
 
 20180501_DDL_RESTAPI_GENERATE_SCHEMA 2019-04-08T14:33:10Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/209:  Schema used by PostgREST REST API publication of SEAD base tables
 20180501_DDL_RESTAPI_CREATE_SAMPLE_AGE_RANGES 2019-04-08T14:38:24Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/210:  Views (site_sample_taxon_abundance and sample_age_ranges) published via REST API
