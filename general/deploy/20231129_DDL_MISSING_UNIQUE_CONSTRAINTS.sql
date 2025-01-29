@@ -25,7 +25,7 @@ begin
                 select max(sample_alt_ref_id)
                 from tbl_sample_alt_refs
                 group by physical_sample_id, alt_ref, alt_ref_type_id, date_updated
-                having count(*) > 1;
+                having count(*) > 1
             ) loop
                 raise notice 'deleted duplicate sample_alt_ref_id: %', v_duplicate_id;
                 delete from tbl_sample_alt_refs where sample_alt_ref_id = v_duplicate_id;
