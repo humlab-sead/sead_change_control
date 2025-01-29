@@ -72,9 +72,9 @@ CREATE TABLE "public"."tbl_analysis_entities" (
 );
 CREATE TABLE "public"."tbl_analysis_entity_ages" (
   "analysis_entity_age_id" serial primary key,
-  "age" numeric(20, 10) NOT NULL,
-  "age_older" numeric(15, 5),
-  "age_younger" numeric(15, 5),
+  "age" numeric(20, 5) NOT NULL,
+  "age_older" numeric(20, 5),
+  "age_younger" numeric(20, 5),
   "analysis_entity_id" bigint,
   "chronology_id" int4,
   "date_updated" timestamp with time zone DEFAULT now(),
@@ -227,7 +227,7 @@ CREATE TABLE "public"."tbl_coordinate_method_dimensions" (
 );
 CREATE TABLE "public"."tbl_data_type_groups" (
   "data_type_group_id" serial primary key,
-  "data_type_group_name" varchar(25) COLLATE unique "pg_catalog"."default",
+  "data_type_group_name" varchar(25) unique COLLATE "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now(),
   "description" text COLLATE "pg_catalog"."default"
 );
