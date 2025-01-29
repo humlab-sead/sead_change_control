@@ -1,6 +1,6 @@
 %syntax-version=1.0.0
 %project=utility
-%uri=https://github.com/humlab-sead/sead/utility
+%uri=https://github.com/humlab-sead/utility
 
 20190401_DDL_UTILITY_SCHEMA 2019-04-07T09:00:06Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/202:  Schema for DB global utility objects
 20190407_DDL_UTILITY_SYNC_ALL_SEQUENCES 2019-04-05T14:12:09Z Roger Mähler <roger.mahler@umu.se> # Resets all sequences to MAX value of parent column
