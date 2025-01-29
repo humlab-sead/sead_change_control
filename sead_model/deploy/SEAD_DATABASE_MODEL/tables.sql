@@ -72,7 +72,7 @@ CREATE TABLE "public"."tbl_analysis_entities" (
 );
 CREATE TABLE "public"."tbl_analysis_entity_ages" (
   "analysis_entity_age_id" serial primary key,
-  "age" numeric(20, 5) NOT NULL,
+  "age" numeric(20, 5),
   "age_older" numeric(20, 5),
   "age_younger" numeric(20, 5),
   "analysis_entity_id" bigint,
