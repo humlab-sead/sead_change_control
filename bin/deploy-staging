@@ -508,6 +508,24 @@ function verify_target_database()
     fi
 }
 
+function verify_project_names() {
+    # Verifies that project name in sqitch plan and folder name matches for all projects
+    local project_folders="$1"
+    echo "info: checking projects..."
+    for folder in $project_folders; do
+        project_name=$(awk -F'=' 'NR==2 {print $2}' "$folder/sqitch.plan")
+        project_uri=$(awk -F'=' 'NR==3 {print $2}' "$folder/sqitch.plan")
+        if [ "$project_name" != "$folder" ]; then
+            echo "error: project name $project_name differs from $folder name $project_name (please check sqitch.plan)"
+            exit 64
+        fi
+        if [ "$project_uri" != "https://github.com/humlab-sead/$project_name" ]; then
+            echo "error: project uri $project_uri differs from expected https://github.com/humlab-sead/$project_name (please check sqitch.plan)"
+            exit 64
+        fi
+    done
+}
+
 function deploy_to_tag()
 {
     # Deploys all project to specified release tag
@@ -526,6 +544,7 @@ function deploy_to_tag()
     fi
 
     verify_target_database $target_name
+    verify_project_names "$default_projects"
 
     if [ "$g_sync_sequences" == "YES" ] && [ "${source_type}" != "dump" ] && [ "${source_type}" != "empty" ]; then
         echo "info: syncing sequences (prior to deploy)..."
@@ -538,11 +557,9 @@ function deploy_to_tag()
 
     for tag in $known_release_tags; do
 
+        echo "########################################################################################################################"
         echo "info: deploying tag $tag"
-
-        # for plan in $(find . -name 'sqitch.plan'); do
-        #     sqitch --plan-file "$plan" tag xyz -m 'Tag xyz'
-        # done
+        echo "########################################################################################################################"
 
         for sqitch_project in $default_projects; do
 
@@ -567,7 +584,7 @@ function deploy_to_tag()
             done
 
             if $is_deployed; then
-                echo "info: skipping $sqitch_project ($tag already deployed)"
+                echo "info: skipping $sqitch_project ($tag already deployed in $target_name)"
                 continue
             fi
 
