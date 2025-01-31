@@ -10,6 +10,7 @@
   Idempotent    Yes
   Notes         This script assumes that all dendro data has been removed from the database.
                 This script is a part of the solution to the issue #135.
+                20250131: Backported script to SEAD model and made it idempotent.
 *****************************************************************************************************************/
 
 
