@@ -1,8 +1,11 @@
 #!/bin/bash
 
+set -e
+
 . $(dirname "$0")/utility.sh
 
 export PGCLIENTENCODING=UTF8
+unset PAGER
 
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -601,15 +604,29 @@ function deploy_to_tag()
                     "$sqitch_project/${tag}-pre-deploy-hook" --target $target_uri
                 fi
 
-                sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project --to $tag # >> $log_file
+                local sqitch_output_filename=$(mktemp)
+
+                sqitch deploy --target ${target_uri} --mode change --no-pager --no-verify -C $sqitch_project --to $tag | cat &> $sqitch_output_filename
 
                 deploy_code=$?
+
+                #  | tee $sqitch_output_filename
+
+                cat $sqitch_output_filename
+
+                local deployed_crs=$(sed -E '/^[[:space:]]*\+/!d; s/^[[:space:]]*\+\s*([[:alnum:]_]+).*/\1/; ' "$sqitch_output_filename")
 
                 if [ -f $sqitch_project/"${tag}-post-deploy-hook" ]; then
                     echo "info: running $sqitch_project/${tag}-post-deploy-hook..."
                     "$sqitch_project/${tag}-post-deploy-hook" --target $target_uri
                 fi
 
+                while IFS= read -r cr; do
+                    if [ -f $sqitch_project/"${cr}-post-deploy-hook" ]; then
+                        echo "info: running $sqitch_project/${cr}-post-deploy-hook..."
+                        "$sqitch_project/${cr}-post-deploy-hook" --target $target_uri
+                    fi
+                done <<< "$deployed_crs"
             fi
 
             if [ $deploy_code -ne 0 ];  then
