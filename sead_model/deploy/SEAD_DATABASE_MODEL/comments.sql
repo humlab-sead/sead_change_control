@@ -32,9 +32,8 @@ from http://www.radiocarbon.org/info/labcodes.html';
 comment on column "public"."tbl_dating_labs"."lab_name" is 'international standard name of radiocarbon lab, from http://www.radiocarbon.org/info/labcodes.html';
 comment on table "public"."tbl_dating_labs" is '20120504pib: reduced this table and linked to tbl_contacts for address related data';
 comment on table "public"."tbl_dating_material" is '20130722PIB: Added field date_updated';
-comment on table "public"."tbl_dendro_dates" is '20130722PIB: Added field dating_uncertainty_id to cater for >< etc.
-20130722PIB: prefixed fieldnames age_younger and age_older with "cal_" to conform with equivalent names in other tables';
-comment on table "public"."tbl_dendro_measurements" is 'Type=lookup';
+comment on table tbl_dendro_lookup is 'type=lookup';
+comment on table public.tbl_dendro_dates is '20130722PIB: Added field dating_uncertainty_id to cater for >< etc. 20130722pib: prefixed fieldnames age_younger and age_older with "cal_" to conform with equivalent names in other tables';
 comment on column "public"."tbl_dimensions"."method_group_id" is 'Limits choice of dimension by method group (e.g. size measurements, coordinate systems)';
 comment on column "public"."tbl_features"."feature_name" is 'estabilished reference name/number for the feature (note: not the sample). e.g. well 47, anl.3, c107.
 remember that a sample can come from multiple features (e.g. c107 in well 47) but each feature should have a separate record.';

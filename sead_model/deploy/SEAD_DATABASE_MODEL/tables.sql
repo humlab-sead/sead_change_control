@@ -303,40 +303,52 @@ CREATE TABLE "public"."tbl_dating_uncertainty" (
   "description" text COLLATE "pg_catalog"."default",
   "uncertainty" varchar unique COLLATE "pg_catalog"."default"
 );
+CREATE TABLE "public"."tbl_dendro_lookup" (
+    "dendro_lookup_id" serial primary key,
+    "method_id" int4,
+    "name" varchar collate "pg_catalog"."default" not null,
+    "description" text collate "pg_catalog"."default",
+    "date_updated" timestamp with time zone default now()
+);
 CREATE TABLE "public"."tbl_dendro" (
-  "dendro_id" serial primary key,
-  "analysis_entity_id" bigint NOT NULL,
-  "dendro_measurement_id" int4 NOT NULL,
-  "measurement_value" varchar COLLATE "pg_catalog"."default" NOT NULL,
-  "date_updated" timestamp with time zone DEFAULT now()
+    "dendro_id" serial primary key,
+    "analysis_entity_id" integer not null,
+    "measurement_value" character varying collate pg_catalog."default" not null,
+    "date_updated" timestamp with time zone default now(),
+    "dendro_lookup_id" integer not null
 );
-CREATE TABLE "public"."tbl_dendro_date_notes" (
-  "dendro_date_note_id" serial primary key,
-  "dendro_date_id" int4 NOT NULL,
-  "note" text COLLATE "pg_catalog"."default",
-  "date_updated" timestamp with time zone DEFAULT now()
+CREATE TABLE "public"."tbl_age_types" (
+    "age_type_id" serial primary key,
+    "age_type" character varying(150) not null,
+    "description" text,
+    "date_updated" timestamp with time zone default now()
 );
-CREATE TABLE "public"."tbl_dendro_dates" (
-  "dendro_date_id" serial primary key,
-  "analysis_entity_id" bigint NOT NULL,
-  "cal_age_younger" int4,
-  "dating_uncertainty_id" int4,
-  "years_type_id" int4,
-  "error" int4,
-  "season_or_qualifier_id" int4,
-  "date_updated" timestamp with time zone DEFAULT now(),
-  "cal_age_older" int4
+CREATE TABLE "public"."tbl_dendro_dates"
+(
+    "dendro_date_id" serial primary key,
+    "season_id" integer,
+    "dating_uncertainty_id" integer,
+    "dendro_lookup_id" integer not null,
+    "age_type_id" integer not null,
+    "analysis_entity_id" integer not null,
+    "age_older" integer,
+    "age_younger" integer,
+    "date_updated" timestamp with time zone default now(),
+	  "age_range" int4range null
+        generated always as (
+            case when age_younger is null and age_older is null then null
+            else int4range(
+                coalesce(age_older::int, age_younger::int),
+                coalesce(age_younger::int, age_older::int) + 1
+            )
+          end) stored
 );
-CREATE TABLE "public"."tbl_dendro_measurement_lookup" (
-  "dendro_measurement_lookup_id" serial primary key,
-  "dendro_measurement_id" int4 NOT NULL,
-  "value" varchar COLLATE "pg_catalog"."default" NOT NULL,
-  "date_updated" timestamp with time zone DEFAULT now()
-);
-CREATE TABLE "public"."tbl_dendro_measurements" (
-  "dendro_measurement_id" serial primary key,
-  "date_updated" timestamp with time zone DEFAULT now(),
-  "method_id" int4
+CREATE TABLE "public"."tbl_dendro_date_notes"
+(
+    "dendro_date_note_id" serial primary key,
+    "dendro_date_id" integer not null,
+    "note" text collate pg_catalog."default",
+    "date_updated" timestamp with time zone default now()
 );
 CREATE TABLE "public"."tbl_dimensions" (
   "dimension_id" serial primary key,

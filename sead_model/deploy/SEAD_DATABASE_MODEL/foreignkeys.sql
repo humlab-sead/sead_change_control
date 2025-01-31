@@ -173,29 +173,43 @@ alter table "tbl_dating_material"
 alter table "tbl_dating_material"
     add constraint "fk_dating_material_taxa_tree_master_taxon_id" foreign key ("taxon_id") references "tbl_taxa_tree_master"("taxon_id") on delete no ACTION on update no ACTION;
 
-alter table "tbl_dendro"
-    add constraint "fk_dendro_analysis_entity_id" foreign key ("analysis_entity_id") references "tbl_analysis_entities"("analysis_entity_id") on delete no ACTION on update no ACTION;
+alter table "tbl_dendro_lookup"
+    add constraint "fk_dendro_lookup_method_id"
+        foreign key ("method_id") references tbl_methods ("method_id")
+            on delete no action on update no action;
 
-alter table "tbl_dendro"
-    add constraint "fk_dendro_dendro_measurement_id" foreign key ("dendro_measurement_id") references "tbl_dendro_measurements"("dendro_measurement_id") on delete no ACTION on update no ACTION;
+alter table "tbl_dendro" 
+    add constraint fk_dendro_analysis_entity_id
+        foreign key ("analysis_entity_id")
+            references public.tbl_analysis_entities ("analysis_entity_id") match simple
+                on update no action on delete no action,
+    add constraint fk_dendro_dendro_lookup_id
+        foreign key ("dendro_lookup_id")
+            references public.tbl_dendro_lookup ("dendro_lookup_id") match simple on update no action on delete no action;
+
+alter table "tbl_dendro_dates"
+    add constraint fk_dendro_dates_analysis_entity_id
+        foreign key ("analysis_entity_id")
+            references public.tbl_analysis_entities ("analysis_entity_id") match simple on update no action on delete no action,
+    add constraint fk_dendro_dates_dating_uncertainty_id foreign key ("dating_uncertainty_id")
+        references public.tbl_dating_uncertainty ("dating_uncertainty_id") match simple
+        on update no action
+        on delete no action,
+    add constraint fk_dendro_lookup_dendro_lookup_id foreign key ("dendro_lookup_id")
+        references public.tbl_dendro_lookup ("dendro_lookup_id") match simple
+        on update no action
+        on delete no action,
+    add constraint fk_tbl_age_types_age_type_id foreign key ("age_type_id")
+        references public.tbl_age_types ("age_type_id") match simple
+        on update no action
+        on delete no action
+;
 
 alter table "tbl_dendro_date_notes"
-    add constraint "fk_dendro_date_notes_dendro_date_id" foreign key ("dendro_date_id") references "tbl_dendro_dates"("dendro_date_id") on delete no ACTION on update no ACTION;
-
-alter table "tbl_dendro_dates"
-    add constraint "fk_dendro_dates_analysis_entity_id" foreign key ("analysis_entity_id") references "tbl_analysis_entities"("analysis_entity_id") on delete no ACTION on update no ACTION;
-
-alter table "tbl_dendro_dates"
-    add constraint "fk_dendro_dates_dating_uncertainty_id" foreign key ("dating_uncertainty_id") references "tbl_dating_uncertainty"("dating_uncertainty_id") on delete no ACTION on update no ACTION;
-
-alter table "tbl_dendro_dates"
-    add constraint "fk_dendro_dates_years_type_id" foreign key ("years_type_id") references "tbl_years_types"("years_type_id") on delete no ACTION on update no ACTION;
-
-alter table "tbl_dendro_measurement_lookup"
-    add constraint "fk_dendro_measurement_lookup_dendro_measurement_id" foreign key ("dendro_measurement_id") references "tbl_dendro_measurements"("dendro_measurement_id") on delete no ACTION on update no ACTION;
-
-alter table "tbl_dendro_measurements"
-    add constraint "fk_dendro_measurements_method_id" foreign key ("method_id") references "tbl_methods"("method_id") on delete no ACTION on update no ACTION;
+    add constraint fk_dendro_date_notes_dendro_date_id
+        foreign key ("dendro_date_id")
+            references public.tbl_dendro_dates ("dendro_date_id") match simple on update no action on delete no action
+;
 
 alter table "tbl_dimensions"
     add constraint "fk_dimensions_method_group_id" foreign key ("method_group_id") references "tbl_method_groups"("method_group_id") on delete no ACTION on update no ACTION;
