@@ -8,7 +8,7 @@
 
 /***************************************************************************
   Author         
-  Date           2025-01-28
+  Date           2025-01-30
   Description    Deploy of Clearinghouse Transport System
   Issue          https://github.com/humlab-sead/sead_change_control/issues/215
   Prerequisites  
@@ -622,15 +622,42 @@ end;$$ language plpgsql;
 
 
 -- ../sead_clearinghouse/transport_system//04_script_data_transport.sql
+create or replace function clearing_house_commit.get_non_generated_columns(p_schema_name text, p_table_name text)
+returns text as
+$$
+declare
+    v_columns text;
+begin
+    select string_agg(column_name, ', ')
+        into v_columns
+        from (
+            select column_name
+            from information_schema.columns
+            where table_schema = p_schema_name
+              and table_name = p_table_name
+              and is_generated = 'NEVER'
+            order by ordinal_position
+        ) as t;
+    return v_columns;
 
-create or replace function clearing_house_commit.generate_copy_out_script(p_submission_id int, p_entity text, p_target_folder text) returns text as $$
+end;
+$$ language plpgsql;
+
+create or replace function clearing_house_commit.generate_copy_out_script(
+    p_submission_id int,
+    p_entity text,
+    p_table_name text,
+    p_target_folder text) returns text as $$
 declare v_sql text;
+declare v_columns text;
 begin
 
+    v_columns = clearing_house_commit.get_non_generated_columns('public', p_table_name);
+
     -- program ''gzip > %s/submission_%s_%s.zip''
-    v_sql = format('\copy (select * from clearing_house_commit.resolve_%s(%s)) to program ''gzip -qa9 > %s/submission_%s_%s.gz'' with (format text, delimiter E''\t'', encoding ''utf-8'');
+    v_sql = format('\copy (select %s from clearing_house_commit.resolve_%s(%s)) to program ''gzip -qa9 > %s/submission_%s_%s.gz'' with (format text, delimiter E''\t'', encoding ''utf-8'');
     ',
-        p_entity, p_submission_id, p_target_folder, p_submission_id, p_entity);
+        v_columns, p_entity, p_submission_id, p_target_folder, p_submission_id, p_entity);
 
     return v_sql;
 
@@ -646,7 +673,10 @@ create or replace function clearing_house_commit.generate_copy_in_script(
 ) returns text as $$
 declare v_sql text;
 declare v_delete_sql text;
+declare v_columns text;
 begin
+
+    v_columns = clearing_house_commit.get_non_generated_columns('public', p_table_name);
 
     -- from program ''gunzip < %s/submission_%s_%s.zip''
     v_sql = E'
@@ -655,13 +685,13 @@ begin
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_#TABLE#;
-create table clearing_house_commit.temp_#TABLE# as select * from public.#TABLE# where FALSE;
+create table clearing_house_commit.temp_#TABLE# as select #COLUMNS# from public.#TABLE# where FALSE;
 
 \\copy clearing_house_commit.temp_#TABLE# from program ''zcat -qac #DIR#/submission_#ID#_#ENTITY#.gz'' with (FORMAT text, DELIMITER E''\t'', ENCODING ''utf-8'');
 #DELETE-SQL#
 
-insert into public.#TABLE#
-    select *
+insert into public.#TABLE# (#COLUMNS#)
+    select #COLUMNS#
     from clearing_house_commit.temp_#TABLE# ;
 
 \\echo Deployed #ENTITY#, rows inserted: :ROW_COUNT
@@ -677,6 +707,7 @@ drop table if exists clearing_house_commit.temp_#TABLE#;
 delete from public.#TABLE#
     where #PK# in (select #PK# from clearing_house_commit.temp_#TABLE#);' else '' end;
 
+    v_sql = replace(v_sql, '#COLUMNS#', v_columns);
     v_sql = replace(v_sql, '#DELETE-SQL#', v_delete_sql);
     v_sql = replace(v_sql, '#TABLE#', p_table_name);
     v_sql = replace(v_sql, '#ID#', p_submission_id::text);
@@ -727,7 +758,7 @@ begin
             end if;
 
             if p_is_out then
-                v_sql = v_sql || E'\n' || clearing_house_commit.generate_copy_out_script(p_submission_id, v_entity_name, p_folder);
+                v_sql = v_sql || E'\n' || clearing_house_commit.generate_copy_out_script(p_submission_id, v_entity_name, v_table_name, p_folder);
             else
                 v_sql = v_sql || E'\n' || clearing_house_commit.generate_copy_in_script(p_submission_id, v_entity_name, v_table_name, v_pk_name, p_folder) || E'\n';
             end if;
