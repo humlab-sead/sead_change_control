@@ -214,8 +214,11 @@ drop table if exists clearing_house_commit.temp_tbl_dendro_date_notes;
 
 \echo 'Deploying dendro_date';
 
+
 drop table if exists clearing_house_commit.temp_tbl_dendro_dates;
-create table clearing_house_commit.temp_tbl_dendro_dates as select * from public.tbl_dendro_dates where FALSE;
+create table clearing_house_commit.temp_tbl_dendro_dates as
+    select dendro_date_id, season_id, dating_uncertainty_id, dendro_lookup_id, age_type_id, analysis_entity_id, age_older, age_younger, date_updated
+    from public.tbl_dendro_dates where FALSE;
 
 \copy clearing_house_commit.temp_tbl_dendro_dates from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/submission_5_dendro_date.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
