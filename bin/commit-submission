@@ -236,7 +236,7 @@ function generate_deploy() {
 
     local work_file=$work_folder/${cr_name}.sql
 
-    echo "-- Deploy $g_project: $cr_name"                                                      >> $work_file
+    echo "-- Deploy $g_project: $cr_name"                                                   >> $work_file
     echo "/***************************************************************************"     >> $work_file
     echo "  Author         $cr_author"                                                      >> $work_file
     echo "  Date           $day"                                                            >> $work_file
