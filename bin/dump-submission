@@ -1,0 +1,218 @@
+#!/bin/bash
+
+. $(dirname "$0")/utility.sh
+
+SHELL=/bin/bash
+
+export PGCLIENTENCODING=UTF8
+
+set -e
+
+script_dir=$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+script_name=`basename "$0"`
+
+g_host=
+g_user=
+g_port=5433
+g_database=
+g_submission_id=0
+g_target_folder=dryrun
+g_compress_flag=YES
+g_verbose=NO
+
+if [ -f ~/vault/.default.sead.server ]; then
+    g_host=$(head -n 1 ~/vault/.default.sead.server)
+fi
+
+if [ -f ~/vault/.default.sead.username ]; then
+    g_user=$(head -n 1 ~/vault/.default.sead.username)
+fi
+
+function usage() {
+    local usage_error="$1"
+    if [ "$usage_error" != "" ]; then
+        echo "error: $usage_error"
+    fi
+    echo "usage: $script_name --database DBNAME --id ID --target-folder [OPTIONS...] "
+    echo "  mandatory option:"
+    echo ""
+    echo "       --database DBNAME        Target database (mandatory)"
+    echo "       --id ID                  Submission's identity (mandatory)"
+    echo "       --target-folder FOLDER   Submission's identity (mandatory)"
+
+    echo "  non-mandatory option:"
+    echo "       --compress/no-compress   Whether to compress the output or not (default YES)"
+    echo "       --host HOST              Target database host (default ~/vault/.default.sead.server)"
+    echo "       --port PORT              Target database port (default 5432)"
+    echo "       --user USERNAME          Target database host (default ~/vault/.default.sead.server)"
+    echo "       --force                  Force overwrite of existing target folder if exists"
+    echo "       --verbose                Be more verbose"
+    exit 64
+}
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --host|-h)
+            g_host="$2";
+            shift 2;
+        ;;
+        --port)
+            g_port="$2";
+            shift 2;
+        ;;
+        --user|-U)
+            g_user="$2";
+            shift 2;
+        ;;
+        --database|-d)
+            g_database="$2";
+            shift 2;
+        ;;
+        --id|-i|--submission-id)
+            g_submission_id="$2";
+            shift 2;
+        ;;
+        --target-folder|-t)
+            g_target_folder="$2";
+            shift 2;
+        ;;
+        -f|--force)
+            g_force="YES";
+            shift;
+        ;;
+        --verbose)
+            g_verbose="YES"; shift;
+        ;;
+        --compress)
+            g_compress_flag="YES"; shift;
+        ;;
+        --no-compress)
+            g_compress_flag="NO"; shift;
+        ;;
+        --help|-h)
+            usage;
+            exit 0;
+        ;;
+        --*)
+            usage  "error: invalid option $1"
+            exit 64
+        ;;
+        *)
+            POSITIONAL+=("$1") # save it in an array for later
+            shift
+        ;;
+    esac
+done
+
+function print_options()
+{
+    if [ "$g_mode" == "dryrun" ]; then
+        echo "notice: dry run, no changes will be made"
+        echo "  g_submission_id: $g_submission_id"
+        echo "  g_target_folder: $g_work_folder"
+        echo "  g_database: $g_database"
+        echo "  g_host: $g_host"
+        echo "  g_user: $g_user"
+        echo "  g_port: $g_port"
+    fi
+}
+
+function get_column_names() {
+    local schema_name=$1
+    local table_name=$2
+    local sql=$(cat <<END
+        select string_agg(column_name, ', ')
+        from (
+            select column_name
+            from information_schema.columns
+            where table_schema = '$schema_name'
+              and table_name = '$table_name'
+              and is_generated = 'NEVER'
+            order by ordinal_position
+        ) as t;
+END
+)
+    psql -h $g_host -U $g_user -d $g_database -p $g_port -tAc "$sql"
+}
+
+dump_submission()
+{
+    local schema_name='clearing_house'
+    local submission_id=$1
+    local target_folder=$2
+
+    local sql=$(cat <<END
+        select distinct table_name
+        from information_schema.columns
+        where table_schema = '$schema_name'
+          and column_name = 'submission_id'
+          and table_name not in (
+              select table_name from information_schema.views where table_schema = '$schema_name'
+          )
+        order by table_name;
+END
+)
+
+    if [ -d "$target_folder" ]; then
+        if [ "$g_force" == "YES" ]; then
+            rm -f $target_folder/copy_in.sql $target_folder/copy_out.sql $target_folder/tbl_*.sql $target_folder/tbl_*.sql.gz
+        else
+            echo "fatal: target folder \"$target_folder\" already exists. Use --force to overwrite"
+            exit 64
+        fi
+    fi
+
+    mkdir -p $target_folder
+
+    local table_count=0
+    local table_empty_count=0
+
+    rm -f "$target_folder/copy_*.sql" "$target_folder/*.sql.gz"
+
+    copy_options="with (format text, delimiter E'\t', encoding 'utf-8')"
+    copy_out_script="$target_folder/copy_out.sql"
+    copy_in_script="$target_folder/copy_in.sql"
+    set -f
+    while read table ; do
+
+        local column_names=$(get_column_names $schema_name $table)
+
+        if [ "$g_compress_flag" == "YES" ]; then
+            copy_out="\\copy (select $column_names from $schema_name.$table where submission_id = $submission_id) to program 'gzip -qa9 > $target_folder/$table.sql.gz' $copy_options;";
+            copy_in="\\copy $schema_name.$table ($column_names) from program 'zcat -qac $target_folder/$table.sql.gz' $copy_options;";
+        else
+            copy_out="\\copy (select $column_names from $schema_name.$table where submission_id = $submission_id) to '$target_folder/$table.sql' $copy_options;";
+            copy_in="\\copy $schema_name.$table ($column_names) from '$target_folder/$table.sql.gz' $copy_options;";
+        fi;
+
+        local delete_in="delete from $schema_name.$table where submission_id = $submission_id;"
+
+        local output=$(psql -v ON_ERROR_STOP=1 -h $g_host -U $g_user -d $g_database -p $g_port --no-password --command "$copy_out")
+
+        local copy_count=${output#COPY }
+
+        if [ "$copy_count" != "0" ]; then
+            [ "$g_verbose" == "YES" ] && echo "copied: $table ($copy_count rows)";
+            let table_count=$(( table_count + 1 ));
+            echo $copy_out >> "$copy_out_script"
+            echo $delete_in >> "$copy_in_script"
+            echo $copy_in >> "$copy_in_script"
+        else
+            [ "$g_verbose" == "YES" ] && echo "skipped: $table (empty)";
+            rm -f "$target_folder/$table.sql" "$target_folder/$table.sql.gz"
+            let table_empty_count=$(( table_empty_count + 1 ));
+        fi
+
+    done < <(
+        psql -h $g_host -U $g_user -d $g_database -p $g_port -c "$sql" -X -t --quiet --field-separator ' ' --no-align
+    )
+
+    echo "info: dumped submission $submission_id (${table_count} tables) to folder \"$target_folder\" (ignored $table_empty_count empty tables) "
+
+}
+
+dump_submission $g_submission_id $g_target_folder

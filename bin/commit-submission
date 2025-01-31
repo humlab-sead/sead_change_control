@@ -440,4 +440,6 @@ if [ "$g_mode" != "only_data" ]; then
     elif [ "$g_mode" == "update" ]; then
         update_change_request $g_cr_name $g_project $g_work_folder
     fi
+    bin/dump-submission --id $g_submission_id --database $g_database --target-folder "$g_project/deploy/$g_cr_name/clearinghouse-data" --force
+    
 fi
