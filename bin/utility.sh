@@ -142,14 +142,11 @@ function update_cr_header(){
 check_only_one_set() {
     local count=0
     for var in "$@"; do
-        [[ -n $var ]] && let count++
+        if [ "$var" != "" ]; then
+            let count=count+1
+        fi
     done
-
-    if (( count == 1 )); then
-        return 0
-    else
-        return 1
-    fi
+    echo "$count"
 }
 
 

@@ -246,9 +246,8 @@ function verify_options()
     if [ "$g_create_snapshot" == "YES" ] && [ "$g_create_database" == "YES" ]; then
         usage "error: cannot create snapshot AND database at the same time"
     fi
-
-    check_only_one_set "$g_target_chain_tag" "$g_target_tag" "$g_target_single_cr"
-    if [ $? -ne 0 ]; then
+    
+    if [ "$(count_number_of_set "$g_target_chain_tag" "$g_target_tag" "$g_target_single_cr")" != "1" ]; then
         usage "error: you can only specify one of --deploy-to-tag, --deploy-chain-to-tag or --deploy-single-change-request"
     fi
 
