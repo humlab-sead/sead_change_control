@@ -633,7 +633,7 @@ function deploy_to_tag()
             while IFS= read -r cr; do
                 if [ -f $sqitch_project/"${cr}-post-deploy-hook" ]; then
                     echo "info: running $sqitch_project/${cr}-post-deploy-hook..."
-                    "$sqitch_project/${cr}-post-deploy-hook" --target $target_uri
+                    "$sqitch_project/${cr}-post-deploy-hook" $target_uri 
                 fi
             done <<< "$deployed_crs"
 
