@@ -8,7 +8,7 @@
 
 /***************************************************************************
   Author         
-  Date           2025-01-30
+  Date           2025-01-31
   Description    Deploy of Clearinghouse Transport System
   Issue          https://github.com/humlab-sead/sead_change_control/issues/215
   Prerequisites  
@@ -622,7 +622,7 @@ end;$$ language plpgsql;
 
 
 -- ../sead_clearinghouse/transport_system//04_script_data_transport.sql
-create or replace function clearing_house_commit.get_non_generated_columns(p_schema_name text, p_table_name text)
+create or replace function clearing_house_commit.get_data_column_names(p_schema_name text, p_table_name text)
 returns text as
 $$
 declare
@@ -652,7 +652,7 @@ declare v_sql text;
 declare v_columns text;
 begin
 
-    v_columns = clearing_house_commit.get_non_generated_columns('public', p_table_name);
+    v_columns = clearing_house_commit.get_data_column_names('public', p_table_name);
 
     -- program ''gzip > %s/submission_%s_%s.zip''
     v_sql = format('\copy (select %s from clearing_house_commit.resolve_%s(%s)) to program ''gzip -qa9 > %s/submission_%s_%s.gz'' with (format text, delimiter E''\t'', encoding ''utf-8'');
@@ -676,7 +676,7 @@ declare v_delete_sql text;
 declare v_columns text;
 begin
 
-    v_columns = clearing_house_commit.get_non_generated_columns('public', p_table_name);
+    v_columns = clearing_house_commit.get_data_column_names('public', p_table_name);
 
     -- from program ''gunzip < %s/submission_%s_%s.zip''
     v_sql = E'
