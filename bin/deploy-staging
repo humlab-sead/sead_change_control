@@ -249,7 +249,7 @@ function verify_options()
     if [ "$g_create_snapshot" == "YES" ] && [ "$g_create_database" == "YES" ]; then
         usage "error: cannot create snapshot AND database at the same time"
     fi
-    
+    echo "[$g_target_chain_tag]" "[$g_target_tag]" "[$g_target_single_cr]"
     if [ "$(count_number_of_set "$g_target_chain_tag" "$g_target_tag" "$g_target_single_cr")" != "1" ]; then
         usage "error: you can only specify one of --deploy-to-tag, --deploy-chain-to-tag or --deploy-single-change-request"
     fi
@@ -597,36 +597,32 @@ function deploy_to_tag()
             if [ $g_dry_run == "YES" ]; then
                 echo "info: sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project" --to $tag ;
                 continue ;
-            else
+            fi
 
-                if [ -f "$sqitch_project/${tag}-pre-deploy-hook" ]; then
-                    echo "info: running $sqitch_project/${tag}-pre-deploy-hook"
-                    "$sqitch_project/${tag}-pre-deploy-hook" --target $target_uri
-                fi
+            if [ -f "$sqitch_project/${tag}-pre-deploy-hook" ]; then
+                echo "info: running $sqitch_project/${tag}-pre-deploy-hook"
+                "$sqitch_project/${tag}-pre-deploy-hook" --target $target_uri
+            fi
 
-                local sqitch_output_filename=$(mktemp)
+            local sqitch_output_filename=$(mktemp)
 
-                sqitch deploy --target ${target_uri} --mode change --no-pager --no-verify -C $sqitch_project --to $tag | cat &> $sqitch_output_filename
+            sqitch deploy --target ${target_uri} --mode change --no-pager --no-verify -C $sqitch_project --to $tag  --set "client_min_messages=WARNING" | cat &> $sqitch_output_filename
 
-                deploy_code=$?
+            deploy_code=$?
 
-                #  | tee $sqitch_output_filename
+            #  | tee $sqitch_output_filename
 
-                cat $sqitch_output_filename
+            cat $sqitch_output_filename
 
-                local deployed_crs=$(sed -E '/^[[:space:]]*\+/!d; s/^[[:space:]]*\+\s*([[:alnum:]_]+).*/\1/; ' "$sqitch_output_filename")
+            if grep -q "^not ok" $sqitch_output_filename; then
+                deploy_code=1
+            fi
 
-                if [ -f $sqitch_project/"${tag}-post-deploy-hook" ]; then
-                    echo "info: running $sqitch_project/${tag}-post-deploy-hook..."
-                    "$sqitch_project/${tag}-post-deploy-hook" --target $target_uri
-                fi
+            local deployed_crs=$(sed -E '/^[[:space:]]*\+/!d; s/^[[:space:]]*\+\s*([[:alnum:]_]+).*/\1/; ' "$sqitch_output_filename")
 
-                while IFS= read -r cr; do
-                    if [ -f $sqitch_project/"${cr}-post-deploy-hook" ]; then
-                        echo "info: running $sqitch_project/${cr}-post-deploy-hook..."
-                        "$sqitch_project/${cr}-post-deploy-hook" --target $target_uri
-                    fi
-                done <<< "$deployed_crs"
+            if [ -f $sqitch_project/"${tag}-post-deploy-hook" ]; then
+                echo "info: running $sqitch_project/${tag}-post-deploy-hook..."
+                "$sqitch_project/${tag}-post-deploy-hook" --target $target_uri
             fi
 
             if [ $deploy_code -ne 0 ];  then
@@ -634,7 +630,14 @@ function deploy_to_tag()
                 exit 64
             fi
 
-            if [ $g_dry_run != "YES" ] && [ "$g_sync_sequences" == "YES" ]; then
+            while IFS= read -r cr; do
+                if [ -f $sqitch_project/"${cr}-post-deploy-hook" ]; then
+                    echo "info: running $sqitch_project/${cr}-post-deploy-hook..."
+                    "$sqitch_project/${cr}-post-deploy-hook" --target $target_uri
+                fi
+            done <<< "$deployed_crs"
+
+            if [ "$g_sync_sequences" == "YES" ]; then
                 echo "info: syncing sequences (post deploy \"${sqitch_project}\")..."
                 sync_sequences
             fi
