@@ -139,7 +139,7 @@ function update_cr_header(){
 
 }
 
-check_only_one_set() {
+function count_number_of_set() {
     local count=0
     for var in "$@"; do
         if [ "$var" != "" ]; then
