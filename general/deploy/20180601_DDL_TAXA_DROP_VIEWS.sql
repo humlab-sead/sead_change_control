@@ -18,8 +18,13 @@ begin
 
     begin
     
-        drop view if exists "public"."view_taxa_tree";
-        drop view if exists "public"."view_taxa_tree_select";
+        if exists (select 1 from pg_catalog.pg_views where schemaname='public' and viewname = 'view_taxa_tree') then
+            drop view "public"."view_taxa_tree";
+        end if;
+
+        if exists (select 1 from pg_catalog.pg_views where schemaname='public' and viewname = 'view_taxa_tree_select') then
+            drop view "public"."view_taxa_tree_select";
+        end if;
         
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';

@@ -40,7 +40,16 @@ begin
             s_facet_code = (j_facet ->> 'facet_code')::text;
 
             -- Save facet's association for domain facets before we delete the facet
-            drop table if exists _facet_children_temp;
+            -- drop table if exists _facet_children_temp;
+            if exists (
+                select 1 from pg_catalog.pg_class 
+                where relname = '_facet_children_temp' 
+                  and relkind = 'r' 
+                  and pg_catalog.pg_table_is_visible(oid) -- Ensures it's visible in the current session
+            ) then
+                drop table _facet_children_temp;
+            end if;
+
             create temporary table _facet_children_temp as
                 select facet_code, child_facet_code, position
                 from facet.facet_children

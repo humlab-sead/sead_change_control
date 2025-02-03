@@ -17,7 +17,9 @@ begin;
 do $$
 begin
 
-    drop table if exists tbl_ceramics_lookup;
+    if exists (select 1 from pg_catalog.pg_tables where schemaname='public' and tablename = 'tbl_ceramics_lookup') then
+        drop table public.tbl_ceramics_lookup;
+    end if;
 
     create table if not exists tbl_ceramics_lookup
     (

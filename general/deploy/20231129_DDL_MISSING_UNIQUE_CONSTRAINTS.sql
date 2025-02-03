@@ -27,7 +27,7 @@ begin
                 group by physical_sample_id, alt_ref, alt_ref_type_id, date_updated
                 having count(*) > 1
             ) loop
-                raise notice 'deleted duplicate sample_alt_ref_id: %', v_duplicate_id;
+                -- raise notice 'deleted duplicate sample_alt_ref_id: %', v_duplicate_id;
                 delete from tbl_sample_alt_refs where sample_alt_ref_id = v_duplicate_id;
             end loop;
 
@@ -44,7 +44,7 @@ begin
                 group by site_id, biblio_id
                 having count(*) > 1
             ) loop
-                raise notice 'duplicate site_reference_id: %', v_duplicate_id;
+                -- raise notice 'duplicate site_reference_id: %', v_duplicate_id;
                 delete from tbl_site_references where site_reference_id = v_duplicate_id;
             end loop;
 
