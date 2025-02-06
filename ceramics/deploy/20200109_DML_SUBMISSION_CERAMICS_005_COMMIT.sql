@@ -12,18 +12,18 @@
   Idempotent     NO
   Notes          Use --single-transaction on execute!
 ***************************************************************************/
-set constraints all deferred;
 set client_min_messages to warning;
 \set autocommit off;
 begin;
+
+set constraints all deferred;
+
 \cd /repo/ceramics/deploy
 
 
 /************************************************************************************************************************************
  ** site
  ************************************************************************************************************************************/
-
-\echo 'Deploying site';
 
 drop table if exists clearing_house_commit.temp_tbl_sites;
 create table clearing_house_commit.temp_tbl_sites as select * from public.tbl_sites where FALSE;
@@ -38,7 +38,9 @@ insert into public.tbl_sites
     from clearing_house_commit.temp_tbl_sites
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_sites', 'site_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_sites;
 
@@ -47,8 +49,6 @@ drop table if exists clearing_house_commit.temp_tbl_sites;
 /************************************************************************************************************************************
  ** feature
  ************************************************************************************************************************************/
-
-\echo 'Deploying feature';
 
 drop table if exists clearing_house_commit.temp_tbl_features;
 create table clearing_house_commit.temp_tbl_features as select * from public.tbl_features where FALSE;
@@ -63,7 +63,9 @@ insert into public.tbl_features
     from clearing_house_commit.temp_tbl_features
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_features', 'feature_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_features;
 
@@ -72,8 +74,6 @@ drop table if exists clearing_house_commit.temp_tbl_features;
 /************************************************************************************************************************************
  ** dataset
  ************************************************************************************************************************************/
-
-\echo 'Deploying dataset';
 
 drop table if exists clearing_house_commit.temp_tbl_datasets;
 create table clearing_house_commit.temp_tbl_datasets as select * from public.tbl_datasets where FALSE;
@@ -88,7 +88,9 @@ insert into public.tbl_datasets
     from clearing_house_commit.temp_tbl_datasets
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_datasets', 'dataset_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_datasets;
 
@@ -97,8 +99,6 @@ drop table if exists clearing_house_commit.temp_tbl_datasets;
 /************************************************************************************************************************************
  ** dataset_contact
  ************************************************************************************************************************************/
-
-\echo 'Deploying dataset_contact';
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_contacts;
 create table clearing_house_commit.temp_tbl_dataset_contacts as select * from public.tbl_dataset_contacts where FALSE;
@@ -113,7 +113,9 @@ insert into public.tbl_dataset_contacts
     from clearing_house_commit.temp_tbl_dataset_contacts
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_dataset_contacts', 'dataset_contact_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_contacts;
 
@@ -122,8 +124,6 @@ drop table if exists clearing_house_commit.temp_tbl_dataset_contacts;
 /************************************************************************************************************************************
  ** dataset_submission
  ************************************************************************************************************************************/
-
-\echo 'Deploying dataset_submission';
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_submissions;
 create table clearing_house_commit.temp_tbl_dataset_submissions as select * from public.tbl_dataset_submissions where FALSE;
@@ -138,7 +138,9 @@ insert into public.tbl_dataset_submissions
     from clearing_house_commit.temp_tbl_dataset_submissions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_dataset_submissions', 'dataset_submission_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_submissions;
 
@@ -147,8 +149,6 @@ drop table if exists clearing_house_commit.temp_tbl_dataset_submissions;
 /************************************************************************************************************************************
  ** sample_group_description_type_sampling_context
  ************************************************************************************************************************************/
-
-\echo 'Deploying sample_group_description_type_sampling_context';
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts;
 create table clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts as select * from public.tbl_sample_group_description_type_sampling_contexts where FALSE;
@@ -163,7 +163,9 @@ insert into public.tbl_sample_group_description_type_sampling_contexts
     from clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_sample_group_description_type_sampling_contexts', 'sample_group_description_type_sampling_context_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts;
 
@@ -172,8 +174,6 @@ drop table if exists clearing_house_commit.temp_tbl_sample_group_description_typ
 /************************************************************************************************************************************
  ** sample_group
  ************************************************************************************************************************************/
-
-\echo 'Deploying sample_group';
 
 drop table if exists clearing_house_commit.temp_tbl_sample_groups;
 create table clearing_house_commit.temp_tbl_sample_groups as select * from public.tbl_sample_groups where FALSE;
@@ -188,7 +188,9 @@ insert into public.tbl_sample_groups
     from clearing_house_commit.temp_tbl_sample_groups
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_sample_groups', 'sample_group_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_groups;
 
@@ -197,8 +199,6 @@ drop table if exists clearing_house_commit.temp_tbl_sample_groups;
 /************************************************************************************************************************************
  ** physical_sample
  ************************************************************************************************************************************/
-
-\echo 'Deploying physical_sample';
 
 drop table if exists clearing_house_commit.temp_tbl_physical_samples;
 create table clearing_house_commit.temp_tbl_physical_samples as select * from public.tbl_physical_samples where FALSE;
@@ -213,7 +213,9 @@ insert into public.tbl_physical_samples
     from clearing_house_commit.temp_tbl_physical_samples
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_physical_samples', 'physical_sample_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_physical_samples;
 
@@ -222,8 +224,6 @@ drop table if exists clearing_house_commit.temp_tbl_physical_samples;
 /************************************************************************************************************************************
  ** analysis_entity
  ************************************************************************************************************************************/
-
-\echo 'Deploying analysis_entity';
 
 drop table if exists clearing_house_commit.temp_tbl_analysis_entities;
 create table clearing_house_commit.temp_tbl_analysis_entities as select * from public.tbl_analysis_entities where FALSE;
@@ -238,7 +238,9 @@ insert into public.tbl_analysis_entities
     from clearing_house_commit.temp_tbl_analysis_entities
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_analysis_entities', 'analysis_entity_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_analysis_entities;
 
@@ -247,8 +249,6 @@ drop table if exists clearing_house_commit.temp_tbl_analysis_entities;
 /************************************************************************************************************************************
  ** ceramic
  ************************************************************************************************************************************/
-
-\echo 'Deploying ceramic';
 
 drop table if exists clearing_house_commit.temp_tbl_ceramics;
 create table clearing_house_commit.temp_tbl_ceramics as select * from public.tbl_ceramics where FALSE;
@@ -263,7 +263,9 @@ insert into public.tbl_ceramics
     from clearing_house_commit.temp_tbl_ceramics
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_ceramics', 'ceramics_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_ceramics;
 
@@ -272,8 +274,6 @@ drop table if exists clearing_house_commit.temp_tbl_ceramics;
 /************************************************************************************************************************************
  ** physical_sample_feature
  ************************************************************************************************************************************/
-
-\echo 'Deploying physical_sample_feature';
 
 drop table if exists clearing_house_commit.temp_tbl_physical_sample_features;
 create table clearing_house_commit.temp_tbl_physical_sample_features as select * from public.tbl_physical_sample_features where FALSE;
@@ -288,7 +288,9 @@ insert into public.tbl_physical_sample_features
     from clearing_house_commit.temp_tbl_physical_sample_features
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_physical_sample_features', 'physical_sample_feature_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_physical_sample_features;
 
@@ -297,8 +299,6 @@ drop table if exists clearing_house_commit.temp_tbl_physical_sample_features;
 /************************************************************************************************************************************
  ** relative_date
  ************************************************************************************************************************************/
-
-\echo 'Deploying relative_date';
 
 drop table if exists clearing_house_commit.temp_tbl_relative_dates;
 create table clearing_house_commit.temp_tbl_relative_dates as select * from public.tbl_relative_dates where FALSE;
@@ -313,7 +313,9 @@ insert into public.tbl_relative_dates
     from clearing_house_commit.temp_tbl_relative_dates
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_relative_dates', 'relative_date_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_relative_dates;
 
@@ -322,8 +324,6 @@ drop table if exists clearing_house_commit.temp_tbl_relative_dates;
 /************************************************************************************************************************************
  ** sample_alt_ref
  ************************************************************************************************************************************/
-
-\echo 'Deploying sample_alt_ref';
 
 drop table if exists clearing_house_commit.temp_tbl_sample_alt_refs;
 create table clearing_house_commit.temp_tbl_sample_alt_refs as select * from public.tbl_sample_alt_refs where FALSE;
@@ -338,7 +338,9 @@ insert into public.tbl_sample_alt_refs
     from clearing_house_commit.temp_tbl_sample_alt_refs
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_sample_alt_refs', 'sample_alt_ref_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_alt_refs;
 
@@ -347,8 +349,6 @@ drop table if exists clearing_house_commit.temp_tbl_sample_alt_refs;
 /************************************************************************************************************************************
  ** sample_description
  ************************************************************************************************************************************/
-
-\echo 'Deploying sample_description';
 
 drop table if exists clearing_house_commit.temp_tbl_sample_descriptions;
 create table clearing_house_commit.temp_tbl_sample_descriptions as select * from public.tbl_sample_descriptions where FALSE;
@@ -363,7 +363,9 @@ insert into public.tbl_sample_descriptions
     from clearing_house_commit.temp_tbl_sample_descriptions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_sample_descriptions', 'sample_description_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_descriptions;
 
@@ -372,8 +374,6 @@ drop table if exists clearing_house_commit.temp_tbl_sample_descriptions;
 /************************************************************************************************************************************
  ** sample_dimension
  ************************************************************************************************************************************/
-
-\echo 'Deploying sample_dimension';
 
 drop table if exists clearing_house_commit.temp_tbl_sample_dimensions;
 create table clearing_house_commit.temp_tbl_sample_dimensions as select * from public.tbl_sample_dimensions where FALSE;
@@ -388,7 +388,9 @@ insert into public.tbl_sample_dimensions
     from clearing_house_commit.temp_tbl_sample_dimensions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_sample_dimensions', 'sample_dimension_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_dimensions;
 
@@ -397,8 +399,6 @@ drop table if exists clearing_house_commit.temp_tbl_sample_dimensions;
 /************************************************************************************************************************************
  ** sample_group_description
  ************************************************************************************************************************************/
-
-\echo 'Deploying sample_group_description';
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_descriptions;
 create table clearing_house_commit.temp_tbl_sample_group_descriptions as select * from public.tbl_sample_group_descriptions where FALSE;
@@ -413,7 +413,9 @@ insert into public.tbl_sample_group_descriptions
     from clearing_house_commit.temp_tbl_sample_group_descriptions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_sample_group_descriptions', 'sample_group_description_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_descriptions;
 
@@ -422,8 +424,6 @@ drop table if exists clearing_house_commit.temp_tbl_sample_group_descriptions;
 /************************************************************************************************************************************
  ** sample_group_dimension
  ************************************************************************************************************************************/
-
-\echo 'Deploying sample_group_dimension';
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_dimensions;
 create table clearing_house_commit.temp_tbl_sample_group_dimensions as select * from public.tbl_sample_group_dimensions where FALSE;
@@ -438,7 +438,9 @@ insert into public.tbl_sample_group_dimensions
     from clearing_house_commit.temp_tbl_sample_group_dimensions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_sample_group_dimensions', 'sample_group_dimension_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_dimensions;
 
@@ -447,8 +449,6 @@ drop table if exists clearing_house_commit.temp_tbl_sample_group_dimensions;
 /************************************************************************************************************************************
  ** site_location
  ************************************************************************************************************************************/
-
-\echo 'Deploying site_location';
 
 drop table if exists clearing_house_commit.temp_tbl_site_locations;
 create table clearing_house_commit.temp_tbl_site_locations as select * from public.tbl_site_locations where FALSE;
@@ -463,7 +463,9 @@ insert into public.tbl_site_locations
     from clearing_house_commit.temp_tbl_site_locations
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_site_locations', 'site_location_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_site_locations;
 
@@ -472,8 +474,6 @@ drop table if exists clearing_house_commit.temp_tbl_site_locations;
 /************************************************************************************************************************************
  ** site_reference
  ************************************************************************************************************************************/
-
-\echo 'Deploying site_reference';
 
 drop table if exists clearing_house_commit.temp_tbl_site_references;
 create table clearing_house_commit.temp_tbl_site_references as select * from public.tbl_site_references where FALSE;
@@ -488,7 +488,9 @@ insert into public.tbl_site_references
     from clearing_house_commit.temp_tbl_site_references
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
+\o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_site_references', 'site_reference_id');
+\o
 
 drop table if exists clearing_house_commit.temp_tbl_site_references;
 
