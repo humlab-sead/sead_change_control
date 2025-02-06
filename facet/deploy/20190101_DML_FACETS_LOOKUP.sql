@@ -235,7 +235,6 @@ begin
 			('tbl_chron_controls', 'chron_control_type_id', 'tbl_chron_control_types', 'chron_control_type_id', 20),
 			('tbl_chron_controls', 'chronology_id', 'tbl_chronologies', 'chronology_id', 20),
 			('tbl_chronologies', 'contact_id', 'tbl_contacts', 'contact_id', 20),
-			('tbl_chronologies', 'sample_group_id', 'tbl_sample_groups', 'sample_group_id', 20),
 			('tbl_colours', 'method_id', 'tbl_methods', 'method_id', 20),
 			('tbl_coordinate_method_dimensions', 'dimension_id', 'tbl_dimensions', 'dimension_id', 20),
 			('tbl_coordinate_method_dimensions', 'method_id', 'tbl_methods', 'method_id', 20),

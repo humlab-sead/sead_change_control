@@ -168,17 +168,13 @@ CREATE TABLE "public"."tbl_chron_controls" (
 );
 CREATE TABLE "public"."tbl_chronologies" (
   "chronology_id" serial primary key,
-  "age_bound_older" int4,
-  "age_bound_younger" int4,
-  "age_model" varchar(80) COLLATE "pg_catalog"."default",
-  "age_type_id" int4 NOT NULL,
-  "chronology_name" varchar(80) unique COLLATE "pg_catalog"."default",
+  "age_model" text COLLATE "pg_catalog"."default",
+  "relative_age_type_id" int4,
+  "chronology_name" text unique COLLATE "pg_catalog"."default",
   "contact_id" int4,
   "date_prepared" timestamp(0),
   "date_updated" timestamp with time zone DEFAULT now(),
-  "is_default" bool NOT NULL DEFAULT false,
   "notes" text COLLATE "pg_catalog"."default",
-  "sample_group_id" int4 NOT NULL
 );
 CREATE TABLE "public"."tbl_collections_or_journals" (
   "collection_or_journal_id" serial primary key,
