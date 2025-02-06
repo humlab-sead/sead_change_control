@@ -72,10 +72,10 @@ begin
 
             if not v_constraint_exists then
 			    v_sql = format('alter table %I add constraint %I_%I_unique unique (%I);', v_table_name, v_table_name, v_column_name, v_column_name);
-                raise notice '%', v_sql;
+                -- raise notice '%', v_sql;
                 execute v_sql;
-            else
-                raise notice 'unique constraint %_%_unique already exists.', v_table_name, v_column_name;
+            -- else
+            --     raise notice 'unique constraint %_%_unique already exists.', v_table_name, v_column_name;
             end if;
         exception
             when sqlstate '42P07' then raise notice 'unique constraint %_%_unique already exists.', v_table_name, v_column_name;
