@@ -16,9 +16,12 @@ g_user=
 g_port=5433
 g_database=
 g_submission_id=0
-g_target_folder=dryrun
+g_target_id=
+g_folder=dryrun
 g_compress_flag=YES
 g_verbose=NO
+g_mode=
+g_target_uri=
 
 if [ -f ~/vault/.default.sead.server ]; then
     g_host=$(head -n 1 ~/vault/.default.sead.server)
@@ -33,14 +36,17 @@ function usage() {
     if [ "$usage_error" != "" ]; then
         echo "error: $usage_error"
     fi
-    echo "usage: $script_name --database DBNAME --id ID --target-folder [OPTIONS...] "
+    echo "usage: $script_name --database DBNAME --id ID --folder [OPTIONS...] "
     echo "  mandatory option:"
     echo ""
     echo "       --database DBNAME        Target database (mandatory)"
     echo "       --id ID                  Submission's identity (mandatory)"
-    echo "       --target-folder FOLDER   Submission's identity (mandatory)"
+    echo "       --folder FOLDER          Target folder (dump) or source folder (restore) (mandatory)"
+    echo "       --mode dump|restore      Mode of operation (mandatory)"
 
     echo "  non-mandatory option:"
+    echo "       --target-id ID           Submission identity override in files (dump) or database (restore)"
+    echo "                                If set to 'next', the next available id will be used"
     echo "       --compress/no-compress   Whether to compress the output or not (default YES)"
     echo "       --host HOST              Target database host (default ~/vault/.default.sead.server)"
     echo "       --port PORT              Target database port (default 5432)"
@@ -72,12 +78,28 @@ do
             g_database="$2";
             shift 2;
         ;;
+        --mode)
+            g_mode="$2";
+            shift 2;
+        ;;
         --id|-i|--submission-id)
             g_submission_id="$2";
             shift 2;
         ;;
-        --target-folder|-t)
-            g_target_folder="$2";
+        --folder|-t)
+            g_folder="$2";
+            shift 2;
+        ;;
+        --target-id)
+            g_target_id="$2";
+            shift 2;
+        ;;
+        --target-uri)
+            g_target_uri="$2";
+            g_user=$(echo "$g_target_uri" | awk -F'[:/@]' '{print $5}')
+            g_host=$(echo "$g_target_uri" | awk -F'[:/@]' '{print $6}')
+            g_port=$(echo "$g_target_uri" | awk -F'[:/@]' '{print ($7 ~ /^[0-9]+$/ ? $7 : "5433")}')
+            g_database=$(echo "$g_target_uri" | awk -F'[:/@]' '{print ($7 ~ /^[0-9]+$/ ? $8 : $7)}')
             shift 2;
         ;;
         -f|--force)
@@ -112,8 +134,10 @@ function print_options()
 {
     if [ "$g_mode" == "dryrun" ]; then
         echo "notice: dry run, no changes will be made"
+        echo "  g_mode: $g_mode"
         echo "  g_submission_id: $g_submission_id"
-        echo "  g_target_folder: $g_work_folder"
+        echo "  g_folder: $g_folder"
+        echo "  g_target_id: $g_work_id"
         echo "  g_database: $g_database"
         echo "  g_host: $g_host"
         echo "  g_user: $g_user"
@@ -132,6 +156,7 @@ function get_column_names() {
             where table_schema = '$schema_name'
               and table_name = '$table_name'
               and is_generated = 'NEVER'
+              and column_name not in ('submission_id', 'xml', 'upload_content')
             order by ordinal_position
         ) as t;
 END
@@ -139,13 +164,100 @@ END
     psql -h $g_host -U $g_user -d $g_database -p $g_port -tAc "$sql"
 }
 
-dump_submission()
+function check_existing_id() {
+    # Checks if submission_id exists...
+    local submission_id=$1
+    local sql=$(cat <<END
+        select submission_id
+        from clearing_house.tbl_clearinghouse_submissions
+        where submission_id = $submission_id
+        limit 1;
+END
+)
+    psql -h $g_host -U $g_user -d $g_database -p $g_port -tAc "$sql"
+}
+
+function get_next_id() {
+    local sql="select coalesce(max(submission_id), 0) + 1 from clearing_house.tbl_clearinghouse_submissions"
+    psql -h $g_host -U $g_user -d $g_database -p $g_port -tAc "$sql"
+}
+
+function delete_submission() {
+    local submission_id=$1
+    local sql="select clearing_house.fn_delete_submission($submission_id,TRUE,TRUE);"
+    psql -h $g_host -U $g_user -d $g_database -p $g_port -tAc "$sql"
+}
+
+function restore_submission()
+{
+    local source_folder=$1
+    local target_id=$2
+
+    local copy_in_script="copy_in.sql"
+    
+    if [ ! -d $source_folder ]; then
+        echo "fatal: submission dump source folder $source_folder not found"
+        exit 64
+    fi
+
+    if [ ! -f $source_folder/tbl_clearinghouse_submissions.sql.gz ]; then
+        echo "fatal: submission file not found in folder $source_folder"
+        exit 64
+    fi
+
+    local submission_id=$(zcat $source_folder/tbl_clearinghouse_submissions.sql.gz | head -n1 | cut -f1)
+
+    if [ "$submission_id" == "" ]; then
+        echo "fatal: no submission id found in submission file"
+        exit 64
+    fi
+
+    if [ "$target_id" == "" ]; then
+        target_id=$submission_id
+    fi
+
+    if [ "$target_id" != "$submission_id" ]; then
+        # source_folder_new="$source_folder/restore_$target_id"
+        local source_folder_new=$(mktemp -d)
+        echo "info: restoring submission $submission_id as $target_id to folder $source_folder_new" 
+        mkdir -p $source_folder_new
+        for file in $source_folder/*.sql.gz; do
+            zcat $source_folder/$(basename $file) \
+                | awk -F'\t' -v new_value="$target_id" '{ $1=new_value }1' OFS='\t' \
+                    | gzip -c > $source_folder_new/$(basename $file)
+        done
+        cp $source_folder/copy_in.sql $source_folder_new
+        source_folder=$source_folder_new
+    fi
+
+    local existing_id=$(check_existing_id $target_id)
+    echo "info: existing submission id $existing_id"
+    if [ "$existing_id" != "" ]; then
+        if [ "$g_force" == "YES" ]; then
+            delete_submission $target_id &> /dev/null
+        else
+            echo "fatal: submission $submission_id already exists "
+            exit 64
+        fi
+    fi
+
+    pushd $source_folder > /dev/null
+
+    psql -h $g_host -U $g_user -d $g_database -p $g_port -tAf "$copy_in_script"  &> /dev/null
+
+    popd > /dev/null
+
+}
+
+
+function dump_submission()
 {
     local schema_name='clearing_house'
     local submission_id=$1
     local target_folder=$2
+    local target_id=$3
 
-    local sql=$(cat <<END
+    local table_sql=$(cat <<END
         select distinct table_name
         from information_schema.columns
         where table_schema = '$schema_name'
@@ -153,9 +265,14 @@ dump_submission()
           and table_name not in (
               select table_name from information_schema.views where table_schema = '$schema_name'
           )
+          and table_name not in ('tbl_clearinghouse_submission_xml')
         order by table_name;
 END
 )
+
+    if [ "$target_id" == "" ]; then
+        target_id=$submission_id
+    fi
 
     if [ -d "$target_folder" ]; then
         if [ "$g_force" == "YES" ]; then
@@ -166,33 +283,42 @@ END
         fi
     fi
 
-    mkdir -p $target_folder
+    local existing_id=$(check_existing_id $submission_id)
+    if [ "$existing_id" == "" ]; then
+        echo "fatal: submission \"$submission_id\" not found in database $g_database"
+        exit 64
+    fi
 
     local table_count=0
     local table_empty_count=0
 
-    rm -f "$target_folder/copy_*.sql" "$target_folder/*.sql.gz"
-
     copy_options="with (format text, delimiter E'\t', encoding 'utf-8')"
-    copy_out_script="$target_folder/copy_out.sql"
-    copy_in_script="$target_folder/copy_in.sql"
+    copy_out_script="copy_out.sql"
+    copy_in_script="copy_in.sql"
+
     set -f
+
+    mkdir -p $target_folder
+    
+    pushd $target_folder > /dev/null
+
+    rm -f "copy_*.sql" "*.sql.gz"
+
     while read table ; do
 
         local column_names=$(get_column_names $schema_name $table)
 
         if [ "$g_compress_flag" == "YES" ]; then
-            copy_out="\\copy (select $column_names from $schema_name.$table where submission_id = $submission_id) to program 'gzip -qa9 > $target_folder/$table.sql.gz' $copy_options;";
-            copy_in="\\copy $schema_name.$table ($column_names) from program 'zcat -qac $target_folder/$table.sql.gz' $copy_options;";
+            copy_out="\\copy (select $target_id, $column_names from $schema_name.$table where submission_id = $submission_id) to program 'gzip -qa9 > $table.sql.gz' $copy_options;";
+            copy_in="\\copy $schema_name.$table (submission_id, $column_names) from program 'zcat -qac $table.sql.gz' $copy_options;";
         else
-            copy_out="\\copy (select $column_names from $schema_name.$table where submission_id = $submission_id) to '$target_folder/$table.sql' $copy_options;";
-            copy_in="\\copy $schema_name.$table ($column_names) from '$target_folder/$table.sql.gz' $copy_options;";
+            copy_out="\\copy (select $target_id, $column_names from $schema_name.$table where submission_id = $submission_id) to '$table.sql' $copy_options;";
+            copy_in="\\copy $schema_name.$table (submission_id, $column_names) from '$table.sql.gz' $copy_options;";
         fi;
 
         local delete_in="delete from $schema_name.$table where submission_id = $submission_id;"
 
         local output=$(psql -v ON_ERROR_STOP=1 -h $g_host -U $g_user -d $g_database -p $g_port --no-password --command "$copy_out")
-
         local copy_count=${output#COPY }
 
         if [ "$copy_count" != "0" ]; then
@@ -203,16 +329,61 @@ END
             echo $copy_in >> "$copy_in_script"
         else
             [ "$g_verbose" == "YES" ] && echo "skipped: $table (empty)";
-            rm -f "$target_folder/$table.sql" "$target_folder/$table.sql.gz"
+            rm -f "$table.sql" "$table.sql.gz"
             let table_empty_count=$(( table_empty_count + 1 ));
         fi
 
     done < <(
-        psql -h $g_host -U $g_user -d $g_database -p $g_port -c "$sql" -X -t --quiet --field-separator ' ' --no-align
+        psql -h $g_host -U $g_user -d $g_database -p $g_port -c "$table_sql" -X -t --quiet --field-separator ' ' --no-align
     )
 
-    echo "info: dumped submission $submission_id (${table_count} tables) to folder \"$target_folder\" (ignored $table_empty_count empty tables) "
+    popd > /dev/null
 
+    if [ $table_count -eq 0 ]; then
+        echo "fatal: no data found for submission $submission_id"
+        exit 64
+    else
+        echo "info: dumped submission \"$submission_id\" (${table_count} tables) to folder \"$target_folder\" (ignored $table_empty_count empty tables) "
+        if [ "g_target_id" != "" ]; then
+            echo "info: new submission id in dump is \"$target_id\""
+        fi
+    fi
 }
 
-dump_submission $g_submission_id $g_target_folder
+if [ "$g_mode" != "dump" ] && [ "$g_mode" != "restore" ]; then
+    usage "mode is mandatory"
+fi
+if [ "$g_database" == "" ]; then
+    usage "database is mandatory"
+fi
+
+if [ "$g_folder" == "" ]; then
+    usage "folder is mandatory"
+fi
+
+if [ "$g_target_id" == "next" ]; then
+    g_target_id=$(get_next_id)
+fi
+
+if [ "$g_target_id" == "resolve" ]; then
+    # FIXME: we need to resolve the target id i.e check if it exists using alternative keys (UUID or name)
+    g_target_id=$(get_next_id)
+fi
+
+if [ "$g_mode" == "dump" ]; then
+    if [ "$g_submission_id" == "0" ]; then
+        usage "submission id is mandatory"
+    fi
+    dump_submission $g_submission_id $g_folder $g_target_id
+fi
+
+if [ "$g_mode" == "restore" ]; then
+    if [ "$g_folder" == "" ]; then
+        usage "folder is mandatory"
+    fi
+    if [ "$g_database" == "" ]; then
+        usage "database is mandatory"
+    fi
+    restore_submission "$g_folder" "$g_target_id"
+fi
+
