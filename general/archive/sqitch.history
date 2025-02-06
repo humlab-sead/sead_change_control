@@ -1,0 +1,4 @@
+@2019.12
+20170911_DDL_CHRONOLOGIES_REFACTOR_MODEL 2019-04-09T10:36:57Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/168:  https://github.com/humlab-sead/sead_change_control/issues/150: Allow relation to multiple sample groups
+@2022.12
+20220922_DDL_CHRONOLOGY_SCHEMA_CHANGES 2022-09-22T12:25:39Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/92: Changes to chronology tables.
