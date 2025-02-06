@@ -8,7 +8,7 @@
 
 /***************************************************************************
   Author         
-  Date           2025-01-31
+  Date           2025-02-06
   Description    Deploy of Clearinghouse Transport System
   Issue          https://github.com/humlab-sead/sead_change_control/issues/215
   Prerequisites  
@@ -22,28 +22,22 @@ set client_encoding = 'UTF8';
 set standard_conforming_strings = on;
 set client_min_messages to warning;
 
-drop schema if exists clearing_house_commit cascade;
-
-create schema if not exists clearing_house_commit authorization clearinghouse_worker;
-
-set role clearinghouse_worker;
-
-
 -- ../sead_clearinghouse/transport_system//01_setup_transport_schema.sql
 /*********************************************************************************************************************************
 **  Schema    clearing_house_commit
 **  What      all stuff related to ch data commit
 **********************************************************************************************************************************/
 
+reset role;
+
 set role humlab_admin;
 
-\o /dev/null
-
-drop schema if exists clearing_house_commit cascade \g /dev/null
-
-\o
-
+drop schema if exists clearing_house_commit cascade;
 create schema if not exists clearing_house_commit authorization clearinghouse_worker;
+
+reset role;
+
+set role clearinghouse_worker;
 
 create type clearing_house_commit.resolve_primary_keys_result as (
     submission_id int,
@@ -56,8 +50,6 @@ create type clearing_house_commit.resolve_primary_keys_result as (
     status_id int,
     execute_date timestamp
 );
-
-set role clearinghouse_worker;
 
 create or replace function clearing_house_commit.commit_submission(p_submission_id int)
 	returns void
@@ -101,13 +93,13 @@ begin
 
 	--, is_lookup, is_aggregate_root, aggregate_root
 	insert into clearing_house_commit.tbl_sead_tables (table_name, pk_name, entity_name)
-		select x.table_name, x.column_name, clearing_house.fn_sead_table_entity_name(x.table_name::text)
+		select distinct x.table_name, x.column_name, clearing_house.fn_sead_table_entity_name(x.table_name::text)
 		from clearing_house.fn_dba_get_sead_public_db_schema() x
 		where true
           and x.table_schema = 'public'
-          and x.is_pk = 'YES'
-        on conflict (table_name)
-        do update set (pk_name, entity_name) = (excluded.pk_name, excluded.entity_name);
+          and x.is_pk = 'YES';
+        -- on conflict (table_name)
+        -- do update set (pk_name, entity_name) = (excluded.pk_name, excluded.entity_name);
 
     update clearing_house_commit.tbl_sead_tables
         set is_global_lookup = 'YES'
@@ -622,6 +614,7 @@ end;$$ language plpgsql;
 
 
 -- ../sead_clearinghouse/transport_system//04_script_data_transport.sql
+-- FIXME: #48 Improve resilience of the transport system (copy in/out) scripts
 create or replace function clearing_house_commit.get_data_column_names(p_schema_name text, p_table_name text)
 returns text as
 $$
