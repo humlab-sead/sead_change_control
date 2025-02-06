@@ -54,98 +54,120 @@ set role sead_master;
 
 begin;
 
-    alter table tbl_biblio
-        add column if not exists biblio_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_biblio_uuid unique (biblio_uuid);
+do $$
+begin
 
-    alter table tbl_aggregate_datasets
-        add column if not exists aggregate_dataset_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_aggregate_datasets unique (aggregate_dataset_uuid);
-        
-    alter table tbl_dataset_masters
-        add column if not exists master_set_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_dataset_masters unique (master_set_uuid);
+        begin
 
-    alter table tbl_datasets
-        add column if not exists dataset_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_datasets unique (dataset_uuid);
+            if sead_utility.column_exists('public', 'tbl_biblio', 'biblio_uuid') then
+                raise exception sqlstate 'GUARD';
+            end if;
+					
+			alter table tbl_biblio
+				add column if not exists biblio_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_biblio_uuid unique (biblio_uuid);
 
-    alter table tbl_ecocode_systems
-        add column if not exists ecocode_system_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_ecocode_systems unique (ecocode_system_uuid);
+			alter table tbl_aggregate_datasets
+				add column if not exists aggregate_dataset_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_aggregate_datasets unique (aggregate_dataset_uuid);
+				
+			alter table tbl_dataset_masters
+				add column if not exists master_set_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_dataset_masters unique (master_set_uuid);
 
-    alter table tbl_methods
-        add column if not exists method_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_methods unique (method_uuid);
+			alter table tbl_datasets
+				add column if not exists dataset_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_datasets unique (dataset_uuid);
 
-    alter table tbl_rdb_systems
-        add column if not exists rdb_system_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_rdb_systems unique (rdb_system_uuid);
+			alter table tbl_ecocode_systems
+				add column if not exists ecocode_system_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_ecocode_systems unique (ecocode_system_uuid);
 
-    alter table tbl_taxonomy_notes
-        add column if not exists taxonomy_notes_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_taxonomy_notes unique (taxonomy_notes_uuid);
+			alter table tbl_methods
+				add column if not exists method_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_methods unique (method_uuid);
 
-    alter table tbl_text_biology
-        add column if not exists biology_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_text_biology unique (biology_uuid);
+			alter table tbl_rdb_systems
+				add column if not exists rdb_system_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_rdb_systems unique (rdb_system_uuid);
 
-    alter table tbl_text_distribution
-        add column if not exists distribution_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_text_distribution unique (distribution_uuid);
+			alter table tbl_taxonomy_notes
+				add column if not exists taxonomy_notes_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_taxonomy_notes unique (taxonomy_notes_uuid);
 
-    alter table tbl_text_identification_keys
-        add column if not exists key_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_text_identification_keys unique (key_uuid);
+			alter table tbl_text_biology
+				add column if not exists biology_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_text_biology unique (biology_uuid);
 
-    alter table tbl_relative_ages
-        add column if not exists relative_age_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_relative_ages unique (relative_age_uuid);
+			alter table tbl_text_distribution
+				add column if not exists distribution_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_text_distribution unique (distribution_uuid);
 
-    alter table tbl_sites
-        add column if not exists site_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_sites unique (site_uuid);
+			alter table tbl_text_identification_keys
+				add column if not exists key_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_text_identification_keys unique (key_uuid);
 
-    alter table tbl_sample_groups
-        add column if not exists sample_group_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_sample_groups unique (sample_group_uuid);
+			alter table tbl_relative_ages
+				add column if not exists relative_age_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_relative_ages unique (relative_age_uuid);
 
-    alter table tbl_geochronology
-        add column if not exists geochron_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_geochronology unique (geochron_uuid);
+			alter table tbl_sites
+				add column if not exists site_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_sites unique (site_uuid);
 
-    alter table tbl_taxonomic_order_systems
-        add column if not exists taxonomic_order_system_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_taxonomic_order_systems unique (taxonomic_order_system_uuid);
+			alter table tbl_sample_groups
+				add column if not exists sample_group_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_sample_groups unique (sample_group_uuid);
 
-    alter table tbl_tephras
-        add column if not exists tephra_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_tephras unique (tephra_uuid);
+			alter table tbl_geochronology
+				add column if not exists geochron_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_geochronology unique (geochron_uuid);
 
-    alter table tbl_site_other_records
-        add column if not exists site_other_records_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_site_other_records unique (site_other_records_uuid);
+			alter table tbl_taxonomic_order_systems
+				add column if not exists taxonomic_order_system_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_taxonomic_order_systems unique (taxonomic_order_system_uuid);
 
-    alter table tbl_species_associations
-        add column if not exists species_association_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_species_associations unique (species_association_uuid);
+			alter table tbl_tephras
+				add column if not exists tephra_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_tephras unique (tephra_uuid);
 
-    alter table tbl_taxa_synonyms
-        add column if not exists synonym_uuid UUID not null default uuid_generate_v4(),
-        add constraint pk_tbl_taxa_synonyms unique (synonym_uuid);
+			alter table tbl_site_other_records
+				add column if not exists site_other_records_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_site_other_records unique (site_other_records_uuid);
+
+			alter table tbl_species_associations
+				add column if not exists species_association_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_species_associations unique (species_association_uuid);
+
+			alter table tbl_taxa_synonyms
+				add column if not exists synonym_uuid UUID not null default uuid_generate_v4(),
+				add constraint pk_tbl_taxa_synonyms unique (synonym_uuid);
+
+        exception when sqlstate 'GUARD' then
+            raise notice 'ALREADY EXECUTED';
+        end;
+
+end $$;
+
 
 	-- drop table if exists bibliography_references;
 
-	create table if not exists bibliography_references (
-		uuid UUID not null,
-		biblio_uuid UUID not null,
-		primary key (uuid, biblio_uuid),
-		constraint fk_bibliography_references_tbl_biblio_uuid foreign key (biblio_uuid)
-		  references public.tbl_biblio (biblio_uuid) match simple
-			on update no action
-			on delete no action
-	);
+	-- create table if not exists bibliography_references (
+	-- 	uuid UUID not null,
+	-- 	biblio_uuid UUID not null,
+	-- 	primary key (uuid, biblio_uuid),
+	-- 	constraint fk_bibliography_references_tbl_biblio_uuid foreign key (biblio_uuid)
+	-- 	  references public.tbl_biblio (biblio_uuid) match simple
+	-- 		on update no action
+	-- 		on delete no action
+	-- );
 	
+	-- delete from bibliography_references;
+
+	-- insert into bibliography_references (uuid, biblio_uuid)
+	-- 	select uuid, biblio_uuid
+	-- 	from view_bibliography_references;
+
 	create or replace view view_bibliography_references as
 		select e.dataset_uuid as uuid, b.biblio_uuid
 		from tbl_datasets e
@@ -265,18 +287,19 @@ begin;
 		from tbl_methods e
 		join tbl_biblio b using (biblio_id);
 
-	delete from bibliography_references;
+commit;
 
-	insert into bibliography_references (uuid, biblio_uuid)
-		select uuid, biblio_uuid
-		from view_bibliography_references;
+reset role;
 
+set role clearinghouse_worker;
+
+do $$
+begin
 	/* We need to update the clearinghouse commit UDFs to include the new columns */
 	/* FIXME: We should also update the clearinghouse schema to include the new columns */
-	
-	perform clearing_house_commit.generate_resolve_functions('public', false);
-
-commit;
+    perform clearing_house_commit.generate_sead_tables();
+    perform clearing_house_commit.generate_resolve_functions('public', false);
+end $$ language plpgsql;
 
 reset role;
 
