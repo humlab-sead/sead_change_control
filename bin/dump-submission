@@ -15,7 +15,7 @@ g_host=
 g_user=
 g_port=5433
 g_database=
-g_submission_id=0
+g_id_or_name=0
 g_target_id=
 g_folder=dryrun
 g_compress_flag=YES
@@ -40,7 +40,7 @@ function usage() {
     echo "  mandatory option:"
     echo ""
     echo "       --database DBNAME        Target database (mandatory)"
-    echo "       --id ID                  Submission's identity (mandatory)"
+    echo "       --id|--source-id ID      Submission's name or identity (mandatory for dump)"
     echo "       --folder FOLDER          Target folder (dump) or source folder (restore) (mandatory)"
     echo "       --mode dump|restore      Mode of operation (mandatory)"
 
@@ -82,8 +82,8 @@ do
             g_mode="$2";
             shift 2;
         ;;
-        --id|-i|--submission-id)
-            g_submission_id="$2";
+        --id|-i|--source-id|--submission-id|--submission-name)
+            g_id_or_name="$2";
             shift 2;
         ;;
         --folder|-t)
@@ -135,7 +135,7 @@ function print_options()
     if [ "$g_mode" == "dryrun" ]; then
         echo "notice: dry run, no changes will be made"
         echo "  g_mode: $g_mode"
-        echo "  g_submission_id: $g_submission_id"
+        echo "  g_id_or_name: $g_id_or_name"
         echo "  g_folder: $g_folder"
         echo "  g_target_id: $g_work_id"
         echo "  g_database: $g_database"
@@ -249,11 +249,22 @@ function restore_submission()
 
 }
 
+function get_submission_id_by_name() {
+    local submission_name=$1
+    local sql="select submission_id from clearing_house.tbl_clearinghouse_submissions where submission_name = '$submission_name' limit 1;"
+    echo $(psql -h $g_host -U $g_user -d $g_database -p $g_port -tAc "$sql")
+}
+
+function get_submission_name_by_id() {
+    local submission_id=$1
+    local sql="select submission_name from clearing_house.tbl_clearinghouse_submissions where submission_id = '$submission_id' limit 1;"
+    echo $(psql -h $g_host -U $g_user -d $g_database -p $g_port -tAc "$sql")
+}
 
 function dump_submission()
 {
     local schema_name='clearing_house'
-    local submission_id=$1
+    local source_id=$1
     local target_folder=$2
     local target_id=$3
 
@@ -269,6 +280,27 @@ function dump_submission()
         order by table_name;
 END
 )
+
+    local submission_id=""
+    local submission_name=""
+
+    if [[ "$source_id" =~ ^[0-9]+$ ]]; then
+        submission_id=$source_id
+        submission_name=$(get_submission_name_by_id $submission_id)
+    else
+        submission_name=$source_id
+        submission_id=$(get_submission_id_by_name $submission_name)
+    fi
+
+    if [ "$submission_id" == "" ]; then
+        echo "fatal: submission \"$source_id\" not found in database $g_database"
+        exit 64
+    fi
+
+    if [ "$submission_name" == "" ]; then
+        echo "fatal: submission \"$source_id\" not found in database $g_database"
+        exit 64
+    fi
 
     if [ "$target_id" == "" ]; then
         target_id=$submission_id
@@ -304,19 +336,21 @@ END
 
     rm -f "copy_*.sql" "*.sql.gz"
 
+    local sub_query="select submission_id from clearing_house.tbl_clearinghouse_submissions where submission_name = '$submission_name' limit 1"
+
     while read table ; do
 
         local column_names=$(get_column_names $schema_name $table)
 
         if [ "$g_compress_flag" == "YES" ]; then
-            copy_out="\\copy (select $target_id, $column_names from $schema_name.$table where submission_id = $submission_id) to program 'gzip -qa9 > $table.sql.gz' $copy_options;";
+            copy_out="\\copy (select $target_id, $column_names from $schema_name.$table where submission_id in ($sub_query)) to program 'gzip -qa9 > $table.sql.gz' $copy_options;";
             copy_in="\\copy $schema_name.$table (submission_id, $column_names) from program 'zcat -qac $table.sql.gz' $copy_options;";
         else
-            copy_out="\\copy (select $target_id, $column_names from $schema_name.$table where submission_id = $submission_id) to '$table.sql' $copy_options;";
+            copy_out="\\copy (select $target_id, $column_names from $schema_name.$table where submission_id in ($sub_query)) to '$table.sql' $copy_options;";
             copy_in="\\copy $schema_name.$table (submission_id, $column_names) from '$table.sql.gz' $copy_options;";
         fi;
 
-        local delete_in="delete from $schema_name.$table where submission_id = $submission_id;"
+        local delete_in="delete from $schema_name.$table where submission_id in (select submission_id from clearing_house.tbl_clearinghouse_submissions where submission_name = '$submission_name');"
 
         local output=$(psql -v ON_ERROR_STOP=1 -h $g_host -U $g_user -d $g_database -p $g_port --no-password --command "$copy_out")
         local copy_count=${output#COPY }
@@ -343,7 +377,7 @@ END
         echo "fatal: no data found for submission $submission_id"
         exit 64
     else
-        echo "info: dumped submission \"$submission_id\" (${table_count} tables) to folder \"$target_folder\" (ignored $table_empty_count empty tables) "
+        echo "info: dumped submission \"$submission_name\" with ID $submission_name to folder \"$target_folder\" (${table_count} tables with data, ignored $table_empty_count empty tables) "
         if [ "g_target_id" != "" ]; then
             echo "info: new submission id in dump is \"$target_id\""
         fi
@@ -371,10 +405,10 @@ if [ "$g_target_id" == "resolve" ]; then
 fi
 
 if [ "$g_mode" == "dump" ]; then
-    if [ "$g_submission_id" == "0" ]; then
+    if [ "$g_id_or_name" == "0" ]; then
         usage "submission id is mandatory"
     fi
-    dump_submission $g_submission_id $g_folder $g_target_id
+    dump_submission $g_id_or_name $g_folder $g_target_id
 fi
 
 if [ "$g_mode" == "restore" ]; then
