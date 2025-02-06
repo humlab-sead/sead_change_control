@@ -174,7 +174,7 @@ CREATE TABLE "public"."tbl_chronologies" (
   "contact_id" int4,
   "date_prepared" timestamp(0),
   "date_updated" timestamp with time zone DEFAULT now(),
-  "notes" text COLLATE "pg_catalog"."default",
+  "notes" text COLLATE "pg_catalog"."default"
 );
 CREATE TABLE "public"."tbl_collections_or_journals" (
   "collection_or_journal_id" serial primary key,
