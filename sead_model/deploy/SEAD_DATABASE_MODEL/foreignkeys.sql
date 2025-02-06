@@ -101,9 +101,6 @@ alter table "tbl_chron_controls"
 alter table "tbl_chronologies"
     add constraint "fk_chronologies_contact_id" foreign key ("contact_id") references "tbl_contacts"("contact_id") on delete no ACTION on update cascade;
 
-alter table "tbl_chronologies"
-    add constraint "fk_chronologies_sample_group_id" foreign key ("sample_group_id") references "tbl_sample_groups"("sample_group_id") on delete no ACTION on update cascade;
-
 alter table "tbl_collections_or_journals"
     add constraint "fk_collections_or_journals_publisher_id" foreign key ("publisher_id") references "tbl_publishers"("publisher_id") on delete no ACTION on update cascade;
 
