@@ -24,7 +24,7 @@ begin
 
     set client_encoding = 'UTF8';
 
-    i_shortcut_id = (select max(table_id) from facet.table where table_or_udf_name = 'facet.geochronology_taxa_shortcut')
+    i_shortcut_id = (select max(table_id) from facet.table where table_or_udf_name = 'facet.geochronology_taxa_shortcut');
 
     if i_shortcut_id is null then
         i_shortcut_id = (select max(table_id) from facet.table) + 1;
