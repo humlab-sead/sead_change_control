@@ -46,6 +46,7 @@ poetry run python importer/scripts/import_excel.py ./config.yml data/input/SEAD_
     --explode \
     --database $g_target_db \
     --data-types $g_datatype \
+    --name 20250108_DML_SUBMISSION_ADNA_001_COMMIT \
     --transfer-format csv \
     --output-folder ./data/output/ \
     --dump-to-csv
