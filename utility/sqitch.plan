@@ -35,4 +35,6 @@
 20241023_ALLOCATE_SYSTEM_IDS 2024-10-23T14:07:15Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/322: Helpful utilities for pre-allocating SEAD system IDs
 20241025_STORE_VIEW_DEFINITIONS 2024-10-25T12:24:58Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/324: Helpful utilities for remporary drop of view
 
+@2024.12 2024-11-29T12:00:00Z Roger Mähler <roger.mahler@umu.se> # 2024 December release
+
 @2025.02 2025-01-29T12:00:00Z Roger Mähler <roger.mahler@umu.se> # 2025 February release
