@@ -8,7 +8,7 @@
 
 /***************************************************************************
   Author         
-  Date           2025-01-31
+  Date           2025-02-06
   Description    Deploy of Clearinghouse System
   Issue          https://github.com/humlab-sead/sead_change_control/issues/215
   Prerequisites  
@@ -1409,11 +1409,9 @@ Begin
     Where s.table_schema = p_source_schema
       And s.table_name = p_table_name;
 
-    -- ASSERT NOT pk_columns IS NULL;
+	  sql_stmt = format('create table %1$I.%2$I (
 
-	sql_stmt = format('Create Table %I.%I (
-
-        %s,
+        %3$s,
 
         submission_id int not null,
         source_id int not null,
@@ -1424,12 +1422,12 @@ Begin
         transport_date timestamp with time zone,
         transport_id int,
 
-        Constraint pk_%s Primary Key (submission_id, source_id, %s)
+        constraint pk_%2$s primary key (submission_id, source_id, %4$s)
 
 	);
-    Create Index idx_%s_submission_id_public_id On %I.%I (submission_id, public_db_id);',
-        p_target_schema, p_table_name, data_columns, p_table_name, pk_columns,
-        p_table_name, p_target_schema, p_table_name);
+    alter table %1$I.%2$I owner to clearinghouse_worker;
+    create index idx_%2$s_submission_id_public_id on %1$I.%2$I (submission_id, public_db_id);',
+        p_target_schema, p_table_name, data_columns, pk_columns);
 
 	Return sql_stmt;
 
@@ -1450,7 +1448,8 @@ End $$ Language plpgsql;
 create or replace function clearing_house.fn_create_public_db_entity_tables(
     target_schema character varying(255),
     p_only_drop BOOLEAN = FALSE,
-    p_dry_run BOOLEAN = TRUE
+    p_dry_run BOOLEAN = TRUE,
+	p_only_update BOOLEAN = TRUE
 ) Returns void As $$
 	Declare x RECORD;
 	Declare create_script text;
@@ -1463,14 +1462,16 @@ Begin
             drop_script text,
             date_updated timestamp with time zone DEFAULT now()
         );
-        Delete From clearing_house.tbl_clearinghouse_sead_create_table_log;
     End If;
 	For x In (
-		Select distinct table_schema As source_schema, table_name
-		From clearing_house.fn_dba_get_sead_public_db_schema('public', 'sead_master')
+		select distinct a.table_schema As source_schema, a.table_name
+		from clearing_house.fn_dba_get_sead_public_db_schema('public', 'sead_master') as a
+		left join clearing_house.fn_dba_get_sead_public_db_schema(target_schema, 'clearinghouse_worker') as b
+		  using (table_name)
+		where not p_only_update or b.table_name is null
 	)
 	Loop
-        drop_script := format('Drop Table If Exists %I.%I CASCADE;', target_schema, x.table_name);
+        drop_script := format('drop table if exists %I.%I cascade;', target_schema, x.table_name);
         create_script := clearing_house.fn_script_public_db_entity_table(x.source_schema::text, target_schema, x.table_name::text);
         If p_dry_run Then
             Raise Notice '%', drop_script;
@@ -1680,7 +1681,8 @@ create or replace function clearing_house.fn_create_local_union_public_entity_vi
     target_schema character varying(255),
     local_schema character varying(255),
     p_only_drop BOOLEAN = FALSE,
-    p_dry_run BOOLEAN = TRUE
+    p_dry_run BOOLEAN = TRUE,
+    p_only_update BOOLEAN = TRUE
 )
 Returns void As $$
 	Declare v_row RECORD;
@@ -1691,14 +1693,18 @@ Begin
 	Create Table If Not Exists clearing_house.tbl_clearinghouse_sead_create_view_log (create_script text, drop_script text);
 
 	For v_row In (
-        Select distinct table_schema As public_schema, table_name, replace(table_name, 'tbl_', 'view_') As view_name
-        From clearing_house.fn_dba_get_sead_public_db_schema('public', 'sead_master')
-        Where is_pk = 'YES' -- /* Måste finnas PK */
-          And table_name Like 'tbl_%'
+    select distinct a.table_schema As public_schema, a.table_name, replace(a.table_name, 'tbl_', 'view_') As view_name
+    from clearing_house.fn_dba_get_sead_public_db_schema('public', 'sead_master') a
+    left join information_schema.views x
+      on x.table_schema = 'clearing_house' 
+    and x.table_name = replace(a.table_name, 'tbl_', 'view_')
+    where a.is_pk = 'YES' -- /* Måste finnas PK */
+      and a.table_name like 'tbl_%'
+      and (not p_only_update or x.table_name is null)
 	) Loop
 
-		drop_script = format('Drop View If Exists %I.%I CASCADE;', target_schema, v_row.view_name);
-		create_script := clearing_house.fn_script_local_union_public_entity_view(target_schema, local_schema, v_row.public_schema::text, v_row.table_name::text);
+		    drop_script = format('Drop View If Exists %I.%I CASCADE;', target_schema, v_row.view_name);
+		    create_script := clearing_house.fn_script_local_union_public_entity_view(target_schema, local_schema, v_row.public_schema::text, v_row.table_name::text);
 
         Insert Into clearing_house.tbl_clearinghouse_sead_create_view_log (create_script, drop_script) Values (create_script, drop_script);
 
@@ -1725,8 +1731,8 @@ End $$ Language plpgsql;
 **  Used By
 **	Revisions
 ******************************************************************************************************************************/
-
-create or replace function clearing_house.fn_generate_foreign_key_indexes()
+-- drop function  clearing_house.fn_generate_foreign_key_indexes()
+create or replace function clearing_house.fn_generate_foreign_key_indexes(p_dry_run boolean = false)
   returns void as $$
   declare x record;
 begin
@@ -1766,11 +1772,13 @@ begin
             where table_schema = 'clearing_house'
           )
     ) loop
-        raise notice '%', x.drop_script;
-        raise notice '%', x.create_script;
-
-        execute x.drop_script;
-        execute x.create_script;
+		if p_dry_run then
+        	raise notice '%', x.drop_script;
+        	raise notice '%', x.create_script;
+		else
+        	execute x.drop_script;
+        	execute x.create_script;
+		end if;
     end loop;
 
 end $$ language plpgsql;
@@ -1785,16 +1793,18 @@ end $$ language plpgsql;
 **  Used By
 **	Revisions
 ******************************************************************************************************************************/
-
+-- drop function if exists clearing_house.create_public_model(boolean, boolean);
+-- call clearing_house.create_public_model(false, false, true)
 create or replace procedure clearing_house.create_public_model(
     p_only_drop boolean = false,
-    p_dry_run boolean = true
+    p_dry_run boolean = true,
+    p_only_update boolean = true
 ) as $$
 begin
 
-    perform clearing_house.fn_create_public_db_entity_tables('clearing_house', p_only_drop, p_dry_run);
-    perform clearing_house.fn_generate_foreign_key_indexes();
-    perform clearing_house.fn_create_local_union_public_entity_views('clearing_house', 'clearing_house', p_only_drop, p_dry_run);
+    perform clearing_house.fn_create_public_db_entity_tables('clearing_house', p_only_drop, p_dry_run, p_only_update);
+    perform clearing_house.fn_generate_foreign_key_indexes(p_dry_run);
+    perform clearing_house.fn_create_local_union_public_entity_views('clearing_house', 'clearing_house', p_only_drop, p_dry_run, p_only_update);
 
 end $$ language plpgsql;
 
