@@ -1,5 +1,39 @@
 #!/bin/bash
 
+RESET='\e[0m'
+RED='\e[31m'
+GREEN='\e[32m'
+BLUE='\e[34m'
+GRAY='\e[90m'
+YELLOW='\e[33m'
+BOLD='\e[1m'
+UNDERLINE='\e[4m'
+
+function info() {
+    echo -e "${GREEN}info${RESET}: $1"
+}
+
+function warning() {
+    echo -e "${YELLOW}warning${RESET}: $1"
+}
+
+function error() {
+    echo -e "${RED}warning${RESET}: $1"
+}
+
+function find_parent_with_basename() {
+    local path="$1"
+    local target_basename="$2"
+    while [[ "$path" != "/" && "$path" != "." ]]; do
+        if [[ "$(basename "$path")" == "$target_basename" ]]; then
+            echo "$path"
+            return 0
+        fi
+        path=$(dirname "$path")
+    done
+    return 1
+}
+
 # This function find the version tag for a change in a project
 function get_change_tag() {
     
