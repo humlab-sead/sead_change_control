@@ -24,6 +24,7 @@ g_conflict_resolution=rename
 g_create_snapshot=NO
 g_dry_run=NO
 g_display_status=NO
+g_display_tags=NO
 g_sync_sequences=NO
 g_target_tag=
 g_target_chain_tag=
@@ -63,6 +64,7 @@ Options:
     --create-database               Create a new database from the specified source
     --create-snapshot               Create a snapshot of the database
     --dry-run                       Simulate a database snapshot operation. No changes are made
+    --tags                          Display tags, then exit. No changes are made
     --sync-sequences                Synchronize all sequences post-deployment
     --ignore-git-tags               Continue deployment even if a Sqitch tag is missing in Git
     --source-type [empty|db|dump]   Specify the source type: a database name or a dump filename.
@@ -101,7 +103,7 @@ EOF
 function usage() {
     error_message="$1"
     if [ "$error_message" != "" ]; then
-        echo "error: $error_message"
+        error "$error_message"
     fi
     echo "$usage_message"
     exit 64
@@ -130,6 +132,9 @@ do
         ;;
         --dry-run)
             g_dry_run="YES"; shift;
+        ;;
+        --tags)
+            g_display_tags="YES"; shift;
         ;;
         --sync-sequences)
             g_sync_sequences="YES"; shift;
@@ -163,7 +168,7 @@ do
                 elif [ "$g_source_type" == "empty" ]; then
                     g_source_name="empty"
                 else
-                    echo "error: source-type must be 'empty', 'dump' or 'db'"
+                    error "source-type must be 'empty', 'dump' or 'db'"
                 fi
             fi
             shift; shift
@@ -187,7 +192,7 @@ do
             g_conflict_resolution="$2"; shift; shift;
         ;;
         --*)
-            usage "error: invalid option $1"
+            usage "invalid option $1"
         ;;
         *)
             POSITIONAL+=("$1") # save it in an array for later
@@ -200,7 +205,7 @@ done
 function usage() {
     local error_message="$1"
     if [ "$error_message" != "" ]; then
-        echo "error: $error_message"
+        error "$error_message"
     fi
     echo "$usage_message"
     # if [ "$error_message" != "" ]; then
@@ -212,11 +217,11 @@ function create_snapshot()
 {
 
     if [ "${g_source_name}" == "" ]; then
-        usage "error: you must specify source database name"
+        usage "you must specify source database name"
     fi
 
     if [ "${g_target_name}" != "" ] || [ "${g_target_tag}" != "" ]  || [ "${g_source_type}" == "dump" ] ; then
-        usage "error: invalid options for snapshot"
+        usage "invalid options for snapshot"
     fi
 
     snapshot_name=./starting_point/${g_source_name}_`date "+%Y%m%d"`.sql
@@ -233,25 +238,28 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 function verify_options()
 {
+    if [ "$g_display_tags" == "YES" ]; then
+        return
+    fi
 
     if [ "$g_host" == "" ]; then
-        usage "error: host not specified. Use --host or set default in $DOT_HOST_FILE"
+        usage "host not specified. Use --host or set default in $DOT_HOST_FILE"
     fi
 
     if [ "$g_user" == "" ]; then
-        usage "error: user not specified. Use --user or set default in $DOT_USER_FILE"
+        usage "user not specified. Use --user or set default in $DOT_USER_FILE"
     fi
 
     if [ "$g_port" == "" ]; then
-        usage "error: port not specified. Use --port PORT option"
+        usage "port not specified. Use --port PORT option"
     fi
 
     if [ "$g_create_snapshot" == "YES" ] && [ "$g_create_database" == "YES" ]; then
-        usage "error: cannot create snapshot AND database at the same time"
+        usage "cannot create snapshot AND database at the same time"
     fi
     echo "[$g_target_chain_tag]" "[$g_target_tag]" "[$g_target_single_cr]"
     if [ "$(count_number_of_set "$g_target_chain_tag" "$g_target_tag" "$g_target_single_cr")" != "1" ]; then
-        usage "error: you can only specify one of --deploy-to-tag, --deploy-chain-to-tag or --deploy-single-change-request"
+        usage "you can only specify one of --deploy-to-tag, --deploy-chain-to-tag or --deploy-single-change-request"
     fi
 
     if [ "$g_create_snapshot" == "YES" ]; then
@@ -260,17 +268,17 @@ function verify_options()
 
     if [ "$g_target_single_cr" != "" ]; then
         if [ "$g_create_database" == "YES" ];  then
-            usage "error: cannot create database and deploy single CR at the same time"
+            usage "cannot create database and deploy single CR at the same time"
         fi
         if [ "${g_source_name}" != "" ] || [ "${g_source_type}" != "" ] ; then
-            usage "error: --source and --source-type are not allowed when deploying single CR";
+            usage "--source and --source-type are not allowed when deploying single CR";
         fi
         return
     fi
 
     if [ "$rename_end_of_chain" == "YES" ]; then
         if [ "$g_target_chain_tag" == "" ]; then
-            usage "error: --rename-end-of-chain requires --deploy-chain-to-tag"
+            usage "--rename-end-of-chain requires --deploy-chain-to-tag"
         fi
     fi
 
@@ -280,31 +288,31 @@ function verify_options()
     fi
 
     if [ "$g_target_name" == "sead_production" ]; then
-        usage "error: you are **not** allowed to deploy directly to sead_production!";
+        usage "you are **not** allowed to deploy directly to sead_production!";
     fi
 
     if [ "$g_create_database" == "NO" ]; then
 
-        echo "notice: using existing target database $g_target_name";
-        echo "  ==> Settings "source-db", "source-sql-file" and "source-type" is ignored.";
+        info "notice: using existing target database $g_target_name";
+        info "  ==> Settings "source-db", "source-sql-file" and "source-type" is ignored.";
 
         if [ "${g_source_type}" != "" ] && [ "${g_source_type}" != "db" ]; then
-            echo "notice: ignoring option --source-type $g_source_type (using existing db)";
+            info "notice: ignoring option --source-type $g_source_type (using existing db)";
             g_source_type=db
         fi
 
         if [ "${g_source_name}" == "" ]; then
-            echo "error: missing option --source $g_source_name";
+            error "missing option --source $g_source_name";
         fi
 
     elif [ "$g_create_database" == "YES" ]; then
 
         if [ "${g_source_type}" != "empty" ] && [ "${g_source_type}" != "db" ] && [ "${g_source_type}" != "dump" ]; then
-            usage "error: you need to specify a valid source type (empty, dump or db) for new database";
+            usage "you need to specify a valid source type (empty, dump or db) for new database";
         fi
 
         if [ "${g_source_name}" == "" ] && [ "$g_source_type" != "empty" ]; then
-            usage "error: source ${g_source_type} name not specified"
+            usage "source ${g_source_type} name not specified"
         fi
 
     fi
@@ -318,15 +326,15 @@ function setup_credentials()
     fi
 
     if [ "$SQITCH_USERNAME" == "" ]; then
-        usage "error: username not specified"
+        usage "username not specified"
     fi
 
     if [ "$SQITCH_PASSWORD" == "" ]; then
         if [ -f "${DOT_SQITCH_FILE}" ]; then
-            echo "info: using credentials found in vault"
+            info "using credentials found in vault"
             source "${DOT_SQITCH_FILE}"
         else
-            usage "error: password not specified (SQITCH_PASSWORD not defined and ${DOT_SQITCH_FILE} not found)"
+            usage "password not specified (SQITCH_PASSWORD not defined and ${DOT_SQITCH_FILE} not found)"
         fi
     fi
 }
@@ -340,7 +348,7 @@ function execute_sql() {
         echo $sql >> $log_file
         psql -v ON_ERROR_STOP=1 --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=$database --command "$sql" >> $log_file
         if [ $? -ne 0 ];  then
-            echo "fatal: psql command failed! Deploy aborted." >&2
+            error "psql command failed! Deploy aborted." >&2
             exit 64
         fi
     fi
@@ -350,12 +358,12 @@ function dbexecgz() {
     database=$1
     gz_file=$2
     if [ "$g_dry_run" == "YES" ]; then
-        echo "info: executing file $gz_file on $database..."
+        info "executing file $gz_file on $database..."
     else
-        echo "info: executing file $gz_file..." >> $log_file
+        info "executing file $gz_file..." >> $log_file
         zcat $gz_file | psql -v ON_ERROR_STOP=1 --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=$database >> $log_file
         if [ $? -ne 0 ];  then
-            echo "fatal: psql command failed! Deploy aborted." >&2
+            error "psql command failed! Deploy aborted." >&2
             exit 64
         fi
     fi
@@ -363,7 +371,7 @@ function dbexecgz() {
 
 function kick_out_users() {
     local db=$1
-    echo "info: kicking out users from ${db}..."
+    info "kicking out users from ${db}..."
     sql=$(cat <<____EOF
         select pg_terminate_backend(pg_stat_activity.pid)
         from pg_stat_activity
@@ -383,16 +391,15 @@ function setup_target() {
     local conflict_resolution=$5
 
     if [ "$create_database" != "YES" ]; then
-        echo "info: using existing database ${target_name}..."
+        info "using existing database ${target_name}..."
         return
     fi
 
-    echo "info: setting up a new database ${target_name}..."
+    info "setting up a new database ${target_name}..."
 
     local target_db_exists="$( psql --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
 
-	if [ "$target_db_exists" = "1" ]
-	then
+	if [ "$target_db_exists" == "1" ]; then
 
         kick_out_users $target_name
 
@@ -400,20 +407,20 @@ function setup_target() {
 
             local deprecated_name=${target_name}_`date "+%Y%m%d%H%M%S"`
 
-		    echo "info:  renaming ${target_name} to ${deprecated_name}..."
+		    info "renaming ${target_name} to ${deprecated_name}..."
 
 		    sql="alter database ${target_name} rename to ${deprecated_name};"
 		    execute_sql "postgres" "$sql"
 
 	    elif [ "$conflict_resolution" == "drop" ]; then
 
-		    echo "info:  dropping ${target_name}..."
+		    info "dropping ${target_name}..."
 
 		    sql="drop database if exists ${target_name};"
 		    execute_sql "postgres" "$sql"
 
 	    else
-		    echo "error:  target database ${target_name} exists. Drop database or use --on-conflict [drop|rename] to resolve"
+		    error " target database ${target_name} exists. Drop database or use --on-conflict [drop|rename] to resolve"
 		    exit 64
 	    fi
 	fi
@@ -421,33 +428,34 @@ function setup_target() {
 	if [ "${source_type}" == "db" ]; then
 
 	    if [ "${source_name}" == "" ]; then
-		    usage "error:  source database not specified"
+		    usage " source database not specified"
 	    fi
 
-	    echo "info:  creating database ${target_name} using template ${source_name}..."
+	    info "creating database ${target_name} using template ${source_name}..."
+        kick_out_users $source_name
 	    execute_sql "postgres" "create database ${target_name} with template ${source_name} owner sead_master;"
 
 	elif [ "${source_type}" == "empty" ]; then
 
-	    echo "info:  creating empty database ${target_name}..."
+	    info "creating empty database ${target_name}..."
 	    execute_sql "postgres" "create database ${target_name} owner sead_master;"
 	    execute_sql "$target_name" "drop schema if exists public;"
 
 	elif [ "${source_type}" == "dump" ]; then
 
 	    if [ "${source_name}" == "" ]; then
-		    usage "error:  source sql.gz file not specified"
+		    usage " source sql.gz file not specified"
 	    fi
 
-	    echo "info:  creating database ${target_name} using dump \"$source_name\"..."
+	    info "creating database ${target_name} using dump \"$source_name\"..."
 	    execute_sql "postgres" "create database ${target_name} owner sead_master;"
 
 	    execute_sql "$target_name" "drop schema if exists public;"
 
-	    echo "info:  applying source SQL script..."
+	    info "applying source SQL script..."
 	    dbexecgz "$target_name" "$source_name"
 
-	    echo "info:  applying default permissions..."
+	    info "applying default permissions..."
         # FIXME: Loop and apply all gz-files found in starting_point/
 	    dbexecgz "${target_name}" "./starting_point/role_permissions.sql.gz"
 
@@ -490,10 +498,10 @@ function check_that_sqitch_tags_exist_in_git()
     local break_if_missing=$2
     if ! git rev-parse "$tag" >/dev/null 2>&1; then
         if [ "$break_if_missing" == "YES" ]; then
-            echo "error: tag '$tag' does not exist in git."
+            error "tag '$tag' does not exist in git."
             exit 64
         else
-            echo "warning: tag '$tag' does not exist in git."
+            warning "tag '$tag' does not exist in git."
         fi
     fi
 }
@@ -505,7 +513,7 @@ function verify_target_database()
     local target_db_exists="$( psql --host=$g_host --port=$g_port --username=$g_user --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
 
     if [ "$target_db_exists" != "1" ]; then
-        echo "error: target ${target_name} does not exist"
+        error "target ${target_name} does not exist"
         exit 64
     fi
 }
@@ -513,19 +521,24 @@ function verify_target_database()
 function verify_project_names() {
     # Verifies that project name in sqitch plan and folder name matches for all projects
     local project_folders="$1"
-    echo "info: checking projects..."
+    info "checking projects..."
     for folder in $project_folders; do
         project_name=$(awk -F'=' 'NR==2 {print $2}' "$folder/sqitch.plan")
         project_uri=$(awk -F'=' 'NR==3 {print $2}' "$folder/sqitch.plan")
         if [ "$project_name" != "$folder" ]; then
-            echo "error: project name $project_name differs from $folder name $project_name (please check sqitch.plan)"
+            error "project name $project_name differs from $folder name $project_name (please check sqitch.plan)"
             exit 64
         fi
         if [ "$project_uri" != "https://github.com/humlab-sead/$project_name" ]; then
-            echo "error: project uri $project_uri differs from expected https://github.com/humlab-sead/$project_name (please check sqitch.plan)"
+            error "project uri $project_uri differs from expected https://github.com/humlab-sead/$project_name (please check sqitch.plan)"
             exit 64
         fi
     done
+}
+
+function find_tags()
+{
+    echo $(grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
 }
 
 function deploy_to_tag()
@@ -537,7 +550,7 @@ function deploy_to_tag()
     local source_type=$3
 
     if [ "$target_tag" == "" ]; then
-        echo "error: target deploy tag not specified"
+        error "target deploy tag not specified"
         exit 0
     fi
 
@@ -549,19 +562,19 @@ function deploy_to_tag()
     verify_project_names "$default_projects"
 
     if [ "$g_sync_sequences" == "YES" ] && [ "${source_type}" != "dump" ] && [ "${source_type}" != "empty" ]; then
-        echo "info: syncing sequences (prior to deploy)..."
+        info "syncing sequences (prior to deploy)..."
 	    sync_sequences
     fi
 
     local target_uri="db:pg://${g_user}@${g_host}:${g_port}/${target_name}"
 
-    local known_release_tags=$(grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
+    local known_release_tags=$(find_tags)
 
     for tag in $known_release_tags; do
 
-        echo "########################################################################################################################"
-        echo "info: deploying tag $tag"
-        echo "########################################################################################################################"
+        info "########################################################################################################################"
+        info "deploying tag ${GREEN}${BOLD}$tag${RESET} to ${GREEN}${BOLD}$target_name${RESET}"
+        info "########################################################################################################################"
 
         for sqitch_project in $default_projects; do
 
@@ -570,7 +583,7 @@ function deploy_to_tag()
                 local tag_line=$(grep -e "^$tag " $sqitch_project/sqitch.plan)
 
                 if [ "$tag_line" == "" ]; then
-                    echo "info: skipping $sqitch_project (has no tag $tag)"
+                    info "skipping $sqitch_project (has no tag $tag)"
                     continue
                 fi
             fi
@@ -586,21 +599,21 @@ function deploy_to_tag()
             done
 
             if $is_deployed; then
-                echo "info: skipping $sqitch_project ($tag already deployed in $target_name)"
+                info "skipping $sqitch_project ($tag already deployed in $target_name)"
                 continue
             fi
 
-            echo "info: deploying $sqitch_project to $tag"
+            info "deploying ${GREEN}${BOLD}$sqitch_project${RESET} to ${GREEN}${BOLD}$tag${RESET}"
 
             local deploy_code=0
 
             if [ $g_dry_run == "YES" ]; then
-                echo "info: sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project" --to $tag ;
+                info "sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project" --to $tag ;
                 continue ;
             fi
 
             if [ -f "$sqitch_project/${tag}-pre-deploy-hook" ]; then
-                echo "info: running $sqitch_project/${tag}-pre-deploy-hook"
+                info "running $sqitch_project/${tag}-pre-deploy-hook"
                 "$sqitch_project/${tag}-pre-deploy-hook" --target $target_uri
             fi
 
@@ -621,24 +634,25 @@ function deploy_to_tag()
             local deployed_crs=$(sed -E '/^[[:space:]]*\+/!d; s/^[[:space:]]*\+\s*([[:alnum:]_]+).*/\1/; ' "$sqitch_output_filename")
 
             if [ -f $sqitch_project/"${tag}-post-deploy-hook" ]; then
-                echo "info: running $sqitch_project/${tag}-post-deploy-hook..."
+                info "running $sqitch_project/${tag}-post-deploy-hook..."
                 "$sqitch_project/${tag}-post-deploy-hook" --target $target_uri
             fi
 
             if [ $deploy_code -ne 0 ];  then
-                echo "error: sqitch deploy FAILED! DB is in an undefined state." >&2
+                error "sqitch deploy FAILED! DB is in an undefined state." >&2
                 exit 64
             fi
 
             while IFS= read -r cr; do
-                if [ -f $sqitch_project/"${cr}-post-deploy-hook" ]; then
-                    echo "info: running $sqitch_project/${cr}-post-deploy-hook..."
-                    "$sqitch_project/${cr}-post-deploy-hook" $target_uri 
+                local cr_post_deploy_hook="${sqitch_project}/deploy/${cr}/${cr}-post-deploy-hook"
+                if [ -f "$cr_post_deploy_hook" ]; then
+                    info "running ${cr_post_deploy_hook} $target_uri"
+                    ${cr_post_deploy_hook} "$target_uri" "$(realpath .)"
                 fi
             done <<< "$deployed_crs"
 
             if [ "$g_sync_sequences" == "YES" ]; then
-                echo "info: syncing sequences (post deploy \"${sqitch_project}\")..."
+                info "syncing sequences (post deploy \"${sqitch_project}\")..."
                 sync_sequences
             fi
 
@@ -659,14 +673,14 @@ function deploy_single_cr()
     local cr_name=$2
 
     if [ "$cr_name" == "" ]; then
-        echo "error: CR to deploy not specified"
+        error "CR to deploy not specified"
         exit 0
     fi
     
     local project=$(find_project "$cr_name")
 
     if [ -z "$project" ]; then
-        echo "error: $cr_name not found in any project"
+        error "$cr_name not found in any project"
         exit 64
     fi
 
@@ -674,7 +688,7 @@ function deploy_single_cr()
 
     local target_uri="db:pg://${g_user}@${g_host}:${g_port}/${target_name}"
 
-    echo "info: deploying CR $cr_name"
+    info "deploying CR $cr_name"
 
     local echo_mode=
 
@@ -685,7 +699,7 @@ function deploy_single_cr()
     $echo_mode sqitch deploy --target ${target_uri} --mode change --no-verify -C $project --to $cr_name
 
     if [ "$g_sync_sequences" == "YES" ]; then
-        echo "info: syncing sequences (post deploy \"${sqitch_project}\")..."
+        info "syncing sequences (post deploy \"${sqitch_project}\")..."
         $echo_mode sync_sequences
     fi
 
@@ -718,18 +732,18 @@ function deploy_chain_to_tag()
     done
 
     if [ "$g_rename_end_of_chain" == "YES" ]; then
-        echo "info: renaming last database to $g_target_name"
+        info "renaming last database to $g_target_name"
         execute_sql "postgres" "alter database ${tag_target_name} rename to ${g_target_name};"
     fi
 }
 
 function display_project_status()
 {
-    echo "info: Changes not deployed in \"$g_target_name\":"
+    info "Changes not deployed in \"$g_target_name\":"
     target_uri="db:pg://${g_user}@${g_host}:${g_port}/${g_target_name}"
 
     for sqitch_project in $default_projects; do
-        echo "info: pending CRs \"$sqitch_project\": "
+        info "pending CRs \"$sqitch_project\": "
 
         sqitch status --target ${target_uri} -C $sqitch_project \
             | grep -v "^#" \
@@ -740,6 +754,12 @@ function display_project_status()
         echo ;
     done
 }
+
+if [ "$g_display_tags" == "YES" ]; then
+    find_tags
+    exit 0
+fi
+
 
 mkdir -p logs
 
