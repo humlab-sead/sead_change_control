@@ -21,7 +21,6 @@ g_on_schema_exists=update
 g_schema_name=clearing_house_commit
 
 g_real_path=$(readlink -f "${BASH_SOURCE[0]}")
-g_db_owner=clearinghouse_worker
 
 function usage() {
     if [ "$1" != "" ]; then
@@ -129,13 +128,6 @@ function generate_deploy_script() {
         echo ""                                                                             >> $work_file
         echo "drop schema if exists $g_schema_name cascade;"                                >> $work_file
     fi
-
-    echo ""                                                                                 >> $work_file
-    echo "create schema if not exists $g_schema_name authorization $g_db_owner;"            >> $work_file
-    echo ""                                                                                 >> $work_file
-
-    echo "set role $g_db_owner;"                                                            >> $work_file
-    echo ""                                                                                 >> $work_file
 
     for file in $(ls $sql_folder/0[1,2,3,4,5]*.sql); do
         echo ""                                                                             >> $work_file
