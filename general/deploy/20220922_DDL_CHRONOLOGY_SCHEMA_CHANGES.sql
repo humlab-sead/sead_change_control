@@ -12,11 +12,14 @@
   Notes
 *****************************************************************************************************************/
 
+SET client_min_messages = ERROR;
+
 begin;
 do $$
 begin
     declare create_script text;
 
+    
     begin
 
         if sead_utility.column_exists('public'::text, 'tbl_chronologies'::text, 'is_default'::text) = FALSE then
