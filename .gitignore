@@ -113,3 +113,4 @@ src/data
 
 *.session.sql
 *-workspace
+sqitch
