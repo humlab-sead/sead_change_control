@@ -34,7 +34,7 @@ begin
     end if;
 
     delete from facet.table_relation
-        where i_shortcut_id in (source_table_id, target_table_id;
+        where i_shortcut_id in (source_table_id, target_table_id);
 
     i_relation_id = (select max(table_relation_id) from facet.table_relation) + 1;
 
@@ -48,7 +48,7 @@ begin
 
     create or replace view facet.geochronology_taxa_shortcut as
         with geochronology_taxa as (
-            select aeg.geochrono_id, t.taxon_id
+            select g.geochron_id, t.taxon_id, aeg.analysis_entity_id
             from tbl_physical_samples ps
             join tbl_analysis_entities aea using (physical_sample_id)
             join tbl_abundances a on a.analysis_entity_id = aea.analysis_entity_id
