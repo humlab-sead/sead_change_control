@@ -16,20 +16,21 @@
 begin;
 do $$
 begin
+	  raise notice '20241025_DIMENSIONS_ALTER_TYPE has been backported to SEAD model and is now idempotent';
 
-    perform sead_utility.store_view_definition('clearing_house', 'view_dimensions');
-    perform sead_utility.store_view_definition('clearing_house', 'view_clearinghouse_dataset_measured_values');
-    perform sead_utility.store_view_definition('postgrest_default_api', 'dimension');
+    -- perform sead_utility.store_view_definition('clearing_house', 'view_dimensions');
+    -- perform sead_utility.store_view_definition('clearing_house', 'view_clearinghouse_dataset_measured_values');
+    -- perform sead_utility.store_view_definition('postgrest_default_api', 'dimension');
 
-    drop view clearing_house.view_clearinghouse_dataset_measured_values;
-    drop view clearing_house.view_dimensions;
-    drop view postgrest_default_api.dimension;
+    -- drop view clearing_house.view_clearinghouse_dataset_measured_values;
+    -- drop view clearing_house.view_dimensions;
+    -- drop view postgrest_default_api.dimension;
 
-    alter table tbl_dimensions alter column "dimension_abbrev" type character varying(40) collate "pg_catalog"."default";
+    -- alter table tbl_dimensions alter column "dimension_abbrev" type character varying(40) collate "pg_catalog"."default";
 
-    perform sead_utility.restore_view_definition('clearing_house', 'view_dimensions');
-    perform sead_utility.restore_view_definition('clearing_house', 'view_clearinghouse_dataset_measured_values');
-    perform sead_utility.restore_view_definition('postgrest_default_api', 'dimension');
+    -- perform sead_utility.restore_view_definition('clearing_house', 'view_dimensions');
+    -- perform sead_utility.restore_view_definition('clearing_house', 'view_clearinghouse_dataset_measured_values');
+    -- perform sead_utility.restore_view_definition('postgrest_default_api', 'dimension');
 
 end $$;
 commit;
