@@ -4,7 +4,8 @@
   Author        Roger Mähler
   Date          2019-01-01
   Description   SEAD Query API schema DML.
-  Issue         https://github.com/humlab-sead/sead_change_control/issues/213: https://github.com/humlab-sead/sead_change_control/issues/160
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/213
+                https://github.com/humlab-sead/sead_change_control/issues/160
   Reviewer
   Approver rollback
   Idempotent    Yes
@@ -365,14 +366,14 @@ $aggregate_facets$;
             {
                 "facet_id": 13,
                 "facet_code": "sample_groups",
-                "display_title": "Sample group",
+                "display_title": "Sample groups",
                 "description": "A collection of samples, usually defined by the excavator or collector",
                 "facet_group_id":"2",
                 "facet_type_id": 1,
                 "category_id_expr": "tbl_sample_groups.sample_group_id",
                 "category_id_type": "integer",
                 "category_id_operator": "=",
-                "category_name_expr": "tbl_sample_groups.sample_group_name",
+                "category_name_expr": "concat_ws(' ', tbl_sites.site_name, replace(tbl_sample_groups.sample_group_name, tbl_sites.site_name, ''))",
                 "sort_expr": "tbl_sample_groups.sample_group_name",
                 "is_applicable": true,
                 "is_default": true,
@@ -385,7 +386,14 @@ $aggregate_facets$;
                         "table_name": "tbl_sample_groups",
                         "udf_call_arguments": null,
                         "alias":  null
-                    } ],
+                    },
+                    {
+                        "sequence_id": 2,
+                        "table_name": "tbl_sites",
+                        "udf_call_arguments": null,
+                        "alias":  null
+                    }
+                ],
                 "clauses": [  ]
             },
             {
