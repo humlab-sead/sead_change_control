@@ -216,3 +216,8 @@ end $$;
 commit;
 
 reset role;
+
+-- FIXME: This should be done by the clearinghouse project, but how link/synv with this CR?
+set role clearinghouse_worker;
+call clearing_house.create_public_model(false, false, true);
+reset role;
