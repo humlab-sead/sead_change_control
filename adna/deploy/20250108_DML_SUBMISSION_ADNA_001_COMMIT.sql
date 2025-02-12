@@ -38,8 +38,6 @@ insert into public.tbl_biblio (biblio_id, bugs_reference, date_updated, doi, isb
     select biblio_id, bugs_reference, date_updated, doi, isbn, notes, title, year, authors, full_reference, url, biblio_uuid
     from clearing_house_commit.temp_tbl_biblio ;
 
-\echo Deployed biblio, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_biblio', 'biblio_id');
 \o
@@ -61,8 +59,6 @@ create table clearing_house_commit.temp_tbl_contacts as select contact_id, addre
 insert into public.tbl_contacts (contact_id, address_1, address_2, location_id, email, first_name, last_name, phone_number, url, date_updated)
     select contact_id, address_1, address_2, location_id, email, first_name, last_name, phone_number, url, date_updated
     from clearing_house_commit.temp_tbl_contacts ;
-
-\echo Deployed contact, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_contacts', 'contact_id');
@@ -86,8 +82,6 @@ insert into public.tbl_taxonomic_order_systems (taxonomic_order_system_id, date_
     select taxonomic_order_system_id, date_updated, system_description, system_name, taxonomic_order_system_uuid
     from clearing_house_commit.temp_tbl_taxonomic_order_systems ;
 
-\echo Deployed taxonomic_order_system, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_taxonomic_order_systems', 'taxonomic_order_system_id');
 \o
@@ -109,8 +103,6 @@ create table clearing_house_commit.temp_tbl_alt_ref_types as select alt_ref_type
 insert into public.tbl_alt_ref_types (alt_ref_type_id, alt_ref_type, date_updated, description)
     select alt_ref_type_id, alt_ref_type, date_updated, description
     from clearing_house_commit.temp_tbl_alt_ref_types ;
-
-\echo Deployed alt_ref_type, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_alt_ref_types', 'alt_ref_type_id');
@@ -134,8 +126,6 @@ insert into public.tbl_record_types (record_type_id, record_type_name, record_ty
     select record_type_id, record_type_name, record_type_description, date_updated
     from clearing_house_commit.temp_tbl_record_types ;
 
-\echo Deployed record_type, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_record_types', 'record_type_id');
 \o
@@ -157,8 +147,6 @@ create table clearing_house_commit.temp_tbl_dataset_masters as select master_set
 insert into public.tbl_dataset_masters (master_set_id, contact_id, biblio_id, master_name, master_notes, url, date_updated, master_set_uuid)
     select master_set_id, contact_id, biblio_id, master_name, master_notes, url, date_updated, master_set_uuid
     from clearing_house_commit.temp_tbl_dataset_masters ;
-
-\echo Deployed dataset_master, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_dataset_masters', 'master_set_id');
@@ -182,8 +170,6 @@ insert into public.tbl_locations (location_id, location_name, location_type_id, 
     select location_id, location_name, location_type_id, default_lat_dd, default_long_dd, date_updated
     from clearing_house_commit.temp_tbl_locations ;
 
-\echo Deployed location, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_locations', 'location_id');
 \o
@@ -205,8 +191,6 @@ create table clearing_house_commit.temp_tbl_methods as select method_id, biblio_
 insert into public.tbl_methods (method_id, biblio_id, date_updated, description, method_abbrev_or_alt_name, method_group_id, method_name, record_type_id, unit_id, method_uuid)
     select method_id, biblio_id, date_updated, description, method_abbrev_or_alt_name, method_group_id, method_name, record_type_id, unit_id, method_uuid
     from clearing_house_commit.temp_tbl_methods ;
-
-\echo Deployed method, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_methods', 'method_id');
@@ -230,8 +214,6 @@ insert into public.tbl_projects (project_id, project_type_id, project_stage_id, 
     select project_id, project_type_id, project_stage_id, project_name, project_abbrev_name, description, date_updated
     from clearing_house_commit.temp_tbl_projects ;
 
-\echo Deployed project, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_projects', 'project_id');
 \o
@@ -253,8 +235,6 @@ create table clearing_house_commit.temp_tbl_datasets as select dataset_id, maste
 insert into public.tbl_datasets (dataset_id, master_set_id, data_type_id, method_id, biblio_id, updated_dataset_id, project_id, dataset_name, date_updated, dataset_uuid)
     select dataset_id, master_set_id, data_type_id, method_id, biblio_id, updated_dataset_id, project_id, dataset_name, date_updated, dataset_uuid
     from clearing_house_commit.temp_tbl_datasets ;
-
-\echo Deployed dataset, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_datasets', 'dataset_id');
@@ -278,8 +258,6 @@ insert into public.tbl_dataset_contacts (dataset_contact_id, contact_id, contact
     select dataset_contact_id, contact_id, contact_type_id, dataset_id, date_updated
     from clearing_house_commit.temp_tbl_dataset_contacts ;
 
-\echo Deployed dataset_contact, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_dataset_contacts', 'dataset_contact_id');
 \o
@@ -301,8 +279,6 @@ create table clearing_house_commit.temp_tbl_dataset_submissions as select datase
 insert into public.tbl_dataset_submissions (dataset_submission_id, dataset_id, submission_type_id, contact_id, date_submitted, notes, date_updated)
     select dataset_submission_id, dataset_id, submission_type_id, contact_id, date_submitted, notes, date_updated
     from clearing_house_commit.temp_tbl_dataset_submissions ;
-
-\echo Deployed dataset_submission, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_dataset_submissions', 'dataset_submission_id');
@@ -326,8 +302,6 @@ insert into public.tbl_taxa_tree_orders (order_id, date_updated, order_name, rec
     select order_id, date_updated, order_name, record_type_id, sort_order
     from clearing_house_commit.temp_tbl_taxa_tree_orders ;
 
-\echo Deployed taxa_tree_order, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_taxa_tree_orders', 'order_id');
 \o
@@ -349,8 +323,6 @@ create table clearing_house_commit.temp_tbl_taxa_tree_families as select family_
 insert into public.tbl_taxa_tree_families (family_id, date_updated, family_name, order_id)
     select family_id, date_updated, family_name, order_id
     from clearing_house_commit.temp_tbl_taxa_tree_families ;
-
-\echo Deployed taxa_tree_family, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_taxa_tree_families', 'family_id');
@@ -374,8 +346,6 @@ insert into public.tbl_taxa_tree_genera (genus_id, date_updated, family_id, genu
     select genus_id, date_updated, family_id, genus_name
     from clearing_house_commit.temp_tbl_taxa_tree_genera ;
 
-\echo Deployed taxa_tree_genera, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_taxa_tree_genera', 'genus_id');
 \o
@@ -397,8 +367,6 @@ create table clearing_house_commit.temp_tbl_taxa_tree_master as select taxon_id,
 insert into public.tbl_taxa_tree_master (taxon_id, author_id, date_updated, genus_id, species)
     select taxon_id, author_id, date_updated, genus_id, species
     from clearing_house_commit.temp_tbl_taxa_tree_master ;
-
-\echo Deployed taxa_tree_master, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_taxa_tree_master', 'taxon_id');
@@ -422,8 +390,6 @@ insert into public.tbl_taxonomic_order (taxonomic_order_id, date_updated, taxon_
     select taxonomic_order_id, date_updated, taxon_id, taxonomic_code, taxonomic_order_system_id
     from clearing_house_commit.temp_tbl_taxonomic_order ;
 
-\echo Deployed taxonomic_order, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_taxonomic_order', 'taxonomic_order_id');
 \o
@@ -445,8 +411,6 @@ create table clearing_house_commit.temp_tbl_value_types as select value_type_id,
 insert into public.tbl_value_types (value_type_id, unit_id, data_type_id, name, base_type, precision, description)
     select value_type_id, unit_id, data_type_id, name, base_type, precision, description
     from clearing_house_commit.temp_tbl_value_types ;
-
-\echo Deployed value_type, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_value_types', 'value_type_id');
@@ -470,8 +434,6 @@ insert into public.tbl_value_classes (value_class_id, value_type_id, method_id, 
     select value_class_id, value_type_id, method_id, parent_id, name, description
     from clearing_house_commit.temp_tbl_value_classes ;
 
-\echo Deployed value_classe, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_value_classes', 'value_class_id');
 \o
@@ -493,8 +455,6 @@ create table clearing_house_commit.temp_tbl_value_type_items as select value_typ
 insert into public.tbl_value_type_items (value_type_item_id, value_type_id, name, description)
     select value_type_item_id, value_type_id, name, description
     from clearing_house_commit.temp_tbl_value_type_items ;
-
-\echo Deployed value_type_item, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_value_type_items', 'value_type_item_id');
@@ -518,8 +478,6 @@ insert into public.tbl_abundances (abundance_id, taxon_id, analysis_entity_id, a
     select abundance_id, taxon_id, analysis_entity_id, abundance_element_id, abundance, date_updated
     from clearing_house_commit.temp_tbl_abundances ;
 
-\echo Deployed abundance, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_abundances', 'abundance_id');
 \o
@@ -541,8 +499,6 @@ create table clearing_house_commit.temp_tbl_analysis_entities as select analysis
 insert into public.tbl_analysis_entities (analysis_entity_id, physical_sample_id, dataset_id, date_updated)
     select analysis_entity_id, physical_sample_id, dataset_id, date_updated
     from clearing_house_commit.temp_tbl_analysis_entities ;
-
-\echo Deployed analysis_entity, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_analysis_entities', 'analysis_entity_id');
@@ -566,8 +522,6 @@ insert into public.tbl_analysis_values (analysis_value_id, value_class_id, analy
     select analysis_value_id, value_class_id, analysis_entity_id, analysis_value, boolean_value, is_boolean, is_uncertain, is_undefined, is_not_analyzed, is_indeterminable, is_anomaly
     from clearing_house_commit.temp_tbl_analysis_values ;
 
-\echo Deployed analysis_value, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_analysis_values', 'analysis_value_id');
 \o
@@ -589,8 +543,6 @@ create table clearing_house_commit.temp_tbl_physical_samples as select physical_
 insert into public.tbl_physical_samples (physical_sample_id, sample_group_id, alt_ref_type_id, sample_type_id, sample_name, date_updated, date_sampled)
     select physical_sample_id, sample_group_id, alt_ref_type_id, sample_type_id, sample_name, date_updated, date_sampled
     from clearing_house_commit.temp_tbl_physical_samples ;
-
-\echo Deployed physical_sample, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_physical_samples', 'physical_sample_id');
@@ -614,8 +566,6 @@ insert into public.tbl_relative_dates (relative_date_id, relative_age_id, method
     select relative_date_id, relative_age_id, method_id, notes, date_updated, dating_uncertainty_id, analysis_entity_id
     from clearing_house_commit.temp_tbl_relative_dates ;
 
-\echo Deployed relative_date, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_relative_dates', 'relative_date_id');
 \o
@@ -637,8 +587,6 @@ create table clearing_house_commit.temp_tbl_sample_alt_refs as select sample_alt
 insert into public.tbl_sample_alt_refs (sample_alt_ref_id, alt_ref, alt_ref_type_id, date_updated, physical_sample_id)
     select sample_alt_ref_id, alt_ref, alt_ref_type_id, date_updated, physical_sample_id
     from clearing_house_commit.temp_tbl_sample_alt_refs ;
-
-\echo Deployed sample_alt_ref, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_sample_alt_refs', 'sample_alt_ref_id');
@@ -662,8 +610,6 @@ insert into public.tbl_sample_groups (sample_group_id, site_id, sampling_context
     select sample_group_id, site_id, sampling_context_id, method_id, sample_group_name, sample_group_description, date_updated, sample_group_uuid
     from clearing_house_commit.temp_tbl_sample_groups ;
 
-\echo Deployed sample_group, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_sample_groups', 'sample_group_id');
 \o
@@ -685,8 +631,6 @@ create table clearing_house_commit.temp_tbl_site_locations as select site_locati
 insert into public.tbl_site_locations (site_location_id, date_updated, location_id, site_id)
     select site_location_id, date_updated, location_id, site_id
     from clearing_house_commit.temp_tbl_site_locations ;
-
-\echo Deployed site_location, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_site_locations', 'site_location_id');
@@ -710,8 +654,6 @@ insert into public.tbl_site_references (site_reference_id, site_id, biblio_id, d
     select site_reference_id, site_id, biblio_id, date_updated
     from clearing_house_commit.temp_tbl_site_references ;
 
-\echo Deployed site_reference, rows inserted: :ROW_COUNT
-
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_site_references', 'site_reference_id');
 \o
@@ -733,8 +675,6 @@ create table clearing_house_commit.temp_tbl_sites as select site_id, altitude, l
 insert into public.tbl_sites (site_id, altitude, latitude_dd, longitude_dd, national_site_identifier, site_description, site_name, site_preservation_status_id, date_updated, site_location_accuracy, site_uuid)
     select site_id, altitude, latitude_dd, longitude_dd, national_site_identifier, site_description, site_name, site_preservation_status_id, date_updated, site_location_accuracy, site_uuid
     from clearing_house_commit.temp_tbl_sites ;
-
-\echo Deployed site, rows inserted: :ROW_COUNT
 
 \o /dev/null
 select clearing_house_commit.reset_serial_id('public', 'tbl_sites', 'site_id');
