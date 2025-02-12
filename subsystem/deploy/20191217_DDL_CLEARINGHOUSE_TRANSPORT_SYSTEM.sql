@@ -8,7 +8,7 @@
 
 /***************************************************************************
   Author         
-  Date           2025-02-06
+  Date           2025-02-12
   Description    Deploy of Clearinghouse Transport System
   Issue          https://github.com/humlab-sead/sead_change_control/issues/215
   Prerequisites  
@@ -687,14 +687,13 @@ insert into public.#TABLE# (#COLUMNS#)
     select #COLUMNS#
     from clearing_house_commit.temp_#TABLE# ;
 
-\\echo Deployed #ENTITY#, rows inserted: :ROW_COUNT
-
 \\o /dev/null
 select clearing_house_commit.reset_serial_id(''public'', ''#TABLE#'', ''#PK#'');
 \\o
 
 drop table if exists clearing_house_commit.temp_#TABLE#;
 ';
+-- \\echo Deployed #ENTITY#, rows inserted: :ROW_COUNT
 
     v_delete_sql = case when p_delete_existing then E'
 delete from public.#TABLE#
@@ -827,12 +826,24 @@ end $$ language plpgsql;
 
 
 -- ../sead_clearinghouse/transport_system//05_install_transport_system.sql
-
-do $$
+create or replace procedure clearing_house_commit.create_or_update_clearinghouse_system(
+    p_only_drop boolean = false,
+    p_dry_run boolean = false,
+    p_only_update boolean = true
+) as $$
 begin
+
+    set role clearinghouse_worker;
+
+    call clearing_house.create_public_model(p_only_drop, p_dry_run, p_only_update);
+
     perform clearing_house_commit.generate_sead_tables();
-    perform clearing_house_commit.generate_resolve_functions('public', false);
+    perform clearing_house_commit.generate_resolve_functions('public', p_dry_run);
+
+    reset role;
+    
 end $$ language plpgsql;
 
+call clearing_house_commit.create_or_update_clearinghouse_system(false, false, false);
 
 reset role;
