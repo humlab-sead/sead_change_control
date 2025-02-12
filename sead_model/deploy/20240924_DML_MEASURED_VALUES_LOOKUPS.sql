@@ -16,24 +16,24 @@ begin;
 do $$
 begin
     -- Inital set of value types for analysis values (based on dendro import lookups 2024-09-24)
-    
-    with new_data ("value_type_id", "unit_id", "data_type_id", "name", "base_type", "precision", "description") as (
+
+    with new_data ("value_type_id", "unit_id", "data_type_id", "name", "base_type", "precision", "description", "value_type_uuid") as (
         values
-            (0, null, null, 'Not used', 'text', null, 'Not used'),
-            (1, null, '5', 'Count', 'integer', null, 'An (positive) integer result of an analysis'),
-            (2, null, '5', 'BigCount', 'integer', null, 'An (positive) integer result of an analysis'),
-            (3, null, null, 'Boolean', 'boolean', null, 'A boolean (true/false/yes,no) value'),
-            (4, null, '20', 'Percentage', 'decimal', null, 'Percentage of something'),
-            (5, null, null, 'Age in years', 'integer', null, 'Age of something in years'),
-            (6, '8', null, 'Year', 'integer', null, 'A calendar year'),
-            (7, null, null, 'Note', 'text', null, 'A note of something'),
-            (8, null, null, 'Label', 'text', null, 'A designation of something'),
-            (9, null, null, 'Identifier', 'text', null, 'An identification of something'),
-            (10, '8', null, 'Year range', 'int4range', null, 'A range of years'),
-            (11, null, '8', 'Measurement', 'decimal', null, 'A decimal measurement result of an analysis.')
+            (0, null, null, 'Not used', 'text', null, 'Not used', '2b7c1658-e1f7-4478-b556-9dad792324d7'),
+            (1, null, '5', 'Count', 'integer', null, 'An (positive) integer result of an analysis', 'f23bfa1b-fcf9-431c-a5b7-cfb1903f2c1b'),
+            (2, null, '5', 'BigCount', 'integer', null, 'An (positive) integer result of an analysis', '43f0bb5d-4693-4579-ae84-2279134928c5'),
+            (3, null, null, 'Boolean', 'boolean', null, 'A boolean (true/false/yes,no) value', 'fc445f21-f5ab-4514-9d43-ddf6719165bf'),
+            (4, null, '20', 'Percentage', 'decimal', null, 'Percentage of something', '1282f765-4a8d-43b4-9b80-1f5465ff91f1'),
+            (5, null, null, 'Age in years', 'integer', null, 'Age of something in years', 'e4f29982-4bbb-40ee-a07b-b2e10b4d6e03'),
+            (6, '8', null, 'Year', 'integer', null, 'A calendar year', 'a2f27b66-9330-44a4-b553-5afd198c1598'),
+            (7, null, null, 'Note', 'text', null, 'A note of something', 'bd0a6517-f2c7-465f-bcb5-f3f9a352c8b3'),
+            (8, null, null, 'Label', 'text', null, 'A designation of something', '233be46f-fac5-4e06-b62c-9864b059a8c6'),
+            (9, null, null, 'Identifier', 'text', null, 'An identification of something', '0aef4ebc-cf7a-4997-8073-61a37b222039'),
+            (10, '8', null, 'Year range', 'int4range', null, 'A range of years', '0b5b41d2-3a86-43a3-b5e3-70640d112630'),
+            (11, null, '8', 'Measurement', 'decimal', null, 'A decimal measurement result of an analysis.', '4904a552-d638-4a07-8f9c-12676aae70fb')
         )
-    	    insert into tbl_value_types ("value_type_id", "unit_id", "data_type_id", "name", "base_type", "precision", "description")
-            select "value_type_id", "unit_id"::int, "data_type_id"::int, "name", "base_type", "precision"::int, "description"
+    	    insert into tbl_value_types ("value_type_id", "unit_id", "data_type_id", "name", "base_type", "precision", "description", "value_type_uuid")
+            select "value_type_id", "unit_id"::int, "data_type_id"::int, "name", "base_type", "precision"::int, "description", "value_type_uuid"::uuid
             from new_data;
 
     with new_data("qualifier_id", "symbol", "description") as (
