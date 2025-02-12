@@ -45,13 +45,15 @@ begin
         create table "tbl_value_qualifiers" (
             "qualifier_id" int primary key,
             "symbol" text not null unique,
-            "description" text not null
+            "description" text not null,
+            "qualifier_uuid" uuid not null default uuid_generate_v4(),
         );
 
         create table "tbl_value_qualifier_symbols" (
             "qualifier_symbol_id" int primary key,
             "symbol" text not null unique,
-            "cardinal_qualifier_id" int not null references "tbl_value_qualifiers" ("qualifier_id") deferrable
+            "cardinal_qualifier_id" int not null references "tbl_value_qualifiers" ("qualifier_id") deferrable,
+            "qualifier_uuid" uuid not null default uuid_generate_v4(),
         );
 
         create table "tbl_value_types" (
@@ -61,7 +63,8 @@ begin
             "name" text not null unique,
             "base_type" text not null,
             "precision" int null default null,
-            "description" text not null
+            "description" text not null,
+            "value_type_uuid" uuid not null default uuid_generate_v4(),
         );
 
         create table "tbl_value_type_items" (
@@ -77,7 +80,8 @@ begin
             "method_id" int not null references "tbl_methods" ("method_id") deferrable,
             "parent_id" int null references "tbl_value_classes" ("value_class_id") deferrable,
             "name" varchar(80) not null,
-            "description" text not null
+            "description" text not null,
+            "value_class_uuid" uuid not null default uuid_generate_v4(),
         );
 
         create table "tbl_analysis_values" (
@@ -219,5 +223,7 @@ reset role;
 
 -- FIXME: This should be done by the clearinghouse project, but how link/synv with this CR?
 set role clearinghouse_worker;
-call clearing_house.create_public_model(false, false, true);
+
+call clearing_house_commit.create_or_update_clearinghouse_system(false, false, false);
+
 reset role;
