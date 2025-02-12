@@ -62,6 +62,11 @@ begin
     perform sead_utility.rm_udfs_by_name('sead_utility', 'get_next_system_id');
     -- select sead_utility.get_next_system_id('tbl_sites', 'site_id') 
     create or replace function sead_utility.get_next_system_id(p_table_name text, p_column_name text) 
+    /*
+    * Get the next SEAD system id for table "p_table_name" and column "p_column_name".
+    * The system id is allocated from the sead_utility.system_id_allocations table.
+    * If no system id has been allocated for the table and column, the function will return the maximum value of the column in the table.
+    */
         returns integer as $udf$
         declare
             v_next_id integer;
