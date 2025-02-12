@@ -27,11 +27,13 @@ g_display_status=NO
 g_display_tags=NO
 g_sync_sequences=NO
 g_target_tag=
+g_start_tag=
 g_target_chain_tag=
 g_target_single_cr=
 g_ignore_git_tags=NO
 g_deploy_starting_point=NO
 g_rename_end_of_chain=NO
+g_verbose=NO
 
 default_projects=$(get_projects)
 
@@ -77,8 +79,10 @@ Options:
     --on-conflict [drop|rename]     Specify the action if the target database already exists: drop or rename it.
                                     Optional if "--create-database" is specified, otherwise ignored. Default: rename
     --deploy-to-tag TAG             Specify the Sqitch deploy tag. Optional. Set tag to "latest" for full deployment
+    --deploy-from-tag TAG           Start deploy from tag TAG. Optional. Only valid for source type "db".
     --deploy-chain-to-tag TAG       Deploy the entire chain of databases up to the specified tag. Optional. Set tag to "latest" for full deployment
     --deploy-starting-point         Create a starting point, then exit
+    --deploy-single-change-request  Only deploy given CR, then exit
     --deploy-single-change-request  Only deploy given CR, then exit
     --sqitch-project PROJECT        Specify the Sqitch project to deploy
     --rename-end-of-chain           Rename the last database in the chain to the target name (e.g. removes tag)
@@ -176,6 +180,9 @@ do
         --deploy-to-tag)
             g_target_tag="$2"; shift; shift
         ;;
+        --deploy-from-tag)
+            g_start_tag="$2"; shift; shift
+        ;;
         --deploy-chain-to-tag)
             g_target_chain_tag="$2"; shift; shift
         ;;
@@ -190,6 +197,9 @@ do
         ;;
         --on-conflict)
             g_conflict_resolution="$2"; shift; shift;
+        ;;
+        --verbose)
+            g_verbose="YES"; shift;
         ;;
         --*)
             usage "invalid option $1"
@@ -211,6 +221,12 @@ function usage() {
     # if [ "$error_message" != "" ]; then
         exit 64
     # fi  
+}
+
+function verbose() {
+    if [ "$g_verbose" == "YES" ]; then
+        echo "$1"
+    fi
 }
 
 function create_snapshot()
@@ -257,7 +273,7 @@ function verify_options()
     if [ "$g_create_snapshot" == "YES" ] && [ "$g_create_database" == "YES" ]; then
         usage "cannot create snapshot AND database at the same time"
     fi
-    echo "[$g_target_chain_tag]" "[$g_target_tag]" "[$g_target_single_cr]"
+
     if [ "$(count_number_of_set "$g_target_chain_tag" "$g_target_tag" "$g_target_single_cr")" != "1" ]; then
         usage "you can only specify one of --deploy-to-tag, --deploy-chain-to-tag or --deploy-single-change-request"
     fi
@@ -274,6 +290,12 @@ function verify_options()
             usage "--source and --source-type are not allowed when deploying single CR";
         fi
         return
+    fi
+
+    if [ "$g_start_tag" != "" ]; then
+        if [ "$g_source_type" != "db" ]; then
+            usage "start tag is only valid for source type db"
+        fi
     fi
 
     if [ "$rename_end_of_chain" == "YES" ]; then
@@ -293,11 +315,11 @@ function verify_options()
 
     if [ "$g_create_database" == "NO" ]; then
 
-        info "notice: using existing target database $g_target_name";
-        info "  ==> Settings "source-db", "source-sql-file" and "source-type" is ignored.";
+        verbose "notice: using existing target database $g_target_name";
+        verbose "  ==> Settings "source-db", "source-sql-file" and "source-type" is ignored.";
 
         if [ "${g_source_type}" != "" ] && [ "${g_source_type}" != "db" ]; then
-            info "notice: ignoring option --source-type $g_source_type (using existing db)";
+            verbose "notice: ignoring option --source-type $g_source_type (using existing db)";
             g_source_type=db
         fi
 
@@ -331,7 +353,7 @@ function setup_credentials()
 
     if [ "$SQITCH_PASSWORD" == "" ]; then
         if [ -f "${DOT_SQITCH_FILE}" ]; then
-            info "using credentials found in vault"
+            verbose "using credentials found in vault"
             source "${DOT_SQITCH_FILE}"
         else
             usage "password not specified (SQITCH_PASSWORD not defined and ${DOT_SQITCH_FILE} not found)"
@@ -360,7 +382,7 @@ function dbexecgz() {
     if [ "$g_dry_run" == "YES" ]; then
         info "executing file $gz_file on $database..."
     else
-        info "executing file $gz_file..." >> $log_file
+        verbose "executing file $gz_file..." >> $log_file
         zcat $gz_file | psql -v ON_ERROR_STOP=1 --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=$database >> $log_file
         if [ $? -ne 0 ];  then
             error "psql command failed! Deploy aborted." >&2
@@ -371,7 +393,7 @@ function dbexecgz() {
 
 function kick_out_users() {
     local db=$1
-    info "kicking out users from ${db}..."
+    verbose "kicking out users from ${db}..."
     sql=$(cat <<____EOF
         select pg_terminate_backend(pg_stat_activity.pid)
         from pg_stat_activity
@@ -391,11 +413,11 @@ function setup_target() {
     local conflict_resolution=$5
 
     if [ "$create_database" != "YES" ]; then
-        info "using existing database ${target_name}..."
+        verbose "using existing database ${target_name}..."
         return
     fi
 
-    info "setting up a new database ${target_name}..."
+    verbose "setting up a new database ${target_name}..."
 
     local target_db_exists="$( psql --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=postgres -tAc "select 1 from pg_database where datname='${target_name}'" )"
 
@@ -407,14 +429,14 @@ function setup_target() {
 
             local deprecated_name=${target_name}_`date "+%Y%m%d%H%M%S"`
 
-		    info "renaming ${target_name} to ${deprecated_name}..."
+		    verbose "renaming ${target_name} to ${deprecated_name}..."
 
 		    sql="alter database ${target_name} rename to ${deprecated_name};"
 		    execute_sql "postgres" "$sql"
 
 	    elif [ "$conflict_resolution" == "drop" ]; then
 
-		    info "dropping ${target_name}..."
+		    verbose "dropping ${target_name}..."
 
 		    sql="drop database if exists ${target_name};"
 		    execute_sql "postgres" "$sql"
@@ -431,13 +453,13 @@ function setup_target() {
 		    usage " source database not specified"
 	    fi
 
-	    info "creating database ${target_name} using template ${source_name}..."
+	    verbose "creating database ${target_name} using template ${source_name}..."
         kick_out_users $source_name
 	    execute_sql "postgres" "create database ${target_name} with template ${source_name} owner sead_master;"
 
 	elif [ "${source_type}" == "empty" ]; then
 
-	    info "creating empty database ${target_name}..."
+	    verbose "creating empty database ${target_name}..."
 	    execute_sql "postgres" "create database ${target_name} owner sead_master;"
 	    execute_sql "$target_name" "drop schema if exists public;"
 
@@ -447,15 +469,15 @@ function setup_target() {
 		    usage " source sql.gz file not specified"
 	    fi
 
-	    info "creating database ${target_name} using dump \"$source_name\"..."
+	    verbose "creating database ${target_name} using dump \"$source_name\"..."
 	    execute_sql "postgres" "create database ${target_name} owner sead_master;"
 
 	    execute_sql "$target_name" "drop schema if exists public;"
 
-	    info "applying source SQL script..."
+	    verbose "applying source SQL script..."
 	    dbexecgz "$target_name" "$source_name"
 
-	    info "applying default permissions..."
+	    verbose "applying default permissions..."
         # FIXME: Loop and apply all gz-files found in starting_point/
 	    dbexecgz "${target_name}" "./starting_point/role_permissions.sql.gz"
 
@@ -521,7 +543,7 @@ function verify_target_database()
 function verify_project_names() {
     # Verifies that project name in sqitch plan and folder name matches for all projects
     local project_folders="$1"
-    info "checking projects..."
+    verbose "checking projects..."
     for folder in $project_folders; do
         project_name=$(awk -F'=' 'NR==2 {print $2}' "$folder/sqitch.plan")
         project_uri=$(awk -F'=' 'NR==3 {print $2}' "$folder/sqitch.plan")
@@ -562,7 +584,7 @@ function deploy_to_tag()
     verify_project_names "$default_projects"
 
     if [ "$g_sync_sequences" == "YES" ] && [ "${source_type}" != "dump" ] && [ "${source_type}" != "empty" ]; then
-        info "syncing sequences (prior to deploy)..."
+        verbose "syncing sequences (prior to deploy)..."
 	    sync_sequences
     fi
 
@@ -571,6 +593,15 @@ function deploy_to_tag()
     local known_release_tags=$(find_tags)
 
     for tag in $known_release_tags; do
+
+
+        if [ "$g_start_tag" != "" ]; then
+            if [ "$tag" != "$g_start_tag" ]; then
+                verbose "skipping $tag (before start tag $g_start_tag)"
+                continue
+            fi
+            g_start_tag=
+        fi
 
         info "########################################################################################################################"
         info "deploying tag ${GREEN}${BOLD}$tag${RESET} to ${GREEN}${BOLD}$target_name${RESET}"
@@ -583,7 +614,7 @@ function deploy_to_tag()
                 local tag_line=$(grep -e "^$tag " $sqitch_project/sqitch.plan)
 
                 if [ "$tag_line" == "" ]; then
-                    info "skipping $sqitch_project (has no tag $tag)"
+                    verbose "skipping $sqitch_project (has no tag $tag)"
                     continue
                 fi
             fi
@@ -599,7 +630,7 @@ function deploy_to_tag()
             done
 
             if $is_deployed; then
-                info "skipping $sqitch_project ($tag already deployed in $target_name)"
+                verbose "skipping $sqitch_project ($tag already deployed in $target_name)"
                 continue
             fi
 
@@ -607,9 +638,9 @@ function deploy_to_tag()
 
             local deploy_code=0
 
-            if [ $g_dry_run == "YES" ]; then
-                info "sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project" --to $tag ;
-                continue ;
+            if [ "$g_dry_run" == "YES" ]; then
+                info "sqitch deploy --target ${target_uri} --mode change --no-verify -C $sqitch_project --to $tag"
+                continue
             fi
 
             if [ -f "$sqitch_project/${tag}-pre-deploy-hook" ]; then
