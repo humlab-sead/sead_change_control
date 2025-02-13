@@ -677,7 +677,7 @@ function deploy_to_tag()
             while IFS= read -r cr; do
                 local cr_post_deploy_hook="${sqitch_project}/deploy/${cr}/${cr}-post-deploy-hook"
                 if [ -f "$cr_post_deploy_hook" ]; then
-                    info "running ${cr_post_deploy_hook} $target_uri"
+                    info "${BLUE}running ${cr_post_deploy_hook} $target_uri${RESET}"
                     ${cr_post_deploy_hook} "$target_uri" "$(realpath .)"
                 fi
             done <<< "$deployed_crs"
