@@ -34,7 +34,7 @@ fi
 function usage() {
     local usage_error="$1"
     if [ "$usage_error" != "" ]; then
-        echo "error: $usage_error"
+        error "$usage_error"
     fi
     echo "usage: $script_name --database DBNAME --id ID --folder [OPTIONS...] "
     echo "  mandatory option:"
@@ -196,19 +196,19 @@ function restore_submission()
     local copy_in_script="copy_in.sql"
     
     if [ ! -d $source_folder ]; then
-        echo "fatal: submission dump source folder $source_folder not found"
+        error "submission dump source folder $source_folder not found"
         exit 64
     fi
 
     if [ ! -f $source_folder/tbl_clearinghouse_submissions.sql.gz ]; then
-        echo "fatal: submission file not found in folder $source_folder"
+        error "submission file not found in folder $source_folder"
         exit 64
     fi
 
     local submission_id=$(zcat $source_folder/tbl_clearinghouse_submissions.sql.gz | head -n1 | cut -f1)
 
     if [ "$submission_id" == "" ]; then
-        echo "fatal: no submission id found in submission file"
+        error "no submission id found in submission file"
         exit 64
     fi
 
@@ -219,7 +219,7 @@ function restore_submission()
     if [ "$target_id" != "$submission_id" ]; then
         # source_folder_new="$source_folder/restore_$target_id"
         local source_folder_new=$(mktemp -d)
-        echo "info: restoring submission $submission_id as $target_id to folder $source_folder_new" 
+        info "restoring submission $submission_id as $target_id to folder $source_folder_new" 
         mkdir -p $source_folder_new
         for file in $source_folder/*.sql.gz; do
             zcat $source_folder/$(basename $file) \
@@ -231,18 +231,19 @@ function restore_submission()
     fi
 
     local existing_id=$(check_existing_id $target_id)
-    echo "info: existing submission id $existing_id"
+    info "existing submission id $existing_id"
     if [ "$existing_id" != "" ]; then
         if [ "$g_force" == "YES" ]; then
             delete_submission $target_id &> /dev/null
         else
-            echo "fatal: submission $submission_id already exists "
+            error "submission $submission_id already exists"
             exit 64
         fi
     fi
 
     pushd $source_folder > /dev/null
 
+    info "importing data from $copy_in_script"
     psql -h $g_host -U $g_user -d $g_database -p $g_port -tAf "$copy_in_script"  &> /dev/null
 
     popd > /dev/null
@@ -293,12 +294,12 @@ END
     fi
 
     if [ "$submission_id" == "" ]; then
-        echo "fatal: submission \"$source_id\" not found in database $g_database"
+        error "submission \"$source_id\" not found in database $g_database"
         exit 64
     fi
 
     if [ "$submission_name" == "" ]; then
-        echo "fatal: submission \"$source_id\" not found in database $g_database"
+        error "submission \"$source_id\" not found in database $g_database"
         exit 64
     fi
 
@@ -310,14 +311,14 @@ END
         if [ "$g_force" == "YES" ]; then
             rm -f $target_folder/copy_in.sql $target_folder/copy_out.sql $target_folder/tbl_*.sql $target_folder/tbl_*.sql.gz
         else
-            echo "fatal: target folder \"$target_folder\" already exists. Use --force to overwrite"
+            error "target folder \"$target_folder\" already exists. Use --force to overwrite"
             exit 64
         fi
     fi
 
     local existing_id=$(check_existing_id $submission_id)
     if [ "$existing_id" == "" ]; then
-        echo "fatal: submission \"$submission_id\" not found in database $g_database"
+        error "submission \"$submission_id\" not found in database $g_database"
         exit 64
     fi
 
@@ -374,12 +375,12 @@ END
     popd > /dev/null
 
     if [ $table_count -eq 0 ]; then
-        echo "fatal: no data found for submission $submission_id"
+        error "no data found for submission $submission_id"
         exit 64
     else
-        echo "info: dumped submission \"$submission_name\" with ID $submission_name to folder \"$target_folder\" (${table_count} tables with data, ignored $table_empty_count empty tables) "
-        if [ "g_target_id" != "" ]; then
-            echo "info: new submission id in dump is \"$target_id\""
+        info "dumped submission $GREEN\"$submission_name\"$RESET with ID $GREEN$submission_id$RESET to folder \"$target_folder\" (${table_count} tables with data, ignored $table_empty_count empty tables) "
+        if [ "$g_target_id" != "" ]; then
+            info "new submission id in dump is $GREEN\"$target_id\"$RESET"
         fi
     fi
 }
