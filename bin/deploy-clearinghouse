@@ -22,9 +22,11 @@ g_schema_name=clearing_house
 
 g_real_path=$(readlink -f "${BASH_SOURCE[0]}")
 
+. ${g_script_dir}/utility.sh
+
 function usage() {
     if [ "$1" != "" ]; then
-        echo "error: $1"
+        error "$1"
     fi
     echo "usage: $g_script_name [--mode update|new|dryrun] [--sql-folder FOLDER] [--force]"
     echo ""
@@ -182,7 +184,7 @@ function generate_deploy_script() {
     echo ""                                                                                 >> $work_file
 	echo "reset role;"                                                                      >> $work_file
 
-    echo "notice: done generating deploy script $work_file"
+    info "deploy script ${GREEN}${work_file}${RESET} has been generated!"
 }
 
 function add_new_change_request()
@@ -204,12 +206,12 @@ function add_new_change_request()
     fi
 
     if [ ! -f "$work_file" ]; then
-        echo "failure: cannot add change request since $work_file is missing"
+        error "cannot add change request since $work_file is missing"
         exit 64
     fi
 
     if [ -f "$deploy_file" ]; then
-        echo "failure: CR $cr_name.sql already exists (unable to resolve conflict)"
+        error "CR $cr_name.sql already exists (unable to resolve conflict)"
         exit 64
     fi
 
@@ -217,8 +219,8 @@ function add_new_change_request()
 
     cp -f $work_file $deploy_file
 
-    echo "notice: change request $cr_name has been added to SEAD Change Control System!"
-    echo "notice: please remember to commit repository!"
+    info "change request $GREEN$cr_name$RESET has been added to SEAD Change Control System!"
+    info "please remember to commit repository!"
 }
 
 function check_setup() {
@@ -248,7 +250,7 @@ function check_setup() {
         fi
 
         if [ "$force" != "YES" ]; then
-            echo "cannot update change request $cr_name without --force"
+            error "cannot update change request $cr_name without --force"
             exit 64
         fi
     fi
@@ -285,6 +287,8 @@ if [ "$g_mode" == "new" ]; then
 elif [ "$g_mode" == "update" ]; then
 
     cp -f $g_work_file ./$g_project/deploy/$g_cr_name.sql
+    
+    info "Change request $GREEN$g_cr_name$RESET has been updated!"
 
 elif [ "$g_mode" == "dryrun" ]; then
 
