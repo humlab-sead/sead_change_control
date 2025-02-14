@@ -17,7 +17,7 @@ begin;
 do $$
 begin
 
-    drop table if exists bugs_import.results_chronology_import;
+    call sead_utility.drop_table('bugs_import.results_chronology_import');
 
     create table if not exists bugs_import.results_chronology_import (
         "id" serial primary key,
