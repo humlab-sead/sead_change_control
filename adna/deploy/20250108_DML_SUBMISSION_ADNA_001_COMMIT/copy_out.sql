@@ -1,23 +1,23 @@
 
-\copy (select biblio_id, bugs_reference, date_updated, doi, isbn, notes, title, year, authors, full_reference, url, biblio_uuid from clearing_house_commit.resolve_biblio(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_biblio.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+\copy (select biblio_id, bugs_reference, date_updated, doi, isbn, notes, title, year, authors, full_reference, url from clearing_house_commit.resolve_biblio(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_biblio.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
 \copy (select contact_id, address_1, address_2, location_id, email, first_name, last_name, phone_number, url, date_updated from clearing_house_commit.resolve_contact(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_contact.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
-\copy (select taxonomic_order_system_id, date_updated, system_description, system_name, taxonomic_order_system_uuid from clearing_house_commit.resolve_taxonomic_order_system(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_taxonomic_order_system.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+\copy (select taxonomic_order_system_id, date_updated, system_description, system_name from clearing_house_commit.resolve_taxonomic_order_system(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_taxonomic_order_system.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
 \copy (select alt_ref_type_id, alt_ref_type, date_updated, description from clearing_house_commit.resolve_alt_ref_type(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_alt_ref_type.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
 \copy (select record_type_id, record_type_name, record_type_description, date_updated from clearing_house_commit.resolve_record_type(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_record_type.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
-\copy (select master_set_id, contact_id, biblio_id, master_name, master_notes, url, date_updated, master_set_uuid from clearing_house_commit.resolve_dataset_master(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_dataset_master.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+\copy (select master_set_id, contact_id, biblio_id, master_name, master_notes, url, date_updated from clearing_house_commit.resolve_dataset_master(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_dataset_master.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
 \copy (select location_id, location_name, location_type_id, default_lat_dd, default_long_dd, date_updated from clearing_house_commit.resolve_location(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_location.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
-\copy (select method_id, biblio_id, date_updated, description, method_abbrev_or_alt_name, method_group_id, method_name, record_type_id, unit_id, method_uuid from clearing_house_commit.resolve_method(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_method.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+\copy (select method_id, biblio_id, date_updated, description, method_abbrev_or_alt_name, method_group_id, method_name, record_type_id, unit_id from clearing_house_commit.resolve_method(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_method.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
 \copy (select project_id, project_type_id, project_stage_id, project_name, project_abbrev_name, description, date_updated from clearing_house_commit.resolve_project(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_project.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
-\copy (select dataset_id, master_set_id, data_type_id, method_id, biblio_id, updated_dataset_id, project_id, dataset_name, date_updated, dataset_uuid from clearing_house_commit.resolve_dataset(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_dataset.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+\copy (select dataset_id, master_set_id, data_type_id, method_id, biblio_id, updated_dataset_id, project_id, dataset_name, date_updated from clearing_house_commit.resolve_dataset(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_dataset.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
 \copy (select dataset_contact_id, contact_id, contact_type_id, dataset_id, date_updated from clearing_house_commit.resolve_dataset_contact(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_dataset_contact.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
@@ -33,9 +33,9 @@
     
 \copy (select taxonomic_order_id, date_updated, taxon_id, taxonomic_code, taxonomic_order_system_id from clearing_house_commit.resolve_taxonomic_order(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_taxonomic_order.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
-\copy (select value_type_id, unit_id, data_type_id, name, base_type, precision, description from clearing_house_commit.resolve_value_type(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_value_type.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+\copy (select value_type_id, unit_id, data_type_id, name, base_type, precision, description, value_type_uuid from clearing_house_commit.resolve_value_type(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_value_type.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
-\copy (select value_class_id, value_type_id, method_id, parent_id, name, description from clearing_house_commit.resolve_value_classe(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_value_classe.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+\copy (select value_class_id, value_type_id, method_id, parent_id, name, description, value_class_uuid from clearing_house_commit.resolve_value_classe(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_value_classe.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
 \copy (select value_type_item_id, value_type_id, name, description from clearing_house_commit.resolve_value_type_item(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_value_type_item.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
@@ -51,11 +51,11 @@
     
 \copy (select sample_alt_ref_id, alt_ref, alt_ref_type_id, date_updated, physical_sample_id from clearing_house_commit.resolve_sample_alt_ref(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_sample_alt_ref.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
-\copy (select sample_group_id, site_id, sampling_context_id, method_id, sample_group_name, sample_group_description, date_updated, sample_group_uuid from clearing_house_commit.resolve_sample_group(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_sample_group.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+\copy (select sample_group_id, site_id, sampling_context_id, method_id, sample_group_name, sample_group_description, date_updated from clearing_house_commit.resolve_sample_group(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_sample_group.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
 \copy (select site_location_id, date_updated, location_id, site_id from clearing_house_commit.resolve_site_location(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_site_location.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
 \copy (select site_reference_id, site_id, biblio_id, date_updated from clearing_house_commit.resolve_site_reference(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_site_reference.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
-\copy (select site_id, altitude, latitude_dd, longitude_dd, national_site_identifier, site_description, site_name, site_preservation_status_id, date_updated, site_location_accuracy, site_uuid from clearing_house_commit.resolve_site(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_site.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+\copy (select site_id, altitude, latitude_dd, longitude_dd, national_site_identifier, site_description, site_name, site_preservation_status_id, date_updated, site_location_accuracy from clearing_house_commit.resolve_site(1)) to program 'gzip -qa9 > ./tmp/20250108_DML_SUBMISSION_ADNA_001_COMMIT/submission_1_site.gz' with (format text, delimiter E'\t', encoding 'utf-8');
     
