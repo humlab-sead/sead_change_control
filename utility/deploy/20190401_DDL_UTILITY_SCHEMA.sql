@@ -87,19 +87,15 @@ begin;
         );
     $$  language sql;
 
-    create or replace function view_exists(p_view_name text, p_schema_name text default 'public') 
-    returns boolean as $$
-    declare
-        view_count int;
-    begin
-        select count(*) 
-        into view_count
-        from information_schema.views
-        where table_schema = p_schema_name
-        and table_name = p_view_name;
-        return view_count > 0;
-    end;
-    $$ language plpgsql;
+    create or replace function sead_utility.view_exists(p_schema_name text, p_view_name text)
+      returns bool as
+    $$
+        select exists (
+            select 1 from information_schema.views
+            where table_schema = p_schema_name
+              and table_name = p_view_name
+        );
+    $$  language sql;
 
     create or replace function sead_utility.table_exists(p_schema_name text, p_table_name text)
       returns bool as
