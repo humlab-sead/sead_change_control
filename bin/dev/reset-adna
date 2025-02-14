@@ -30,10 +30,12 @@ copy-database --source $g_source_db --target $g_target_db --port $g_port --force
 #echo "info: deploying new 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM"
 
 bin/deploy-clearinghouse --mode update --sql-folder ../sead_clearinghouse/src/sql/ --no-create-issue --force
-#bin/deploy-clearinghouse-commit --mode update --sql-folder ../sead_clearinghouse/transport_system/ --force --on-schema-exists drop
+bin/deploy-clearinghouse-commit --mode update --sql-folder ../sead_clearinghouse/transport_system/ --force --on-schema-exists drop
 
 #echo "info: patching 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM"
-#bin/patch-cr --port $g_port --database $g_target_db '20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM'
+bin/patch-cr --port $g_port --database $g_target_db 20191217_DDL_CLEARINGHOUSE_SYSTEM
+bin/patch-cr --port $g_port --database $g_target_db 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM
+bin/patch-cr --port $g_port --database $g_target_db 20241127_DDL_CLEARINGHOUSE_IMPORT_TABLES 20240112_DDL_CLEARINGHOUSE_UPLOAD_CSV
 
 g_import_system_folder=$HOME/source/sead_clearinghouse_import/
 
