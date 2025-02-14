@@ -29,7 +29,7 @@
 --         end;
 --         $udf$ language plpgsql;
         
---     create or replace function sead_utility.rm_udfs_by_name(schema_name text, func_name text) 
+--     create or replace function sead_utility.drop_udf(schema_name text, func_name text) 
 --         returns void as $udf$
 --         declare
 --             r record;
@@ -59,7 +59,7 @@
 --         alloc_system_id int not null
 --     );
 
---     perform sead_utility.rm_udfs_by_name('sead_utility', 'get_next_system_id');
+--     perform sead_utility.drop_udf('sead_utility', 'get_next_system_id');
 --     -- select sead_utility.get_next_system_id('tbl_sites', 'site_id') 
 --     create or replace function sead_utility.get_next_system_id(p_table_name text, p_column_name text) 
 --     /*
@@ -89,7 +89,7 @@
 --         end;
 --         $udf$ language plpgsql;
 
--- 	perform sead_utility.rm_udfs_by_name('sead_utility', 'allocate_system_id');
+-- 	perform sead_utility.drop_udf('sead_utility', 'allocate_system_id');
 	
 --     create or replace function sead_utility.allocate_system_id(
 --         p_submission_identifier text,

@@ -44,7 +44,7 @@ begin
             (i_relation_id + 1, i_shortcut_id,   4, 200, 'analysis_entity_id', 'analysis_entity_id')
             on conflict (table_relation_id) do nothing;
 
-    drop view if exists facet.geochronology_taxa_shortcut;
+    call sead_utility.drop_view('facet.geochronology_taxa_shortcut');
 
     create or replace view facet.geochronology_taxa_shortcut as
         with geochronology_taxa as (

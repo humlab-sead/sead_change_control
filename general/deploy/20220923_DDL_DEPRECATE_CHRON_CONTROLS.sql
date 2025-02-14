@@ -30,8 +30,8 @@ begin
             drop function if exists clearing_house_commit.resolve_chron_control(int);
             drop function if exists clearing_house_commit.resolve_chron_control_type(int);
 
-            drop view if exists clearing_house.view_chron_controls;
-            drop view if exists clearing_house.view_chron_control_types;
+            call sead_utility.drop_view('clearing_house.view_chron_controls');
+            call sead_utility.drop_view('clearing_house.view_chron_control_types');
 
             drop table if exists clearing_house.tbl_chron_controls;
             drop table if exists clearing_house.tbl_chron_control_types;

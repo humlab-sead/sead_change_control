@@ -38,7 +38,7 @@ begin
 
 	end if;
 
-	drop view if exists facet.sample_group_construction_purposes;
+	call sead_utility.drop_view('facet.sample_group_construction_purposes');
 
     create view facet.sample_group_construction_purposes as 
 		with purposes (purpose) as (

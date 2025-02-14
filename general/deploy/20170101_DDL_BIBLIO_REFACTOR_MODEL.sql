@@ -126,11 +126,11 @@ begin;
 
             if sead_utility.schema_exists('clearing_house') = TRUE then
 
-                drop view if exists clearing_house.view_biblio_keywords;
-                drop view if exists clearing_house.view_keywords;
-                drop view if exists clearing_house.view_collections_or_journals;
-                drop view if exists clearing_house.view_publication_types;
-                drop view if exists clearing_house.view_publishers;
+                call sead_utility.drop_view('clearing_house.view_biblio_keywords');
+                call sead_utility.drop_view('clearing_house.view_keywords');
+                call sead_utility.drop_view('clearing_house.view_collections_or_journals');
+                call sead_utility.drop_view('clearing_house.view_publication_types');
+                call sead_utility.drop_view('clearing_house.view_publishers');
 
                 drop table if exists clearing_house.tbl_biblio_keywords;
                 drop table if exists clearing_house.tbl_keywords;

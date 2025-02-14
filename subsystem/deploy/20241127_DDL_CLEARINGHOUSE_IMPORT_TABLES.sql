@@ -20,8 +20,8 @@ begin;
 do $$
 begin
 
-	drop view if exists clearing_house.clearinghouse_import_columns;
-	drop view if exists clearing_house.clearinghouse_import_tables;
+	call sead_utility.drop_view('clearing_house.clearinghouse_import_columns');
+	call sead_utility.drop_view('clearing_house.clearinghouse_import_tables');
 	
     create or replace view clearing_house.clearinghouse_import_tables as
         with table_alias(table_name, excel_sheet) as(values 

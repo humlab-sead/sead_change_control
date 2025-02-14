@@ -601,8 +601,8 @@ begin;
         end;
         $udf$ language plpgsql;
         
-    create or replace function sead_utility.rm_udfs_by_name(schema_name text, func_name text) 
-        returns void as $udf$
+    create or replace procedure sead_utility.drop_udf(schema_name text, func_name text) 
+        language plpgsql as $udf$
         declare
             r record;
         begin
@@ -616,7 +616,55 @@ begin;
             loop
                 execute format('drop function if exists %I.%I(%s);', r.schema_name, r.function_name, r.arguments);
             end loop;
-        end $udf$ language plpgsql;
+        end $udf$;
+
+    create or replace procedure sead_utility.drop_view(p_schema_name text, p_view_name text) 
+        language plpgsql as $udf$
+        begin
+            if sead_utility.view_exists(p_schema_name, p_view_name) then
+                execute format('drop view %I.%I;', p_schema_name, p_view_name);
+            end if;
+        end $udf$;
+
+    create or replace procedure sead_utility.drop_view(p_view_name text) 
+        language plpgsql as $udf$
+        declare
+            v_schema_name text;
+        begin
+            if position('.' in p_view_name) > 0 then
+                v_schema_name = split_part(p_view_name, '.', 1);
+                p_view_name = split_part(p_view_name, '.', 2);
+            else
+                v_schema_name = current_schema();
+            end if;
+            if sead_utility.view_exists(v_schema_name, p_view_name) then
+                execute format('drop view %I.%I;', v_schema_name, p_view_name);
+            end if;
+        end $udf$;
+
+    create or replace procedure sead_utility.drop_table(p_schema_name text, p_table_name text) 
+        language plpgsql as $udf$
+        begin
+            if sead_utility.table_exists(p_schema_name, p_table_name) then
+                execute format('drop table %I.%I;', p_schema_name, p_table_name);
+            end if;
+        end $udf$;
+
+    create or replace procedure sead_utility.drop_table(p_table_name text) 
+        language plpgsql as $udf$
+        declare
+            v_schema_name text;
+        begin
+            if position('.' in p_table_name) > 0 then
+                v_schema_name = split_part(p_table_name, '.', 1);
+                p_table_name = split_part(p_table_name, '.', 2);
+            else
+                v_schema_name = current_schema();
+            end if;
+            if sead_utility.table_exists(v_schema_name, p_table_name) then
+                execute format('drop table %I.%I;', v_schema_name, p_table_name);
+            end if;
+        end $udf$;
 
     drop table if exists sead_utility.system_id_allocations;
 
@@ -631,7 +679,7 @@ begin;
         alloc_system_id int not null
     );
 
-    perform sead_utility.rm_udfs_by_name('sead_utility', 'get_next_system_id');
+    call sead_utility.drop_udf('sead_utility', 'get_next_system_id');
     -- select sead_utility.get_next_system_id('tbl_sites', 'site_id') 
     create or replace function sead_utility.get_next_system_id(p_table_name text, p_column_name text) 
     /*
@@ -661,7 +709,7 @@ begin;
         end;
         $udf$ language plpgsql;
 
-	perform sead_utility.rm_udfs_by_name('sead_utility', 'allocate_system_id');
+	call sead_utility.drop_udf('sead_utility', 'allocate_system_id');
 	
     create or replace function sead_utility.allocate_system_id(
         p_submission_identifier text,

@@ -17,7 +17,7 @@ begin
 
     begin
 
-		drop view if exists postgrest_api.loc;
+		    call sead_utility.drop_view('postgrest_api.loc');
 
         create or replace view postgrest_api.loc
         as
@@ -58,7 +58,10 @@ begin
         grant select on table postgrest_api.loc to postgrest_anon;
 
 
-		drop view if exists postgrest_api.occ;
+        if sead_utility.view_exists('postgrest_api', 'occ') then
+            drop view postgrest_api.occ;
+        end if;
+
         create or replace view postgrest_api.occ
         as
         select

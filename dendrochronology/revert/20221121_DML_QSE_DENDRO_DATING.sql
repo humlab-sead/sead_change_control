@@ -2,6 +2,6 @@
 
 begin;
 
-    drop view if exists "postgrest_api"."qse_dendro_dating";
+    call sead_utility.drop_view('postgrest_api.qse_dendro_dating');
 
 commit;

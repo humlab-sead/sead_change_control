@@ -32,7 +32,7 @@ begin
                 (236, 176,   4, 25, 'analysis_entity_id', 'analysis_entity_id')
                 on conflict (table_relation_id) do nothing;
 
-        drop view if exists facet.abundance_taxon_shortcut;
+        call sead_utility.drop_view('facet.abundance_taxon_shortcut');
         create or replace view facet.abundance_taxon_shortcut as
             with analysis as (
                 select ae.analysis_entity_id, m.method_name

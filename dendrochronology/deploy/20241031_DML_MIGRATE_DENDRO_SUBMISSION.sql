@@ -28,8 +28,8 @@ begin
     -- end;
     -- $apa$ language plpgsql immutable;
     
- 	drop view if exists encoded_dendro_analysis_values;
-    drop view if exists typed_analysis_values;
+ 	call sead_utility.drop_view('encoded_dendro_analysis_values');
+    call sead_utility.drop_view('typed_analysis_values');
 
 	create view typed_analysis_values as 
         select analysis_value_id, 'decimal' as base_type
@@ -488,7 +488,7 @@ begin
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
-    drop view if exists postgrest_api.qse_dendro_dating;
+    call sead_utility.drop_view('postgrest_api.qse_dendro_dating');
 
     -- create or replace view postgrest_api.qse_dendro_dating as
     --     select distinct ps.physical_sample_id,
