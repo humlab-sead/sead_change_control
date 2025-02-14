@@ -47,12 +47,21 @@ begin
 
         /* PostgREST API: drop dependent objects and delete data */
 
-        drop view if exists postgrest_api.chron_controls;
-        drop view if exists postgrest_api.chron_control_type;
+        if sead_utility.view_exists('postgrest_api', 'chron_controls') then
+            drop view postgrest_api.chron_controls;
+        end if;
 
-        drop view if exists postgrest_default_api.chron_control;
-        drop view if exists postgrest_default_api.chron_control_type;
+        if sead_utility.view_exists('postgrest_api', 'chron_control_type') then
+            drop view postgrest_api.chron_control_type;
+        end if;
 
+        if sead_utility.view_exists('postgrest_default_api', 'chron_controls') then
+            drop view postgrest_default_api.chron_controls;
+        end if;
+
+        if sead_utility.view_exists('postgrest_default_api', 'chron_control_type') then
+            drop view postgrest_default_api.chron_control_type;
+        end if;
 
         /* SEAD facet API: Drop dependent objects */
         begin
