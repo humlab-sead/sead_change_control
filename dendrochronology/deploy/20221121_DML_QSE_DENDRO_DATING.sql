@@ -13,10 +13,11 @@
 
 do $$
 begin
-    -- FIXME: Breaking change
-    drop view if exists postgrest_api.qse_dendro_dating;
+    if sead_utility.view_exists('postgrest_api', 'qse_dendro_dating') then
+        drop view postgrest_api.qse_dendro_dating;
+    end if;
 
-    create or replace view postgrest_api.qse_dendro_dating as
+    create view postgrest_api.qse_dendro_dating as
         select distinct ps.physical_sample_id,
             ae.analysis_entity_id,
             dl.name as "date_type",
