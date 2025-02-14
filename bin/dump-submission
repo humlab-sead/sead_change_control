@@ -231,8 +231,8 @@ function restore_submission()
     fi
 
     local existing_id=$(check_existing_id $target_id)
-    info "existing submission id $existing_id"
     if [ "$existing_id" != "" ]; then
+        info "existing submission id $existing_id"
         if [ "$g_force" == "YES" ]; then
             delete_submission $target_id &> /dev/null
         else
@@ -244,7 +244,18 @@ function restore_submission()
     pushd $source_folder > /dev/null
 
     info "importing data from $copy_in_script"
-    psql -h $g_host -U $g_user -d $g_database -p $g_port -tAf "$copy_in_script"  &> /dev/null
+
+    local output_temp=$(mktemp)
+
+    psql -h $g_host -U $g_user -d $g_database -p $g_port -v ON_ERROR_STOP=1 -tAf "$copy_in_script"  &> "$output_temp"
+
+    if [ $? -ne 0 ]; then
+        error "Error occurred during data import."
+        cat "$output_temp"
+        exit 1
+    else
+        rm -f "$output_temp"
+    fi
 
     popd > /dev/null
 
