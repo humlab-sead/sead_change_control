@@ -18,6 +18,8 @@ begin;
 
     create schema if not exists sead_utility;
 
+    create extension if not exists "uuid-ossp" schema public;
+
     create or replace procedure sead_utility.set_schema_privilege(p_schema_name text, p_user_name text, level text, variadic p_for_roles text[] default null) as $$
     declare
         command text;
@@ -665,8 +667,6 @@ begin;
                 execute format('drop table %I.%I;', v_schema_name, p_table_name);
             end if;
         end $udf$;
-
-    drop table if exists sead_utility.system_id_allocations;
 
     create table if not exists sead_utility.system_id_allocations (
         uuid UUID not null default uuid_generate_v4() primary key,
