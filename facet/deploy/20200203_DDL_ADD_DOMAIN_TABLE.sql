@@ -28,7 +28,7 @@ begin
         --     raise exception SQLSTATE 'GUARD';
         -- end if;
 
-    	drop table if exists facet.facet_children;
+    	call sead_utility.drop_table('facet.facet_children');
 
     	create table facet.facet_children (
     		facet_code character varying not null,
