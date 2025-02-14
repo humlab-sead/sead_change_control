@@ -11,12 +11,14 @@ script_name=$(basename "$0")
 cr_name=${script_name%-post-deploy-hook}
 
 if [ "$root_folder" == "" ]; then
-    root_folder=$(realpath $script_dir/../../..)
+    root_folder=$(git rev-parse --show-toplevel)
 fi
 
 folder=$root_folder/subsystem/deploy/clearinghouse-data/$cr_name
 
-if [ ! -d "$folder" ]; then
+if [ -d "$folder" ]; then
     dump-submission --target-uri $target_uri --id $cr_name --mode restore --target-id next --folder $folder --force
+else
+    echo "warning: no data folder found for CR $cr_name"
 fi
 
