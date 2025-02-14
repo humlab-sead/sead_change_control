@@ -620,15 +620,16 @@ begin;
             end loop;
         end $udf$;
 
-    create or replace procedure sead_utility.drop_view(p_schema_name text, p_view_name text) 
+    create or replace procedure sead_utility.drop_view(p_schema_name text, p_view_name text, p_cascade bool=TRUE) 
         language plpgsql as $udf$
         begin
             if sead_utility.view_exists(p_schema_name, p_view_name) then
-                execute format('drop view %I.%I;', p_schema_name, p_view_name);
+                execute format('drop view %I.%I %s;', p_schema_name, p_view_name, 
+                    case when p_cascade then 'cascade' else '' end);
             end if;
         end $udf$;
 
-    create or replace procedure sead_utility.drop_view(p_view_name text) 
+    create or replace procedure sead_utility.drop_view(p_view_name text, p_cascade bool=TRUE) 
         language plpgsql as $udf$
         declare
             v_schema_name text;
@@ -640,19 +641,21 @@ begin;
                 v_schema_name = current_schema();
             end if;
             if sead_utility.view_exists(v_schema_name, p_view_name) then
-                execute format('drop view %I.%I;', v_schema_name, p_view_name);
+                execute format('drop view %I.%I %s;', v_schema_name, p_view_name, 
+                    case when p_cascade then 'cascade' else '' end);
             end if;
         end $udf$;
 
-    create or replace procedure sead_utility.drop_table(p_schema_name text, p_table_name text) 
+    create or replace procedure sead_utility.drop_table(p_schema_name text, p_table_name text, p_cascade bool=TRUE) 
         language plpgsql as $udf$
         begin
             if sead_utility.table_exists(p_schema_name, p_table_name) then
-                execute format('drop table %I.%I;', p_schema_name, p_table_name);
+                execute format('drop table %I.%I %s;', p_schema_name, p_table_name, 
+                    case when p_cascade then 'cascade' else '' end);
             end if;
         end $udf$;
 
-    create or replace procedure sead_utility.drop_table(p_table_name text) 
+    create or replace procedure sead_utility.drop_table(p_table_name text, p_cascade bool=TRUE) 
         language plpgsql as $udf$
         declare
             v_schema_name text;
@@ -664,7 +667,8 @@ begin;
                 v_schema_name = current_schema();
             end if;
             if sead_utility.table_exists(v_schema_name, p_table_name) then
-                execute format('drop table %I.%I;', v_schema_name, p_table_name);
+                execute format('drop table %I.%I %s;', v_schema_name, p_table_name, 
+                    case when p_cascade then 'cascade' else '' end);
             end if;
         end $udf$;
 
