@@ -13,7 +13,7 @@
 
 set client_encoding = 'UTF8';
 set standard_conforming_strings = on;
-set client_min_messages = warning;
+set client_min_messages = error;
 
 set role sead_master;
 
