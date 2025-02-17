@@ -27,14 +27,15 @@ copy-database --source $g_source_db --target $g_target_db --port $g_port --force
 
 #psql --host=$g_host --port=$g_port --username=$g_user --no-password --dbname=$g_target_db -tAc "select sead_utility.sync_sequences('public')" &> /dev/null
 #psql --host=$g_host --port=$g_port --username=$g_user --no-password --dbname=$g_target_db -tAc "drop schema if exists clearing_house_commit cascade"
-#echo "info: deploying new 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM"
 
-bin/deploy-clearinghouse --mode update --sql-folder ../sead_clearinghouse/src/sql/ --no-create-issue --force
-bin/deploy-clearinghouse-commit --mode update --sql-folder ../sead_clearinghouse/transport_system/ --force --on-schema-exists drop
+#echo "info: deploying new 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM"
+#bin/deploy-clearinghouse --mode update --sql-folder ../sead_clearinghouse/src/sql/ --no-create-issue --force
+#bin/patch-cr --port $g_port --database $g_target_db 20191217_DDL_CLEARINGHOUSE_SYSTEM
 
 #echo "info: patching 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM"
-bin/patch-cr --port $g_port --database $g_target_db 20191217_DDL_CLEARINGHOUSE_SYSTEM
-bin/patch-cr --port $g_port --database $g_target_db 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM
+#bin/deploy-clearinghouse-commit --mode update --sql-folder ../sead_clearinghouse/transport_system/ --force --on-schema-exists drop
+#bin/patch-cr --port $g_port --database $g_target_db 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM
+
 bin/patch-cr --port $g_port --database $g_target_db 20241127_DDL_CLEARINGHOUSE_IMPORT_TABLES 20240112_DDL_CLEARINGHOUSE_UPLOAD_CSV
 
 g_import_system_folder=$HOME/source/sead_clearinghouse_import/
@@ -43,13 +44,15 @@ pushd $g_import_system_folder &> /dev/null
 
 export PYTHONPATH="$g_import_system_folder:$PYTHONPATH"
 
+g_cr_name=20250108_DML_SUBMISSION_ADNA_001_COMMIT
+
 poetry run python importer/scripts/import_excel.py ./config.yml data/input/SEAD_aDNA_data_20241114_RM.xlsx \
     --no-timestamp \
     --register \
     --explode \
     --database $g_target_db \
     --data-types $g_datatype \
-    --name 20250108_DML_SUBMISSION_ADNA_001_COMMIT \
+    --name $g_cr_name \
     --transfer-format csv \
     --output-folder ./data/output/ \
     --dump-to-csv
@@ -57,23 +60,24 @@ poetry run python importer/scripts/import_excel.py ./config.yml data/input/SEAD_
 popd &> /dev/null
 
 g_submission_id=`get_submission_id $g_target_db`
-g_issue_id=342
+# g_issue_id=342
 g_zfilled_submission_id=$(printf "%03d" $g_submission_id)
 
 if [[ ! "$g_submission_id" =~ ^-?[0-9]+$ ]]; then
     echo "$g_submission_id is not an integer"
     exit 1
 fi
-g_cr_name=20250108_DML_SUBMISSION_ADNA_${g_zfilled_submission_id}_COMMIT
+# g_cr_name=20250108_DML_SUBMISSION_ADNA_${g_zfilled_submission_id}_COMMIT
 
 
-bin/commit-submission \
-    --mode update \
-    --change $g_cr_name \
-    --id $g_submission_id  \
-    --port 5433 \
-    --database $g_target_db \
-    --project $g_datatype 
+# bin/commit-submission \
+#     --mode update \
+#     --change $g_cr_name \
+#     --id $g_submission_id  \
+#     --port 5433 \
+#     --database $g_target_db \
+#     --project $g_datatype  \
+#     --no-create-issue
 
 # echo "Applying CR "
 # # bin/patch-cr --port $g_port --database $g_target_db 20241029_DML_ADNA_LOOKUPS
