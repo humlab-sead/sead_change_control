@@ -25,6 +25,8 @@ begin
 
     perform sead_utility.release_allocated_ids(v_submission_identifier);
 
+    --     Table: tbl_locations
+    --  Note, FK: location_type_id (public SEAD id)
     with new_data (system_id, location_name, location_type_id) as (
         values
             ('1', 'Skärstad socken', '2'),
@@ -824,6 +826,8 @@ begin
             from new_data;
 
 
+    --    Table: tbl_contacts
+    -- Note, FK: 
     with new_data (system_id, address_1, address_2, email, first_name, last_name) as (
         values
             (1, 'Riksantikvarieämbetet', 'Stockholm', NULL, 'Anders', 'Löfgren'),
@@ -873,7 +877,9 @@ begin
             	), address_1, address_2, email, first_name, last_name
                 from new_data;
 
-    with new_data (system_id, feature_type_name, feature_type_description) as (
+    -- Table: tbl_feature_types
+    --  Note: 
+     with new_data (system_id, feature_type_name, feature_type_description) as (
         values
             ('1', 'Waste container', 'Container that stores waste product.'),
             ('2', 'Ground gutter', 'Drainage system installed beneath the ground.'),
@@ -934,6 +940,8 @@ begin
                 ;
 
 
+    --    Table: tbl_sites
+    -- Note, FK: site_preservation_status_id is all NULL
     with new_data (system_id, site_preservation_status_id, site_name, site_description, national_site_identifier, latitude_dd, longitude_dd, site_location_accuracy) as (
         values 
             (1, NULL, 'Höje', NULL, NULL, '58.314587', '14.667604', 'Precise'),
@@ -1791,6 +1799,8 @@ begin
 					latitude_dd::numeric(18,10), longitude_dd::numeric(18,10), site_location_accuracy
             from new_data;
 
+    --    Table: tbl_sample_group_description_types
+    -- Note, FK: 
     with new_data (system_id, type_name, type_description) as (
 		values
             ('1', 'Estimated hilliness', 'A descriptive estimation of how hilly the area around the sample group is.'),
@@ -1824,6 +1834,8 @@ begin
             	), type_name, type_description
             from new_data;
 
+    --    Table: tbl_sample_group_sampling_contexts
+    -- Note, FK: 
     with new_data (system_id, sampling_context, description) as (
 		values
             ('1', 'Dendrochronological living trees', 'Investigation of wood for age determination, sampled from living trees.')
@@ -1840,6 +1852,9 @@ begin
             	), sampling_context, description
             from new_data;
 
+    --    Table: tbl_dimensions
+    -- Note, FK: unit_id (public SEAD id)
+    --           method_group_id (public SEAD id)
     with new_data (system_id, dimension_abbrev, dimension_name, dimension_description, unit_id, method_group_id) as (
 		values
             ('1', 'Sampling height (cm)', 'Sampling height in centimetres', 'Height at which a sample was retrieved. Positive values denotes distance measured from the ground-level. ', '16', '14'),
@@ -1857,6 +1872,8 @@ begin
             	), dimension_abbrev, dimension_name, dimension_description, unit_id::int, method_group_id::int
             from new_data;
 
+    --    Table: tbl_sample_description_types
+    -- Note, FK: 
     with new_data (system_id, type_name, type_description) as (
         values
             ('1', 'Tree height (m)', 'Height of tree sampled for dendrochronological and/or climatological investigation.')
@@ -1873,6 +1890,8 @@ begin
             	), type_name, type_description
             from new_data;
 
+    --    Table: tbl_biblio
+    -- Note, FK: 
 	with new_data (system_id, doi, title, year, authors, full_reference) as (
         values
             (2, NULL,'Dendrokronologisk analys av Grönhult, Forsvik, Västergötland. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2013:13.', '2013','Linderson, Hans','Linderson, H. 2013. Dendrokronologisk analys av Grönhult, Forsvik, Västergötland. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2013:13. Lund: Lunds universitet'),
@@ -2545,6 +2564,7 @@ begin
             (669, NULL,'Dendrokronologisk analys av Skälvum kyrka, Västergötland - omanalys av Alf Bråthens prover. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2021:45. Lund: Lunds universitet', '2021','Hansson, A. & Linderson, H.','Hansson, A. & Linderson, H. 2021 Dendrokronologisk analys av Skälvum kyrka, Västergötland - omanalys av Alf Bråthens prover. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2021:45. Lund: Lunds universitet'),
             (670, NULL,'Dendrokronologisk analys av Skörstorps kyrka i Falköping - komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2019:68. Lund: Lunds universitet', '2019','Linderson, H.','Linderson, H. 2019 Dendrokronologisk analys av Skörstorps kyrka i Falköping - komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2019:68. Lund: Lunds universitet'),
             (671, NULL,'Dendrokronologisk analys av Skörstorps kyrka i Falköping. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2016:40. Lund: Lunds universitet', '2016','Linderson, H.','Linderson, H. 2016 Dendrokronologisk analys av Skörstorps kyrka i Falköping. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2016:40. Lund: Lunds universitet'),
+            (731, NULL,'Dendrokronologisk analys huvudbyggnaden på Stensmålen 1:1, Brokind, Linköpings kommun - komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2020:25. Lund: Lunds universitet', '2020','Linderson, H.','Linderson, H. 2020 Dendrokronologisk analys huvudbyggnaden på Stensmålen 1:1, Brokind, Linköpings kommun - komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2020:25. Lund: Lunds universitet'),
             (672, NULL,'Dendrokronologisk analys av Solna kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2018:80. Lund: Lunds universitet', '2018','Linderson, H. & Hansson, A.','Linderson, H. & Hansson, A. 2018 Dendrokronologisk analys av Solna kyrka. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2018:80. Lund: Lunds universitet'),
             (673, NULL,'Dendrokronologisk analys av Sparreska palatset i Stockholm. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2011:61. Lund: Lunds universitet', '2011','Linderson, H.','Linderson, H. 2011 Dendrokronologisk analys av Sparreska palatset i Stockholm. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2011:61. Lund: Lunds universitet'),
             (674, NULL,'Dendrokronologisk analys av Sporrakulla gård i Skåne. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2008:39. Lund: Lunds universitet', '2008','Linderson, H.','Linderson, H. 2008 Dendrokronologisk analys av Sporrakulla gård i Skåne. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2008:39. Lund: Lunds universitet'),
@@ -2604,7 +2624,6 @@ begin
             (728, NULL,'Dendrokronologisk analys från Ytterselö kyrka, Strängnäs stift - komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2019:68. Lund: Lunds universitet', '2019','Linderson, H.','Linderson, H. 2019 Dendrokronologisk analys från Ytterselö kyrka, Strängnäs stift - komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2019:68. Lund: Lunds universitet'),
             (729, NULL,'Dendrokronologisk analys från Ytterselö kyrka, Strängnäs stift. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2018:99. Lund: Lunds universitet', '2018','Linderson, H.','Linderson, H. 2018 Dendrokronologisk analys från Ytterselö kyrka, Strängnäs stift. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2018:99. Lund: Lunds universitet'),
             (730, NULL,'Dendrokronologisk analys från Årdala kyrka, Strängnäs stift. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2019:17. Lund: Lunds universitet', '2019','Linderson, H.','Linderson, H. 2019 Dendrokronologisk analys från Årdala kyrka, Strängnäs stift. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2019:17. Lund: Lunds universitet'),
-            (731, NULL,'Dendrokronologisk analys huvudbyggnaden på Stensmålen 1:1, Brokind, Linköpings kommun - komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2020:25. Lund: Lunds universitet', '2020','Linderson, H.','Linderson, H. 2020 Dendrokronologisk analys huvudbyggnaden på Stensmålen 1:1, Brokind, Linköpings kommun - komplettering. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2020:25. Lund: Lunds universitet'),
             (732, NULL,'Dendrokronologisk analys huvudbyggnaden på Stensmålen 1:1, Brokind, Linköpings kommun. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2019:82. Lund: Lunds universitet', '2019','Linderson, H.','Linderson, H. 2019 Dendrokronologisk analys huvudbyggnaden på Stensmålen 1:1, Brokind, Linköpings kommun. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2019:82. Lund: Lunds universitet'),
             (733, NULL,'Dendrokronologisk analys Onsjöstugan, Kulturen i Lund. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2016:57. Lund: Lunds universitet', '2016','Linderson, H.','Linderson, H. 2016 Dendrokronologisk analys Onsjöstugan, Kulturen i Lund. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2016:57. Lund: Lunds universitet'),
             (734, NULL,'Dendrokronologisk analys på foto av fönsterramen från Ignaberga kyrka i Skåne. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2017:17. Lund: Lunds universitet', '2017','Hansson, A. & Linderson, H.','Hansson, A. & Linderson, H. 2017 Dendrokronologisk analys på foto av fönsterramen från Ignaberga kyrka i Skåne. Nationella laboratoriet för vedanatomi och dendrokronologi rapport 2017:17. Lund: Lunds universitet'),
@@ -2740,6 +2759,9 @@ begin
             from new_data;
 
 
+    --    Table: tbl_value_types
+    -- Note, FK: unit_id (all NULL)
+    --           data_type_id (public SEAD id)
     with new_data ("system_id", "unit_id", "data_type_id", "name", "base_type", "precision", "description") as (
         values
             ('2', null, '19', 'Early/Latewood', 'category', null, 'Dendro: Early/Latewood'),
@@ -2757,6 +2779,9 @@ begin
             	), "unit_id"::int, "data_type_id"::int, "name", "base_type", "precision"::int, "description"
             from new_data;
 
+    --    Table: tbl_value_type_items
+    -- Note, FK: value_type_id (local system id)
+    --           data_type_id (public SEAD id)
     with new_data ("system_id", "value_type_id", "name", "description") as (
         values
             ('1', '2', '-ew', '-ew'),
@@ -2787,31 +2812,36 @@ begin
 				"name", "description"
             from new_data;
 
-    with new_data ("system_id", "method_id", "name", "description", "value_type_id", "parent_id") as (
+    --    Table: tbl_value_classes
+    -- Note, FK: method_id (local system id)
+    --           value_type_id (mix, public SEAD id and local ids, mapped using sub-select)
+    --           parent_id (local system id, one item, seperate update below)
+    with new_data ("system_id", "method_id", "name", "description", "value_type_id", "parent_id", "value_class_uuid") as (
         values
-            ('1', '10', 'Tree species', 'Species name of the tree the sample came from.', '8', null),
-            ('2', '10', 'Tree rings', 'Number of measured tree rings inferred as years.', '1', null),
-            ('3', '10', 'Earlywood/Latewood', 'A notation in case the outermost ring is not complete. +ew in case only earlywood is present, -lw in case some part of the latewood is missing', '2', null),
-            ('4', '10', 'Number of analysed radii.', 'Number of analysed radii.', '1', null),
-            ('5', '10', 'EW/LW measurements', 'Record of whether the earlywood and latewood of each ring has been measured separately.', '3', null),
-            ('6', '10', 'Sapwood (Sp)', 'Number of sapwood rings, which is the outer layers of a tree, between the heartwood and cambium. ', '1', null),
-            ('7', '10', 'Bark (B)', 'Whether bark was present in the sample. ', '3', null),
-            ('8', '10', 'Waney edge (W)', 'The last formed tree ring before felling or sampling. Presence of this represents the last year of growth.', '4', null),
-            ('9', '10', 'Pith (P)', 'Number of rings missing between the core of the tree and the first measured ring. ', '1', null),
-            ('10', '10', 'Tree age ≥', 'The analysed age of the tree.', '5', null),
-            ('11', '10', 'Tree age ≤', 'The analysed age of the tree.', '5', null),
-            ('12', '10', 'Inferred growth year ≥', 'The growth year inferred from the analysed tree rings. ', '6', null),
-            ('13', '10', 'Inferred growth year ≤', 'The growth year inferred from the analysed tree rings. ', '6', null),
-            ('14', '10', 'Estimated felling year', 'The felling year as inferred from the analysed outermost tree-ring date', '10', null),
-            ('15', '10', 'Possible estimated felling year', 'Used for samples where dating has not been succesful but a non-statistically satisfactory dating suggestion is given.', '10', null),
-            ('16', '10', 'Provenance', 'The provenance of the sampled tree, inferred by comparing the sample with others. ', '7', null),
-            ('17', '10', 'Outermost tree-ring date', 'The date of the outermost tree-ring', '10', null),
-            ('18', '10', 'Not dated', 'Used to mark samples as not having been succesfully dated, i. e. analysed but not dated', '3', null),
-            ('19', '10', 'Date note', 'Notes on  a sample.', '7', null),
-            ('20', '10', 'Provenance comment', 'Comments on the provenance of a sample', '7', null),
-            ('21', '10', 'Non-measured tree rings', 'Estimated number of non-measured tree rings outside the outermost measured tree ring.', '1', null),
-            ('22', '10', 'Non-measured sapwood rings', 'Estimated number of non-measured sapwood rings outside the outermost measured tree ring1', '1', null),
-            ('23', '10', 'Sapwood indicator', 'Indicates if sample has sapwood, which is the outer layers of a tree, between the heartwood and cambium. ', '1', '6')
+            ('1', '10', 'Tree species', 'Species name of the tree the sample came from.', '8', null, 'e91f6663-81db-4e93-8796-bbd6b41a25c1'),
+            ('2', '10', 'Tree rings', 'Number of measured tree rings inferred as years.', '1', null, '25cdd49c-2ca6-4d03-a0f4-694c82258369'),
+            ('3', '10', 'Earlywood/Latewood', 'A notation in case the outermost ring is not complete. +ew in case only earlywood is present, -lw in case some part of the latewood is missing', '2', null, 'a1fed70d-6da2-4320-87fb-113732a82ee5'),
+            ('4', '10', 'Number of analysed radii.', 'Number of analysed radii.', '1', null, '5113f29d-57a3-4928-9237-0d9502618cc0'),
+            ('5', '10', 'EW/LW measurements', 'Record of whether the earlywood and latewood of each ring has been measured separately.', '3', null, '6fef511c-07a0-41b9-a976-5c68b48b5b80'),
+            ('6', '10', 'Sapwood (Sp)', 'Number of sapwood rings, which is the outer layers of a tree, between the heartwood and cambium. ', '1', null, '23d580ef-d212-49f0-9910-7366ee8f25b0'),
+            ('7', '10', 'Bark (B)', 'Whether bark was present in the sample. ', '3', null, 'c535110c-0108-4eed-932b-f90c3cfef633'),
+            ('8', '10', 'Waney edge (W)', 'The last formed tree ring before felling or sampling. Presence of this represents the last year of growth.', '4', null, '5a0366ae-76e7-459d-b95a-903e9b97a9c6'),
+            ('9', '10', 'Pith (P)', 'Number of rings missing between the core of the tree and the first measured ring. ', '1', null, 'de6bce6f-9f4b-409f-a3d6-130958758383'),
+            ('10', '10', 'Tree age ≥', 'The analysed age of the tree.', '5', null, 'a0dd5700-7a41-4530-9efd-d4d2219d2154'),
+            ('11', '10', 'Tree age ≤', 'The analysed age of the tree.', '5', null, '530f1a2d-ba47-45ea-8ba9-0d1a41a00ec7'),
+            ('12', '10', 'Inferred growth year ≥', 'The growth year inferred from the analysed tree rings. ', '6', null, '4264a242-d581-425c-820c-51dae483244d'),
+            ('13', '10', 'Inferred growth year ≤', 'The growth year inferred from the analysed tree rings. ', '6', null, '9306c8db-9a12-4379-9925-b86b50cd2d57'),
+            ('14', '10', 'Estimated felling year', 'The felling year as inferred from the analysed outermost tree-ring date', '10', null, '3a928609-1dba-461f-98ce-1085ea513f77'),
+            ('15', '10', 'Possible estimated felling year', 'Used for samples where dating has not been succesful but a non-statistically satisfactory dating suggestion is given.', '10', null, '2682ee41-22de-4c74-8bf6-4867ef32543d'),
+            ('16', '10', 'Provenance', 'The provenance of the sampled tree, inferred by comparing the sample with others. ', '7', null, 'cba67f6e-bbbd-47d8-9ba1-641a281a2e06'),
+            ('17', '10', 'Outermost tree-ring date', 'The date of the outermost tree-ring', '10', null, '489f7bd6-7c90-459f-bf7d-bca3a256a09a'),
+            ('18', '10', 'Not dated', 'Used to mark samples as not having been succesfully dated, i. e. analysed but not dated', '3', null, '783b5ff4-6a5c-4a00-b396-c3970fd5d970'),
+            ('19', '10', 'Date note', 'Notes on  a sample.', '7', null, '2e88660a-a424-48af-857e-9f01111e3dd2'),
+            ('20', '10', 'Provenance comment', 'Comments on the provenance of a sample', '7', null, 'd98d7639-645e-4d1b-ba65-06e89b7bc707'),
+            ('21', '10', 'Non-measured tree rings', 'Estimated number of non-measured tree rings outside the outermost measured tree ring.', '1', null, '209992ce-7a4b-4c4f-886e-f165274fff5a'),
+            ('22', '10', 'Non-measured sapwood rings', 'Estimated number of non-measured sapwood rings outside the outermost measured tree ring1', '1', null, '38ab85b8-db10-4239-a871-2f0925c1c46b'),
+            ('23', '10', 'Sapwood indicator', 'Indicates if sample has sapwood, which is the outer layers of a tree, between the heartwood and cambium. ', '1', '6', 'a3d23d88-2fb9-4c5e-a062-bcd5c7ad1d75'),
+            ('24', '10', 'Innermost tree-ring date', 'The date of the innermost tree-ring', '10', null, '7bf2d426-abc6-431f-9884-d53a694945ff')
         ), value_types ("system_id", "public_id") as (
 			values
                 (0, 0),
@@ -2838,7 +2868,7 @@ begin
                 (9, 9),
                 (10, 10)
 	    )
-    	    insert into tbl_value_classes ("value_class_id", "method_id", "name", "description", "value_type_id", "parent_id")
+    	    insert into tbl_value_classes ("value_class_id", "method_id", "name", "description", "value_type_id", "parent_id", "value_class_uuid")
             select 
                 sead_utility.allocate_system_id(
 	                v_submission_identifier,
@@ -2852,10 +2882,19 @@ begin
 				n."name",
 				n."description", 
 				vt."public_id",
-                n."parent_id"::int
+                NULL::int,
+                n."value_class_uuid"::uuid
             from new_data n
             join value_types vt
               on n."value_type_id" = vt."system_id"::text;
+
+    update tbl_value_classes
+        set parent_id = sead_utility.get_allocated_id(
+            v_submission_identifier, v_change_request_identifier, 'tbl_value_classes', 'value_class_id', '6'
+        )
+    where value_class_id = sead_utility.get_allocated_id(
+            v_submission_identifier, v_change_request_identifier, 'tbl_value_classes', 'value_class_id', '23'
+        );
 
     -- Update of existing data (see https://github.com/humlab-sead/sead_change_control/issues/312)
     with new_data ("project_stage_id", "stage_name", "description") as (
