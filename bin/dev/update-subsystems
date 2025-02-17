@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+if [ "$root_folder" == "" ]; then
+    root_folder=$(git rev-parse --show-toplevel)
+fi
+
+clearinghouse_folder=$root_folder/../sead_clearinghouse
+
+bin/deploy-clearinghouse --mode update --sql-folder $clearinghouse_folder/src/sql/ --no-create-issue --force
+bin/deploy-clearinghouse-commit --mode update --sql-folder $clearinghouse_folder/transport_system/ --force --on-schema-exists drop
+
