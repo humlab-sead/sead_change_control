@@ -481,7 +481,7 @@ create or replace procedure clearing_house_commit.resolve_primary_keys(
     p_submission_id int,
     p_schema_name text,
     p_cr_name text = null,  -- name of CR if keys are pre-allocated 
-    p_dry_run boolean = false,
+    p_dry_run boolean = false
 ) as $$
     declare v_schema_name character varying;
         v_table_name character varying;
