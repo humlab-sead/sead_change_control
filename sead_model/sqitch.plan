@@ -5,7 +5,7 @@
 SEAD_DATABASE_MODEL 2023-12-20T15:26:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/217: SEAD database model (public schema)
 SEAD_DATABASE_LOOKUPS 2023-12-20T20:33:57Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/220: Initial set of lookup values in the SEAD database
 
-20240104_DDL_DATE_SUBMITTED_TYPE 2024-01-04T11:03:15Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/228: Changed type of date_submitted to text
+20240104_DDL_DATE_SUBMITTED_TYPE 2024-01-04T11:03:15Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/228: Changed type of date_submitted to text
 
 @2000.00 2019-12-13T15:38:32Z Roger Mähler <roger.mahler@umu.se> # Initial SEAD model
 
@@ -13,12 +13,13 @@ SEAD_DATABASE_LOOKUPS 2023-12-20T20:33:57Z Roger Mähler <roger.mahler@umu.se> #
 @2019.12 2019-12-13T15:38:32Z Roger Mähler <roger.mahler@umu.se> # December 2019 release
 
 
-20240530_DDL_UDF_DROP_DEPRECATED_TABLES 2024-05-31T09:43:28Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/70: Drop deprecated dendro/ceramics tables
+20240530_DDL_UDF_DROP_DEPRECATED_TABLES 2024-05-31T09:43:28Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/70: Drop deprecated dendro/ceramics tables
 20240404_DDL_ADD_AGES_NUMRANGE 2024-05-31T13:33:38Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/286:  # https://github.com/humlab-sead/sead_change_control/issues/: Add analysis entity aged range.
 
-20240924_DDL_MEASURED_VALUES_REFACTOR 2024-09-25T12:19:00Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/319: Refactor of measured value DB model to make it more generic
-20240924_DML_MEASURED_VALUES_LOOKUPS 2024-11-18T13:18:02Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/330: Initial generic metadata for analysis values
-20241025_DIMENSIONS_ALTER_TYPE 2024-10-25T12:05:40Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/323: Increase size of descriptive field in dimensions
+20240924_DDL_MEASURED_VALUES_REFACTOR 2024-09-25T12:19:00Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/319: Refactor of measured value DB model to make it more generic
+20240924_DML_MEASURED_VALUES_LOOKUPS 2024-11-18T13:18:02Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/330: Initial generic metadata for analysis values
+20240925_DDL_SAMPLE_DIMENSION_QUALIFIER 2025-02-19T13:42:47Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/356: Add qualifier to sample dimension values
+20241025_DIMENSIONS_ALTER_TYPE 2024-10-25T12:05:40Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/323: Increase size of descriptive field in dimensions
 
 @2024.12 2024-11-29T12:00:00Z Roger Mähler <roger.mahler@umu.se> # 2024 December release
 
