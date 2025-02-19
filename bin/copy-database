@@ -10,7 +10,7 @@ g_force=no
 g_allow_deploy_to_production=no
 g_sync_sequences=no
 g_host=$(dnsdomainname -A)
-g_port=5432
+g_port=5433
 g_user=
 g_verbose=no
 
