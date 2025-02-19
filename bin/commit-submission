@@ -213,7 +213,7 @@ function generate_data() {
     local sql="
         do \$\$
         begin
-            call clearing_house_commit.resolve_primary_keys(${submission_id}, 'public', FALSE);
+            call clearing_house_commit.resolve_primary_keys(${submission_id}, 'public', null, FALSE);
         end \$\$ language plpgsql;
 ";
 
