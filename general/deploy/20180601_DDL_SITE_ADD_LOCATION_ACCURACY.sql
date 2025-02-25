@@ -9,7 +9,7 @@
   Reviewer
   Approver
   Idempotent    Yes
-  Notes
+  Notes         Backported to SEAD_DATABASE_MODEL
 *****************************************************************************************************************/
 
 begin;
@@ -18,14 +18,16 @@ do $$
 begin
 	begin
     
-        if sead_utility.column_exists('public'::text, 'tbl_sites'::text, 'site_location_accuracy'::text) = true then
-            raise exception sqlstate 'GUARD';
-        end if;
-        
-        alter table "tbl_sites" add column "site_location_accuracy" varchar collate "pg_catalog"."default";
+        raise notice 'Backported to SEAD_DATABASE_MODEL';
 
-        comment on column "tbl_sites"."site_location_accuracy"
-            is 'accuracy of highest location resolution level. e.g. nearest settlement, lake, bog, ancient monument, approximate';
+        -- if sead_utility.column_exists('public'::text, 'tbl_sites'::text, 'site_location_accuracy'::text) = true then
+        --     raise exception sqlstate 'GUARD';
+        -- end if;
+        
+        -- alter table "tbl_sites" add column "site_location_accuracy" varchar collate "pg_catalog"."default";
+
+        -- comment on column "tbl_sites"."site_location_accuracy"
+        --     is 'accuracy of highest location resolution level. e.g. nearest settlement, lake, bog, ancient monument, approximate';
 
     exception when sqlstate 'GUARD' then
         raise notice 'already executed';

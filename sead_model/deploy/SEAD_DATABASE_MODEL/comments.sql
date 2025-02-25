@@ -101,6 +101,7 @@ comment on column "public"."tbl_sample_groups"."method_id" is 'sampling method, 
 comment on column "public"."tbl_sample_groups"."sample_group_name" is 'Name which identifies the collection of samples. For ceramics, use vessel number.';
 comment on column "public"."tbl_sample_notes"."note_type" is 'origin of the note, e.g. field note, lab note';
 comment on column "public"."tbl_sample_notes"."note" is 'note contents';
+comment on column "public"."tbl_sites"."site_location_accuracy" is 'accuracy of highest location resolution level. e.g. nearest settlement, lake, bog, ancient monument, approximate'
 comment on column "public"."tbl_site_natgridrefs"."method_id" is 'points to coordinate system.';
 comment on table "public"."tbl_site_natgridrefs" is '20120507pib: removed tbl_national_grids and trasfered storage of coordinate systems to tbl_methods';
 comment on column "public"."tbl_site_other_records"."biblio_id" is 'reference to publication containing data';

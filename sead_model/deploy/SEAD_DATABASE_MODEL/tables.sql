@@ -900,6 +900,7 @@ CREATE TABLE "public"."tbl_sites" (
   "site_description" text COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
   "site_name" varchar(50) COLLATE "pg_catalog"."default" DEFAULT NULL::character varying,
   "site_preservation_status_id" int4,
+  "site_location_accuracy" varchar collate "pg_catalog"."default",
   "date_updated" timestamp with time zone DEFAULT now()
 );
 CREATE TABLE "public"."tbl_species_association_types" (
