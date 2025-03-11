@@ -28,3 +28,5 @@
 20241031_DML_MIGRATE_DENDRO_SUBMISSION 2024-10-31T14:56:59Z Roger Mähler <roger.mahler@umu.se> # # https://github.com/humlab-sead/sead_change_control/issues/326: Migrate old dendro data to new refactored model.
 
 @2025.02 2025-01-29T12:00:00Z Roger Mähler <roger.mahler@umu.se> # 2025 February release
+
+20241213_DML_LUND_LIVING_TREES_COMMIT 2025-03-06T13:13:29Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/332: Data from living trees from the Lund dendro lab
