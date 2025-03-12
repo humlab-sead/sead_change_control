@@ -480,24 +480,33 @@ begin;
             --         or parent_mb > 10 )
         order by issue_sort, table_mb desc, table_name, fk_name;
 
-        create or replace function sead_utility.pascal_case_to_underscore(p_token character varying) returns character varying
-        as $$
-        begin
-            return lower(regexp_replace(p_token,'([[:lower:]]|[0-9])([[:upper:]]|[0-9]$)','\1_\2','g'));
-        end 
-        $$ language 'plpgsql';
+    create or replace function sead_utility.pascal_case_to_underscore(p_token character varying) returns character varying
+    as $$
+    begin
+        return lower(regexp_replace(p_token,'([[:lower:]]|[0-9])([[:upper:]]|[0-9]$)','\1_\2','g'));
+    end 
+    $$ language 'plpgsql';
 
-        create or replace function sead_utility.underscore_to_pascal_case(str text, lower_first bool=false) returns text as $$
-        declare v_result text;
-        begin
-            v_result = replace(initcap(str), '_', '');
-            if lower_first = true then
-                v_result = concat(lower(substring(v_result from 1 for 1)), substring(v_result from 2));
-            end if;
-            return v_result;
-        end;
-        $$ language plpgsql;
+    create or replace function sead_utility.underscore_to_pascal_case(str text, lower_first bool=false) returns text as $$
+    declare v_result text;
+    begin
+        v_result = replace(initcap(str), '_', '');
+        if lower_first = true then
+            v_result = concat(lower(substring(v_result from 1 for 1)), substring(v_result from 2));
+        end if;
+        return v_result;
+    end;
+    $$ language plpgsql;
 
+    create or replace function sead_utility.underscore_to_entity_name(p_str text, p_sep text default '')
+        returns text
+    as $body$
+            declare v_result text;
+            begin
+                v_result = replace(initcap(replace(p_str, 'tbl_', '')), '_', coalesce(p_sep, ''));
+                return v_result;
+            end;
+    $body$ language 'plpgsql';
 
     create or replace function sead_utility.chown(in_schema character varying, new_owner character varying)
         returns void as $$
