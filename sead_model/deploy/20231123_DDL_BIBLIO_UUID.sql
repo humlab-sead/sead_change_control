@@ -50,242 +50,225 @@
 
 *****************************************************************************************************************/
 
+create or replace view sead_utility._temp_view_cr_20231123_ddl_biblio_uuid as
+		with table_data (table_name, id_name, uuid_name) as (
+			values
+				('tbl_biblio', 'biblio_id', 'biblio_uuid'),
+				('tbl_aggregate_datasets', 'aggregate_dataset_id', 'aggregate_dataset_uuid'),
+				('tbl_dataset_masters', 'master_set_id', 'master_set_uuid'),
+				('tbl_datasets', 'dataset_id', 'dataset_uuid'),
+				('tbl_ecocode_systems', 'ecocode_system_id', 'ecocode_system_uuid'),
+				('tbl_methods', 'method_id', 'method_uuid'),
+				('tbl_rdb_systems', 'rdb_system_id', 'rdb_system_uuid'),
+				('tbl_taxonomy_notes', 'taxonomy_notes_id', 'taxonomy_notes_uuid'),
+				('tbl_text_biology', 'biology_id', 'biology_uuid'),
+				('tbl_text_distribution', 'distribution_id', 'distribution_uuid'),
+				('tbl_text_identification_keys', 'key_id', 'key_uuid'),
+				('tbl_relative_ages', 'relative_age_id', 'relative_age_uuid'),
+				('tbl_sites', 'site_id', 'site_uuid'),
+				('tbl_sample_groups', 'sample_group_id', 'sample_group_uuid'),
+				('tbl_geochronology', 'geochron_id', 'geochron_uuid'),
+				('tbl_taxonomic_order_systems', 'taxonomic_order_system_id', 'taxonomic_order_system_uuid'),
+				('tbl_tephras', 'tephra_id', 'tephra_uuid'),
+				('tbl_site_other_records', 'site_other_records_id', 'site_other_records_uuid'),
+				('tbl_species_associations', 'species_association_id', 'species_association_uuid'),
+				('tbl_taxa_synonyms', 'synonym_id', 'synonym_uuid')
+		) select table_name, id_name, uuid_name
+		  from table_data;
+
+create or replace procedure sead_utility._temp_cr_20231123_ddl_biblio_uuid(p_schema_name text) as $$
+declare 
+    v_table_name text;
+    v_uuid_name text;
+    v_sql_stmt text;
+begin
+	/* Add UUID columns to the tables that explicitly or impliciltly references bibliographic references */
+	for v_table_name, v_uuid_name in (
+		select table_name, uuid_name
+		from sead_utility._temp_view_cr_20231123_ddl_biblio_uuid
+	) loop
+		if not sead_utility.column_exists(p_schema_name, v_table_name, v_uuid_name) then
+			v_sql_stmt := format(
+				'alter table %1$I.%2$I 
+					add column if not exists %3$I uuid not null default uuid_generate_v4(),
+					add constraint unique_%2$I_%3$I unique (%3$I);',
+				p_schema_name, v_table_name, v_uuid_name
+			);
+			execute v_sql_stmt;
+		end if;
+    end loop;
+end $$ language plpgsql;
+
+
+create or replace procedure sead_utility._temp_cr_20231123_ddl_biblio_uuid_update_clearinghouse_uuids() as $$
+declare 
+    v_table_name text;
+    v_id_name text;
+    v_uuid_name text;
+    v_sql_stmt text;
+begin
+	/* Sync the clearing house tables with UUIDs that already exist in the public database */
+	for v_table_name, v_id_name, v_uuid_name in (
+		select table_name, id_name, uuid_name
+		from sead_utility._temp_view_cr_20231123_ddl_biblio_uuid
+	) loop
+		v_sql_stmt := format(
+			'update clearing_house.%1$I set %3$I = public.%1$I.%3$I
+			 from public.%1$I
+			 where clearing_house.%1$I.transport_id = public.%1$I.%2$I;',
+			v_table_name, v_id_name, v_uuid_name 
+		);
+		-- raise notice '%', v_sql_stmt;
+		execute v_sql_stmt;
+    end loop;
+end $$ language plpgsql;
+
 set role sead_master;
 
 begin;
 
 do $$
 begin
-
-        begin
-
-            if sead_utility.column_exists('public', 'tbl_biblio', 'biblio_uuid') then
-                raise exception sqlstate 'GUARD';
-            end if;
-					
-			alter table tbl_biblio
-				add column if not exists biblio_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_biblio_uuid unique (biblio_uuid);
-
-			alter table tbl_aggregate_datasets
-				add column if not exists aggregate_dataset_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_aggregate_datasets unique (aggregate_dataset_uuid);
-				
-			alter table tbl_dataset_masters
-				add column if not exists master_set_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_dataset_masters unique (master_set_uuid);
-
-			alter table tbl_datasets
-				add column if not exists dataset_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_datasets unique (dataset_uuid);
-
-			alter table tbl_ecocode_systems
-				add column if not exists ecocode_system_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_ecocode_systems unique (ecocode_system_uuid);
-
-			alter table tbl_methods
-				add column if not exists method_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_methods unique (method_uuid);
-
-			alter table tbl_rdb_systems
-				add column if not exists rdb_system_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_rdb_systems unique (rdb_system_uuid);
-
-			alter table tbl_taxonomy_notes
-				add column if not exists taxonomy_notes_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_taxonomy_notes unique (taxonomy_notes_uuid);
-
-			alter table tbl_text_biology
-				add column if not exists biology_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_text_biology unique (biology_uuid);
-
-			alter table tbl_text_distribution
-				add column if not exists distribution_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_text_distribution unique (distribution_uuid);
-
-			alter table tbl_text_identification_keys
-				add column if not exists key_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_text_identification_keys unique (key_uuid);
-
-			alter table tbl_relative_ages
-				add column if not exists relative_age_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_relative_ages unique (relative_age_uuid);
-
-			alter table tbl_sites
-				add column if not exists site_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_sites unique (site_uuid);
-
-			alter table tbl_sample_groups
-				add column if not exists sample_group_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_sample_groups unique (sample_group_uuid);
-
-			alter table tbl_geochronology
-				add column if not exists geochron_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_geochronology unique (geochron_uuid);
-
-			alter table tbl_taxonomic_order_systems
-				add column if not exists taxonomic_order_system_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_taxonomic_order_systems unique (taxonomic_order_system_uuid);
-
-			alter table tbl_tephras
-				add column if not exists tephra_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_tephras unique (tephra_uuid);
-
-			alter table tbl_site_other_records
-				add column if not exists site_other_records_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_site_other_records unique (site_other_records_uuid);
-
-			alter table tbl_species_associations
-				add column if not exists species_association_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_species_associations unique (species_association_uuid);
-
-			alter table tbl_taxa_synonyms
-				add column if not exists synonym_uuid UUID not null default uuid_generate_v4(),
-				add constraint pk_tbl_taxa_synonyms unique (synonym_uuid);
-
-        exception when sqlstate 'GUARD' then
-            raise notice 'ALREADY EXECUTED';
-        end;
-
+	call sead_utility._temp_cr_20231123_ddl_biblio_uuid('public');
 end $$;
 
 
-	-- drop table if exists bibliography_references;
+-- drop table if exists bibliography_references;
 
-	-- create table if not exists bibliography_references (
-	-- 	uuid UUID not null,
-	-- 	biblio_uuid UUID not null,
-	-- 	primary key (uuid, biblio_uuid),
-	-- 	constraint fk_bibliography_references_tbl_biblio_uuid foreign key (biblio_uuid)
-	-- 	  references public.tbl_biblio (biblio_uuid) match simple
-	-- 		on update no action
-	-- 		on delete no action
-	-- );
+-- create table if not exists bibliography_references (
+-- 	uuid UUID not null,
+-- 	biblio_uuid UUID not null,
+-- 	primary key (uuid, biblio_uuid),
+-- 	constraint fk_bibliography_references_tbl_biblio_uuid foreign key (biblio_uuid)
+-- 	  references public.tbl_biblio (biblio_uuid) match simple
+-- 		on update no action
+-- 		on delete no action
+-- );
+
+-- delete from bibliography_references;
+
+-- insert into bibliography_references (uuid, biblio_uuid)
+-- 	select uuid, biblio_uuid
+-- 	from view_bibliography_references;
+
+create or replace view view_bibliography_references as
+	select e.dataset_uuid as uuid, b.biblio_uuid
+	from tbl_datasets e
+	join tbl_biblio b using (biblio_id)
 	
-	-- delete from bibliography_references;
-
-	-- insert into bibliography_references (uuid, biblio_uuid)
-	-- 	select uuid, biblio_uuid
-	-- 	from view_bibliography_references;
-
-	create or replace view view_bibliography_references as
-		select e.dataset_uuid as uuid, b.biblio_uuid
-		from tbl_datasets e
-		join tbl_biblio b using (biblio_id)
+	union
 		
-		union
-			
-		select e.rdb_system_uuid as uuid, b.biblio_uuid
-		from tbl_rdb_systems e
-		join tbl_biblio b using (biblio_id)
+	select e.rdb_system_uuid as uuid, b.biblio_uuid
+	from tbl_rdb_systems e
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.sample_group_uuid as uuid, b.biblio_uuid
-		from tbl_sample_group_references r
-		join tbl_sample_groups e using (sample_group_id)
-		join tbl_biblio b using (biblio_id)
+	select e.sample_group_uuid as uuid, b.biblio_uuid
+	from tbl_sample_group_references r
+	join tbl_sample_groups e using (sample_group_id)
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.relative_age_uuid as uuid, b.biblio_uuid
-		from tbl_relative_age_refs r
-		join tbl_relative_ages e using (relative_age_id)
-		join tbl_biblio b using (biblio_id)
+	select e.relative_age_uuid as uuid, b.biblio_uuid
+	from tbl_relative_age_refs r
+	join tbl_relative_ages e using (relative_age_id)
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.taxonomy_notes_uuid as uuid, b.biblio_uuid
-		from tbl_taxonomy_notes e
-		join tbl_biblio b using (biblio_id)
+	select e.taxonomy_notes_uuid as uuid, b.biblio_uuid
+	from tbl_taxonomy_notes e
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.species_association_uuid as uuid, b.biblio_uuid
-		from tbl_species_associations e
-		join tbl_biblio b using (biblio_id)
+	select e.species_association_uuid as uuid, b.biblio_uuid
+	from tbl_species_associations e
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.distribution_uuid as uuid, b.biblio_uuid
-		from tbl_text_distribution e
-		join tbl_biblio b using (biblio_id)
+	select e.distribution_uuid as uuid, b.biblio_uuid
+	from tbl_text_distribution e
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.tephra_uuid as uuid, b.biblio_uuid
-		from tbl_tephra_refs r
-		join tbl_tephras e using (tephra_id)
-		join tbl_biblio b using (biblio_id)
+	select e.tephra_uuid as uuid, b.biblio_uuid
+	from tbl_tephra_refs r
+	join tbl_tephras e using (tephra_id)
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.ecocode_system_uuid as uuid, b.biblio_uuid
-		from tbl_ecocode_systems e
-		join tbl_biblio b using (biblio_id)
+	select e.ecocode_system_uuid as uuid, b.biblio_uuid
+	from tbl_ecocode_systems e
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.master_set_uuid as uuid, b.biblio_uuid
-		from tbl_dataset_masters e
-		join tbl_biblio b using (biblio_id)
+	select e.master_set_uuid as uuid, b.biblio_uuid
+	from tbl_dataset_masters e
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.site_other_records_uuid as uuid, b.biblio_uuid
-		from tbl_site_other_records e
-		join tbl_biblio b using (biblio_id)
+	select e.site_other_records_uuid as uuid, b.biblio_uuid
+	from tbl_site_other_records e
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.key_uuid as uuid, b.biblio_uuid
-		from tbl_text_identification_keys e
-		join tbl_biblio b using (biblio_id)
+	select e.key_uuid as uuid, b.biblio_uuid
+	from tbl_text_identification_keys e
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.geochron_uuid as uuid, b.biblio_uuid
-		from tbl_geochron_refs r
-		join tbl_geochronology e using (geochron_id)
-		join tbl_biblio b using (biblio_id)
+	select e.geochron_uuid as uuid, b.biblio_uuid
+	from tbl_geochron_refs r
+	join tbl_geochronology e using (geochron_id)
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.site_uuid as uuid, b.biblio_uuid
-		from tbl_site_references r
-		join tbl_sites e using (site_id)
-		join tbl_biblio b using (biblio_id)
+	select e.site_uuid as uuid, b.biblio_uuid
+	from tbl_site_references r
+	join tbl_sites e using (site_id)
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.synonym_uuid as uuid, b.biblio_uuid
-		from tbl_taxa_synonyms e
-		join tbl_biblio b using (biblio_id)
+	select e.synonym_uuid as uuid, b.biblio_uuid
+	from tbl_taxa_synonyms e
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.biology_uuid as uuid, b.biblio_uuid
-		from tbl_text_biology e
-		join tbl_biblio b using (biblio_id)
+	select e.biology_uuid as uuid, b.biblio_uuid
+	from tbl_text_biology e
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.aggregate_dataset_uuid as uuid, b.biblio_uuid
-		from tbl_aggregate_datasets e
-		join tbl_biblio b using (biblio_id)
+	select e.aggregate_dataset_uuid as uuid, b.biblio_uuid
+	from tbl_aggregate_datasets e
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.taxonomic_order_system_uuid as uuid, b.biblio_uuid
-		from tbl_taxonomic_order_biblio r
-		join tbl_taxonomic_order_systems e using (taxonomic_order_system_id)
-		join tbl_biblio b using (biblio_id)
+	select e.taxonomic_order_system_uuid as uuid, b.biblio_uuid
+	from tbl_taxonomic_order_biblio r
+	join tbl_taxonomic_order_systems e using (taxonomic_order_system_id)
+	join tbl_biblio b using (biblio_id)
+	
+	union
 		
-		union
-			
-		select e.method_uuid as uuid, b.biblio_uuid
-		from tbl_methods e
-		join tbl_biblio b using (biblio_id);
+	select e.method_uuid as uuid, b.biblio_uuid
+	from tbl_methods e
+	join tbl_biblio b using (biblio_id);
 
 commit;
 
@@ -297,11 +280,19 @@ do $$
 begin
 	/* We need to update the clearinghouse commit UDFs to include the new columns */
 	/* FIXME: We should also update the clearinghouse schema to include the new columns */
+	call sead_utility._temp_cr_20231123_ddl_biblio_uuid('clearing_house');
+	call sead_utility._temp_cr_20231123_ddl_biblio_uuid_update_clearinghouse_uuids();
+
     perform clearing_house_commit.generate_sead_tables();
     perform clearing_house_commit.generate_resolve_functions('public', false);
+
 end $$ language plpgsql;
 
 reset role;
+
+drop view sead_utility._temp_view_cr_20231123_ddl_biblio_uuid;
+drop procedure sead_utility._temp_cr_20231123_ddl_biblio_uuid(p_schema_name text);
+drop procedure sead_utility._temp_cr_20231123_ddl_biblio_uuid_update_clearinghouse_uuids();
 
 /**********************************************************************************
 ** Generate ADD COLUMN SQL
