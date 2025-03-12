@@ -214,7 +214,7 @@ New script `create-bugs-sync-script`
 - The script is located in folder `bugs/bugs-import-sync`.
 - This script uses Devart dbForge DataCompare and msut be run from within WSL2 on a computer with this application installed.
 
-New script `add-submission-change-request`
+New script `commit-submission`
 
 - This script bundles a data submission residing in `ready-to-commit` state in the SEAD Clearing House System.
 - The script originates from SEAD Clearing House system but has been improved and made more resilient. ([8ffa495](https://github.com/humlab-sead/sead_change_control/commit/8ffa4954a5291a5bd03011658b44412fa653bfb6)) ... ([e504177](https://github.com/humlab-sead/sead_change_control/commit/e504177e262002647fc65c6767f08abe6ff1c0d4))
@@ -349,7 +349,7 @@ same as
       ```
       PYTHONPATH=. python importer/scripts/import_excel.py \
          data/input/building_dendro_2023-12_import_v6.xlsx --no-timestamp --database sead_staging_202212 --register
-            --explode --data-types dendrochronology --transfer-format csv
+            --explode --data-types dendrochronology --name 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT --transfer-format csv
       ```
 
    - Using Clearing House `https://`, verify the submitted data.
@@ -357,7 +357,7 @@ same as
    - Using `sead_change_control`, bundle submitted data into a CR
 
       ```
-      bin/add-submission-change-request --id 5 --database sead_staging_202212 --project dendrochronology --note "Dendrochronology V6"
+      bin/commit-submission --id 5 --database sead_staging_202212 --project dendrochronology --note "Dendrochronology V6"
       ```
 
 1. Using `sead_change_control` deploy new `sead_staging` databases:
