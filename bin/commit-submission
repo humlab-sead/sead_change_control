@@ -15,7 +15,7 @@ g_host=
 g_user=
 g_port=5433
 g_database=
-g_submission_id=0
+g_id_or_name=0
 g_project=
 g_force=0
 g_mode=dryrun
@@ -53,7 +53,7 @@ function usage() {
     echo "               only_data        Only generate data, do not create a change request"
     echo "               list             Only list available open submissions"
     echo "       --database DBNAME        Target database (mandatory)"
-    echo "       --id ID                  Submission's identity (mandatory)"
+    echo "       --id|--source-id ID      Submission's name or identity (mandatory for dump)"
     echo "       --project PROJECT        Target change control project (mandatory)"
 
     echo "  non-mandatory option:"
@@ -102,8 +102,8 @@ do
             g_database="$2";
             shift 2;
         ;;
-        --id|-i|--submission-id)
-            g_submission_id="$2";
+        --id|-i|--source-id|--submission-id|--submission-name)
+            g_id_or_name="$2";
             shift 2;
         ;;
         --project|-C|--plan-file)
@@ -157,7 +157,7 @@ function print_options()
         echo "notice: dry run, no changes will be made"
         echo "  g_mode: $g_mode"
         echo "  g_date: $g_date"
-        echo "  g_submission_id: $g_submission_id"
+        echo "  g_id_or_name: $g_id_or_name"
         echo "  g_project: $g_project"
         echo "  g_cr_name: $g_cr_name"
         echo "  g_work_folder: $g_work_folder"
@@ -184,7 +184,12 @@ function dbexec() {
 }
 
 function get_datatype() {
-    local dt_sql="select min(data_types) from clearing_house.tbl_clearinghouse_submissions where submission_id = $g_submission_id"
+    local id_or_name=$1
+    local dt_sql="
+        select min(data_types)
+        from clearing_house.tbl_clearinghouse_submissions
+        where $id_or_name::text in (submission_id::text, submission_name);
+    " 
     local dt_x=`psql -h $g_host -U $g_user -d $g_database -p $g_port -X -A -t -c "$dt_sql"`
     local dt_x=${dt_x/ /_}
     if [ "$dt_x" == "" ]; then
@@ -194,12 +199,30 @@ function get_datatype() {
     echo "$dt_x"
 }
 
+function get_submission_id_by_name() {
+    local database=$1
+    local submission_name=$2
+    local sql="
+        select submission_id
+        from clearing_house.tbl_clearinghouse_submissions
+        where submission_name = '$submission_name'
+        limit 1;
+    "
+    echo $(psql -h $g_host -U $g_user -d $database -p $g_port -tAc "$sql")
+}
+
 function generate_cr_name() {
-    local day=$1
-    local zid=`printf "%03d" ${g_submission_id}`
-    local dt_y=`get_datatype`
-    local cr_x="${day}_DML_SUBMISSION_${dt_y^^}_${zid}_COMMIT"
-    echo "${cr_x^^}"
+    local id_or_name=$1
+    local day=$2
+
+    if [[ ! "$id_or_name" =~ ^-?[0-9]+$ ]]; then
+        echo "$id_or_name"
+    else
+        local zid=`printf "%03d" ${id_or_name}`
+        local cr_x="${day}_DML_SUBMISSION_${dt_y^^}_${zid}_COMMIT"
+        local dt_y=`get_datatype $id_or_name`
+        echo "${cr_x^^}"
+    fi
 }
 
 function generate_data() {
@@ -425,8 +448,8 @@ function check_setup() {
         return
     fi
 
-    if [ "$g_submission_id" == "0" ]; then
-        usage "submission id must be specified (--id)";
+    if [ "$g_id_or_name" == "0" ]; then
+        usage "submission id or name must be specified (--id)";
     fi
 
     if [ "$g_mode" == "only_data" ]; then
@@ -451,11 +474,17 @@ fi
 check_setup
 
 if [ "$g_cr_name" == "" ]; then
-    g_cr_name=`generate_cr_name $g_date`
+    g_cr_name=$(generate_cr_name $g_id_or_name $g_date)
+fi
+
+if [[ ! "$g_id_or_name" =~ ^-?[0-9]+$ ]]; then
+    g_submission_id=`get_submission_id_by_name "$g_database" "$g_id_or_name"`
+else
+    g_submission_id=$g_id_or_name
 fi
 
 g_work_folder="$g_work_folder/$g_cr_name"
-g_work_file=$g_work_folder/${g_cr_name}.sql
+g_work_file="$g_work_folder/${g_cr_name}.sql"
 
 if [ "$g_mode" != "new_or_update" ]; then
     if  [ -f "$g_project/deploy/$g_cr_name.sql" ]; then
