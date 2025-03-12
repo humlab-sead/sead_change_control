@@ -1,0 +1,167 @@
+#!/bin/bash
+
+. $(dirname "$0")/utility.sh
+
+SHELL=/bin/bash
+
+export PGCLIENTENCODING=UTF8
+
+set -e
+
+script_dir=$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+script_name=`basename "$0"`
+
+g_host=
+g_user=
+g_port=5433
+g_database=sead_staging
+g_tablename=geonames
+g_schema=sead_utility
+g_filename=/tmp/geonames_all_countries.txt
+
+if [ -f ~/vault/.default.sead.server ]; then
+    g_host=$(head -n 1 ~/vault/.default.sead.server)
+fi
+
+if [ -f ~/vault/.default.sead.username ]; then
+    g_user=$(head -n 1 ~/vault/.default.sead.username)
+fi
+
+function usage() {
+    local usage_error="$1"
+    if [ "$usage_error" != "" ]; then
+        echo "error: $usage_error"
+    fi
+    echo "usage: $script_name --date YYYYMMDD --mode update|new|only_data|list --database DBNAME --table TABLE --schema SCHEMA "
+    echo "  mandatory option:"
+    echo ""
+    echo "       --database DBNAME        Target database (mandatory)"
+    echo "       --table TABLE            Target table name (default $g_tablename)"
+    echo "       --filename FILENAME      Filename of geonames file (default $g_filename)"
+    echo "       --schema SCHEMA          Target schema name (default $g_schema)"
+
+    echo "  non-mandatory option:"
+    echo "       --host HOST              Target database host (default ~/vault/.default.sead.server)"
+    echo "       --port PORT              Target database port (default 5432)"
+    echo "       --user USERNAME          Target database host (default ~/vault/.default.sead.server)"
+    exit 64
+}
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --host|-h)
+            g_host="$2";
+            shift 2;
+        ;;
+        --port)
+            g_port="$2";
+            shift 2;
+        ;;
+        --user|-U)
+            g_user="$2";
+            shift 2;
+        ;;
+        --database|-d)
+            g_database="$2";
+            shift 2;
+        ;;
+        --table)
+            g_tablename="$2";
+            shift 2;
+        ;;
+        --schema)
+            g_schema="$2";
+            shift 2;
+        ;;
+        --filename)
+            g_filename="$2";
+            shift 2;
+        ;;
+        --help|-h)
+            usage;
+            exit 0;
+        ;;
+        --*)
+            usage  "error: invalid option $1"
+            exit 64
+        ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+        ;;
+    esac
+done
+
+function print_options()
+{
+    if [ "$g_mode" == "dryrun" ]; then
+        echo "notice: dry run, no changes will be made"
+        echo "  g_filename: $g_filename"
+        echo "  g_tablename: $g_tablename"
+        echo "  g_schema: $g_schema"
+        echo "  g_database: $g_database"
+        echo "  g_host: $g_host"
+        echo "  g_user: $g_user"
+        echo "  g_port: $g_port"
+    fi
+}
+
+function create_target_table()
+{
+    local sql="
+        drop table if exists $g_schema.$g_tablename;
+
+        create table $g_schema.$g_tablename (
+            geonameid integer primary key,
+            name text,
+            asciiname text,
+            alternatenames text,
+            latitude double precision,
+            longitude double precision,
+            feature_class text,
+            feature_code text,
+            country_code text,
+            cc2 text,
+            admin1_code text,
+            admin2_code text,
+            admin3_code text,
+            admin4_code text,
+            population bigint,
+            elevation integer,
+            dem integer,
+            timezone text,
+            modification_date date
+        );
+    "
+
+    psql -h $g_host -U $g_user -d $g_database -p $g_port --no-password --single-transaction -q -X -1 -v ON_ERROR_STOP=1 -c "$sql"
+}
+
+function import_geonames()
+{
+    local filename=$1
+    local sql="\copy $g_schema.$g_tablename from '$filename' with (format csv, delimiter e'\t', null '', header false, quote e'\b');"
+    psql -h $g_host -U $g_user -d $g_database -p $g_port --no-password --single-transaction -q -X -1 -v ON_ERROR_STOP=1 -c "$sql"
+    
+}
+
+function download_geonames() {
+    local filename=$1
+    local folder=$(dirname $filename)
+    if [ ! -f "$filename" ]; then
+        mkdir -p $folder
+        wget -N http://download.geonames.org/export/dump/allCountries.zip
+        unzip -o allCountries.zip -d $folder
+        rm -f allCountries.zip
+        mv $folder/allCountries.txt $filename
+    fi
+}
+
+
+create_target_table
+download_geonames $g_filename
+import_geonames $g_filename
