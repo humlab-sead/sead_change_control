@@ -136,6 +136,9 @@ function create_target_table()
             timezone text,
             modification_date date
         );
+
+        create index idx_geonames_name on $g_schema.$g_tablename(name);
+
     "
 
     psql -h $g_host -U $g_user -d $g_database -p $g_port --no-password --single-transaction -q -X -1 -v ON_ERROR_STOP=1 -c "$sql"
