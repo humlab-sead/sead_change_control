@@ -28,7 +28,7 @@ set constraints all deferred;
 drop table if exists clearing_house_commit.temp_tbl_sites;
 create table clearing_house_commit.temp_tbl_sites as select * from public.tbl_sites where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sites from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_site.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sites  ("site_id", "altitude", "latitude_dd", "longitude_dd", "national_site_identifier", "site_description", "site_name", "site_preservation_status_id", "date_updated", "site_location_accuracy") from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_site.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_sites
     where site_id in (select site_id from clearing_house_commit.temp_tbl_sites);

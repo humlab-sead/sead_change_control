@@ -42,7 +42,7 @@ begin;
 \copy public.tbl_dimensions from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_LOOKUPS/tbl_dimensions.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_coordinate_method_dimensions from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_LOOKUPS/tbl_coordinate_method_dimensions.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 
-\copy public.tbl_sites from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_LOOKUPS/tbl_sites.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+\copy public.tbl_sites ("site_id", "altitude", "latitude_dd", "longitude_dd", "national_site_identifier", "site_description", "site_name", "site_preservation_status_id", "date_updated") from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_LOOKUPS/tbl_sites.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_site_locations from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_LOOKUPS/tbl_site_locations.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 \copy public.tbl_site_references from program 'zcat -qac 20100101_DML_SUBMISSION_MAL_000_LOOKUPS/tbl_site_references.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 
