@@ -8,19 +8,10 @@ source $script_dir/common
 g_host=`cat ~/vault/.default.sead.server`
 g_user=`cat ~/vault/.default.sead.username`
 g_port=5433
-g_today=$(date +%Y-%m-%d)
-
-g_suffix="adna"
 g_source_db="sead_staging_202412"
-g_target_db="${g_source_db}_${g_suffix}"
-
+g_target_db="sead_staging_202414_adna"
+g_today=$(date +%Y-%m-%d)
 g_datatype=adna
-
-g_import_system_folder=$HOME/source/sead_clearinghouse_import/
-g_data_folder=$g_import_system_folder/data/adna/SEAD_aDNA_data_20241114
-g_output_folder=${g_data_folder}/output
-g_data_filename=${g_data_folder}/SEAD_aDNA_data_20241114_RM.xlsx
-g_config_filename=${g_data_folder}/config.yml
 
 function get_submission_id()
 {
@@ -79,8 +70,14 @@ fi
 # g_cr_name=20250108_DML_SUBMISSION_ADNA_${g_zfilled_submission_id}_COMMIT
 
 
-bin/commit-submission --mode update --change $g_cr_name --id $g_submission_id  --port 5433 --database $g_target_db --project $g_datatype  --no-create-issue
-# bin/commit-submission --mode update --change 20250108_DML_SUBMISSION_ADNA_001_COMMIT --id 2  --port 5433 --database sead_staging_2024 --project adna  --no-create-issue
+bin/commit-submission \
+    --mode update \
+    --change $g_cr_name \
+    --id $g_submission_id  \
+    --port 5433 \
+    --database $g_target_db \
+    --project $g_datatype  \
+    --no-create-issue
 
 # echo "Applying CR "
 # # bin/patch-cr --port $g_port --database $g_target_db 20241029_DML_ADNA_LOOKUPS
