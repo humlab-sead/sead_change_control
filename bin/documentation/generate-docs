@@ -1,0 +1,174 @@
+#!/bin/bash
+
+source .env
+
+g_host=
+g_user=
+g_port=5433
+g_target_folder="./docs"
+g_verbose=NO
+g_database=sead_staging
+g_schema=public
+g_script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+g_script_name="${BASH_SOURCE[0]}"
+g_update_image=NO
+g_update_layout_folder=NO
+g_local_imagename=schemaspy:humlab
+g_github_repository=git@github.com:roger-mahler/schemaspy
+
+if [ "$g_host" == "" ]; then
+    if [ -f ~/vault/.default.sead.server ]; then
+        g_host=`cat ~/vault/.default.sead.server`;
+    else
+        g_host=$(hostname -A);
+    fi
+fi
+
+if [ "$g_user" == "" ]; then
+    if [ -f ~/vault/.default.sead.username ]; then
+        g_user=`cat ~/vault/.default.sead.username`;
+    fi
+fi
+
+if [ -f ~/vault/.default.sead.password ]; then
+    export PGPASSWORD=$(cat ~/vault/.default.sead.password)
+fi
+
+usage_message=$(cat <<EOF
+usage: $g_script_name DBNAME SCHEMANAME OPTIONS
+
+    --host SERVERNAME               Target server (${g_host})
+    --user USERNAME                 User on target server (${g_user})
+    --port PORT                     Server port on target server (${g_port})
+    --target-folder FOLDER          Store in folder ($g_target_folder)
+    --verbose                       Print progress ($g_verbose).
+    --update-image                  Update the SchemaSpy image ($g_update_image).
+    --update-layout-folder          Update local copy of the SchemaSpy layout folder ($g_update_layout_folder).
+EOF
+)
+
+function usage() {
+    echo "$usage_message";
+    exit 64
+}
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --host)
+            g_host="$2"; shift; shift
+        ;;
+        --port)
+            g_port="$2"; shift; shift
+        ;;
+        --user)
+            g_user="$2"; shift; shift
+        ;;
+        --target-folder)
+            g_target_folder="$2"; shift; shift
+        ;;
+        --verbose)
+            g_verbose="YES"; shift;
+        ;;
+        --update-image)
+            g_update_image="YES"; shift;
+        ;;
+        --update-layout-folder)
+            g_update_layout_folder="YES"; shift;    
+        ;;
+        *)
+            POSITIONAL+=("$1") # save it in an array for later
+            shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+g_database=$1
+g_schema=$2
+
+if [ "$g_database" == "" ] || [ "$g_schema" == "" ]; then
+    usage;
+fi
+
+function dbexec() {
+    local sql="$1"
+    psql -v ON_ERROR_STOP=1 -h $g_host -U $g_user -d $g_database -p $g_port --no-password --command "$sql"
+    if [ $? -ne 0 ];  then
+        echo "fatal: psql command failed! script aborted." >&2
+        exit 64
+    fi
+}
+
+
+# Use the image from the forked repository (roger-mahler/schemaspy) with postgresql 17 support
+SCHEMASPY_IMAGE=schemaspy:humlab
+#SCHEMASPY_IMAGE=schemaspy/schemaspy:latest
+
+function create_docs()
+{
+
+    local user_id=$(id -u)
+    local group_id=$(id -g)
+    local folder=$(realpath $g_target_folder)
+
+    mkdir -p $folder
+
+    docker run --rm \
+        -v "$folder":/output \
+        --user "$user_id:$group_id" \
+        $SCHEMASPY_IMAGE \
+        -p $PGPASSWORD \
+        -t pgsql17 \
+        -host "$g_host" \
+        -port "$g_port" \
+        -db "$g_database" \
+        -s "$g_schema" \
+        -u "$g_user" \
+        -template /output/layout
+}
+
+function update_layout_folder()
+{
+    local folder=$(realpath $g_target_folder)
+    
+    if [ ! -f "$folder/layout" ]; then
+        g_update_layout_folder=YES
+    fi
+
+    if [ "$g_update_layout_folder" == "NO" ]; then
+        pushd "$folder"
+        rm -rf $folder/layout
+        git clone --depth 1 https://github.com/schemaspy/schemaspy
+        mv $folder/schemaspy/src/main/resources/layout $folder/
+        rm -rf $folder/schemaspy
+        popd
+    fi
+    cp -f $g_script_dir/resources/* $folder/layout
+}
+
+function update_forked_image()
+{
+	pushd /tmp
+	git clone ${g_github_repository}
+	cd schemaspy
+	git checkout added-pgsql17-properties
+	./mvnw clean package
+	docker build -t ${g_local_imagename} -f Dockerfile .
+	popd
+	rm -rf /tmp/schemaspy
+}
+
+update_layout_folder
+
+if [ "$g_update_image" == "YES" ]; then
+    update_forked_image
+    # docker pull schemaspy/schemaspy:latest
+fi
+
+create_docs
+
