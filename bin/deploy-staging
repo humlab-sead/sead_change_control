@@ -497,7 +497,12 @@ function deployed_tags()
     local target_name=$1
     local target_project=$2
     local target_uri="db:pg://${g_user}@${g_host}:${g_port}/${target_name}"
-    echo `sqitch status --target $target_uri -C ./$target_project --show-tags | grep -E "^# +@"| awk '{ print $2 ; }' ;`
+    local output=$(sqitch status --target $target_uri -C ./$target_project --show-tags 2>&1)
+    if [[ "$output" == *"No changes deployed"* ]]; then
+        echo ""
+    else
+        echo $(echo $output | grep -E "^# +@"| awk '{ print $2 ; }' ;)
+    fi
 }
 
 
