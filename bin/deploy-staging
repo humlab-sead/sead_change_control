@@ -620,7 +620,7 @@ function deploy_to_tag()
             fi
 
             IFS=$' ' read -ra v_deployed_tags <<< `deployed_tags $target_name $sqitch_project`
-
+            echo $v_deployed_tags
             local is_deployed=false
             for item in "${v_deployed_tags[@]}"; do
                 if [[ "$item" == "$tag" ]]; then
