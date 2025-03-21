@@ -11,11 +11,16 @@ g_database=sead_staging
 g_schema=public
 g_script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 g_script_name="${BASH_SOURCE[0]}"
+g_create_documentation=YES
 g_update_image=NO
 g_update_layout_folder=NO
 g_local_imagename=schemaspy:humlab
-g_github_repository=git@github.com:roger-mahler/schemaspy
 
+g_deploy_to_github_pages=NO
+g_schemaspy_repository=git@github.com:roger-mahler/schemaspy
+g_organization=humlab-sead
+g_repository=sead-schema
+ 
 if [ "$g_host" == "" ]; then
     if [ -f ~/vault/.default.sead.server ]; then
         g_host=`cat ~/vault/.default.sead.server`;
@@ -44,6 +49,8 @@ usage: $g_script_name DBNAME SCHEMANAME OPTIONS
     --verbose                       Print progress ($g_verbose).
     --update-image                  Update the SchemaSpy image ($g_update_image).
     --update-layout-folder          Update local copy of the SchemaSpy layout folder ($g_update_layout_folder).
+    --deploy-to-github-pages        Deploy to GitHub Pages ($g_deploy_to_github_pages).
+    --no-create-documentation       Skip creating documentation ($g_create_documentation).
 EOF
 )
 
@@ -79,6 +86,15 @@ do
         --update-layout-folder)
             g_update_layout_folder="YES"; shift;    
         ;;
+        --deploy-to-github-pages)
+            g_deploy_to_github_pages="YES"; shift;
+        ;;
+        --no-create-documentation)
+            g_create_documentation="NO"; shift;
+        ;;
+        --*)
+            usage "error: unknown option $1"
+        ;;
         *)
             POSITIONAL+=("$1") # save it in an array for later
             shift
@@ -104,12 +120,46 @@ function dbexec() {
     fi
 }
 
+function setup_github_pages()
+{
+    local source_folder=${HOME}/source
+    local description="SEAD Schema Explorer"
+    local homepage="https://humlab-sead.github.io/sead-schema"
+
+	pushd "$source_folder"
+
+	gh repo create $g_organization/$g_repository --private --owner $g_organization --description $description --homepage $g_github_pages_url --confirm
+	git clone git@github.com:$g_organization/$g_repository
+	cd $g_repository
+	git checkout --orphan gh-pages
+	git commit --allow-empty -m "Initial empty commit for GitHub Pages"
+	git push origin gh-pages
+
+	popd
+}
+
+function deploy_to_github_pages()
+{
+    local folder=$(realpath $g_target_folder)
+    local commit_message="Deploy to GitHub Pages"
+    local repository="https://github.com/$g_organization/$g_repository"
+    local homepage="https://humlab-sead.github.io/sead-schema"
+
+    if ! command -v "ghp-import" >/dev/null; then
+        echo "error: ghp-import not found (please install with pix install ghp-import)..."
+        exit 1
+    fi
+    
+    ghp-import -n -p -f -m "${commit_message}" -r $repository ${folder}
+
+    echo "Deployment to GitHub Pages completed successfully."
+}
 
 # Use the image from the forked repository (roger-mahler/schemaspy) with postgresql 17 support
 SCHEMASPY_IMAGE=schemaspy:humlab
 #SCHEMASPY_IMAGE=schemaspy/schemaspy:latest
 
-function create_docs()
+function create_documentation()
 {
 
     local user_id=$(id -u)
@@ -118,43 +168,67 @@ function create_docs()
 
     mkdir -p $folder
 
+    cp $g_script_dir/resources/pgsql17.properties $folder/pgsql17.properties
+
+    # https://schemaspy.readthedocs.io/en/latest/configuration/commandline.html
+
     docker run --rm \
         -v "$folder":/output \
         --user "$user_id:$group_id" \
         $SCHEMASPY_IMAGE \
         -p $PGPASSWORD \
-        -t pgsql17 \
+        -t /output/pgsql17.properties \
         -host "$g_host" \
         -port "$g_port" \
         -db "$g_database" \
         -s "$g_schema" \
         -u "$g_user" \
         -template /output/layout
+
+        # -norows
+        # -noviews
+        # -nopages
+        # -noTablePaging
+        # -noDbObjectPaging
+
+    # fix faulty HTML
+    
+    sed -Ez 's|"defaultValue":\s*"\n([^"]+)",|"defaultValue": "",|g' $folder/columns.html > /tmp/columns.html
+
+    mv /tmp/columns.html $folder/columns.html
+
 }
 
 function update_layout_folder()
 {
     local folder=$(realpath $g_target_folder)
-    
-    if [ ! -f "$folder/layout" ]; then
-        g_update_layout_folder=YES
-    fi
+  
+    # Copy the layout folder from the schemaspy image
 
-    if [ "$g_update_layout_folder" == "NO" ]; then
-        pushd "$folder"
-        rm -rf $folder/layout
-        git clone --depth 1 https://github.com/schemaspy/schemaspy
-        mv $folder/schemaspy/src/main/resources/layout $folder/
-        rm -rf $folder/schemaspy
-        popd
-    fi
-    cp -f $g_script_dir/resources/* $folder/layout
+    container_id=$(docker create $g_local_imagename) &> /dev/null
+    docker cp $container_id:/usr/local/lib/schemaspy/schemaspy-app.jar /tmp/schemaspy-app.jar  &> /dev/null
+    docker rm $container_id &> /dev/null
+
+    pushd /tmp &> /dev/null
+    jar xf /tmp/schemaspy-app.jar BOOT-INF/classes/layout
+    rm -rf $folder/layout
+    mv BOOT-INF/classes/layout $folder/
+    rm -rf /tmp/schemaspy-app.jar
+    popd &> /dev/null
+    
+    # Clone the layout folder from the schemaspy repository
+    # pushd "$folder"
+    # rm -rf $folder/layout
+    # git clone --depth 1 https://github.com/schemaspy/schemaspy
+    # mv $folder/schemaspy/src/main/resources/layout $folder/
+    # rm -rf $folder/schemaspy
+    # popd
 }
 
 function update_forked_image()
 {
 	pushd /tmp
-	git clone ${g_github_repository}
+	git clone ${g_schemaspy_repository}
 	cd schemaspy
 	git checkout added-pgsql17-properties
 	./mvnw clean package
@@ -163,12 +237,26 @@ function update_forked_image()
 	rm -rf /tmp/schemaspy
 }
 
-update_layout_folder
+if [ ! -d "$(realpath $g_target_folder)/layout" ]; then
+    g_update_layout_folder=YES
+fi
+
+if [ "$g_update_layout_folder" == "YES" ]; then
+    update_layout_folder
+fi
+
+cp -f $g_script_dir/resources/* $(realpath $g_target_folder)/layout
+cp -f $g_script_dir/resources/tables/* $(realpath $g_target_folder)/layout/tables
 
 if [ "$g_update_image" == "YES" ]; then
     update_forked_image
     # docker pull schemaspy/schemaspy:latest
 fi
 
-create_docs
+if [ "$g_create_documentation" == "YES" ]; then
+    create_documentation
+fi
 
+if [ "$g_deploy_to_github_pages" == "YES" ]; then
+    deploy_to_github_pages
+fi

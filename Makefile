@@ -52,6 +52,10 @@ help:
 	@echo "  make show-config                        Show sqitch config"
 	@echo
 
+documentation:
+	@bin/documentation/sync-comments --delimiter \; --port 5433 --database sead_staging resources/tables_and_columns.csv  \
+	 && bin/documentation/generate-docs --deploy-to-github-pages sead_staging public
+
 .PHONY: create-staging-from-scratch
 create-staging-from-scratch: are-you-sure
 	@echo "Create sead_staging based on sead_master_9_public..."
