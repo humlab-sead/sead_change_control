@@ -197,21 +197,22 @@ language plpgsql;
  **	Used By     Clearinghouse transfer & commit
  **	Revisions
  ******************************************************************************************************************************/
-create or replace function clearing_house.fn_sead_table_entity_name(p_table_name text)
-    returns information_schema.sql_identifier
-    as $$
-begin
-    return replace(
-        case when p_table_name like '%ies' then
-            regexp_replace(p_table_name, 'ies$', 'y')
-        when not p_table_name like '%status' then
-            rtrim(p_table_name, 's')
-        else
-            p_table_name
-        end, 'tbl_', '')::information_schema.sql_identifier as entity_name;
-end;
-$$
-language plpgsql;
+create or replace function sead_utility.underscore_to_entity_name(p_str text, p_sep text default '')
+    returns text
+as $body$
+        declare v_result text;
+        begin
+            v_result = replace(initcap(replace(p_str, 'tbl_', '')), '_', coalesce(p_sep, ''));
+            v_result = case when v_result like '%ies' then
+                regexp_replace(v_result, 'ies$', 'y')
+            when not v_result like '%status' then
+                rtrim(v_result, 's')
+            else
+                v_result
+            end;
+            return v_result;
+        end;
+$body$ language 'plpgsql';
 
 -- Drop Function If Exists clearing_house.fn_dba_get_sead_public_db_schema(text, text);
 /*********************************************************************************************************************************
