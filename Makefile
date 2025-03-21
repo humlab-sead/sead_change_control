@@ -53,8 +53,8 @@ help:
 	@echo
 
 documentation:
-	@bin/documentation/sync-comments --delimiter \; --port 5433 --database sead_staging resources/tables_and_columns.csv  \
-	 && bin/documentation/generate-docs --deploy-to-github-pages sead_staging public
+	@bin/create-docs/sync-comments --delimiter \; --port 5433 --database sead_staging resources/tables_and_columns.csv  \
+	 && bin/create-docs/generate-docs --deploy-to-github-pages sead_staging public
 
 .PHONY: create-staging-from-scratch
 create-staging-from-scratch: are-you-sure
