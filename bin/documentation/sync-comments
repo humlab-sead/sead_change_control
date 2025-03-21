@@ -8,6 +8,7 @@ g_port=5433
 g_database=sead_staging
 g_filename=resources/tables_and_columns.xlsx
 g_script_name="${BASH_SOURCE[0]}"
+g_delimiter=$','
 
 if [ "$g_host" == "" ]; then
     if [ -f ~/vault/.default.sead.server ]; then
@@ -63,6 +64,15 @@ do
         --database)
             g_database="$2"; shift; shift
         ;;
+        --delimiter)
+            g_delimiter="$2"; shift; shift
+        ;;
+        -h|--help)
+            usage
+        ;;
+        --*) 
+            usage "unknown option $1"
+        ;;
         *)
             POSITIONAL+=("$1")
             shift
@@ -91,13 +101,26 @@ function extract_comments_to_csv()
 {
     local filename=$1
     local target_filename=$2
+    local delimiter=${3:-$','}
 
-    if command -v xlsx2csv &> /dev/null
-    then
-        xlsx2csv $filename -n "Tables & Columns" -d $',' | csvcut -d $',' -c schema_name,table_name,column_name,comment > $target_filename
+    if [[ "$filename" =~ \.xlsx$ ]]; then
+        if command -v xlsx2csv &> /dev/null
+        then
+            # xlsx2csv "$filename" -n "Tables & Columns" -d $',' | csvcut -d $',' -c schema_name,table_name,column_name,comment > $target_filename
+            xlsx2csv "$filename" -n "Tables & Columns" -d 'x09' | csvcut --tabs -c schema_name,table_name,column_name,comment | csvformat -T > $target_filename
+            # xlsx2csv "$filename" -n "Tables & Columns" -d $',' | \
+            #     csvcut -d $',' -c schema_name,table_name,column_name,comment | \
+            #         awk -F',' 'BEGIN{OFS=","} {if ($4 ~ /^".*"$/) gsub(/"/, "\"\"", $4); print $0}' > $target_filename
+        
+        else
+            usage "xlsx2csv is not installed. Please install it using 'pipx install xlsx2csv'"
+        fi
+    elif [[ "$filename" =~ \.csv$ ]]; then
+        csvcut -d $delimiter -c schema_name,table_name,column_name,comment "$filename"  | csvformat -T > $target_filename
     else
-        usage "xlsx2csv is not installed. Please install it using 'pipx install xlsx2csv'"
+        usage "Unsupported file format. Only .xlsx and .csv files are supported."
     fi
+
 
 }
 
@@ -105,11 +128,16 @@ function extract_comments_to_csv()
 function upload_csv()
 {
     local filename=$1
-    dbexec "call sead_utility.setup_comments();" &> /dev/null
-    dbexec "\copy sead_utility.temp_comments (schema_name,table_name,column_name,comment) from '$filename' with delimiter ',' csv header;" &> /dev/null
-    dbexec "call sead_utility.sync_comments();" &> /dev/null
+    dbexec "call sead_utility.setup_comments();"
+    dbexec "\copy sead_utility.temp_comments (schema_name,table_name,column_name,comment) from '$filename' with delimiter E'\t' csv header;" 
+    dbexec "call sead_utility.sync_comments();" 
 }
 
 g_target_filename=/tmp/sead_comments.$(date +%Y%m%d%H%M%S).csv
-extract_comments_to_csv $g_filename $g_target_filename
+
+extract_comments_to_csv $g_filename $g_target_filename $g_delimiter
 upload_csv $g_target_filename
+
+# rm -f $g_target_filename
+
+echo "Comments (CSV file $g_target_filename) uploaded to database"

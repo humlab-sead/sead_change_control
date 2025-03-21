@@ -800,6 +800,38 @@ begin;
         end;
         $udf$ language plpgsql;
 
+    create or replace procedure sead_utility.setup_comments() 
+        as $udf$
+        begin
+            drop table if exists sead_utility.temp_comments;
+            create table sead_utility.temp_comments (
+                schema_name text,
+                table_name text,
+                column_name text,
+                comment text
+            );
+        end;
+    $udf$ language plpgsql;
+
+	create or replace procedure sead_utility.sync_comments() 
+        as $udf$
+        declare r record;
+            v_sql text;
+        begin
+            -- Use format function instead of concatenation to avoid SQL injection
+            for r in select * from sead_utility.temp_comments loop
+                if r.column_name = '' then
+                    v_sql := format('comment on table "%I"."%I" is %L;', r.schema, r.table_name, r.comment);
+                elsif r.table_name = '' then
+                    v_sql := format('comment on schema "%I" is %L;', r.schema_name, r.comment);
+                else
+                    v_sql := format('comment on column "%I"."%I"."%I" is %L;', r.schema_name, r.table_name, r.column_name, r.comment);
+                end if;
+                execute v_sql;
+            end loop;
+        end;
+    $udf$ language plpgsql;
+
     call sead_utility.set_schema_privilege('sead_utility', 'sead_master', 'admin', 'humlab_admin');
     call sead_utility.set_schema_privilege('sead_utility', 'sead_read', 'read', 'humlab_admin', 'sead_master');
 
