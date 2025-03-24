@@ -1469,7 +1469,7 @@ Begin
 		from clearing_house.fn_dba_get_sead_public_db_schema('public', 'sead_master') as a
 		left join clearing_house.fn_dba_get_sead_public_db_schema(target_schema, 'clearinghouse_worker') as b
 		  using (table_name)
-		where not p_only_update or b.table_name is null
+		where a.table_name like 'tbl_%' and (not p_only_update or b.table_name is null)
 	)
 	Loop
         drop_script := format('drop table if exists %I.%I cascade;', target_schema, x.table_name);
