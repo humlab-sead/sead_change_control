@@ -69,6 +69,8 @@ begin
         perform sead_utility.sync_sequences('public', 'tbl_taxonomic_order', 'taxonomic_order_id');
         perform sead_utility.sync_sequences('public', 'tbl_taxonomic_order_systems', 'taxonomic_order_system_id');
         
+        drop table if exists dyntaxa_taxonomyc_order_system_temp;
+
     end;
     
 end $$;
