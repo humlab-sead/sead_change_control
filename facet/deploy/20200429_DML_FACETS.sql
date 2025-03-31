@@ -386,7 +386,13 @@ $aggregate_facets$;
                         "table_name": "tbl_sample_groups",
                         "udf_call_arguments": null,
                         "alias":  null
-                    } ],
+                    }, {
+                        "sequence_id": 2,
+                        "table_name": "tbl_sites",
+                        "udf_call_arguments": null,
+                        "alias":  null
+                    }
+                ],
                 "clauses": [  ]
             },
             {
