@@ -1174,7 +1174,7 @@ $aggregate_facets$;
                 "category_id_type": "integer",
                 "category_id_operator": "=",
                 "category_name_expr": "tbl_sample_group_descriptions.group_description ",
-                "sort_expr": "tbl_sample_group_descriptions.group_description || ' ' || tbl_sample_group.sample_group_name",
+                "sort_expr": "tbl_sample_group_descriptions.group_description || ' ' || tbl_sample_groups.sample_group_name",
                 "is_applicable": true,
                 "is_default": false,
                 "aggregate_type": "count",
