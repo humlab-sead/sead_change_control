@@ -9,13 +9,13 @@ public;;tbl_abundance_ident_levels;identification_level_id;Specifies the specifi
 public;Abundance Identification Level;tbl_abundance_ident_levels;;Represents the degree of certainty in taxonomic identification, categorized by levels such as Family, Genus, or Species (e.g., cf. Family, cf. Genus, cf. Species).;;
 public;;tbl_abundance_ident_levels;abundance_ident_level_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_abundance_modifications;abundance_id;Specifies the related abundance record.;NO;YES
-public;Abundance Modification;tbl_abundance_modifications;;Stores information about modifications applied to individual specimen counts, such as carbonization, corrosion, or calcification. This enables recording multiple instances of the same taxon with varying modifications (e.g., Hordeum sp. carbonized and Hordeum sp. unmodified).;;
+public;Abundance Modification;tbl_abundance_modifications;;Contains information about modifications applied to individual specimen counts, such as carbonization, corrosion, or calcification. This enables recording multiple instances of the same taxon with varying modifications (e.g., Hordeum sp. carbonized and Hordeum sp. unmodified).;;
 public;;tbl_abundance_modifications;abundance_modification_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_abundance_modifications;modification_type_id;Specifies the type of modification applied.;NO;YES
 public;;tbl_abundances;abundance;Represents the frequency of occurrence, which is usually a numerical count, but can also indicate presence (1), a categorical value, or a value on a relative scale, in accordance with the dataset's data type.;NO;NO
 public;;tbl_abundances;abundance_element_id;Specifies specific parts of a taxon, like leaf, seed, or MNI (Minimum Number of Individuals), enabling detailed taxonomic recording.;NO;YES
 public;;tbl_abundances;analysis_entity_id;Identifies the specific analysis entity associated with this record.;NO;YES
-public;Abundance;tbl_abundances;;This table records data related to biological proxies, such as individual counts, presence indicators, or scaled values, linking each entry to a specific taxon through an analysis entity. It serves as a species list detailing abundance information for a single physical sample. The intermediate analysis entity allows for the association of multiple proxies per sample. Entries typically reflect count values (abundance), but can also denote presence (1) or use categorical or relative scales, as specified by the dataset's data type.;;
+public;Abundance;tbl_abundances;;Records data related to biological proxies, such as individual counts, presence indicators, or scaled values, linking each entry to a specific taxon through an analysis entity. It serves as a species list detailing abundance information for a single physical sample. The intermediate analysis entity allows for the association of multiple proxies per sample. Entries typically reflect count values (abundance), but can also denote presence (1) or use categorical or relative scales, as specified by the dataset's data type.;;
 public;;tbl_abundances;abundance_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_abundances;taxon_id;Specifies the taxonomic unit related to this record.;NO;YES
 public;;tbl_activity_types;activity_type;Name showing the type of activity or life stage.;NO;NO
@@ -24,10 +24,10 @@ public;;tbl_activity_types;activity_type_id;Primary key (automatically increment
 public;;tbl_activity_types;description;Detailed description of the organism's state during the specified time, such as 'adult' or 'flowering'.;NO;NO
 public;;tbl_age_types;age_type;Abbreviation representing the chronological system (e.g., AD, BC, BP).;NO;NO
 public;;tbl_age_types;description;Detailed explanation of the chronological system denoted by the abbreviation.;NO;NO
-public;Age Type;tbl_age_types;;This table provides a reference for different chronological systems used to denote years, such as AD, BC, and BP.;;
+public;Age Type;tbl_age_types;;Provides a reference for different chronological systems used to denote years, such as AD, BC, and BP.;;
 public;;tbl_age_types;age_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_alt_ref_types;alt_ref_type;The name or type of the alternative reference assigned to a sample.;NO;NO
-public;Alternative Reference Type;tbl_alt_ref_types;;This table defines the types of alternative references or names assigned to samples. These references might include identifiers like lab numbers, field numbers, museum numbers, or site excavation numbers, indicating the origin or purpose of the sample's alternative reference.;;
+public;Alternative Reference Type;tbl_alt_ref_types;;Defines the types of alternative references or names assigned to samples. These references might include identifiers like lab numbers, field numbers, museum numbers, or site excavation numbers, indicating the origin or purpose of the sample's alternative reference.;;
 public;;tbl_alt_ref_types;alt_ref_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_alt_ref_types;description;A detailed description of the alternative reference type, providing additional context or clarification.;NO;NO
 public;;tbl_analysis_boolean_values;analysis_value_id;Identifies the specific analysis value associated with this data.;NO;YES
@@ -54,7 +54,7 @@ public;;tbl_analysis_dating_ranges;low_value;The lower value of the range.;NO;NO
 public;;tbl_analysis_dating_ranges;season_id;Limits the dating range to a particular season.;NO;YES
 public;Analysis Dating Range;tbl_analysis_dating_ranges;;Storage for analysis values that represents a dating range.;;
 public;;tbl_analysis_dating_ranges;analysis_dating_range_id;Primary key (automatically incremented).;YES;NO
-public;Analysis Entity;tbl_analysis_entities;;The 'tbl_analysis_entities' table represents Analysis Entities, which are virtual constructs allowing the association of multiple proxies with a single physical sample. This enables the linking of physical samples to various measurements or counts across different methods. Analysis Entities are organized by datasets, which are constructed based on proxy requirements. Refer to the 'Dataset' documentation for more details.;;
+public;Analysis Entity;tbl_analysis_entities;;Represents analysis entities, which are virtual constructs allowing the association of multiple proxies with a single physical sample. This enables the linking of physical samples to various measurements or counts across different methods. Analysis Entities are organized by datasets, which are constructed based on proxy requirements. Refer to the 'Dataset' documentation for more details.;;
 public;;tbl_analysis_entities;analysis_entity_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_analysis_entities;dataset_id;Specifies the dataset the analysis entity belongs to.;NO;YES
 public;;tbl_analysis_entities;physical_sample_id;Identifies the specific physical sample.;NO;YES
@@ -65,7 +65,7 @@ public;;tbl_analysis_entity_ages;age_younger;The lower bound of the age range es
 public;;tbl_analysis_entity_ages;analysis_entity_id;Identifies the specific analysis entity associated with this record.;NO;YES
 public;;tbl_analysis_entity_ages;chronology_id;Specifies the the identifier of a specific chronology.;NO;YES
 public;;tbl_analysis_entity_ages;dating_specifier;Specifies the method or criteria used for dating the sample.;NO;NO
-public;Analysis Entity Age;tbl_analysis_entity_ages;;This table represents a virtual entity that defines a single proxy within a specific physical sample, acting as a statistical sample. A physical sample can contain multiple analysis entities, each linking various proxies. This structure facilitates the precise recording of specific species used in methods like radiocarbon dating.;;
+public;Analysis Entity Age;tbl_analysis_entity_ages;;Represents a virtual entity that defines a single proxy within a specific physical sample, acting as a statistical sample. A physical sample can contain multiple analysis entities, each linking various proxies. This structure facilitates the precise recording of specific species used in methods like radiocarbon dating.;;
 public;;tbl_analysis_entity_ages;analysis_entity_age_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_analysis_entity_dimensions;analysis_entity_id;Identifies the specific analysis entity associated with this record.;NO;YES
 public;;tbl_analysis_entity_dimensions;dimension_id;Specifies the specific dimension being measured  (e.g., length, width, height)..;NO;YES
@@ -73,7 +73,7 @@ public;;tbl_analysis_entity_dimensions;dimension_value;The quantified value of t
 public;Analysis Entity Dimension;tbl_analysis_entity_dimensions;;Contains information about the physical dimensions of samples used for analysis, including both analyzed samples and non-analyzed residues.;;
 public;;tbl_analysis_entity_dimensions;analysis_entity_dimension_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_analysis_entity_prep_methods;analysis_entity_id;Identifies the specific analysis entity associated with this record.;NO;YES
-public;Analysis Entity Preparation Method;tbl_analysis_entity_prep_methods;;This table links analysis entities with their respective preparation methods.;;
+public;Analysis Entity Preparation Method;tbl_analysis_entity_prep_methods;;Links analysis entities with their respective preparation methods.;;
 public;;tbl_analysis_entity_prep_methods;analysis_entity_prep_method_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_analysis_entity_prep_methods;method_id;Specifies the preparation method related to the analysis entity.;NO;YES
 public;;tbl_analysis_identifiers;analysis_value_id;Identifies the specific analysis value associated with this data.;NO;YES
@@ -154,7 +154,7 @@ public;Ceramic Analysis;tbl_ceramics;;Stores analysis results from ceramic thin-
 public;;tbl_ceramics;ceramics_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_ceramics;measurement_value;Numeric value representing the measurement obtained from the ceramic analysis.;NO;NO
 public;;tbl_ceramics_lookup;description;Detailed description of the ceramic type.;NO;NO
-public;Ceramic Lookup;tbl_ceramics_lookup;;This table serves as a reference for ceramic types and their associated details.;;
+public;Ceramic Lookup;tbl_ceramics_lookup;;Serves as a reference for ceramic types and their associated details.;;
 public;;tbl_ceramics_lookup;ceramics_lookup_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_ceramics_lookup;method_id;Specifies the method used to classify the ceramic type.;NO;YES
 public;;tbl_ceramics_lookup;name;Name of the ceramic type.;NO;NO
@@ -165,7 +165,7 @@ public;;tbl_chronologies;age_model;The methodology or model applied to determine
 public;;tbl_chronologies;chronology_name;A descriptive title for the chronology, indicating its purpose and extent.;NO;NO
 public;;tbl_chronologies;contact_id;Identifies the contact person or organization for the chronology.;NO;YES
 public;;tbl_chronologies;date_prepared;The date the chronology was initially created or most recently updated.;NO;NO
-public;Chronology;tbl_chronologies;;This table represents a collection of dated samples grouped for specific purposes, such as assigning a unified age range to samples in a master dataset or developing an age-depth model for a lake. These chronologies may also be used to integrate with external services that limit the scope of dating evidence, such as GBIF or SBDI.;;
+public;Chronology;tbl_chronologies;;Represents a collection of dated samples grouped for specific purposes, such as assigning a unified age range to samples in a master dataset or developing an age-depth model for a lake. These chronologies may also be used to integrate with external services that limit the scope of dating evidence, such as GBIF or SBDI.;;
 public;;tbl_chronologies;chronology_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_chronologies;notes;Supplementary information or anlabels related to the chronology, including data sources, assumptions, or constraints.;NO;NO
 public;;tbl_chronologies;relative_age_type_id;This was previously constrained by the obsolete tbl_age_types table. Now, it serves as a non-binding reference to relative_age_types, although not fully implemented. Relevant notes should document year types and construction methods for the chronology.;NO;NO
@@ -185,20 +185,20 @@ public;;tbl_contacts;first_name;Given name of the contact.;NO;NO
 public;;tbl_contacts;last_name;Surname of the contact.;NO;NO
 public;;tbl_contacts;location_id;Specifies to a location, associating the contact with a specific geographic or organizational location.;NO;YES
 public;;tbl_contacts;phone_number;Contact's phone number for direct communication.;NO;NO
-public;Contact;tbl_contacts;;Stores contact information for various roles, such as dataset authors, specimen identifiers, and laboratory managers.;;
+public;Contact;tbl_contacts;;Contains contact information for various roles, such as dataset authors, specimen identifiers, and laboratory managers.;;
 public;;tbl_contacts;contact_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_contacts;url;Associated website or online profile link.;NO;NO
 public;;tbl_coordinate_method_dimensions;dimension_id;Specifies the specific dimension being measured  (e.g., length, width, height)..;NO;YES
 public;;tbl_coordinate_method_dimensions;limit_lower;Specifies the lower bound of the legal value range for the dimension, if applicable.;NO;NO
 public;;tbl_coordinate_method_dimensions;limit_upper;Specifies the upper bound of the legal value range for the dimension, if applicable.;NO;NO
 public;;tbl_coordinate_method_dimensions;method_id;Specifies the coordinate system method to which the dimension applies.;NO;YES
-public;Coordinate Method Dimension;tbl_coordinate_method_dimensions;;This table defines the dimensions applicable to each coordinate system method and specifies any legal values for these dimensions. Each entry associates a coordinate system method with its corresponding dimensions and their permissible value ranges.;;
+public;Coordinate Method Dimension;tbl_coordinate_method_dimensions;;Defines the dimensions applicable to each coordinate system method and specifies any legal values for these dimensions. Each entry associates a coordinate system method with its corresponding dimensions and their permissible value ranges.;;
 public;;tbl_coordinate_method_dimensions;coordinate_method_dimension_id;Primary key (automatically incremented).;YES;NO
 public;Data Type Group;tbl_data_type_groups;;Contains classifications for various data types, such as relative scale and semi-quantitative.;;
 public;;tbl_data_type_groups;data_type_group_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_data_type_groups;data_type_group_name;Name of the data type group.;NO;NO
 public;;tbl_data_type_groups;description;Detailed information about the data type group.;NO;NO
-public;Data Type;tbl_data_types;;Stores information about the types of quantification methods used in datasets, including definitions of each classification system.;;
+public;Data Type;tbl_data_types;;Specifies the types of quantification methods used in datasets, including definitions of each classification system.;;
 public;;tbl_data_types;data_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_data_types;data_type_group_id;Specifies the group to which this data type belongs.;NO;YES
 public;;tbl_data_types;data_type_name;The name of the data type, providing a descriptive label.;NO;NO
@@ -206,7 +206,7 @@ public;;tbl_data_types;definition;A detailed explanation or description of the d
 public;;tbl_dataset_contacts;contact_id;Identifies the contact person or organization related to the dataset.;NO;YES
 public;;tbl_dataset_contacts;contact_type_id;Specifies the type of contact, such as provider or digitaliser.;NO;YES
 public;;tbl_dataset_contacts;dataset_id;Specifies the dataset the contact is related to.;NO;YES
-public;Dataset Contact;tbl_dataset_contacts;;Stores information about one or more contacts related to a dataset, such as data providers or digitalisers.;;
+public;Dataset Contact;tbl_dataset_contacts;;Contains information about one or more contacts related to a dataset, such as data providers or digitalisers.;;
 public;;tbl_dataset_contacts;dataset_contact_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_dataset_masters;biblio_id;Specifies the primary literature or reference related to the master dataset (e.g., Buckland & Buckland 2006 for BugsCEP).;NO;YES
 public;;tbl_dataset_masters;contact_id;Identifies the contact person or organization responsible for the master dataset.;NO;YES
@@ -216,20 +216,20 @@ public;;tbl_dataset_masters;master_name;Name or title assigned to the master dat
 public;;tbl_dataset_masters;master_notes;Detailed description of the master dataset, including its nature (e.g., database, lab) and any pertinent tracking information.;NO;NO
 public;;tbl_dataset_masters;url;Web address or URL related to the master dataset, which could be a project, lab, or other entity.;NO;NO
 public;;tbl_dataset_submission_types;description;A detailed explanation of the dataset submission type, describing the method of data ingestion.;NO;NO
-public;Dataset Submission Type;tbl_dataset_submission_types;;This table serves as a lookup for different types of dataset submissions, such as original submissions or data ingested from external databases.;;
+public;Dataset Submission Type;tbl_dataset_submission_types;;Serves as a lookup for different types of dataset submissions, such as original submissions or data ingested from external databases.;;
 public;;tbl_dataset_submission_types;submission_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_dataset_submission_types;submission_type;A concise name showing the type of dataset submission (e.g., 'Original Submission', 'Ingestion from External Database').;NO;NO
 public;;tbl_dataset_submissions;contact_id;Identifies the contact person or organization responsible for the dataset submission.;NO;YES
 public;;tbl_dataset_submissions;dataset_id;Specifies the dataset related to the submission.;NO;YES
 public;;tbl_dataset_submissions;date_submitted;The timestamp indicating when the submission was completed.;NO;NO
-public;Dataset Submission;tbl_dataset_submissions;;Stores records of various submission events related to a dataset, such as initial recording, database entries, and integrations with SEAD.;;
+public;Dataset Submission;tbl_dataset_submissions;;Contains records of various submission events related to a dataset, such as initial recording, database entries, and integrations with SEAD.;;
 public;;tbl_dataset_submissions;dataset_submission_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_dataset_submissions;notes;Contains supplementary information regarding the submission, such as its origin if not documented elsewhere (e.g., BugsCEP).;NO;NO
 public;;tbl_dataset_submissions;submission_type_id;Specifies the type or category of the submission event.;NO;YES
 public;;tbl_datasets;biblio_id;Specifies the publication that describes or mentions the dataset.;NO;YES
 public;;tbl_datasets;data_type_id;Specifies the type of data contained in the dataset.;NO;YES
 public;;tbl_datasets;dataset_name;A unique identifier for the dataset at this site, potentially matching the sample group name or created for clarity and context.;NO;NO
-public;Dataset;tbl_datasets;;The tbl_datasets table organizes collections of analysis entities into datasets, which are structured collections relevant to the specific proxy being studied. For biological proxies, a dataset typically corresponds to a spreadsheet containing samples and taxa for a single analysis method, such as phosphates through citric acid extraction.;;
+public;Dataset;tbl_datasets;;Organizes collections of analysis entities into datasets, which are structured collections relevant to the specific proxy being studied. For biological proxies, a dataset typically corresponds to a spreadsheet containing samples and taxa for a single analysis method, such as phosphates through citric acid extraction.;;
 public;;tbl_datasets;dataset_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_datasets;master_set_id;Specifies the master set to which this dataset belongs.;NO;YES
 public;;tbl_datasets;method_id;Specifies the method of analysis used for this dataset.;NO;YES
@@ -239,7 +239,7 @@ public;;tbl_dating_labs;contact_id;Identifies the contact person or organization
 public;;tbl_dating_labs;country_id;Specifies the country where the dating lab is located.;NO;NO
 public;;tbl_dating_labs;international_lab_id;Standardized identifier for the radiocarbon lab, as listed on radiocarbon.org/laboratories.;NO;NO
 public;;tbl_dating_labs;lab_name;Official name of the radiocarbon lab, standardized according to radiocarbon.org/laboratories.;NO;NO
-public;Dating Lab;tbl_dating_labs;;Contains identifiers and names of radiocarbon laboratories sourced from radiocarbon.org/laboratories. This table ensures transparency and traceability in radiocarbon and other radiometric dating records.;;
+public;Dating Lab;tbl_dating_labs;;Contains identifiers and names of radiocarbon laboratories sourced from radiocarbon.org/laboratories. Ensures transparency and traceability in radiocarbon and other radiometric dating records.;;
 public;;tbl_dating_labs;dating_lab_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_dating_material;abundance_element_id;Specifies the abundance element related to the material.;NO;YES
 public;;tbl_dating_material;description;Detailed description of the dating material.;NO;NO
@@ -275,7 +275,7 @@ public;;tbl_ecocode_groups;ecocode_system_id;Specifies the ecocode system to whi
 public;;tbl_ecocode_groups;name;Full name of the ecocode group.;NO;NO
 public;;tbl_ecocode_systems;biblio_id;Specifies the publication that describes or mentions  the ecocode system.;NO;YES
 public;;tbl_ecocode_systems;definition;Detailed description of the ecocode system.;NO;NO
-public;Ecocode System;tbl_ecocode_systems;;Table defining various systems used for classifying specific attributes of taxa, including habitat preferences, food types, and cultural uses.;;
+public;Ecocode System;tbl_ecocode_systems;;Defines various systems used for classifying specific attributes of taxa, including habitat preferences, food types, and cultural uses.;;
 public;;tbl_ecocode_systems;ecocode_system_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_ecocode_systems;name;Name of the ecocode system.;NO;NO
 public;;tbl_ecocode_systems;notes;Additional notes or comments about the ecocode system.;NO;NO
@@ -283,11 +283,11 @@ public;;tbl_ecocodes;ecocode_definition_id;Specifies the ecocode definition this
 public;Ecocode;tbl_ecocodes;;Associates ecological classifications with specific taxa.;;
 public;;tbl_ecocodes;ecocode_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_ecocodes;taxon_id;Specifies the taxonomic unit related to this record.;NO;YES
-public;Feature Type;tbl_feature_types;;The 'tbl_feature_types' table categorizes archaeological features by their function, shape, or construction to facilitate the study of historical human activities. Categories include: domestic structures (e.g., homes), public and ceremonial spaces (e.g., temples, public buildings), economic and industrial areas (e.g., workshops, kilns), defensive structures (e.g., fortifications, walls), agricultural modifications (e.g., terraces, irrigation systems), funerary sites (e.g., graves, tombs), transportation routes (e.g., roads, bridges), and water management systems (e.g., wells, aqueducts). These classifications provide insights into societal organization, cultural practices, and technological advancements across various eras and regions.;;
+public;Feature Type;tbl_feature_types;;Categorizes archaeological features by their function, shape, or construction to facilitate the study of historical human activities. Categories include: domestic structures (e.g., homes), public and ceremonial spaces (e.g., temples, public buildings), economic and industrial areas (e.g., workshops, kilns), defensive structures (e.g., fortifications, walls), agricultural modifications (e.g., terraces, irrigation systems), funerary sites (e.g., graves, tombs), transportation routes (e.g., roads, bridges), and water management systems (e.g., wells, aqueducts). These classifications provide insights into societal organization, cultural practices, and technological advancements across various eras and regions.;;
 public;;tbl_feature_types;feature_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_feature_types;feature_type_description;A detailed description of the feature type, explaining its characteristics and significance.;NO;NO
 public;;tbl_feature_types;feature_type_name;The name of the feature type, providing a concise label for identification.;NO;NO
-public;Feature Type;tbl_features;;The 'tbl_features' table represents archaeological features, which are immovable traces of past human activities. These features include structures or landscape modifications such as building remains, hearths, burials, pits, roads, terraces, and defensive constructions like mounds and ditches. They are vital for understanding the spatial organization, cultural practices, and daily life of ancient societies, providing context for interpreting artifacts and environmental interactions. Archaeological features are analyzed in situ through excavation and surveying to offer insights into historical human-environment dynamics.;;
+public;Feature Type;tbl_features;;Represents archaeological features, which are immovable traces of past human activities. These features include structures or landscape modifications such as building remains, hearths, burials, pits, roads, terraces, and defensive constructions like mounds and ditches. They are vital for understanding the spatial organization, cultural practices, and daily life of ancient societies, providing context for interpreting artifacts and environmental interactions. Archaeological features are analyzed in situ through excavation and surveying to offer insights into historical human-environment dynamics.;;
 public;;tbl_features;feature_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_features;feature_description;A detailed description of the feature, which may include field and lab notes or interpretative information helpful for analyzing the sample data.;NO;NO
 public;;tbl_features;feature_name;The established reference name or number for the feature, such as 'well 47', 'anl.3', or 'c107'. Note: A sample may derive from multiple features (e.g., 'c107' within 'well 47'), but each feature should be recorded separately.;NO;NO
@@ -315,20 +315,20 @@ public;;tbl_horizons;method_id;Specifies the method used to identify or classify
 public;;tbl_identification_levels;identification_level_abbrev;Abbreviation for the identification level, used for quick reference.;NO;NO
 public;;tbl_identification_levels;identification_level_name;The full name of the identification level, providing a detailed description.;NO;NO
 public;;tbl_identification_levels;notes;Additional information or remarks related to the identification level.;NO;NO
-public;Identification Levels;tbl_identification_levels;;This table serves as a lookup for taxonomic identification levels, detailing the resolution or uncertainty in identification, such as 'cf. Family', 'cf. Genus', or 'cf. Species'.;;
+public;Identification Levels;tbl_identification_levels;;Serves as a lookup for taxonomic identification levels, detailing the resolution or uncertainty in identification, such as 'cf. Family', 'cf. Genus', or 'cf. Species'.;;
 public;;tbl_identification_levels;identification_level_id;Primary key (automatically incremented).;YES;NO
-public;Image Type;tbl_image_types;;Stores metadata regarding the purpose of images, such as site photos, sample group sketches, and core photos.;;
+public;Image Type;tbl_image_types;;Specifies the purpose of images, such as site photos, sample group sketches, and core photos.;;
 public;;tbl_image_types;image_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_image_types;description;A brief explanation of the image type's purpose.;NO;NO
 public;;tbl_image_types;image_type;The specific category or designation of the image.;NO;NO
-public;Language;tbl_languages;;Stores information about human languages used for the common names of taxa.;;
+public;Language;tbl_languages;;Specifies human languages used for the common names of taxa.;;
 public;;tbl_languages;language_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_languages;language_name_english;The name of the language in English.;NO;NO
 public;;tbl_languages;language_name_native;The name of the language in its native script or form.;NO;NO
 public;;tbl_lithology;depth_bottom;The depth at the bottom of the lithological layer, measured in centimeters.;NO;NO
 public;;tbl_lithology;depth_top;The depth at the top of the lithological layer, measured in centimeters.;NO;NO
 public;;tbl_lithology;description;A description of the lithological characteristics of the sedimentary layer.;NO;NO
-public;Lithology;tbl_lithology;;This table provides a detailed description of sedimentary units within a sample group. It allows for the characterization of a soil profile at various depths, corresponding to the sample depths (e.g., 0-10 cm: humus, 10-30 cm: sand).;;
+public;Lithology;tbl_lithology;;Provides a detailed description of sedimentary units within a sample group. It allows for the characterization of a soil profile at various depths, corresponding to the sample depths (e.g., 0-10 cm: humus, 10-30 cm: sand).;;
 public;;tbl_lithology;lithology_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_lithology;lower_boundary;Details regarding the boundary characteristics at the lower end of the lithological layer.;NO;NO
 public;;tbl_lithology;sample_group_id;Identifies a sample group. linking lithology data to specific sample groups.;NO;YES
@@ -370,11 +370,11 @@ public;;tbl_measured_value_dimensions;dimension_id;Specifies the specific dimens
 public;;tbl_measured_value_dimensions;dimension_value;The quantified value of the measured dimension.;NO;NO
 public;;tbl_measured_value_dimensions;measured_value_id;Specifies the measured value to which this dimension belongs.;NO;YES
 public;;tbl_measured_values;analysis_entity_id;Identifies the specific analysis entity associated with this record.;NO;YES
-public;Measured Value;tbl_measured_values;;This table records continuous chemical or physical values related to specific sample analyses. Each Sample Analysis can have zero or one associated Measured Value.;;
+public;Measured Value;tbl_measured_values;;Records continuous chemical or physical values related to specific sample analyses. Each Sample Analysis can have zero or one associated Measured Value.;;
 public;;tbl_measured_values;measured_value_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_measured_values;measured_value;The continuous value obtained from the sample analysis.;NO;NO
 public;;tbl_method_groups;description;A detailed description of the method group, providing insight into the shared characteristics or purpose of the methods within the group.;NO;NO
-public;Method Group;tbl_method_groups;;This table categorizes various analysis methods into groups based on their similarities, such as dating methods, isotope analyses, palaeoentomology, or geographic location.;;
+public;Method Group;tbl_method_groups;;Categorizes various analysis methods into groups based on their similarities, such as dating methods, isotope analyses, palaeoentomology, or geographic location.;;
 public;;tbl_method_groups;method_group_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_method_groups;group_name;The name or title of the method group, serving as a concise identifier for the category of methods.;NO;NO
 public;Method;tbl_methods;;Contains definitions and details of various analysis methods.;;
@@ -386,22 +386,22 @@ public;;tbl_methods;method_group_id;Specifies the group category of the method.;
 public;;tbl_methods;method_name;Full name of the analysis method.;NO;NO
 public;;tbl_methods;record_type_id;Specifies the type of record related to the method.;NO;YES
 public;;tbl_methods;unit_id;Specifies the unit of measurement used in the method.;NO;YES
-public;Modification Type;tbl_modification_types;;Stores information about various modifications or alterations observed in Quaternary or sub-fossils, such as carbonization, mineralization, and fragmentation.;;
+public;Modification Type;tbl_modification_types;;Specifies various modifications or alterations observed in Quaternary or sub-fossils, such as carbonization, mineralization, and fragmentation.;;
 public;;tbl_modification_types;modification_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_modification_types;modification_type_description;Detailed description of the modification to ensure clarity and understanding, especially for those unfamiliar with domain-specific terminology.;NO;NO
 public;;tbl_modification_types;modification_type_name;Concise identifier for the modification type, such as 'carbonized'.;NO;NO
-public;Physical Sample Feature;tbl_physical_sample_features;;This table establishes a many-to-many relationship between samples and specific features, allowing a feature to be related to multiple samples and a sample to be linked to multiple features. This supports scenarios where samples originate from nested feature groups or features with multiple identifiers.;;
+public;Physical Sample Feature;tbl_physical_sample_features;;Establishes a many-to-many relationship between samples and specific features, allowing a feature to be related to multiple samples and a sample to be linked to multiple features. This supports scenarios where samples originate from nested feature groups or features with multiple identifiers.;;
 public;;tbl_physical_sample_features;physical_sample_feature_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_physical_sample_features;feature_id;Specifies the unique identifier of a feature.;NO;YES
 public;;tbl_physical_sample_features;physical_sample_id;Identifies the specific physical sample.;NO;YES
 public;;tbl_physical_samples;alt_ref_type_id;Specifies the type of the primary sample name, such as lab or museum number.;NO;YES
 public;;tbl_physical_samples;date_sampled;The date when the sample was collected.;NO;NO
-public;Physical Sample;tbl_physical_samples;;This table records information about physical samples collected from specific sites. Each sample is characterized by its location within the site, its physical properties measured in specific units (e.g., liters, kilograms), and its context within a sample set. Additionally, samples may have descriptive information, notes, and external identifiers linked to other systems.;;
+public;Physical Sample;tbl_physical_samples;;Records information about physical samples collected from specific sites. Each sample is characterized by its location within the site, its physical properties measured in specific units (e.g., liters, kilograms), and its context within a sample set. Additionally, samples may have descriptive information, notes, and external identifiers linked to other systems.;;
 public;;tbl_physical_samples;physical_sample_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_physical_samples;sample_group_id;Identifies the specific sample group this sample belongs to.;NO;YES
 public;;tbl_physical_samples;sample_name;Primary reference number or name of the sample. Additional references can be recorded as alternative names.;NO;NO
 public;;tbl_physical_samples;sample_type_id;Specifies the physical form of the sample, such as bulk sample or core subsample.;NO;YES
-public;Project Stage;tbl_project_stages;;This table defines the various stages of an investigation, such as desktop study, prospection, full excavation, and reanalysis.;;
+public;Project Stage;tbl_project_stages;;Defines the various stages of an investigation, such as desktop study, prospection, full excavation, and reanalysis.;;
 public;;tbl_project_stages;project_stage_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_project_stages;description;A detailed explanation of the project stage, outlining its purpose and general activities involved.;NO;NO
 public;;tbl_project_stages;stage_name;The name of the project stage within the investigative cycle, such as desktop study, prospection, or final excavation.;NO;NO
@@ -434,7 +434,7 @@ public;;tbl_rdb_systems;rdb_first_published;The year the RDB system was first pu
 public;;tbl_rdb_systems;rdb_system;The name or title of the RDB system.;NO;NO
 public;;tbl_rdb_systems;rdb_system_date;The date related to the RDB system, possibly indicating the version or update year.;NO;NO
 public;;tbl_rdb_systems;rdb_version;The version or edition number of the RDB system.;NO;NO
-public;Record Type;tbl_record_types;;This table categorizes biological proxies based on their general usage or origin, enabling the creation of meaningful subsets from the complete taxonomic index and associated abundance elements. It ensures relevance by excluding options like 'seed' from datasets related to insects. The classification is primarily at the 'Order' level in the taxonomic hierarchy. For example, 'Insects & similar' includes insects, arthropods, and other related animals, while 'Plants & pollen' groups entities with shared ecological significance, such as plant presence.;;
+public;Record Type;tbl_record_types;;Categorizes biological proxies based on their general usage or origin, enabling the creation of meaningful subsets from the complete taxonomic index and associated abundance elements. It ensures relevance by excluding options like 'seed' from datasets related to insects. The classification is primarily at the 'Order' level in the taxonomic hierarchy. For example, 'Insects & similar' includes insects, arthropods, and other related animals, while 'Plants & pollen' groups entities with shared ecological significance, such as plant presence.;;
 public;;tbl_record_types;record_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_record_types;record_type_description;Provides a detailed explanation of the group's composition and the rationale for its categorization.;NO;NO
 public;;tbl_record_types;record_type_name;Concise name representing the proxy or proxies within the group.;NO;NO
@@ -463,7 +463,7 @@ public;;tbl_relative_dates;dating_uncertainty_id;Specifies the uncertainty categ
 public;;tbl_relative_dates;method_id;Specifies the method used for dating the sample to a period or calendar date.;NO;YES
 public;;tbl_relative_dates;notes;Additional notes regarding the sample's dating, including any specific details or observations.;NO;NO
 public;;tbl_relative_dates;relative_age_id;Specifies the relative age definition.;NO;YES
-public;Relative Date;tbl_relative_dates;;This table records the relative dating information for samples by associating a relative age definition with a physical sample through an analysis entity. It includes details about dating methods, notes, and indications of uncertainty (e.g., 'from', 'ca', '<').;;
+public;Relative Date;tbl_relative_dates;;Records the relative dating information for samples by associating a relative age definition with a physical sample through an analysis entity. It includes details about dating methods, notes, and indications of uncertainty (e.g., 'from', 'ca', '<').;;
 public;;tbl_relative_dates;relative_date_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_alt_refs;alt_ref;Alternative reference name for the physical sample.;NO;NO
 public;;tbl_sample_alt_refs;alt_ref_type_id;Specifies the type of alternative identification.;NO;YES
@@ -478,29 +478,29 @@ public;;tbl_sample_coordinates;accuracy;Describes the precision of the GPS data,
 public;;tbl_sample_coordinates;coordinate_method_dimension_id;Specifies referencing the method used to determine the grid type.;NO;YES
 public;;tbl_sample_coordinates;measurement;The specific coordinate measurement value.;NO;NO
 public;;tbl_sample_coordinates;physical_sample_id;Identifies the specific physical sample.;NO;YES
-public;Sample Coordinate;tbl_sample_coordinates;;Stores the physical location data of samples. This includes both local grid references and standardized global coordinates, such as latitude and longitude. The table references a methods table to determine the type of grid used, facilitating the plotting of samples on large-scale maps or site-specific projects.;;
+public;Sample Coordinate;tbl_sample_coordinates;;Specifies the physical location data of samples. This includes both local grid references and standardized global coordinates, such as latitude and longitude. References a methods that determines the type of grid used, facilitating the plotting of samples on large-scale maps or site-specific projects.;;
 public;;tbl_sample_coordinates;sample_coordinate_id;Primary key (automatically incremented).;YES;NO
-public;Sample Description Sample Group Context;tbl_sample_description_sample_group_contexts;;This table links sample descriptions to their respective group contexts, providing a structured way to manage and categorize sample data.;;
+public;Sample Description Sample Group Context;tbl_sample_description_sample_group_contexts;;Links sample descriptions to their respective group contexts, providing a structured way to manage and categorize sample data.;;
 public;;tbl_sample_description_sample_group_contexts;sample_description_sample_group_context_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_description_sample_group_contexts;sample_description_type_id;Specifies the sample description type, indicating the type of sample described.;NO;YES
 public;;tbl_sample_description_sample_group_contexts;sampling_context_id;Specifies the sampling context, providing contextual details about the sampling environment.;NO;YES
-public;Sample Description Type;tbl_sample_description_types;;Stores various types of sample descriptions used in the database.;;
+public;Sample Description Type;tbl_sample_description_types;;Specifies various types of sample descriptions used in the database.;;
 public;;tbl_sample_description_types;sample_description_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_description_types;type_description;Detailed description of the sample type.;NO;NO
 public;;tbl_sample_description_types;type_name;Name assigned to the sample type.;NO;NO
 public;;tbl_sample_descriptions;description;Textual description of the sample.;NO;NO
-public;Sample Description;tbl_sample_descriptions;;Stores detailed descriptions of samples categorized by different description types.;;
+public;Sample Description;tbl_sample_descriptions;;Contains detailed descriptions of samples categorized by different description types.;;
 public;;tbl_sample_descriptions;sample_description_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_descriptions;physical_sample_id;Identifies the specific physical sample.;NO;YES
 public;;tbl_sample_descriptions;sample_description_type_id;Specifies the type identifier for the sample description.;NO;YES
-public;Sample Dimension;tbl_sample_dimensions;;Contains measurable dimension data for samples, excluding coordinates. This includes attributes such as volume, weight, and depth within stratigraphy or cores. Related names and descriptions of dimensions are maintained in the 'tbl_dimension' table.;;
+public;Sample Dimension;tbl_sample_dimensions;;Contains measurable dimension data for samples, excluding coordinates. This includes attributes such as volume, weight, and depth within stratigraphy or cores.;;
 public;;tbl_sample_dimensions;sample_dimension_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_dimensions;dimension_id;Specifies the specific dimension being measured  (e.g., length, width, height)..;NO;YES
 public;;tbl_sample_dimensions;dimension_value;The quantified value of the measured dimension.;NO;NO
 public;;tbl_sample_dimensions;method_id;Specifies the measurement method used, including associated units.;NO;YES
 public;;tbl_sample_dimensions;physical_sample_id;Identifies the specific physical sample.;NO;YES
 public;;tbl_sample_group_coordinates;coordinate_method_dimension_id;Specifies the method and dimension used for determining coordinates.;NO;YES
-public;Sample Group Coordinate;tbl_sample_group_coordinates;;Stores coordinates related to sample groups, such as the top of a core, the top of a profile, or specific locations on dendrochronological or ceramic objects.;;
+public;Sample Group Coordinate;tbl_sample_group_coordinates;;Contains coordinates related to sample groups, such as the top of a core, the top of a profile, or specific locations on dendrochronological or ceramic objects.;;
 public;;tbl_sample_group_coordinates;sample_group_position_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_group_coordinates;position_accuracy;Specifies the accuracy level of the recorded position.;NO;NO
 public;;tbl_sample_group_coordinates;sample_group_id;Identifies the specific sample group.;NO;YES
@@ -509,7 +509,7 @@ public;Sample Group Description Type Sampling Context;tbl_sample_group_descripti
 public;;tbl_sample_group_description_type_sampling_contexts;sample_group_description_type_sampling_context_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_group_description_type_sampling_contexts;sample_group_description_type_id;Specifies the description type.;NO;YES
 public;;tbl_sample_group_description_type_sampling_contexts;sampling_context_id;Specifies the sampling context, providing contextual details about the sampling environment.;NO;YES
-public;Sample Group Description Type;tbl_sample_group_description_types;;This table categorizes the types of descriptions related to sample groups. It includes types such as architectural data (e.g., roof type, structural details) or dendrochronological anlabels related to shipwrecks. Note that these descriptions are intended to provide context and should not be used to infer specific features of the samples. Users can add custom lookup data.;;
+public;Sample Group Description Type;tbl_sample_group_description_types;;Categorizes the types of descriptions related to sample groups. It includes types such as architectural data (e.g., roof type, structural details) or dendrochronological anlabels related to shipwrecks. Note that these descriptions are intended to provide context and should not be used to infer specific features of the samples. Users can add custom lookup data.;;
 public;;tbl_sample_group_description_types;sample_group_description_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_group_description_types;type_description;A detailed description of the sample group description type.;NO;NO
 public;;tbl_sample_group_description_types;type_name;The name or label of the sample group description type.;NO;NO
@@ -517,8 +517,8 @@ public;;tbl_sample_group_descriptions;group_description;Textual description of t
 public;Sample Group Description;tbl_sample_group_descriptions;;Contains definitions or descriptions of groups of samples, categorized by a specific description type.;;
 public;;tbl_sample_group_descriptions;sample_group_description_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_group_descriptions;sample_group_description_type_id;Specifies the type of description for the sample group.;NO;YES
-public;;tbl_sample_group_descriptions;sample_group_id;Specifies the the specific sample group.;NO;YES
-public;Sample Group Dimension;tbl_sample_group_dimensions;;Stores the physical dimensions of a sample group (e.g., core length) based on a specified dimension type.;;
+public;;tbl_sample_group_descriptions;sample_group_id;Specifies the specific sample group.;NO;YES
+public;Sample Group Dimension;tbl_sample_group_dimensions;;Contains the physical dimensions of a sample group (e.g., core length) based on a specified dimension type.;;
 public;;tbl_sample_group_dimensions;sample_group_dimension_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_group_dimensions;dimension_id;Specifies the specific dimension being measured  (e.g., length, width, height)..;NO;YES
 public;;tbl_sample_group_dimensions;dimension_value;The quantified value of the measured dimension.;NO;NO
@@ -530,7 +530,7 @@ public;;tbl_sample_group_images;image_location;The storage path or URL where the
 public;;tbl_sample_group_images;image_name;The file name or title of the image.;NO;NO
 public;;tbl_sample_group_images;image_type_id;Specifies the image type, indicating the category or format of the image.;NO;YES
 public;;tbl_sample_group_images;sample_group_id;Identifies the specific sample group.;NO;YES
-public;Sample Group Note;tbl_sample_group_notes;;Stores notes pertaining to groups of samples.;;
+public;Sample Group Note;tbl_sample_group_notes;;Contains notes pertaining to groups of samples.;;
 public;;tbl_sample_group_notes;sample_group_note_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_group_notes;note;Textual note providing additional information about the sample group.;NO;NO
 public;;tbl_sample_group_notes;sample_group_id;Identifies the specific sample group.;NO;YES
@@ -538,7 +538,7 @@ public;;tbl_sample_group_references;biblio_id;Specifies the publication that des
 public;Sample Group Reference;tbl_sample_group_references;;Contains bibliographic information specifically relevant to a sample group, distinct from site or dataset references (e.g., a publication that reinterprets a structure within a site).;;
 public;;tbl_sample_group_references;sample_group_reference_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_group_references;sample_group_id;Identifies the specific sample group.;NO;YES
-public;Sample Group Sampling Context;tbl_sample_group_sampling_contexts;;This table defines the type of context or situation in which a sample group was collected. It includes the investigation purpose or initial collection intent, such as stratigraphic sequence, invertebrate survey, archaeological excavation, or quantitative vegetation survey. This context aids in filtering and analyzing samples based on specific project types, like climate reconstruction using stratigraphic sequences or habitat analysis using modern survey data.;;
+public;Sample Group Sampling Context;tbl_sample_group_sampling_contexts;;Defines the type of context or situation in which a sample group was collected. It includes the investigation purpose or initial collection intent, such as stratigraphic sequence, invertebrate survey, archaeological excavation, or quantitative vegetation survey. This context aids in filtering and analyzing samples based on specific project types, like climate reconstruction using stratigraphic sequences or habitat analysis using modern survey data.;;
 public;;tbl_sample_group_sampling_contexts;sampling_context_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_group_sampling_contexts;description;Detailed explanation of the sampling context term.;NO;NO
 public;;tbl_sample_group_sampling_contexts;sampling_context;Concise and descriptive name for the sampling context, e.g., stratigraphic sequence or archaeological excavation.;NO;NO
@@ -558,21 +558,21 @@ public;;tbl_sample_images;description;A brief description of the image content.;
 public;;tbl_sample_images;image_location;The file path or URL where the image is stored.;NO;NO
 public;;tbl_sample_images;image_name;The name of the image file.;NO;NO
 public;;tbl_sample_images;image_type_id;Specifies the type of image (e.g., site photograph, lab image).;NO;YES
-public;Sample Image;tbl_sample_images;;Stores images related to samples, including site photographs, lab processing images, and microscope images.;;
+public;Sample Image;tbl_sample_images;;Contains images related to samples, including site photographs, lab processing images, and microscope images.;;
 public;;tbl_sample_images;sample_image_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_images;physical_sample_id;Identifies the specific physical sample.;NO;YES
-public;Sample Location Type Sampling Context;tbl_sample_location_type_sampling_contexts;;This table establishes a relationship between sample location types and their respective sampling contexts.;;
+public;Sample Location Type Sampling Context;tbl_sample_location_type_sampling_contexts;;Gives the relationship between sample location types and their respective sampling contexts.;;
 public;;tbl_sample_location_type_sampling_contexts;sample_location_type_sampling_context_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_location_type_sampling_contexts;sample_location_type_id;Specifies the unique identifier for a sample location type.;NO;YES
 public;;tbl_sample_location_type_sampling_contexts;sampling_context_id;Specifies the sampling context, providing contextual details about the sampling environment.;NO;YES
 public;;tbl_sample_location_types;location_type;The name or identifier of the sample location type.;NO;NO
 public;;tbl_sample_location_types;location_type_description;A detailed description of the sample location type.;NO;NO
-public;Sample Location Type;tbl_sample_location_types;;Contains the different types of sample locations used within the system.;;
+public;Sample Location Type;tbl_sample_location_types;;Categorizes the different types of sample locations used within the system.;;
 public;;tbl_sample_location_types;sample_location_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_locations;location;The specific location description of the sample.;NO;NO
 public;;tbl_sample_locations;physical_sample_id;Identifies the specific physical sample.;NO;YES
 public;;tbl_sample_locations;sample_location_type_id;Specifies the type of the sample location.;NO;YES
-public;Sample Location;tbl_sample_locations;;Stores information about the locations of samples based on predefined types.;;
+public;Sample Location;tbl_sample_locations;;Contains information about the locations of samples based on predefined types.;;
 public;;tbl_sample_locations;sample_location_id;Primary key (automatically incremented).;YES;NO
 public;Sample Note;tbl_sample_notes;;Contains miscellaneous notes related to samples that do not belong in other tables, such as 'stored in a cellar until processing in 2020'.;;
 public;;tbl_sample_notes;sample_note_id;Primary key (automatically incremented).;YES;NO
@@ -583,11 +583,11 @@ public;;tbl_sample_types;description;Detailed description of the sample type.;NO
 public;Sample Type;tbl_sample_types;;Defines the physical form or category of a sample. This can include specific sub-samples related to the sampling method of a sample group, or general bulk samples. Examples include 'Core Subsample', 'Grab Sample', and 'Bulk (Bag) Sample'.;;
 public;;tbl_sample_types;sample_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sample_types;type_name;The name or label of the sample type.;NO;NO
-public;Season Type;tbl_season_types;;Stores different categories of seasons.;;
+public;Season Type;tbl_season_types;;Contains different categories of seasons.;;
 public;;tbl_season_types;season_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_season_types;description;A detailed description of the season type.;NO;NO
 public;;tbl_season_types;season_type;The name or identifier of the season type.;NO;NO
-public;Season;tbl_seasons;;Stores information about different seasons and their associated months for categorizing activities.;;
+public;Season;tbl_seasons;;Contains information about different seasons and their associated months for categorizing activities.;;
 public;;tbl_seasons;season_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_seasons;season_name;Name of the season, e.g., Winter, Spring.;NO;NO
 public;;tbl_seasons;season_type;Descriptive category for the season, such as meteorological or astronomical.;NO;NO
@@ -607,7 +607,7 @@ public;Site Location;tbl_site_locations;;Associates site identifiers with locati
 public;;tbl_site_locations;site_location_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_site_locations;location_id;Specifies a location the site is located in.;NO;YES
 public;;tbl_site_locations;site_id;Specifies the specific site.;NO;YES
-public;Site Coordinate;tbl_site_natgridrefs;;Stores site coordinates using various national grid systems, such as the UK Ordnance Survey National Grid and Swedish SWEREF99. Each site may have coordinates in multiple grid systems (e.g., Swedish RT90 and SWEREF99TM).;;
+public;Site Coordinate;tbl_site_natgridrefs;;Contains site coordinates using various national grid systems, such as the UK Ordnance Survey National Grid and Swedish SWEREF99. Each site may have coordinates in multiple grid systems (e.g., Swedish RT90 and SWEREF99TM).;;
 public;;tbl_site_natgridrefs;site_natgridref_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_site_natgridrefs;method_id;Specifies the coordinate system.;NO;YES
 public;;tbl_site_natgridrefs;natgridref;The national grid reference for the site.;NO;NO
@@ -622,16 +622,16 @@ public;;tbl_site_preservation_status;assessment_author_contact_id;Identifier for
 public;;tbl_site_preservation_status;assessment_type;Specifies the type of assessment conducted, such as a UNESCO report or archaeological survey, detailing preservation status and threats.;NO;NO
 public;;tbl_site_preservation_status;description;A brief overview of the site's preservation status or the threats it faces. This field is for information that does not fit into other specified columns.;NO;NO
 public;;tbl_site_preservation_status;Evaluation_date;The date on which the preservation status or threat assessment was conducted, whether formal or informal.;NO;NO
-public;Site Preservation Status;tbl_site_preservation_status;;Contains data on the preservation levels and threats to cultural heritage sites. Each record represents a unique preservation status or threat. This table was created at the request of PAN (Polar Archaeology Network) members to support the evaluation of threats to Arctic cultural heritage.;;
+public;Site Preservation Status;tbl_site_preservation_status;;Contains data on the preservation levels and threats to cultural heritage sites. Each record represents a unique preservation status or threat. This information was added at the request of PAN (Polar Archaeology Network) members to support the evaluation of threats to Arctic cultural heritage.;;
 public;;tbl_site_preservation_status;site_preservation_status_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_site_preservation_status;preservation_status_or_threat;A descriptive term for the preservation status (e.g., lost, damaged, threatened) or the primary cause of risk to the site (e.g., hydroelectric projects, oil exploitation, mining, forestry, climate change, erosion).;NO;NO
 public;;tbl_site_preservation_status;site_id;Specifies the site to allow multiple preservation status or threat records per site.;NO;YES
 public;;tbl_site_references;biblio_id;Specifies the publication that describes or mentions  the site.;NO;YES
-public;Site Reference;tbl_site_references;;This table catalogs publications that describe or mention sites. Publications related to specific sample groups, physical samples, or datasets are documented at their respective hierarchical levels.;;
+public;Site Reference;tbl_site_references;;Catalogs publications that describe or mention sites. Publications related to specific sample groups, physical samples, or datasets are documented at their respective hierarchical levels.;;
 public;;tbl_site_references;site_reference_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_site_references;site_id;Specifies the specific site.;NO;YES
 public;;tbl_sites;altitude;The altitude of the site in meters above sea level.;NO;NO
-public;Site;tbl_sites;;The 'tbl_sites' table records detailed information about each excavation or sampling location, referred to as a Site, in the SEAD database. Sites are organized into Sample Sets to construct environmental pre- and historical data records.;;
+public;Site;tbl_sites;;Records detailed information about each excavation or sampling location i.e. a defined location where samples have been collected through excavation.;;
 public;;tbl_sites;site_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_sites;latitude_dd;The latitude of the site in decimal degrees.;NO;NO
 public;;tbl_sites;longitude_dd;The longitude of the site in decimal degrees.;NO;NO
@@ -667,7 +667,7 @@ public;;tbl_taxa_measured_attributes;attribute_measure;The specific measurement 
 public;;tbl_taxa_measured_attributes;attribute_type;The type of measurement being recorded (e.g., length, width).;NO;NO
 public;;tbl_taxa_measured_attributes;attribute_units;Units in which the measurement is recorded (e.g., cm, mm).;NO;NO
 public;;tbl_taxa_measured_attributes;data;Additional data related to the measurement, if applicable.;NO;NO
-public;Taxa Measured Attribute;tbl_taxa_measured_attributes;;Table storing measurements related to the size of organisms, such as maximum length.;;
+public;Taxa Measured Attribute;tbl_taxa_measured_attributes;;Contains measurements related to the size of organisms, such as maximum length.;;
 public;;tbl_taxa_measured_attributes;measured_attribute_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_taxa_measured_attributes;taxon_id;Specifies the taxonomic unit related to this record.;NO;YES
 public;;tbl_taxa_reference_specimens;contact_id;Identifies the contact person or organization responsible for the taxon reference specimen.;NO;YES
@@ -692,13 +692,13 @@ public;;tbl_taxa_synonyms;reference_type;Type of reference related to the synony
 public;;tbl_taxa_synonyms;synonym;The synonym at the specified taxonomic level. A separate record is used for different taxonomic levels when names differ from the master list.;NO;NO
 public;;tbl_taxa_synonyms;taxon_id;Specifies the taxonomic unit related to this record.;NO;YES
 public;;tbl_taxa_tree_authors;author_name;The name of the authority related to the species or synonym.;NO;NO
-public;Taxa Authority;tbl_taxa_tree_authors;;Stores authoritative information for species names or synonyms.;;
+public;Taxa Authority;tbl_taxa_tree_authors;;Specifies authoritative information for species names or synonyms.;;
 public;;tbl_taxa_tree_authors;author_id;Primary key (automatically incremented).;YES;NO
-public;Taxonomic Family;tbl_taxa_tree_families;;Stores information about taxonomic families.;;
+public;Taxonomic Family;tbl_taxa_tree_families;;Specifies information about taxonomic families.;;
 public;;tbl_taxa_tree_families;family_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_taxa_tree_families;family_name;Name of the taxonomic family.;NO;NO
 public;;tbl_taxa_tree_families;order_id;Specifies the taxonomic order this family belongs to.;NO;YES
-public;Taxonomic Genera;tbl_taxa_tree_genera;;Table containing taxonomic genera information.;;
+public;Taxonomic Genera;tbl_taxa_tree_genera;;Contains taxonomic genera information.;;
 public;;tbl_taxa_tree_genera;genus_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_taxa_tree_genera;family_id;Specifies the taxonomic family.;NO;YES
 public;;tbl_taxa_tree_genera;genus_name;Name of the genus.;NO;NO
@@ -723,7 +723,7 @@ public;;tbl_taxonomic_order_biblio;taxonomic_order_biblio_id;Primary key (automa
 public;;tbl_taxonomic_order_biblio;taxonomic_order_system_id;Specifies the the taxonomic order system.;NO;YES
 public;Taxonomic Order System;tbl_taxonomic_order_systems;;Contains different taxonomic order systems, which provide unique and name-independent identifiers for taxa. It facilitates mapping across various systems, enhancing interoperability between databases.;;
 public;;tbl_taxonomic_order_systems;taxonomic_order_system_id;Primary key (automatically incremented).;YES;NO
-public;;tbl_taxonomic_order_systems;system_description;A detailed description of the taxonomic order system.;NO;NO
+public;;tbl_taxonomic_order_systems;system_description;Gives a detailed description of the taxonomic order system.;NO;NO
 public;;tbl_taxonomic_order_systems;system_name;The name of the taxonomic order system.;NO;NO
 public;;tbl_taxonomy_notes;biblio_id;Specifies the publication that describes or mentions  the taxonomy note.;NO;YES
 public;Taxonomy Note;tbl_taxonomy_notes;;Contains general notes on taxa, primarily regarding identification issues (e.g., potential confusion with similar taxa), and may include references and image links.;;
@@ -769,8 +769,8 @@ public;;tbl_text_identification_keys;key_text;Text description of the identifica
 public;Text Identification Key;tbl_text_identification_keys;;Stores identification key extracts along with their bibliographic sources.;;
 public;;tbl_text_identification_keys;key_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_text_identification_keys;taxon_id;Specifies the taxonomic unit related to this record.;NO;YES
-public;;tbl_units;description;A detailed explanation or description of the measurement unit.;NO;NO
-public;Unit;tbl_units;;Table storing definitions of measurement units (e.g., mm for millimeters).;;
+public;;tbl_units;description;Gives a detailed explanation or description of the measurement unit.;NO;NO
+public;Unit;tbl_units;;Specifies definitions of measurement units (e.g., mm for millimeters).;;
 public;;tbl_units;unit_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_units;unit_abbrev;The abbreviation of the measurement unit (e.g., 'mm' for millimeters).;NO;NO
 public;;tbl_units;unit_name;The full name of the measurement unit (e.g., 'millimeters').;NO;NO
@@ -806,4 +806,3 @@ public;;tbl_years_types;description;A detailed explanation of the year type.;NO;
 public;Year Type;tbl_years_types;;Contains the names and descriptions of different types of years used for dating, such as radiocarbon or calendar years.;;
 public;;tbl_years_types;years_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_years_types;name;The name of the year type, e.g., 'Radiocarbon', 'Calendar'.;NO;NO
-public;;;;;YES;NO
