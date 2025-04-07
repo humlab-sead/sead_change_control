@@ -1,0 +1,204 @@
+# .tbls.yml
+
+name: sead_staging
+desc: SEAD The Strategic Environmental Archaeology Database
+
+# DSN (Database Source Name) to connect database
+
+dsn: postgres://humlab_admin@humlabseadserv.srv.its.umu.se:5433/sead_staging?sslmode=disable
+
+# Path to generate document
+# Default is `dbdoc`
+docPath: dbdoc/tbls-schema
+
+include:
+  - public.tbl_*
+exclude:
+  - public.tbl_dendro*
+  - public.tbl_isotope*
+  - public.tbl_aggreg*
+  - public.tbl_dataset_methods*
+
+viewpoints:
+  -
+    name: comments on post
+    desc: Users can comment on each post multiple times and put a star on each comment.
+    tables:
+      - users
+      - posts
+      - comments
+      - comment_stars
+      - post_comments
+      - post_comment_stars
+    groups:
+      -
+        name: Comments
+        desc: Tables about comments
+        tables:
+          - posts
+          - comments
+          - post_comments
+      -
+        name: Stars
+        desc: Tables about stars
+        tables:
+          - comment_stars
+          - post_comment_stars
+
+# format:
+#   # Adjust the column width of Markdown format table
+#   # Default is false
+#   adjust: true
+#   # Sort the order of table list and columns
+#   # Default is false
+#   sort: false
+#   # Display sequential numbers in table rows
+#   # Default is false
+#   number: false
+#   # The comments for each table in the Tables section of the index page will display the text up to the first double newline (first paragraph).
+#   # Default is false
+#   showOnlyFirstParagraph: true
+#   # Hide table columns without values
+#   # Default is false
+#   hideColumnsWithoutValues: true
+#   # It can be boolean or array
+#   # hideColumnsWithoutValues: ["Parents", "Children"]
+
+#   er:
+#   # Skip generation of ER diagram
+#   # Default is false
+#   skip: false
+#   # ER diagram image format (`png`, `jpg`, `svg`, `mermaid`)
+#   # Default is `svg`
+#   format: svg
+#   # Add table/column comment to ER diagram
+#   # Default is false
+#   comment: true
+#   # Hide relation definition from ER diagram
+#   # Default is false
+#   hideDef: true
+#   # Show column settings in ER diagram. If this section is not set, all columns will be displayed (default).
+#   showColumnTypes:
+#     # Show related columns
+#     related: true
+#     # Show primary key columns
+#     primary: true
+#   # Distance between tables that display relations in the ER
+#   # Default is 1
+#   distance: 2
+#   # ER diagram (png/jpg) font (font name, font file, font path or keyword)
+#   # Default is "" (system default)
+#   font: M+
+
+# # .tbls.yml
+# lint:
+#   # require table comment
+#   requireTableComment:
+#     enabled: true
+#     # all commented, or all uncommented.
+#     allOrNothing: false
+#   # require column comment
+#   requireColumnComment:
+#     enabled: true
+#     # all commented, or all uncommented.
+#     allOrNothing: true
+#     # exclude columns from warnings
+#     exclude:
+#       - id
+#       - created_at
+#       - updated_at
+#     # exclude tables from warnings
+#     excludeTables:
+#       - logs
+#       - comment_stars
+#   # require index comment
+#   requireIndexComment:
+#     enabled: true
+#     # all commented, or all uncommented.
+#     allOrNothing: false
+#     # exclude indexes from warnings
+#     exclude:
+#       - user_id_idx
+#     # exclude tables from warnings
+#     excludeTables:
+#       - logs
+#       - comment_stars
+#   # require constraint comment
+#   requireConstraintComment:
+#     enabled: true
+#     # all commented, or all uncommented.
+#     allOrNothing: false
+#     # exclude constrains from warnings
+#     exclude:
+#       - unique_user_name
+#     # exclude tables from warnings
+#     excludeTables:
+#       - logs
+#       - comment_stars
+#   # require trigger comment
+#   requireTriggerComment:
+#     enabled: true
+#     # all commented, or all uncommented.
+#     allOrNothing: false
+#     # exclude triggers from warnings
+#     exclude:
+#       - update_count
+#     # exclude tables from warnings
+#     excludeTables:
+#       - logs
+#       - comment_stars
+#   # require table labels
+#   requireTableLabels:
+#     enabled: true
+#     # all commented, or all uncommented.
+#     allOrNothing: false
+#     # exclude tables from warnings
+#     exclude:
+#       - logs
+#   # find a table that has no relation
+#   unrelatedTable:
+#     enabled: true
+#     # all related, or all unrelated.
+#     allOrNothing: true
+#     # exclude tables from warnings
+#     exclude:
+#       - logs
+#   # check max column count
+#   columnCount:
+#     enabled: true
+#     max: 10
+#     # exclude tables from warnings
+#     exclude:
+#       - user_options
+#   # require columns
+#   requireColumns:
+#     enabled: true
+#     columns:
+#       -
+#         name: created
+#       -
+#         name: updated
+#         exclude:
+#           - logs
+#           - CamelizeTable
+#   # check duplicate relations
+#   duplicateRelations:
+#     enabled: true
+#   # check if the foreign key columns have an index
+#   requireForeignKeyIndex:
+#     enabled: true
+#     exclude:
+#       - comments.user_id
+#   # checks if labels are in BigQuery style (https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements)
+#   labelStyleBigQuery:
+#     enabled: true
+#     exclude:
+#       - schema_migrations
+#   # checks if tables are included in at least one viewpoint
+#   requireViewpoints: 
+#     enabled: true
+#     exclude:
+#       - schema_migrations
+  
+# lintExclude:
+#   - CamelizeTable
