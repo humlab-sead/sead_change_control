@@ -220,6 +220,68 @@ begin
     grant select on "tbl_value_qualifier_symbols" to public;
     grant select on "tbl_value_qualifiers" to public;
     
+
+    create view view_typed_analysis_tables as
+        /*
+        	with value_tables (table_name, base_type) as (
+                select distinct table_name,
+                    replace(replace(regexp_replace(
+                        lower(regexp_replace(
+                            substring(table_name FROM 'tbl_analysis_(\w+)$'),
+                            '^value_|_values$',
+                            ''
+                        )),
+                        's$',
+                        ''
+                    ), 'numerical', 'decimal'), 'categorical', 'category')
+                from sead_utility.table_columns
+                where table_name like 'tbl_analysis%'
+                and table_name not like 'tbl_analysis_enti%'
+                and table_name not in ('tbl_analysis_values')
+            ) select *
+            from value_tables
+        */
+        select table_id, table_name, base_type
+        from (values 
+            (1, 'tbl_analysis_boolean_values', 'boolean'),
+            (2, 'tbl_analysis_categorical_values', 'category'),
+            (3, 'tbl_analysis_dating_ranges', 'dating_range'),
+            (4, 'tbl_analysis_identifiers', 'identifier'),
+            (5, 'tbl_analysis_integer_ranges', 'integer_range'),
+            (6, 'tbl_analysis_integer_values', 'integer'),
+            (7, 'tbl_analysis_notes', 'note'),
+            (8, 'tbl_analysis_numerical_ranges', 'decimal_range'),
+            (9, 'tbl_analysis_numerical_values', 'decimal'),
+            (10, 'tbl_analysis_taxon_counts', 'taxon_count'),
+            (11, 'tbl_analysis_value_dimensions', 'dimension')
+        ) as t(table_id, table_name, base_type);
+
+
+    create view view_typed_analysis_values as
+        select 1 as table_id, analysis_value_id from tbl_analysis_boolean_values
+        union
+        select 2 as table_id, analysis_value_id from tbl_analysis_categorical_values
+        union
+        select 3 as table_id, analysis_value_id from tbl_analysis_dating_ranges
+        union
+        select 4 as table_id, analysis_value_id from tbl_analysis_identifiers
+        union
+        select 5 as table_id, analysis_value_id from tbl_analysis_integer_ranges
+        union
+        select 6 as table_id, analysis_value_id from tbl_analysis_integer_values
+        union
+        select 7 as table_id, analysis_value_id from tbl_analysis_notes
+        union
+        select 8 as table_id, analysis_value_id from tbl_analysis_numerical_ranges
+        union
+        select 9 as table_id, analysis_value_id from tbl_analysis_numerical_values
+        union
+        select 10 as table_id, analysis_value_id from tbl_analysis_taxon_counts
+        union
+        select 11 as table_id, analysis_value_id from tbl_analysis_value_dimensions
+    ;
+
+      
 end $$;
 commit;
 
