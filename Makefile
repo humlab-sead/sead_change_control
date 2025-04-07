@@ -56,6 +56,15 @@ documentation:
 	@bin/create-docs/sync-comments --delimiter \; --port 5433 --database sead_staging resources/tables_and_columns.csv  \
 	 && bin/create-docs/generate-docs --deploy-to-github-pages sead_staging public
 
+tbls-docs:
+	@echo "requires tbls to be installed or run in docker"
+	@echo "1. install go by downloading and extracting tarball from https://go.dev/dl/ and extract to ~/bin"
+	@echo "2. add to your .bashrc or .bash_profile and reload shell:"
+	@echo "      export GOROOT=\$$HOME/bin/go"
+	@echo "      export GOBIN=\$$GOROOT/bin"
+	@echo "      export PATH=\$$GOROOT/bin:\$$PATH"
+	@echo "3. run: go install github.com/k1LoW/tbls"
+
 .PHONY: create-staging-from-scratch
 create-staging-from-scratch: are-you-sure
 	@echo "Create sead_staging based on sead_master_9_public..."
