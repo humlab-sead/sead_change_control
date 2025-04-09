@@ -2,7 +2,13 @@
 #
 # Creates a copy of a database.
 
-source .env
+if [ -f .env ]; then
+    set -o allexport
+    source .env
+    set +o allexport
+
+    # export $(grep -v '^#' .env | xargs)
+fi
 
 g_source_db="sead_production"
 g_target_db=""
