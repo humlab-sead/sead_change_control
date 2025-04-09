@@ -507,7 +507,7 @@ if [ "$g_mode" != "only_data" ]; then
     elif [ "$g_mode" == "update" ]; then
         update_change_request $g_cr_name $g_project $g_work_folder
     fi
-    bin/dump-submission --id $g_cr_name --mode dump --database $g_database --folder "subsystem/deploy/clearinghouse-data/$g_cr_name" --force
+    bin/dump-submission --host $g_host --user $g_user --port $g_port --id $g_cr_name --mode dump --database $g_database --folder "subsystem/deploy/clearinghouse-data/$g_cr_name" --force
 
     create_post_deploy_hook $g_cr_name $g_project/deploy/$g_cr_name
 
