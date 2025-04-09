@@ -1,34 +1,78 @@
 #!/bin/bash
 
-source .env
 
-DOT_HOST_FILE=~/vault/.default.sead.server
-DOT_USER_FILE=~/vault/.default.sead.username
+if [ -f .env ]; then
+    set -o allexport
+    source .env
+    set +o allexport
+fi
 
 g_database=
 g_host=$(dnsdomainname -A)
 g_user=
-g_compress_dump=no
+g_port=5433
+g_compress_dump=YES
+g_filename=
+g_bare=YES
 
-if [[ -f "$DOT_HOST_FILE" ]]; then
-    g_host=`cat $DOT_HOST_FILE`
+if [ -f ~/vault/.default.sead.server ]; then
+    g_host=`cat ~/vault/.default.sead.server`
 fi
 
-if [[ -f "$DOT_USER_FILE" ]]; then
-    g_user=`cat $DOT_USER_FILE`
+if [ -f ~/vault/.default.sead.username ]; then
+    g_user=`cat  ~/vault/.default.sead.username`
 fi
+
+function usage()
+{
+    local error_message=$1
+    if [ "$error_message" != "" ]; then
+        echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $error_message" >&2
+    fi
+    echo "usage: dump-database [OPTIONS...] DBNAME "
+    echo "Creates a dump of the database."
+    echo "Options:"
+    echo "   --host HOSTNAME           host name"
+    echo "   --user USERNAME           user name"
+    echo "   --port PORT               host port "
+    echo "   --compress-dump           compress dump with gzip"
+    echo "   --output FILENAME         output file name"
+    echo "   --bare                    bare dump (no tablespaces, no owner, no privileges, no comments)"
+    exit 64
+}
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
     key="$1"
     case $key in
-        --database)
-            g_database="$2"; shift; shift;
+        --compress|-c)
+            g_compress_dump="YES"; shift;
         ;;
-        --compress-dump)
-            g_compress_dump="yes"; shift;
+        --no-compress)
+            g_compress_dump="NO"; shift;
         ;;
+        --port|-p)
+            g_port="$2"; shift 2;
+        ;;
+        --user|-U)
+            g_user="$2"; shift 2;
+        ;;
+        --host|-h)
+            g_host="$2"; shift 2;
+        ;;
+        --output|-o)
+            g_filename="$2"; shift 2;
+        ;;
+        --bare|-b)
+            g_bare="YES"; shift
+        ;;
+        --no-bare)
+            g_bare="NO"; shift
+        ;;
+        -*)
+            usage "Unknown option: $1"
+        ;;  
         *)
             POSITIONAL+=("$1")
             shift
@@ -38,30 +82,72 @@ done
 
 set -- "${POSITIONAL[@]}"
 
+g_database=$1
 
-echo_error() {
-  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
-}
-
-function usage()
-{
-    echo "usage: dump-database dbname"
-    exit 64
-}
 
 if [ "$g_database" == "" ]; then
     usage
 fi
 
-g_filename=${g_database}_$(date +'%Y%m%d_%H%M%S').sql
+echo_error() {
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
+}
 
-pg_dump --file=${g_filename} --format=p \
-        --create --clean \
-        --dbname=$g_database --username=$g_user \
+g_opts="--format=p --create --clean "
+
+if [ "$g_bare" == "YES" ]; then
+    g_opts="$g_opts --no-tablespaces --no-owner --no-privileges --no-comments"
+else
+    g_opts="$g_opts --if-exists"
+fi
+
+if [ "$g_filename" == "" ]; then
+    g_filename=${g_database}_$(date +'%Y%m%d_%H%M%S').sql
+fi
+
+pg_dump --file=${g_filename} \
+        $g_opts \
+        --dbname=$g_database \
+        --username=$g_user \
         --host=$g_host \
-        --if-exists --blobs --no-tablespaces \
-        --no-owner --no-privileges
+        --port=$g_port \
+        --blobs
 
-if [ "$g_compress_dump" == "yes" ]; then
+if [ "$g_compress_dump" == "YES" ]; then
     gzip $g_filename
 fi
+/*
+select vt.value_type_id, vt.name, string_agg(vti.name, ', ')
+from tbl_value_types vt
+join tbl_value_type_items vti ON vti.value_type_id = vt.value_type_id
+group by vt.value_type_id, vt.name
+*/
+/*
+
+FEL		Percentage				NO, 1240k
+FEL 	Count					XX, XY
+FEL		Library preparation	
+FEL		Molecular sex			NO, UDG
+
+OK  	Early/Latewood			-ew, +ew, -lw, +lw, -llw
+OK		Waney edge (W)			W, ej W
+
+*/
+update tbl_value_type_items set value_type_id = 17 where name in ('XX', 'XY');
+update tbl_value_type_items set value_type_id = 14 where name in ('1240k');
+update tbl_value_type_items set value_type_id = 16 where name in ('UDG');
+update tbl_value_type_items set value_type_id = 16 where name = 'NO' and description = 'No treatment';
+update tbl_value_type_items set value_type_id = 15 where name = 'NO' and description = 'NO';
+select *
+from tbl_value_type_items
+
+select *
+from tbl_value_types
+where base_type = 'category' 
+
+select *
+from   sead_utility.system_id_allocations
+
+
+select *
+from clearing_house.tbl_clearinghouse_accepted_submissions
