@@ -4,7 +4,11 @@
 
 set -e
 
-source .env
+if [ -f .env ]; then
+    set -o allexport
+    source .env
+    set +o allexport
+fi
 
 . $(dirname "$0")/utility.sh
 
