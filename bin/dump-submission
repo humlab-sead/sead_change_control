@@ -18,10 +18,10 @@ g_database=
 g_id_or_name=0
 g_target_id=
 g_folder=dryrun
-g_compress_flag=YES
 g_verbose=NO
 g_mode=
 g_target_uri=
+g_force=NO
 
 if [ -f ~/vault/.default.sead.server ]; then
     g_host=$(head -n 1 ~/vault/.default.sead.server)
@@ -47,12 +47,13 @@ function usage() {
     echo "  non-mandatory option:"
     echo "       --target-id ID           Submission identity override in files (dump) or database (restore)"
     echo "                                If set to 'next', the next available id will be used"
-    echo "       --compress/no-compress   Whether to compress the output or not (default YES)"
     echo "       --host HOST              Target database host (default ~/vault/.default.sead.server)"
     echo "       --port PORT              Target database port (default 5432)"
     echo "       --user USERNAME          Target database host (default ~/vault/.default.sead.server)"
     echo "       --force                  Force overwrite of existing target folder if exists"
     echo "       --verbose                Be more verbose"
+    echo "       --only-script            Create copy_in.sql and copy_out.sql files only"
+
     exit 64
 }
 
@@ -96,10 +97,6 @@ do
         ;;
         --target-uri)
             g_target_uri="$2";
-            g_user=$(echo "$g_target_uri" | awk -F'[:/@]' '{print $5}')
-            g_host=$(echo "$g_target_uri" | awk -F'[:/@]' '{print $6}')
-            g_port=$(echo "$g_target_uri" | awk -F'[:/@]' '{print ($7 ~ /^[0-9]+$/ ? $7 : "5433")}')
-            g_database=$(echo "$g_target_uri" | awk -F'[:/@]' '{print ($7 ~ /^[0-9]+$/ ? $8 : $7)}')
             shift 2;
         ;;
         -f|--force)
@@ -109,11 +106,8 @@ do
         --verbose)
             g_verbose="YES"; shift;
         ;;
-        --compress)
-            g_compress_flag="YES"; shift;
-        ;;
-        --no-compress)
-            g_compress_flag="NO"; shift;
+        --only-script)
+            g_only_script="YES"; shift;
         ;;
         --help|-h)
             usage;
@@ -162,6 +156,16 @@ function get_column_names() {
 END
 )
     psql -h $g_host -U $g_user -d $g_database -p $g_port -tAc "$sql"
+}
+
+function explode_db_uri() {
+    local uri=$1
+    if [ "$uri" != "" ]; then
+        g_user=$(echo "$uri" | awk -F'[:/@]' '{print $5}')
+        g_host=$(echo "$uri" | awk -F'[:/@]' '{print $6}')
+        g_port=$(echo "$uri" | awk -F'[:/@]' '{print ($7 ~ /^[0-9]+$/ ? $7 : "5433")}')
+        g_database=$(echo "$uri" | awk -F'[:/@]' '{print ($7 ~ /^[0-9]+$/ ? $8 : $7)}')
+    fi
 }
 
 function check_existing_id() {
@@ -247,6 +251,8 @@ function restore_submission()
 
     local output_temp=$(mktemp)
 
+    set +e
+
     psql -h $g_host -U $g_user -d $g_database -p $g_port -v ON_ERROR_STOP=1 -tAf "$copy_in_script"  &> "$output_temp"
 
     if [ $? -ne 0 ]; then
@@ -256,6 +262,8 @@ function restore_submission()
     else
         rm -f "$output_temp"
     fi
+
+    set -e
 
     popd > /dev/null
 
@@ -273,12 +281,20 @@ function get_submission_name_by_id() {
     echo $(psql -h $g_host -U $g_user -d $g_database -p $g_port -tAc "$sql")
 }
 
+function get_submission_table_row_count() {
+    local submission_name=$1
+    local table=$2
+    local sql="select count(*) from $table where submission_id in (select submission_id from clearing_house.tbl_clearinghouse_submissions where submission_name = '$submission_name' limit 1);"
+    echo $(psql -h $g_host -U $g_user -d $g_database -p $g_port -tAc "$sql")
+}
+
 function dump_submission()
 {
     local schema_name='clearing_house'
     local source_id=$1
     local target_folder=$2
     local target_id=$3
+    local only_script=$4
 
     local table_sql=$(cat <<END
         select distinct table_name
@@ -288,7 +304,7 @@ function dump_submission()
           and table_name not in (
               select table_name from information_schema.views where table_schema = '$schema_name'
           )
-          and table_name not in ('tbl_clearinghouse_submission_xml')
+          and table_name not in ('tbl_clearinghouse_submission_xml', 'tbl_clearinghouse_submissions')
         order by table_name;
 END
 )
@@ -304,12 +320,12 @@ END
         submission_id=$(get_submission_id_by_name $submission_name)
     fi
 
-    if [ "$submission_id" == "" ]; then
+    if [ "$submission_id" == "" ] && [ "$only_script" != "YES" ]; then
         error "submission \"$source_id\" not found in database $g_database"
         exit 64
     fi
 
-    if [ "$submission_name" == "" ]; then
+    if [ "$submission_name" == "" ]&& [ "$only_script" != "YES" ]; then
         error "submission \"$source_id\" not found in database $g_database"
         exit 64
     fi
@@ -327,10 +343,13 @@ END
         fi
     fi
 
-    local existing_id=$(check_existing_id $submission_id)
-    if [ "$existing_id" == "" ]; then
-        error "submission \"$submission_id\" not found in database $g_database"
-        exit 64
+    if [ "$only_script" != "YES" ]; then
+        info "creating copy_in.sql and copy_out.sql files only"
+        local existing_id=$(check_existing_id $submission_id)
+        if [ "$existing_id" == "" ]; then
+            error "submission \"$submission_id\" not found in database $g_database"
+            exit 64
+        fi
     fi
 
     local table_count=0
@@ -350,19 +369,107 @@ END
 
     local sub_query="select submission_id from clearing_house.tbl_clearinghouse_submissions where submission_name = '$submission_name' limit 1"
 
-    while read table ; do
+    local column_names=$(get_column_names $schema_name "tbl_clearinghouse_submissions")
 
+    table="tbl_clearinghouse_submissions"
+    echo "
+do \$\$
+declare
+    v_submission_id integer;
+begin
+    v_submission_id := ($sub_query);
+    if v_submission_id is not null then
+        perform clearing_house.fn_delete_submission(v_submission_id, TRUE, TRUE);
+    end if;
+end \$\$
+language plpgsql;
+
+/*************************************************************************************************************************
+ ** Table $schema_name.$table
+ *************************************************************************************************************************/
+
+create temp table staging_submissions (like $schema_name.$table including defaults);
+
+\copy staging_submissions (submission_id, $column_names) from program 'zcat -qac $table.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+
+insert into $schema_name.$table ($column_names)
+    select $column_names
+    from staging_submissions;
+drop table staging_submissions;
+" > $copy_in_script
+
+    # readarray -t tables < <(
+    #     psql -h "$g_host" -U "$g_user" -d "$g_database" -p "$g_port" \
+    #         -c "$table_sql" -X -t --quiet --field-separator ' ' --no-align
+    # )
+    tables=(
+        "tbl_abundances"
+        "tbl_alt_ref_types"
+        "tbl_analysis_entities"
+        "tbl_analysis_values"
+        "tbl_biblio"
+        "tbl_contacts"
+        "tbl_dataset_contacts"
+        "tbl_dataset_masters"
+        "tbl_dataset_submissions"
+        "tbl_datasets"
+        "tbl_locations"
+        "tbl_methods"
+        "tbl_physical_samples"
+        "tbl_projects"
+        "tbl_record_types"
+        "tbl_relative_dates"
+        "tbl_sample_alt_refs"
+        "tbl_sample_groups"
+        "tbl_site_locations"
+        "tbl_site_references"
+        "tbl_sites"
+        "tbl_taxa_tree_families"
+        "tbl_taxa_tree_genera"
+        "tbl_taxa_tree_master"
+        "tbl_taxa_tree_orders"
+        "tbl_taxonomic_order"
+        "tbl_taxonomic_order_systems"
+        "tbl_value_classes"
+        "tbl_value_type_items"
+        "tbl_value_types"
+    )
+
+    for table in "${tables[@]}"; do
         local column_names=$(get_column_names $schema_name $table)
 
-        if [ "$g_compress_flag" == "YES" ]; then
-            copy_out="\\copy (select $target_id, $column_names from $schema_name.$table where submission_id in ($sub_query)) to program 'gzip -qa9 > $table.sql.gz' $copy_options;";
-            copy_in="\\copy $schema_name.$table (submission_id, $column_names) from program 'zcat -qac $table.sql.gz' $copy_options;";
-        else
-            copy_out="\\copy (select $target_id, $column_names from $schema_name.$table where submission_id in ($sub_query)) to '$table.sql' $copy_options;";
-            copy_in="\\copy $schema_name.$table (submission_id, $column_names) from '$table.sql.gz' $copy_options;";
-        fi;
+        copy_out="\\copy (select $target_id, $column_names from $schema_name.$table where submission_id in ($sub_query)) to program 'gzip -qa9 > $table.sql.gz' $copy_options;";
+        # copy_in="\\copy $schema_name.$table (submission_id, $column_names) from program 'zcat -qac $table.sql.gz' $copy_options;";
 
-        local delete_in="delete from $schema_name.$table where submission_id in (select submission_id from clearing_house.tbl_clearinghouse_submissions where submission_name = '$submission_name');"
+        copy_in="
+/*************************************************************************************************************************
+ ** Table $schema_name.$table
+ *************************************************************************************************************************/
+
+create temp table staging_$table (like $schema_name.$table including defaults);
+
+\copy staging_$table (submission_id, $column_names) from program 'zcat -qac $table.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
+
+update staging_$table
+    set submission_id = ($sub_query);
+
+insert into $schema_name.$table (submission_id, $column_names)
+    select submission_id, $column_names
+    from staging_$table;
+
+drop table staging_$table;
+"
+
+        local row_count=$(get_submission_table_row_count "$submission_name" "$schema_name.$table")
+        if [ "$row_count" == "" ]; then
+            continue
+        fi
+
+        if [ "$only_script" == "YES" ]; then
+            echo "$copy_out" >> "$copy_out_script"
+            echo "$copy_in" >> "$copy_in_script"
+            continue
+        fi
 
         local output=$(psql -v ON_ERROR_STOP=1 -h $g_host -U $g_user -d $g_database -p $g_port --no-password --command "$copy_out")
         local copy_count=${output#COPY }
@@ -370,18 +477,15 @@ END
         if [ "$copy_count" != "0" ]; then
             [ "$g_verbose" == "YES" ] && echo "copied: $table ($copy_count rows)";
             let table_count=$(( table_count + 1 ));
-            echo $copy_out >> "$copy_out_script"
-            echo $delete_in >> "$copy_in_script"
-            echo $copy_in >> "$copy_in_script"
+            echo "$copy_out" >> "$copy_out_script"
+            echo "$copy_in" >> "$copy_in_script"
         else
             [ "$g_verbose" == "YES" ] && echo "skipped: $table (empty)";
             rm -f "$table.sql" "$table.sql.gz"
             let table_empty_count=$(( table_empty_count + 1 ));
         fi
 
-    done < <(
-        psql -h $g_host -U $g_user -d $g_database -p $g_port -c "$table_sql" -X -t --quiet --field-separator ' ' --no-align
-    )
+    done
 
     popd > /dev/null
 
@@ -396,10 +500,14 @@ END
     fi
 }
 
+if [ "$g_target_uri" != "" ]; then
+    explode_db_uri "$g_target_uri"
+fi
+
 if [ "$g_mode" != "dump" ] && [ "$g_mode" != "restore" ]; then
     usage "mode is mandatory"
 fi
-if [ "$g_database" == "" ]; then
+if [ "$g_database" == "" ] && [  ]; then
     usage "database is mandatory"
 fi
 
@@ -420,7 +528,7 @@ if [ "$g_mode" == "dump" ]; then
     if [ "$g_id_or_name" == "0" ]; then
         usage "submission id is mandatory"
     fi
-    dump_submission $g_id_or_name $g_folder $g_target_id
+    dump_submission $g_id_or_name $g_folder $g_target_id $g_only_script
 fi
 
 if [ "$g_mode" == "restore" ]; then
