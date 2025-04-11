@@ -1,0 +1,278 @@
+#!/bin/bash
+
+set -e
+
+. $(dirname "$0")/utility.sh
+
+g_from=
+g_to=
+g_project=
+g_db_uri=
+g_verbose="NO"
+g_show_note="NO"
+g_show_status="NO"
+g_color=NO
+
+g_host=
+g_user=
+g_port=5433
+g_database=
+
+if [ -f ~/vault/.default.sead.server ]; then
+    g_host=$(head -n 1 ~/vault/.default.sead.server)
+fi
+
+if [ -f ~/vault/.default.sead.username ]; then
+    g_user=$(head -n 1 ~/vault/.default.sead.username)
+fi
+
+export PGCLIENTENCODING=UTF8
+
+script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+usage_message=$(cat <<EOF
+Usage: ls-cr [OPTIONS]...
+
+Options:
+    --from TAG
+        Ignore changes before TAG.
+    --to TAG
+        Ignore changes after TAG.
+    --project PROJECT
+        List only CR for the specified project.
+    --db-uri URI
+        Check if change is deployed in the specified database.
+    --host HOST
+        Specify the database host.
+    --user USER
+        Specify the database user.
+    --port PORT
+        Specify the database port.
+    --database DATABASE
+        Specify the database name.
+    --no-verbose
+        Suppress verbose output.
+    --verbose
+        Enable verbose output.
+    --show-note
+        Show the note for each change.
+    --show-status
+        Show the status of each change.
+    --color
+        Enable color output.
+    --help
+        Display this help message.
+EOF
+)
+
+function usage() {
+    error_message="$1"
+    if [ "$error_message" != "" ]; then
+        error "$error_message"
+    fi
+    echo "$usage_message"
+    exit 64
+}
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --from)
+            g_from="$2"; shift; shift;
+        ;;
+        --to)
+            g_to="$2"; shift; shift;   
+        ;;
+        --project)
+            g_project="$2"; shift; shift;
+        ;;
+        --show-note)
+            g_show_note="YES"; shift;
+        ;;
+        --show-status)
+            g_show_status="YES"; shift;
+        ;;
+        --color)
+            g_color="YES"; shift;
+        ;;
+        --verbose|-v)
+            g_verbose="YES"; shift;
+        ;;
+        --no-verbose)
+            g_verbose="NO"; shift;
+        ;;
+        --host)
+            g_host="$2"; shift; shift;
+        ;;
+        --user)
+            g_user="$2"; shift; shift;
+        ;;
+        --port)
+            g_port="$2"; shift; shift;
+        ;;
+        --database)
+            g_database="$2"; shift; shift;
+        ;;
+        --db-uri)
+            g_db_uri="$2"; shift; shift;
+        ;;
+        --help|-h)
+            usage
+        ;;
+        --*)
+            usage "invalid option $1"
+        ;;
+        *)
+            POSITIONAL+=("$1") # save it in an array for later
+            shift
+        ;;
+    esac
+done
+
+
+function usage() {
+    local error_message="$1"
+    if [ "$error_message" != "" ]; then
+        error "$error_message"
+    fi
+    echo "$usage_message"
+    exit 64
+}
+
+function find_tags()
+{
+    echo $(grep --no-filename -E "^@" */sqitch.plan | cut --delimiter=' ' --fields=1 | sort | uniq)
+}
+
+function get_crs_at_tag() {
+    local file=$1
+    local target_label=$2
+
+    awk -v target="$target_label" '
+    {
+        # If the line contains the target tag (as a word), record its line number and exit
+        if ($0 ~ ("^" target "([[:space:]]|$)")) {
+            target_line = NR
+            exit
+        }
+
+        # If this line starts with a tag (@...), store it as the latest seen tag
+        if ($0 ~ /^@/) {
+            last_tag_line = NR
+        }
+
+        # Save line for later processing
+        lines[NR] = $0
+    }
+
+    END {
+        for (i = last_tag_line + 1; i < target_line; i++) {
+            line = lines[i]
+
+            # Skip blank lines
+            if (line ~ /^[[:space:]]*$/) continue
+
+            # Skip comment lines (starting with optional spaces and #)
+            if (line ~ /^[[:space:]]*#/) continue
+
+            # Skip Sqitch plan metadata
+            if (line ~ /^[[:space:]]*%/) continue
+
+            print line
+        }
+    }
+' "$file"
+}
+
+function ls_tags()
+{
+    local known_release_tags=$(find_tags| sort -u)
+    if [ "$g_verbose" == "YES" ]; then
+        echo "Known release tags: $known_release_tags"
+    fi
+    
+    local default_projects=()
+    if [ ! -z "$g_project" ]; then
+        default_projects=( "$g_project" )
+    else
+        default_projects=$(get_projects)
+    fi
+
+    timestamp=$(date +%s%N)
+
+    for tag in $known_release_tags; do
+
+        if [ "$g_from" != "" ]; then
+            if [ "$tag" == "$g_from" ]; then
+                g_from=
+            else
+                continue
+            fi
+        fi
+
+        for sqitch_project in $default_projects; do
+            local status_filename="./tmp/sqitch_status.$sqitch_project.$timestamp.log"
+            if [ "$g_show_status" == "YES" ]; then
+                if [ ! -f "$status_filename" ]; then
+                    set +e
+                    sqitch status --target $g_db_uri -C ./$sqitch_project --show-changes &> "$status_filename"
+                    set -e
+                fi
+            fi
+            lines=$(get_crs_at_tag $sqitch_project/sqitch.plan $tag)
+            if [ -z "$lines" ]; then
+                continue
+            fi
+            while IFS= read -r line; do
+                change_name=$(echo "$line" | awk '{print $1}')
+                # tag=$(echo "$line" | grep -oE '@[^ ]+' || echo "")
+                # timestamp=$(echo "$line" | grep -oE '\[[0-9TZ:-]+\]' | tr -d '[]')
+                # author=$(echo "$line" | grep -oE '[A-Za-z ]+ <[^>]+>')
+                if [ "$g_show_note" == "YES" ]; then
+                    note=$(echo "$line" | sed -n 's/.*# *//p')
+                else
+                    note=""
+                fi
+                deployed=
+                if [ "$g_db_uri" != "" ]; then
+                    if grep -q "#   $change_name" "$status_filename"; then
+                        deployed="DEPLOYED"
+                        if [ "$g_color" == "YES" ]; then
+                            deployed="${GREEN}${deployed}${RESET}"
+                        fi
+                    else
+                        deployed="PENDING "
+                        if [ "$g_color" == "YES" ]; then
+                            deployed="${RED}${deployed}${RESET}"
+                        fi
+                    fi
+                fi
+                # echo "Change Name: $change_name, Tag: $tag, Timestamp: $timestamp, Author: $author, Note: $note"
+                 printf "%s %b %-20s %s %s\n" "$tag" "$deployed" "$sqitch_project" "$change_name" "$note"
+            done <<< "$lines"
+            # rm -f "$status_filename"
+        done
+
+        if [ "$tag" == "$g_to" ]; then
+            break
+        fi
+    done
+    # \rm -f ./tmp/sqitch_status.*.$timestamp.log
+}
+
+if [ "$g_database" != "" ]; then
+    if [ "$g_host" == "" ] || [ "$g_host" == "" ] || [ "$g_user" == "" ]; then
+        usage "Database host, user, and port must be specified when using --database"
+    fi
+    g_db_uri="db:pg://$g_user@$g_host:$g_port/$g_database"
+fi
+if [ "$g_show_status" == "YES" ]; then
+    if [ "$g_db_uri" == "" ]; then
+        error "Database URI must be specified when using --show-status"
+    fi
+fi
+
+ls_tags
