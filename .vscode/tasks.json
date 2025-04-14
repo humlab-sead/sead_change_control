@@ -7,6 +7,17 @@
             "label": "echo",
             "type": "shell",
             "command": "echo Hello"
-        }
+        },
+        {
+            "label": "Open psql",
+            "type": "shell",
+            "command": "bin/psql.sh",
+            "presentation": {
+              "echo": true,
+              "focus": true,
+              "panel": "new"
+            },
+            "problemMatcher": []
+          }
     ]
 }

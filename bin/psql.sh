@@ -4,18 +4,24 @@
 
 SHELL=/bin/bash
 
+set -a
 source .env
+set +a
 
-g_db=sead_staging_development
-g_host=$(dnsdomainname -A)
-g_port=5433
-g_user=
+g_user=${PGUSER}
+g_host=${PGHOST}
+g_port=${PGPORT}
+g_db=${PGDATABASE}
 
-if [ -f ~/vault/.default.sead.server ]; then
+if [ "$g_host" == "" ] && [ -f ~/vault/.default.sead.server ]; then
     g_host=`cat ~/vault/.default.sead.server`
+    g_host=${g_host:=$(dnsdomainname -A)}
 fi
 
-if [ -f ~/vault/.default.sead.username ]; then
+g_db=${g_db:=sead_staging}
+g_port=${g_port:=5433}
+
+if [ "$g_user" == "" ] && [ -f ~/vault/.default.sead.username ]; then
     g_user=`cat  ~/vault/.default.sead.username`
 fi
 
