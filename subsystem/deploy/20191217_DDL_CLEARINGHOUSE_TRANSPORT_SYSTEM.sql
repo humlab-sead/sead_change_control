@@ -41,13 +41,13 @@ reset role;
 
 set role clearinghouse_worker;
 
-create or replace function clearing_house_commit.commit_submission(p_submission_name text)
+create or replace function clearing_house_commit.commit_submission(p_submission_id int)
 	returns void
 as $$
 begin
 	update clearing_house.tbl_clearinghouse_submissions
 		set submission_state_id = 4
-	where submission_name = p_submission_name;
+	where submission_id = p_submission_id;
 end $$ language plpgsql;
 
 /*********************************************************************************************************************************
