@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ -f .env ]; then
+    # export $(cat .env | xargs)    
+    set -a
+    source .env
+    set +a
+fi
+
 set -e
 
 . $(dirname "$0")/utility.sh
@@ -343,10 +350,8 @@ function verify_options()
 
 function setup_credentials()
 {
-    if [ "$SQITCH_USERNAME" == "" ]; then
-        export SQITCH_USERNAME=${g_user}
-    fi
-
+    export SQITCH_USERNAME=${SQITCH_USERNAME:=$g_user}
+    export SQITCH_USERNAME=${SQITCH_USERNAME:=$PGUSER}
     if [ "$SQITCH_USERNAME" == "" ]; then
         usage "username not specified"
     fi
