@@ -35,7 +35,7 @@ function usage()
     echo "   --host HOSTNAME           host name"
     echo "   --user USERNAME           user name"
     echo "   --port PORT               host port "
-    echo "   --compress-dump           compress dump with gzip"
+    echo "   --compress                compress dump with gzip"
     echo "   --output FILENAME         output file name"
     echo "   --bare                    bare dump (no tablespaces, no owner, no privileges, no comments)"
     exit 64
@@ -116,38 +116,3 @@ pg_dump --file=${g_filename} \
 if [ "$g_compress_dump" == "YES" ]; then
     gzip $g_filename
 fi
-/*
-select vt.value_type_id, vt.name, string_agg(vti.name, ', ')
-from tbl_value_types vt
-join tbl_value_type_items vti ON vti.value_type_id = vt.value_type_id
-group by vt.value_type_id, vt.name
-*/
-/*
-
-FEL		Percentage				NO, 1240k
-FEL 	Count					XX, XY
-FEL		Library preparation	
-FEL		Molecular sex			NO, UDG
-
-OK  	Early/Latewood			-ew, +ew, -lw, +lw, -llw
-OK		Waney edge (W)			W, ej W
-
-*/
-update tbl_value_type_items set value_type_id = 17 where name in ('XX', 'XY');
-update tbl_value_type_items set value_type_id = 14 where name in ('1240k');
-update tbl_value_type_items set value_type_id = 16 where name in ('UDG');
-update tbl_value_type_items set value_type_id = 16 where name = 'NO' and description = 'No treatment';
-update tbl_value_type_items set value_type_id = 15 where name = 'NO' and description = 'NO';
-select *
-from tbl_value_type_items
-
-select *
-from tbl_value_types
-where base_type = 'category' 
-
-select *
-from   sead_utility.system_id_allocations
-
-
-select *
-from clearing_house.tbl_clearinghouse_accepted_submissions
