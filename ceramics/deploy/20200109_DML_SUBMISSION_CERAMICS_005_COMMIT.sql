@@ -28,7 +28,7 @@ set constraints all deferred;
 drop table if exists clearing_house_commit.temp_tbl_sites;
 create table clearing_house_commit.temp_tbl_sites as select * from public.tbl_sites where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sites  ("site_id", "altitude", "latitude_dd", "longitude_dd", "national_site_identifier", "site_description", "site_name", "site_preservation_status_id", "date_updated", "site_location_accuracy") from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_site.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sites  ("site_id", "altitude", "latitude_dd", "longitude_dd", "national_site_identifier", "site_description", "site_name", "site_preservation_status_id", "date_updated", "site_location_accuracy") from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/site.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_sites
     where site_id in (select site_id from clearing_house_commit.temp_tbl_sites);
@@ -53,7 +53,7 @@ drop table if exists clearing_house_commit.temp_tbl_sites;
 drop table if exists clearing_house_commit.temp_tbl_features;
 create table clearing_house_commit.temp_tbl_features as select * from public.tbl_features where FALSE;
 
-\copy clearing_house_commit.temp_tbl_features from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_feature.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_features from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/feature.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_features
     where feature_id in (select feature_id from clearing_house_commit.temp_tbl_features);
@@ -78,7 +78,7 @@ drop table if exists clearing_house_commit.temp_tbl_features;
 drop table if exists clearing_house_commit.temp_tbl_datasets;
 create table clearing_house_commit.temp_tbl_datasets as select * from public.tbl_datasets where FALSE;
 
-\copy clearing_house_commit.temp_tbl_datasets from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_dataset.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_datasets from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/dataset.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_datasets
     where dataset_id in (select dataset_id from clearing_house_commit.temp_tbl_datasets);
@@ -103,7 +103,7 @@ drop table if exists clearing_house_commit.temp_tbl_datasets;
 drop table if exists clearing_house_commit.temp_tbl_dataset_contacts;
 create table clearing_house_commit.temp_tbl_dataset_contacts as select * from public.tbl_dataset_contacts where FALSE;
 
-\copy clearing_house_commit.temp_tbl_dataset_contacts from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_dataset_contact.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_dataset_contacts from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/dataset_contact.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_dataset_contacts
     where dataset_contact_id in (select dataset_contact_id from clearing_house_commit.temp_tbl_dataset_contacts);
@@ -128,7 +128,7 @@ drop table if exists clearing_house_commit.temp_tbl_dataset_contacts;
 drop table if exists clearing_house_commit.temp_tbl_dataset_submissions;
 create table clearing_house_commit.temp_tbl_dataset_submissions as select * from public.tbl_dataset_submissions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_dataset_submissions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_dataset_submission.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_dataset_submissions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/dataset_submission.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_dataset_submissions
     where dataset_submission_id in (select dataset_submission_id from clearing_house_commit.temp_tbl_dataset_submissions);
@@ -153,7 +153,7 @@ drop table if exists clearing_house_commit.temp_tbl_dataset_submissions;
 drop table if exists clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts;
 create table clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts as select * from public.tbl_sample_group_description_type_sampling_contexts where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_sample_group_description_type_sampling_context.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/sample_group_description_type_sampling_context.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_sample_group_description_type_sampling_contexts
     where sample_group_description_type_sampling_context_id in (select sample_group_description_type_sampling_context_id from clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts);
@@ -178,7 +178,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_group_description_typ
 drop table if exists clearing_house_commit.temp_tbl_sample_groups;
 create table clearing_house_commit.temp_tbl_sample_groups as select * from public.tbl_sample_groups where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_groups from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_sample_group.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_groups from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/sample_group.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_sample_groups
     where sample_group_id in (select sample_group_id from clearing_house_commit.temp_tbl_sample_groups);
@@ -203,7 +203,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_groups;
 drop table if exists clearing_house_commit.temp_tbl_physical_samples;
 create table clearing_house_commit.temp_tbl_physical_samples as select * from public.tbl_physical_samples where FALSE;
 
-\copy clearing_house_commit.temp_tbl_physical_samples from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_physical_sample.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_physical_samples from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/physical_sample.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_physical_samples
     where physical_sample_id in (select physical_sample_id from clearing_house_commit.temp_tbl_physical_samples);
@@ -228,7 +228,7 @@ drop table if exists clearing_house_commit.temp_tbl_physical_samples;
 drop table if exists clearing_house_commit.temp_tbl_analysis_entities;
 create table clearing_house_commit.temp_tbl_analysis_entities as select * from public.tbl_analysis_entities where FALSE;
 
-\copy clearing_house_commit.temp_tbl_analysis_entities from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_analysis_entity.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_analysis_entities from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/analysis_entity.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_analysis_entities
     where analysis_entity_id in (select analysis_entity_id from clearing_house_commit.temp_tbl_analysis_entities);
@@ -253,7 +253,7 @@ drop table if exists clearing_house_commit.temp_tbl_analysis_entities;
 drop table if exists clearing_house_commit.temp_tbl_ceramics;
 create table clearing_house_commit.temp_tbl_ceramics as select * from public.tbl_ceramics where FALSE;
 
-\copy clearing_house_commit.temp_tbl_ceramics from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_ceramic.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_ceramics from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/ceramic.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_ceramics
     where ceramics_id in (select ceramics_id from clearing_house_commit.temp_tbl_ceramics);
@@ -278,7 +278,7 @@ drop table if exists clearing_house_commit.temp_tbl_ceramics;
 drop table if exists clearing_house_commit.temp_tbl_physical_sample_features;
 create table clearing_house_commit.temp_tbl_physical_sample_features as select * from public.tbl_physical_sample_features where FALSE;
 
-\copy clearing_house_commit.temp_tbl_physical_sample_features from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_physical_sample_feature.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_physical_sample_features from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/physical_sample_feature.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_physical_sample_features
     where physical_sample_feature_id in (select physical_sample_feature_id from clearing_house_commit.temp_tbl_physical_sample_features);
@@ -303,7 +303,7 @@ drop table if exists clearing_house_commit.temp_tbl_physical_sample_features;
 drop table if exists clearing_house_commit.temp_tbl_relative_dates;
 create table clearing_house_commit.temp_tbl_relative_dates as select * from public.tbl_relative_dates where FALSE;
 
-\copy clearing_house_commit.temp_tbl_relative_dates from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_relative_date.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_relative_dates from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/relative_date.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_relative_dates
     where relative_date_id in (select relative_date_id from clearing_house_commit.temp_tbl_relative_dates);
@@ -328,7 +328,7 @@ drop table if exists clearing_house_commit.temp_tbl_relative_dates;
 drop table if exists clearing_house_commit.temp_tbl_sample_alt_refs;
 create table clearing_house_commit.temp_tbl_sample_alt_refs as select * from public.tbl_sample_alt_refs where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_alt_refs from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_sample_alt_ref.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_alt_refs from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/sample_alt_ref.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_sample_alt_refs
     where sample_alt_ref_id in (select sample_alt_ref_id from clearing_house_commit.temp_tbl_sample_alt_refs);
@@ -353,7 +353,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_alt_refs;
 drop table if exists clearing_house_commit.temp_tbl_sample_descriptions;
 create table clearing_house_commit.temp_tbl_sample_descriptions as select * from public.tbl_sample_descriptions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_descriptions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_sample_description.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_descriptions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/sample_description.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_sample_descriptions
     where sample_description_id in (select sample_description_id from clearing_house_commit.temp_tbl_sample_descriptions);
@@ -378,7 +378,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_descriptions;
 drop table if exists clearing_house_commit.temp_tbl_sample_dimensions;
 create table clearing_house_commit.temp_tbl_sample_dimensions as select * from public.tbl_sample_dimensions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_dimensions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_sample_dimension.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_dimensions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/sample_dimension.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_sample_dimensions
     where sample_dimension_id in (select sample_dimension_id from clearing_house_commit.temp_tbl_sample_dimensions);
@@ -403,7 +403,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_dimensions;
 drop table if exists clearing_house_commit.temp_tbl_sample_group_descriptions;
 create table clearing_house_commit.temp_tbl_sample_group_descriptions as select * from public.tbl_sample_group_descriptions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_group_descriptions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_sample_group_description.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_group_descriptions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/sample_group_description.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_sample_group_descriptions
     where sample_group_description_id in (select sample_group_description_id from clearing_house_commit.temp_tbl_sample_group_descriptions);
@@ -428,7 +428,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_group_descriptions;
 drop table if exists clearing_house_commit.temp_tbl_sample_group_dimensions;
 create table clearing_house_commit.temp_tbl_sample_group_dimensions as select * from public.tbl_sample_group_dimensions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_group_dimensions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_sample_group_dimension.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_group_dimensions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/sample_group_dimension.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_sample_group_dimensions
     where sample_group_dimension_id in (select sample_group_dimension_id from clearing_house_commit.temp_tbl_sample_group_dimensions);
@@ -453,7 +453,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_group_dimensions;
 drop table if exists clearing_house_commit.temp_tbl_site_locations;
 create table clearing_house_commit.temp_tbl_site_locations as select * from public.tbl_site_locations where FALSE;
 
-\copy clearing_house_commit.temp_tbl_site_locations from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_site_location.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_site_locations from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/site_location.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_site_locations
     where site_location_id in (select site_location_id from clearing_house_commit.temp_tbl_site_locations);
@@ -478,7 +478,7 @@ drop table if exists clearing_house_commit.temp_tbl_site_locations;
 drop table if exists clearing_house_commit.temp_tbl_site_references;
 create table clearing_house_commit.temp_tbl_site_references as select * from public.tbl_site_references where FALSE;
 
-\copy clearing_house_commit.temp_tbl_site_references from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/submission_5_site_reference.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_site_references from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_005_COMMIT/site_reference.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 delete from public.tbl_site_references
     where site_reference_id in (select site_reference_id from clearing_house_commit.temp_tbl_site_references);
