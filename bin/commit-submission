@@ -219,7 +219,7 @@ function generate_cr_name() {
         echo "$id_or_name"
     else
         local zid=`printf "%03d" ${id_or_name}`
-        local cr_x="${day}_DML_SUBMISSION_${dt_y^^}_${zid}_COMMIT"
+        local cr_x="${day}_DML_SUBMISSION_${dt_y^^}_COMMIT"
         local dt_y=`get_datatype $id_or_name`
         echo "${cr_x^^}"
     fi

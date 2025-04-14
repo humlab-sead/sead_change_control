@@ -19,7 +19,7 @@ g_source_db="sead_staging_202412"
 g_target_db="${g_source_db}_${g_suffix}"
 
 g_datatype=adna
-g_cr_name=20250108_DML_SUBMISSION_ADNA_001_COMMIT
+g_cr_name=20250108_DML_SUBMISSION_ADNA_COMMIT
 
 g_import_system_folder=$IMPORT_HOME
 g_data_folder=$g_import_system_folder/data/adna/SEAD_aDNA_data_20241114

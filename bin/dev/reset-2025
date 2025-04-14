@@ -40,13 +40,15 @@ pushd $g_import_system_folder &> /dev/null
 
 export PYTHONPATH="$g_import_system_folder:$PYTHONPATH"
 
+g_cr_name=20250108_DML_SUBMISSION_ADNA_PILOT_COMMIT
+
 poetry run python importer/scripts/import_excel.py ./config.yml data/input/SEAD_aDNA_data_20241114_RM.xlsx \
     --no-timestamp \
     --register \
     --explode \
     --database $g_target_db \
     --data-types $g_datatype \
-    --name 20250108_DML_SUBMISSION_ADNA_001_COMMIT \
+    --name $g_cr_name \
     --transfer-format csv \
     --output-folder ./data/output/ \
     --dump-to-csv
@@ -61,7 +63,6 @@ if [[ ! "$g_submission_id" =~ ^-?[0-9]+$ ]]; then
     echo "$g_submission_id is not an integer"
     exit 1
 fi
-g_cr_name=20250108_DML_SUBMISSION_ADNA_${g_zfilled_submission_id}_COMMIT
 
 
 bin/commit-submission \
