@@ -1,4 +1,4 @@
--- Deploy dendrochronology: 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT
+-- Deploy dendrochronology: 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT
 /***************************************************************************
   Author         Roger Mähler
   Date           
@@ -32,7 +32,7 @@ set constraints all deferred;
 drop table if exists clearing_house_commit.temp_tbl_projects;
 create table clearing_house_commit.temp_tbl_projects as select * from public.tbl_projects where FALSE;
 
-\copy clearing_house_commit.temp_tbl_projects from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/project.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_projects from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/project.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_projects
@@ -56,7 +56,7 @@ drop table if exists clearing_house_commit.temp_tbl_projects;
 drop table if exists clearing_house_commit.temp_tbl_datasets;
 create table clearing_house_commit.temp_tbl_datasets as select * from public.tbl_datasets where FALSE;
 
-\copy clearing_house_commit.temp_tbl_datasets from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/dataset.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_datasets from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/dataset.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_datasets
@@ -80,7 +80,7 @@ drop table if exists clearing_house_commit.temp_tbl_datasets;
 drop table if exists clearing_house_commit.temp_tbl_dataset_contacts;
 create table clearing_house_commit.temp_tbl_dataset_contacts as select * from public.tbl_dataset_contacts where FALSE;
 
-\copy clearing_house_commit.temp_tbl_dataset_contacts from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/dataset_contact.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_dataset_contacts from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/dataset_contact.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_dataset_contacts
@@ -104,7 +104,7 @@ drop table if exists clearing_house_commit.temp_tbl_dataset_contacts;
 drop table if exists clearing_house_commit.temp_tbl_dataset_submissions;
 create table clearing_house_commit.temp_tbl_dataset_submissions as select * from public.tbl_dataset_submissions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_dataset_submissions from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/dataset_submission.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_dataset_submissions from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/dataset_submission.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_dataset_submissions
@@ -128,7 +128,7 @@ drop table if exists clearing_house_commit.temp_tbl_dataset_submissions;
 drop table if exists clearing_house_commit.temp_tbl_abundances;
 create table clearing_house_commit.temp_tbl_abundances as select * from public.tbl_abundances where FALSE;
 
-\copy clearing_house_commit.temp_tbl_abundances from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/abundance.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_abundances from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/abundance.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_abundances
@@ -152,7 +152,7 @@ drop table if exists clearing_house_commit.temp_tbl_abundances;
 drop table if exists clearing_house_commit.temp_tbl_analysis_entities;
 create table clearing_house_commit.temp_tbl_analysis_entities as select * from public.tbl_analysis_entities where FALSE;
 
-\copy clearing_house_commit.temp_tbl_analysis_entities from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/analysis_entity.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_analysis_entities from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/analysis_entity.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_analysis_entities
@@ -176,7 +176,7 @@ drop table if exists clearing_house_commit.temp_tbl_analysis_entities;
 drop table if exists clearing_house_commit.temp_tbl_dendro;
 create table clearing_house_commit.temp_tbl_dendro as select * from public.tbl_dendro where FALSE;
 
-\copy clearing_house_commit.temp_tbl_dendro from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/dendro.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_dendro from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/dendro.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_dendro
@@ -200,7 +200,7 @@ drop table if exists clearing_house_commit.temp_tbl_dendro;
 drop table if exists clearing_house_commit.temp_tbl_dendro_date_notes;
 create table clearing_house_commit.temp_tbl_dendro_date_notes as select * from public.tbl_dendro_date_notes where FALSE;
 
-\copy clearing_house_commit.temp_tbl_dendro_date_notes from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/dendro_date_note.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_dendro_date_notes from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/dendro_date_note.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_dendro_date_notes
@@ -227,7 +227,7 @@ create table clearing_house_commit.temp_tbl_dendro_dates as
     select dendro_date_id, season_id, dating_uncertainty_id, dendro_lookup_id, age_type_id, analysis_entity_id, age_older, age_younger, date_updated
     from public.tbl_dendro_dates where FALSE;
 
-\copy clearing_house_commit.temp_tbl_dendro_dates from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/dendro_date.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_dendro_dates from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/dendro_date.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_dendro_dates
@@ -251,7 +251,7 @@ drop table if exists clearing_house_commit.temp_tbl_dendro_dates;
 drop table if exists clearing_house_commit.temp_tbl_physical_samples;
 create table clearing_house_commit.temp_tbl_physical_samples as select * from public.tbl_physical_samples where FALSE;
 
-\copy clearing_house_commit.temp_tbl_physical_samples from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/physical_sample.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_physical_samples from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/physical_sample.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_physical_samples
@@ -275,7 +275,7 @@ drop table if exists clearing_house_commit.temp_tbl_physical_samples;
 drop table if exists clearing_house_commit.temp_tbl_sample_alt_refs;
 create table clearing_house_commit.temp_tbl_sample_alt_refs as select * from public.tbl_sample_alt_refs where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_alt_refs from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/sample_alt_ref.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_alt_refs from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/sample_alt_ref.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_sample_alt_refs
@@ -299,7 +299,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_alt_refs;
 drop table if exists clearing_house_commit.temp_tbl_sample_descriptions;
 create table clearing_house_commit.temp_tbl_sample_descriptions as select * from public.tbl_sample_descriptions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_descriptions from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/sample_description.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_descriptions from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/sample_description.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_sample_descriptions
@@ -323,7 +323,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_descriptions;
 drop table if exists clearing_house_commit.temp_tbl_sample_group_coordinates;
 create table clearing_house_commit.temp_tbl_sample_group_coordinates as select * from public.tbl_sample_group_coordinates where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_group_coordinates from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/sample_group_coordinate.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_group_coordinates from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/sample_group_coordinate.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_sample_group_coordinates
@@ -347,7 +347,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_group_coordinates;
 drop table if exists clearing_house_commit.temp_tbl_sample_group_descriptions;
 create table clearing_house_commit.temp_tbl_sample_group_descriptions as select * from public.tbl_sample_group_descriptions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_group_descriptions from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/sample_group_description.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_group_descriptions from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/sample_group_description.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_sample_group_descriptions
@@ -371,7 +371,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_group_descriptions;
 drop table if exists clearing_house_commit.temp_tbl_sample_group_notes;
 create table clearing_house_commit.temp_tbl_sample_group_notes as select * from public.tbl_sample_group_notes where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_group_notes from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/sample_group_note.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_group_notes from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/sample_group_note.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_sample_group_notes
@@ -395,7 +395,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_group_notes;
 drop table if exists clearing_house_commit.temp_tbl_sample_groups;
 create table clearing_house_commit.temp_tbl_sample_groups as select * from public.tbl_sample_groups where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_groups from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/sample_group.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_groups from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/sample_group.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_sample_groups
@@ -419,7 +419,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_groups;
 drop table if exists clearing_house_commit.temp_tbl_sample_locations;
 create table clearing_house_commit.temp_tbl_sample_locations as select * from public.tbl_sample_locations where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_locations from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/sample_location.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_locations from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/sample_location.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_sample_locations
@@ -443,7 +443,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_locations;
 drop table if exists clearing_house_commit.temp_tbl_sample_notes;
 create table clearing_house_commit.temp_tbl_sample_notes as select * from public.tbl_sample_notes where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_notes from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/sample_note.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_notes from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/sample_note.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_sample_notes
@@ -467,7 +467,7 @@ drop table if exists clearing_house_commit.temp_tbl_sample_notes;
 drop table if exists clearing_house_commit.temp_tbl_site_locations;
 create table clearing_house_commit.temp_tbl_site_locations as select * from public.tbl_site_locations where FALSE;
 
-\copy clearing_house_commit.temp_tbl_site_locations from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/site_location.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_site_locations from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/site_location.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_site_locations
@@ -491,7 +491,7 @@ drop table if exists clearing_house_commit.temp_tbl_site_locations;
 drop table if exists clearing_house_commit.temp_tbl_site_references;
 create table clearing_house_commit.temp_tbl_site_references as select * from public.tbl_site_references where FALSE;
 
-\copy clearing_house_commit.temp_tbl_site_references from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/site_reference.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_site_references from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/site_reference.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_site_references
@@ -515,7 +515,7 @@ drop table if exists clearing_house_commit.temp_tbl_site_references;
 drop table if exists clearing_house_commit.temp_tbl_sites;
 create table clearing_house_commit.temp_tbl_sites as select * from public.tbl_sites where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sites from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT/site.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sites from program 'zcat -qac 20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT/site.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
 
 insert into public.tbl_sites
@@ -531,7 +531,7 @@ drop table if exists clearing_house_commit.temp_tbl_sites;
 
 
 select clearing_house_commit.allocate_sequence_ids();
-select clearing_house_commit.commit_submission('20240119_DML_SUBMISSION_DENDROCHRONOLOGY_005_COMMIT');
+select clearing_house_commit.commit_submission('20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT');
 commit;
 
 do $$
