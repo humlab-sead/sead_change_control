@@ -294,7 +294,7 @@ function generate_deploy() {
 
 	echo "\\o /dev/null"                                                                    >> $work_file
 	echo "select clearing_house_commit.allocate_sequence_ids();"                            >> $work_file
-	echo "select clearing_house_commit.commit_submission($submission_id);"                  >> $work_file
+	echo "select clearing_house_commit.commit_submission('$cr_name');"                      >> $work_file
 	echo "\\o"                                                                              >> $work_file
 
 	echo "commit;"                                                                          >> $work_file
