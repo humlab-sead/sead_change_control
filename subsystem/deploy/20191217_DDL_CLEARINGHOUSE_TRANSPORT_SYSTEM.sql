@@ -8,7 +8,7 @@
 
 /***************************************************************************
   Author         
-  Date           2025-04-14
+  Date           2025-04-15
   Description    Deploy of Clearinghouse Transport System
   Issue          https://github.com/humlab-sead/sead_change_control/issues/215
   Prerequisites  
@@ -671,24 +671,18 @@ end;
 $$ language plpgsql;
 
 create or replace function clearing_house_commit.generate_copy_out_script(
-    p_submission_name text,
     p_entity text,
     p_table_name text,
-    p_target_folder text) returns text as $$
+    p_target_folder text
+) returns text as $$
 declare 
     v_sql text;
     v_columns text;
-    v_submission_id int;
 begin
-
-    v_submission_id := (select submission_id from clearing_house.tbl_clearinghouse_submissions where submission_name = p_submission_name);
-
+    -- Note: Uses psql variable :submission_id that must be set in surrounding context
     v_columns = clearing_house_commit.get_data_column_names('public', p_table_name);
-
-    -- program ''gzip > %s/submission_%s_%s.zip''
-    v_sql = format('\copy (select %s from clearing_house_commit.resolve_%s(%s)) to program ''gzip -qa9 > %s/%s.gz'' with (format text, delimiter E''\t'', encoding ''utf-8'');
-    ',
-        v_columns, p_entity, v_submission_id, p_target_folder, p_entity);
+    v_sql = format('\copy (select %1$s from clearing_house_commit.resolve_%2$s(:submission_id)) to program ''gzip -qa9 > %3$s/%2$s.gz'' with (format text, delimiter E''\t'', encoding ''utf-8'');',
+        v_columns, p_entity, p_target_folder);
 
     return v_sql;
 
@@ -706,10 +700,8 @@ declare
     v_sql text;
     v_delete_sql text;
     v_columns text;
-    v_submission_id int;
 begin
 
-    v_submission_id := (select submission_id from clearing_house.tbl_clearinghouse_submissions where submission_name = p_submission_name);
     v_columns = clearing_house_commit.get_data_column_names('public', p_table_name);
 
     -- from program ''gunzip < %s/submission_%s_%s.zip''
@@ -743,7 +735,6 @@ delete from public.#TABLE#
     v_sql = replace(v_sql, '#COLUMNS#', v_columns);
     v_sql = replace(v_sql, '#DELETE-SQL#', v_delete_sql);
     v_sql = replace(v_sql, '#TABLE#', p_table_name);
-    v_sql = replace(v_sql, '#ID#', v_submission_id::text);
     v_sql = replace(v_sql, '#ENTITY#', p_entity_name);
     v_sql = replace(v_sql, '#PK#', p_pk_name);
     v_sql = replace(v_sql, '#DIR#', p_target_folder);
@@ -773,7 +764,16 @@ begin
         -- perform clearing_house_commit.resolve_primary_keys(p_submission_name, 'public', FALSE);
 
 
-        v_sql := '';
+        v_sql := format(E'
+\\set submission_name ''%s''
+\\set submission_id null
+;
+select submission_id
+from clearing_house.tbl_clearinghouse_submissions
+where submission_name = :''submission_name'' \\gset
+;
+
+', p_submission_name);
 
         for v_table_name, v_pk_name, v_entity_name, v_sort_order in (
             select distinct t.table_name, t.pk_name, t.entity_name, coalesce(x.sort_order, 999)
@@ -794,7 +794,7 @@ begin
             end if;
 
             if p_is_out then
-                v_sql = v_sql || E'\n' || clearing_house_commit.generate_copy_out_script(p_submission_name, v_entity_name, v_table_name, p_folder);
+                v_sql = v_sql || E'\n' || clearing_house_commit.generate_copy_out_script(v_entity_name, v_table_name, p_folder);
             else
                 v_sql = v_sql || E'\n' || clearing_house_commit.generate_copy_in_script(p_submission_name, v_entity_name, v_table_name, v_pk_name, p_folder) || E'\n';
             end if;
@@ -819,7 +819,7 @@ declare
   v_sql_count_template text;
   v_sql_delete_template text;
   v_record_count int;
-  v_submission_id int
+  v_submission_id int;
 begin
 
     v_submission_id := (select submission_id from clearing_house.tbl_clearinghouse_submissions where submission_name = p_submission_name);
