@@ -8,7 +8,7 @@
 
 /***************************************************************************
   Author         
-  Date           2025-04-15
+  Date           2025-04-17
   Description    Deploy of Clearinghouse Transport System
   Issue          https://github.com/humlab-sead/sead_change_control/issues/215
   Prerequisites  
@@ -22,7 +22,9 @@ set client_encoding = 'UTF8';
 set standard_conforming_strings = on;
 set client_min_messages to warning;
 
--- ../sead_clearinghouse/transport_system//01_setup_transport_schema.sql
+drop schema if exists clearing_house_commit cascade;
+
+-- /home/roger/source/sead_clearinghouse/transport_system//01_setup_transport_schema.sql
 /*********************************************************************************************************************************
 **  Schema    clearing_house_commit
 **  What      all stuff related to ch data commit
@@ -181,8 +183,19 @@ end $$ language plpgsql;
 
 
 
--- ../sead_clearinghouse/transport_system//02_resolve_primary_keys.sql
+-- /home/roger/source/sead_clearinghouse/transport_system//02_resolve_primary_keys.sql
 set session schema 'clearing_house_commit';
+
+create or replace function clearing_house_commit.strip_schema_name(p_table_name text)
+returns text as $$
+begin
+    if p_table_name like '%.%' then
+        p_table_name := split_part(p_table_name, '.', 2);
+    end if;
+    return p_table_name;
+end;
+$$ language plpgsql;
+
 
 /*********************************************************************************************************************************
 **  Function    clearing_house_commit.get_max_transported_id
@@ -193,187 +206,167 @@ set session schema 'clearing_house_commit';
 **  Revisions
 **********************************************************************************************************************************/
 
-create or replace function clearing_house_commit.get_max_transported_id(p_table_name character varying) returns int as $$
+create or replace function clearing_house_commit.get_max_transported_id(p_table_name text)
+returns int as $$
 declare
-    v_id int = 0;
-    v_sql text = '';
+    v_id int;
 begin
-    v_sql = format(
-        'select coalesce(max(transport_id), 0) + 1 from clearing_house.%s',
-        case when p_table_name not like '%.%' then p_table_name else split_part(p_table_name, '.', 2) end
-    );
-    execute v_sql into v_id;
+    execute format(
+        'select coalesce(max(transport_id), 0) + 1 from clearing_house.%I',
+        clearing_house_commit.strip_schema_name(p_table_name)
+    ) into v_id;
+
     return coalesce(v_id, 0);
-end $$ language plpgsql;
+end;
+$$ language plpgsql;
 
 /*********************************************************************************************************************************
-**  Function    clearing_house_commit.reset_serial_id
+**  Function    clearing_house_commit.get_max_allocated_id
 **  Who         Roger Mähler
 **  When
-**  What        Resets a database sequence given name of schema, table and column
+**  What        Gets the max pre-allocated (reserved) ID for a given table 
+**  Used By     Transport system, during resolve and assignment of primary keys
+**  Revisions
+**********************************************************************************************************************************/
+
+create or replace function clearing_house_commit.get_max_allocated_id(p_table_name text, p_column_name text)
+returns int as $$
+begin
+    return coalesce((
+        select max(alloc_system_id::int)
+        from sead_utility.system_id_allocations
+        where table_name = clearing_house_commit.strip_schema_name(p_table_name)
+          and column_name = p_column_name
+    ), 0);
+end;
+$$ language plpgsql;
+
+
+/*********************************************************************************************************************************
+**  Function    clearing_house_commit.get_max_public_id
+**  Who         Roger Mähler
+**  When
+**  What        Gets the max public ID for a given table in the transport system
+**              (i.e. the max value of the public ID column in the table)
+**              This function is used to determine the next available ID for a new record
+**  Used By     Transport system, during resolve and assignment of primary keys
+**  Revisions
+**********************************************************************************************************************************/
+
+create or replace function clearing_house_commit.get_max_public_id(p_table_name text, p_column_name text)
+returns int as $$
+declare
+    v_id int;
+begin
+    execute format('select max(%s) from public.%I', p_column_name, clearing_house_commit.strip_schema_name(p_table_name))
+        into v_id;
+    return coalesce(v_id, 0);
+end;
+$$ language plpgsql;
+
+/*********************************************************************************************************************************
+**  Function    clearing_house_commit.get_max_allocated_id
+**  Who         Roger Mähler
+**  When
+**  What        Returns next pre-allocated (reserved id) for a given primary id column in a given table
+**  Used By     Transport system, during resolve and assignment of primary keys
+**  Returns     Max pre-allocated ID or 0 if none
+**  Revisions
+**********************************************************************************************************************************/
+
+create or replace function clearing_house_commit.get_max_allocated_id(p_table_name text)
+returns int as $$
+begin
+    return coalesce((
+        select max(alloc_system_id::int)
+        from sead_utility.system_id_allocations
+        where table_name = clearing_house_commit.strip_schema_name(p_table_name)
+          and column_name = p_column_name
+    ), 0);
+end;
+$$ language plpgsql;
+
+
+/*********************************************************************************************************************************
+**  Function    clearing_house_commit.get_next_public_id
+**  Who         Roger Mähler
+**  When
+**  What        Returns next ID for a given primary id column in a given table
 **  Used By     Transport system, during resolve and assignment of primary keys
 **  Returns     Next serial ID in sequence
 **  Revisions
 **********************************************************************************************************************************/
 
-create or replace function clearing_house_commit.reset_serial_id(
-    p_schema_name character varying,
-    p_table_name character varying,
-    p_column_name character varying
-) returns int as $$
+create or replace function clearing_house_commit.get_next_public_id(p_table_name text, p_column_name text)
+returns int as $$
 declare
     v_sql text = '';
-    v_id integer;
-    v_sequence_name text;
-    v_max_transport_id int = 0;
+    v_id int = 0;
 begin
 
-    v_sequence_name  = pg_get_serial_sequence(format('%s', p_table_name), p_column_name);
+    p_table_name = clearing_house_commit.strip_schema_name(p_table_name);
 
-    v_max_transport_id = clearing_house_commit.get_max_transported_id(p_table_name);
-
-    if p_table_name not like format('%s.%%', p_schema_name) then
-        p_table_name = format('%s.%s', p_schema_name, p_table_name);
-    end if;
-
-    v_sql = format('select max(%s) from %s', p_column_name, p_table_name);
-    execute v_sql into v_id;
-
-    v_id = greatest(coalesce(v_id, 1), 1, v_max_transport_id);
-
-    perform setval(v_sequence_name, v_id);
+    v_id = greatest(
+        clearing_house_commit.get_max_public_id(p_table_name, p_column_name),
+        clearing_house_commit.get_max_transported_id(p_table_name),
+        clearing_house_commit.get_max_allocated_id(p_table_name, p_column_name)
+    ) + 1;
 
     return v_id;
-end $$ language plpgsql;
+end; $$ language plpgsql;
 
 /*********************************************************************************************************************************
-**  Function    clearing_house_commit.get_next_id
+**  Function    clearing_house_commit.reset_public_sequence_ids
 **  Who         Roger Mähler
 **  When
-**  What        Returns (and optionally resets) next ID in given sequence
+**  What        Resets public sequence IDs for all tables in public schema that exists in clearing_house schema
 **  Used By     Transport system, during resolve and assignment of primary keys
-**  Returns     Next serial ID in sequence
+**  Returns     Max pre-allocated ID or 0 if none
 **  Revisions
 **********************************************************************************************************************************/
 
-
-create or replace function clearing_house_commit.get_next_id(
-    p_schema_name character varying,
-    p_table_name character varying,
-    p_column_name character varying,
-    p_reset_id boolean = FALSE
-) returns int as $$
-declare
-    v_next_id              int = 0;
-    v_sequence_name        text;
-    v_transport_id_sql     text = '';
-    v_max_transport_id     int = 0;
-    v_dynamic_sql          text = '';
-begin
-
-    v_max_transport_id = clearing_house_commit.get_max_transported_id(p_table_name);
-
-    if p_table_name not like format('%s.%%', p_schema_name) then
-        p_table_name = format('%s.%s', p_schema_name, p_table_name);
-    end if;
-
-    v_sequence_name = pg_get_serial_sequence(p_table_name, p_column_name);
-    if v_sequence_name is not null then
-        if p_reset_id is TRUE then
-            perform clearing_house_commit.reset_serial_id(p_schema_name, p_table_name, p_column_name);
-        end if;
-        v_next_id = nextval(v_sequence_name);
-    else
-        v_dynamic_sql = format('select max(%s) + 1 from %s', p_column_name, p_table_name);
-        execute v_dynamic_sql into v_next_id;
-    end if;
-
-    -- Find MAX assigned id from transport_system (pending insert)
-    v_transport_id_sql = format(
-        'select coalesce(max(transport_id), 0) + 1 from clearing_house.%s',
-        case when p_table_name not like '%.%' then p_table_name else split_part(p_table_name, '.', 2) end
-    );
-
-    execute v_transport_id_sql into v_max_transport_id;
-
-    v_next_id = greatest(v_next_id, v_max_transport_id);
-
-    return v_next_id;
-
-end $$ language plpgsql;
-
-
-create or replace function clearing_house_commit.allocate_sequence_ids()
+create or replace function clearing_house_commit.reset_public_sequence_ids()
 returns void as
 $$
 declare
   v_data record;
   v_sql text;
-  v_max_transport_id int;
-  v_max_pk_value int;
-  v_sequence_name character varying;
+  v_current_id int;
+  v_next_id int;
 begin
 
 	for v_data in (
-
-		with clearinghouse_pk_columns as (
-
-			select table_name_underscored as table_name, st.column_name as column_name
-			from clearing_house.tbl_clearinghouse_submission_xml_content_tables cxt
-			join clearing_house.tbl_clearinghouse_submission_tables ct using (table_id)
-			join clearing_house.fn_dba_get_sead_public_db_schema() st on st.table_name = ct.table_name_underscored
-			where TRUE
-			  and st.table_schema = 'public'
-			  and 'YES' in (st.is_pk)
-			group by table_name_underscored, column_name
-
-		), sead_sequence_columns as (
-
-			with sequences as (
-				select oid, relname as sequencename
-				from pg_class
-				where relkind = 'S'
-			)
-				select sch.nspname as schemaname, tab.relname as table_name, col.attname as column_name, col.attnum as columnnumber, seqs.sequencename
-				from pg_attribute col
-				join pg_class tab on col.attrelid = tab.oid
-				join pg_namespace sch on tab.relnamespace = sch.oid
-				left join pg_attrdef def on tab.oid = def.adrelid and col.attnum = def.adnum
-				left join pg_depend deps on def.oid = deps.objid and deps.deptype = 'n'
-				left join sequences seqs on deps.refobjid = seqs.oid
-				where sch.nspname = 'public'
-				  and col.attnum > 0
-				  and seqs.sequencename is not null
-				order by sch.nspname, tab.relname, col.attnum
-
-		) select *
-		  from clearinghouse_pk_columns
-		  join sead_sequence_columns using (table_name, column_name)
-
+        with public_sequences as (
+            select format('%s.%s', s.schemaname, s.sequencename) as sequence_name, last_value
+            from pg_sequences s
+            where schemaname = 'public'
+             and last_value is not null
+        ), public_sequences_that_exists_in_clearinghouse as (
+            select distinct table_name, column_name, sequence_name, last_value,
+                clearing_house_commit.get_next_public_id(table_name, column_name) as next_value
+            from clearing_house.fn_dba_get_sead_public_db_schema()
+            join public_sequences s
+              on sequence_name = pg_get_serial_sequence(format('public.%I', table_name), column_name)
+            where TRUE
+              and table_schema = 'public'
+              and to_regclass(format('clearing_house.%s', table_name)) IS NOT NULL
+              and is_pk = 'YES'
+              and last_value is not null
+        )
+            select sequence_name, last_value, next_value
+            from public_sequences_that_exists_in_clearinghouse
+            where last_value + 1 != next_value
 	) Loop
 
-		v_sql := format('select max(transport_id) from clearing_house.%s', v_data.table_name);
+        raise info 'Sequence % updated to % (was %)',
+			v_data.sequence_name, v_data.next_value, v_data.last_value;
 
-		execute v_sql into v_max_transport_id;
-
-		v_sql := format('select max(%s) from public.%s', v_data.column_name, v_data.table_name);
-
-		execute v_sql into v_max_pk_value;
-
-		if coalesce(v_max_transport_id, 0) > coalesce(v_max_pk_value,0) then
-
-			v_sequence_name = pg_get_serial_sequence(format('%s', v_data.table_name), v_data.column_name);
-
-			raise info 'Adjusting sequence % on %.% to % (was %)',
-				v_sequence_name, v_data.table_name, v_data.column_name, v_max_transport_id, v_max_pk_value;
-
-			perform setval(v_sequence_name, v_max_transport_id);
-
-		end if;
+		perform setval(v_data.sequence_name, v_data.next_value, false);
 
 	End Loop;
 
 end $$ language plpgsql;
+
 
 /*********************************************************************************************************************************
 **  Function    clearing_house_commit.resolve_primary_key
@@ -392,7 +385,6 @@ end $$ language plpgsql;
 --drop function clearing_house_commit.resolve_primary_key(text, text,text,text,text,text)
 create or replace function clearing_house_commit.resolve_primary_key(
     p_submission_name text,
-    p_schema_name text,
     p_table_name text,
     p_pk_name text,
     p_source_name text, -- name of submission's import file
@@ -437,7 +429,7 @@ begin
             ', p_source_name, p_cr_name, p_table_name, p_pk_name, v_submission_id);
         end if;
         
-        v_next_id = clearing_house_commit.get_next_id(p_schema_name, p_table_name, p_pk_name, true);
+        v_next_id = clearing_house_commit.get_next_public_id(p_table_name, p_pk_name);
         v_sql = v_sql || format('
             with new_keys as (
                 select local_db_id, %1$s + row_number() over (order by local_db_id asc) as new_db_id
@@ -480,11 +472,8 @@ end;$$ language plpgsql;
 **  Revisions
 **********************************************************************************************************************************/
 
--- FIXME: resolve_primary_keys allocates an existing public_id to a new record, which is not correct
-
 create or replace procedure clearing_house_commit.resolve_primary_keys(
     p_submission_name text,
-    p_schema_name text,
     p_cr_name text = null,  -- name of CR if keys are pre-allocated 
     p_dry_run boolean = false
 ) as $$
@@ -522,7 +511,6 @@ begin
 
             v_sql = clearing_house_commit.resolve_primary_key(
                 p_submission_name,
-                p_schema_name,
                 v_table_name,
                 v_pk_name,
                 v_source_name,
@@ -544,7 +532,7 @@ end;$$ language plpgsql;
 
 
 
--- ../sead_clearinghouse/transport_system//03_resolve_foreign_keys.sql
+-- /home/roger/source/sead_clearinghouse/transport_system//03_resolve_foreign_keys.sql
 set session schema 'clearing_house_commit';
 
 /*********************************************************************************************************************************
@@ -611,10 +599,10 @@ create or replace function clearing_house_commit.resolve_%s(p_submission_name te
 declare
     v_submission_id int;
 begin
-    v_submission_id = (select submission_id from clearing_house.tbl_submissions where submission_name = p_submission_name limit 1);
+    v_submission_id = (select submission_id from clearing_house.tbl_clearinghouse_submissions where submission_name = p_submission_name limit 1);
     return query
         select *
-        from clearing_house.resolve_%s(v_submission_id) e;
+        from clearing_house_commit.resolve_%s(v_submission_id) e;
 end $xyz$ language plpgsql;
 
 ', v_entity_name, p_table_name, v_field_clause, p_table_name, v_join_clause, v_entity_name, p_table_name, v_entity_name);
@@ -659,7 +647,7 @@ end;$$ language plpgsql;
 
 
 
--- ../sead_clearinghouse/transport_system//04_script_data_transport.sql
+-- /home/roger/source/sead_clearinghouse/transport_system//04_script_data_transport.sql
 -- FIXME: #48 Improve resilience of the transport system (copy in/out) scripts
 create or replace function clearing_house_commit.get_data_column_names(p_schema_name text, p_table_name text)
 returns text as
@@ -692,13 +680,10 @@ declare
     v_sql text;
     v_columns text;
 begin
-    -- Note: Uses psql variable :submission_id that must be set in surrounding context
     v_columns = clearing_house_commit.get_data_column_names('public', p_table_name);
     v_sql = format('\copy (select %1$s from clearing_house_commit.resolve_%2$s(''%4$s'')) to program ''gzip -qa9 > %3$s/%2$s.gz'' with (format text, delimiter E''\t'', encoding ''utf-8'');',
         v_columns, p_entity, p_target_folder, p_submission_name);
-
     return v_sql;
-
 end $$ language plpgsql;
 
 create or replace function clearing_house_commit.generate_copy_in_script(
@@ -876,7 +861,7 @@ begin
 end $$ language plpgsql;
 
 
--- ../sead_clearinghouse/transport_system//05_install_transport_system.sql
+-- /home/roger/source/sead_clearinghouse/transport_system//05_install_transport_system.sql
 create or replace procedure clearing_house_commit.create_or_update_clearinghouse_system(
     p_only_drop boolean = false,
     p_dry_run boolean = false,

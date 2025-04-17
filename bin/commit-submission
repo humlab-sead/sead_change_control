@@ -236,7 +236,7 @@ function generate_data() {
     local sql="
         do \$\$
         begin
-            call clearing_house_commit.resolve_primary_keys('${cr_name}', 'public', null, FALSE);
+            call clearing_house_commit.resolve_primary_keys('${cr_name}'::text, '${cr_name}'::text, FALSE);
         end \$\$ language plpgsql;
 ";
 
@@ -292,7 +292,7 @@ function generate_deploy() {
         | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g'                             >> $work_file
 
 	echo "\\o /dev/null"                                                                    >> $work_file
-	echo "select clearing_house_commit.allocate_sequence_ids();"                            >> $work_file
+	echo "select clearing_house_commit.reset_public_sequence_ids();"                        >> $work_file
 	echo "select clearing_house_commit.commit_submission('$cr_name');"                      >> $work_file
 	echo "\\o"                                                                              >> $work_file
 

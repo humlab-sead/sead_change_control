@@ -593,6 +593,6 @@ select clearing_house_commit.reset_serial_id('public', 'tbl_abundances', 'abunda
 drop table if exists clearing_house_commit.temp_tbl_abundances;
 
 
-select clearing_house_commit.allocate_sequence_ids();
+select clearing_house_commit.reset_public_sequence_ids();
 select clearing_house_commit.commit_submission(3);
 commit;

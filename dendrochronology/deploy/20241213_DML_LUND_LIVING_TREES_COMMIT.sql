@@ -376,7 +376,7 @@ drop table if exists clearing_house_commit.temp_tbl_site_locations;
 
 
 \o /dev/null
-select clearing_house_commit.allocate_sequence_ids();
+select clearing_house_commit.reset_public_sequence_ids();
 select clearing_house_commit.commit_submission('20241213_DML_LUND_LIVING_TREES_COMMIT');
 \o
 commit;

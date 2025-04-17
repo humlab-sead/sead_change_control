@@ -442,6 +442,6 @@ Notes          Use --single-transaction on execute!
 -- drop table if exists clearing_house_commit.temp_tbl_site_references;
 
 
--- select clearing_house_commit.allocate_sequence_ids();
+-- select clearing_house_commit.reset_public_sequence_ids();
 -- select clearing_house_commit.commit_submission(1);
 -- commit;

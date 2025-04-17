@@ -530,7 +530,7 @@ select clearing_house_commit.reset_serial_id('public', 'tbl_sites', 'site_id');
 drop table if exists clearing_house_commit.temp_tbl_sites;
 
 
-select clearing_house_commit.allocate_sequence_ids();
+select clearing_house_commit.reset_public_sequence_ids();
 select clearing_house_commit.commit_submission('20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT');
 commit;
 
