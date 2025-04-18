@@ -2,22 +2,22 @@ name: Release
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Run semantic-release with plugins
+      - name: Install semantic-release and plugins
         run: |
           npm install -g semantic-release \
             @semantic-release/commit-analyzer \
@@ -27,6 +27,7 @@ jobs:
             @semantic-release/github \
             conventional-changelog-conventionalcommits
 
-          semantic-release
+      - name: Run semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: semantic-release
