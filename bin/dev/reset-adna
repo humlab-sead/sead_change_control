@@ -2,10 +2,13 @@
 
 set -e
 
+runner=
+
 script_dir=$(cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
 source $script_dir/common
 
 IMPORT_HOME=$HOME/source/sead_clearinghouse_import
+TRANSPORT_HOME=$HOME/source/sead_clearinghouse/transport_system
 
 export PYTHONPATH="$IMPORT_HOME:$PYTHONPATH"
 
@@ -15,11 +18,11 @@ g_port=5433
 g_today=$(date +%Y-%m-%d)
 
 g_suffix="adna"
-g_source_db="sead_staging_202412"
+g_source_db="sead_staging_202501"
 g_target_db="${g_source_db}_${g_suffix}"
 
 g_datatype=adna
-g_cr_name=20250108_DML_SUBMISSION_ADNA_COMMIT
+g_cr_name=20250108_DML_SUBMISSION_ADNA_PILOT_COMMIT
 
 g_import_system_folder=$IMPORT_HOME
 g_data_folder=$g_import_system_folder/data/adna/SEAD_aDNA_data_20241114
@@ -27,11 +30,19 @@ g_output_folder=${g_data_folder}/output
 g_data_filename=${g_data_folder}/SEAD_aDNA_data_20241114_RM.xlsx
 g_config_filename=${g_data_folder}/config.yml
 
-copy-database --source $g_source_db --target $g_target_db --port $g_port --force --host $g_host
+$runner copy-database --source $g_source_db --target $g_target_db --port $g_port --force --host $g_host
+
+if find $TRANSPORT_HOME -maxdepth 1 -type f -name "*.sql" -newer subsystem/deploy/20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM.sql | grep -q .; then
+    echo "info: deploying new 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM"
+    $runner bin/deploy-clearinghouse-commit --mode update --sql-folder $TRANSPORT_HOME/ --force --on-schema-exists drop
+fi
+
+$runner bin/patch-cr --port $g_port --database $g_target_db 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM
 
 pushd $g_import_system_folder &> /dev/null
 
-poetry run python importer/scripts/import_excel.py $g_config_filename $g_data_filename \
+echo "info: importing data from $g_data_filename"
+$runner poetry run python importer/scripts/import_excel.py $g_config_filename $g_data_filename \
     --no-timestamp \
     --register \
     --explode \
@@ -47,5 +58,9 @@ poetry run python importer/scripts/import_excel.py $g_config_filename $g_data_fi
 
 popd &> /dev/null
 
-bin/commit-submission --mode update --change $g_cr_name --id $g_cr_name --port $g_port \
+echo "info: committing submission for $g_cr_name"
+$runner bin/commit-submission --mode update --change $g_cr_name --id $g_cr_name --port $g_port \
     --database $g_target_db --project $g_datatype --no-create-issue
+
+# echo "info: patching $g_cr_name"
+# $runner bin/patch-cr --port $g_port --database $g_target_db  $g_cr_name
