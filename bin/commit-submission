@@ -463,6 +463,21 @@ function check_setup() {
     fi
 }
 
+
+function check_transport_system() {
+    if [ ! -d "$TRANSPORT_HOME" ]; then
+        info "skipping check if transport system is current (default folder $TRANSPORT_HOME does not exist"
+        return 0
+    fi
+    if find $TRANSPORT_HOME -maxdepth 1 -type f -name "*.sql" -newer subsystem/deploy/20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM.sql | grep -q .; then
+        error "new version of transport system found, please update the transport system"
+        info "run command: bin/deploy-clearinghouse-commit --mode update --sql-folder $TRANSPORT_HOME/ --force --on-schema-exists drop"
+        exit 1
+        # echo "info: deploying new 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM"
+        # $runner bin/deploy-clearinghouse-commit --mode update --sql-folder $TRANSPORT_HOME/ --force --on-schema-exists drop
+    fi
+}
+
 if [ "$g_mode" == "list" ]; then
     dbexec -c "select submission_name, data_types, upload_date, status_text from \
         clearing_house.tbl_clearinghouse_submissions where submission_state_id = 2;"
@@ -487,6 +502,7 @@ if [ "$g_mode" != "new_or_update" ]; then
 fi
 
 print_options
+check_transport_system
 
 generate_data $g_cr_name $g_work_folder
 
