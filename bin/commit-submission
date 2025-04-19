@@ -1,10 +1,22 @@
 #!/bin/bash
+#######################################################################################
+# Add documentation of this script
+# This script is used to generate and deploy a change request for the SEAD Clearinghouse system.
+# It generates a SQL script for the change request and creates a corresponding issue in the SEAD Control System.
+# It also generates a post-deploy hook for the change request.
+# The script takes several command line arguments to specify the database, submission ID, project, and other options.
+# It also has options for dry run and force overwrite of existing files.
+# The script uses the psql command to execute SQL commands against the database.
+# It also uses the add-change-request script to add the change request to the SEAD Control System.
+#######################################################################################
 
 . $(dirname "$0")/utility.sh
 
 SHELL=/bin/bash
 
 export PGCLIENTENCODING=UTF8
+
+TRANSPORT_HOME=$HOME/source/sead_clearinghouse/transport_system
 
 set -e
 
