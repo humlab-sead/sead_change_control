@@ -287,6 +287,8 @@ function generate_deploy() {
 
     # NOTE: relative cd if OS command, /repo assumes running sqitch via Docker
     echo "\cd /repo/$project/deploy"                                                        >> $work_file
+    echo ""                                                                                 >> $work_file
+    echo "perform clearing_house_commit.reset_public_sequence_ids();"                       >> $work_file
 
     dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($cr_name, '$cr_name', false)) to STDOUT; " \
         | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g'                             >> $work_file

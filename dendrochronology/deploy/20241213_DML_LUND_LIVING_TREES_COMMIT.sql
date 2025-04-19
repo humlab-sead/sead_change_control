@@ -23,6 +23,7 @@ begin;
 set constraints all deferred;
 \cd /repo/dendrochronology/deploy
 
+perform clearing_house_commit.reset_public_sequence_ids();
 
 /************************************************************************************************************************************
  ** dataset_submission_type
@@ -39,8 +40,6 @@ insert into public.tbl_dataset_submission_types (submission_type_id, submission_
     from clearing_house_commit.temp_tbl_dataset_submission_types ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_dataset_submission_types', 'submission_type_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_submission_types;
 
@@ -61,8 +60,6 @@ insert into public.tbl_sample_location_types (sample_location_type_id, location_
     from clearing_house_commit.temp_tbl_sample_location_types ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_location_types', 'sample_location_type_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_location_types;
 
@@ -83,8 +80,6 @@ insert into public.tbl_dimensions (dimension_id, date_updated, dimension_abbrev,
     from clearing_house_commit.temp_tbl_dimensions ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_dimensions', 'dimension_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_dimensions;
 
@@ -105,8 +100,6 @@ insert into public.tbl_projects (project_id, project_type_id, project_stage_id, 
     from clearing_house_commit.temp_tbl_projects ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_projects', 'project_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_projects;
 
@@ -127,8 +120,6 @@ insert into public.tbl_datasets (dataset_id, master_set_id, data_type_id, method
     from clearing_house_commit.temp_tbl_datasets ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_datasets', 'dataset_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_datasets;
 
@@ -149,8 +140,6 @@ insert into public.tbl_dataset_contacts (dataset_contact_id, contact_id, contact
     from clearing_house_commit.temp_tbl_dataset_contacts ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_dataset_contacts', 'dataset_contact_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_contacts;
 
@@ -171,8 +160,6 @@ insert into public.tbl_dataset_submissions (dataset_submission_id, dataset_id, s
     from clearing_house_commit.temp_tbl_dataset_submissions ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_dataset_submissions', 'dataset_submission_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_submissions;
 
@@ -193,8 +180,6 @@ insert into public.tbl_analysis_entities (analysis_entity_id, physical_sample_id
     from clearing_house_commit.temp_tbl_analysis_entities ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_analysis_entities', 'analysis_entity_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_analysis_entities;
 
@@ -215,8 +200,6 @@ insert into public.tbl_analysis_values (analysis_value_id, value_class_id, analy
     from clearing_house_commit.temp_tbl_analysis_values ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_analysis_values', 'analysis_value_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_analysis_values;
 
@@ -237,8 +220,6 @@ insert into public.tbl_physical_samples (physical_sample_id, sample_group_id, al
     from clearing_house_commit.temp_tbl_physical_samples ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_physical_samples', 'physical_sample_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_physical_samples;
 
@@ -259,8 +240,6 @@ insert into public.tbl_sample_alt_refs (sample_alt_ref_id, alt_ref, alt_ref_type
     from clearing_house_commit.temp_tbl_sample_alt_refs ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_alt_refs', 'sample_alt_ref_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_alt_refs;
 
@@ -281,8 +260,6 @@ insert into public.tbl_sample_dimensions (sample_dimension_id, physical_sample_i
     from clearing_house_commit.temp_tbl_sample_dimensions ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_dimensions', 'sample_dimension_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_dimensions;
 
@@ -303,8 +280,6 @@ insert into public.tbl_sample_group_descriptions (sample_group_description_id, g
     from clearing_house_commit.temp_tbl_sample_group_descriptions ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_group_descriptions', 'sample_group_description_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_descriptions;
 
@@ -325,8 +300,6 @@ insert into public.tbl_sample_groups (sample_group_id, site_id, sampling_context
     from clearing_house_commit.temp_tbl_sample_groups ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_groups', 'sample_group_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_groups;
 
@@ -347,8 +320,6 @@ insert into public.tbl_sample_locations (sample_location_id, sample_location_typ
     from clearing_house_commit.temp_tbl_sample_locations ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_locations', 'sample_location_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_locations;
 
@@ -369,8 +340,6 @@ insert into public.tbl_site_locations (site_location_id, date_updated, location_
     from clearing_house_commit.temp_tbl_site_locations ;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_site_locations', 'site_location_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_site_locations;
 

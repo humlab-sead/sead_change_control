@@ -20,6 +20,7 @@ set constraints all deferred;
 
 \cd /repo/ceramics/deploy
 
+perform clearing_house_commit.reset_public_sequence_ids();
 
 /************************************************************************************************************************************
  ** site
@@ -39,8 +40,6 @@ insert into public.tbl_sites
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sites', 'site_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sites;
 
@@ -64,8 +63,6 @@ insert into public.tbl_features
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_features', 'feature_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_features;
 
@@ -89,8 +86,6 @@ insert into public.tbl_datasets
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_datasets', 'dataset_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_datasets;
 
@@ -114,8 +109,6 @@ insert into public.tbl_dataset_contacts
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_dataset_contacts', 'dataset_contact_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_contacts;
 
@@ -139,8 +132,6 @@ insert into public.tbl_dataset_submissions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_dataset_submissions', 'dataset_submission_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_submissions;
 
@@ -164,8 +155,6 @@ insert into public.tbl_sample_group_description_type_sampling_contexts
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_group_description_type_sampling_contexts', 'sample_group_description_type_sampling_context_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts;
 
@@ -189,8 +178,6 @@ insert into public.tbl_sample_groups
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_groups', 'sample_group_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_groups;
 
@@ -214,8 +201,6 @@ insert into public.tbl_physical_samples
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_physical_samples', 'physical_sample_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_physical_samples;
 
@@ -239,8 +224,6 @@ insert into public.tbl_analysis_entities
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_analysis_entities', 'analysis_entity_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_analysis_entities;
 
@@ -264,8 +247,6 @@ insert into public.tbl_ceramics
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_ceramics', 'ceramics_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_ceramics;
 
@@ -289,8 +270,6 @@ insert into public.tbl_physical_sample_features
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_physical_sample_features', 'physical_sample_feature_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_physical_sample_features;
 
@@ -314,8 +293,6 @@ insert into public.tbl_relative_dates
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_relative_dates', 'relative_date_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_relative_dates;
 
@@ -339,8 +316,6 @@ insert into public.tbl_sample_alt_refs
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_alt_refs', 'sample_alt_ref_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_alt_refs;
 
@@ -364,8 +339,6 @@ insert into public.tbl_sample_descriptions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_descriptions', 'sample_description_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_descriptions;
 
@@ -389,8 +362,6 @@ insert into public.tbl_sample_dimensions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_dimensions', 'sample_dimension_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_dimensions;
 
@@ -414,8 +385,6 @@ insert into public.tbl_sample_group_descriptions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_group_descriptions', 'sample_group_description_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_descriptions;
 
@@ -439,8 +408,6 @@ insert into public.tbl_sample_group_dimensions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_group_dimensions', 'sample_group_dimension_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_dimensions;
 
@@ -464,8 +431,6 @@ insert into public.tbl_site_locations
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_site_locations', 'site_location_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_site_locations;
 
@@ -489,8 +454,6 @@ insert into public.tbl_site_references
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_site_references', 'site_reference_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_site_references;
 

@@ -14,7 +14,7 @@ set client_encoding = 'UTF8';
 set client_min_messages to warning;
 \set autocommit off;
 
-do $$
+do $$§
 begin
     perform sead_utility.set_fk_is_deferrable('public', true, false);
 end $$ language plpgsql;
@@ -23,6 +23,7 @@ begin;
 set constraints all deferred;
 \cd /repo/dendrochronology/deploy
 
+perform clearing_house_commit.reset_public_sequence_ids();
 
 /************************************************************************************************************************************
  ** project
@@ -41,8 +42,6 @@ insert into public.tbl_projects
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_projects', 'project_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_projects;
 
@@ -65,8 +64,6 @@ insert into public.tbl_datasets
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_datasets', 'dataset_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_datasets;
 
@@ -89,8 +86,6 @@ insert into public.tbl_dataset_contacts
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_dataset_contacts', 'dataset_contact_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_contacts;
 
@@ -113,8 +108,6 @@ insert into public.tbl_dataset_submissions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_dataset_submissions', 'dataset_submission_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_submissions;
 
@@ -137,8 +130,6 @@ insert into public.tbl_abundances
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_abundances', 'abundance_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_abundances;
 
@@ -161,8 +152,6 @@ insert into public.tbl_analysis_entities
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_analysis_entities', 'analysis_entity_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_analysis_entities;
 
@@ -185,8 +174,6 @@ insert into public.tbl_dendro
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_dendro', 'dendro_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_dendro;
 
@@ -209,8 +196,6 @@ insert into public.tbl_dendro_date_notes
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_dendro_date_notes', 'dendro_date_note_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_dendro_date_notes;
 
@@ -236,8 +221,6 @@ insert into public.tbl_dendro_dates
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_dendro_dates', 'dendro_date_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_dendro_dates;
 
@@ -260,8 +243,6 @@ insert into public.tbl_physical_samples
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_physical_samples', 'physical_sample_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_physical_samples;
 
@@ -284,8 +265,6 @@ insert into public.tbl_sample_alt_refs
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_alt_refs', 'sample_alt_ref_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_alt_refs;
 
@@ -308,8 +287,6 @@ insert into public.tbl_sample_descriptions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_descriptions', 'sample_description_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_descriptions;
 
@@ -332,8 +309,6 @@ insert into public.tbl_sample_group_coordinates
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_group_coordinates', 'sample_group_position_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_coordinates;
 
@@ -356,8 +331,6 @@ insert into public.tbl_sample_group_descriptions
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_group_descriptions', 'sample_group_description_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_descriptions;
 
@@ -380,8 +353,6 @@ insert into public.tbl_sample_group_notes
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_group_notes', 'sample_group_note_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_notes;
 
@@ -404,8 +375,6 @@ insert into public.tbl_sample_groups
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_groups', 'sample_group_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_groups;
 
@@ -428,8 +397,6 @@ insert into public.tbl_sample_locations
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_locations', 'sample_location_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_locations;
 
@@ -452,8 +419,6 @@ insert into public.tbl_sample_notes
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sample_notes', 'sample_note_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sample_notes;
 
@@ -476,8 +441,6 @@ insert into public.tbl_site_locations
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_site_locations', 'site_location_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_site_locations;
 
@@ -500,8 +463,6 @@ insert into public.tbl_site_references
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_site_references', 'site_reference_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_site_references;
 
@@ -524,8 +485,6 @@ insert into public.tbl_sites
     /* on conflict (v_pk_name) update set list-of-all-fields */;
 
 \o /dev/null
-select clearing_house_commit.reset_serial_id('public', 'tbl_sites', 'site_id');
-\o
 
 drop table if exists clearing_house_commit.temp_tbl_sites;
 
