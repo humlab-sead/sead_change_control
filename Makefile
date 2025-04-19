@@ -268,3 +268,15 @@ sqitch-verify-all-revisions:
 	@for project in $(projects); do \
 		sqitch verify --target db:pg://$(DB_USER@$(DB_HOST)/sead_production_201912 --plan-file $$project/sqitch.plan ; \
 	done
+
+semantic-release-local-tools:
+	@npm install semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator \
+		@semantic-release/github conventional-changelog-conventionalcommits \
+			@semantic-release/changelog @semantic-release/git
+
+semantic-release-dryrun:
+	@npx semantic-release --dry-run
+
+semantic-release:
+	@npx conventional-changelog-cli -p conventionalcommits -i CHANGELOG.md -s -r 0
+	
