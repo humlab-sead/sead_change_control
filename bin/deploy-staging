@@ -44,8 +44,6 @@ g_verbose=NO
 
 default_projects=$(get_projects)
 
-log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${g_target_name}_${g_source_type}.log"
-
 g_user=
 g_host=
 g_port=
@@ -218,6 +216,7 @@ do
     esac
 done
 
+log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${g_target_name}_${g_source_type}.log"
 
 function usage() {
     local error_message="$1"
@@ -372,7 +371,7 @@ function execute_sql() {
     if [ "$g_dry_run" == "YES" ]; then
         echo psql -v ON_ERROR_STOP=1 --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=$database --command "$sql"
     else
-        echo $sql >> $log_file
+        verbose $sql >> $log_file
         psql -v ON_ERROR_STOP=1 --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=$database --command "$sql" >> $log_file
         if [ $? -ne 0 ];  then
             error "psql command failed! Deploy aborted." >&2
@@ -483,7 +482,7 @@ function setup_target() {
 	    dbexecgz "$target_name" "$source_name"
 
 	    verbose "applying default permissions..."
-        # FIXME: Loop and apply all gz-files found in starting_point/
+
 	    dbexecgz "${target_name}" "./starting_point/role_permissions.sql.gz"
 
 	fi
