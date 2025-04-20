@@ -14,7 +14,7 @@ set client_encoding = 'UTF8';
 set client_min_messages to warning;
 \set autocommit off;
 
-do $$§
+do $$
 begin
     perform sead_utility.set_fk_is_deferrable('public', true, false);
 end $$ language plpgsql;
@@ -23,7 +23,9 @@ begin;
 set constraints all deferred;
 \cd /repo/dendrochronology/deploy
 
-perform clearing_house_commit.reset_public_sequence_ids();
+\o /dev/null
+call clearing_house_commit.reset_public_sequence_ids();
+\o
 
 /************************************************************************************************************************************
  ** project
@@ -489,8 +491,10 @@ insert into public.tbl_sites
 drop table if exists clearing_house_commit.temp_tbl_sites;
 
 
-select clearing_house_commit.reset_public_sequence_ids();
+\o /dev/null
+call clearing_house_commit.reset_public_sequence_ids();
 select clearing_house_commit.commit_submission('20240119_DML_SUBMISSION_DENDROCHRONOLOGY_COMMIT');
+\o
 commit;
 
 do $$

@@ -20,7 +20,9 @@ set constraints all deferred;
 
 \cd /repo/ceramics/deploy
 
-perform clearing_house_commit.reset_public_sequence_ids();
+\o /dev/null
+call clearing_house_commit.reset_public_sequence_ids();
+\o
 
 /************************************************************************************************************************************
  ** site
@@ -458,6 +460,8 @@ insert into public.tbl_site_references
 drop table if exists clearing_house_commit.temp_tbl_site_references;
 
 
-select clearing_house_commit.reset_public_sequence_ids();
+\o /dev/null
+call clearing_house_commit.reset_public_sequence_ids();
 select clearing_house_commit.commit_submission('20200109_DML_SUBMISSION_CERAMICS_COMMIT');
+\o
 commit;
