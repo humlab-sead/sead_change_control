@@ -304,7 +304,7 @@ function dump_submission()
           and table_name not in (
               select table_name from information_schema.views where table_schema = '$schema_name'
           )
-          and table_name not in ('tbl_clearinghouse_submission_xml')
+          and table_name not like 'tbl_clearinghouse_submission_xml%'
         order by table_name;
 END
 )
