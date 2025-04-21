@@ -398,41 +398,9 @@ insert into $schema_name.$table ($column_names)
 drop table staging_submissions;
 " > $copy_in_script
 
-    # readarray -t tables < <(
-    #     psql -h "$g_host" -U "$g_user" -d "$g_database" -p "$g_port" \
-    #         -c "$table_sql" -X -t --quiet --field-separator ' ' --no-align
-    # )
-    tables=(
-        "tbl_abundances"
-        "tbl_alt_ref_types"
-        "tbl_analysis_entities"
-        "tbl_analysis_values"
-        "tbl_biblio"
-        "tbl_contacts"
-        "tbl_dataset_contacts"
-        "tbl_dataset_masters"
-        "tbl_dataset_submissions"
-        "tbl_datasets"
-        "tbl_locations"
-        "tbl_methods"
-        "tbl_physical_samples"
-        "tbl_projects"
-        "tbl_record_types"
-        "tbl_relative_dates"
-        "tbl_sample_alt_refs"
-        "tbl_sample_groups"
-        "tbl_site_locations"
-        "tbl_site_references"
-        "tbl_sites"
-        "tbl_taxa_tree_families"
-        "tbl_taxa_tree_genera"
-        "tbl_taxa_tree_master"
-        "tbl_taxa_tree_orders"
-        "tbl_taxonomic_order"
-        "tbl_taxonomic_order_systems"
-        "tbl_value_classes"
-        "tbl_value_type_items"
-        "tbl_value_types"
+    readarray -t tables < <(
+        psql -h "$g_host" -U "$g_user" -d "$g_database" -p "$g_port" \
+            -c "$table_sql" -X -t --quiet --field-separator ' ' --no-align
     )
 
     for table in "${tables[@]}"; do
