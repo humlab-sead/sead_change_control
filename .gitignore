@@ -115,6 +115,13 @@ src/data
 *-workspace
 sqitch
 home
+HOME
 docs
 dbdoc
 node_modules
+
+.nx/installation
+.nx/cache
+.nx/workspace-data
+nx*
+.vscode/mcp.json
