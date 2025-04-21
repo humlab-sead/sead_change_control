@@ -463,7 +463,7 @@ drop table staging_$table;
     else
         info "dumped submission $GREEN\"$submission_name\"$RESET with ID $GREEN$submission_id$RESET to folder \"$target_folder\" (${table_count} tables with data, ignored $table_empty_count empty tables) "
         if [ "$g_target_id" != "" ]; then
-            info "new submission id in dump is $GREEN\"$target_id\"$RESET"
+            info "new id in dump for submission: $GREEN\"$target_id\"$RESET"
         fi
     fi
 }
