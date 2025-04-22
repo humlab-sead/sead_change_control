@@ -221,19 +221,6 @@ function restore_submission()
         target_id=$submission_id
     fi
 
-    if [ "$target_id" != "$submission_id" ]; then
-        # source_folder_new="$source_folder/restore_$target_id"
-        local source_folder_new=$(mktemp -d)
-        info "restoring submission $submission_id as $target_id to folder $source_folder_new" 
-        mkdir -p $source_folder_new
-        for file in $source_folder/*.sql.gz; do
-            zcat $source_folder/$(basename $file) \
-                | awk -F'\t' -v new_value="$target_id" '{ $1=new_value }1' OFS='\t' \
-                    | gzip -c > $source_folder_new/$(basename $file)
-        done
-        cp $source_folder/copy_in.sql $source_folder_new
-        source_folder=$source_folder_new
-    fi
 
     local existing_id=$(check_existing_id $target_id)
     if [ "$existing_id" != "" ]; then
