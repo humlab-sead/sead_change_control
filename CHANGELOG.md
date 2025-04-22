@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.2.1](https://github.com/humlab-sead/sead_change_control/compare/v1.2.0...v1.2.1) (2025-04-22)
+
+### 🧑‍💻 Code Refactoring
+
+* removed fix that submission's id when restored ([cb85475](https://github.com/humlab-sead/sead_change_control/commit/cb85475da4fd0f647562590af9c97635a8031252))
+
 ## [1.2.0](https://github.com/humlab-sead/sead_change_control/compare/v1.1.0...v1.2.0) (2025-04-22)
 
 ### 🍕 Features
