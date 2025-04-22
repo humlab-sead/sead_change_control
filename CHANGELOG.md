@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.2.2](https://github.com/humlab-sead/sead_change_control/compare/v1.2.1...v1.2.2) (2025-04-22)
+
+### 🐛 Bug Fixes
+
+* update category_id_operator to use '&&' for facet type analysis_entity_ages ([684081a](https://github.com/humlab-sead/sead_change_control/commit/684081abe5adde865936d1ec82fde5e69a56be63))
+
 ## [1.2.1](https://github.com/humlab-sead/sead_change_control/compare/v1.2.0...v1.2.1) (2025-04-22)
 
 ### 🧑‍💻 Code Refactoring
