@@ -357,20 +357,33 @@ as $body$
 	declare i_facet_id int;
 	declare s_aggregate_facet_code text;
 	declare i_aggregate_facet_id int = 0;
+	declare s_facet_code text;
+	declare i_facet_group_id int;
 begin
 
 	j_tables = j_facet -> 'tables';
 	j_clauses = j_facet -> 'clauses';
---	j_facet = j_facet - 'tables';
---	j_facet = j_facet - 'clauses';
-
-	i_facet_id = (j_facet ->> 'facet_id')::int;
-	if i_facet_id is null then
-		i_facet_id = (select coalesce(max(facet_id),0)+1 from facet.facet);
-	else
-		delete from facet.facet
-			where facet_id = i_facet_id;
+	
+	s_facet_code = (j_facet ->> 'facet_code')::text;
+	if s_facet_code is null then
+		raise exception 'facet_code is null';
+		return null;
 	end if;
+
+	i_facet_group_id = (j_facet ->> 'facet_group_id')::int;
+
+	i_facet_id := coalesce(
+		(select facet_id from facet.facet where facet_code = s_facet_code),
+		(j_facet ->> 'facet_id')::int,
+		(
+			select coalesce(max(facet_id), 0) + 1
+		 	from facet.facet
+			where (facet_group_id != 999 and facet_id < 1000) or (facet_group_id = 999 and facet_id >= 1000)
+		)
+	);
+
+	delete from facet.facet_children where facet_code = s_facet_code;
+	delete from facet.facet where facet_code = s_facet_code;
 
 	s_aggregate_facet_code = (j_facet ->> 'aggregate_facet_code')::text;
 
