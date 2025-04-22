@@ -381,7 +381,7 @@ language plpgsql;
 
         local column_names=$(get_column_names $schema_name $table)
 
-        copy_out="\\copy (select $target_id, $column_names from $schema_name.$table where submission_id in ($sub_query)) to program 'gzip -qa9 > $table.sql.gz' $copy_options;";
+        copy_out="\\copy (select $target_id, $column_names from $schema_name.$table where submission_id in ($sub_query)) to program 'gzip -nqa9 > $table.sql.gz' $copy_options;";
         copy_in="
 /*************************************************************************************************************************
  ** Table $schema_name.$table
