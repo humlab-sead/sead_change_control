@@ -1260,7 +1260,7 @@ $aggregate_facets$;
                 "facet_type_id": 4,
                 "category_id_expr": "numrange(age_younger, age_older, '[]')",
                 "category_id_type": "integer",
-                "category_id_operator": "=",
+                "category_id_operator": "&&",
                 "category_name_expr": "tbl_sites.site_name",
                 "sort_expr": "1",
                 "is_applicable": true,
