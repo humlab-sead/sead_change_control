@@ -254,7 +254,7 @@ function restore_submission()
 
     set +e
 
-    psql -h $g_host -U $g_user -d $g_database -p $g_port -v ON_ERROR_STOP=1 -tAf "$copy_in_script"  &> "$output_temp"
+    psql -h $g_host -U $g_user -d $g_database -p $g_port -v submission_id=$target_id -v ON_ERROR_STOP=1 -tAf "$copy_in_script"  &> "$output_temp"
 
     if [ $? -ne 0 ]; then
         error "Error occurred during data import."
@@ -305,8 +305,7 @@ function dump_submission()
           and table_name not in (
               select table_name from information_schema.views where table_schema = '$schema_name'
           )
-          and table_name not like 'tbl_clearinghouse_submission_xml%'
-        order by table_name;
+          and table_name not like 'tbl_clearinghouse_submission%'
 END
 )
 
@@ -370,9 +369,7 @@ END
 
     local sub_query="select submission_id from clearing_house.tbl_clearinghouse_submissions where submission_name = '$submission_name' limit 1"
 
-    local column_names=$(get_column_names $schema_name "tbl_clearinghouse_submissions")
-
-    table="tbl_clearinghouse_submissions"
+    # \set submission_id $target_id
     echo "
 do \$\$
 declare
@@ -384,19 +381,6 @@ begin
     end if;
 end \$\$
 language plpgsql;
-
-/*************************************************************************************************************************
- ** Table $schema_name.$table
- *************************************************************************************************************************/
-
-create temp table staging_submissions (like $schema_name.$table including defaults);
-
-\copy staging_submissions (submission_id, $column_names) from program 'zcat -qac $table.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
-
-insert into $schema_name.$table ($column_names)
-    select $column_names
-    from staging_submissions;
-drop table staging_submissions;
 " > $copy_in_script
 
     readarray -t tables < <(
@@ -404,12 +388,13 @@ drop table staging_submissions;
             -c "$table_sql" -X -t --quiet --field-separator ' ' --no-align
     )
 
+    tables=("tbl_clearinghouse_submissions" "${tables[@]}")
+
     for table in "${tables[@]}"; do
+
         local column_names=$(get_column_names $schema_name $table)
 
         copy_out="\\copy (select $target_id, $column_names from $schema_name.$table where submission_id in ($sub_query)) to program 'gzip -qa9 > $table.sql.gz' $copy_options;";
-        # copy_in="\\copy $schema_name.$table (submission_id, $column_names) from program 'zcat -qac $table.sql.gz' $copy_options;";
-
         copy_in="
 /*************************************************************************************************************************
  ** Table $schema_name.$table
@@ -419,11 +404,8 @@ create temp table staging_$table (like $schema_name.$table including defaults);
 
 \copy staging_$table (submission_id, $column_names) from program 'zcat -qac $table.sql.gz' with (format text, delimiter E'\t', encoding 'utf-8');
 
-update staging_$table
-    set submission_id = ($sub_query);
-
 insert into $schema_name.$table (submission_id, $column_names)
-    select submission_id, $column_names
+    select :'submission_id', $column_names
     from staging_$table;
 
 drop table staging_$table;
