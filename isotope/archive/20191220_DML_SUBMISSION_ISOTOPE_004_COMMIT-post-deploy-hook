@@ -16,5 +16,5 @@ g_root_folder=$(realpath $script_dir/..)
 g_folder=$g_root_folder/subsystem/deploy/clearinghouse-data/$cr_name
 
 if [ ! -d "$g_folder" ]; then
-    dump-submission --target-uri $target_uri --id $cr_name --mode restore --target-id next --folder $g_folder --force
+    submission --mode restore --target-uri $target_uri --id $cr_name --target-id next --folder $g_folder --force
 fi

@@ -37,7 +37,7 @@ if find $TRANSPORT_HOME -maxdepth 1 -type f -name "*.sql" -newer subsystem/deplo
     $runner bin/deploy-clearinghouse-commit --mode update --sql-folder $TRANSPORT_HOME/ --force --on-schema-exists drop
 fi
 
-$runner bin/patch-cr --port $g_port --database $g_target_db 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM
+#$runner bin/patch-cr --port $g_port --database $g_target_db 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM
 
 pushd $g_import_system_folder &> /dev/null
 
@@ -61,6 +61,9 @@ popd &> /dev/null
 echo "info: committing submission for $g_cr_name"
 $runner bin/commit-submission --mode update --change $g_cr_name --id $g_cr_name --port $g_port \
     --database $g_target_db --project $g_datatype --no-create-issue
+
+$runner submission --mode restore --target-uri "db:pg://${g_user}@${g_host}:${g_port}/${g_target_db}" --id $g_cr_name \
+    --target-id next --folder subsystem/deploy/clearinghouse-data/$g_cr_name --force
 
 # echo "info: patching $g_cr_name"
 # $runner bin/patch-cr --port $g_port --database $g_target_db  $g_cr_name

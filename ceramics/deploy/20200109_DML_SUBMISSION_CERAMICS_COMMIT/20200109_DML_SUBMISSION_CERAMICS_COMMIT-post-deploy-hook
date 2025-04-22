@@ -17,5 +17,5 @@ fi
 folder=$root_folder/subsystem/deploy/clearinghouse-data/$cr_name
 
 if [ -d "$folder" ]; then
-    dump-submission --target-uri $target_uri --id $cr_name --mode restore --target-id next --folder $folder --force
+    submission --mode restore --target-uri $target_uri --id $cr_name --target-id next --folder $folder --force
 fi
