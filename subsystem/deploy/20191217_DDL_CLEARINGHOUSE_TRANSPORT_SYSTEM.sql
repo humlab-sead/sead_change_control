@@ -8,7 +8,7 @@
 
 /***************************************************************************
   Author         
-  Date           2025-04-20
+  Date           2025-04-22
   Description    Deploy of Clearinghouse Transport System
   Issue          https://github.com/humlab-sead/sead_change_control/issues/215
   Prerequisites  
@@ -681,7 +681,7 @@ declare
     v_columns text;
 begin
     v_columns = clearing_house_commit.get_data_column_names('public', p_table_name);
-    v_sql = format('\copy (select %1$s from clearing_house_commit.resolve_%2$s(''%4$s'')) to program ''gzip -qa9 > %3$s/%2$s.gz'' with (format text, delimiter E''\t'', encoding ''utf-8'');',
+    v_sql = format('\copy (select %1$s from clearing_house_commit.resolve_%2$s(''%4$s'')) to program ''gzip -nqa9 > %3$s/%2$s.gz'' with (format text, delimiter E''\t'', encoding ''utf-8'');',
         v_columns, p_entity, p_target_folder, p_submission_name);
     return v_sql;
 end $$ language plpgsql;
