@@ -1,3 +1,39 @@
+# 📦 Changelog 
+[![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![semantic versioning](https://img.shields.io/badge/semantic%20versioning-2.0.0-green.svg)](https://semver.org)
+> All notable changes to this project will be documented in this file
+
+
+## [1.2.0](https://github.com/humlab-sead/sead_change_control/compare/v1.1.0...v1.2.0) (2025-04-22)
+
+### 🍕 Features
+
+* add transport system check before generating change request ([e032154](https://github.com/humlab-sead/sead_change_control/commit/e0321545e4b08da4899ff710324781ab5dfdbc9f))
+* parameterize id assignment when loading dumped submissions ([429da7c](https://github.com/humlab-sead/sead_change_control/commit/429da7c8014670a30958c156b3c54ec62176cd55))
+* update semantic-release and plugins to specific versions for consistency ([e36a45d](https://github.com/humlab-sead/sead_change_control/commit/e36a45d5ad3709d4861de72c7446fb0373c48e91))
+
+### 🐛 Bug Fixes
+
+* add call to refactoresd reset_public_sequence_ids in deployment scripts ([fc208f1](https://github.com/humlab-sead/sead_change_control/commit/fc208f1249d4140cb7fd3b5e00b2fa8f32eca9fa))
+* add missing tbl_clearinghouse_submissions to  list in dump_submission function ([8da76cb](https://github.com/humlab-sead/sead_change_control/commit/8da76cb8798b66be43998248ca6ea76b5597d6b2))
+* deployed transport system ([1b957af](https://github.com/humlab-sead/sead_change_control/commit/1b957afc81b663aa160da320204369cff7daa618))
+* enhance usage messages ([7dff5ba](https://github.com/humlab-sead/sead_change_control/commit/7dff5baf4ab5c9486c490522e78071cdce0a00ee))
+* improve log file naming ([ffd6958](https://github.com/humlab-sead/sead_change_control/commit/ffd69584fafb8a23b5c02e52037ae962ef5d74c9))
+* improve log message for new submission ID in dump_submission function ([bb5794f](https://github.com/humlab-sead/sead_change_control/commit/bb5794f42f81c6fecc697bf1d5496ed2ad9f77a9))
+* rename dump-submission to submission ([e323eec](https://github.com/humlab-sead/sead_change_control/commit/e323eec9325a4691730184fa3b90f10c1018602b))
+* replace perform with call for reset_public_sequence_ids in multiple deployment scripts ([5a84b8c](https://github.com/humlab-sead/sead_change_control/commit/5a84b8c9f9ab9561551ea31d92517aa86da079b4))
+* update faulty arguments in UDF call ([6728b65](https://github.com/humlab-sead/sead_change_control/commit/6728b656f9577c557bd4746f167e2a7e48f4a12e))
+* update source database name and improve script structure in reset-adna ([8ab4bfd](https://github.com/humlab-sead/sead_change_control/commit/8ab4bfde5ab3fd9065b2124259039fad234f3289))
+* update table exclusion condition in dump_submission function ([e9b1c2f](https://github.com/humlab-sead/sead_change_control/commit/e9b1c2ffe0d87abe2b3e177277f395a1076db4a6))
+
+### 📝 Documentation
+
+* add detailed documentation for commit-submission script ([f78487c](https://github.com/humlab-sead/sead_change_control/commit/f78487ca97da8a25395f3ddf0ccd937c9756ce7c))
+
+### 🧑‍💻 Code Refactoring
+
+* replace hardcoded table list with dynamic retrieval in dump_submission function ([443db08](https://github.com/humlab-sead/sead_change_control/commit/443db08b23580fad2adefe37c8ca66631c568f6b))
+
 ## [](https://github.com/humlab-sead/sead_change_control/compare/v1.1.0...v) (2025-04-19)
 ## [1.1.0](https://github.com/humlab-sead/sead_change_control/compare/v25.0.0...v1.1.0) (2025-04-19)
 
