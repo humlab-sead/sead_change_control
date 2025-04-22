@@ -47,6 +47,7 @@ function usage() {
     echo "  non-mandatory option:"
     echo "       --target-id ID           Submission identity override in files (dump) or database (restore)"
     echo "                                If set to 'next', the next available id will be used"
+    echo "                                If set to 'resolve', then check if exists and use it, otherwise next"
     echo "       --host HOST              Target database host (default ~/vault/.default.sead.server)"
     echo "       --port PORT              Target database port (default 5432)"
     echo "       --user USERNAME          Target database host (default ~/vault/.default.sead.server)"
@@ -131,7 +132,7 @@ function print_options()
         echo "  g_mode: $g_mode"
         echo "  g_id_or_name: $g_id_or_name"
         echo "  g_folder: $g_folder"
-        echo "  g_target_id: $g_work_id"
+        echo "  g_target_id: $g_target_id"
         echo "  g_database: $g_database"
         echo "  g_host: $g_host"
         echo "  g_user: $g_user"
@@ -205,7 +206,7 @@ function restore_submission()
     fi
 
     if [ ! -f $source_folder/tbl_clearinghouse_submissions.sql.gz ]; then
-        error "submission file not found in folder $source_folder"
+        error "submission file (tbl_clearinghouse_submissions) not found in folder $source_folder"
         exit 64
     fi
 
@@ -461,10 +462,7 @@ drop table staging_$table;
         error "no data found for submission $submission_id"
         exit 64
     else
-        info "dumped submission $GREEN\"$submission_name\"$RESET with ID $GREEN$submission_id$RESET to folder \"$target_folder\" (${table_count} tables with data, ignored $table_empty_count empty tables) "
-        if [ "$g_target_id" != "" ]; then
-            info "new id in dump for submission: $GREEN\"$target_id\"$RESET"
-        fi
+        info "dumped submission $GREEN\"$submission_name\"$RESET with ID $GREEN$target_id$RESET to folder \"$target_folder\" (${table_count} tables with data, ignored $table_empty_count empty tables) "
     fi
 }
 
