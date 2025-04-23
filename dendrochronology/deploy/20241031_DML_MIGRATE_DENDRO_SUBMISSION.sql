@@ -29,35 +29,7 @@ begin
     -- $apa$ language plpgsql immutable;
     
  	call sead_utility.drop_view('encoded_dendro_analysis_values');
-    call sead_utility.drop_view('typed_analysis_values');
 
-	create view typed_analysis_values as 
-        select analysis_value_id, 'decimal' as base_type
-        from "tbl_analysis_numerical_values"
-        union
-        select analysis_value_id, 'decimal_range' as key
-        from "tbl_analysis_numerical_ranges"
-        union
-        select analysis_value_id, 'integer' as key
-        from "tbl_analysis_integer_values"
-        union
-        select analysis_value_id, 'integer_range' as key
-        from "tbl_analysis_integer_ranges"
-        union
-        select analysis_value_id, 'category' as key
-        from "tbl_analysis_categorical_values"
-        union
-        select analysis_value_id, 'boolean' as key
-        from "tbl_analysis_boolean_values"
-        union
-        select analysis_value_id, 'dating_range' as key
-        from "tbl_analysis_dating_ranges"
-        union
-        select analysis_value_id, 'taxon_count' as key
-        from "tbl_analysis_taxon_counts"
-        union
-        select analysis_value_id, 'note' as key
-        from "tbl_analysis_notes";
 
 	create or replace view encoded_dendro_analysis_values as
         with
@@ -470,20 +442,31 @@ begin
 	from tbl_analysis_boolean_values b
 	where v."analysis_value_id" = b."analysis_value_id";
 
-    /* SET IS_ANOMALY FLAG FOR ALL VALUES NOT IN typed_analysis_values */
-    update tbl_analysis_values av
-        set is_anomaly = True
-    where analysis_value_id in (
-        select distinct analysis_value_id
-        from tbl_analysis_values av
-        join tbl_value_classes vc using (value_class_id)
-        join tbl_value_types vt using (value_type_id)
-        left join typed_analysis_values tv using (analysis_value_id)
-        where tv.analysis_value_id is null
-          and av.is_undefined is null
-          and av.is_indeterminable is null
-          and vt.base_type <> 'text'
-    );
+    /* SET IS_ANOMALY FLAG FOR ALL VALUES NOT IN __typed_analysis_values */
+    with __typed_analysis_values as (
+        select analysis_value_id from "tbl_analysis_numerical_values" union
+        select analysis_value_id from "tbl_analysis_numerical_ranges" union
+        select analysis_value_id from "tbl_analysis_integer_values" union
+        select analysis_value_id from "tbl_analysis_integer_ranges" union
+        select analysis_value_id from "tbl_analysis_categorical_values" union
+        select analysis_value_id from "tbl_analysis_boolean_values" union
+        select analysis_value_id from "tbl_analysis_dating_ranges" union
+        select analysis_value_id from "tbl_analysis_taxon_counts" union
+        select analysis_value_id from "tbl_analysis_notes"
+    )
+        update tbl_analysis_values av
+            set is_anomaly = True
+        where analysis_value_id in (
+            select distinct analysis_value_id
+            from tbl_analysis_values av
+            join tbl_value_classes vc using (value_class_id)
+            join tbl_value_types vt using (value_type_id)
+            left join __typed_analysis_values tv using (analysis_value_id)
+            where tv.analysis_value_id is null
+            and av.is_undefined is null
+            and av.is_indeterminable is null
+            and vt.base_type <> 'text'
+        );
 
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
@@ -518,17 +501,3 @@ begin
 
 end $$;
 commit;
-
-/* HELPER SQL: FIND ALL UNHANDLED VALUES
-
-        select vc.name, av.analysis_value, count(*)
-        from tbl_analysis_values av
-        join tbl_value_classes vc using (value_class_id)
-        join tbl_value_types vt using (value_type_id)
-        left join typed_analysis_values tv using (analysis_value_id)
-        where tv.analysis_value_id is null
-		  and av.is_undefined is null
-		  and av.is_indeterminable is null
-		  and vt.base_type <> 'text'
-		group by 1, 2;
-*/
