@@ -4,6 +4,17 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.3.0](https://github.com/humlab-sead/sead_change_control/compare/v1.2.2...v1.3.0) (2025-04-22)
+
+### 🍕 Features
+
+* add domain facet for aDNA (resolves [#369](https://github.com/humlab-sead/sead_change_control/issues/369)) ([f68af4e](https://github.com/humlab-sead/sead_change_control/commit/f68af4ed423947e299514e211e00502ba5e56cbc))
+* add old tables and columns spreadsheet ([6b8612b](https://github.com/humlab-sead/sead_change_control/commit/6b8612bb193f3cf0887b664b60064d18b5b53e6a))
+
+### 🐛 Bug Fixes
+
+* improved logic when updating existing facet ([f7de5e9](https://github.com/humlab-sead/sead_change_control/commit/f7de5e95bd67dd734469172157e2b9f5b6a28103))
+
 ## [1.2.2](https://github.com/humlab-sead/sead_change_control/compare/v1.2.1...v1.2.2) (2025-04-22)
 
 ### 🐛 Bug Fixes
