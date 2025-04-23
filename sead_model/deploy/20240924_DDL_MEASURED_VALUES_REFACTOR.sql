@@ -281,7 +281,12 @@ begin
         select 11 as table_id, analysis_value_id from tbl_analysis_value_dimensions
     ;
 
-      
+    create view typed_analysis_values as 
+        select analysis_value_id, table_name, base_type
+        from view_typed_analysis_values
+        join view_typed_analysis_tables using (table_id);
+
+
 end $$;
 commit;
 
