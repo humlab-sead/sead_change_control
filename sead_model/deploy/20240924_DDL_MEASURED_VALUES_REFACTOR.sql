@@ -194,8 +194,13 @@ begin
             "value" numeric(20,10) not null
         );
 
+        -- These to FKs resolves #334
         if not sead_utility.column_exists('public', 'tbl_sample_dimensions', 'qualifier_id') then
             alter table "tbl_sample_dimensions" add column "qualifier_id" int null references "tbl_value_qualifiers" ("qualifier_id") deferrable;
+        end if;
+
+        if not sead_utility.column_exists('public', 'tbl_sample_group_dimensions ', 'qualifier_id') then
+            alter table "tbl_sample_group_dimensions " add column "qualifier_id" int null references "tbl_value_qualifiers" ("qualifier_id") deferrable;
         end if;
 
     exception when sqlstate 'GUARD' then
