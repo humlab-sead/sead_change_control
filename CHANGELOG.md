@@ -4,6 +4,26 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.4.0](https://github.com/humlab-sead/sead_change_control/compare/v1.3.0...v1.4.0) (2025-04-24)
+
+### 🍕 Features
+
+* add check for existence before deleting from facet_children table ([57582a7](https://github.com/humlab-sead/sead_change_control/commit/57582a7050884381942d0c301cdf9fb2aac47274))
+* add dump-table-data script for exporting table data to CSV files ([170b5b6](https://github.com/humlab-sead/sead_change_control/commit/170b5b67567d1cf792e52bffedfb8c2d21ff9dc2))
+* add on delete cascade to FK in analysis tables (resolved [#371](https://github.com/humlab-sead/sead_change_control/issues/371)) ([7f5659b](https://github.com/humlab-sead/sead_change_control/commit/7f5659b605690bbd026a8dd01869c3bad7a9484d))
+* add qualifier_id column to tbl_sample_[group_]dimensions (resolves [#334](https://github.com/humlab-sead/sead_change_control/issues/334)) ([9f15b46](https://github.com/humlab-sead/sead_change_control/commit/9f15b466583d0c04dff739641d23f36c45c308bf))
+* create view for typed analysis values to enhance data retrieval ([c3be82f](https://github.com/humlab-sead/sead_change_control/commit/c3be82f453bca6eb94f6c0550b2013a8633e74a9))
+
+### 🐛 Bug Fixes
+
+* correct issue link formatting in sqitch.plan ([d518310](https://github.com/humlab-sead/sead_change_control/commit/d51831075823e0969eba22275080f9ae9f8ae316))
+* removed newline in record type name ([3e1e7ad](https://github.com/humlab-sead/sead_change_control/commit/3e1e7adbed69e6a485a5078c44f06e7e2510b931))
+* update gzip command in export-database script to use '-n' flag for better compatibility ([d64802f](https://github.com/humlab-sead/sead_change_control/commit/d64802f71cfb9a482d5a5270356c4f0579372794))
+
+### 🧑‍💻 Code Refactoring
+
+* replace typed_analysis_values view with a CTE ([46da430](https://github.com/humlab-sead/sead_change_control/commit/46da430400c9f443fbcbd07174011e9b804002dd))
+
 ## [1.3.0](https://github.com/humlab-sead/sead_change_control/compare/v1.2.2...v1.3.0) (2025-04-22)
 
 ### 🍕 Features
