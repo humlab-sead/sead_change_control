@@ -4,7 +4,7 @@
   Author        Roger Mähler
   Date          2025-04-02
   Description   Explodes untyped analysis values to typed tables
-  Issue         https://github.com/humlab-sead/sead_change_control/issues/
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/372
   Prerequisites 
   Reviewer      
   Approver      
@@ -19,7 +19,6 @@
       * tbl_analysis_integer_values
       * tbl_analysis_categorical_values
       * tbl_analysis_decimal_values
-      * tbl_analysis_percentage_values
 
   | value_class                            | value_type          | base_type | unique values                                                                                           |
   |----------------------------------------|---------------------|-----------|------------------------------------------------------------------------------------------------------|
@@ -140,6 +139,30 @@ begin
           and base_type = 'integer'
           and integer_value is not null;
 
+    /* DECIMAL VALUES */
+    delete from tbl_analysis_numerical_values
+        where analysis_value_id in (select analysis_value_id from adna_analysis_values);
+		
+    insert into tbl_analysis_numerical_values ("analysis_value_id", "value")
+        select analysis_value_id, decimal_value
+        from adna_analysis_values av
+        where TRUE
+          and base_type = 'decimal'
+          and decimal_value is not null;
+
+    /* IDENTIFIERS */
+    delete from tbl_analysis_identifiers
+        where analysis_value_id in (select analysis_value_id from adna_analysis_values);
+
+    insert into tbl_analysis_identifiers ("analysis_value_id", "value")
+        select analysis_value_id, analysis_value
+        from adna_analysis_values av
+		join tbl_value_classes vc using (value_class_id)
+		join tbl_value_types vt using (value_type_id)
+        where TRUE
+          and value_type_name = 'Identifier'
+          and analysis_value is not null;
+		  
     /* CATEGORICAL VALUES */
     delete from tbl_analysis_categorical_values
         where analysis_value_id in (select analysis_value_id from adna_analysis_values);
@@ -154,17 +177,6 @@ begin
           and av."base_type" = 'category'
           and upper(av."analysis_value") = upper(ti."name");
 
-    /* DECIMAL VALUES */
-    delete from tbl_analysis_numerical_values
-        where analysis_value_id in (select analysis_value_id from adna_analysis_values);
-		
-    insert into tbl_analysis_numerical_values ("analysis_value_id", "value")
-        select analysis_value_id, decimal_value
-        from adna_analysis_values av
-        where TRUE
-          and base_type = 'decimal'
-          and decimal_value is not null;
-
     update tbl_analysis_values
         set is_anomaly = true
     from adna_analysis_values x
@@ -174,3 +186,10 @@ begin
 end $$;
 
 commit;
+
+-- select *
+-- from adna_analysis_values
+-- left join typed_analysis_values using (analysis_value_id)
+-- where typed_analysis_values.analysis_value_id is null
+--   and analysis_value is not null
+--   and not (value_type_name = 'Note')
