@@ -156,7 +156,7 @@ END
         local column_names=$(get_column_names $schema_name $table)
 
         if [ "$g_compress_flag" == "YES" ]; then
-            copy_out="\\copy (select $column_names from $schema_name.$table) to program 'gzip -qa9 > $g_target_folder/$table.sql.gz' $copy_options;";
+            copy_out="\\copy (select $column_names from $schema_name.$table) to program 'gzip -nqa9 > $g_target_folder/$table.sql.gz' $copy_options;";
             copy_in="\\copy $schema_name.$table ($column_names) from program 'zcat -qac $g_target_folder/$table.sql.gz' $copy_options;";
         else
             copy_out="\\copy (select $column_names from $schema_name.$table) to '$g_target_folder/$table.sql' $copy_options;";
