@@ -8,7 +8,7 @@
 
 /***************************************************************************
   Author         
-  Date           2025-04-22
+  Date           2025-04-24
   Description    Deploy of Clearinghouse Transport System
   Issue          https://github.com/humlab-sead/sead_change_control/issues/215
   Prerequisites  
@@ -358,8 +358,7 @@ begin
             where last_value + 1 != next_value
 	) Loop
 
-        raise info 'Sequence % updated to % (was %)',
-			v_data.sequence_name, v_data.next_value, v_data.last_value;
+        -- raise info 'Sequence % updated to % (was %)', v_data.sequence_name, v_data.next_value, v_data.last_value;
 
 		perform setval(v_data.sequence_name, v_data.next_value, false);
 
