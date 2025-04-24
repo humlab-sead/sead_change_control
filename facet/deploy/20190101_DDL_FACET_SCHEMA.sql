@@ -382,7 +382,10 @@ begin
 		)
 	);
 
-	delete from facet.facet_children where facet_code = s_facet_code;
+	if exists (select from pg_catalog.pg_tables where schemaname = 'facet' and tablename = 'facet_children') then
+		delete from facet.facet_children where facet_code = s_facet_code;
+	end if;
+	
 	delete from facet.facet where facet_code = s_facet_code;
 
 	s_aggregate_facet_code = (j_facet ->> 'aggregate_facet_code')::text;
