@@ -8,7 +8,7 @@
 7	Chironomids	Non-biting midges, a Diptera family commonly treated as a separate proxy in palaeoecology, where the larval head capsules are preserved in sediments.	2012-09-21 16:51:47.967181+00
 8	Cladocera	Water fleas, an order of the class Brachiopoda, small aquatic crustaceans, of which Daphnia is the most commonly useful genus. 	2012-09-21 16:51:47.967181+00
 9	Charcoal	Carbonised remains of organic matter, the product of incomplete burning or heating.	2012-09-21 16:51:47.967181+00
-11	Subjective metadata	Subject descriptions of properties\n	2012-09-21 16:51:47.967181+00
+11	Subjective metadata	Subject descriptions of properties	2012-09-21 16:51:47.967181+00
 13	Isotopes	Isotpic data of any nature	2012-09-21 16:51:47.967181+00
 16	Other archaeology	More archaeology data is available through sources listed.	2012-09-21 16:51:47.967181+00
 14	Animal bones	Animal bone data available, external to SEAD. Note: human osteaology has own category.	2012-09-21 16:51:47.967181+00
