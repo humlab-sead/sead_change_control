@@ -6,4 +6,6 @@
 
 @2025.02 2025-01-29T12:00:00Z Roger Mähler <roger.mahler@umu.se> # 2025 February release
 
-20250402_DML_ADNA_EXPLODE_ANALYSIS_VALUES 2025-04-02T10:16:06Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/: Explodes untyped analysis values to typed tables
+20250402_DML_ADNA_EXPLODE_ANALYSIS_VALUES 2025-04-02T10:16:06Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/372:  https://github.com/humlab-sead/sead_change_control/issues/: Explodes untyped analysis values to typed tables
+
+@2025.04 2025-04-24T10:53:00Z Roger Mähler <roger.mahler@umu.se> # 2025 April release
