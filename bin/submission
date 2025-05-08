@@ -248,7 +248,7 @@ function restore_submission()
         cat "$output_temp"
         exit 1
     else
-        rm -f "$output_temp"
+        rm -rf "$output_temp"
     fi
 
     set -e
