@@ -682,6 +682,8 @@ function deploy_to_tag()
                 error "sqitch deploy FAILED! DB is in an undefined state." >&2
                 exit 64
             fi
+            
+            rm -f $sqitch_output_filename
 
             while IFS= read -r cr; do
                 local cr_post_deploy_hook="${sqitch_project}/deploy/${cr}/${cr}-post-deploy-hook"
