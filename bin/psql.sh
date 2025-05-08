@@ -46,13 +46,21 @@ do
             usage 'fatal: target database not specified!'
             shift 2;
         ;;
+        *)
+        POSITIONAL+=("$1")
+        shift
+        ;;
     esac
 done
 
 set -- "${POSITIONAL[@]}"
 
 if [ "$g_db" == "" ]; then
-    usage 'fatal: target database not specified!'
+    if [ "$1" != "" ]; then
+        g_db=$1
+    else
+        usage 'fatal: target database not specified!'
+    fi
 fi
 
 psql -h $g_host -p $g_port -U $g_user -d $g_db
