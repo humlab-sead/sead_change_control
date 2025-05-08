@@ -28,10 +28,10 @@ begin
     -- end;
     -- $apa$ language plpgsql immutable;
     
- 	call sead_utility.drop_view('encoded_dendro_analysis_values');
+ 	call sead_utility.drop_view('sead_utility.encoded_dendro_analysis_values');
 
 
-	create or replace view encoded_dendro_analysis_values as
+	create or replace view sead_utility.encoded_dendro_analysis_values as
         with
         -- anomaly_values("analysis_value_id", "analysis_value", "corrected_value", "is_variant") as (
         --     with anomalies("value_class_id", "analysis_value", "corrected_value") as (
@@ -307,14 +307,14 @@ begin
     /* SET UNDEFINED FLAG */
     update tbl_analysis_values av
         set is_undefined = True
-    from encoded_dendro_analysis_values x
+    from sead_utility.encoded_dendro_analysis_values x
     where x.analysis_value_id = av.analysis_value_id
       and x.pattern = 'UNDEFINED';
     
     /* SET UNCERTAINTY FLAG */
     update tbl_analysis_values av
         set is_uncertain = True
-    from encoded_dendro_analysis_values x
+    from sead_utility.encoded_dendro_analysis_values x
     where x.analysis_value_id = av.analysis_value_id
       and uncertainty_indicator is not null
       and base_type != 'text';
@@ -322,7 +322,7 @@ begin
     /* SET INDETERMINABLE FLAG */
     update tbl_analysis_values av
         set is_indeterminable = True
-    from encoded_dendro_analysis_values x
+    from sead_utility.encoded_dendro_analysis_values x
     where x.analysis_value_id = av.analysis_value_id
       and pattern = 'INDETERMINABLE';
 
@@ -330,7 +330,7 @@ begin
     /* Currently qualifier only exists in typed data:
     update tbl_analysis_values av
         set qualifier = qualifier
-    from encoded_dendro_analysis_values x
+    from sead_utility.encoded_dendro_analysis_values x
     where x.analysis_value_id = av.analysis_value_id
     and qualifier is not NULL;
     */
@@ -338,7 +338,7 @@ begin
     /* SET ALL BOOLEAN VALUES */
     insert into tbl_analysis_boolean_values ("analysis_value_id", "qualifier", "value")
         select "analysis_value_id", "qualifier", "boolean_value"
-        from encoded_dendro_analysis_values av
+        from sead_utility.encoded_dendro_analysis_values av
         where TRUE
           and "base_type" = 'boolean'
           and "boolean_value" is not null;
@@ -346,7 +346,7 @@ begin
     /* ALL INTEGER VALUES */
     insert into tbl_analysis_integer_values ("analysis_value_id", "qualifier", "value")
         select analysis_value_id, qualifier, integer_value
-        from encoded_dendro_analysis_values av
+        from sead_utility.encoded_dendro_analysis_values av
         where TRUE
           and base_type = 'integer'
           and pattern = 'INTEGER'
@@ -355,7 +355,7 @@ begin
     /* ALL CATEGORICAL VALUES */
     insert into tbl_analysis_categorical_values ("analysis_value_id", /*"qualifier",*/ "value_type_item_id")
         select analysis_value_id, /* qualifier, */ ti."value_type_item_id"
-        from encoded_dendro_analysis_values av
+        from sead_utility.encoded_dendro_analysis_values av
         join tbl_value_classes vc using (value_class_id)
         join tbl_value_types vt using (value_type_id)
         join tbl_value_type_items ti using (value_type_id)
@@ -388,7 +388,7 @@ begin
 		)
             select analysis_value_id, plus_minus_year_value - plus_minus_value, plus_minus_year_value + plus_minus_value, false, false,
                     null, qualifier, 1 as age_type_id, null as season_id, null::int as dating_uncertainty_id -- uncertainty????
-            from encoded_dendro_analysis_values
+            from sead_utility.encoded_dendro_analysis_values
             where value_class_id in (14, 15, 17)
               and plus_minus_year_value is not null
             
@@ -396,7 +396,7 @@ begin
             
             select analysis_value_id, lower_range_value, upper_range_value, false, false,
                     qualifier, null, 1 as age_type_id, null::int as season_id, null as dating_uncertainty_id -- uncertainty????
-            from encoded_dendro_analysis_values
+            from sead_utility.encoded_dendro_analysis_values
             where value_class_id in (14, 15, 17)
               and coalesce(lower_range_value, upper_range_value) is not null
 
@@ -404,7 +404,7 @@ begin
 
             select analysis_value_id, integer_value, null, false, false,
                     qualifier, null, 1 as age_type_id, sl.season_id::int, null --ul.uncertainty_id
-            from encoded_dendro_analysis_values
+            from sead_utility.encoded_dendro_analysis_values
             left join seasons_lookup sl on sl."lookup_name" = "season_specifier"
             -- left join uncertainty_lookup ul on ul."lookup_name" = "uncertainty_indicator"
             where value_class_id in (14, 15, 17)
@@ -415,7 +415,7 @@ begin
         set value_class_id = 23,
             boolean_value = case when upper(x."analysis_value") = 'SP' then true else false end,
             is_boolean = true
-    from encoded_dendro_analysis_values x
+    from sead_utility.encoded_dendro_analysis_values x
     where TRUE
       and x."analysis_value_id" = av."analysis_value_id"
       and av."value_class_id" = 6
@@ -424,14 +424,14 @@ begin
     insert into tbl_analysis_boolean_values ("analysis_value_id", "qualifier", "value")
         select av."analysis_value_id", x."qualifier", av."boolean_value"
         from tbl_analysis_values av
-        join encoded_dendro_analysis_values x using (analysis_value_id)
+        join sead_utility.encoded_dendro_analysis_values x using (analysis_value_id)
         where TRUE
           and av."value_class_id" = 23;
 
     /* SPECIAL CASE: NOT DATED (BOOLEAN VALUES) */
     insert into tbl_analysis_boolean_values ("analysis_value_id", "qualifier", "value")
         select "analysis_value_id", "qualifier", True
-        from encoded_dendro_analysis_values av
+        from sead_utility.encoded_dendro_analysis_values av
         where TRUE
         and value_class_id = 18
         and analysis_value is not null;
