@@ -8,12 +8,14 @@ if [ -f .env ]; then
 fi
 
 g_database=
+g_schema=
 g_host=$(dnsdomainname -A)
 g_user=
 g_port=5433
-g_compress_dump=YES
+g_compress=YES
 g_filename=
 g_bare=YES
+g_timestamp=$(date +'%Y%m%d_%H%M%S')
 
 if [ -f ~/vault/.default.sead.server ]; then
     g_host=`cat ~/vault/.default.sead.server`
@@ -27,11 +29,12 @@ function usage()
 {
     local error_message=$1
     if [ "$error_message" != "" ]; then
-        echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $error_message" >&2
+        echo "[$g_timestamp]: $error_message" >&2
     fi
-    echo "usage: dump-database [OPTIONS...] DBNAME "
+    echo "usage: dump-database [OPTIONS...] DBNAME"
     echo "Creates a dump of the database."
     echo "Options:"
+    echo "   --schema SCHEMA           schema name"
     echo "   --host HOSTNAME           host name"
     echo "   --user USERNAME           user name"
     echo "   --port PORT               host port "
@@ -46,11 +49,14 @@ while [[ $# -gt 0 ]]
 do
     key="$1"
     case $key in
+        --schema|-s)
+            g_schema="$2"; shift 2;
+        ;;
         --compress|-c)
-            g_compress_dump="YES"; shift;
+            g_compress="YES"; shift;
         ;;
         --no-compress)
-            g_compress_dump="NO"; shift;
+            g_compress="NO"; shift;
         ;;
         --port|-p)
             g_port="$2"; shift 2;
@@ -70,9 +76,6 @@ do
         --no-bare)
             g_bare="NO"; shift
         ;;
-        -*)
-            usage "Unknown option: $1"
-        ;;  
         *)
             POSITIONAL+=("$1")
             shift
@@ -89,9 +92,6 @@ if [ "$g_database" == "" ]; then
     usage
 fi
 
-echo_error() {
-  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
-}
 
 g_opts="--format=p --create --clean "
 
@@ -102,7 +102,15 @@ else
 fi
 
 if [ "$g_filename" == "" ]; then
-    g_filename=${g_database}_$(date +'%Y%m%d_%H%M%S').sql
+    if [ "$g_schema" != "" ]; then
+        g_filename=${g_database}_${g_schema}_${g_timestamp}.sql
+    else
+        g_filename=${g_database}_${g_timestamp}.sql
+    fi    
+fi
+
+if [ "$g_schema" != "" ]; then
+    g_opts="$g_opts --schema=$g_schema"
 fi
 
 pg_dump --file=${g_filename} \
@@ -113,6 +121,6 @@ pg_dump --file=${g_filename} \
         --port=$g_port \
         --blobs
 
-if [ "$g_compress_dump" == "YES" ]; then
+if [ "$g_compress" == "YES" ]; then
     gzip $g_filename
 fi
