@@ -53,7 +53,7 @@ begin transaction;
 do $$
 begin
 
-	create or replace view adna_analysis_values as
+	create or replace view sead_utility.adna_analysis_values as
        with
             datasets as (
                 select dataset_id
@@ -125,38 +125,38 @@ begin
         set is_undefined = false,
             is_uncertain = false,
             is_indeterminable = false
-    from adna_analysis_values x
+    from sead_utility.adna_analysis_values x
     where x.analysis_value_id = av.analysis_value_id;
 
     /* INTEGER VALUES */
     delete from tbl_analysis_integer_values
-        where analysis_value_id in (select analysis_value_id from adna_analysis_values);
+        where analysis_value_id in (select analysis_value_id from sead_utility.adna_analysis_values);
 
     insert into tbl_analysis_integer_values ("analysis_value_id", "value")
         select analysis_value_id, integer_value
-        from adna_analysis_values av
+        from sead_utility.adna_analysis_values av
         where TRUE
           and base_type = 'integer'
           and integer_value is not null;
 
     /* DECIMAL VALUES */
     delete from tbl_analysis_numerical_values
-        where analysis_value_id in (select analysis_value_id from adna_analysis_values);
+        where analysis_value_id in (select analysis_value_id from sead_utility.adna_analysis_values);
 		
     insert into tbl_analysis_numerical_values ("analysis_value_id", "value")
         select analysis_value_id, decimal_value
-        from adna_analysis_values av
+        from sead_utility.adna_analysis_values av
         where TRUE
           and base_type = 'decimal'
           and decimal_value is not null;
 
     /* IDENTIFIERS */
     delete from tbl_analysis_identifiers
-        where analysis_value_id in (select analysis_value_id from adna_analysis_values);
+        where analysis_value_id in (select analysis_value_id from sead_utility.adna_analysis_values);
 
     insert into tbl_analysis_identifiers ("analysis_value_id", "value")
         select analysis_value_id, analysis_value
-        from adna_analysis_values av
+        from sead_utility.adna_analysis_values av
 		join tbl_value_classes vc using (value_class_id)
 		join tbl_value_types vt using (value_type_id)
         where TRUE
@@ -165,11 +165,11 @@ begin
 		  
     /* CATEGORICAL VALUES */
     delete from tbl_analysis_categorical_values
-        where analysis_value_id in (select analysis_value_id from adna_analysis_values);
+        where analysis_value_id in (select analysis_value_id from sead_utility.adna_analysis_values);
 
     insert into tbl_analysis_categorical_values ("analysis_value_id", /*"qualifier",*/ "value_type_item_id")
         select analysis_value_id, /* qualifier, */ ti."value_type_item_id"
-        from adna_analysis_values av
+        from sead_utility.adna_analysis_values av
         join tbl_value_classes vc using (value_class_id)
         join tbl_value_types vt using (value_type_id)
         join tbl_value_type_items ti using (value_type_id)
@@ -179,7 +179,7 @@ begin
 
     update tbl_analysis_values
         set is_anomaly = true
-    from adna_analysis_values x
+    from sead_utility.adna_analysis_values x
     where x.analysis_value_id = tbl_analysis_values.analysis_value_id
       and (x.decimal_is_anomaly = true or x.integer_is_anomaly = true);
 
@@ -188,7 +188,7 @@ end $$;
 commit;
 
 -- select *
--- from adna_analysis_values
+-- from sead_utility.adna_analysis_values
 -- left join typed_analysis_values using (analysis_value_id)
 -- where typed_analysis_values.analysis_value_id is null
 --   and analysis_value is not null
