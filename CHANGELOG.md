@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.4.2](https://github.com/humlab-sead/sead_change_control/compare/v1.4.1...v1.4.2) (2025-05-14)
+
+### 🐛 Bug Fixes
+
+* temporary patch added for ([#374](https://github.com/humlab-sead/sead_change_control/issues/374)) ([0d95a26](https://github.com/humlab-sead/sead_change_control/commit/0d95a26aa0c1995c70bce77f312d6c505c33bb4f))
+
 ## [1.4.1](https://github.com/humlab-sead/sead_change_control/compare/v1.4.0...v1.4.1) (2025-05-09)
 
 ### 🐛 Bug Fixes
