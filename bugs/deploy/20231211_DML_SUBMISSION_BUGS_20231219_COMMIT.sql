@@ -36,4 +36,28 @@ do $$ begin
     perform sead_utility.set_fk_is_deferrable('public', false, false);
     perform sead_utility.sync_sequences('public');
     perform sead_utility.sync_sequences('bugs_import');
+
+
+  -- This patch resolve  is a temporary fix for the Bugs import issue in tbl_relative_dates [https://github.com/humlab-sead/sead_change_control/issues/374](#374)
+
+  with dup as (
+    select ra.relative_age_id, min(ra.relative_age_id) over (partition by ra.relative_age_name) as canonical_id
+    from tbl_relative_ages ra
+  )
+    update tbl_relative_dates rd
+      set relative_age_id = dup.canonical_id
+	/*select * from tbl_relative_dates rd
+	  join dup on rd.relative_age_id = dup.relative_age_id */
+    from dup
+    join tbl_analysis_entities ae
+      on ae.analysis_entity_id = rd.analysis_entity_id
+    join tbl_datasets ds
+      on ds.dataset_id = ae.dataset_id
+    join tbl_dataset_masters m
+      on m.master_set_id = ds.master_set_id
+    where rd.relative_age_id = dup.relative_age_id
+      and dup.relative_age_id <> dup.canonical_id
+      and m.master_set_id = 1;
+
+
 end $$ language plpgsql;
