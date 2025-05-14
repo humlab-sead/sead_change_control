@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.4.3](https://github.com/humlab-sead/sead_change_control/compare/v1.4.2...v1.4.3) (2025-05-14)
+
+### 🐛 Bug Fixes
+
+* install postgis when deploying from scratch ([#375](https://github.com/humlab-sead/sead_change_control/issues/375)) ([4c084bd](https://github.com/humlab-sead/sead_change_control/commit/4c084bd724edade8dee9517fbdfe4a32c2e44a2d))
+
 ## [1.4.2](https://github.com/humlab-sead/sead_change_control/compare/v1.4.1...v1.4.2) (2025-05-14)
 
 ### 🐛 Bug Fixes
