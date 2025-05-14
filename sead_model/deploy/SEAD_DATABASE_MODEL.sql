@@ -19,6 +19,8 @@ set role sead_master;
 
 create schema if not exists public;
 
+create extension if not exists postgis;
+
 comment on schema public is 'standard public schema';
 
 \set autocommit off;
