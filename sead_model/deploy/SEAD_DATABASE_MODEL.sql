@@ -15,11 +15,11 @@ set client_encoding = 'UTF8';
 set standard_conforming_strings = on;
 set client_min_messages = error;
 
+create extension if not exists postgis;
+
 set role sead_master;
 
 create schema if not exists public;
-
-create extension if not exists postgis;
 
 comment on schema public is 'standard public schema';
 
