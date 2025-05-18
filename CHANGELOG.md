@@ -4,6 +4,21 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.4.4](https://github.com/humlab-sead/sead_change_control/compare/v1.4.3...v1.4.4) (2025-05-18)
+
+### 🐛 Bug Fixes
+
+* deployed changes in clearinghouse commit system related to explicit columns ([928b57a](https://github.com/humlab-sead/sead_change_control/commit/928b57a22f69d7ee22246e1d8c485eead7a23eec))
+* fixes SQL syntax error ([#371](https://github.com/humlab-sead/sead_change_control/issues/371)) ([51ad21c](https://github.com/humlab-sead/sead_change_control/commit/51ad21c0f931d6249330ae1ffe76b28cad78f82d))
+* move create extension postgis above change roll (resolves [#370](https://github.com/humlab-sead/sead_change_control/issues/370)) ([982203b](https://github.com/humlab-sead/sead_change_control/commit/982203b242ab442e81784b500362b2d35e78461b))
+* resolves [#379](https://github.com/humlab-sead/sead_change_control/issues/379) ([d3c87d7](https://github.com/humlab-sead/sead_change_control/commit/d3c87d7b4d676104b6029d3ed1461ec6960ed51b))
+* update database URIs for staging and production targets ([b3e3cdf](https://github.com/humlab-sead/sead_change_control/commit/b3e3cdf4a400c7aa552ea7a3e8302677d33deb9a))
+* use explicit cplumns in import (Wrong site location accuracy ([#378](https://github.com/humlab-sead/sead_change_control/issues/378)) ([0868162](https://github.com/humlab-sead/sead_change_control/commit/086816224dfa6392465baa5d8ddb6e1609bd096d))
+
+### 🧑‍💻 Code Refactoring
+
+* renamed function dbexec to execute_sql ([cb7944b](https://github.com/humlab-sead/sead_change_control/commit/cb7944b10b51cfd4be8a49d80f32255fec2c95d7))
+
 ## [1.4.3](https://github.com/humlab-sead/sead_change_control/compare/v1.4.2...v1.4.3) (2025-05-14)
 
 ### 🐛 Bug Fixes
