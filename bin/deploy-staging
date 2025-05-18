@@ -91,6 +91,8 @@ Options:
     --deploy-single-change-request  Only deploy given CR, then exit
     --sqitch-project PROJECT        Specify the Sqitch project to deploy
     --rename-end-of-chain           Rename the last database in the chain to the target name (e.g. removes tag)
+    --verbose                       Enable verbose output
+    --display-status                Display the status of the target database
 
 Examples:
 
