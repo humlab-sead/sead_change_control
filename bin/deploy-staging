@@ -782,7 +782,7 @@ function deploy_chain_to_tag()
 function display_project_status()
 {
     info "Changes not deployed in \"$g_target_name\":"
-    target_uri="db:pg://${g_user}@${g_host}:${g_port}/${g_target_name}"
+    local target_uri="db:pg://${g_user}@${g_host}:${g_port}/${g_target_name}"
 
     for sqitch_project in $default_projects; do
         info "pending CRs \"$sqitch_project\": "
