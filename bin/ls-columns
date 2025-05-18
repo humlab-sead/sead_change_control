@@ -1,0 +1,36 @@
+#!/bin/bash
+
+g_host=
+g_user=
+g_port=8089
+g_database=sead_staging
+
+if [ -f ~/vault/.default.sead.server ]; then
+    g_host=$(head -n 1 ~/vault/.default.sead.server)
+fi
+
+if [ -f ~/vault/.default.sead.username ]; then
+    g_user=$(head -n 1 ~/vault/.default.sead.username)
+fi
+
+function get_column_names() {
+    local schema_name=$1
+    local table_name=$2
+    local sql=$(cat <<END
+        select string_agg(column_name, ', ')
+        from (
+            select column_name
+            from information_schema.columns
+            where table_schema = '$schema_name'
+              and table_name = '$table_name'
+              and is_generated = 'NEVER'
+              and column_name not in ('submission_id', 'xml', 'upload_content')
+            order by ordinal_position
+        ) as t;
+END
+)
+    psql -h $g_host -U $g_user -d $g_database -p $g_port -tAc "$sql"
+}
+
+get_column_names "public" "$1"
+

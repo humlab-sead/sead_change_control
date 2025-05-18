@@ -29,17 +29,13 @@ call clearing_house_commit.reset_public_sequence_ids();
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_sites;
-create table clearing_house_commit.temp_tbl_sites as select * from public.tbl_sites where FALSE;
+create table clearing_house_commit.temp_tbl_sites as select site_id, altitude, latitude_dd, longitude_dd, national_site_identifier, site_description, site_name, site_preservation_status_id, site_location_accuracy, date_updated from public.tbl_sites where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sites  ("site_id", "altitude", "latitude_dd", "longitude_dd", "national_site_identifier", "site_description", "site_name", "site_preservation_status_id", "date_updated", "site_location_accuracy") from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/site.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sites  (site_id, altitude, latitude_dd, longitude_dd, national_site_identifier, site_description, site_name, site_preservation_status_id, date_updated, site_location_accuracy) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/site.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_sites
-    where site_id in (select site_id from clearing_house_commit.temp_tbl_sites);
-
-insert into public.tbl_sites
-    select *
-    from clearing_house_commit.temp_tbl_sites
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_sites (site_id, altitude, latitude_dd, longitude_dd, national_site_identifier, site_description, site_name, site_preservation_status_id, site_location_accuracy, date_updated)
+    select site_id, altitude, latitude_dd, longitude_dd, national_site_identifier, site_description, site_name, site_preservation_status_id, site_location_accuracy, date_updated
+    from clearing_house_commit.temp_tbl_sites ;
 
 \o /dev/null
 
@@ -52,17 +48,13 @@ drop table if exists clearing_house_commit.temp_tbl_sites;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_features;
-create table clearing_house_commit.temp_tbl_features as select * from public.tbl_features where FALSE;
+create table clearing_house_commit.temp_tbl_features as select feature_id, feature_type_id, feature_name, feature_description, date_updated from public.tbl_features where FALSE;
 
-\copy clearing_house_commit.temp_tbl_features from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/feature.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_features (feature_id, feature_type_id, feature_name, feature_description, date_updated) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/feature.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_features
-    where feature_id in (select feature_id from clearing_house_commit.temp_tbl_features);
-
-insert into public.tbl_features
-    select *
-    from clearing_house_commit.temp_tbl_features
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_features (feature_id, feature_type_id, feature_name, feature_description, date_updated)
+    select feature_id, feature_type_id, feature_name, feature_description, date_updated
+    from clearing_house_commit.temp_tbl_features ;
 
 \o /dev/null
 
@@ -75,17 +67,13 @@ drop table if exists clearing_house_commit.temp_tbl_features;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_datasets;
-create table clearing_house_commit.temp_tbl_datasets as select * from public.tbl_datasets where FALSE;
+create table clearing_house_commit.temp_tbl_datasets as select dataset_id, master_set_id, data_type_id, method_id, biblio_id, updated_dataset_id, project_id, dataset_name, date_updated from public.tbl_datasets where FALSE;
 
-\copy clearing_house_commit.temp_tbl_datasets from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/dataset.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_datasets (dataset_id, master_set_id, data_type_id, method_id, biblio_id, updated_dataset_id, project_id, dataset_name, date_updated) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/dataset.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_datasets
-    where dataset_id in (select dataset_id from clearing_house_commit.temp_tbl_datasets);
-
-insert into public.tbl_datasets
-    select *
-    from clearing_house_commit.temp_tbl_datasets
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_datasets (dataset_id, master_set_id, data_type_id, method_id, biblio_id, updated_dataset_id, project_id, dataset_name, date_updated)
+    select dataset_id, master_set_id, data_type_id, method_id, biblio_id, updated_dataset_id, project_id, dataset_name, date_updated
+    from clearing_house_commit.temp_tbl_datasets;
 
 \o /dev/null
 
@@ -98,17 +86,13 @@ drop table if exists clearing_house_commit.temp_tbl_datasets;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_contacts;
-create table clearing_house_commit.temp_tbl_dataset_contacts as select * from public.tbl_dataset_contacts where FALSE;
+create table clearing_house_commit.temp_tbl_dataset_contacts as select dataset_contact_id, contact_id, contact_type_id, dataset_id, date_updated from public.tbl_dataset_contacts where FALSE;
 
-\copy clearing_house_commit.temp_tbl_dataset_contacts from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/dataset_contact.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_dataset_contacts (dataset_contact_id, contact_id, contact_type_id, dataset_id, date_updated) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/dataset_contact.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_dataset_contacts
-    where dataset_contact_id in (select dataset_contact_id from clearing_house_commit.temp_tbl_dataset_contacts);
-
-insert into public.tbl_dataset_contacts
-    select *
-    from clearing_house_commit.temp_tbl_dataset_contacts
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_dataset_contacts (dataset_contact_id, contact_id, contact_type_id, dataset_id, date_updated)
+    select dataset_contact_id, contact_id, contact_type_id, dataset_id, date_updated
+    from clearing_house_commit.temp_tbl_dataset_contacts ;
 
 \o /dev/null
 
@@ -121,17 +105,13 @@ drop table if exists clearing_house_commit.temp_tbl_dataset_contacts;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_dataset_submissions;
-create table clearing_house_commit.temp_tbl_dataset_submissions as select * from public.tbl_dataset_submissions where FALSE;
+create table clearing_house_commit.temp_tbl_dataset_submissions as select dataset_submission_id, dataset_id, submission_type_id, contact_id, date_submitted, notes, date_updated from public.tbl_dataset_submissions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_dataset_submissions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/dataset_submission.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_dataset_submissions (dataset_submission_id, dataset_id, submission_type_id, contact_id, date_submitted, notes, date_updated) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/dataset_submission.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_dataset_submissions
-    where dataset_submission_id in (select dataset_submission_id from clearing_house_commit.temp_tbl_dataset_submissions);
-
-insert into public.tbl_dataset_submissions
-    select *
-    from clearing_house_commit.temp_tbl_dataset_submissions
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_dataset_submissions (dataset_submission_id, dataset_id, submission_type_id, contact_id, date_submitted, notes, date_updated)
+    select dataset_submission_id, dataset_id, submission_type_id, contact_id, date_submitted, notes, date_updated
+    from clearing_house_commit.temp_tbl_dataset_submissions ;
 
 \o /dev/null
 
@@ -144,17 +124,13 @@ drop table if exists clearing_house_commit.temp_tbl_dataset_submissions;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts;
-create table clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts as select * from public.tbl_sample_group_description_type_sampling_contexts where FALSE;
+create table clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts as select sample_group_description_type_sampling_context_id, sampling_context_id, sample_group_description_type_id, date_updated from public.tbl_sample_group_description_type_sampling_contexts where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_group_description_type_sampling_context.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts (sample_group_description_type_sampling_context_id, sampling_context_id, sample_group_description_type_id, date_updated) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_group_description_type_sampling_context.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_sample_group_description_type_sampling_contexts
-    where sample_group_description_type_sampling_context_id in (select sample_group_description_type_sampling_context_id from clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts);
-
-insert into public.tbl_sample_group_description_type_sampling_contexts
-    select *
-    from clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_sample_group_description_type_sampling_contexts (sample_group_description_type_sampling_context_id, sampling_context_id, sample_group_description_type_id, date_updated)
+    select sample_group_description_type_sampling_context_id, sampling_context_id, sample_group_description_type_id, date_updated   
+    from clearing_house_commit.temp_tbl_sample_group_description_type_sampling_contexts ;
 
 \o /dev/null
 
@@ -167,17 +143,13 @@ drop table if exists clearing_house_commit.temp_tbl_sample_group_description_typ
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_sample_groups;
-create table clearing_house_commit.temp_tbl_sample_groups as select * from public.tbl_sample_groups where FALSE;
+create table clearing_house_commit.temp_tbl_sample_groups as select sample_group_id, site_id, sampling_context_id, method_id, sample_group_name, sample_group_description, date_updated from public.tbl_sample_groups where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_groups from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_group.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_groups (sample_group_id, site_id, sampling_context_id, method_id, sample_group_name, sample_group_description, date_updated) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_group.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_sample_groups
-    where sample_group_id in (select sample_group_id from clearing_house_commit.temp_tbl_sample_groups);
-
-insert into public.tbl_sample_groups
-    select *
-    from clearing_house_commit.temp_tbl_sample_groups
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_sample_groups (sample_group_id, site_id, sampling_context_id, method_id, sample_group_name, sample_group_description, date_updated)
+    select sample_group_id, site_id, sampling_context_id, method_id, sample_group_name, sample_group_description, date_updated
+    from clearing_house_commit.temp_tbl_sample_groups ;
 
 \o /dev/null
 
@@ -190,17 +162,13 @@ drop table if exists clearing_house_commit.temp_tbl_sample_groups;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_physical_samples;
-create table clearing_house_commit.temp_tbl_physical_samples as select * from public.tbl_physical_samples where FALSE;
+create table clearing_house_commit.temp_tbl_physical_samples as select physical_sample_id, sample_group_id, alt_ref_type_id, sample_type_id, sample_name, date_updated, date_sampled from public.tbl_physical_samples where FALSE;
 
-\copy clearing_house_commit.temp_tbl_physical_samples from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/physical_sample.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_physical_samples (physical_sample_id, sample_group_id, alt_ref_type_id, sample_type_id, sample_name, date_updated, date_sampled) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/physical_sample.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_physical_samples
-    where physical_sample_id in (select physical_sample_id from clearing_house_commit.temp_tbl_physical_samples);
-
-insert into public.tbl_physical_samples
-    select *
-    from clearing_house_commit.temp_tbl_physical_samples
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_physical_samples (physical_sample_id, sample_group_id, alt_ref_type_id, sample_type_id, sample_name, date_updated, date_sampled)
+    select physical_sample_id, sample_group_id, alt_ref_type_id, sample_type_id, sample_name, date_updated, date_sampled
+    from clearing_house_commit.temp_tbl_physical_samples ;
 
 \o /dev/null
 
@@ -213,17 +181,13 @@ drop table if exists clearing_house_commit.temp_tbl_physical_samples;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_analysis_entities;
-create table clearing_house_commit.temp_tbl_analysis_entities as select * from public.tbl_analysis_entities where FALSE;
+create table clearing_house_commit.temp_tbl_analysis_entities as select analysis_entity_id, physical_sample_id, dataset_id, date_updated from public.tbl_analysis_entities where FALSE;
 
-\copy clearing_house_commit.temp_tbl_analysis_entities from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/analysis_entity.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_analysis_entities (analysis_entity_id, physical_sample_id, dataset_id, date_updated) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/analysis_entity.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_analysis_entities
-    where analysis_entity_id in (select analysis_entity_id from clearing_house_commit.temp_tbl_analysis_entities);
-
-insert into public.tbl_analysis_entities
-    select *
-    from clearing_house_commit.temp_tbl_analysis_entities
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_analysis_entities (analysis_entity_id, physical_sample_id, dataset_id, date_updated)
+    select analysis_entity_id, physical_sample_id, dataset_id, date_updated
+    from clearing_house_commit.temp_tbl_analysis_entities ;
 
 \o /dev/null
 
@@ -236,17 +200,13 @@ drop table if exists clearing_house_commit.temp_tbl_analysis_entities;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_ceramics;
-create table clearing_house_commit.temp_tbl_ceramics as select * from public.tbl_ceramics where FALSE;
+create table clearing_house_commit.temp_tbl_ceramics as select ceramics_id, analysis_entity_id, measurement_value, date_updated, ceramics_lookup_id from public.tbl_ceramics where FALSE;
 
-\copy clearing_house_commit.temp_tbl_ceramics from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/ceramic.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_ceramics (ceramics_id, analysis_entity_id, measurement_value, date_updated, ceramics_lookup_id) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/ceramic.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_ceramics
-    where ceramics_id in (select ceramics_id from clearing_house_commit.temp_tbl_ceramics);
-
-insert into public.tbl_ceramics
-    select *
-    from clearing_house_commit.temp_tbl_ceramics
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_ceramics (ceramics_id, analysis_entity_id, measurement_value, date_updated, ceramics_lookup_id)
+    select ceramics_id, analysis_entity_id, measurement_value, date_updated, ceramics_lookup_id
+    from clearing_house_commit.temp_tbl_ceramics ;
 
 \o /dev/null
 
@@ -259,17 +219,13 @@ drop table if exists clearing_house_commit.temp_tbl_ceramics;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_physical_sample_features;
-create table clearing_house_commit.temp_tbl_physical_sample_features as select * from public.tbl_physical_sample_features where FALSE;
+create table clearing_house_commit.temp_tbl_physical_sample_features as select physical_sample_feature_id, date_updated, feature_id, physical_sample_id from public.tbl_physical_sample_features where FALSE;
 
-\copy clearing_house_commit.temp_tbl_physical_sample_features from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/physical_sample_feature.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_physical_sample_features (physical_sample_feature_id, date_updated, feature_id, physical_sample_id) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/physical_sample_feature.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_physical_sample_features
-    where physical_sample_feature_id in (select physical_sample_feature_id from clearing_house_commit.temp_tbl_physical_sample_features);
-
-insert into public.tbl_physical_sample_features
-    select *
-    from clearing_house_commit.temp_tbl_physical_sample_features
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_physical_sample_features (physical_sample_feature_id, date_updated, feature_id, physical_sample_id)
+    select physical_sample_feature_id, date_updated, feature_id, physical_sample_id
+    from clearing_house_commit.temp_tbl_physical_sample_features ;
 
 \o /dev/null
 
@@ -282,17 +238,13 @@ drop table if exists clearing_house_commit.temp_tbl_physical_sample_features;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_relative_dates;
-create table clearing_house_commit.temp_tbl_relative_dates as select * from public.tbl_relative_dates where FALSE;
+create table clearing_house_commit.temp_tbl_relative_dates as select relative_date_id, relative_age_id, method_id, notes, date_updated, dating_uncertainty_id, analysis_entity_id from public.tbl_relative_dates where FALSE;
 
-\copy clearing_house_commit.temp_tbl_relative_dates from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/relative_date.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_relative_dates (relative_date_id, relative_age_id, method_id, notes, date_updated, dating_uncertainty_id, analysis_entity_id) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/relative_date.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_relative_dates
-    where relative_date_id in (select relative_date_id from clearing_house_commit.temp_tbl_relative_dates);
-
-insert into public.tbl_relative_dates
-    select *
-    from clearing_house_commit.temp_tbl_relative_dates
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_relative_dates (relative_date_id, relative_age_id, method_id, notes, date_updated, dating_uncertainty_id, analysis_entity_id)
+    select relative_date_id, relative_age_id, method_id, notes, date_updated, dating_uncertainty_id, analysis_entity_id
+    from clearing_house_commit.temp_tbl_relative_dates ;
 
 \o /dev/null
 
@@ -305,17 +257,13 @@ drop table if exists clearing_house_commit.temp_tbl_relative_dates;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_sample_alt_refs;
-create table clearing_house_commit.temp_tbl_sample_alt_refs as select * from public.tbl_sample_alt_refs where FALSE;
+create table clearing_house_commit.temp_tbl_sample_alt_refs as select sample_alt_ref_id, alt_ref, alt_ref_type_id, date_updated, physical_sample_id from public.tbl_sample_alt_refs where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_alt_refs from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_alt_ref.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_alt_refs (sample_alt_ref_id, alt_ref, alt_ref_type_id, date_updated, physical_sample_id) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_alt_ref.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_sample_alt_refs
-    where sample_alt_ref_id in (select sample_alt_ref_id from clearing_house_commit.temp_tbl_sample_alt_refs);
-
-insert into public.tbl_sample_alt_refs
-    select *
-    from clearing_house_commit.temp_tbl_sample_alt_refs
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_sample_alt_refs (sample_alt_ref_id, alt_ref, alt_ref_type_id, date_updated, physical_sample_id)
+    select sample_alt_ref_id, alt_ref, alt_ref_type_id, date_updated, physical_sample_id
+    from clearing_house_commit.temp_tbl_sample_alt_refs ;
 
 \o /dev/null
 
@@ -328,17 +276,13 @@ drop table if exists clearing_house_commit.temp_tbl_sample_alt_refs;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_sample_descriptions;
-create table clearing_house_commit.temp_tbl_sample_descriptions as select * from public.tbl_sample_descriptions where FALSE;
+create table clearing_house_commit.temp_tbl_sample_descriptions as select sample_description_id, sample_description_type_id, physical_sample_id, description, date_updated from public.tbl_sample_descriptions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_descriptions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_description.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_descriptions (sample_description_id, sample_description_type_id, physical_sample_id, description, date_updated) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_description.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_sample_descriptions
-    where sample_description_id in (select sample_description_id from clearing_house_commit.temp_tbl_sample_descriptions);
-
-insert into public.tbl_sample_descriptions
-    select *
-    from clearing_house_commit.temp_tbl_sample_descriptions
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_sample_descriptions (sample_description_id, sample_description_type_id, physical_sample_id, description, date_updated)
+    select sample_description_id, sample_description_type_id, physical_sample_id, description, date_updated
+    from clearing_house_commit.temp_tbl_sample_descriptions ;
 
 \o /dev/null
 
@@ -351,17 +295,13 @@ drop table if exists clearing_house_commit.temp_tbl_sample_descriptions;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_sample_dimensions;
-create table clearing_house_commit.temp_tbl_sample_dimensions as select * from public.tbl_sample_dimensions where FALSE;
+create table clearing_house_commit.temp_tbl_sample_dimensions as select sample_dimension_id, physical_sample_id, dimension_id, method_id, dimension_value, date_updated from public.tbl_sample_dimensions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_dimensions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_dimension.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_dimensions (sample_dimension_id, physical_sample_id, dimension_id, method_id, dimension_value, date_updated) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_dimension.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_sample_dimensions
-    where sample_dimension_id in (select sample_dimension_id from clearing_house_commit.temp_tbl_sample_dimensions);
-
-insert into public.tbl_sample_dimensions
-    select *
-    from clearing_house_commit.temp_tbl_sample_dimensions
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_sample_dimensions (sample_dimension_id, physical_sample_id, dimension_id, method_id, dimension_value, date_updated)
+    select sample_dimension_id, physical_sample_id, dimension_id, method_id, dimension_value, date_updated
+    from clearing_house_commit.temp_tbl_sample_dimensions ;
 
 \o /dev/null
 
@@ -374,17 +314,13 @@ drop table if exists clearing_house_commit.temp_tbl_sample_dimensions;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_descriptions;
-create table clearing_house_commit.temp_tbl_sample_group_descriptions as select * from public.tbl_sample_group_descriptions where FALSE;
+create table clearing_house_commit.temp_tbl_sample_group_descriptions as select sample_group_description_id, group_description, sample_group_description_type_id, date_updated, sample_group_id from public.tbl_sample_group_descriptions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_group_descriptions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_group_description.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_group_descriptions (sample_group_description_id, group_description, sample_group_description_type_id, date_updated, sample_group_id) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_group_description.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_sample_group_descriptions
-    where sample_group_description_id in (select sample_group_description_id from clearing_house_commit.temp_tbl_sample_group_descriptions);
-
-insert into public.tbl_sample_group_descriptions
-    select *
-    from clearing_house_commit.temp_tbl_sample_group_descriptions
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_sample_group_descriptions (sample_group_description_id, group_description, sample_group_description_type_id, date_updated, sample_group_id)
+    select sample_group_description_id, group_description, sample_group_description_type_id, date_updated, sample_group_id
+    from clearing_house_commit.temp_tbl_sample_group_descriptions ;
 
 \o /dev/null
 
@@ -397,17 +333,13 @@ drop table if exists clearing_house_commit.temp_tbl_sample_group_descriptions;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_sample_group_dimensions;
-create table clearing_house_commit.temp_tbl_sample_group_dimensions as select * from public.tbl_sample_group_dimensions where FALSE;
+create table clearing_house_commit.temp_tbl_sample_group_dimensions as select sample_group_dimension_id, date_updated, dimension_id, dimension_value, sample_group_id from public.tbl_sample_group_dimensions where FALSE;
 
-\copy clearing_house_commit.temp_tbl_sample_group_dimensions from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_group_dimension.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_sample_group_dimensions (sample_group_dimension_id, date_updated, dimension_id, dimension_value, sample_group_id) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/sample_group_dimension.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_sample_group_dimensions
-    where sample_group_dimension_id in (select sample_group_dimension_id from clearing_house_commit.temp_tbl_sample_group_dimensions);
-
-insert into public.tbl_sample_group_dimensions
-    select *
-    from clearing_house_commit.temp_tbl_sample_group_dimensions
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_sample_group_dimensions (sample_group_dimension_id, date_updated, dimension_id, dimension_value, sample_group_id)
+    select sample_group_dimension_id, date_updated, dimension_id, dimension_value, sample_group_id
+    from clearing_house_commit.temp_tbl_sample_group_dimensions ;
 
 \o /dev/null
 
@@ -420,17 +352,13 @@ drop table if exists clearing_house_commit.temp_tbl_sample_group_dimensions;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_site_locations;
-create table clearing_house_commit.temp_tbl_site_locations as select * from public.tbl_site_locations where FALSE;
+create table clearing_house_commit.temp_tbl_site_locations as select site_location_id, date_updated, location_id, site_id from public.tbl_site_locations where FALSE;
 
-\copy clearing_house_commit.temp_tbl_site_locations from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/site_location.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_site_locations (site_location_id, date_updated, location_id, site_id) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/site_location.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_site_locations
-    where site_location_id in (select site_location_id from clearing_house_commit.temp_tbl_site_locations);
-
-insert into public.tbl_site_locations
-    select *
-    from clearing_house_commit.temp_tbl_site_locations
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_site_locations (site_location_id, date_updated, location_id, site_id)
+    select site_location_id, date_updated, location_id, site_id
+    from clearing_house_commit.temp_tbl_site_locations ;
 
 \o /dev/null
 
@@ -443,17 +371,13 @@ drop table if exists clearing_house_commit.temp_tbl_site_locations;
  ************************************************************************************************************************************/
 
 drop table if exists clearing_house_commit.temp_tbl_site_references;
-create table clearing_house_commit.temp_tbl_site_references as select * from public.tbl_site_references where FALSE;
+create table clearing_house_commit.temp_tbl_site_references as select site_reference_id, site_id, biblio_id, date_updated from public.tbl_site_references where FALSE;
 
-\copy clearing_house_commit.temp_tbl_site_references from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/site_reference.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
+\copy clearing_house_commit.temp_tbl_site_references (site_reference_id, site_id, biblio_id, date_updated) from program 'zcat -qac 20200109_DML_SUBMISSION_CERAMICS_COMMIT/site_reference.gz' with (FORMAT text, DELIMITER E'\t', ENCODING 'utf-8');
 
-delete from public.tbl_site_references
-    where site_reference_id in (select site_reference_id from clearing_house_commit.temp_tbl_site_references);
-
-insert into public.tbl_site_references
-    select *
-    from clearing_house_commit.temp_tbl_site_references
-    /* on conflict (v_pk_name) update set list-of-all-fields */;
+insert into public.tbl_site_references (site_reference_id, site_id, biblio_id, date_updated)
+    select site_reference_id, site_id, biblio_id, date_updated
+    from clearing_house_commit.temp_tbl_site_references ;
 
 \o /dev/null
 

@@ -44,18 +44,15 @@ do $$ begin
     select ra.relative_age_id, min(ra.relative_age_id) over (partition by ra.relative_age_name) as canonical_id
     from tbl_relative_ages ra
   )
-    update tbl_relative_dates rd
+    update tbl_relative_dates
       set relative_age_id = dup.canonical_id
-	/*select * from tbl_relative_dates rd
-	  join dup on rd.relative_age_id = dup.relative_age_id */
-    from dup
-    join tbl_analysis_entities ae
-      on ae.analysis_entity_id = rd.analysis_entity_id
+    from dup, tbl_analysis_entities ae
     join tbl_datasets ds
       on ds.dataset_id = ae.dataset_id
     join tbl_dataset_masters m
       on m.master_set_id = ds.master_set_id
-    where rd.relative_age_id = dup.relative_age_id
+    where tbl_relative_dates.relative_age_id = dup.relative_age_id
+      and tbl_relative_dates.analysis_entity_id = ae.analysis_entity_id
       and dup.relative_age_id <> dup.canonical_id
       and m.master_set_id = 1;
 

@@ -48,7 +48,7 @@ Options:
         Specify the database user.
     --port PORT
         Specify the database port.
-    --database DATABASE
+    --database|--db|--dbname DATABASE
         Specify the database name.
     --no-verbose
         Suppress verbose output.
@@ -89,13 +89,13 @@ do
         --project)
             g_project="$2"; shift; shift;
         ;;
-        --show-note)
+        --show-note|--note)
             g_show_note="YES"; shift;
         ;;
-        --show-status)
+        --show-status|--status)
             g_show_status="YES"; shift;
         ;;
-        --color)
+        --color|-c)
             g_color="YES"; shift;
         ;;
         --verbose|-v)
@@ -104,16 +104,16 @@ do
         --no-verbose)
             g_verbose="NO"; shift;
         ;;
-        --host)
+        --host|-h)
             g_host="$2"; shift; shift;
         ;;
-        --user)
+        --user|-u)
             g_user="$2"; shift; shift;
         ;;
-        --port)
+        --port|-p)
             g_port="$2"; shift; shift;
         ;;
-        --database)
+        --database|-db|--dbname|-d)
             g_database="$2"; shift; shift;
         ;;
         --db-uri)
@@ -219,6 +219,13 @@ function ls_tags()
                 if [ ! -f "$status_filename" ]; then
                     set +e
                     sqitch status --target $g_db_uri -C ./$sqitch_project --show-changes &> "$status_filename"
+
+                    if [ $? -ne 0 ]; then
+                        error "failed to get sqitch status for $sqitch_project"
+                        cat "$status_filename"
+                        rm -f "$status_filename"
+                        exit 1
+                    fi
                     set -e
                 fi
             fi
@@ -262,7 +269,6 @@ function ls_tags()
     done
     # \rm -f ./tmp/sqitch_status.*.$timestamp.log
 }
-
 if [ "$g_database" != "" ]; then
     if [ "$g_host" == "" ] || [ "$g_host" == "" ] || [ "$g_user" == "" ]; then
         usage "Database host, user, and port must be specified when using --database"
@@ -271,8 +277,9 @@ if [ "$g_database" != "" ]; then
 fi
 if [ "$g_show_status" == "YES" ]; then
     if [ "$g_db_uri" == "" ]; then
-        error "Database URI must be specified when using --show-status"
+        usage "Database URI must be specified when using --show-status"
     fi
 fi
+# echo "db:pg://${g_user}@${g_host}:${g_port}/${g_database}"
 
 ls_tags
