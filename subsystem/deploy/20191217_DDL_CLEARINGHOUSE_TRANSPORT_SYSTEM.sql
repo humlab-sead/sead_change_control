@@ -8,7 +8,7 @@
 
 /***************************************************************************
   Author         
-  Date           2025-04-24
+  Date           2025-05-18
   Description    Deploy of Clearinghouse Transport System
   Issue          https://github.com/humlab-sead/sead_change_control/issues/215
   Prerequisites  
@@ -21,8 +21,6 @@
 set client_encoding = 'UTF8';
 set standard_conforming_strings = on;
 set client_min_messages to warning;
-
-drop schema if exists clearing_house_commit cascade;
 
 -- /home/roger/source/sead_clearinghouse/transport_system//01_setup_transport_schema.sql
 /*********************************************************************************************************************************
@@ -710,7 +708,7 @@ begin
 drop table if exists clearing_house_commit.temp_#TABLE#;
 create table clearing_house_commit.temp_#TABLE# as select #COLUMNS# from public.#TABLE# where FALSE;
 
-\\copy clearing_house_commit.temp_#TABLE# from program ''zcat -qac #DIR#/#ENTITY#.gz'' with (FORMAT text, DELIMITER E''\t'', ENCODING ''utf-8'');
+\\copy clearing_house_commit.temp_#TABLE# (#COLUMNS#) from program ''zcat -qac #DIR#/#ENTITY#.gz'' with (FORMAT text, DELIMITER E''\t'', ENCODING ''utf-8'');
 #DELETE-SQL#
 
 insert into public.#TABLE# (#COLUMNS#)
