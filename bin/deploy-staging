@@ -667,7 +667,7 @@ function deploy_to_tag()
 
             cat $sqitch_output_filename
 
-            if grep -q "^not ok" $sqitch_output_filename; then
+            if grep -q "not ok" $sqitch_output_filename; then
                 deploy_code=1
             fi
 
