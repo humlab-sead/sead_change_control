@@ -883,7 +883,7 @@ CREATE TABLE "public"."tbl_site_preservation_status" (
   "assessment_type" varchar COLLATE "pg_catalog"."default",
   "assessment_author_contact_id" int4,
   "date_updated" timestamp with time zone DEFAULT now(),
-  "Evaluation_date" date
+  "evaluation_date" date
 );
 CREATE TABLE "public"."tbl_site_references" (
   "site_reference_id" serial primary key,
