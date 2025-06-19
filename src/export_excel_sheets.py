@@ -3,9 +3,6 @@ import pandas as pd
 import click
 from os.path import join, isfile, isdir
 
-source_filename: str = 'path_to_your_file.xlsx'
-target_folder: str = '.'
-
 @click.command()
 @click.argument('source_filename')
 @click.argument('target_folder')
