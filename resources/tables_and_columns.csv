@@ -621,7 +621,7 @@ public;;tbl_site_other_records;site_id;Specifies the specific site.;NO;YES
 public;;tbl_site_preservation_status;assessment_author_contact_id;Identifier for the person or authority in tbl_contacts responsible for assessing the preservation status and threats.;NO;NO
 public;;tbl_site_preservation_status;assessment_type;Specifies the type of assessment conducted, such as a UNESCO report or archaeological survey, detailing preservation status and threats.;NO;NO
 public;;tbl_site_preservation_status;description;A brief overview of the site's preservation status or the threats it faces. This field is for information that does not fit into other specified columns.;NO;NO
-public;;tbl_site_preservation_status;Evaluation_date;The date on which the preservation status or threat assessment was conducted, whether formal or informal.;NO;NO
+public;;tbl_site_preservation_status;evaluation_date;The date on which the preservation status or threat assessment was conducted, whether formal or informal.;NO;NO
 public;Site Preservation Status;tbl_site_preservation_status;;Contains data on the preservation levels and threats to cultural heritage sites. Each record represents a unique preservation status or threat. This information was added at the request of PAN (Polar Archaeology Network) members to support the evaluation of threats to Arctic cultural heritage.;;
 public;;tbl_site_preservation_status;site_preservation_status_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_site_preservation_status;preservation_status_or_threat;A descriptive term for the preservation status (e.g., lost, damaged, threatened) or the primary cause of risk to the site (e.g., hydroelectric projects, oil exploitation, mining, forestry, climate change, erosion).;NO;NO
