@@ -4,9 +4,12 @@
 
 SHELL=/bin/bash
 
-set -a
-source .env
-set +a
+if [ -f -env ]; then
+    set -a
+    source .env
+    set +a
+fi  
+
 
 g_user=${PGUSER}
 g_host=${PGHOST}
@@ -25,7 +28,7 @@ if [ "$g_user" == "" ] && [ -f ~/vault/.default.sead.username ]; then
     g_user=`cat  ~/vault/.default.sead.username`
 fi
 
-POSITIONAL=()
+PASSTHROUGHS=()
 while [[ $# -gt 0 ]]
 do
     key="$1"
@@ -42,18 +45,18 @@ do
         --host|-h)
             g_host="$2"; shift 2;
         ;;
-        --*)
-            usage 'fatal: target database not specified!'
-            shift 2;
+        --help)
+            psql --help
+            exit 0
         ;;
         *)
-        POSITIONAL+=("$1")
+        PASSTHROUGHS+=("$1")
         shift
         ;;
     esac
 done
 
-set -- "${POSITIONAL[@]}"
+set -- "${PASSTHROUGHS[@]}"
 
 if [ "$g_db" == "" ]; then
     if [ "$1" != "" ]; then
@@ -63,5 +66,5 @@ if [ "$g_db" == "" ]; then
     fi
 fi
 
-psql -h $g_host -p $g_port -U $g_user -d $g_db
+psql -h $g_host -p $g_port -U $g_user -d $g_db $@
 
