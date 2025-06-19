@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# A script to generate SQL comment statements from a semicolon-separated file.
+
+set -e
+
+g_input_file=$1
+
+if [[ -z "$g_input_file" ]]; then
+    echo "Usage: $0 <input_file>"
+    echo "Example: $0 resources/tables_and_columns.csv"
+    exit 1
+fi
+
+if [[ ! -f "$g_input_file" ]]; then
+    echo "Error: Input file '$g_input_file' not found." >&2
+    exit 1
+fi
+
+tail -n +2 "$g_input_file" | while IFS=';' read -r schema_name entity_name table_name column_name comment _
+do
+    schema_name=$(echo "$schema_name" | xargs -0)
+    entity_name=$(echo "$entity_name" | xargs -0)
+    table_name=$(echo "$table_name" | xargs -0)
+    column_name=$(echo "$column_name" | xargs -0)
+
+    if [[ -z "$schema_name" || -z "$table_name" || -z "$comment" ]]; then
+        break
+    fi
+
+    escaped_comment="${comment//\'/\'\'}"
+    comment=$(echo "$comment" | xargs -0)
+
+    if [[ -n "$entity_name" ]]; then
+        printf "comment on table %s.%s is '%s';\n" "$schema_name" "$table_name" "$escaped_comment"
+    elif [[ -n "$column_name" ]]; then
+        printf "comment on column %s.%s.%s is '%s';\n" "$schema_name" "$table_name" "$column_name" "$escaped_comment"
+    fi
+done 
