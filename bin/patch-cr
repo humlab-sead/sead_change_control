@@ -10,39 +10,19 @@ if [ -f .env ]; then
     set +o allexport
 fi
 
-. $(dirname "$0")/utility.sh
+g_script_dir=$(dirname "$(readlink -f "$0")")
 
-g_db=
-g_host=$(dnsdomainname -A)
-g_port=5433
-g_user=
+. "$g_script_dir/_db_utils.sh"
+. "$g_script_dir/utility.sh"
+
 g_log_level=WARNING
 
-if [ -f ~/vault/.default.sead.server ]; then
-    g_host=`cat ~/vault/.default.sead.server`
-fi
-
-if [ -f ~/vault/.default.sead.username ]; then
-    g_user=`cat  ~/vault/.default.sead.username`
-fi
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
     key="$1"
     case $key in
-        --database|-d)
-            g_db="$2"; shift 2;
-        ;;
-        --port|-p)
-            g_port="$2"; shift 2;
-        ;;
-        --user|-U)
-            g_user="$2"; shift 2;
-        ;;
-        --host|-h)
-            g_host="$2"; shift 2;
-        ;;
         --log-level|-l)
             g_log_level="$2"; shift 2;
         ;;
@@ -57,47 +37,11 @@ set -- "${POSITIONAL[@]}"
 
 g_crs=$@
 
-function usage()
-{
-    local error_message=$1
-    if [ "$error_message" != "" ]; then
-        echo "$error_message"
-    fi
-    echo "usage: patch-cr --database DBNAME [--host HOST] [--port PORT] [--user USER] [--log-level LEVEL] CHANGE_REQUEST_NAME..."
-    echo "Creates a new database using source as template."
-    echo ""
-    echo "   --database         target database name"
-    echo "   --host             host name"
-    echo "   --user             user name"
-    echo "   --port             host port"
-    echo "   --log-level    DEBUG | INFO | NOTICE | WARNING | ERROR"
-    echo ""
-    echo "Example:"
-    echo "    bin/patch-cr --port 5433 --database sead_staging 20240924_DDL_MEASURED_VALUES_REFACTOR"
-    exit 64
-}
-
 if [[ ! "$g_log_level" =~ ^(DEBUG|INFO|NOTICE|WARNING|ERROR)$ ]]; then
     usage "Invalid log level: $LOG_LEVEL"
 fi
 
-function execute_sql() {
-    local database="$1"
-    local sql="$2"
-    psql -bqw -h $g_host -p "$g_port" -U $g_user -c "$sql" $database > /dev/null
-    if [ $? -ne 0 ];  then
-        echo "fatal: sql failed!"
-        ecit 64
-    fi
-}
-
-function kickout() {
-    local database="$1"
-    local sql="select pg_terminate_backend(pid) from pg_stat_activity where datname = '$database' and pid <> pg_backend_pid();"
-    execute_sql "postgres" "$sql" &> /dev/null
-}
-
-if [ "$g_db" == "" ]; then
+if [ "$g_database" == "" ]; then
     usage 'fatal: target database not specified!'
 fi
 
@@ -119,7 +63,7 @@ for g_cr in $g_crs; do
     fi
 done
 
-kickout $g_db
+kickout $g_database
 
 for g_cr in $g_crs; do
 
@@ -138,7 +82,7 @@ for g_cr in $g_crs; do
         g_patch_file="$g_temp_file"
     fi
 
-    psql -h $g_host -p $g_port -U $g_user -w --dbname=$g_db --file $g_patch_file -q -v ON_ERROR_STOP=1  -c "set client_min_messages to $g_log_level;"
+    psql -h $g_host -p $g_port -U $g_user -w --dbname=$g_database --file $g_patch_file -q -v ON_ERROR_STOP=1  -c "set client_min_messages to $g_log_level;"
 
     if [ -f "$g_temp_file" ]; then
         rm -f "$g_temp_file"
