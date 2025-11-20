@@ -4,6 +4,26 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.5.0](https://github.com/humlab-sead/sead_change_control/compare/v1.4.4...v1.5.0) (2025-11-20)
+
+### 🍕 Features
+
+* add DDL for site types including tables and initial data ([82001c7](https://github.com/humlab-sead/sead_change_control/commit/82001c72f920cdc2c9cc0cd6a82aa35f5caacba0))
+* add script to generate SQL comment statements from CSV ([a266049](https://github.com/humlab-sead/sead_change_control/commit/a266049d476bb09153472a34ebda67559fb31481))
+
+### 🐛 Bug Fixes
+
+* correct casing of 'Evaluation_date' to 'evaluation_date' in site preservation status table ([#217](https://github.com/humlab-sead/sead_change_control/issues/217)) ([2e3ed23](https://github.com/humlab-sead/sead_change_control/commit/2e3ed23f77fda4e32c17d7a1d891fc9fbfa86aae))
+* correct environment variable loading and improve argument handling in psql script ([cbc7e0c](https://github.com/humlab-sead/sead_change_control/commit/cbc7e0cc229fcc023291a66ec41745eafcc572b0))
+* remove duplicate issue reference in analysis ages facet description ([2a73122](https://github.com/humlab-sead/sead_change_control/commit/2a7312200d4af71c2dbec1c130a56dd0e0c0ba44))
+
+### 🧑‍💻 Code Refactoring
+
+* enhance fn_table_columns function to include additional metadata and improve view definition ([2482975](https://github.com/humlab-sead/sead_change_control/commit/2482975f08379d82f9cfbd1224d989d5fb450985))
+* remove default values for source_filename and target_folder in export_excel_sheets function ([99dc133](https://github.com/humlab-sead/sead_change_control/commit/99dc133255559c8ff7e91157d345d1028c54e55b))
+* simplify patch-cr script by using utility script ([4a92f45](https://github.com/humlab-sead/sead_change_control/commit/4a92f4543ff77471cde95e81cd10799749c75a57))
+* streamline sync-comments script and improve usage instructions ([53c8198](https://github.com/humlab-sead/sead_change_control/commit/53c8198988e431a87bbdb7211910de1ea187b3a9))
+
 ## [1.4.4](https://github.com/humlab-sead/sead_change_control/compare/v1.4.3...v1.4.4) (2025-05-18)
 
 ### 🐛 Bug Fixes
