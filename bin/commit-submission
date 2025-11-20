@@ -1,13 +1,11 @@
 #!/bin/bash
 #######################################################################################
-# Add documentation of this script
 # This script is used to generate and deploy a change request for the SEAD Clearinghouse system.
-# It generates a SQL script for the change request and creates a corresponding issue in the SEAD Control System.
-# It also generates a post-deploy hook for the change request.
-# The script takes several command line arguments to specify the database, submission ID, project, and other options.
-# It also has options for dry run and force overwrite of existing files.
-# The script uses the psql command to execute SQL commands against the database.
-# It also uses the add-change-request script to add the change request to the SEAD Control System.
+#
+# - It generates a SQL script for the change request and creates a corresponding issue in the SEAD Control System.
+# - It also generates a post-deploy hook for the change request.
+# - It also uses the add-change-request script to add the change request to the SEAD Control System.
+#
 #######################################################################################
 
 . $(dirname "$0")/utility.sh
@@ -184,7 +182,7 @@ function print_options()
     fi
 }
 
-function dbexec() {
+function execute_sql() {
     local opt=$1
     local sql="$2"
     $g_exec_prefix psql -h $g_host -U $g_user -d $g_database -p $g_port --no-password --single-transaction -q -X -1 -v ON_ERROR_STOP=1 $opt "$sql"
@@ -254,10 +252,10 @@ function generate_data() {
 
     echo $sql | psql -h $g_host -U $g_user -d $g_database -p $g_port --no-password -q -X -1 -v ON_ERROR_STOP=1
 
-    dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script('${cr_name}', '${work_folder}', true)) to STDOUT;" \
+    execute_sql -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script('${cr_name}', '${work_folder}', true)) to STDOUT;" \
         | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g' >> "$work_folder/copy_out.sql"
 
-    dbexec -f "$work_folder/copy_out.sql"
+    execute_sql -f "$work_folder/copy_out.sql"
 
  }
 
@@ -304,7 +302,7 @@ function generate_deploy() {
     echo "call clearing_house_commit.reset_public_sequence_ids();"                          >> $work_file
 	echo "\\o"                                                                              >> $work_file
 
-    dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script('${cr_name}', '${cr_name}', false)) to STDOUT; " \
+    execute_sql -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script('${cr_name}', '${cr_name}', false)) to STDOUT; " \
         | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g'                             >> $work_file
 
 	echo "\\o /dev/null"                                                                    >> $work_file
@@ -495,7 +493,7 @@ function check_transport_system() {
 }
 
 if [ "$g_mode" == "list" ]; then
-    dbexec -c "select submission_name, data_types, upload_date, status_text from \
+    execute_sql -c "select submission_name, data_types, upload_date, status_text from \
         clearing_house.tbl_clearinghouse_submissions where submission_state_id = 2;"
     exit 0
 fi
