@@ -10,7 +10,6 @@ if [ -f -env ]; then
     set +a
 fi  
 
-
 g_user=${PGUSER}
 g_host=${PGHOST}
 g_port=${PGPORT}
@@ -33,8 +32,7 @@ while [[ $# -gt 0 ]]
 do
     key="$1"
     case $key in
-        --database|-d)
-            g_db="$2"; shift 2;
+        --database|-d) g_db="$2"; shift 2;
         ;;
         --port|-p)
             g_port="$2"; shift 2;
@@ -66,5 +64,6 @@ if [ "$g_db" == "" ]; then
     fi
 fi
 
-psql -h $g_host -p $g_port -U $g_user -d $g_db $@
+echo "psql -h $g_host -p $g_port -U $g_user -d $g_db" "$@"
+psql -h "$g_host" -p "$g_port" -U "$g_user" -d "$g_db" "$@"
 
