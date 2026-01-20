@@ -4,6 +4,17 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.6.0](https://github.com/humlab-sead/sead_change_control/compare/v1.5.0...v1.6.0) (2026-01-20)
+
+### 🍕 Features
+
+* add AI assistant instructions for SEAD Change Control System ([f1b987b](https://github.com/humlab-sead/sead_change_control/commit/f1b987b1feaa5ef53ce5a9c19cb46787ba355661))
+
+### 🐛 Bug Fixes
+
+* clean up psql.sh formatting and improve command echoing ([9582a3f](https://github.com/humlab-sead/sead_change_control/commit/9582a3f615268101cf1aba7cb3c8f1cfbd0a0539))
+* remove 'docs' entry from .gitignore and ensure proper newline at end of file ([3525449](https://github.com/humlab-sead/sead_change_control/commit/35254494a56b9add71a71acecdb11c168cdb3e15))
+
 ## [1.5.0](https://github.com/humlab-sead/sead_change_control/compare/v1.4.4...v1.5.0) (2025-11-20)
 
 ### 🍕 Features
