@@ -4,6 +4,13 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.7.0](https://github.com/humlab-sead/sead_change_control/compare/v1.6.0...v1.7.0) (2026-01-20)
+
+### 🍕 Features
+
+* add AI agent guidelines for SEAD Change Control System ([9327005](https://github.com/humlab-sead/sead_change_control/commit/932700537538e927f4485002d58b47cb155149c4))
+* add comprehensive release notes for December 2023 major release ([d396a09](https://github.com/humlab-sead/sead_change_control/commit/d396a0987e00e4fce0557d56c46a53b85cf4ce10))
+
 ## [1.6.0](https://github.com/humlab-sead/sead_change_control/compare/v1.5.0...v1.6.0) (2026-01-20)
 
 ### 🍕 Features
