@@ -34,10 +34,22 @@ begin
         where "type_name" = v_type_name
     );
 
+    -- delete from tbl_sample_group_descriptions
+    -- where sample_group_description_type_id = v_description_type_id
+    --   and sample_group_id in (
+    --     select distinct sg.sample_group_id
+    --     from tbl_dataset_masters dm
+    --     join tbl_datasets ds using (master_set_id)
+    --     join tbl_analysis_entities ae using (dataset_id)
+    --     join tbl_physical_samples ps using (physical_sample_id)
+    --     join tbl_sample_groups sg using (sample_group_id)
+    --     where dm.master_name = v_master_name
+    -- );
+
     raise notice 'Using description_type_id: %', v_description_type_id;
 
     with adna_sample_groups as (
-        select sample_group_id
+        select distinct sg.sample_group_id
         from tbl_dataset_masters dm
         join tbl_datasets ds using (master_set_id)
         join tbl_analysis_entities ae using (dataset_id)
@@ -46,7 +58,7 @@ begin
         where dm.master_name = v_master_name
     )
     insert into tbl_sample_group_descriptions(sample_group_id, sample_group_description_type_id, group_description)
-        select sg.sample_group_id, v_description_type_id, v_accession_link
+        select distinct sg.sample_group_id, v_description_type_id, v_accession_link
         from adna_sample_groups sg
         left join tbl_sample_group_descriptions sgd
           on sg.sample_group_id = sgd.sample_group_id
@@ -72,4 +84,5 @@ join tbl_sample_group_description_types sgdt using (sample_group_description_typ
 where dm.master_name = 'SciLifelab Ancient DNA'
   and sgd.sample_group_description_type_id = 81
 ;
+
 */
