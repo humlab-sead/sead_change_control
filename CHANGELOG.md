@@ -4,6 +4,14 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.8.0](https://github.com/humlab-sead/sead_change_control/compare/v1.7.0...v1.8.0) (2026-02-01)
+
+### 🍕 Features
+
+* add dataset and method files for ancient DNA analysis ([e729851](https://github.com/humlab-sead/sead_change_control/commit/e729851654ee64180a559d910dd2af30d3af4f35))
+* add post-deploy hook for ancient DNA dataset insertion ([3479f47](https://github.com/humlab-sead/sead_change_control/commit/3479f470fcad71630fe1e1a3c4f7366599da3aa7))
+* add two separate methods for aDNA data ([#366](https://github.com/humlab-sead/sead_change_control/issues/366)) ([3f5def4](https://github.com/humlab-sead/sead_change_control/commit/3f5def484a89fa85f926065ce6c184dc2e83af34))
+
 ## [1.7.0](https://github.com/humlab-sead/sead_change_control/compare/v1.6.0...v1.7.0) (2026-01-20)
 
 ### 🍕 Features
