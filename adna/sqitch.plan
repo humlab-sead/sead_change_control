@@ -9,3 +9,5 @@
 20250402_DML_ADNA_EXPLODE_ANALYSIS_VALUES 2025-04-02T10:16:06Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/372:  Explodes untyped analysis values to typed tables
 
 @2025.04 2025-04-24T10:53:00Z Roger Mähler <roger.mahler@umu.se> # 2025 April release
+
+20260201_DML_ADNA_ACCESSION_LINK 2026-02-01T12:41:49Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/395: Add aDNA accession type and link
