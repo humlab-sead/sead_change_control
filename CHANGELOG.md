@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.9.0](https://github.com/humlab-sead/sead_change_control/compare/v1.8.0...v1.9.0) (2026-02-01)
+
+### 🍕 Features
+
+* implement post-deploy hook for ancient DNA method and dataset updates ([43e60fd](https://github.com/humlab-sead/sead_change_control/commit/43e60fdada4d70e609d9e654bef23a32f2d677d7))
+
 ## [1.8.0](https://github.com/humlab-sead/sead_change_control/compare/v1.7.0...v1.8.0) (2026-02-01)
 
 ### 🍕 Features
