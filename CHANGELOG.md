@@ -4,6 +4,16 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.13.0](https://github.com/humlab-sead/sead_change_control/compare/v1.12.0...v1.13.0) (2026-02-10)
+
+### 🍕 Features
+
+* add February 2026 release entries to sqitch plans across multiple projects ([3536770](https://github.com/humlab-sead/sead_change_control/commit/35367704660adb8bfaca6365a5fb7618067dcdd0))
+
+### 🐛 Bug Fixes
+
+* correct command execution in tag_projects function and ensure strict error handling ([6e5a87c](https://github.com/humlab-sead/sead_change_control/commit/6e5a87c468a3f1e2cd5fc5f249ca8c2d822f8dbb))
+
 ## [1.12.0](https://github.com/humlab-sead/sead_change_control/compare/v1.11.0...v1.12.0) (2026-02-10)
 
 ### 🍕 Features
