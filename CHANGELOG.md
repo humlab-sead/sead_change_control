@@ -4,6 +4,13 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.10.0](https://github.com/humlab-sead/sead_change_control/compare/v1.9.0...v1.10.0) (2026-02-01)
+
+### 🍕 Features
+
+* add aDNA accession link deployment scripts ([#395](https://github.com/humlab-sead/sead_change_control/issues/395)) ([35030dc](https://github.com/humlab-sead/sead_change_control/commit/35030dcd629d5127d922429cebd38b8a05d74ed7))
+* enhance aDNA accession link script with distinct selection ([c37b855](https://github.com/humlab-sead/sead_change_control/commit/c37b855150a56ec71073ca5e07bd7454163e41b1))
+
 ## [1.9.0](https://github.com/humlab-sead/sead_change_control/compare/v1.8.0...v1.9.0) (2026-02-01)
 
 ### 🍕 Features
