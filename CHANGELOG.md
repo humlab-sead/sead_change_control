@@ -4,6 +4,13 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.12.0](https://github.com/humlab-sead/sead_change_control/compare/v1.11.0...v1.12.0) (2026-02-10)
+
+### 🍕 Features
+
+* add country codes to utility table ([e6d1cca](https://github.com/humlab-sead/sead_change_control/commit/e6d1ccaddc8b23e6b1d62ebba90a000ca94bb962))
+* add utility functions for singularization and entity name conversion, and create full-text search materialized view ([5c5b2de](https://github.com/humlab-sead/sead_change_control/commit/5c5b2dedaf98ac31c71a5b5b1f661209188d0fee))
+
 ## [1.11.0](https://github.com/humlab-sead/sead_change_control/compare/v1.10.0...v1.11.0) (2026-02-10)
 
 ### 🍕 Features
