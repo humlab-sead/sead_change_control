@@ -4,6 +4,15 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.11.0](https://github.com/humlab-sead/sead_change_control/compare/v1.10.0...v1.11.0) (2026-02-10)
+
+### 🍕 Features
+
+* add project review document for SEAD Change Control System ([16eb89f](https://github.com/humlab-sead/sead_change_control/commit/16eb89f542a0c0d32b3005d321df20e7f972a6ca))
+* add script to update repository topics with a specified topic ([f224f61](https://github.com/humlab-sead/sead_change_control/commit/f224f61a4daa878c08b22aabe5126ceedd8f802c))
+* add SQLFluff configuration for consistent SQL formatting ([b20658a](https://github.com/humlab-sead/sead_change_control/commit/b20658a066f59e8fa3bef4d940900076fd1867a0))
+* iniial commit for radiocarbon pilot data ([59194bd](https://github.com/humlab-sead/sead_change_control/commit/59194bdb0f38804c8719420f793c3458df38c1bb))
+
 ## [1.10.0](https://github.com/humlab-sead/sead_change_control/compare/v1.9.0...v1.10.0) (2026-02-01)
 
 ### 🍕 Features
