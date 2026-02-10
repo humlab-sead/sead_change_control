@@ -1,10 +1,11 @@
 #!/bin/bash
 
+set -euo pipefail
+
 g_tag=
 g_note=
 g_ignore_git=NO
-
-log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${g_target_name}_${g_source_type}.log"
+g_projects_file="projects.txt"
 
 usage_message=$(cat <<EOF
 usage: tag-projects OPTIONS...
@@ -98,7 +99,7 @@ function tag_projects()
     local projects=$(grep -v '^#' $g_projects_file | grep -v '^[[:space:]]*$')
 
     for project in $projects; do
-        echo sqitch sqitch tag --tag "$tag" --note "$note" --plan-file ./$project/sqitch.plan
+        sqitch tag --tag "$tag" --note "$note" --plan-file ./$project/sqitch.plan
     done
 }
 
