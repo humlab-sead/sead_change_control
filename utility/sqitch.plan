@@ -37,3 +37,5 @@
 @2024.12 2024-11-29T12:00:00Z Roger Mähler <roger.mahler@umu.se> # 2024 December release
 
 @2025.02 2025-01-29T12:00:00Z Roger Mähler <roger.mahler@umu.se> # 2025 February release
+
+20250526_COUNTRY_CODES 2025-05-26T14:43:32Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/383: Country codes https://r2.datahub.io/clt98ab600006l708tkbrtzel/main/raw/data.csv
