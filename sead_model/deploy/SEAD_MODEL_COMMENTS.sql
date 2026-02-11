@@ -1,25 +1,23 @@
--- Deploy sead_model: SEAD_DATABASE_MODEL
+-- Deploy ./sead_model: SEAD_MODEL_COMMENTS
+
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2023-12-20
-  Description   SEAD database model (public schema)
-  Issue         https://github.com/humlab-sead/sead_change_control/issues/217
+  Date          2019-01-01
+  Description   Add comments on tables and columns
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/411
   Prerequisites 
   Reviewer      
   Approver      
   Idempotent    Yes
-  Notes         The model is based on the SEAD database sead_master_9
+  Notes
 *****************************************************************************************************************/
+
 
 set client_encoding = 'UTF8';
 set standard_conforming_strings = on;
 set client_min_messages = error;
 
-create extension if not exists postgis;
-
 set role sead_master;
-
-create schema if not exists public;
 
 comment on schema public is 'standard public schema';
 
@@ -27,11 +25,7 @@ comment on schema public is 'standard public schema';
 \cd /repo/sead_model/deploy
 begin;
 
-
-\i SEAD_DATABASE_MODEL/tables.sql;
-\i SEAD_DATABASE_MODEL/foreignkeys.sql;
-\i SEAD_DATABASE_MODEL/indexes.sql;
-\i SEAD_DATABASE_MODEL/grants.sql;
+\i SEAD_DATABASE_COMMENTS/comments.sql;
 
 commit;
 
