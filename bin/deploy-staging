@@ -357,14 +357,14 @@ function setup_credentials()
         usage "username not specified"
     fi
 
-    if [ "$SQITCH_PASSWORD" == "" ]; then
-        if [ -f "${DOT_SQITCH_FILE}" ]; then
-            verbose "using credentials found in vault"
-            source "${DOT_SQITCH_FILE}"
-        else
-            usage "password not specified (SQITCH_PASSWORD not defined and ${DOT_SQITCH_FILE} not found)"
-        fi
-    fi
+    # if [ "$SQITCH_PASSWORD" == "" ]; then
+    #     if [ -f "${DOT_SQITCH_FILE}" ]; then
+    #         verbose "using credentials found in vault"
+    #         source "${DOT_SQITCH_FILE}"
+    #     else
+    #         usage "password not specified (SQITCH_PASSWORD not defined and ${DOT_SQITCH_FILE} not found)"
+    #     fi
+    # fi
 }
 
 function execute_sql() {
