@@ -4,6 +4,13 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.13.1](https://github.com/humlab-sead/sead_change_control/compare/v1.13.0...v1.13.1) (2026-02-11)
+
+### 🐛 Bug Fixes
+
+* disable password (assume .pgpass) ([d292d8a](https://github.com/humlab-sead/sead_change_control/commit/d292d8ab9fc62dd614194419f83c2ff8f85f95a2))
+* moved load of comments away from SEAD model ([#441](https://github.com/humlab-sead/sead_change_control/issues/441)) ([b1d92be](https://github.com/humlab-sead/sead_change_control/commit/b1d92be5676c898e760f4ae55b2b94abeed0680a))
+
 ## [1.13.0](https://github.com/humlab-sead/sead_change_control/compare/v1.12.0...v1.13.0) (2026-02-10)
 
 ### 🍕 Features
