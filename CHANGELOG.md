@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.14.1](https://github.com/humlab-sead/sead_change_control/compare/v1.14.0...v1.14.1) (2026-02-12)
+
+### 🐛 Bug Fixes
+
+* update comments and formatting in property value tables SQL script ([241e1ca](https://github.com/humlab-sead/sead_change_control/commit/241e1ca6afbe357a5945d8c1c29052c9e87c14bd))
+
 ## [1.14.0](https://github.com/humlab-sead/sead_change_control/compare/v1.13.2...v1.14.0) (2026-02-12)
 
 ### 🍕 Features
