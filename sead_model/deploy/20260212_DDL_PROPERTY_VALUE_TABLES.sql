@@ -27,11 +27,13 @@ begin;
         "value_class_id" int null references tbl_value_classes("value_class_id") on delete cascade
     );
 
+    -- serialized value stored as text, can be deserialized based on the property type
+
     create table tbl_site_properties (
         "site_property_id" serial primary key,
         "site_id" integer not null references tbl_sites("site_id") on delete cascade,
         "property_type_id" int not null references tbl_property_types("property_type_id") on delete cascade,
-        "property_value" text not null -- serialized value stored as text, can be deserialized based on the property type
+        "property_value" text not null 
     );
 
 
@@ -39,7 +41,14 @@ begin;
         "abundance_property_id" serial primary key,
         "abundance_id" integer not null references tbl_abundances("abundance_id") on delete cascade,
         "property_type_id" int not null references tbl_property_types("property_type_id") on delete cascade,
-        "property_value" text not null -- serialized value stored as text, can be deserialized based on the property type
+        "property_value" text not null
+    );
+
+    create table tbl_feature_properties (
+        "feature_property_id" serial primary key,
+        "feature_id" integer not null references tbl_features("feature_id") on delete cascade,
+        "property_type_id" int not null references tbl_property_types("property_type_id") on delete cascade,
+        "property_value" text not null 
     );
 
 commit;
