@@ -29,5 +29,9 @@ SEAD_DATABASE_LOOKUPS 2023-12-20T20:33:57Z Roger Mähler <roger.mahler@umu.se> #
 
 20251120_DDL_SITE_TYPES 2025-11-20T15:23:36Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/403: Add tables for storing site types
 
+20260212_DDL_PROPERTY_VALUE_TABLES 2026-02-12T19:11:08Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/412: New tables for storing generic key-value properties
+
 SEAD_MODEL_COMMENTS 2026-02-11T07:53:57Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/411: Add comments on tables and columns
+
 @2026.02 2026-02-10T13:49:41Z Roger Mähler <roger.mahler@umu.se> # February
+
