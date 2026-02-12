@@ -23,6 +23,6 @@ create table sead_utility.country_codes (
 
 \cd /repo/utility/deploy
 
-\copy sead_utility.country_codes (name, code) from '20250526_COUNTRY_CODES/country_codes.csv' with (HEADER, FORMAT text, DELIMITER E',', ENCODING 'utf-8');
+\copy sead_utility.country_codes (name, code) from '20250526_COUNTRY_CODES/country_codes.csv' with (FORMAT csv, HEADER, ENCODING 'utf-8');
 
 commit;

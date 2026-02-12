@@ -25,7 +25,7 @@ comment on schema public is 'standard public schema';
 \cd /repo/sead_model/deploy
 begin;
 
-\i SEAD_DATABASE_COMMENTS/comments.sql;
+\i SEAD_MODEL_COMMENTS/comments.sql;
 
 commit;
 
