@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.14.0](https://github.com/humlab-sead/sead_change_control/compare/v1.13.2...v1.14.0) (2026-02-12)
+
+### 🍕 Features
+
+* add new tables for storing generic key-value properties ([#412](https://github.com/humlab-sead/sead_change_control/issues/412)) ([86d426a](https://github.com/humlab-sead/sead_change_control/commit/86d426a72230fec20f098a5758e6948d5ec70e70))
+
 ## [1.13.2](https://github.com/humlab-sead/sead_change_control/compare/v1.13.1...v1.13.2) (2026-02-12)
 
 ### 🐛 Bug Fixes
