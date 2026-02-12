@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.13.2](https://github.com/humlab-sead/sead_change_control/compare/v1.13.1...v1.13.2) (2026-02-12)
+
+### 🐛 Bug Fixes
+
+* correct SQL file references in SEAD_MODEL_COMMENTS and COUNTRY_CODES scripts ([8a4b71c](https://github.com/humlab-sead/sead_change_control/commit/8a4b71ccb63fa91335b30c9893d92b48564466b5))
+
 ## [1.13.1](https://github.com/humlab-sead/sead_change_control/compare/v1.13.0...v1.13.1) (2026-02-11)
 
 ### 🐛 Bug Fixes
