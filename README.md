@@ -1,6 +1,6 @@
 # SEAD Change Control System
 
-Sensible SEAD change control system (CCS) using [Sqitch](https://sqitch.org/).
+Sensible SEAD change control system (CCS) using [Sqitch](https://sqitch.org/). Issues for data and lookup data here.
 
 ## Install (or update) Sqitch
 
