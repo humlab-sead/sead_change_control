@@ -54,3 +54,5 @@
 
 @2025.04 2025-01-29T12:00:00Z Roger Mähler <roger.mahler@umu.se> # 2025 April release
 @2026.02 2026-02-10T13:49:47Z Roger Mähler <roger.mahler@umu.se> # February
+
+20260327_DML_FIX_DATASET_METHODS_FACET 2026-03-27T08:16:32Z Johan von Boer <johan.von.boer@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/423: Fix dataset_methods facet (facet_id=39): remove deprecated tbl_dataset_methods entry and promote tbl_methods as TargetTable
