@@ -54,3 +54,5 @@
 
 @2025.04 2025-01-29T12:00:00Z Roger Mähler <roger.mahler@umu.se> # 2025 April release
 @2026.02 2026-02-10T13:49:47Z Roger Mähler <roger.mahler@umu.se> # February
+
+20260331_DML_DATASETS_FACET 2026-03-31T13:57:05Z Johan von Boer <johan.von.boer@umu.se> # local-only: Add datasets facet from tbl_datasets as domain filter
