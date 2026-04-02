@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.15.1](https://github.com/humlab-sead/sead_change_control/compare/v1.15.0...v1.15.1) (2026-04-02)
+
+### 🐛 Bug Fixes
+
+* **facet:** align analysis_entity_ages overlap with BP ranges ([a063e9a](https://github.com/humlab-sead/sead_change_control/commit/a063e9a7cf7e14d0f4d8eb4405106a4565d880d9))
+
 ## [1.15.0](https://github.com/humlab-sead/sead_change_control/compare/v1.14.1...v1.15.0) (2026-03-27)
 
 ### 🍕 Features
