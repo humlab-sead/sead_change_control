@@ -56,3 +56,4 @@
 @2026.02 2026-02-10T13:49:47Z Roger Mähler <roger.mahler@umu.se> # February
 
 20260331_DML_DATASETS_FACET 2026-03-31T13:57:05Z Johan von Boer <johan.von.boer@umu.se> # local-only: Add datasets facet from tbl_datasets as domain filter
+20260402_DML_ANALYSIS_ENTITY_AGES_BP_OVERLAP_FIX 2026-04-02T08:56:29Z Roger Mähler <roger.mahler@umu.se> # local-only: Align analysis_entity_ages facet range semantics with BP overlap expectations
