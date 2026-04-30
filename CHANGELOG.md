@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.15.2](https://github.com/humlab-sead/sead_change_control/compare/v1.15.1...v1.15.2) (2026-04-30)
+
+### 🐛 Bug Fixes
+
+* resolve submission command path in hook scripts ([f926a75](https://github.com/humlab-sead/sead_change_control/commit/f926a750b90dee2f519a21cae4b3f1390f49117b))
+
 ## [1.15.1](https://github.com/humlab-sead/sead_change_control/compare/v1.15.0...v1.15.1) (2026-04-02)
 
 ### 🐛 Bug Fixes
