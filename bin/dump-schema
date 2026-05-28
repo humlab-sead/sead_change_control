@@ -1,0 +1,209 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# -----------------------------------------------------------------------------
+# pg_split_ddl.sh
+#
+# Generate schema-only PostgreSQL DDL split into distinct SQL files:
+#   01_tables.sql
+#   02_views.sql
+#   03_functions.sql
+#   04_sequences.sql
+#   05_constraints.sql
+#   06_indexes.sql
+#   07_comments.sql
+#
+# Uses pg_dump (custom format) + pg_restore TOC slicing.
+#
+# Usage:
+#   ./pg_split_ddl.sh -d DB -s SCHEMA -U USER -h HOST -p PORT [-o OUTPUT_DIR]
+#
+# Notes:
+# - Prompts for password if needed (PGPASSWORD / .pgpass also works).
+# - Filters are TOC-based; if your Postgres version labels differ,
+#   inspect toc.list and tweak the grep patterns below.
+# -----------------------------------------------------------------------------
+
+usage() {
+  cat <<'EOF'
+Usage:
+  pg_split_ddl.sh -d DB -s SCHEMA -U USER -h HOST -p PORT [-o OUTPUT_DIR]
+
+Args:
+  --database|-d DB        Database name
+  --schema|-s SCHEMA      Schema name (e.g. public)
+  --user|-U USER          Username
+  --host|-h HOST          Host
+  --port|-p PORT          Port
+  --output|-o OUTPUT_DIR  Output directory (default: ./ddl_<db>_<schema>_<timestamp>)
+  --dry-run|-n            Dry-run (print commands only)
+  --help|-?               Help
+
+Environment:
+  PGPASSWORD can be set, or use ~/.pgpass, or you'll be prompted by libpq.
+
+Example:
+  ./dump-schema -d sead -s public -U roger -h localhost -p 5432
+EOF
+}
+
+PG_RESTORE=/home/linuxbrew/.linuxbrew/Cellar/libpq/18.1/bin/pg_restore
+PG_DUMP=/home/linuxbrew/.linuxbrew/Cellar/libpq/18.1/bin/pg_dump
+
+g_database=sead_staging
+g_schema=public
+g_host=$(dnsdomainname -A)
+g_port=5433
+g_user=
+g_dryrun=0
+g_output_dir=./tmp/output
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        --database|-d)
+            g_database="$2"; shift 2;
+        ;;
+        --schema|-s)
+            g_schema="$2"; shift 2;
+        ;;
+        --port|-p)
+            g_port="$2"; shift 2;
+        ;;
+        --user|-U)
+            g_user="$2"; shift 2;
+        ;;
+        --host|-h)
+            g_host="$2"; shift 2;
+        ;;
+        --output|-o)
+            g_output_dir="$2"; shift 2;
+        ;;
+        --dry-run|-n)
+            g_dryrun=1; shift
+        ;;
+        --help|-\?)
+            usage
+            exit 0
+        ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}"
+
+if [[ -z "$g_database" || -z "$g_schema" || -z "$g_user" || -z "$g_host" || -z "$g_port" ]]; then
+  echo "Error: Missing required arguments." >&2
+  usage
+  exit 2
+fi
+
+ts="$(date +%Y%m%d_%H%M%S)"
+if [[ -z "$g_output_dir" ]]; then
+  g_output_dir="./ddl_${g_database}_${g_schema}_${ts}"
+fi
+
+run() {
+  if [[ "$g_dryrun" -eq 1 ]]; then
+    printf '[dry-run] %q ' "$@"
+    printf '\n'
+  else
+    "$@"
+  fi
+}
+
+need_cmds() {
+    for cmd in "$@"; do
+        if ! command -v "$cmd" >/dev/null 2>&1; then
+            echo "Error: Required command not found: $cmd" >&2
+            exit 127
+        fi
+    done
+}
+
+need_cmds "$PG_DUMP" "$PG_RESTORE" grep mkdir date
+
+mkdir -p "$g_output_dir"
+
+g_dump_file="${g_output_dir}/schema.dump"
+g_toc_file="${g_output_dir}/toc.list"
+
+echo "Output dir: $g_output_dir"
+echo "Dump file:   $g_dump_file"
+
+# Connection flags (libpq)
+CONN=(-h "$g_host" -p "$g_port" -U "$g_user" -d "$g_database")
+
+# 1) Create custom-format schema-only dump for the given schema
+run "$PG_DUMP" "${CONN[@]}" \
+  -Fc --schema-only \
+  --schema="$g_schema" \
+  --no-owner --no-privileges \
+  -f "$g_dump_file"
+
+# 2) Get TOC list
+run "$PG_RESTORE" -l "$g_dump_file" > "$g_toc_file"
+
+# Helper: generate list file by grep pattern
+make_list() {
+  local name="$1"
+  local pattern="$2"
+  local outfile="${g_output_dir}/${name}.list"
+
+  if [[ "$g_dryrun" -eq 1 ]]; then
+    echo "[dry-run] grep -E '$pattern' '$g_toc_file' > '$outfile'"
+    return 0
+  fi
+
+  # Keep lines that are actual items (avoid comments starting with ';')
+  grep -E "$pattern" "$g_toc_file" | grep -vE '^[[:space:]]*;' > "$outfile" || true
+}
+
+# 3) Build category list files (edit patterns if needed for your Postgres version)
+make_list "tables"      '[[:space:]]TABLE[[:space:]]'
+make_list "views"       '[[:space:]](VIEW|MATERIALIZED VIEW)[[:space:]]'
+make_list "functions"   '[[:space:]]FUNCTION[[:space:]]'
+make_list "sequences"   '[[:space:]]SEQUENCE[[:space:]]'
+make_list "constraints" '[[:space:]]CONSTRAINT[[:space:]]'
+make_list "indexes"     '[[:space:]]INDEX[[:space:]]'
+make_list "comments"    '[[:space:]]COMMENT[[:space:]]'
+
+# Helper: restore from list file to SQL, only if list has content
+restore_if_nonempty() {
+  local listname="$1"
+  local sqlname="$2"
+
+  local listfile="${g_output_dir}/${listname}.list"
+  local sqlfile="${g_output_dir}/${sqlname}"
+
+  if [[ "$g_dryrun" -eq 1 ]]; then
+    echo "[dry-run] if nonempty: pg_restore -f '$sqlfile' -L '$listfile' '$g_dump_file'"
+    return 0
+  fi
+
+  if [[ ! -s "$listfile" ]]; then
+    echo "Skip ${sqlname} (no TOC items matched for ${listname})"
+    : > "$sqlfile"
+    return 0
+  fi
+
+  "$PG_RESTORE" -f "$sqlfile" -L "$listfile" "$g_dump_file"
+}
+
+# 4) Emit SQL files in dependency-friendly order
+restore_if_nonempty "tables"      "01_tables.sql"
+restore_if_nonempty "sequences"   "02_sequences.sql"
+restore_if_nonempty "functions"   "03_functions.sql"
+restore_if_nonempty "views"       "04_views.sql"
+restore_if_nonempty "constraints" "05_constraints.sql"
+restore_if_nonempty "indexes"     "06_indexes.sql"
+restore_if_nonempty "comments"    "07_comments.sql"
+
+echo "Done."
+echo "Generated:"
+ls -1 "$g_output_dir" | sed 's/^/  - /'
