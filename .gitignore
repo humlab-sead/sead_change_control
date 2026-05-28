@@ -128,3 +128,4 @@ node_modules
 nx*
 .vscode/mcp.json
 nohup.out
+transfer_database
