@@ -15,6 +15,11 @@ export PGCLIENTENCODING=UTF8
 unset PAGER
 
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+repo_root=$(realpath "$script_dir/..")
+
+# Make repository helper scripts (e.g. bin/submission) available for hook scripts
+# that invoke them by command name.
+export PATH="$repo_root/bin:$PATH"
 
 DEFAULT_SOURCE_DB_NAME=sead_master_9
 DEFAULT_SOURCE_DUMP_FILE="./starting_point/sead_master_9_public.sql.gz"
@@ -691,7 +696,7 @@ function deploy_to_tag()
                 local cr_post_deploy_hook="${sqitch_project}/deploy/${cr}/${cr}-post-deploy-hook"
                 if [ -f "$cr_post_deploy_hook" ]; then
                     info "${BLUE}running ${cr_post_deploy_hook} $target_uri${RESET}"
-                    ${cr_post_deploy_hook} "$target_uri" "$(realpath .)"
+                    ${cr_post_deploy_hook} "$target_uri" "$repo_root"
                 fi
             done <<< "$deployed_crs"
 
@@ -838,4 +843,3 @@ else
     fi
     deploy_to_tag $g_target_name $g_target_tag $g_source_type
 fi
-

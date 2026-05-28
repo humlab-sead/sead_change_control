@@ -396,7 +396,15 @@ fi
 folder=$root_folder/subsystem/deploy/clearinghouse-data/$cr_name
 
 if [ -d "$folder" ]; then
-    submission --mode restore --target-uri $target_uri --id $cr_name --target-id next --folder $folder --force
+    submission_cmd="$root_folder/bin/submission"
+    if [ ! -x "$submission_cmd" ]; then
+        submission_cmd=$(command -v submission || true)
+    fi
+    if [ "$submission_cmd" == "" ]; then
+        echo "error: submission command not found (expected $root_folder/bin/submission or PATH)" >&2
+        exit 127
+    fi
+    "$submission_cmd" --mode restore --target-uri $target_uri --id $cr_name --target-id next --folder $folder --force
 else
     echo "warning: no data folder found for CR $cr_name"
 fi

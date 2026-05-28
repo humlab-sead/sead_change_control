@@ -1,6 +1,6 @@
 # SEAD Change Control System
 
-SEAD Change Control System (CCS) uses [Sqitch](https://sqitch.org/) to manage forward-only database changes across SEAD projects. This repository is the operational and historical source of truth for change requests, project plan history, release tags, and staging deployment workflows.
+Sensible SEAD change control system (CCS) using [Sqitch](https://sqitch.org/). Issues for data and lookup data here.
 
 ## Documentation
 

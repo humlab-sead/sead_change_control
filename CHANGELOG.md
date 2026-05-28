@@ -4,6 +4,24 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.15.2](https://github.com/humlab-sead/sead_change_control/compare/v1.15.1...v1.15.2) (2026-04-30)
+
+### 🐛 Bug Fixes
+
+* resolve submission command path in hook scripts ([f926a75](https://github.com/humlab-sead/sead_change_control/commit/f926a750b90dee2f519a21cae4b3f1390f49117b))
+
+## [1.15.1](https://github.com/humlab-sead/sead_change_control/compare/v1.15.0...v1.15.1) (2026-04-02)
+
+### 🐛 Bug Fixes
+
+* **facet:** align analysis_entity_ages overlap with BP ranges ([a063e9a](https://github.com/humlab-sead/sead_change_control/commit/a063e9a7cf7e14d0f4d8eb4405106a4565d880d9))
+
+## [1.15.0](https://github.com/humlab-sead/sead_change_control/compare/v1.14.1...v1.15.0) (2026-03-27)
+
+### 🍕 Features
+
+* update method descriptions and abbreviations in tbl_methods based on input from Johan Linderholm ([9609e68](https://github.com/humlab-sead/sead_change_control/commit/9609e688d4d62b4f2c244aa4e49b457a54f5b7f7))
+
 ## [1.14.1](https://github.com/humlab-sead/sead_change_control/compare/v1.14.0...v1.14.1) (2026-02-12)
 
 ### 🐛 Bug Fixes
