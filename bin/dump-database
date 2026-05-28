@@ -76,6 +76,9 @@ do
         --no-bare)
             g_bare="NO"; shift
         ;;
+        --help|-\?)
+            usage
+        ;;
         *)
             POSITIONAL+=("$1")
             shift
