@@ -127,3 +127,4 @@ node_modules
 .nx/workspace-data
 nx*
 .vscode/mcp.json
+nohup.out
