@@ -4,6 +4,20 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.16.0](https://github.com/humlab-sead/sead_change_control/compare/v1.15.2...v1.16.0) (2026-05-28)
+
+### 🍕 Features
+
+* add database dump and restore scripts ([aa3aba2](https://github.com/humlab-sead/sead_change_control/commit/aa3aba2872ce9f2f210cca93edcdf31f53aac133))
+* add help option to dump-database script ([de4dc73](https://github.com/humlab-sead/sead_change_control/commit/de4dc73753837192b2c3d821445fa5c02ee5700b))
+* add proposal template for design proposals ([37c5671](https://github.com/humlab-sead/sead_change_control/commit/37c5671db906af6e1975dc0885238d916776392b))
+* implement schema dump script with PostgreSQL DDL generation ([33f9a01](https://github.com/humlab-sead/sead_change_control/commit/33f9a012ca518450eddf777e7c5804440a5d1ef7))
+
+### 📝 Documentation
+
+* **ai:** add scoped repo instructions ([1394bda](https://github.com/humlab-sead/sead_change_control/commit/1394bda64e493d506671729d74132b2f1877bfb9))
+* add system documentation set ([0618188](https://github.com/humlab-sead/sead_change_control/commit/0618188d016a2d8f73785100b2ea878c3725e236))
+
 ## [1.15.2](https://github.com/humlab-sead/sead_change_control/compare/v1.15.1...v1.15.2) (2026-04-30)
 
 ### 🐛 Bug Fixes
