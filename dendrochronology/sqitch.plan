@@ -36,3 +36,5 @@
 @2026.04 2026-04-02T11:00:38Z Johan von Boer <johan.von.boer@umu.se> # April
 
 20241213_DML_LUND_LIVING_TREES_COMMIT 2025-03-06T13:13:29Z Roger Mähler <roger.mahler@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/332: Data from living trees from the Lund dendro lab
+20250107_DML_LUND_ARCHAELOGICAL_DATA_20200630_COMMIT 2026-09-03T11:27:43Z Johan von Boer <johan.von.boer@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/341: This dataset is the 20200630 submission of archaeological data from the Lund dendro lab. The pilot data from the VISEAD project is not part of this import.
+20260101_DML_GBG_STH_LIVING_TREES_COMMIT 2026-09-03T11:16:33Z Johan von Boer <johan.von.boer@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/339: This data submission holds the dendrochronological data from living trees at the Gothenburg and Stockholm labs.
