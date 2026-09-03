@@ -4,6 +4,22 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.17.0](https://github.com/humlab-sead/sead_change_control/compare/v1.16.0...v1.17.0) (2026-09-03)
+
+### 🍕 Features
+
+* added ai coding assistent skills ([916c810](https://github.com/humlab-sead/sead_change_control/commit/916c8109c4d3002e3b2a9132d9c2732a3a9ee73c))
+* added Github listing script ([0eba12f](https://github.com/humlab-sead/sead_change_control/commit/0eba12fa9189d22027ee660610d573c4d9e763ab))
+* added placeholder CRs for Glykou et.al. 2021 data ([2451251](https://github.com/humlab-sead/sead_change_control/commit/2451251fe2ae2e499f5650625609705320357457))
+* added placeholder CRs for new dendro submissions ([eb7cffd](https://github.com/humlab-sead/sead_change_control/commit/eb7cffd915edaa682f12a5b80c6424dac9ef008d))
+* added restore db script ([399e48a](https://github.com/humlab-sead/sead_change_control/commit/399e48ae1d6a024695749cd46774621a60b6fb6d))
+* improved copy-table script ([b83ee0f](https://github.com/humlab-sead/sead_change_control/commit/b83ee0f70446a69f18cb62dab37258ff74740f8b))
+
+### 📝 Documentation
+
+* enhance clarity and consistency across multiple documentation files ([80c9bc8](https://github.com/humlab-sead/sead_change_control/commit/80c9bc83b834c66fcd40896e7e8a37759d3d1c5e))
+* refine language and clarity in ARCHITECTURE.md ([457d52c](https://github.com/humlab-sead/sead_change_control/commit/457d52c8abda67fc06b1e52699e699d737b7fe0a))
+
 ## [1.16.0](https://github.com/humlab-sead/sead_change_control/compare/v1.15.2...v1.16.0) (2026-05-28)
 
 ### 🍕 Features
