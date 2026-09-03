@@ -4,6 +4,13 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.18.0](https://github.com/humlab-sead/sead_change_control/compare/v1.17.0...v1.18.0) (2026-09-03)
+
+### 🍕 Features
+
+* added skills proposal ([ffea019](https://github.com/humlab-sead/sead_change_control/commit/ffea01968151650d4a281ec7b6e791fb30c9885d))
+* remove obsolete restore-db script ([a1210f7](https://github.com/humlab-sead/sead_change_control/commit/a1210f77616f5692683370380a56b3ac4401c1b5))
+
 ## [1.17.0](https://github.com/humlab-sead/sead_change_control/compare/v1.16.0...v1.17.0) (2026-09-03)
 
 ### 🍕 Features
