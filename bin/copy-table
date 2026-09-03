@@ -1,120 +1,409 @@
 #!/bin/bash
 ##################################################################################################################
-# This script copies a table from one database to another
+# Copy a PostgreSQL table between databases, optionally using a different
+# schema/table name in the target database.
+#
+# Workflow:
+#   1. Generate CREATE TABLE DDL from source database
+#   2. Rewrite source schema/table to target schema/table
+#   3. Export source table data to CSV
+#   4. Create target table
+#   5. Import CSV data into target table
+#
+# An existing table having the SOURCE table name in the target database
+# is never touched unless source and target names are explicitly identical.
 ##################################################################################################################
 
-set -e
+set -euo pipefail
 
 export PGCLIENTENCODING=UTF8
+
+##################################################################################################################
+# Defaults / PostgreSQL CLI options
+##################################################################################################################
 
 dothostfile=~/vault/.default.sead.server
 dotuserfile=~/vault/.default.sead.username
 
 g_host=$(dnsdomainname -A)
+g_port=5433
+g_user=
 
-g_target_database=
-g_target_schema=
 g_source_database=
+g_source_schema=public
 g_source_table=
 
+g_target_database=
+g_target_schema=public
+g_target_table=
+
 if [[ -f "$dothostfile" ]]; then
-    g_host=`cat $dothostfile`
+    g_host=$(cat "$dothostfile")
 fi
+
 if [[ -f "$dotuserfile" ]]; then
-    g_user=`cat $dotuserfile`
+    g_user=$(cat "$dotuserfile")
 fi
+
+
+##################################################################################################################
+# Usage
+##################################################################################################################
 
 usage_message=$(cat <<EOF
-usage: deploy_staging OPTIONS...
+usage: copy_table OPTIONS...
 
-    --host SERVERNAME               Target server (${g_host})
-    --user USERNAME                 User on target server (${g_user})
-    --target-database DBNAME        Target database name. Mandatory.
-    --source-database DBNAME        Name of source database
-    --source-table DBNAME           Name of source table
+    --host SERVERNAME               Database server (${g_host})
+    --port PORTNUMBER               Database server port (${g_port})
+    --user USERNAME                 Database user (${g_user})
+
+    --source-database DBNAME        Source database. Mandatory.
+    --source-schema SCHEMA          Source schema (default: public)
+    --source-table TABLE            Source table. Mandatory.
+
+    --target-database DBNAME        Target database. Mandatory.
+    --target-schema SCHEMA          Target schema (default: public)
+    --target-table TABLE            Target table name.
+                                    Defaults to source table name.
 
 EOF
 )
-
-POSITIONAL=()
-while [[ $# -gt 0 ]]
-do
-    key="$1"
-
-    case $key in
-        --host)
-            g_host="$2"; shift; shift
-        ;;
-        --user)
-            g_user="$2"; shift; shift
-        ;;
-        --target-database)
-            g_target_database="$2"; shift; shift
-        ;;
-        --source-database)
-            g_source_database="$2";
-            shift; shift
-        ;;
-        --source-table)
-            g_source_table="$2";
-            shift; shift
-        ;;
-        --target-schema)
-            g_target_schema="$2";
-            shift; shift
-        ;;
-        *)
-            POSITIONAL+=("$1") # save it in an array for later
-            shift
-        ;;
-    esac
-done
 
 function usage() {
     echo "$usage_message"
 }
 
-set -- "${POSITIONAL[@]}" # restore positional parameters
 
-if [ "${g_source_database}" == "" ]; then
-    echo "error: source database name not specified"
+##################################################################################################################
+# Parse arguments
+##################################################################################################################
+
+POSITIONAL=()
+
+while [[ $# -gt 0 ]]; do
+    key="$1"
+
+    case "$key" in
+        --host)
+            g_host="$2"
+            shift 2
+            ;;
+        --port)
+            g_port="$2"
+            shift 2
+            ;;
+        --user)
+            g_user="$2"
+            shift 2
+            ;;
+        --source-database)
+            g_source_database="$2"
+            shift 2
+            ;;
+        --source-schema)
+            g_source_schema="$2"
+            shift 2
+            ;;
+        --source-table)
+            g_source_table="$2"
+            shift 2
+            ;;
+        --target-database)
+            g_target_database="$2"
+            shift 2
+            ;;
+        --target-schema)
+            g_target_schema="$2"
+            shift 2
+            ;;
+        --target-table)
+            g_target_table="$2"
+            shift 2
+            ;;
+        --help|-h)
+            usage
+            exit 0
+            ;;
+        *)
+            POSITIONAL+=("$1")
+            shift
+            ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}"
+
+
+##################################################################################################################
+# Validate arguments
+##################################################################################################################
+
+if [[ -z "$g_source_database" ]]; then
+    echo "error: source database name not specified" >&2
     usage
     exit 64
 fi
 
-if [ "${g_source_table}" == "" ]; then
-    echo "error: source table name not specified"
+if [[ -z "$g_source_table" ]]; then
+    echo "error: source table name not specified" >&2
     usage
     exit 64
 fi
 
-if [ "${g_target_database}"  == "" ]; then
-    echo "error: target ${g_target_database} not specified"
+if [[ -z "$g_target_database" ]]; then
+    echo "error: target database name not specified" >&2
     usage
     exit 64
 fi
 
-echo "info: copying table ${g_source_table} from ${g_source_database} into ${g_target_database}...";
+if [[ -z "$g_target_table" ]]; then
+    g_target_table="$g_source_table"
+fi
+
+
+##################################################################################################################
+# Common command-line options
+##################################################################################################################
+
+PSQL_OPTIONS=(
+    --host="$g_host"
+    --port="$g_port"
+    --username="$g_user"
+    --no-password
+    -v ON_ERROR_STOP=1
+)
+
+PG_DUMP_OPTIONS=(
+    --host="$g_host"
+    --port="$g_port"
+    --username="$g_user"
+    --no-password
+)
+
+
+##################################################################################################################
+# Helper functions
+##################################################################################################################
 
 function dbexec() {
-    p_db=$1
-    p_sql=$2
-    psql -v ON_ERROR_STOP=1 --host=$g_host --username=$g_user --no-password --dbname=$p_db --command "$p_sql"
-    if [ $? -ne 0 ];  then
-        echo "fatal: psql command failed! Deploy aborted." >&2
-        exit 64
-    fi
+    local database="$1"
+    local sql="$2"
+
+    psql \
+        "${PSQL_OPTIONS[@]}" \
+        --dbname="$database" \
+        --command="$sql"
 }
 
-dbexec $g_target_database "drop table if exists \"$g_source_table\";"
 
-pg_dump --host=$g_host --username=$g_user --dbname=$g_source_database --quote-all-identifiers --no-tablespaces --table=\"$g_source_table\" \
-    | psql  --host=$g_host --username=$g_user --dbname=$g_target_database
+function table_exists() {
+    local database="$1"
+    local schema="$2"
+    local table="$3"
 
-if [ "$g_target_schema" != "" ]; then
+    local result
 
-    dbexec $g_target_database "create schema if not exists $g_target_schema;"
-    dbexec $g_target_database "drop table if exists $g_target_schema.\"$g_source_table\";"
-    dbexec $g_target_database "alter table \"$g_source_table\" set schema $g_target_schema ;"
+    result=$(
+        psql \
+            "${PSQL_OPTIONS[@]}" \
+            --dbname="$database" \
+            --tuples-only \
+            --no-align \
+            --command="
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM pg_catalog.pg_class c
+                    JOIN pg_catalog.pg_namespace n
+                      ON n.oid = c.relnamespace
+                    WHERE n.nspname = '$schema'
+                      AND c.relname = '$table'
+                      AND c.relkind IN ('r', 'p')
+                );
+            "
+    )
 
+    [[ "$result" == "t" ]]
+}
+
+
+##################################################################################################################
+# Temporary files
+##################################################################################################################
+
+TMP_DIR=$(mktemp -d)
+RAW_DDL_FILE="$TMP_DIR/source-ddl.sql"
+CREATE_DDL_FILE="$TMP_DIR/create-table.sql"
+TARGET_DDL_FILE="$TMP_DIR/target-ddl.sql"
+CSV_FILE="$TMP_DIR/data.csv"
+
+function cleanup() {
+    rm -rf "$TMP_DIR"
+}
+
+trap cleanup EXIT
+
+
+##################################################################################################################
+# Information
+##################################################################################################################
+
+echo "info: source: ${g_source_database}.${g_source_schema}.${g_source_table}"
+echo "info: target: ${g_target_database}.${g_target_schema}.${g_target_table}"
+
+
+##################################################################################################################
+# Protect an existing source-named table in the target database
+##################################################################################################################
+
+if [[ "$g_source_schema" == "$g_target_schema" &&
+      "$g_source_table"  == "$g_target_table" ]]; then
+
+    if table_exists \
+        "$g_target_database" \
+        "$g_source_schema" \
+        "$g_source_table"
+    then
+        echo "fatal: target table ${g_target_schema}.${g_target_table} already exists." >&2
+        echo "fatal: refusing to overwrite the existing source-named table." >&2
+        echo "fatal: specify another name using --target-table." >&2
+        exit 64
+    fi
 fi
+
+
+##################################################################################################################
+# 1. Generate DDL
+##################################################################################################################
+
+echo "info: generating source table DDL..."
+
+pg_dump \
+    "${PG_DUMP_OPTIONS[@]}" \
+    --dbname="$g_source_database" \
+    --schema-only \
+    --no-owner \
+    --no-privileges \
+    --quote-all-identifiers \
+    --table="\"$g_source_schema\".\"$g_source_table\"" \
+    > "$RAW_DDL_FILE"
+
+
+##################################################################################################################
+# Extract only CREATE TABLE.
+#
+# This deliberately does NOT restore indexes, foreign keys, triggers, etc.
+# That prevents objects associated with an existing source-named target table
+# from being modified or causing name collisions.
+##################################################################################################################
+
+awk '
+    /^CREATE TABLE / {
+        copying = 1
+    }
+
+    copying {
+        print
+    }
+
+    copying && /;$/ {
+        exit
+    }
+' "$RAW_DDL_FILE" > "$CREATE_DDL_FILE"
+
+if [[ ! -s "$CREATE_DDL_FILE" ]]; then
+    echo "fatal: could not extract CREATE TABLE statement from pg_dump output." >&2
+    exit 64
+fi
+
+
+##################################################################################################################
+# 2. Change schema/table name in DDL
+##################################################################################################################
+
+echo "info: rewriting DDL for ${g_target_schema}.${g_target_table}..."
+
+SOURCE_NAME="\"${g_source_schema}\".\"${g_source_table}\""
+TARGET_NAME="\"${g_target_schema}\".\"${g_target_table}\""
+
+sed \
+    "s|CREATE TABLE ${SOURCE_NAME}|CREATE TABLE ${TARGET_NAME}|" \
+    "$CREATE_DDL_FILE" \
+    > "$TARGET_DDL_FILE"
+
+echo "info: generated target DDL:"
+cat "$TARGET_DDL_FILE"
+
+
+##################################################################################################################
+# 3. Dump source data to CSV
+##################################################################################################################
+
+echo "info: exporting source data to CSV..."
+
+psql \
+    "${PSQL_OPTIONS[@]}" \
+    --dbname="$g_source_database" \
+    --command="\\copy \"$g_source_schema\".\"$g_source_table\" TO '$CSV_FILE' WITH (FORMAT csv)"
+
+row_count=$(wc -l < "$CSV_FILE")
+
+echo "info: exported ${row_count} rows"
+
+
+##################################################################################################################
+# 4. Create target table
+##################################################################################################################
+
+echo "info: ensuring target schema exists..."
+
+dbexec \
+    "$g_target_database" \
+    "CREATE SCHEMA IF NOT EXISTS \"$g_target_schema\";"
+
+
+##################################################################################################################
+# Only the explicitly requested TARGET table may be dropped.
+#
+# A source-named table is never dropped as a side effect of the copy.
+##################################################################################################################
+
+if [[ "$g_target_schema" != "$g_source_schema" ||
+      "$g_target_table"  != "$g_source_table" ]]; then
+
+    echo "info: removing existing target table if necessary..."
+
+    dbexec \
+        "$g_target_database" \
+        "DROP TABLE IF EXISTS \"$g_target_schema\".\"$g_target_table\" CASCADE;"
+fi
+
+
+echo "info: creating target table..."
+
+psql \
+    "${PSQL_OPTIONS[@]}" \
+    --dbname="$g_target_database" \
+    --file="$TARGET_DDL_FILE"
+
+
+##################################################################################################################
+# 5. Load CSV into target table
+##################################################################################################################
+
+echo "info: importing CSV into target table..."
+
+psql \
+    "${PSQL_OPTIONS[@]}" \
+    --dbname="$g_target_database" \
+    --command="\\copy \"$g_target_schema\".\"$g_target_table\" FROM '$CSV_FILE' WITH (FORMAT csv)"
+
+
+##################################################################################################################
+# Done
+##################################################################################################################
+
+echo
+echo "info: copy completed successfully."
+echo "info: source table: ${g_source_database}.${g_source_schema}.${g_source_table}"
+echo "info: target table: ${g_target_database}.${g_target_schema}.${g_target_table}"
+echo "info: rows copied:  ${row_count}"
