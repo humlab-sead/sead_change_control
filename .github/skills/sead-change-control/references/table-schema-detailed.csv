@@ -1,0 +1,792 @@
+table_name,column_name,ordinal_position,data_type,numeric_precision,numeric_scale,character_maximum_length,is_nullable,is_pk,is_fk,fk_table_name,fk_column_name,description
+tbl_abundance_elements,abundance_element_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_abundance_elements,record_type_id,2,integer,32,0,NULL,YES,NO,YES,tbl_record_types,record_type_id,"Specifies record types, thereby restricting the list of available elements based on the record type. This facilitates the use of the same term for different proxies, such as 'mni insects' versus 'mni seeds', without causing confusion."
+tbl_abundance_elements,element_name,3,character varying,NULL,NULL,100,NO,NO,NO,NULL,NULL,"Abbreviated name for the element, such as 'mni', 'seed', or 'leaf'."
+tbl_abundance_elements,element_description,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Detailed description of the element, such as 'minimum number of individuals', 'base of seed grain', or 'covering of leaf or flower bud'."
+tbl_abundance_elements,date_updated,5,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_abundance_ident_levels,abundance_ident_level_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_abundance_ident_levels,abundance_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_abundances,abundance_id,Specifies the related abundance record.
+tbl_abundance_ident_levels,identification_level_id,3,integer,32,0,NULL,NO,NO,YES,tbl_identification_levels,identification_level_id,Specifies the specific identification level.
+tbl_abundance_ident_levels,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_abundance_modifications,abundance_modification_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_abundance_modifications,abundance_id,2,integer,32,0,NULL,NO,NO,YES,tbl_abundances,abundance_id,Specifies the related abundance record.
+tbl_abundance_modifications,modification_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_modification_types,modification_type_id,Specifies the type of modification applied.
+tbl_abundance_modifications,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_abundance_properties,abundance_property_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_abundance_properties,abundance_id,2,integer,32,0,NULL,NO,NO,YES,tbl_abundances,abundance_id,NULL
+tbl_abundance_properties,property_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_property_types,property_type_id,NULL
+tbl_abundance_properties,property_value,4,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_abundances,abundance_id,1,bigint,64,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_abundances,taxon_id,2,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_abundances,analysis_entity_id,3,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_entities,analysis_entity_id,Identifies the specific analysis entity associated with this record.
+tbl_abundances,abundance_element_id,4,integer,32,0,NULL,YES,NO,YES,tbl_abundance_elements,abundance_element_id,"Specifies specific parts of a taxon, like leaf, seed, or MNI (Minimum Number of Individuals), enabling detailed taxonomic recording."
+tbl_abundances,abundance,5,integer,32,0,NULL,NO,NO,NO,NULL,NULL,"Represents the frequency of occurrence, which is usually a numerical count, but can also indicate presence (1), a categorical value, or a value on a relative scale, in accordance with the dataset's data type."
+tbl_abundances,date_updated,6,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_activity_types,activity_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_activity_types,activity_type,2,character varying,NULL,NULL,50,YES,NO,NO,NULL,NULL,Name showing the type of activity or life stage.
+tbl_activity_types,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Detailed description of the organism's state during the specified time, such as 'adult' or 'flowering'."
+tbl_activity_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_age_types,age_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_age_types,age_type,2,character varying,NULL,NULL,150,NO,NO,NO,NULL,NULL,"Abbreviation representing the chronological system (e.g., AD, BC, BP)."
+tbl_age_types,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Detailed explanation of the chronological system denoted by the abbreviation.
+tbl_age_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_alt_ref_types,alt_ref_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_alt_ref_types,alt_ref_type,2,character varying,NULL,NULL,50,NO,NO,NO,NULL,NULL,The name or type of the alternative reference assigned to a sample.
+tbl_alt_ref_types,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_alt_ref_types,description,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"A detailed description of the alternative reference type, providing additional context or clarification."
+tbl_analysis_boolean_values,analysis_boolean_value_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_boolean_values,analysis_value_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_values,analysis_value_id,Identifies the specific analysis value associated with this data.
+tbl_analysis_boolean_values,qualifier,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Additional information qualifying the value.
+tbl_analysis_boolean_values,value,4,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"The boolean value (e.g., true/false or 1/0)."
+tbl_analysis_categorical_values,analysis_categorical_value_id,1,bigint,64,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_categorical_values,analysis_value_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_values,analysis_value_id,Identifies the specific analysis value associated with this data.
+tbl_analysis_categorical_values,value_type_item_id,3,integer,32,0,NULL,NO,NO,YES,tbl_value_type_items,value_type_item_id,References the predefined category type.
+tbl_analysis_categorical_values,value,4,numeric,20,10,NULL,YES,NO,NO,NULL,NULL,The categorical value assigned to the analysis.
+tbl_analysis_categorical_values,is_variant,5,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if value is an alternative interpretation of analysed value.
+tbl_analysis_dating_ranges,analysis_dating_range_id,1,bigint,64,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_dating_ranges,analysis_value_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_values,analysis_value_id,Identifies the specific analysis value associated with this data.
+tbl_analysis_dating_ranges,low_value,3,integer,32,0,NULL,YES,NO,NO,NULL,NULL,The lower value of the range.
+tbl_analysis_dating_ranges,high_value,4,integer,32,0,NULL,YES,NO,NO,NULL,NULL,The higher value of the range.
+tbl_analysis_dating_ranges,low_is_uncertain,5,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if lower value is uncertain (e.g. question mark).
+tbl_analysis_dating_ranges,high_is_uncertain,6,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if higher value is uncertain (e.g. question mark).
+tbl_analysis_dating_ranges,low_qualifier,7,text,NULL,NULL,NULL,YES,NO,YES,tbl_value_qualifier_symbols,symbol,Additional information qualifying the lower value.
+tbl_analysis_dating_ranges,high_qualifier,8,text,NULL,NULL,NULL,YES,NO,YES,tbl_value_qualifier_symbols,symbol,Additional information qualifying the higher value.
+tbl_analysis_dating_ranges,age_type_id,9,integer,32,0,NULL,NO,NO,YES,tbl_age_types,age_type_id,"Specifies the chronological system (e.g., AD, BC, BP)."
+tbl_analysis_dating_ranges,season_id,10,integer,32,0,NULL,YES,NO,YES,tbl_seasons,season_id,Limits the dating range to a particular season.
+tbl_analysis_dating_ranges,dating_uncertainty_id,11,integer,32,0,NULL,YES,NO,YES,tbl_dating_uncertainty,dating_uncertainty_id,Specifies the uncertainty category related to the dating method used.
+tbl_analysis_dating_ranges,is_variant,12,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if value is an alternative interpretation of analysed value.
+tbl_analysis_entities,analysis_entity_id,1,bigint,64,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_entities,physical_sample_id,2,integer,32,0,NULL,YES,NO,YES,tbl_physical_samples,physical_sample_id,Identifies the specific physical sample.
+tbl_analysis_entities,dataset_id,3,integer,32,0,NULL,YES,NO,YES,tbl_datasets,dataset_id,Specifies the dataset the analysis entity belongs to.
+tbl_analysis_entities,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_analysis_entity_ages,analysis_entity_age_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_entity_ages,age,2,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,Represents the estimated age derived from analysis.
+tbl_analysis_entity_ages,age_older,3,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,The upper bound of the age range estimate.
+tbl_analysis_entity_ages,age_younger,4,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,The lower bound of the age range estimate.
+tbl_analysis_entity_ages,analysis_entity_id,5,bigint,64,0,NULL,YES,NO,YES,tbl_analysis_entities,analysis_entity_id,Identifies the specific analysis entity associated with this record.
+tbl_analysis_entity_ages,chronology_id,6,integer,32,0,NULL,YES,NO,YES,tbl_chronologies,chronology_id,Specifies the the identifier of a specific chronology.
+tbl_analysis_entity_ages,date_updated,7,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_analysis_entity_ages,dating_specifier,8,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Specifies the method or criteria used for dating the sample.
+tbl_analysis_entity_ages,age_range,9,int4range,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,The range as a tyed (int4range) value.
+tbl_analysis_entity_dimensions,analysis_entity_dimension_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_entity_dimensions,analysis_entity_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_entities,analysis_entity_id,Identifies the specific analysis entity associated with this record.
+tbl_analysis_entity_dimensions,dimension_id,3,integer,32,0,NULL,NO,NO,YES,tbl_dimensions,dimension_id,"Specifies the specific dimension being measured  (e.g., length, width, height).."
+tbl_analysis_entity_dimensions,dimension_value,4,numeric,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,The quantified value of the measured dimension.
+tbl_analysis_entity_dimensions,date_updated,5,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_analysis_entity_prep_methods,analysis_entity_prep_method_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_entity_prep_methods,analysis_entity_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_entities,analysis_entity_id,Identifies the specific analysis entity associated with this record.
+tbl_analysis_entity_prep_methods,method_id,3,integer,32,0,NULL,NO,NO,YES,tbl_methods,method_id,Specifies the preparation method related to the analysis entity.
+tbl_analysis_entity_prep_methods,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_analysis_identifiers,analysis_identifier_id,1,bigint,64,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_identifiers,analysis_value_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_values,analysis_value_id,Identifies the specific analysis value associated with this data.
+tbl_analysis_identifiers,value,3,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,The identifier value.
+tbl_analysis_integer_ranges,analysis_integer_range_id,1,bigint,64,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_integer_ranges,analysis_value_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_values,analysis_value_id,Identifies the specific analysis value associated with this data.
+tbl_analysis_integer_ranges,low_value,3,integer,32,0,NULL,YES,NO,NO,NULL,NULL,The lower value of the analysis.
+tbl_analysis_integer_ranges,high_value,4,integer,32,0,NULL,YES,NO,NO,NULL,NULL,The higher value of the analysis.
+tbl_analysis_integer_ranges,low_is_uncertain,5,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if lower value is uncertain (e.g. question mark).
+tbl_analysis_integer_ranges,high_is_uncertain,6,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if higher value is uncertain (e.g. question mark).
+tbl_analysis_integer_ranges,low_qualifier,7,text,NULL,NULL,NULL,YES,NO,YES,tbl_value_qualifier_symbols,symbol,Additional information qualifying the lower value.
+tbl_analysis_integer_ranges,high_qualifier,8,text,NULL,NULL,NULL,YES,NO,YES,tbl_value_qualifier_symbols,symbol,Additional information qualifying the higher value.
+tbl_analysis_integer_ranges,is_variant,9,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if value is an alternative interpretation of analysed value.
+tbl_analysis_integer_values,analysis_integer_value_id,1,bigint,64,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_integer_values,analysis_value_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_values,analysis_value_id,Identifies the specific analysis value associated with this data.
+tbl_analysis_integer_values,qualifier,3,text,NULL,NULL,NULL,YES,NO,YES,tbl_value_qualifier_symbols,symbol,Additional information qualifying the value.
+tbl_analysis_integer_values,value,4,integer,32,0,NULL,YES,NO,NO,NULL,NULL,The analysed value interpretated as an integer value.
+tbl_analysis_integer_values,is_variant,5,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if value is an alternative interpretation of analysed value.
+tbl_analysis_notes,analysis_note_id,1,bigint,64,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_notes,analysis_value_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_values,analysis_value_id,Identifies the specific analysis value associated with this data.
+tbl_analysis_notes,value,3,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,The actal note.
+tbl_analysis_numerical_ranges,analysis_numerical_range_id,1,bigint,64,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_numerical_ranges,analysis_value_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_values,analysis_value_id,Identifies the specific analysis value associated with this data.
+tbl_analysis_numerical_ranges,value,3,numrange,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,The analysed value interpretated as a numerical (decimal) range.
+tbl_analysis_numerical_ranges,low_is_uncertain,4,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if lower value is uncertain (e.g. question mark).
+tbl_analysis_numerical_ranges,high_is_uncertain,5,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if higher value is uncertain (e.g. question mark).
+tbl_analysis_numerical_ranges,low_qualifier,6,text,NULL,NULL,NULL,YES,NO,YES,tbl_value_qualifier_symbols,symbol,Additional information qualifying the lower value.
+tbl_analysis_numerical_ranges,high_qualifier,7,text,NULL,NULL,NULL,YES,NO,YES,tbl_value_qualifier_symbols,symbol,Additional information qualifying the higher value.
+tbl_analysis_numerical_ranges,is_variant,8,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if value is an alternative interpretation of analysed value.
+tbl_analysis_numerical_values,analysis_numerical_value_id,1,bigint,64,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_numerical_values,analysis_value_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_values,analysis_value_id,Identifies the specific analysis value associated with this data.
+tbl_analysis_numerical_values,qualifier,3,text,NULL,NULL,NULL,YES,NO,YES,tbl_value_qualifier_symbols,symbol,Additional information qualifying the value.
+tbl_analysis_numerical_values,value,4,numeric,20,10,NULL,YES,NO,NO,NULL,NULL,The analysed value interpretated as a numerical (decimal) value.
+tbl_analysis_numerical_values,is_variant,5,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if value is an alternative interpretation of analysed value.
+tbl_analysis_taxon_counts,analysis_taxon_count_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_taxon_counts,analysis_value_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_values,analysis_value_id,Identifies the specific analysis value associated with this data.
+tbl_analysis_taxon_counts,taxon_id,3,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_analysis_taxon_counts,value,4,numeric,20,10,NULL,NO,NO,NO,NULL,NULL,The count of specified taxon.
+tbl_analysis_value_dimensions,analysis_value_dimension_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_value_dimensions,analysis_value_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_values,analysis_value_id,Identifies the specific analysis value associated with this data.
+tbl_analysis_value_dimensions,dimension_id,3,integer,32,0,NULL,NO,NO,YES,tbl_dimensions,dimension_id,"Specifies the specific dimension being measured  (e.g., length, width, height).."
+tbl_analysis_value_dimensions,value,4,numeric,20,10,NULL,NO,NO,NO,NULL,NULL,The value of specified dimension.
+tbl_analysis_values,analysis_value_id,1,bigint,64,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_analysis_values,value_class_id,2,integer,32,0,NULL,NO,NO,YES,tbl_value_classes,value_class_id,Reference to associated value class that specifies kind of analysis value.
+tbl_analysis_values,analysis_entity_id,3,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_entities,analysis_entity_id,Identifies the specific analysis entity associated with this record.
+tbl_analysis_values,analysis_value,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,The resulting value from the analysis (untyped as a string)
+tbl_analysis_values,boolean_value,5,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Boolean (true/false) interpretation of the value (is is_boolean is true).
+tbl_analysis_values,is_boolean,6,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if value is a boolean value.
+tbl_analysis_values,is_uncertain,7,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if resulting value of analysis is uncertain.
+tbl_analysis_values,is_undefined,8,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if resulting value is undefined.
+tbl_analysis_values,is_not_analyzed,9,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates that no analysis was made.
+tbl_analysis_values,is_indeterminable,10,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if result of analysis is indeterminable.
+tbl_analysis_values,is_anomaly,11,boolean,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Indicates if value is an anomaly i.e. not complying to expected value class.
+tbl_biblio,biblio_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_biblio,bugs_reference,6,character varying,NULL,NULL,60,YES,NO,NO,NULL,NULL,Identifier linking this entry to the BugsCEP database or other related datasets.
+tbl_biblio,date_updated,9,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_biblio,doi,10,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,"Digital Object Identifier providing a stable, unique reference for digital content."
+tbl_biblio,isbn,12,character varying,NULL,NULL,128,YES,NO,NO,NULL,NULL,International Standard Book Number (ISBN) for cataloging and tracking books.
+tbl_biblio,notes,14,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Additional anlabels or comments related to the bibliographic entry.
+tbl_biblio,title,20,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Title of the referenced work.
+tbl_biblio,year,22,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,Year the referenced work was published.
+tbl_biblio,authors,23,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Formatted list of authors for the bibliographic entry, adhering to citation standards."
+tbl_biblio,full_reference,24,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,"Complete citation including all necessary details such as author, title, publication date, and publisher."
+tbl_biblio,url,25,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Online link to the bibliographic resource, if available."
+tbl_biblio,biblio_uuid,26,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_chronologies,chronology_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_chronologies,age_model,2,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,The methodology or model applied to determine the ages of samples within this chronology.
+tbl_chronologies,relative_age_type_id,3,integer,32,0,NULL,YES,NO,NO,NULL,NULL,"This was previously constrained by the obsolete tbl_age_types table. Now, it serves as a non-binding reference to relative_age_types, although not fully implemented. Relevant notes should document year types and construction methods for the chronology."
+tbl_chronologies,chronology_name,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"A descriptive title for the chronology, indicating its purpose and extent."
+tbl_chronologies,contact_id,5,integer,32,0,NULL,YES,NO,YES,tbl_contacts,contact_id,Identifies the contact person or organization for the chronology.
+tbl_chronologies,date_prepared,6,timestamp without time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,The date the chronology was initially created or most recently updated.
+tbl_chronologies,date_updated,7,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_chronologies,notes,8,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Supplementary information or anlabels related to the chronology, including data sources, assumptions, or constraints."
+tbl_colours,colour_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_colours,colour_name,2,character varying,NULL,NULL,30,NO,NO,NO,NULL,NULL,Descriptive name of the colour.
+tbl_colours,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_colours,method_id,4,integer,32,0,NULL,NO,NO,YES,tbl_methods,method_id,Specifies the method or colour space used for classification.
+tbl_colours,rgb,5,integer,32,0,NULL,YES,NO,NO,NULL,NULL,RGB value representing the colour in the RGB colour model.
+tbl_contact_types,contact_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_contact_types,contact_type_name,2,character varying,NULL,NULL,150,NO,NO,NO,NULL,NULL,"Name of the contact type, representing the role or function (e.g., researcher, laboratory, field technician)."
+tbl_contact_types,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_contact_types,description,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Comprehensive description of the contact type, detailing its role within the system."
+tbl_contacts,contact_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_contacts,address_1,2,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,"Primary address, such as a street or institutional address."
+tbl_contacts,address_2,3,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,"Supplementary address information, such as an apartment or suite number."
+tbl_contacts,location_id,4,integer,32,0,NULL,YES,NO,NO,NULL,NULL,"Specifies to a location, associating the contact with a specific geographic or organizational location."
+tbl_contacts,email,5,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Email address for contact communication.
+tbl_contacts,first_name,6,character varying,NULL,NULL,50,YES,NO,NO,NULL,NULL,Given name of the contact.
+tbl_contacts,last_name,7,character varying,NULL,NULL,100,YES,NO,NO,NULL,NULL,Surname of the contact.
+tbl_contacts,phone_number,8,character varying,NULL,NULL,50,YES,NO,NO,NULL,NULL,Contact's phone number for direct communication.
+tbl_contacts,url,9,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Associated website or online profile link.
+tbl_contacts,date_updated,10,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_coordinate_method_dimensions,coordinate_method_dimension_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_coordinate_method_dimensions,dimension_id,2,integer,32,0,NULL,NO,NO,YES,tbl_dimensions,dimension_id,"Specifies the specific dimension being measured  (e.g., length, width, height).."
+tbl_coordinate_method_dimensions,method_id,3,integer,32,0,NULL,NO,NO,YES,tbl_methods,method_id,Specifies the coordinate system method to which the dimension applies.
+tbl_coordinate_method_dimensions,limit_upper,4,numeric,18,10,NULL,YES,NO,NO,NULL,NULL,"Specifies the upper bound of the legal value range for the dimension, if applicable."
+tbl_coordinate_method_dimensions,limit_lower,5,numeric,18,10,NULL,YES,NO,NO,NULL,NULL,"Specifies the lower bound of the legal value range for the dimension, if applicable."
+tbl_coordinate_method_dimensions,date_updated,6,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_data_type_groups,data_type_group_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_data_type_groups,data_type_group_name,2,character varying,NULL,NULL,25,YES,NO,NO,NULL,NULL,Name of the data type group.
+tbl_data_type_groups,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_data_type_groups,description,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Detailed information about the data type group.
+tbl_data_types,data_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_data_types,data_type_group_id,2,integer,32,0,NULL,NO,NO,YES,tbl_data_type_groups,data_type_group_id,Specifies the group to which this data type belongs.
+tbl_data_types,data_type_name,3,character varying,NULL,NULL,25,YES,NO,NO,NULL,NULL,"The name of the data type, providing a descriptive label."
+tbl_data_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_data_types,definition,5,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,A detailed explanation or description of the data type.
+tbl_dataset_contacts,dataset_contact_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_dataset_contacts,contact_id,2,integer,32,0,NULL,NO,NO,YES,tbl_contacts,contact_id,Identifies the contact person or organization related to the dataset.
+tbl_dataset_contacts,contact_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_contact_types,contact_type_id,"Specifies the type of contact, such as provider or digitaliser."
+tbl_dataset_contacts,dataset_id,4,integer,32,0,NULL,NO,NO,YES,tbl_datasets,dataset_id,Specifies the dataset the contact is related to.
+tbl_dataset_contacts,date_updated,5,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_dataset_masters,master_set_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_dataset_masters,contact_id,2,integer,32,0,NULL,YES,NO,YES,tbl_contacts,contact_id,Identifies the contact person or organization responsible for the master dataset.
+tbl_dataset_masters,biblio_id,3,integer,32,0,NULL,YES,NO,YES,tbl_biblio,biblio_id,"Specifies the primary literature or reference related to the master dataset (e.g., Buckland & Buckland 2006 for BugsCEP)."
+tbl_dataset_masters,master_name,4,character varying,NULL,NULL,100,YES,NO,NO,NULL,NULL,"Name or title assigned to the master dataset (e.g., MAL, BugsCEP, DendroLab)."
+tbl_dataset_masters,master_notes,5,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Detailed description of the master dataset, including its nature (e.g., database, lab) and any pertinent tracking information."
+tbl_dataset_masters,url,6,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Web address or URL related to the master dataset, which could be a project, lab, or other entity."
+tbl_dataset_masters,date_updated,7,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_dataset_masters,master_set_uuid,8,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_dataset_methods,dataset_method_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_dataset_methods,dataset_id,2,integer,32,0,NULL,NO,NO,YES,tbl_datasets,dataset_id,NULL
+tbl_dataset_methods,method_id,3,integer,32,0,NULL,NO,NO,YES,tbl_methods,method_id,NULL
+tbl_dataset_methods,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_dataset_submission_types,submission_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_dataset_submission_types,submission_type,2,character varying,NULL,NULL,60,NO,NO,NO,NULL,NULL,"A concise name showing the type of dataset submission (e.g., 'Original Submission', 'Ingestion from External Database')."
+tbl_dataset_submission_types,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"A detailed explanation of the dataset submission type, describing the method of data ingestion."
+tbl_dataset_submission_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_dataset_submissions,dataset_submission_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_dataset_submissions,dataset_id,2,integer,32,0,NULL,NO,NO,YES,tbl_datasets,dataset_id,Specifies the dataset related to the submission.
+tbl_dataset_submissions,submission_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_dataset_submission_types,submission_type_id,Specifies the type or category of the submission event.
+tbl_dataset_submissions,contact_id,4,integer,32,0,NULL,NO,NO,YES,tbl_contacts,contact_id,Identifies the contact person or organization responsible for the dataset submission.
+tbl_dataset_submissions,date_submitted,5,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,The timestamp indicating when the submission was completed.
+tbl_dataset_submissions,notes,6,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Contains supplementary information regarding the submission, such as its origin if not documented elsewhere (e.g., BugsCEP)."
+tbl_dataset_submissions,date_updated,7,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_datasets,dataset_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_datasets,master_set_id,2,integer,32,0,NULL,YES,NO,YES,tbl_dataset_masters,master_set_id,Specifies the master set to which this dataset belongs.
+tbl_datasets,data_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_data_types,data_type_id,Specifies the type of data contained in the dataset.
+tbl_datasets,method_id,4,integer,32,0,NULL,YES,NO,YES,tbl_methods,method_id,Specifies the method of analysis used for this dataset.
+tbl_datasets,biblio_id,5,integer,32,0,NULL,YES,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions the dataset.
+tbl_datasets,updated_dataset_id,6,integer,32,0,NULL,YES,NO,YES,tbl_datasets,dataset_id,Specifies any subsequent version of this dataset.
+tbl_datasets,project_id,7,integer,32,0,NULL,YES,NO,YES,tbl_projects,project_id,Specifies the project related to this dataset.
+tbl_datasets,dataset_name,8,character varying,NULL,NULL,50,NO,NO,NO,NULL,NULL,"A unique identifier for the dataset at this site, potentially matching the sample group name or created for clarity and context."
+tbl_datasets,date_updated,9,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_datasets,dataset_uuid,10,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_dating_labs,dating_lab_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_dating_labs,contact_id,2,integer,32,0,NULL,YES,NO,YES,tbl_contacts,contact_id,Identifies the contact person or organization related to the dating lab.
+tbl_dating_labs,international_lab_id,3,character varying,NULL,NULL,10,NO,NO,NO,NULL,NULL,"Standardized identifier for the radiocarbon lab, as listed on radiocarbon.org/laboratories."
+tbl_dating_labs,lab_name,4,character varying,NULL,NULL,100,YES,NO,NO,NULL,NULL,"Official name of the radiocarbon lab, standardized according to radiocarbon.org/laboratories."
+tbl_dating_labs,country_id,5,integer,32,0,NULL,YES,NO,NO,NULL,NULL,Specifies the country where the dating lab is located.
+tbl_dating_labs,date_updated,6,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_dating_material,dating_material_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_dating_material,geochron_id,2,integer,32,0,NULL,NO,NO,YES,tbl_geochronology,geochron_id,Specifies the geochronological context of the dating material.
+tbl_dating_material,taxon_id,3,integer,32,0,NULL,YES,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_dating_material,material_dated,4,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Text field describing the specific material that was dated.
+tbl_dating_material,description,5,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Detailed description of the dating material.
+tbl_dating_material,abundance_element_id,6,integer,32,0,NULL,YES,NO,YES,tbl_abundance_elements,abundance_element_id,Specifies the abundance element related to the material.
+tbl_dating_material,date_updated,7,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_dating_uncertainty,dating_uncertainty_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_dating_uncertainty,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_dating_uncertainty,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,A description of the type of dating uncertainty.
+tbl_dating_uncertainty,uncertainty,4,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"A brief code or label showing the type of dating uncertainty, such as 'from', 'to', or 'Ca.'."
+tbl_dimensions,dimension_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_dimensions,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_dimensions,dimension_abbrev,3,character varying,NULL,NULL,40,YES,NO,NO,NULL,NULL,Abbreviation for the dimension type.
+tbl_dimensions,dimension_description,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Detailed description of the dimension.
+tbl_dimensions,dimension_name,5,character varying,NULL,NULL,50,NO,NO,NO,NULL,NULL,Name of the dimension type.
+tbl_dimensions,unit_id,6,integer,32,0,NULL,YES,NO,YES,tbl_units,unit_id,Specifies the unit of measurement used for the dimension.
+tbl_dimensions,method_group_id,7,integer,32,0,NULL,YES,NO,YES,tbl_method_groups,method_group_id,"Specifies the method group, limiting dimension application by group (e.g., size measurements, coordinate systems)."
+tbl_ecocode_definitions,ecocode_definition_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_ecocode_definitions,abbreviation,2,character varying,NULL,NULL,10,YES,NO,NO,NULL,NULL,A short form or acronym representing the ecocode.
+tbl_ecocode_definitions,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_ecocode_definitions,definition,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,A detailed explanation of the ecocode category.
+tbl_ecocode_definitions,ecocode_group_id,5,integer,32,0,NULL,YES,NO,YES,tbl_ecocode_groups,ecocode_group_id,Specifies the ecocode group to which this definition belongs.
+tbl_ecocode_definitions,name,6,character varying,NULL,NULL,150,YES,NO,NO,NULL,NULL,The name of the ecocode category.
+tbl_ecocode_definitions,notes,7,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Additional information or comments about the ecocode.
+tbl_ecocode_definitions,sort_order,8,smallint,16,0,NULL,YES,NO,NO,NULL,NULL,Indicates the display order of ecocode definitions.
+tbl_ecocode_groups,ecocode_group_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_ecocode_groups,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_ecocode_groups,definition,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Detailed description of the ecocode group, outlining its characteristics and purpose."
+tbl_ecocode_groups,ecocode_system_id,4,integer,32,0,NULL,YES,NO,YES,tbl_ecocode_systems,ecocode_system_id,Specifies the ecocode system to which this group belongs.
+tbl_ecocode_groups,name,5,character varying,NULL,NULL,200,YES,NO,NO,NULL,NULL,Full name of the ecocode group.
+tbl_ecocode_groups,abbreviation,6,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,Shortened form of the ecocode group name for quick reference.
+tbl_ecocode_systems,ecocode_system_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_ecocode_systems,biblio_id,2,integer,32,0,NULL,YES,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions  the ecocode system.
+tbl_ecocode_systems,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_ecocode_systems,definition,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Detailed description of the ecocode system.
+tbl_ecocode_systems,name,5,character varying,NULL,NULL,50,YES,NO,NO,NULL,NULL,Name of the ecocode system.
+tbl_ecocode_systems,notes,6,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Additional notes or comments about the ecocode system.
+tbl_ecocode_systems,ecocode_system_uuid,7,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_ecocodes,ecocode_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_ecocodes,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_ecocodes,ecocode_definition_id,3,integer,32,0,NULL,YES,NO,YES,tbl_ecocode_definitions,ecocode_definition_id,Specifies the ecocode definition this ecocode belongs to.
+tbl_ecocodes,taxon_id,4,integer,32,0,NULL,YES,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_feature_properties,feature_property_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_feature_properties,feature_id,2,integer,32,0,NULL,NO,NO,YES,tbl_features,feature_id,NULL
+tbl_feature_properties,property_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_property_types,property_type_id,NULL
+tbl_feature_properties,property_value,4,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_feature_types,feature_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_feature_types,feature_type_name,2,character varying,NULL,NULL,128,YES,NO,NO,NULL,NULL,"The name of the feature type, providing a concise label for identification."
+tbl_feature_types,feature_type_description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"A detailed description of the feature type, explaining its characteristics and significance."
+tbl_feature_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_features,feature_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_features,feature_type_id,2,integer,32,0,NULL,NO,NO,YES,tbl_feature_types,feature_type_id,Specifies the type of feature.
+tbl_features,feature_name,3,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"The established reference name or number for the feature, such as 'well 47', 'anl.3', or 'c107'. Note: A sample may derive from multiple features (e.g., 'c107' within 'well 47'), but each feature should be recorded separately."
+tbl_features,feature_description,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"A detailed description of the feature, which may include field and lab notes or interpretative information helpful for analyzing the sample data."
+tbl_features,date_updated,5,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_geochron_refs,geochron_ref_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_geochron_refs,geochron_id,2,integer,32,0,NULL,NO,NO,YES,tbl_geochronology,geochron_id,Specifies the geochronological record related to this reference.
+tbl_geochron_refs,biblio_id,3,integer,32,0,NULL,NO,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions the geochronological dating.
+tbl_geochron_refs,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_geochronology,geochron_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_geochronology,analysis_entity_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_entities,analysis_entity_id,Identifies the specific analysis entity associated with this record.
+tbl_geochronology,dating_lab_id,3,integer,32,0,NULL,YES,NO,YES,tbl_dating_labs,dating_lab_id,Foreign key identifying the laboratory that conducted the dating analysis.
+tbl_geochronology,lab_number,4,character varying,NULL,NULL,40,YES,NO,NO,NULL,NULL,Identifier assigned by the laboratory for the sample.
+tbl_geochronology,age,5,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,"Measured radiometric age of the sample, expressed in years."
+tbl_geochronology,error_older,6,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,Upper bound of the measured error range. Matches 'error_younger' for symmetrical errors.
+tbl_geochronology,error_younger,7,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,Lower bound of the measured error range. Matches 'error_older' for symmetrical errors.
+tbl_geochronology,delta_13c,8,numeric,10,5,NULL,YES,NO,NO,NULL,NULL,"Delta 13C value used for calibration correction, when available."
+tbl_geochronology,notes,9,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Additional notes or comments pertinent to this specific date.
+tbl_geochronology,date_updated,10,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_geochronology,dating_uncertainty_id,11,integer,32,0,NULL,YES,NO,YES,tbl_dating_uncertainty,dating_uncertainty_id,Specifies the uncertainty category related to the dating method used.
+tbl_geochronology,geochron_uuid,12,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_horizons,horizon_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_horizons,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_horizons,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Detailed description of the soil horizon.
+tbl_horizons,horizon_name,4,character varying,NULL,NULL,15,NO,NO,NO,NULL,NULL,Name or designation of the soil horizon.
+tbl_horizons,method_id,5,integer,32,0,NULL,NO,NO,YES,tbl_methods,method_id,Specifies the method used to identify or classify the horizon.
+tbl_identification_levels,identification_level_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_identification_levels,identification_level_abbrev,2,character varying,NULL,NULL,50,YES,NO,NO,NULL,NULL,"Abbreviation for the identification level, used for quick reference."
+tbl_identification_levels,identification_level_name,3,character varying,NULL,NULL,50,YES,NO,NO,NULL,NULL,"The full name of the identification level, providing a detailed description."
+tbl_identification_levels,notes,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Additional information or remarks related to the identification level.
+tbl_identification_levels,date_updated,5,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_imported_taxa_replacements,imported_taxa_replacement_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_imported_taxa_replacements,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_imported_taxa_replacements,imported_name_replaced,3,character varying,NULL,NULL,100,NO,NO,NO,NULL,NULL,NULL
+tbl_imported_taxa_replacements,taxon_id,4,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,NULL
+tbl_languages,language_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_languages,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_languages,language_name_english,3,character varying,NULL,NULL,100,YES,NO,NO,NULL,NULL,The name of the language in English.
+tbl_languages,language_name_native,4,character varying,NULL,NULL,100,YES,NO,NO,NULL,NULL,The name of the language in its native script or form.
+tbl_lithology,lithology_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_lithology,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_lithology,depth_bottom,3,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,"The depth at the bottom of the lithological layer, measured in centimeters."
+tbl_lithology,depth_top,4,numeric,20,5,NULL,NO,NO,NO,NULL,NULL,"The depth at the top of the lithological layer, measured in centimeters."
+tbl_lithology,description,5,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,A description of the lithological characteristics of the sedimentary layer.
+tbl_lithology,lower_boundary,6,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,Details regarding the boundary characteristics at the lower end of the lithological layer.
+tbl_lithology,sample_group_id,7,integer,32,0,NULL,NO,NO,YES,tbl_sample_groups,sample_group_id,Identifies a sample group. linking lithology data to specific sample groups.
+tbl_location_types,location_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_location_types,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_location_types,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,A detailed explanation or definition of the location type.
+tbl_location_types,location_type,4,character varying,NULL,NULL,40,YES,NO,NO,NULL,NULL,"The name or designation of the location type (e.g., country, city, lake)."
+tbl_locations,location_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_locations,location_name,2,character varying,NULL,NULL,255,NO,NO,NO,NULL,NULL,The name of the location.
+tbl_locations,location_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_location_types,location_type_id,Specifies the type of location.
+tbl_locations,default_lat_dd,4,numeric,18,10,NULL,YES,NO,NO,NULL,NULL,"Default latitude of the location in decimal degrees, e.g., the midpoint of a country. Leave empty if unknown."
+tbl_locations,default_long_dd,5,numeric,18,10,NULL,YES,NO,NO,NULL,NULL,"Default longitude of the location in decimal degrees, e.g., the midpoint of a country. Leave empty if unknown."
+tbl_locations,date_updated,6,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_measured_value_dimensions,measured_value_dimension_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_measured_value_dimensions,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_measured_value_dimensions,dimension_id,3,integer,32,0,NULL,NO,NO,YES,tbl_dimensions,dimension_id,"Specifies the specific dimension being measured  (e.g., length, width, height).."
+tbl_measured_value_dimensions,dimension_value,4,numeric,18,10,NULL,NO,NO,NO,NULL,NULL,The quantified value of the measured dimension.
+tbl_measured_value_dimensions,measured_value_id,5,bigint,64,0,NULL,NO,NO,YES,tbl_measured_values,measured_value_id,Specifies the measured value to which this dimension belongs.
+tbl_measured_values,measured_value_id,1,bigint,64,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_measured_values,analysis_entity_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_entities,analysis_entity_id,Identifies the specific analysis entity associated with this record.
+tbl_measured_values,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_measured_values,measured_value,4,numeric,20,10,NULL,NO,NO,NO,NULL,NULL,The continuous value obtained from the sample analysis.
+tbl_method_groups,method_group_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_method_groups,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_method_groups,description,3,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,"A detailed description of the method group, providing insight into the shared characteristics or purpose of the methods within the group."
+tbl_method_groups,group_name,4,character varying,NULL,NULL,100,NO,NO,NO,NULL,NULL,"The name or title of the method group, serving as a concise identifier for the category of methods."
+tbl_methods,method_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_methods,biblio_id,2,integer,32,0,NULL,YES,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions the method.
+tbl_methods,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_methods,description,4,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,Detailed description of the analysis method.
+tbl_methods,method_abbrev_or_alt_name,5,character varying,NULL,NULL,50,YES,NO,NO,NULL,NULL,Abbreviation or alternative name for the method.
+tbl_methods,method_group_id,6,integer,32,0,NULL,NO,NO,YES,tbl_method_groups,method_group_id,Specifies the group category of the method.
+tbl_methods,method_name,7,character varying,NULL,NULL,50,NO,NO,NO,NULL,NULL,Full name of the analysis method.
+tbl_methods,record_type_id,8,integer,32,0,NULL,YES,NO,YES,tbl_record_types,record_type_id,Specifies the type of record related to the method.
+tbl_methods,unit_id,9,integer,32,0,NULL,YES,NO,YES,tbl_units,unit_id,Specifies the unit of measurement used in the method.
+tbl_methods,method_uuid,10,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_modification_types,modification_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_modification_types,modification_type_name,2,character varying,NULL,NULL,128,YES,NO,NO,NULL,NULL,"Concise identifier for the modification type, such as 'carbonized'."
+tbl_modification_types,modification_type_description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Detailed description of the modification to ensure clarity and understanding, especially for those unfamiliar with domain-specific terminology."
+tbl_modification_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_physical_sample_features,physical_sample_feature_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_physical_sample_features,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_physical_sample_features,feature_id,3,integer,32,0,NULL,NO,NO,YES,tbl_features,feature_id,Specifies the unique identifier of a feature.
+tbl_physical_sample_features,physical_sample_id,4,integer,32,0,NULL,NO,NO,YES,tbl_physical_samples,physical_sample_id,Identifies the specific physical sample.
+tbl_physical_samples,physical_sample_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_physical_samples,sample_group_id,2,integer,32,0,NULL,NO,NO,YES,tbl_sample_groups,sample_group_id,Identifies the specific sample group this sample belongs to.
+tbl_physical_samples,alt_ref_type_id,3,integer,32,0,NULL,YES,NO,YES,tbl_alt_ref_types,alt_ref_type_id,"Specifies the type of the primary sample name, such as lab or museum number."
+tbl_physical_samples,sample_type_id,4,integer,32,0,NULL,NO,NO,YES,tbl_sample_types,sample_type_id,"Specifies the physical form of the sample, such as bulk sample or core subsample."
+tbl_physical_samples,sample_name,5,character varying,NULL,NULL,50,NO,NO,NO,NULL,NULL,Primary reference number or name of the sample. Additional references can be recorded as alternative names.
+tbl_physical_samples,date_updated,6,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_physical_samples,date_sampled,7,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,The date when the sample was collected.
+tbl_project_stages,project_stage_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_project_stages,stage_name,2,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"The name of the project stage within the investigative cycle, such as desktop study, prospection, or final excavation."
+tbl_project_stages,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"A detailed explanation of the project stage, outlining its purpose and general activities involved."
+tbl_project_stages,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_project_types,project_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_project_types,project_type_name,2,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"The name representing the project type, such as consultancy, research, teaching, or combinations like consultancy/teaching."
+tbl_project_types,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Details the combination of project types, if applicable, such as teaching/research."
+tbl_project_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_projects,project_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_projects,project_type_id,2,integer,32,0,NULL,YES,NO,YES,tbl_project_types,project_type_id,"Specifies the type of the project, linking to the corresponding type details."
+tbl_projects,project_stage_id,3,integer,32,0,NULL,YES,NO,YES,tbl_project_stages,project_stage_id,"Specifies the project's stage, linking to the corresponding stage details."
+tbl_projects,project_name,4,character varying,NULL,NULL,150,YES,NO,NO,NULL,NULL,"The full name of the project (e.g., Phil's PhD Thesis, Malm� Ring Road V�gverket)."
+tbl_projects,project_abbrev_name,5,character varying,NULL,NULL,25,YES,NO,NO,NULL,NULL,"An optional field for the abbreviation or acronym of the project name (e.g., VGV, SWEDAB)."
+tbl_projects,description,6,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"A brief overview of the project, including relevant details that facilitate further exploration."
+tbl_projects,date_updated,7,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_property_types,uuid,1,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_property_types,property_type_id,2,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_property_types,property_type_name,3,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_property_types,description,4,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_property_types,value_type_id,5,integer,32,0,NULL,YES,NO,YES,tbl_value_types,value_type_id,NULL
+tbl_property_types,value_class_id,6,integer,32,0,NULL,YES,NO,YES,tbl_value_classes,value_class_id,NULL
+tbl_rdb,rdb_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_rdb,location_id,2,integer,32,0,NULL,NO,NO,YES,tbl_locations,location_id,"Specifies the geographical area relevant to the rarity data, such as international IUCN classifications specific to the UK."
+tbl_rdb,rdb_code_id,3,integer,32,0,NULL,YES,NO,YES,tbl_rdb_codes,rdb_code_id,Specifies the the specific rarity designation or classification code.
+tbl_rdb,taxon_id,4,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_rdb,date_updated,5,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_rdb_codes,rdb_code_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_rdb_codes,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_rdb_codes,rdb_category,3,character varying,NULL,NULL,4,YES,NO,NO,NULL,NULL,The name of the rarity category.
+tbl_rdb_codes,rdb_definition,4,character varying,NULL,NULL,200,YES,NO,NO,NULL,NULL,Detailed description of the rarity category.
+tbl_rdb_codes,rdb_system_id,5,integer,32,0,NULL,YES,NO,YES,tbl_rdb_systems,rdb_system_id,Specifies the identifier of the system in tbl_rdb_systems.
+tbl_rdb_systems,rdb_system_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_rdb_systems,biblio_id,2,integer,32,0,NULL,NO,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions  the RDB system.
+tbl_rdb_systems,location_id,3,integer,32,0,NULL,NO,NO,YES,tbl_locations,location_id,"Specifies the geographical applicability of the RDB system, e.g., UK, international, New Forest."
+tbl_rdb_systems,rdb_first_published,4,smallint,16,0,NULL,YES,NO,NO,NULL,NULL,The year the RDB system was first published.
+tbl_rdb_systems,rdb_system,5,character varying,NULL,NULL,10,YES,NO,NO,NULL,NULL,The name or title of the RDB system.
+tbl_rdb_systems,rdb_system_date,6,integer,32,0,NULL,YES,NO,NO,NULL,NULL,"The date related to the RDB system, possibly indicating the version or update year."
+tbl_rdb_systems,rdb_version,7,character varying,NULL,NULL,10,YES,NO,NO,NULL,NULL,The version or edition number of the RDB system.
+tbl_rdb_systems,date_updated,8,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_rdb_systems,rdb_system_uuid,9,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_record_types,record_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_record_types,record_type_name,2,character varying,NULL,NULL,50,YES,NO,NO,NULL,NULL,Concise name representing the proxy or proxies within the group.
+tbl_record_types,record_type_description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Provides a detailed explanation of the group's composition and the rationale for its categorization.
+tbl_record_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_relative_age_refs,relative_age_ref_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_relative_age_refs,biblio_id,2,integer,32,0,NULL,NO,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions the relative age definition.
+tbl_relative_age_refs,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_relative_age_refs,relative_age_id,4,integer,32,0,NULL,NO,NO,YES,tbl_relative_ages,relative_age_id,Specifies the the relative age defined by this reference.
+tbl_relative_age_types,relative_age_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_relative_age_types,age_type,2,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"The name of the chronological age type, which can include archaeological periods, specific calendar dates, calendar age ranges, or periods defined by the Blytt-Sernander classification."
+tbl_relative_age_types,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"A detailed explanation of the chronological age type, such as a period marked by archaeological or geological evidence indicating cultural activities or climate changes as inferred from paleo-vegetation records."
+tbl_relative_age_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_relative_ages,relative_age_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_relative_ages,relative_age_type_id,2,integer,32,0,NULL,YES,NO,YES,tbl_relative_age_types,relative_age_type_id,Specifies the type of relative age.
+tbl_relative_ages,relative_age_name,3,character varying,NULL,NULL,50,YES,NO,NO,NULL,NULL,"Name of the dating period, e.g., 'Bronze Age'. Calendar ages should be named appropriately, such as 'AD 1492' or '74 BC'."
+tbl_relative_ages,description,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"A detailed description of the period, typically outlining its characteristics."
+tbl_relative_ages,c14_age_older,5,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,"C14 age of the older boundary of the period, if applicable."
+tbl_relative_ages,c14_age_younger,6,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,"C14 age of the younger boundary of the period, if applicable. Leave blank for calendar ages."
+tbl_relative_ages,cal_age_older,7,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,"Approximate age before present (1950) of the earliest boundary of the period, or the calendar age converted to BP if applicable."
+tbl_relative_ages,cal_age_younger,8,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,"Approximate age before present (1950) of the latest boundary of the period, or the calendar age converted to BP if applicable."
+tbl_relative_ages,notes,9,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Additional notes on the period, such as definitions' reliability or boundary uncertainties."
+tbl_relative_ages,date_updated,10,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_relative_ages,location_id,11,integer,32,0,NULL,YES,NO,YES,tbl_locations,location_id,Specifies the location related to the period.
+tbl_relative_ages,abbreviation,12,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Standard abbreviated form of the period name, if available."
+tbl_relative_ages,relative_age_uuid,13,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_relative_dates,relative_date_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_relative_dates,relative_age_id,2,integer,32,0,NULL,YES,NO,YES,tbl_relative_ages,relative_age_id,Specifies the relative age definition.
+tbl_relative_dates,method_id,4,integer,32,0,NULL,YES,NO,YES,tbl_methods,method_id,Specifies the method used for dating the sample to a period or calendar date.
+tbl_relative_dates,notes,5,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Additional notes regarding the sample's dating, including any specific details or observations."
+tbl_relative_dates,date_updated,6,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_relative_dates,dating_uncertainty_id,7,integer,32,0,NULL,YES,NO,YES,tbl_dating_uncertainty,dating_uncertainty_id,Specifies the uncertainty category related to the dating method used.
+tbl_relative_dates,analysis_entity_id,8,integer,32,0,NULL,NO,NO,YES,tbl_analysis_entities,analysis_entity_id,Identifies the specific analysis entity associated with this record.
+tbl_sample_alt_refs,sample_alt_ref_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_alt_refs,alt_ref,2,character varying,NULL,NULL,80,NO,NO,NO,NULL,NULL,Alternative reference name for the physical sample.
+tbl_sample_alt_refs,alt_ref_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_alt_ref_types,alt_ref_type_id,Specifies the type of alternative identification.
+tbl_sample_alt_refs,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_alt_refs,physical_sample_id,5,integer,32,0,NULL,NO,NO,YES,tbl_physical_samples,physical_sample_id,Identifies the specific physical sample.
+tbl_sample_colours,sample_colour_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_colours,colour_id,2,integer,32,0,NULL,NO,NO,YES,tbl_colours,colour_id,Specifies the unique identifier for a color.
+tbl_sample_colours,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_colours,physical_sample_id,4,integer,32,0,NULL,NO,NO,YES,tbl_physical_samples,physical_sample_id,Identifies the specific physical sample.
+tbl_sample_coordinates,sample_coordinate_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_coordinates,physical_sample_id,2,integer,32,0,NULL,NO,NO,YES,tbl_physical_samples,physical_sample_id,Identifies the specific physical sample.
+tbl_sample_coordinates,coordinate_method_dimension_id,3,integer,32,0,NULL,NO,NO,YES,tbl_coordinate_method_dimensions,coordinate_method_dimension_id,Specifies referencing the method used to determine the grid type.
+tbl_sample_coordinates,measurement,4,numeric,20,10,NULL,NO,NO,NO,NULL,NULL,The specific coordinate measurement value.
+tbl_sample_coordinates,accuracy,5,numeric,20,10,NULL,YES,NO,NO,NULL,NULL,"Describes the precision of the GPS data, e.g., 5m, 10m, 0.01m."
+tbl_sample_coordinates,date_updated,6,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_description_sample_group_contexts,sample_description_sample_group_context_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_description_sample_group_contexts,sampling_context_id,2,integer,32,0,NULL,YES,NO,YES,tbl_sample_group_sampling_contexts,sampling_context_id,"Specifies the sampling context, providing contextual details about the sampling environment."
+tbl_sample_description_sample_group_contexts,sample_description_type_id,3,integer,32,0,NULL,YES,NO,YES,tbl_sample_description_types,sample_description_type_id,"Specifies the sample description type, indicating the type of sample described."
+tbl_sample_description_sample_group_contexts,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_description_types,sample_description_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_description_types,type_name,2,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,Name assigned to the sample type.
+tbl_sample_description_types,type_description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Detailed description of the sample type.
+tbl_sample_description_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_descriptions,sample_description_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_descriptions,sample_description_type_id,2,integer,32,0,NULL,NO,NO,YES,tbl_sample_description_types,sample_description_type_id,Specifies the type identifier for the sample description.
+tbl_sample_descriptions,physical_sample_id,3,integer,32,0,NULL,NO,NO,YES,tbl_physical_samples,physical_sample_id,Identifies the specific physical sample.
+tbl_sample_descriptions,description,4,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Textual description of the sample.
+tbl_sample_descriptions,date_updated,5,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_dimensions,sample_dimension_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_dimensions,physical_sample_id,2,integer,32,0,NULL,NO,NO,YES,tbl_physical_samples,physical_sample_id,Identifies the specific physical sample.
+tbl_sample_dimensions,dimension_id,3,integer,32,0,NULL,NO,NO,YES,tbl_dimensions,dimension_id,"Specifies the specific dimension being measured  (e.g., length, width, height).."
+tbl_sample_dimensions,method_id,4,integer,32,0,NULL,NO,NO,YES,tbl_methods,method_id,"Specifies the measurement method used, including associated units."
+tbl_sample_dimensions,dimension_value,5,numeric,20,10,NULL,NO,NO,NO,NULL,NULL,The quantified value of the measured dimension.
+tbl_sample_dimensions,date_updated,6,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_dimensions,qualifier_id,7,integer,32,0,NULL,YES,NO,YES,tbl_value_qualifiers,qualifier_id,NULL
+tbl_sample_group_coordinates,sample_group_position_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_group_coordinates,coordinate_method_dimension_id,2,integer,32,0,NULL,NO,NO,YES,tbl_coordinate_method_dimensions,coordinate_method_dimension_id,Specifies the method and dimension used for determining coordinates.
+tbl_sample_group_coordinates,sample_group_position,3,numeric,20,10,NULL,YES,NO,NO,NULL,NULL,Describes the specific position within the sample group.
+tbl_sample_group_coordinates,position_accuracy,4,character varying,NULL,NULL,128,YES,NO,NO,NULL,NULL,Specifies the accuracy level of the recorded position.
+tbl_sample_group_coordinates,sample_group_id,5,integer,32,0,NULL,NO,NO,YES,tbl_sample_groups,sample_group_id,Identifies the specific sample group.
+tbl_sample_group_coordinates,date_updated,6,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_group_description_type_sampling_contexts,sample_group_description_type_sampling_context_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_group_description_type_sampling_contexts,sampling_context_id,2,integer,32,0,NULL,NO,NO,YES,tbl_sample_group_sampling_contexts,sampling_context_id,"Specifies the sampling context, providing contextual details about the sampling environment."
+tbl_sample_group_description_type_sampling_contexts,sample_group_description_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_sample_group_description_types,sample_group_description_type_id,Specifies the description type.
+tbl_sample_group_description_type_sampling_contexts,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_group_description_types,sample_group_description_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_group_description_types,type_name,2,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,The name or label of the sample group description type.
+tbl_sample_group_description_types,type_description,3,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,A detailed description of the sample group description type.
+tbl_sample_group_description_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_group_descriptions,sample_group_description_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_group_descriptions,group_description,2,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Textual description of the sample group.
+tbl_sample_group_descriptions,sample_group_description_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_sample_group_description_types,sample_group_description_type_id,Specifies the type of description for the sample group.
+tbl_sample_group_descriptions,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_group_descriptions,sample_group_id,5,integer,32,0,NULL,YES,NO,YES,tbl_sample_groups,sample_group_id,Specifies the specific sample group.
+tbl_sample_group_dimensions,sample_group_dimension_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_group_dimensions,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_group_dimensions,dimension_id,3,integer,32,0,NULL,NO,NO,YES,tbl_dimensions,dimension_id,"Specifies the specific dimension being measured  (e.g., length, width, height).."
+tbl_sample_group_dimensions,dimension_value,4,numeric,20,5,NULL,NO,NO,NO,NULL,NULL,The quantified value of the measured dimension.
+tbl_sample_group_dimensions,sample_group_id,5,integer,32,0,NULL,NO,NO,YES,tbl_sample_groups,sample_group_id,Identifies the specific sample group.
+tbl_sample_group_dimensions,qualifier_id,6,integer,32,0,NULL,YES,NO,YES,tbl_value_qualifiers,qualifier_id,NULL
+tbl_sample_group_notes,sample_group_note_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_group_notes,sample_group_id,2,integer,32,0,NULL,NO,NO,YES,tbl_sample_groups,sample_group_id,Identifies the specific sample group.
+tbl_sample_group_notes,note,3,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Textual note providing additional information about the sample group.
+tbl_sample_group_notes,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_group_references,sample_group_reference_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_group_references,biblio_id,2,integer,32,0,NULL,NO,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions the sample group.
+tbl_sample_group_references,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_group_references,sample_group_id,4,integer,32,0,NULL,YES,NO,YES,tbl_sample_groups,sample_group_id,Identifies the specific sample group.
+tbl_sample_group_sampling_contexts,sampling_context_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_group_sampling_contexts,sampling_context,2,character varying,NULL,NULL,80,NO,NO,NO,NULL,NULL,"Concise and descriptive name for the sampling context, e.g., stratigraphic sequence or archaeological excavation."
+tbl_sample_group_sampling_contexts,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Detailed explanation of the sampling context term.
+tbl_sample_group_sampling_contexts,sort_order,4,smallint,16,0,NULL,NO,NO,NO,NULL,NULL,"Defines the order for grouping similar or related contexts, facilitating the organization of modern and paleo investigations."
+tbl_sample_group_sampling_contexts,date_updated,5,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_groups,sample_group_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_groups,site_id,2,integer,32,0,NULL,YES,NO,YES,tbl_sites,site_id,"Specifies the site where the samples were collected, linking to additional site-specific information."
+tbl_sample_groups,sampling_context_id,3,integer,32,0,NULL,YES,NO,YES,tbl_sample_group_sampling_contexts,sampling_context_id,"Specifies the sampling context, providing contextual details about the sampling environment."
+tbl_sample_groups,method_id,4,integer,32,0,NULL,NO,NO,YES,tbl_methods,method_id,"Specifies the method of sample retrieval, such as 'Russian auger core' or 'pitfall traps'. Distinct from sampling context, this specifies the method used rather than the investigation type."
+tbl_sample_groups,sample_group_name,5,character varying,NULL,NULL,100,YES,NO,NO,NULL,NULL,"A unique identifier name for the sample group. For ceramics, this should be the vessel number."
+tbl_sample_groups,sample_group_description,6,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Detailed description of the sample group, providing context and additional information."
+tbl_sample_groups,date_updated,7,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_groups,sample_group_uuid,8,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_sample_horizons,sample_horizon_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_horizons,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_horizons,horizon_id,3,integer,32,0,NULL,NO,NO,YES,tbl_horizons,horizon_id,Specifies the horizon details.
+tbl_sample_horizons,physical_sample_id,4,integer,32,0,NULL,NO,NO,YES,tbl_physical_samples,physical_sample_id,Identifies the specific physical sample.
+tbl_sample_location_type_sampling_contexts,sample_location_type_sampling_context_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_location_type_sampling_contexts,sampling_context_id,2,integer,32,0,NULL,NO,NO,YES,tbl_sample_group_sampling_contexts,sampling_context_id,"Specifies the sampling context, providing contextual details about the sampling environment."
+tbl_sample_location_type_sampling_contexts,sample_location_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_sample_location_types,sample_location_type_id,Specifies the unique identifier for a sample location type.
+tbl_sample_location_type_sampling_contexts,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_location_types,sample_location_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_location_types,location_type,2,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,The name or identifier of the sample location type.
+tbl_sample_location_types,location_type_description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,A detailed description of the sample location type.
+tbl_sample_location_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_locations,sample_location_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_locations,sample_location_type_id,2,integer,32,0,NULL,NO,NO,YES,tbl_sample_location_types,sample_location_type_id,Specifies the type of the sample location.
+tbl_sample_locations,physical_sample_id,3,integer,32,0,NULL,NO,NO,YES,tbl_physical_samples,physical_sample_id,Identifies the specific physical sample.
+tbl_sample_locations,location,4,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,The specific location description of the sample.
+tbl_sample_locations,date_updated,5,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_notes,sample_note_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_notes,physical_sample_id,2,integer,32,0,NULL,NO,NO,YES,tbl_physical_samples,physical_sample_id,Identifies the specific physical sample.
+tbl_sample_notes,note_type,3,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"The origin or category of the note, such as 'field note' or 'lab note'."
+tbl_sample_notes,note,4,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,The content of the note.
+tbl_sample_notes,date_updated,5,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sample_types,sample_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sample_types,type_name,2,character varying,NULL,NULL,40,NO,NO,NO,NULL,NULL,The name or label of the sample type.
+tbl_sample_types,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Detailed description of the sample type.
+tbl_sample_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_season_types,season_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_season_types,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_season_types,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,A detailed description of the season type.
+tbl_season_types,season_type,4,character varying,NULL,NULL,30,YES,NO,NO,NULL,NULL,The name or identifier of the season type.
+tbl_seasons,season_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_seasons,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_seasons,season_name,3,character varying,NULL,NULL,20,YES,NO,NO,NULL,NULL,"Name of the season, e.g., Winter, Spring."
+tbl_seasons,season_type,4,character varying,NULL,NULL,30,YES,NO,NO,NULL,NULL,"Descriptive category for the season, such as meteorological or astronomical."
+tbl_seasons,season_type_id,5,integer,32,0,NULL,YES,NO,YES,tbl_season_types,season_type_id,Specifies the season type.
+tbl_seasons,sort_order,6,smallint,16,0,NULL,YES,NO,NO,NULL,NULL,Specifies the display order of seasons.
+tbl_site_locations,site_location_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_site_locations,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_site_locations,location_id,3,integer,32,0,NULL,NO,NO,YES,tbl_locations,location_id,Specifies a location the site is located in.
+tbl_site_locations,site_id,4,integer,32,0,NULL,NO,NO,YES,tbl_sites,site_id,Specifies the specific site.
+tbl_site_natgridrefs,site_natgridref_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_site_natgridrefs,site_id,2,integer,32,0,NULL,NO,NO,YES,tbl_sites,site_id,Specifies the specific site.
+tbl_site_natgridrefs,method_id,3,integer,32,0,NULL,NO,NO,YES,tbl_methods,method_id,Specifies the coordinate system.
+tbl_site_natgridrefs,natgridref,4,character varying,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,The national grid reference for the site.
+tbl_site_natgridrefs,date_updated,5,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_site_other_records,site_other_records_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_site_other_records,site_id,2,integer,32,0,NULL,YES,NO,YES,tbl_sites,site_id,Specifies the specific site.
+tbl_site_other_records,biblio_id,3,integer,32,0,NULL,YES,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions  site data is documented.
+tbl_site_other_records,record_type_id,4,integer,32,0,NULL,YES,NO,YES,tbl_record_types,record_type_id,Specifies the type of data (proxy) represented in this record.
+tbl_site_other_records,description,5,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,A brief description of the data not currently stored in SEAD.
+tbl_site_other_records,date_updated,6,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_site_other_records,site_other_records_uuid,7,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_site_preservation_status,site_preservation_status_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_site_preservation_status,site_id,2,integer,32,0,NULL,YES,NO,YES,tbl_sites,site_id,Specifies the site to allow multiple preservation status or threat records per site.
+tbl_site_preservation_status,preservation_status_or_threat,3,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"A descriptive term for the preservation status (e.g., lost, damaged, threatened) or the primary cause of risk to the site (e.g., hydroelectric projects, oil exploitation, mining, forestry, climate change, erosion)."
+tbl_site_preservation_status,description,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,A brief overview of the site's preservation status or the threats it faces. This field is for information that does not fit into other specified columns.
+tbl_site_preservation_status,assessment_type,5,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Specifies the type of assessment conducted, such as a UNESCO report or archaeological survey, detailing preservation status and threats."
+tbl_site_preservation_status,assessment_author_contact_id,6,integer,32,0,NULL,YES,NO,NO,NULL,NULL,Identifier for the person or authority in tbl_contacts responsible for assessing the preservation status and threats.
+tbl_site_preservation_status,date_updated,7,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_site_preservation_status,evaluation_date,8,date,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"The date on which the preservation status or threat assessment was conducted, whether formal or informal."
+tbl_site_properties,site_property_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_site_properties,site_id,2,integer,32,0,NULL,NO,NO,YES,tbl_sites,site_id,NULL
+tbl_site_properties,property_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_property_types,property_type_id,NULL
+tbl_site_properties,property_value,4,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_site_references,site_reference_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_site_references,site_id,2,integer,32,0,NULL,YES,NO,YES,tbl_sites,site_id,Specifies the specific site.
+tbl_site_references,biblio_id,3,integer,32,0,NULL,NO,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions  the site.
+tbl_site_references,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_site_site_types,site_site_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_site_site_types,site_id,2,integer,32,0,NULL,NO,NO,YES,tbl_sites,site_id,NULL
+tbl_site_site_types,site_type_id,3,integer,32,0,NULL,NO,NO,YES,tbl_site_types,site_type_id,NULL
+tbl_site_site_types,is_primary_type,4,boolean,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_site_site_types,confidence_code,5,smallint,16,0,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_site_site_types,notes,6,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_site_type_groups,site_type_group_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_site_type_groups,site_type_group_abbrev,2,character varying,NULL,NULL,40,NO,NO,NO,NULL,NULL,NULL
+tbl_site_type_groups,site_type_group,3,character varying,NULL,NULL,255,NO,NO,NO,NULL,NULL,NULL
+tbl_site_type_groups,description,4,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_site_type_groups,origin_code,5,character varying,NULL,NULL,40,YES,NO,NO,NULL,NULL,NULL
+tbl_site_type_groups,origin_description,6,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_site_types,site_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_site_types,site_type_group_id,2,integer,32,0,NULL,NO,NO,YES,tbl_site_type_groups,site_type_group_id,NULL
+tbl_site_types,site_type_abbrev,3,character varying,NULL,NULL,40,NO,NO,NO,NULL,NULL,NULL
+tbl_site_types,site_type,4,character varying,NULL,NULL,256,NO,NO,NO,NULL,NULL,NULL
+tbl_site_types,description,5,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_sites,site_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_sites,altitude,2,numeric,18,10,NULL,YES,NO,NO,NULL,NULL,The altitude of the site in meters above sea level.
+tbl_sites,latitude_dd,3,numeric,18,10,NULL,YES,NO,NO,NULL,NULL,The latitude of the site in decimal degrees.
+tbl_sites,longitude_dd,4,numeric,18,10,NULL,YES,NO,NO,NULL,NULL,The longitude of the site in decimal degrees.
+tbl_sites,national_site_identifier,5,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,A unique identifier assigned to the site by the national authority.
+tbl_sites,site_description,6,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,A detailed description of the site's characteristics and significance.
+tbl_sites,site_name,7,character varying,NULL,NULL,60,YES,NO,NO,NULL,NULL,The official or commonly used name of the site.
+tbl_sites,site_preservation_status_id,8,integer,32,0,NULL,YES,NO,YES,tbl_site_preservation_status,site_preservation_status_id,"Specifies the preservation status of the site, indicating its current condition."
+tbl_sites,site_location_accuracy,9,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Describes the accuracy of the site's location resolution, such as 'Nearest settlement', 'Lake', 'Bog', 'Ancient monument', or 'Approximate'."
+tbl_sites,date_updated,10,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_sites,site_uuid,11,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_species_association_types,association_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_species_association_types,association_type_name,2,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,Short name or label for the association type.
+tbl_species_association_types,association_description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Detailed description of the association type.
+tbl_species_association_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_species_associations,species_association_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_species_associations,associated_taxon_id,2,integer,32,0,NULL,NO,NO,NO,NULL,NULL,Identifier for the taxon related to the primary taxon (defined by taxon_id).
+tbl_species_associations,biblio_id,3,integer,32,0,NULL,YES,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions the species association.
+tbl_species_associations,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_species_associations,taxon_id,5,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_species_associations,taxon_id,5,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_species_associations,association_type_id,6,integer,32,0,NULL,YES,NO,YES,tbl_species_association_types,association_type_id,"Identifier for the type of relationship between the primary taxon and the associated taxon, noting the importance of association directionality (e.g., 'x preys on y')."
+tbl_species_associations,referencing_type,7,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Type or method of reference used for the species association documentation.
+tbl_species_associations,species_association_uuid,8,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_taxa_common_names,taxon_common_name_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxa_common_names,common_name,2,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,The common or vernacular name of the organism.
+tbl_taxa_common_names,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxa_common_names,language_id,4,integer,32,0,NULL,YES,NO,YES,tbl_languages,language_id,Specifies the language in which the common name is recorded.
+tbl_taxa_common_names,taxon_id,5,integer,32,0,NULL,YES,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_taxa_measured_attributes,measured_attribute_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxa_measured_attributes,attribute_measure,2,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,"The specific measurement value of the attribute (e.g., 10.5 cm)."
+tbl_taxa_measured_attributes,attribute_type,3,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,"The type of measurement being recorded (e.g., length, width)."
+tbl_taxa_measured_attributes,attribute_units,4,character varying,NULL,NULL,10,YES,NO,NO,NULL,NULL,"Units in which the measurement is recorded (e.g., cm, mm)."
+tbl_taxa_measured_attributes,data,5,numeric,18,10,NULL,YES,NO,NO,NULL,NULL,"Additional data related to the measurement, if applicable."
+tbl_taxa_measured_attributes,date_updated,6,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxa_measured_attributes,taxon_id,7,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_taxa_reference_specimens,taxa_reference_specimen_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxa_reference_specimens,taxon_id,2,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_taxa_reference_specimens,contact_id,3,integer,32,0,NULL,NO,NO,YES,tbl_contacts,contact_id,Identifies the contact person or organization responsible for the taxon reference specimen.
+tbl_taxa_reference_specimens,notes,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Additional information or remarks about the reference specimen.
+tbl_taxa_reference_specimens,date_updated,5,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxa_seasonality,seasonality_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxa_seasonality,activity_type_id,2,integer,32,0,NULL,NO,NO,YES,tbl_activity_types,activity_type_id,Specifies the type of activity or developmental stage.
+tbl_taxa_seasonality,season_id,3,integer,32,0,NULL,YES,NO,YES,tbl_seasons,season_id,Specifies the specific season or time of year.
+tbl_taxa_seasonality,taxon_id,4,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_taxa_seasonality,location_id,5,integer,32,0,NULL,NO,NO,YES,tbl_locations,location_id,Specifies the geographical location relevant to the seasonality data.
+tbl_taxa_seasonality,date_updated,6,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxa_synonyms,synonym_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxa_synonyms,biblio_id,2,integer,32,0,NULL,NO,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions then  taxon synonym.
+tbl_taxa_synonyms,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxa_synonyms,family_id,4,integer,32,0,NULL,YES,NO,YES,tbl_taxa_tree_families,family_id,Specifies the taxonomic family related to the taxon synonym.
+tbl_taxa_synonyms,genus_id,5,integer,32,0,NULL,YES,NO,YES,tbl_taxa_tree_genera,genus_id,Specifies the genus related to the taxon synonym.
+tbl_taxa_synonyms,notes,6,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Additional information relevant to the history or usage of the synonym.
+tbl_taxa_synonyms,taxon_id,7,integer,32,0,NULL,YES,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_taxa_synonyms,author_id,8,integer,32,0,NULL,YES,NO,YES,tbl_taxa_tree_authors,author_id,Specifies the author related to the taxon synonym.
+tbl_taxa_synonyms,synonym,9,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,The synonym at the specified taxonomic level. A separate record is used for different taxonomic levels when names differ from the master list.
+tbl_taxa_synonyms,reference_type,10,character varying,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Type of reference related to the synonym, such as usage, definition, or incorrect usage."
+tbl_taxa_synonyms,synonym_uuid,11,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_taxa_tree_authors,author_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxa_tree_authors,author_name,2,character varying,NULL,NULL,100,YES,NO,NO,NULL,NULL,The name of the authority related to the species or synonym.
+tbl_taxa_tree_authors,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxa_tree_families,family_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxa_tree_families,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxa_tree_families,family_name,3,character varying,NULL,NULL,100,YES,NO,NO,NULL,NULL,Name of the taxonomic family.
+tbl_taxa_tree_families,order_id,4,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_orders,order_id,Specifies the taxonomic order this family belongs to.
+tbl_taxa_tree_genera,genus_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxa_tree_genera,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxa_tree_genera,family_id,3,integer,32,0,NULL,YES,NO,YES,tbl_taxa_tree_families,family_id,Specifies the taxonomic family.
+tbl_taxa_tree_genera,genus_name,4,character varying,NULL,NULL,100,YES,NO,NO,NULL,NULL,Name of the genus.
+tbl_taxa_tree_master,taxon_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxa_tree_master,author_id,2,integer,32,0,NULL,YES,NO,YES,tbl_taxa_tree_authors,author_id,Specifies the author of the taxonomic classification.
+tbl_taxa_tree_master,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxa_tree_master,genus_id,4,integer,32,0,NULL,YES,NO,YES,tbl_taxa_tree_genera,genus_id,Specifies the genus related to this taxon.
+tbl_taxa_tree_master,species,5,character varying,NULL,NULL,255,YES,NO,NO,NULL,NULL,"Name of the species or designation for unspecified species (e.g., 'sp.', 'spp.')."
+tbl_taxa_tree_orders,order_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxa_tree_orders,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxa_tree_orders,order_name,3,character varying,NULL,NULL,50,YES,NO,NO,NULL,NULL,The name of the taxonomic order.
+tbl_taxa_tree_orders,record_type_id,4,integer,32,0,NULL,YES,NO,YES,tbl_record_types,record_type_id,"Specifies the record type, indicating the type of taxonomic record."
+tbl_taxa_tree_orders,sort_order,5,integer,32,0,NULL,YES,NO,NO,NULL,NULL,Specifies the display order of taxonomic orders.
+tbl_taxonomic_order,taxonomic_order_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxonomic_order,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxonomic_order,taxon_id,3,integer,32,0,NULL,YES,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_taxonomic_order,taxonomic_code,4,numeric,18,10,NULL,YES,NO,NO,NULL,NULL,Unique code representing the taxonomic classification.
+tbl_taxonomic_order,taxonomic_order_system_id,5,integer,32,0,NULL,YES,NO,YES,tbl_taxonomic_order_systems,taxonomic_order_system_id,Specifies the taxonomic ordering system.
+tbl_taxonomic_order_biblio,taxonomic_order_biblio_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxonomic_order_biblio,biblio_id,2,integer,32,0,NULL,YES,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions  the taxon synonym.
+tbl_taxonomic_order_biblio,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxonomic_order_biblio,taxonomic_order_system_id,4,integer,32,0,NULL,YES,NO,YES,tbl_taxonomic_order_systems,taxonomic_order_system_id,Specifies the the taxonomic order system.
+tbl_taxonomic_order_systems,taxonomic_order_system_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxonomic_order_systems,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxonomic_order_systems,system_description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Gives a detailed description of the taxonomic order system.
+tbl_taxonomic_order_systems,system_name,4,character varying,NULL,NULL,50,YES,NO,NO,NULL,NULL,The name of the taxonomic order system.
+tbl_taxonomic_order_systems,taxonomic_order_system_uuid,5,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_taxonomy_notes,taxonomy_notes_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_taxonomy_notes,biblio_id,2,integer,32,0,NULL,NO,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions  the taxonomy note.
+tbl_taxonomy_notes,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_taxonomy_notes,taxon_id,4,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_taxonomy_notes,taxonomy_notes,5,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Detailed notes about the taxon, including identification tips and relevant references."
+tbl_taxonomy_notes,taxonomy_notes_uuid,6,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_temperatures,record_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_temperatures,years_bp,2,integer,32,0,NULL,NO,NO,NO,NULL,NULL,"The age of the sample in years before present, providing a temporal context for the data."
+tbl_temperatures,d180_gisp2,3,numeric,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Isotopic oxygen-18 data from the Greenland Ice Sheet Project 2, used for paleotemperature reconstructions."
+tbl_tephra_dates,tephra_date_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_tephra_dates,analysis_entity_id,2,bigint,64,0,NULL,NO,NO,YES,tbl_analysis_entities,analysis_entity_id,Identifies the specific analysis entity associated with this record.
+tbl_tephra_dates,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_tephra_dates,notes,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Optional field for additional information or comments related to the tephra date.
+tbl_tephra_dates,tephra_id,5,integer,32,0,NULL,NO,NO,YES,tbl_tephras,tephra_id,Specifies the the specific tephra layer related to the date.
+tbl_tephra_dates,dating_uncertainty_id,6,integer,32,0,NULL,YES,NO,YES,tbl_dating_uncertainty,dating_uncertainty_id,Specifies the uncertainty category related to the dating method used.
+tbl_tephra_refs,tephra_ref_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_tephra_refs,biblio_id,2,integer,32,0,NULL,NO,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions  the tephra layer.
+tbl_tephra_refs,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_tephra_refs,tephra_id,4,integer,32,0,NULL,NO,NO,YES,tbl_tephras,tephra_id,Specifies the specific tephra layer.
+tbl_tephras,tephra_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_tephras,c14_age,2,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,Radiocarbon age of the tephra layer.
+tbl_tephras,c14_age_older,3,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,Upper limit of the radiocarbon age range.
+tbl_tephras,c14_age_younger,4,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,Lower limit of the radiocarbon age range.
+tbl_tephras,cal_age,5,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,Calibrated age of the tephra layer.
+tbl_tephras,cal_age_older,6,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,Upper boundary of the calibrated age range.
+tbl_tephras,cal_age_younger,7,numeric,20,5,NULL,YES,NO,NO,NULL,NULL,Lower boundary of the calibrated age range.
+tbl_tephras,date_updated,8,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_tephras,notes,9,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Additional information or remarks about the tephra layer.
+tbl_tephras,tephra_name,10,character varying,NULL,NULL,80,YES,NO,NO,NULL,NULL,"Name of the tephra layer, such as a specific volcanic event."
+tbl_tephras,tephra_uuid,11,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_text_biology,biology_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_text_biology,biblio_id,2,integer,32,0,NULL,NO,NO,YES,tbl_biblio,biblio_id,Specifies the publication detailing the biological information.
+tbl_text_biology,biology_text,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,"Descriptive text providing ecological, habitat, or behavioral details."
+tbl_text_biology,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_text_biology,taxon_id,5,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_text_biology,biology_uuid,6,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_text_distribution,distribution_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_text_distribution,biblio_id,2,integer,32,0,NULL,NO,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions the distribution.
+tbl_text_distribution,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_text_distribution,distribution_text,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Textual description of the taxon's distribution.
+tbl_text_distribution,taxon_id,5,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_text_distribution,distribution_uuid,6,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_text_identification_keys,key_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_text_identification_keys,biblio_id,2,integer,32,0,NULL,NO,NO,YES,tbl_biblio,biblio_id,Specifies the publication that describes or mentions  the identification key.
+tbl_text_identification_keys,date_updated,3,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_text_identification_keys,key_text,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Text description of the identification key.
+tbl_text_identification_keys,taxon_id,5,integer,32,0,NULL,NO,NO,YES,tbl_taxa_tree_master,taxon_id,Specifies the taxonomic unit related to this record.
+tbl_text_identification_keys,key_uuid,6,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_units,unit_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,Primary key (automatically incremented).
+tbl_units,date_updated,2,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_units,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,Gives a detailed explanation or description of the measurement unit.
+tbl_units,unit_abbrev,4,character varying,NULL,NULL,15,YES,NO,NO,NULL,NULL,"The abbreviation of the measurement unit (e.g., 'mm' for millimeters)."
+tbl_units,unit_name,5,character varying,NULL,NULL,50,NO,NO,NO,NULL,NULL,"The full name of the measurement unit (e.g., 'millimeters')."
+tbl_updates_log,updates_log_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_updates_log,table_name,2,character varying,NULL,NULL,150,NO,NO,NO,NULL,NULL,NULL
+tbl_updates_log,last_updated,3,date,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_value_classes,value_class_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_value_classes,value_type_id,2,integer,32,0,NULL,NO,NO,YES,tbl_value_types,value_type_id,NULL
+tbl_value_classes,method_id,3,integer,32,0,NULL,NO,NO,YES,tbl_methods,method_id,NULL
+tbl_value_classes,parent_id,4,integer,32,0,NULL,YES,NO,YES,tbl_value_classes,value_class_id,NULL
+tbl_value_classes,name,5,character varying,NULL,NULL,80,NO,NO,NO,NULL,NULL,NULL
+tbl_value_classes,description,6,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_value_classes,value_class_uuid,7,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_value_qualifier_symbols,qualifier_symbol_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_value_qualifier_symbols,symbol,2,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_value_qualifier_symbols,cardinal_qualifier_id,3,integer,32,0,NULL,NO,NO,YES,tbl_value_qualifiers,qualifier_id,NULL
+tbl_value_qualifier_symbols,qualifier_uuid,4,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_value_qualifiers,qualifier_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_value_qualifiers,symbol,2,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_value_qualifiers,description,3,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_value_qualifiers,qualifier_uuid,4,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_value_type_items,value_type_item_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_value_type_items,value_type_id,2,integer,32,0,NULL,NO,NO,YES,tbl_value_types,value_type_id,NULL
+tbl_value_type_items,name,3,character varying,NULL,NULL,80,YES,NO,NO,NULL,NULL,NULL
+tbl_value_type_items,description,4,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_value_types,value_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_value_types,unit_id,2,integer,32,0,NULL,YES,NO,YES,tbl_units,unit_id,NULL
+tbl_value_types,data_type_id,3,integer,32,0,NULL,YES,NO,YES,tbl_data_types,data_type_id,NULL
+tbl_value_types,name,4,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_value_types,base_type,5,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_value_types,precision,6,integer,32,0,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_value_types,description,7,text,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_value_types,value_type_uuid,8,uuid,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_years_types,years_type_id,1,integer,32,0,NULL,NO,YES,NO,NULL,NULL,NULL
+tbl_years_types,name,2,character varying,NULL,NULL,NULL,NO,NO,NO,NULL,NULL,NULL
+tbl_years_types,description,3,text,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
+tbl_years_types,date_updated,4,timestamp with time zone,NULL,NULL,NULL,YES,NO,NO,NULL,NULL,NULL
