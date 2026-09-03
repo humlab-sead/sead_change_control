@@ -14,3 +14,7 @@
 @2025.02 2025-01-29T12:00:00Z Roger Mähler <roger.mahler@umu.se> # 2025 February release
 @2026.04 2026-04-02T11:00:39Z Johan von Boer <johan.von.boer@umu.se> # April
 @2026.02 2026-02-10T13:49:44Z Roger Mähler <roger.mahler@umu.se> # February
+
+20260101_DML_GLYKOU_CARBON_COMMIT 2026-09-03T07:44:44Z Johan von Boer <johan.von.boer@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/442: Glykou et.al 2021 Carbon dataset
+20260101_DML_GLYKOU_RADIOCARBON_COMMIT 2026-09-03T07:45:05Z Johan von Boer <johan.von.boer@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/443: Glykou et.al 2021 Radiocarbon dataset
+20260101_DML_GLYKOU_STRONTIUM_COMMIT 2026-09-03T07:45:49Z Johan von Boer <johan.von.boer@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/444: Glykou et.al 2021 Strontium dataset
