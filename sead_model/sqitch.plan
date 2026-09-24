@@ -36,3 +36,5 @@ SEAD_MODEL_COMMENTS 2026-02-11T07:53:57Z Roger Mähler <roger.mahler@umu.se> # h
 @2026.04 2026-04-02T11:00:37Z Johan von Boer <johan.von.boer@umu.se> # April
 @2026.02 2026-02-10T13:49:41Z Roger Mähler <roger.mahler@umu.se> # February
 
+
+20260830_DDL_SUBMISSION_MODEL_REFACTOR 2026-08-30T11:30:24Z Johan von Boer <johan.von.boer@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/440: Improved design of SEAD schema for handling data submissions and related data
