@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.19.0](https://github.com/humlab-sead/sead_change_control/compare/v1.18.0...v1.19.0) (2026-09-24)
+
+### 🍕 Features
+
+* add 20260830_DDL_SUBMISSION_MODEL_REFACTOR ([825c2f1](https://github.com/humlab-sead/sead_change_control/commit/825c2f1c7a3afa772d0c0d77100fd187bb916b18))
+
 ## [1.18.0](https://github.com/humlab-sead/sead_change_control/compare/v1.17.0...v1.18.0) (2026-09-03)
 
 ### 🍕 Features
