@@ -1,10 +1,20 @@
 #!/bin/bash
+#######################################################################################
+# This script is used to generate and deploy a change request for the SEAD Clearinghouse system.
+#
+# - It generates a SQL script for the change request and creates a corresponding issue in the SEAD Control System.
+# - It also generates a post-deploy hook for the change request.
+# - It also uses the add-change-request script to add the change request to the SEAD Control System.
+#
+#######################################################################################
 
 . $(dirname "$0")/utility.sh
 
 SHELL=/bin/bash
 
 export PGCLIENTENCODING=UTF8
+
+TRANSPORT_HOME=$HOME/source/sead_clearinghouse/transport_system
 
 set -e
 
@@ -172,7 +182,7 @@ function print_options()
     fi
 }
 
-function dbexec() {
+function execute_sql() {
     local opt=$1
     local sql="$2"
     $g_exec_prefix psql -h $g_host -U $g_user -d $g_database -p $g_port --no-password --single-transaction -q -X -1 -v ON_ERROR_STOP=1 $opt "$sql"
@@ -199,17 +209,17 @@ function get_datatype() {
     echo "$dt_x"
 }
 
-function get_submission_id_by_name() {
-    local database=$1
-    local submission_name=$2
-    local sql="
-        select submission_id
-        from clearing_house.tbl_clearinghouse_submissions
-        where submission_name = '$submission_name'
-        limit 1;
-    "
-    echo $(psql -h $g_host -U $g_user -d $database -p $g_port -tAc "$sql")
-}
+# function get_submission_id_by_name() {
+#     local database=$1
+#     local submission_name=$2
+#     local sql="
+#         select submission_id
+#         from clearing_house.tbl_clearinghouse_submissions
+#         where submission_name = '$submission_name'
+#         limit 1;
+#     "
+#     echo $(psql -h $g_host -U $g_user -d $database -p $g_port -tAc "$sql")
+# }
 
 function generate_cr_name() {
     local id_or_name=$1
@@ -219,7 +229,7 @@ function generate_cr_name() {
         echo "$id_or_name"
     else
         local zid=`printf "%03d" ${id_or_name}`
-        local cr_x="${day}_DML_SUBMISSION_${dt_y^^}_${zid}_COMMIT"
+        local cr_x="${day}_DML_SUBMISSION_${dt_y^^}_COMMIT"
         local dt_y=`get_datatype $id_or_name`
         echo "${cr_x^^}"
     fi
@@ -227,7 +237,7 @@ function generate_cr_name() {
 
 function generate_data() {
 
-    local submission_id=$1
+    local cr_name=$1
     local work_folder=$2
 
     rm -rf "$work_folder"
@@ -236,25 +246,24 @@ function generate_data() {
     local sql="
         do \$\$
         begin
-            call clearing_house_commit.resolve_primary_keys(${submission_id}, 'public', null, FALSE);
+            call clearing_house_commit.resolve_primary_keys('${cr_name}'::text, '${cr_name}'::text, FALSE);
         end \$\$ language plpgsql;
 ";
 
     echo $sql | psql -h $g_host -U $g_user -d $g_database -p $g_port --no-password -q -X -1 -v ON_ERROR_STOP=1
 
-    dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($submission_id, '$work_folder', true)) to STDOUT;" \
+    execute_sql -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script('${cr_name}', '${work_folder}', true)) to STDOUT;" \
         | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g' >> "$work_folder/copy_out.sql"
 
-    dbexec -f "$work_folder/copy_out.sql"
+    execute_sql -f "$work_folder/copy_out.sql"
 
  }
 
 function generate_deploy() {
 
-    local submission_id=$1
-    local cr_name=$2
-    local project=$3
-    local work_folder=$4
+    local cr_name=$1
+    local project=$2
+    local work_folder=$3
     local cr_author=`getent passwd $USER | cut -d ':' -f 5 | cut -d ',' -f 1`
 
     local work_file=$work_folder/${cr_name}.sql
@@ -288,13 +297,17 @@ function generate_deploy() {
 
     # NOTE: relative cd if OS command, /repo assumes running sqitch via Docker
     echo "\cd /repo/$project/deploy"                                                        >> $work_file
+    echo ""                                                                                 >> $work_file
+	echo "\\o /dev/null"                                                                    >> $work_file
+    echo "call clearing_house_commit.reset_public_sequence_ids();"                          >> $work_file
+	echo "\\o"                                                                              >> $work_file
 
-    dbexec -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script($submission_id, '$cr_name', false)) to STDOUT; " \
+    execute_sql -c "\copy (select * from clearing_house_commit.generate_resolved_submission_copy_script('${cr_name}', '${cr_name}', false)) to STDOUT; " \
         | sed  -e 's/\\n/\n/g' -e 's/\\r/\r/g' -e 's/\\\\/\\/g'                             >> $work_file
 
 	echo "\\o /dev/null"                                                                    >> $work_file
-	echo "select clearing_house_commit.allocate_sequence_ids();"                            >> $work_file
-	echo "select clearing_house_commit.commit_submission($submission_id);"                  >> $work_file
+	echo "call clearing_house_commit.reset_public_sequence_ids();"                          >> $work_file
+	echo "select clearing_house_commit.commit_submission('${cr_name}');"                      >> $work_file
 	echo "\\o"                                                                              >> $work_file
 
 	echo "commit;"                                                                          >> $work_file
@@ -309,12 +322,11 @@ function generate_deploy() {
 
 function create_change_request()
 {
-    local submission_id=$1
-    local cr_name=$2
-    local project=$3
-    local work_folder=$4
-    local note=$5
-    local issue_id=$6
+    local cr_name=$1
+    local project=$2
+    local work_folder=$3
+    local note=$4
+    local issue_id=$5
 
     if [ -f "$project/deploy/$cr_name.sql" ]; then
         echo "fatal: CR task $cr_name already exists, please remove it before adding new."
@@ -326,7 +338,7 @@ function create_change_request()
     fi
 
     if [ "$note" == "" ]; then
-        note="Deploy of Clearinghouse submission {$submission_id}."
+        note="Deploy of Clearinghouse submission {$cr_name}."
     fi
 
     if [ "$issue_id" != "" ]; then
@@ -384,7 +396,15 @@ fi
 folder=$root_folder/subsystem/deploy/clearinghouse-data/$cr_name
 
 if [ -d "$folder" ]; then
-    dump-submission --target-uri $target_uri --id $cr_name --mode restore --target-id next --folder $folder --force
+    submission_cmd="$root_folder/bin/submission"
+    if [ ! -x "$submission_cmd" ]; then
+        submission_cmd=$(command -v submission || true)
+    fi
+    if [ "$submission_cmd" == "" ]; then
+        echo "error: submission command not found (expected $root_folder/bin/submission or PATH)" >&2
+        exit 127
+    fi
+    "$submission_cmd" --mode restore --target-uri $target_uri --id $cr_name --target-id next --folder $folder --force
 else
     echo "warning: no data folder found for CR $cr_name"
 fi
@@ -465,8 +485,23 @@ function check_setup() {
     fi
 }
 
+
+function check_transport_system() {
+    if [ ! -d "$TRANSPORT_HOME" ]; then
+        info "skipping check if transport system is current (default folder $TRANSPORT_HOME does not exist"
+        return 0
+    fi
+    if find $TRANSPORT_HOME -maxdepth 1 -type f -name "*.sql" -newer subsystem/deploy/20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM.sql | grep -q .; then
+        error "new version of transport system found, please update the transport system"
+        info "run command: bin/deploy-clearinghouse-commit --mode update --sql-folder $TRANSPORT_HOME/ --force --on-schema-exists drop"
+        exit 1
+        # echo "info: deploying new 20191217_DDL_CLEARINGHOUSE_TRANSPORT_SYSTEM"
+        # $runner bin/deploy-clearinghouse-commit --mode update --sql-folder $TRANSPORT_HOME/ --force --on-schema-exists drop
+    fi
+}
+
 if [ "$g_mode" == "list" ]; then
-    dbexec -c "select submission_id, data_types, upload_date, status_text from \
+    execute_sql -c "select submission_name, data_types, upload_date, status_text from \
         clearing_house.tbl_clearinghouse_submissions where submission_state_id = 2;"
     exit 0
 fi
@@ -475,12 +510,6 @@ check_setup
 
 if [ "$g_cr_name" == "" ]; then
     g_cr_name=$(generate_cr_name $g_id_or_name $g_date)
-fi
-
-if [[ ! "$g_id_or_name" =~ ^-?[0-9]+$ ]]; then
-    g_submission_id=`get_submission_id_by_name "$g_database" "$g_id_or_name"`
-else
-    g_submission_id=$g_id_or_name
 fi
 
 g_work_folder="$g_work_folder/$g_cr_name"
@@ -495,19 +524,20 @@ if [ "$g_mode" != "new_or_update" ]; then
 fi
 
 print_options
+check_transport_system
 
-generate_data $g_submission_id $g_work_folder
+generate_data $g_cr_name $g_work_folder
 
 if [ "$g_mode" != "only_data" ]; then
 
-    generate_deploy $g_submission_id $g_cr_name $g_project $g_work_folder
+    generate_deploy $g_cr_name $g_project $g_work_folder
 
     if [ "$g_mode" == "new" ]; then
-        create_change_request $g_submission_id $g_cr_name $g_project $g_work_folder $g_note $g_issue_id
+        create_change_request $g_cr_name $g_project $g_work_folder $g_note $g_issue_id
     elif [ "$g_mode" == "update" ]; then
         update_change_request $g_cr_name $g_project $g_work_folder
     fi
-    bin/dump-submission --host $g_host --user $g_user --port $g_port --id $g_cr_name --mode dump --database $g_database --folder "subsystem/deploy/clearinghouse-data/$g_cr_name" --force
+    bin/submission --mode dump --host $g_host --user $g_user --port $g_port --id $g_cr_name --database $g_database --folder "subsystem/deploy/clearinghouse-data/$g_cr_name" --force
 
     create_post_deploy_hook $g_cr_name $g_project/deploy/$g_cr_name
 

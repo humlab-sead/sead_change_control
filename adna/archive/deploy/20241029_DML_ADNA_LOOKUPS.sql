@@ -128,7 +128,8 @@ begin
 
     with new_data (system_id, biblio_id, method_name, method_abbrev_or_alt_name, description, method_group_id, record_type_id, unit_id, method_id) as (
         values
-            ('1', NULL, 'Ancient DNA analysis', 'aDNA', 'Extraction and analysis of ancient DNA recovered from biological material (human, animal, plants, etc.)', '1', '1', NULL, NULL)
+            ('1', NULL, 'Ancient DNA analysis (Sample Extraction/Analysis)', 'aDNA-Sample', 'Extraction and analysis of ancient DNA recovered from biological material (human, animal, plants, etc.).', '1', '1', NULL, NULL),
+            ('2', NULL, 'Ancient DNA analysis (Library Preparation)', 'aDNA-Library', 'Library preparation of ancient DNA recovered from biological material (human, animal, plants, etc.).', '1', '1', NULL, NULL)
         )
         insert into tbl_methods (method_id, biblio_id, method_name, method_abbrev_or_alt_name, description, method_group_id, record_type_id, unit_id)
             select

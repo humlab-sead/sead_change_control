@@ -1,3 +1,6 @@
+.codex
+external_data
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -115,5 +118,14 @@ src/data
 *-workspace
 sqitch
 home
-docs
+HOME
 dbdoc
+node_modules
+
+.nx/installation
+.nx/cache
+.nx/workspace-data
+nx*
+.vscode/mcp.json
+nohup.out
+transfer_database

@@ -1,88 +1,38 @@
 #!/bin/bash
+#
+# A script to extract comments from an Excel or CSV file and upload them to a PostgreSQL database.
+# NOTE:
+#  - This script requires the `xlsx2csv` and `csvkit` tools to be installed.
+#  - Instead of applying comments directly to the database, please consider using `csv-to-sql` instead and
+#    and replacing sead_model/SEAD_DATABASE_MODEL/deploy/comments.sql with the generated SQL file.
+
 
 source .env
 
-g_host=
-g_user=
-g_port=5433
-g_database=sead_staging
-g_filename=resources/tables_and_columns.xlsx
+
+g_script_dir=$(dirname "$(readlink -f "$0")")
 g_script_name="${BASH_SOURCE[0]}"
+
+. "$g_script_dir/../_db_utils.sh"
+
+g_filename=resources/tables_and_columns.xlsx
 g_delimiter=$','
 
-if [ "$g_host" == "" ]; then
-    if [ -f ~/vault/.default.sead.server ]; then
-        g_host=`cat ~/vault/.default.sead.server`;
-    else
-        g_host=$(hostname -A);
-    fi
-fi
+# usage_message=$usage_message \
+# $(cat <<EOF
+#     --delimiter DELIMITER               Field delimiter for CSV files)
+# EOF
+# )
 
-if [ "$g_user" == "" ]; then
-    if [ -f ~/vault/.default.sead.username ]; then
-        g_user=`cat ~/vault/.default.sead.username`;
-    fi
-fi
-
-if [ -f ~/vault/.default.sead.password ]; then
-    export PGPASSWORD=$(cat ~/vault/.default.sead.password)
-fi
-
-usage_message=$(cat <<EOF
-usage: $g_script_name FILENAME OPTIONS
-
-    --host SERVERNAME               Target server (${g_host})
-    --user USERNAME                 User on target server (${g_user})
-    --port PORT                     Server port on target server (${g_port})
-    --database DATABASE             Database on target server (${g_database})
-EOF
-)
-
-function usage() {
-    if [ "$1" != "" ]; then
-        echo "error: $1" >&2
-    fi
-    echo "$usage_message";
-    exit 64
-}
-
-POSITIONAL=()
-while [[ $# -gt 0 ]]
-do
-    key="$1"
-
-    case $key in
-        --host)
-            g_host="$2"; shift; shift
-        ;;
-        --port)
-            g_port="$2"; shift; shift
-        ;;
-        --user)
-            g_user="$2"; shift; shift
-        ;;
-        --database)
-            g_database="$2"; shift; shift
-        ;;
-        --delimiter)
-            g_delimiter="$2"; shift; shift
-        ;;
-        -h|--help)
-            usage
-        ;;
-        --*) 
-            usage "unknown option $1"
-        ;;
-        *)
-            POSITIONAL+=("$1")
-            shift
-        ;;
+while [[ $1 == --* || $1 == -h ]]; do
+    case $1 in
+        --delimiter) g_delimiter="$2"; shift 2 ;;
+        -h|--help)   usage ;;
+        *)           usage "unknown option $1" ;;
     esac
 done
 
-set -- "${POSITIONAL[@]}"
-
-g_filename=$1
+g_filename=${1:-$g_filename}
 
 if [ "$g_filename" == "" ]; then
     usage "filename is missing";
@@ -106,22 +56,15 @@ function extract_comments_to_csv()
     if [[ "$filename" =~ \.xlsx$ ]]; then
         if command -v xlsx2csv &> /dev/null
         then
-            # xlsx2csv "$filename" -n "Tables & Columns" -d $',' | csvcut -d $',' -c schema_name,table_name,column_name,comment > $target_filename
             xlsx2csv "$filename" -n "Tables & Columns" -d 'x09' | csvcut --tabs -c schema_name,table_name,column_name,comment | csvformat -T > $target_filename
-            # xlsx2csv "$filename" -n "Tables & Columns" -d $',' | \
-            #     csvcut -d $',' -c schema_name,table_name,column_name,comment | \
-            #         awk -F',' 'BEGIN{OFS=","} {if ($4 ~ /^".*"$/) gsub(/"/, "\"\"", $4); print $0}' > $target_filename
-        
         else
-            usage "xlsx2csv is not installed. Please install it using 'pipx install xlsx2csv'"
+            usage "xlsx2csv is not installed. Please install it using 'brew install xlsx2csv' or 'pipx install xlsx2csv'"
         fi
     elif [[ "$filename" =~ \.csv$ ]]; then
         csvcut -d $delimiter -c schema_name,table_name,column_name,comment "$filename"  | csvformat -T > $target_filename
     else
         usage "Unsupported file format. Only .xlsx and .csv files are supported."
     fi
-
-
 }
 
 
@@ -135,8 +78,8 @@ function upload_csv()
 
 g_target_filename=/tmp/sead_comments.$(date +%Y%m%d%H%M%S).csv
 
-extract_comments_to_csv $g_filename $g_target_filename $g_delimiter
-upload_csv $g_target_filename
+echo extract_comments_to_csv "$g_filename" "$g_target_filename" "$g_delimiter"
+echo upload_csv "$g_target_filename"
 
 # rm -f $g_target_filename
 

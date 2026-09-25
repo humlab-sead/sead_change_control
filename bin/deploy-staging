@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ -f .env ]; then
+    # export $(cat .env | xargs)    
+    set -a
+    source .env
+    set +a
+fi
+
 set -e
 
 . $(dirname "$0")/utility.sh
@@ -8,6 +15,11 @@ export PGCLIENTENCODING=UTF8
 unset PAGER
 
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+repo_root=$(realpath "$script_dir/..")
+
+# Make repository helper scripts (e.g. bin/submission) available for hook scripts
+# that invoke them by command name.
+export PATH="$repo_root/bin:$PATH"
 
 DEFAULT_SOURCE_DB_NAME=sead_master_9
 DEFAULT_SOURCE_DUMP_FILE="./starting_point/sead_master_9_public.sql.gz"
@@ -36,8 +48,6 @@ g_rename_end_of_chain=NO
 g_verbose=NO
 
 default_projects=$(get_projects)
-
-log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${g_target_name}_${g_source_type}.log"
 
 g_user=
 g_host=
@@ -86,6 +96,8 @@ Options:
     --deploy-single-change-request  Only deploy given CR, then exit
     --sqitch-project PROJECT        Specify the Sqitch project to deploy
     --rename-end-of-chain           Rename the last database in the chain to the target name (e.g. removes tag)
+    --verbose                       Enable verbose output
+    --display-status                Display the status of the target database
 
 Examples:
 
@@ -211,6 +223,7 @@ do
     esac
 done
 
+log_file="logs/"`date "+%Y%m%d%H%M%S"`_"deploy_${g_target_name}_${g_source_type}.log"
 
 function usage() {
     local error_message="$1"
@@ -343,22 +356,20 @@ function verify_options()
 
 function setup_credentials()
 {
-    if [ "$SQITCH_USERNAME" == "" ]; then
-        export SQITCH_USERNAME=${g_user}
-    fi
-
+    export SQITCH_USERNAME=${SQITCH_USERNAME:=$g_user}
+    export SQITCH_USERNAME=${SQITCH_USERNAME:=$PGUSER}
     if [ "$SQITCH_USERNAME" == "" ]; then
         usage "username not specified"
     fi
 
-    if [ "$SQITCH_PASSWORD" == "" ]; then
-        if [ -f "${DOT_SQITCH_FILE}" ]; then
-            verbose "using credentials found in vault"
-            source "${DOT_SQITCH_FILE}"
-        else
-            usage "password not specified (SQITCH_PASSWORD not defined and ${DOT_SQITCH_FILE} not found)"
-        fi
-    fi
+    # if [ "$SQITCH_PASSWORD" == "" ]; then
+    #     if [ -f "${DOT_SQITCH_FILE}" ]; then
+    #         verbose "using credentials found in vault"
+    #         source "${DOT_SQITCH_FILE}"
+    #     else
+    #         usage "password not specified (SQITCH_PASSWORD not defined and ${DOT_SQITCH_FILE} not found)"
+    #     fi
+    # fi
 }
 
 function execute_sql() {
@@ -367,7 +378,7 @@ function execute_sql() {
     if [ "$g_dry_run" == "YES" ]; then
         echo psql -v ON_ERROR_STOP=1 --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=$database --command "$sql"
     else
-        echo $sql >> $log_file
+        verbose $sql >> $log_file
         psql -v ON_ERROR_STOP=1 --host=$g_host --port="$g_port" --username=$g_user --no-password --dbname=$database --command "$sql" >> $log_file
         if [ $? -ne 0 ];  then
             error "psql command failed! Deploy aborted." >&2
@@ -478,7 +489,7 @@ function setup_target() {
 	    dbexecgz "$target_name" "$source_name"
 
 	    verbose "applying default permissions..."
-        # FIXME: Loop and apply all gz-files found in starting_point/
+
 	    dbexecgz "${target_name}" "./starting_point/role_permissions.sql.gz"
 
 	fi
@@ -663,7 +674,7 @@ function deploy_to_tag()
 
             cat $sqitch_output_filename
 
-            if grep -q "^not ok" $sqitch_output_filename; then
+            if grep -q "not ok" $sqitch_output_filename; then
                 deploy_code=1
             fi
 
@@ -678,12 +689,14 @@ function deploy_to_tag()
                 error "sqitch deploy FAILED! DB is in an undefined state." >&2
                 exit 64
             fi
+            
+            rm -f $sqitch_output_filename
 
             while IFS= read -r cr; do
                 local cr_post_deploy_hook="${sqitch_project}/deploy/${cr}/${cr}-post-deploy-hook"
                 if [ -f "$cr_post_deploy_hook" ]; then
                     info "${BLUE}running ${cr_post_deploy_hook} $target_uri${RESET}"
-                    ${cr_post_deploy_hook} "$target_uri" "$(realpath .)"
+                    ${cr_post_deploy_hook} "$target_uri" "$repo_root"
                 fi
             done <<< "$deployed_crs"
 
@@ -776,7 +789,7 @@ function deploy_chain_to_tag()
 function display_project_status()
 {
     info "Changes not deployed in \"$g_target_name\":"
-    target_uri="db:pg://${g_user}@${g_host}:${g_port}/${g_target_name}"
+    local target_uri="db:pg://${g_user}@${g_host}:${g_port}/${g_target_name}"
 
     for sqitch_project in $default_projects; do
         info "pending CRs \"$sqitch_project\": "
@@ -830,4 +843,3 @@ else
     fi
     deploy_to_tag $g_target_name $g_target_tag $g_source_type
 fi
-

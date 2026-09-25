@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ORG="humlab-sead"                 # <-- change if needed
+TOPIC="technical-meeting-issue"   # <-- or "xyz"
+
+gh repo list "$ORG" --limit 1000 --json nameWithOwner -q '.[].nameWithOwner' |
+while IFS= read -r repo; do
+  echo "Updating $repo"
+
+  # Get existing topics as JSON array (e.g. ["a","b"]) – always an array
+  existing_json=$(gh api "repos/$repo/topics" \
+    -H "Accept: application/vnd.github+json" \
+    -q '.names')
+
+  # Merge with new topic, remove duplicates (and avoid empty strings)
+  merged_json=$(jq -c --arg topic "$TOPIC" '
+      ( . + [$topic] )
+      | map(select(length > 0))
+      | unique
+    ' <<<"$existing_json")
+
+  # If topic already present, skip
+  if jq -e --arg topic "$TOPIC" 'index($topic) != null' >/dev/null <<<"$existing_json"; then
+    echo "  → already has topic '$TOPIC'"
+    continue
+  fi
+
+  # Build request body and send as real JSON
+  tmp=$(mktemp)
+  jq -n --argjson names "$merged_json" '{names: $names}' > "$tmp"
+
+  gh api -X PUT "repos/$repo/topics" \
+    -H "Accept: application/vnd.github+json" \
+    --input "$tmp" >/dev/null
+
+  rm -f "$tmp"
+  echo "  → added topic '$TOPIC'"
+done

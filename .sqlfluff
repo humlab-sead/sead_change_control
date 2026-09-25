@@ -1,0 +1,232 @@
+# SQLFluff Configuration for SEAD Change Control System
+# Based on existing SQL codebase formatting patterns
+# https://docs.sqlfluff.com/en/stable/configuration/default_configuration.html
+
+[sqlfluff]
+# SQL dialect
+dialect = postgres
+# File encoding
+encoding = utf-8
+# Template engine (none for plain SQL)
+templater = raw
+# Exclude specific paths
+exclude_rules = None
+# Max line length - observed to be flexible in codebase
+max_line_length = 120
+# Indentation
+indent_unit = space
+tab_space_size = 4
+
+[sqlfluff:indentation]
+# Indentation style observed in codebase
+indented_joins = False
+indented_ctes = False
+indented_using_on = True
+indented_on_contents = True
+template_blocks_indent = True
+
+[sqlfluff:rules]
+# Allow single character table aliases (common in existing code)
+allow_scalar = True
+
+[sqlfluff:rules:capitalisation.keywords]
+# Keywords are generally lowercase in the codebase
+capitalisation_policy = lower
+# Extended capitalisation policy for keywords
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.identifiers]
+# Table/column names are lowercase with underscores
+capitalisation_policy = lower
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.functions]
+# Function names are lowercase
+capitalisation_policy = lower
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.literals]
+# String literals case is preserved
+capitalisation_policy = consistent
+
+[sqlfluff:rules:capitalisation.types]
+# Data types are lowercase (integer, varchar, text, etc.)
+capitalisation_policy = lower
+
+[sqlfluff:rules:ambiguous.column_references]
+# Allow ambiguous column references - common in single table queries
+single_table_references = consistent
+
+[sqlfluff:rules:aliasing.table]
+# Table aliasing is optional
+aliasing = explicit
+
+[sqlfluff:rules:aliasing.column]
+# Column aliasing when needed
+aliasing = explicit
+
+[sqlfluff:rules:aliasing.length]
+# Allow short aliases (common: c, c2, c3, n, tc, kcu, ccu, etc.)
+min_alias_length = 1
+
+[sqlfluff:rules:layout.long_lines]
+# Flexible line length - some lines are longer for readability
+ignore_comment_lines = True
+ignore_comment_clauses = True
+
+[sqlfluff:rules:convention.select_trailing_comma]
+# Trailing commas not required on last column
+select_clause_trailing_comma = forbid
+
+[sqlfluff:rules:convention.quoted_literals]
+# Prefer single quotes for string literals
+preferred_quoted_literal_style = single_quotes
+
+[sqlfluff:rules:convention.casting_style]
+# Prefer :: casting syntax (PostgreSQL style)
+preferred_type_casting_style = shorthand
+
+[sqlfluff:rules:convention.count_rows]
+# Allow both COUNT(*) and COUNT(1)
+prefer_count_1 = False
+prefer_count_0 = False
+
+[sqlfluff:rules:convention.not_equal]
+# Prefer != over <>
+preferred_not_equal_style = ansi
+
+[sqlfluff:rules:convention.coalesce]
+# Use COALESCE instead of IFNULL
+prefer_coalesce_over_ifnull = True
+
+[sqlfluff:rules:convention.is_null]
+# Use IS NULL instead of = NULL
+consistent_null_comparison = True
+
+[sqlfluff:rules:layout.spacing]
+# Spacing observed in codebase
+before_alias = single
+after_alias = single
+
+[sqlfluff:rules:layout.commas]
+# Commas followed by space, no space before
+line_position = trailing
+
+[sqlfluff:rules:layout.operators]
+# Operators have spaces around them
+before_operator = single
+after_operator = single
+
+[sqlfluff:rules:layout.cte_newline]
+# CTEs start on new line
+select_clause_newline = True
+
+[sqlfluff:rules:structure.else_null]
+# Allow redundant ELSE NULL (can be explicit for clarity)
+allow_null = True
+
+[sqlfluff:rules:structure.subquery]
+# Subqueries can be in FROM clause
+forbid_subquery_in = None
+
+[sqlfluff:rules:references.keywords]
+# Allow unquoted identifiers that match keywords
+unquoted_identifiers_policy = all
+
+[sqlfluff:rules:references.consistent]
+# Table reference style
+single_table_references = consistent
+unquoted_identifiers = all
+
+[sqlfluff:rules:references.qualification]
+# Column reference qualification not enforced for single tables
+prefer_quoted_identifiers = False
+ignore_words = None
+ignore_words_regex = None
+
+[sqlfluff:rules:jinja.padding]
+# Not applicable (no Jinja templating)
+
+[sqlfluff:rules:convention.terminator]
+# Statements end with semicolon
+multiline_newline = False
+require_final_semicolon = True
+
+[sqlfluff:rules:convention.blocked_words]
+# No specific blocked words
+
+[sqlfluff:rules:layout.select_targets]
+# SELECT targets formatting
+wildcard_policy = single
+# Allow single line for short SELECT
+multiline = False
+
+[sqlfluff:rules:layout.functions]
+# Function arguments
+# Observed: compact style for short functions, expanded for long
+multiline_newlines = False
+
+[sqlfluff:rules:structure.simple_case]
+# Allow both CASE styles
+allow_standalone_case = True
+
+# Custom rules for SEAD-specific patterns
+[sqlfluff:rules:convention.table_name]
+# Tables use tbl_ prefix
+# This is informational - SQLFluff doesn't enforce prefixes by default
+
+# Specific rule configurations
+[sqlfluff:rules:ambiguous.set_columns]
+# Allow SET statements without explicit qualification
+single_table_references = consistent
+
+[sqlfluff:rules:layout.end_of_file]
+# Files should end with newline
+require_final_newline = True
+
+[sqlfluff:rules:layout.start_of_file]
+# Comment headers are standard
+# First line is: -- Deploy project:change_name
+
+[sqlfluff:rules:references.from]
+# FROM clause references
+# Allow table references without explicit schema when in public schema
+
+[sqlfluff:rules:references.special_chars]
+# Identifiers with special characters must be quoted
+unquoted_identifiers_policy = all
+quoted_identifiers_policy = none
+allow_space_in_identifier = False
+
+[sqlfluff:rules:references.quoting]
+# Quoting policy for identifiers
+# Prefer unquoted when possible (PostgreSQL defaults to lowercase)
+prefer_quoted_identifiers = False
+ignore_words = None
+ignore_words_regex = None
+force_enable = False
+
+# Layout rules
+[sqlfluff:layout:type:comma]
+# Comma spacing
+spacing_before = touch
+line_position = trailing
+
+[sqlfluff:layout:type:binary_operator]
+# Operators spacing (=, +, -, etc.)
+spacing_within = single
+line_position = leading
+
+[sqlfluff:layout:type:statement_terminator]
+# Semicolon placement
+spacing_before = touch
+line_position = trailing
+
+[sqlfluff:layout:type:end_of_file]
+# Final newline
+spacing_before = touch
+
+[sqlfluff:layout:type:cast_operator]
+# :: operator (PostgreSQL casting)
+spacing_before = touch
+spacing_after = touch

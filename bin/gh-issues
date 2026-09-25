@@ -1,0 +1,18 @@
+#!/bin/bash
+
+gh issue list   --state all   --limit 1000   --json number,title,state,author,assignees,labels,createdAt,updatedAt,url   --jq '
+    ["Number", "Title", "State", "Author", "Assignees", "Labels",
+     "Created", "Updated", "URL"],
+    (.[] | [
+      .number,
+      .title,
+      .state,
+      .author.login,
+      ([.assignees[].login] | join(", ")),
+      ([.labels[].name] | join(", ")),
+      .createdAt,
+      .updatedAt,
+      .url
+    ]) | @tsv
+  '
+  

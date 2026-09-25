@@ -1,0 +1,178 @@
+#!/bin/bash
+
+
+if [ -f .env ]; then
+    set -o allexport
+    source .env
+    set +o allexport
+fi
+
+g_database=
+g_host=$(dnsdomainname -A)
+g_schema=public
+g_include=
+g_exclude=
+g_user=
+g_port=5433
+g_compress=NO
+g_folder=
+
+if [ -f ~/vault/.default.sead.server ]; then
+    g_host=`cat ~/vault/.default.sead.server`
+fi
+
+if [ -f ~/vault/.default.sead.username ]; then
+    g_user=`cat  ~/vault/.default.sead.username`
+fi
+
+function usage()
+{
+    local error_message=$1
+    if [ "$error_message" != "" ]; then
+        echo "$error_message" >&2
+    fi
+    echo "usage: dump-table-data [OPTIONS...] DBNAME SCHEMA_NAME"
+    echo "Dumps table data to individual CSV files."
+    echo "Options:"
+    echo "   --host HOSTNAME           host name"
+    echo "   --user USERNAME           user name"
+    echo "   --port PORT               host port "
+    echo "   --folder FOLDER           target folder"
+    echo "   --compress                compress files with gzip"
+    echo "   --include TABLENAME       include table name patterns"
+    echo "   --exclude TABLENAME       exclude table name patterns"
+    exit 64
+}
+
+g_include=()
+g_exclude=()
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        --compress|-c)
+            g_compress="YES"; shift;
+        ;;
+        --no-compress)
+            g_compress="NO"; shift;
+        ;;
+        --port|-p)
+            g_port="$2"; shift 2;
+        ;;
+        --user|-U)
+            g_user="$2"; shift 2;
+        ;;
+        --host|-h)
+            g_host="$2"; shift 2;
+        ;;
+        --folder|-f)
+            g_folder="$2"; shift 2;
+        ;;
+        --schema|-s)
+            g_schema="$2"; shift 2;
+        ;;
+        --include)
+            g_include+=("$2"); shift 2;
+        ;;
+        --exclude)
+            g_exclude+=("$2"); shift 2;
+        ;;
+        -*)
+            usage "Unknown option: $1"
+        ;;  
+        *)
+            POSITIONAL+=("$1")
+            shift
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL[@]}"
+
+g_database=$1
+g_schema=$2
+
+if [ "$g_database" == "" ] || [ "$g_schema" == "" ]; then
+    usage
+fi
+
+if [ "$g_folder" == "" ]; then
+    usage "Target folder not specified."
+fi
+
+g_sql="select tablename
+from pg_tables
+where schemaname = '${g_schema}'"
+
+if [ ${#g_include[@]} -gt 0 ]; then
+    g_sql+=" and ("
+    for i in "${!g_include[@]}"; do
+        g_sql+="tablename like '${g_include[$i]}'"
+        if [ $i -lt $((${#g_include[@]} - 1)) ]; then
+            g_sql+=" or "
+        fi
+    done
+    g_sql+=")"
+fi
+if [ ${#g_exclude[@]} -gt 0 ]; then
+    g_sql+=" and ("
+    for i in "${!g_exclude[@]}"; do
+        g_sql+="tablename not like '${g_exclude[$i]}'"
+        if [ $i -lt $((${#g_exclude[@]} - 1)) ]; then
+            g_sql+=" and "
+        fi
+    done
+    g_sql+=")"
+fi
+
+tables=$(psql -h "$g_host" -U "$g_user" -d "$g_database" -Atc "$g_sql")
+
+# echo "SQL: $g_sql"
+# echo "Tables: $tables"
+
+g_folder="$g_folder/$g_database/$g_schema/$(date +'%Y%m%d_%H%M%S')"
+mkdir -p "$g_folder"
+
+exclude_columns="date_updated,updated_at"
+
+for table_name in $tables; do
+    echo "Exporting $table_name → $g_folder/${table_name}.csv"
+    # psql -h "$g_host" -U "$g_user" -d "$g_database" -c "\copy $g_schema.$table_name TO '$g_folder/${table_name}.csv' CSV HEADER"
+
+    exclude_filter=$(echo "$exclude_columns" | awk -F',' '{
+        for (i = 1; i <= NF; i++) {
+            printf " AND column_name NOT LIKE '\''%s'\''", $i
+        }
+    }')
+    
+    column_list=$(psql -h "$g_host" -U "$g_user" -d "$g_database" -Atc "
+        SELECT string_agg(quote_ident(column_name), ', ')
+        FROM information_schema.columns
+        WHERE table_schema = '$g_schema'
+          AND table_name = '$table_name'
+          $exclude_filter
+    ")
+
+    # Skip if no columns found (just in case)
+    if [ -z "$column_list" ]; then
+        echo "⚠️  No columns to export for $table_name (all excluded?)"
+        continue
+    fi
+
+    output_file="$g_folder/${table_name}.csv"
+
+    # Use \copy with explicit columns
+    psql -h "$g_host" -U "$g_user" -d "$g_database" -c "\copy (SELECT $column_list FROM $g_schema.$table_name) TO '$output_file' CSV HEADER"
+
+    # Remove the file if it's empty (0 bytes or only header)
+    if [ ! -s "$output_file" ] || [ "$(wc -l < "$output_file")" -le 1 ]; then
+        echo "🗑  Removing empty file: $output_file"
+        rm -f "$output_file"
+        continue
+    fi
+
+    if [ "$g_compress" == "YES" ]; then
+        gzip "$output_file"
+    fi
+done

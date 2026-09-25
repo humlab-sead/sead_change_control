@@ -7,14 +7,15 @@ set -e
 . $(dirname "$0")/utility.sh
 
 usage_message=$(cat <<EOF
-usage: rename-cr OPTIONS...
+usage: rename-cr OPTIONS CR-NAME NEW-CR-NAME
 
-Rename a change without moving to another project. 
-If change is not found, no action is taken.
+Rename a change from one name to another. 
+If the change is not found, no action is taken.
 
-    --change                Change to remove.
-    --to-project NAME       Project change should be moved to.
-    --tag TAG               Move change to TAG in destination plan.
+Options:
+    --dry-run               Do not execute any commands.
+    --help                  Show this help message.
+    --project NAME          Project change exists in.
     --no-update-plan        Do not update Sqitch plans.
 
 Example:
@@ -85,7 +86,7 @@ if [ "$g_project" == "" ]; then
 fi
 
 if [ "$g_project" == "" ]; then
-    usage "fatal: patch ${g_cr} not found!"
+    usage "fatal: ${g_cr} not found!"
 fi
 
 if [ ! -f "$g_project/sqitch.plan" ]; then

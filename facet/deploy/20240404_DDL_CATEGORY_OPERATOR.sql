@@ -9,22 +9,24 @@
   Reviewer      
   Approver      
   Idempotent    Yes
-  Notes
+  Notes         Backported to 20190101_DML_FACETS (#213)
 *****************************************************************************************************************/
 
 begin;
 do $$
 begin
 
-    if not exists (select 1 from facet.facet_type where facet_type_id = 4) then
-        insert into facet.facet_type (facet_type_id, facet_type_name, reload_as_target)
-            values (4, 'rangesintersect', TRUE);
-    end if;
+    -- if not exists (select 1 from facet.facet_type where facet_type_id = 4) then
+    --     insert into facet.facet_type (facet_type_id, facet_type_name, reload_as_target)
+    --         values (4, 'rangesintersect', TRUE);
+    -- end if;
 
-	alter table facet.facet drop column if exists category_id_operator;
+	-- alter table facet.facet drop column if exists category_id_operator;
 
-    alter table facet.facet
-        add column if not exists category_id_operator varchar(40) not null DEFAULT ('=');
+    -- alter table facet.facet
+    --     add column if not exists category_id_operator varchar(40) not null DEFAULT ('=');
     
+    raise notice '20240404_DDL_CATEGORY_OPERATOR: Backported to 20190101_DML_FACETS (#213)';
+
 end $$;
 commit;

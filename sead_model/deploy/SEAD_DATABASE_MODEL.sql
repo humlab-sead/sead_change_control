@@ -15,6 +15,8 @@ set client_encoding = 'UTF8';
 set standard_conforming_strings = on;
 set client_min_messages = error;
 
+create extension if not exists postgis;
+
 set role sead_master;
 
 create schema if not exists public;
@@ -30,7 +32,6 @@ begin;
 \i SEAD_DATABASE_MODEL/foreignkeys.sql;
 \i SEAD_DATABASE_MODEL/indexes.sql;
 \i SEAD_DATABASE_MODEL/grants.sql;
-\i SEAD_DATABASE_MODEL/comments.sql;
 
 commit;
 

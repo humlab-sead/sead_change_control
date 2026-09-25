@@ -18,7 +18,24 @@ function warning() {
 }
 
 function error() {
-    echo -e "${RED}warning${RESET}: $1"
+    echo -e "${RED}error${RESET}: $1"
+}
+
+colorize() {
+    local color=$1
+    shift
+    local reset='\033[0m'
+    local code
+
+    case "$color" in
+        red) code='\033[0;31m' ;;
+        green) code='\033[0;32m' ;;
+        yellow) code='\033[0;33m' ;;
+        blue) code='\033[0;34m' ;;
+        *) code='' ;;
+    esac
+
+    echo -e "${code}$*${reset}"
 }
 
 function find_parent_with_basename() {

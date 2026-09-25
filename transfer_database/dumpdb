@@ -1,0 +1,20 @@
+#!/bin/bash
+
+DBUSER=humlab_admin
+DBHOST=localhost
+DBNAME=sead_staging
+DBPORT=5433
+
+SCHEMA_EXCLUDE="--exclude-schema=audit \
+    --exclude-schema=authority \
+    --exclude-schema=bugs_import \
+    --exclude-schema=clearing_house \
+    --exclude-schema=clearing_house_commit \
+    --exclude-schema=data \
+    --exclude-schema=dump_sample \
+    --exclude-schema=sample \
+    --exclude-schema=sqitch"
+
+pg_dump -U $DBUSER -h $DBHOST -d $DBNAME -p $DBPORT --no-owner --no-acl -F p $SCHEMA_EXCLUDE | gzip > ${DBNAME}.sql.gz
+pg_dump -U $DBUSER -h $DBHOST -d $DBNAME -p $DBPORT --no-owner --no-acl -F c $SCHEMA_EXCLUDE | gzip > ${DBNAME}.dump.gz
+
