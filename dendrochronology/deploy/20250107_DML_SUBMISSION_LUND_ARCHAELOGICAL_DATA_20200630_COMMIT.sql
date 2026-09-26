@@ -1,10 +1,10 @@
--- Deploy dendrochronology: 20260101_DML_GBG_STH_LIVING_TREES_COMMIT
+-- Deploy dendrochronology: 20250107_DML_SUBMISSION_LUND_ARCHAELOGICAL_DATA_20200630_COMMIT
 
 /****************************************************************************************************************
   Author        Roger Mähler
-  Date          2026-01-01
-  Description   This data submission holds the dendrochronological data from living trees at the Gothenburg and Stockholm labs.
-  Issue         https://github.com/humlab-sead/sead_change_control/issues/339
+  Date          2025-01-07
+  Description   This dataset is the 20200630 submission of archaeological data from the Lund dendro lab. The pilot data from the VISEAD project is not part of this import.
+  Issue         https://github.com/humlab-sead/sead_change_control/issues/341
   Prerequisites 
   Reviewer      
   Approver      
