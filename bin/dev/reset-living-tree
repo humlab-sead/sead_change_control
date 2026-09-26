@@ -16,7 +16,7 @@ g_target_db="${g_source_db}_${g_suffix}"
 
 g_datatype=dendrochronology
 
-g_cr_name=20241213_DML_LUND_LIVING_TREES_COMMIT
+g_cr_name=20241213_DML_SUBMISSION_LUND_LIVING_TREES_COMMIT
 
 g_import_system_folder=$HOME/source/sead_clearinghouse_import/
 g_data_folder=$g_import_system_folder/data/dendro/lund_living_trees_20241213
