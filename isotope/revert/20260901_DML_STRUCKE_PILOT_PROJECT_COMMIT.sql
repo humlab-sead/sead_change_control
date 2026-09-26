@@ -1,0 +1,7 @@
+-- Revert isotope:20260901_DML_STRUCKE_PILOT_PROJECT_COMMIT from pg
+
+BEGIN;
+
+-- XXX Add DDLs here.
+
+COMMIT;
