@@ -76,6 +76,8 @@ It creates the change request's issue from `change.json`, runs `bin/add-change-r
 
 `sdf` is listed last in `projects.txt`, so in a release it deploys after every other project. That matters: each script's guards abort unless every row it touches is exactly as it was when the bundle was generated on staging, which includes changes from other projects deployed before it. The deploy script also runs its own verify checks before `COMMIT`.
 
+After a release that includes SDF change requests, the JSON API server's cached site data and charts still show the old values. Rebuild them from sead-deployment with `./deploy.sh preload-jas` (or at least `./deploy.sh flush-cache`).
+
 ## Naming Convention
 
 Use the established change request naming convention:

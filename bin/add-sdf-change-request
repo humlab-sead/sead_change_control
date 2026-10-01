@@ -194,4 +194,5 @@ if [ -n "$change" ] && [ "$dry_run" == "NO" ]; then
     echo ""
     echo "Next: review $project/deploy/$change.sql, then deploy it to staging as usual."
     echo "Entries left out (conflicts, rows waiting on proposals) are listed in the bundle's report.json."
+    echo "After the release, rebuild the JSON API server's caches (sead-deployment: ./deploy.sh preload-jas)."
 fi
