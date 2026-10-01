@@ -99,6 +99,12 @@ function tag_projects()
     local projects=$(grep -v '^#' $g_projects_file | grep -v '^[[:space:]]*$')
 
     for project in $projects; do
+        # Sqitch cannot tag a plan with no changes (e.g. sdf before its first change
+        # request); deploy-staging skips a project that lacks the release tag.
+        if ! grep -qE '^[^%@#[:space:]]' ./$project/sqitch.plan; then
+            echo "info: skipping $project (no changes to tag)"
+            continue
+        fi
         sqitch tag --tag "$tag" --note "$note" --plan-file ./$project/sqitch.plan
     done
 }
