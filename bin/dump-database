@@ -11,7 +11,7 @@ g_database=
 g_schema=
 g_host=$(dnsdomainname -A)
 g_user=
-g_port=5433
+g_port=9023
 g_compress=YES
 g_filename=
 g_bare=YES
@@ -115,6 +115,8 @@ fi
 if [ "$g_schema" != "" ]; then
     g_opts="$g_opts --schema=$g_schema"
 fi
+
+echo pg_dump --file=${g_filename} $g_opts --dbname=$g_database --username=$g_user --host=$g_host --port=$g_port --blobs
 
 pg_dump --file=${g_filename} \
         $g_opts \
