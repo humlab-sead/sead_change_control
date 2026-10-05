@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.20.0](https://github.com/humlab-sead/sead_change_control/compare/v1.19.0...v1.20.0) (2026-10-05)
+
+### 🍕 Features
+
+* add 20261002_DML_ANALYSIS_ENTITY_AGES_PLAIN_BP ([a670bfa](https://github.com/humlab-sead/sead_change_control/commit/a670bfafb0f14cfa0f5bdd15190b1d36c1cb0e1f))
+
 ## [1.19.0](https://github.com/humlab-sead/sead_change_control/compare/v1.18.0...v1.19.0) (2026-09-24)
 
 ### 🍕 Features
