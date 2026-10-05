@@ -53,7 +53,7 @@ begin
 
         create table tbl_submissions (
             submission_id serial primary key,
-            submission_state_id integer not null references tbl_submission_states(submission_state_id) on update cascade,
+            submission_state_id integer null references tbl_submission_states(submission_state_id) on update cascade,
             biblio_id integer references tbl_biblio(biblio_id) on update cascade,
             upload_date date,
             submission_date date,
@@ -84,8 +84,12 @@ begin
             notes text
         );
 
-        alter table tbl_datasets add column submission_id integer;
-        alter table tbl_dataset_contacts add column event_date date;
+        alter table tbl_datasets
+            add column submission_id integer null
+                references tbl_submissions(submission_id) on update cascade;
+
+        alter table tbl_dataset_contacts
+            add column event_date date;
 
         create index idx_submissions_submission_state_id on tbl_submissions(submission_state_id);
         create index idx_submissions_biblio_id on tbl_submissions(biblio_id);
@@ -126,7 +130,23 @@ begin
         grant select on tbl_submissions to public;
         grant select on tbl_submission_task_types to public;
         grant select on tbl_submission_tasks to public;
+
+        /* Add initial lookup values for submission states and task types */
         
+        insert into tbl_submission_states (submission_state_id, submission_state, note)
+            values
+                (1, 'Pending', 'Submission is pending review'),
+                (2, 'Approved', 'Submission has been approved'),
+                (3, 'Rejected', 'Submission has been rejected'),
+                (4, 'Pulled', 'Submission has been pulled'),
+                (5, 'Future', 'Submission is scheduled for future upload');
+
+        insert into tbl_submission_task_types ( submission_task_type_id, action_task_name, description )
+            select submission_type_id, submission_type, description
+            from tbl_dataset_submission_types
+            where submission_type_id not in (10, 11);
+        
+
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;

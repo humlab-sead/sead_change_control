@@ -39,5 +39,4 @@ SEAD_MODEL_COMMENTS 2026-02-11T07:53:57Z Roger Mähler <roger.mahler@umu.se> # h
 
 20260830_DDL_SUBMISSION_MODEL_REFACTOR 2026-08-30T11:30:24Z Johan von Boer <johan.von.boer@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/440: Improved design of SEAD schema for handling data submissions and related data
 
-20260830_DML_SUBMISSION_MODEL_LOOKUPS 2026-09-26T20:49:08Z Johan von Boer <johan.von.boer@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/449: Setup and migration of legacy data to new submission model
 20260830_DML_SUBMISSION_MODEL_MIGRATE 2026-09-27T07:46:34Z Johan von Boer <johan.von.boer@umu.se> # https://github.com/humlab-sead/sead_change_control/issues/450: Migrate legacy data to new model
