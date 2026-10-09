@@ -4,6 +4,23 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.21.0](https://github.com/humlab-sead/sead_change_control/compare/v1.20.0...v1.21.0) (2026-10-07)
+
+### 🍕 Features
+
+* add DML submission model lookups and related SQL scripts ([0286c36](https://github.com/humlab-sead/sead_change_control/commit/0286c36490f09ac8e587840f8bb0ff9b09d3cef5))
+* added placeholder for Arbodat submission ([62e30e7](https://github.com/humlab-sead/sead_change_control/commit/62e30e7e962bd102f32867e8a85ec95768d9b498))
+* implement new submission model with data migration and lookups ([2110f51](https://github.com/humlab-sead/sead_change_control/commit/2110f51cf26f3ce3f3b0d87674692daa7c9ea5c1))
+* remove the empty radiocarbon change request 20250401_RADIOCARBON_PILOT__COMMIT ([8b35f26](https://github.com/humlab-sead/sead_change_control/commit/8b35f2625fc99918ff392f9935239372931b049e))
+* rename dendrchronology submissions and create placeholder for future data ([65b01ec](https://github.com/humlab-sead/sead_change_control/commit/65b01ec53924b0a7777263a5be69c2ea7c93ab4c))
+* rename isotope submissions and create placeholder for future data ([ba09140](https://github.com/humlab-sead/sead_change_control/commit/ba091403fbcb5d691dcfd0dc64c4badd90dc2422))
+* renamed submission name to conform to conventional naming ([5c32e5c](https://github.com/humlab-sead/sead_change_control/commit/5c32e5c78608d2511c311e2e86421ef4f7b864aa))
+* streamline to contain only DDL statements ([f4ed29e](https://github.com/humlab-sead/sead_change_control/commit/f4ed29e43fc9ba25a624ee26deeab3287a2d9c50))
+
+### 🐛 Bug Fixes
+
+* update default port for database dump script ([1dfaaad](https://github.com/humlab-sead/sead_change_control/commit/1dfaaad4342f4d1848bef2f1d2020eace8b528db))
+
 ## [1.20.0](https://github.com/humlab-sead/sead_change_control/compare/v1.19.0...v1.20.0) (2026-10-05)
 
 ### 🍕 Features
