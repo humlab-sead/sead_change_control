@@ -4,6 +4,12 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.22.0](https://github.com/humlab-sead/sead_change_control/compare/v1.21.0...v1.22.0) (2026-10-09)
+
+### 🍕 Features
+
+* improve instructions and templates for proposal and phase planning ([17ff673](https://github.com/humlab-sead/sead_change_control/commit/17ff67328bfa4c151ea079502d1915e78cb97ea1))
+
 ## [1.21.0](https://github.com/humlab-sead/sead_change_control/compare/v1.20.0...v1.21.0) (2026-10-07)
 
 ### 🍕 Features
