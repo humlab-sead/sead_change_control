@@ -8,7 +8,7 @@ if [ -f .env ]; then
 fi
 
 g_database=
-g_schema=
+g_schemas=()
 g_host=$(dnsdomainname -A)
 g_user=
 g_port=9023
@@ -34,7 +34,7 @@ function usage()
     echo "usage: dump-database [OPTIONS...] DBNAME"
     echo "Creates a dump of the database."
     echo "Options:"
-    echo "   --schema SCHEMA           schema name"
+    echo "   --schema SCHEMA           schema name (can be specified multiple times)"
     echo "   --host HOSTNAME           host name"
     echo "   --user USERNAME           user name"
     echo "   --port PORT               host port "
@@ -50,7 +50,10 @@ do
     key="$1"
     case $key in
         --schema|-s)
-            g_schema="$2"; shift 2;
+            if [[ $# -lt 2 || "$2" == --* ]]; then
+                usage "--schema requires a schema name"
+            fi
+            g_schemas+=("$2"); shift 2;
         ;;
         --compress|-c)
             g_compress="YES"; shift;
@@ -96,36 +99,33 @@ if [ "$g_database" == "" ]; then
 fi
 
 
-g_opts="--format=p --create --clean "
+g_opts=(--format=p --create --clean)
 
 if [ "$g_bare" == "YES" ]; then
-    g_opts="$g_opts --no-tablespaces --no-owner --no-privileges --no-comments"
+    g_opts+=(--no-tablespaces --no-owner --no-privileges --no-comments)
 else
-    g_opts="$g_opts --if-exists"
+    g_opts+=(--if-exists)
 fi
 
 if [ "$g_filename" == "" ]; then
-    if [ "$g_schema" != "" ]; then
-        g_filename=${g_database}_${g_schema}_${g_timestamp}.sql
+    if [ "${#g_schemas[@]}" -gt 0 ]; then
+        schema_filename=$(IFS=_; printf '%s' "${g_schemas[*]}")
+        g_filename=${g_database}_${schema_filename}_${g_timestamp}.sql
     else
         g_filename=${g_database}_${g_timestamp}.sql
     fi    
 fi
 
-if [ "$g_schema" != "" ]; then
-    g_opts="$g_opts --schema=$g_schema"
-fi
+for schema in "${g_schemas[@]}"; do
+    g_opts+=("--schema=$schema")
+done
 
-echo pg_dump --file=${g_filename} $g_opts --dbname=$g_database --username=$g_user --host=$g_host --port=$g_port --blobs
+g_command=(pg_dump --file="$g_filename" "${g_opts[@]}" --dbname="$g_database" --username="$g_user" --host="$g_host" --port="$g_port" --blobs)
+printf '%q ' "${g_command[@]}"
+printf '\n'
 
-pg_dump --file=${g_filename} \
-        $g_opts \
-        --dbname=$g_database \
-        --username=$g_user \
-        --host=$g_host \
-        --port=$g_port \
-        --blobs
+"${g_command[@]}"
 
 if [ "$g_compress" == "YES" ]; then
-    gzip $g_filename
+    gzip "$g_filename"
 fi
