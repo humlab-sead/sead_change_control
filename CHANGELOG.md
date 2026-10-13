@@ -4,6 +4,16 @@
 > All notable changes to this project will be documented in this file
 
 
+## [1.23.0](https://github.com/humlab-sead/sead_change_control/compare/v1.22.0...v1.23.0) (2026-10-13)
+
+### 🍕 Features
+
+* enhance dump-database script to support multiple schemas and improve usage instructions ([03f1209](https://github.com/humlab-sead/sead_change_control/commit/03f12091bf3238a1872771f15576f4bdc932c78e))
+
+### 🧑‍💻 Code Refactoring
+
+* streamline SQL queries for dataset analysis and remove unused code ([dd2444c](https://github.com/humlab-sead/sead_change_control/commit/dd2444c3d5d8e382ce15c7dadfb8954ac43cc8e5))
+
 ## [1.22.0](https://github.com/humlab-sead/sead_change_control/compare/v1.21.0...v1.22.0) (2026-10-09)
 
 ### 🍕 Features
