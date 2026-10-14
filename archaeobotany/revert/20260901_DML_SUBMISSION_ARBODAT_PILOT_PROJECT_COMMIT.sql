@@ -1,0 +1,7 @@
+-- Revert archaeobotany:20260901_DML_SUBMISSION_ARBODAT_PILOT_PROJECT_COMMIT from pg
+
+BEGIN;
+
+-- XXX Add DDLs here.
+
+COMMIT;

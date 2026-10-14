@@ -15,6 +15,10 @@
 #
 # Geometry is loaded at full resolution; no simplification is applied.
 #
+# Names come from mode() over the group's leaves - see dissolve_level() for why. A schema
+# loaded before that change can be repaired in place with fix_gadm_names.sql, next to this
+# script, instead of re-dissolving from scratch.
+#
 # Note that ogr2ogr lowercases column names when writing to PostgreSQL (LAUNDER defaults
 # to YES), so GADM's GID_0 / NAME_1 / TYPE_2 arrive as gid_0 / name_1 / type_2.
 
@@ -275,16 +279,26 @@ dissolve_level() {
     run_sql "DROP TABLE IF EXISTS ${raw} CASCADE;"
 
     # carry the ancestry down so a level-2 row still names its country and region
+    #
+    # Names are taken with mode() - the most common value among the leaves - not max().
+    # A GID group is supposed to agree on its name, but a handful of leaves in GADM 4.1 do
+    # not: two ~1 km2 slivers filed under GBR.1_1 (England) carry NAME_1 'Wales', and with
+    # max() those two rows out of 7443 renamed the whole of England, leaving the data with
+    # two Waleses and no England. mode() lets the 7441 win. It also breaks ties by the
+    # ORDER BY, so the result is reproducible rather than whatever the collation happened
+    # to sort last. Affects 1 unit at level 1 and 50 at level 2 of GADM 4.1.
+    #
+    # GID columns keep max(): they are constant within a group by construction.
     name_cols=""
     select_cols="gid"
     for (( parent=0; parent<=level; parent++ )); do
-        name_cols="${name_cols}, max(gid_${parent}) AS gid_${parent}, max(name_${parent}) AS name_${parent}"
+        name_cols="${name_cols}, max(gid_${parent}) AS gid_${parent}, mode() WITHIN GROUP (ORDER BY name_${parent}) AS name_${parent}"
         select_cols="${select_cols}, gid_${parent}, name_${parent}"
     done
     # the unit's own type only exists from level 1 down
     type_cols=""
     if [ "$level" -gt 0 ]; then
-        type_cols=", max(type_${level}) AS type, max(engtype_${level}) AS engtype"
+        type_cols=", mode() WITHIN GROUP (ORDER BY type_${level}) AS type, mode() WITHIN GROUP (ORDER BY engtype_${level}) AS engtype"
         select_cols="${select_cols}, type, engtype"
     fi
 

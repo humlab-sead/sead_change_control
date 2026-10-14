@@ -64,3 +64,11 @@ NEXT STEP:
 ```
 
 Last updated: 2026-05-28
+
+
+
+## Database querying
+
+There is a Postgres MCP server
+available for read-only SQL; otherwise use
+`psql -h localhost -p 5432 -U sead_ro -w sead_staging`. **Never write to the database.**
