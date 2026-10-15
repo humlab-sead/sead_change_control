@@ -664,33 +664,35 @@ function deploy_to_tag()
                 "$sqitch_project/${tag}-pre-deploy-hook" --target $target_uri
             fi
 
-            local sqitch_output_filename=$(mktemp)
+            local sqitch_output_filename
+            sqitch_output_filename=$(mktemp)
 
-            sqitch deploy --target ${target_uri} --mode change --no-pager --no-verify -C $sqitch_project --to $tag  --set "client_min_messages=WARNING" | cat &> $sqitch_output_filename
+            if sqitch deploy --target "$target_uri" --mode change --no-pager --no-verify -C "$sqitch_project" --to "$tag" \
+                --set "client_min_messages=WARNING" >"$sqitch_output_filename" 2>&1; then
+                deploy_code=0
+            else
+                deploy_code=$?
+            fi
 
-            deploy_code=$?
+            cat "$sqitch_output_filename"
 
-            #  | tee $sqitch_output_filename
-
-            cat $sqitch_output_filename
-
-            if grep -q "not ok" $sqitch_output_filename; then
+            if grep -q "not ok" "$sqitch_output_filename"; then
                 deploy_code=1
             fi
 
-            local deployed_crs=$(sed -E '/^[[:space:]]*\+/!d; s/^[[:space:]]*\+\s*([[:alnum:]_]+).*/\1/; ' "$sqitch_output_filename")
-
-            if [ -f $sqitch_project/"${tag}-post-deploy-hook" ]; then
-                info "running $sqitch_project/${tag}-post-deploy-hook..."
-                "$sqitch_project/${tag}-post-deploy-hook" --target $target_uri
-            fi
-
             if [ $deploy_code -ne 0 ];  then
+                rm -f "$sqitch_output_filename"
                 error "sqitch deploy FAILED! DB is in an undefined state." >&2
                 exit 64
             fi
-            
-            rm -f $sqitch_output_filename
+
+            local deployed_crs=$(sed -E '/^[[:space:]]*\+/!d; s/^[[:space:]]*\+\s*([[:alnum:]_]+).*/\1/; ' "$sqitch_output_filename")
+            rm -f "$sqitch_output_filename"
+
+            if [ -f "$sqitch_project/${tag}-post-deploy-hook" ]; then
+                info "running $sqitch_project/${tag}-post-deploy-hook..."
+                "$sqitch_project/${tag}-post-deploy-hook" --target "$target_uri"
+            fi
 
             while IFS= read -r cr; do
                 local cr_post_deploy_hook="${sqitch_project}/deploy/${cr}/${cr}-post-deploy-hook"
