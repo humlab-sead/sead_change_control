@@ -19,8 +19,9 @@ begin;
     drop table if exists tbl_property_types cascade;
 
     create table tbl_property_types (
-        "uuid" uuid not null unique default gen_random_uuid(),
         "property_type_id" serial primary key,
+        "uuid" uuid not null unique default gen_random_uuid(),
+        "property_scope" text not null default 'global',
         "property_type_name" text not null unique,
         "description" text not null,
         "value_type_id" int null references tbl_value_types("value_type_id") on delete cascade,
