@@ -1,0 +1,3 @@
+interface:
+  display_name: "Review Investigation Brief"
+  short_description: "Critically assess an investigation brief before execution"
