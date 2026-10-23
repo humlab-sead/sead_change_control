@@ -3,7 +3,7 @@
 -- Suggested usage with psql:
 -- \copy (
 --   <paste this query>
--- ) TO '.github/skills/sead-change-control/references/table-schema-detailed.csv' WITH CSV HEADER
+-- ) TO '.agents/skills/sead-change-control/references/table-schema-detailed.csv' WITH CSV HEADER
 
 with relation_columns as (
     select
