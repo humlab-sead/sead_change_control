@@ -107,7 +107,7 @@ venv.bak/
 .mypy_cache/
 /archive
 
-/tmp
+tmp
 logs
 output
 src/data
