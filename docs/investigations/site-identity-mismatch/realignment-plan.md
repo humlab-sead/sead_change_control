@@ -70,119 +70,154 @@ The 113 keys keep their 2023 IDs because their only alternative source, the 2020
 - [x] **0.1** Open [GitHub issue #460](https://github.com/humlab-sead/sead_change_control/issues/460) for the realignment and record the decision that the 2019 assignments are authoritative for the 1,297 shared keys.
 - [x] **0.2** Run read-only checks against the target database (use `bin/psql.sh` or `psql -U sead_ro -w`; never write):
   - [x] **0.2.1** Confirm `2101–3402` is unoccupied.
-    ```sql
-    select count(*) from tbl_sites where site_id between 2101 and 3402;
-    --> Confirmed result: 0
-    ```
+    > ```sql
+    > select count(*) from tbl_sites where site_id between 2101 and 3402;
+    > --> Confirmed result: 0
+    > ```
   - [x] Confirm `5532–5644` holds exactly the 113 kept sites and no foreign occupant.
-    ```sql
-    select count(*) from tbl_sites where site_id between 5532 and 5644;
-    --> Confirmed result: 113
-    ```
+    > ```sql
+    > select count(*) from tbl_sites where site_id between 5532 and 5644;
+    > --> Confirmed result: 113
+    > ```
   - [x] Confirm that the child tables outside the payload hold no rows in `4235–5644`.
-    ```sql
-    select count(*) from tbl_site_natgridrefs where site_id between 4235 and 5644;
-    --> Confirmed result: 0
-    ```
-    ```sql
-    select count(*) from tbl_site_images where site_id between 4235 and 5644;
-    --> Confirmed result: 0
-    ```
-    ```sql
-    select count(*) from tbl_site_preservation_status where site_id between 4235 and 5644;
-    --> Confirmed result: 0
-    ```
+    > ```sql
+    > select count(*) from tbl_site_natgridrefs where site_id between 4235 and 5644;
+    > --> Confirmed result: 0
+    > select count(*) from tbl_site_images where site_id between 4235 and 5644;
+    > --> Confirmed result: 0
+    > select count(*) from tbl_site_preservation_status where site_id between 4235 and 5644;
+    > --> Confirmed result: 0
+    > ```
   - [x] Confirm whether one site holds both `2278` and `4412`, or whether either ID is assigned to a different site.
-    ```sql
-    select * from tbl_sites where site_id in (2278, 4412);
-    --> Confirmed result: only 4412 returned
-    ```
+    > ```sql
+    > select * from tbl_sites where site_id in (2278, 4412);
+    > --> Confirmed result: only 4412 returned
+    > ```
   - [x] Establish whether the earlier site rows were **retained or removed**.  Confirmed since the 2019 was pulled from the Sqitch-managed deployment sequence.
-    ```sql
-    -- Identify data provider intervals for sites
-    with site_sequence as (
-      select generate_series(min(site_id), max(site_id)) as site_id
-      from tbl_sites
-      order by 1
-    ), sample_groups as (
-      select distinct sg.site_id, sg.sample_group_name, sg.method_id, m.method_name, rt.record_type_name
-      from tbl_sample_groups sg
-      join tbl_methods m using (method_id)
-      left join tbl_record_types rt using (record_type_id)
-    ), samples as (
-      select distinct physical_sample_id, sg.site_id, ps.sample_name, st.type_name
-      from tbl_sample_groups sg
-      join tbl_physical_samples ps using (sample_group_id)
-      left join tbl_sample_types st using (sample_type_id)
-    ), datasets as (
-      select distinct physical_sample_id, d.dataset_name, md.master_name, m.method_name, ts.data_type_name,
-        case when md.master_set_id = 1  then 'BugsCEP'
-            when md.master_set_id = 2  then 'MAL'
-            when md.master_set_id = 3  then 'Lund/KFL'
-            when md.master_set_id = 10 then 'Lund/Dendro'
-            when md.master_set_id = 11 then 'Sth/KFL'
-            when md.master_set_id = 12 then 'aDNA'
-        end as master_abbrev
-      from tbl_datasets d
-      join tbl_dataset_masters md using  (master_set_id)
-      join tbl_methods m using (method_id)
-      join tbl_data_types ts using (data_type_id)
-      join tbl_analysis_entities ae using (dataset_id)
-      join tbl_physical_samples ps using (physical_sample_id)
-    ), sites_with_provider_data as (
-      select sites.site_id, datasets.master_abbrev
-      from tbl_sites sites
-      join sample_groups using (site_id)
-      join samples using (site_id)
-      join datasets using (physical_sample_id)
-      group by sites.site_id, datasets.master_abbrev
-      order by sites.site_id
+    > ```sql
+    > -- Identify data provider intervals for sites
+    > with site_sequence as (
+    >   select generate_series(min(site_id), max(site_id)) as site_id
+    >   from tbl_sites
+    >   order by 1
+    > ), sample_groups as (
+    >   select distinct sg.site_id, sg.sample_group_name, sg.method_id, m.method_name, rt.record_type_name
+    >   from tbl_sample_groups sg
+    >   join tbl_methods m using (method_id)
+    >   left join tbl_record_types rt using (record_type_id)
+    > ), samples as (
+    >   select distinct physical_sample_id, sg.site_id, ps.sample_name, st.type_name
+    >   from tbl_sample_groups sg
+    >   join tbl_physical_samples ps using (sample_group_id)
+    >   left join tbl_sample_types st using (sample_type_id)
+    > ), datasets as (
+    >   select distinct physical_sample_id, d.dataset_name, md.master_name, m.method_name, ts.data_type_name,
+    >     case when md.master_set_id = 1  then 'BugsCEP'
+    >         when md.master_set_id = 2  then 'MAL'
+    >         when md.master_set_id = 3  then 'Lund/KFL'
+    >         when md.master_set_id = 10 then 'Lund/Dendro'
+    >         when md.master_set_id = 11 then 'Sth/KFL'
+    >         when md.master_set_id = 12 then 'aDNA'
+    >     end as master_abbrev
+    >   from tbl_datasets d
+    >   join tbl_dataset_masters md using  (master_set_id)
+    >   join tbl_methods m using (method_id)
+    >   join tbl_data_types ts using (data_type_id)
+    >   join tbl_analysis_entities ae using (dataset_id)
+    >   join tbl_physical_samples ps using (physical_sample_id)
+    > ), sites_with_provider_data as (
+    >   select sites.site_id, datasets.master_abbrev
+    >   from tbl_sites sites
+    >   join sample_groups using (site_id)
+    >   join samples using (site_id)
+    >   join datasets using (physical_sample_id)
+    >   group by sites.site_id, datasets.master_abbrev
+    >   order by sites.site_id
+    > 
+    > ), site_providers as (
+    >   select site_sequence.site_id,
+    >       case when sites.site_id is null then 'GAP'
+    >             when sites_with_provider_data.site_id is null then 'NO_DATA'
+    >             else sites_with_provider_data.master_abbrev end as master_abbrev
+    >   from site_sequence
+    >   left join tbl_sites as sites using (site_id)
+    >   left join sites_with_provider_data using (site_id)
+    >   order by site_sequence.site_id
+    > ), changes as (
+    >     select site_id, master_abbrev,
+    >           case
+    >           when master_abbrev is not distinct from lag(master_abbrev) over (order by site_id) then 0 else 1
+    >       end as new_group
+    >     from site_providers	
+    >   -- comment out to show sites with no data
+    >   where master_abbrev <> 'NO_DATA'
+    > ), groups as (
+    >     select site_id, master_abbrev, sum(new_group) over (order by site_id rows unbounded preceding) as group_id
+    >     from changes
+    > )
+    >   select
+    >     min(site_id) as interval_start,
+    >     max(site_id) as interval_end,
+    >     master_abbrev
+    >   from groups
+    >   group by group_id, master_abbrev
+    >   order by interval_start;
+    > ```
 
-    ), site_providers as (
-      select site_sequence.site_id,
-          case when sites.site_id is null then 'GAP'
-                when sites_with_provider_data.site_id is null then 'NO_DATA'
-                else sites_with_provider_data.master_abbrev end as master_abbrev
-      from site_sequence
-      left join tbl_sites as sites using (site_id)
-      left join sites_with_provider_data using (site_id)
-      order by site_sequence.site_id
-    ), changes as (
-        select site_id, master_abbrev,
-              case
-              when master_abbrev is not distinct from lag(master_abbrev) over (order by site_id) then 0 else 1
-          end as new_group
-        from site_providers	
-      -- comment out to show sites with no data
-      where master_abbrev <> 'NO_DATA'
-    ), groups as (
-        select site_id, master_abbrev, sum(new_group) over (order by site_id rows unbounded preceding) as group_id
-        from changes
-    )
-      select
-        min(site_id) as interval_start,
-        max(site_id) as interval_end,
-        master_abbrev
-      from groups
-      group by group_id, master_abbrev
-      order by interval_start;
-    ```
-
-    | interval_start | interval_end | master_abbrev |
-    |----------------|--------------|---------------|
-    | 1              | 6            | "MAL"         |
-    | 6              | 6            | "Lund/KFL"    |
-    | 7              | 29           | "MAL"         |
-    | 31             | 52           | "GAP"         |
-    | 53             | 400          | "MAL"         |
-    | 401            | 3402         | "GAP"         |
-    | 3403           | 3815         | "Lund/KFL"    |
-    | 3816           | 4234         | "Lund/Dendro" |
-    | 4235           | 5644         | "BugsCEP"     |
-    | 6486           | 6486         | "aDNA"        |
+      | interval_start | interval_end | master_abbrev |
+      |----------------|--------------|---------------|
+      | 1              | 6            | MAL           |
+      | 6              | 6            | Lund/KFL      |
+      | 7              | 29           | MAL           |
+      | 31             | 52           | __gap__       |
+      | 53             | 400          | MAL           |
+      | 401            | 3402         | __gap__       |
+      | 3403           | 3815         | Lund/KFL      |
+      | 3816           | 4234         | Lund/Dendro   |
+      | 4235           | 5644         | BugsCEP       |
+      | 6486           | 6486         | aDNA          |
     
 - [x] **0.3** Delivery path decided: **Track A** (corrected 2023 payload), **Track B** (corrective change request), and **Track C** (corrected import ledger). See [Delivery path](#delivery-path-03-decided).
-- [ ] **0.4** Create a branch, for example `fix/bugs-site-id-realign`, and copy the current staging database to a scratch database for validation. Copy it twice more: one copy to build from the corrected payload, and one to restore the ledger snapshot into.
+- [x] **0.4** Create branch `site-identity-mismatch-realignment`, and copy the current staging database to a scratch database for validation. Copy it twice more: one copy to build from the corrected payload, and one to restore the ledger snapshot into.
+
+    - [x] Create script `./create-dbs` that sets up the staging databases for validation, corrected payload, and ledger snapshot restore.
+    - [x] Create the branch `site-identity-mismatch-realignment`.
+    - [x] Run script `./create-dbs`
+
+    > The script reads `PGUSER` and `PGPORT` from `.env` in this folder, dumps `sead_staging` once into `data/sead_staging.sql.gz`, and restores that archive into three scratch databases. Both the archive and `.env` are excluded by `.gitignore`.
+
+    | Scratch database | Purpose |
+    | --- | --- |
+    | `sead_staging_validation` | Replays the 2023 change request and the Track B change request |
+    | `sead_staging_corrected_payload` | Holds a build from the corrected Track A payload |
+    | `sead_staging_ledger_snapshot_restore` | Receives the Track C ledger snapshot |
+
+    > The dump covers `public`, `bugs_import`, and `sead_utility`. `sead_utility` is required: the 2023 wrapper calls `sead_utility.sync_sequences` and `sead_utility.set_fk_is_deferrable`, and `bugs_import.post_import_updates()` calls `sync_sequences` as well.
+
+    ```bash
+    λ pg_dump --host=127.0.0.1 --dbname=sead_staging --file=data/sead_staging.sql \
+            --format=p --lock-wait-timeout=30s \
+            --no-tablespaces --no-owner --no-privileges --no-comments \
+            --schema=public --schema=bugs_import --schema=sead_utility
+    ```
+
+    > Because the dump has no `--create` clause, it restores into an existing empty database rather than dropping one. `create-dbs` creates each scratch database, installs the extensions the dump depends on (`uuid-ossp`, `postgis`, `pgcrypto`, `tablefunc`), loads the archive, and then compares the result with `sead_staging`.
+
+    > The comparison covers tables, foreign keys, extensions, `tbl_sites`, `bugs_trace`, and `bugs_errors` row counts, the `2278` and `4412` presence checks, `TSite` link counts, and both sequence values. All three scratch databases matched the source:
+
+    | Value | `sead_staging` | Each scratch database |
+    | --- | ---: | ---: |
+    | Tables / foreign keys | 177 / 267 | 177 / 267 |
+    | Functions / views | 894 / 18 | 894 / 18 |
+    | Extensions | `pgcrypto, plpgsql, postgis, tablefunc, uuid-ossp` | same |
+    | `tbl_sites` / `bugs_trace` / `bugs_errors` rows | 3,462 / 703,750 / 1,238 | same |
+    | `site_id` `2278` / `4412` | 0 / 1 | 0 / 1 |
+    | `site_id` in `2101–3402` | 0 | 0 |
+    | `TSite` links / links resolving to a site | 1,410 / 1,410 | 1,410 / 1,410 |
+    | `tbl_sites_site_id_seq` / `max(site_id)` | 6486 / 6486 | 6486 / 6486 |
+
+    > `sead_utility.out_of_sync_sequences` raises `currval … is not yet defined` in both the source and the scratch databases, so that is existing behaviour, not a restore defect. `sead_utility.sead_comments` returns no rows because the dump uses `--no-comments`; the table exists but its comments are not copied. Neither affects the replay.
+
 
 ## Phase 1 — Freeze the crosswalk as a reviewable artifact
 
@@ -301,4 +336,5 @@ The database reads in 0.2 closed three of the four original blockers, and 0.3 cl
 - Confirmed that all child-table `site_id` values in the 2023 payload resolve to a `tbl_sites` row, and that `site_preservation_status_id` is `NULL` for all 1,410 site rows.
 - Scanned change requests after the 2023 import for hardcoded site IDs. Only `general/deploy/20241028_DML_UPDATE_INCORRECT_COORDINATES.sql` touches site rows, and it matches by name.
 - Ran the read-only checks listed in 0.2 against the target database and recorded their results there: `2101–3402` empty, `5532–5644` holding exactly 113 sites, the three uncovered child tables empty in `4235–5644`, and only `4412` present from the pair `2278` and `4412`.
+- Built the three scratch databases in 0.4 and compared each one against `sead_staging`: identical table, foreign-key, function, view, and extension counts, identical `tbl_sites`, `bugs_trace`, and `bugs_errors` row counts, identical `TSite` link counts, and identical sequence values. The comparison runs inside `create-dbs`, so a failed or partial restore stops the script.
 - No source, payload, or database row was modified.
