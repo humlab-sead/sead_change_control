@@ -1,56 +1,168 @@
 #!/bin/bash
-
+#
+# Creates the three scratch databases used by the site-ID realignment plan.
+#
+# Reads .env in this folder for PGUSER and PGPORT. The staging dump in
+# data/sead_staging.sql.gz is reused across runs; pass --refresh to re-dump the
+# source database first.
+#
+# Each scratch database is compared against the source database after the load,
+# so an incomplete restore fails here instead of later, during change-request
+# replay.
 
 set -euo pipefail
 
-if [ ! -f data/sead_staging.sql.gz ]; then
+cd -- "$(dirname -- "$0")"
 
-    rm -f data/sead_staging.sql.gz data/sead_staging.sql
+if [ -f .env ]; then
+    set -o allexport
+    # shellcheck source=/dev/null
+    . ./.env
+    set +o allexport
+fi
+
+readonly source_db=sead_staging
+readonly dump_sql=data/sead_staging.sql
+readonly dump_gzip=data/sead_staging.sql.gz
+readonly scratch_dbs=(
+    sead_staging_validation
+    sead_staging_corrected_payload
+    sead_staging_ledger_snapshot_restore
+)
+
+host=${PGHOST:-127.0.0.1}
+refresh=NO
+
+function usage()
+{
+    local error_message=$1
+    if [ "$error_message" != "" ]; then
+        printf 'error: %s\n' "$error_message" >&2
+    fi
+    cat <<'USAGE'
+usage: create-dbs [--refresh]
+
+Creates the scratch databases used by the site-ID realignment plan and loads each
+one from a dump of the staging database.
+
+Options:
+   --refresh        re-dump the source database instead of reusing the archive
+   --help           show this message
+USAGE
+    exit 64
+}
+
+while [[ $# -gt 0 ]]
+do
+    case "$1" in
+        --refresh|-r) refresh=YES; shift ;;
+        --help|-\?) usage "" ;;
+        *) usage "unknown argument: $1" ;;
+    esac
+done
+
+function sql()
+{
+    local db=$1
+    shift
+    psql -X -q -v ON_ERROR_STOP=1 -h "$host" -d "$db" "$@"
+}
+
+if [[ "$refresh" == "YES" || ! -f "$dump_gzip" ]]; then
+    if [[ -f "$dump_gzip" ]]; then
+        printf 'Re-dumping %s, replacing %s\n' "$source_db" "$dump_gzip"
+    else
+        printf 'Dumping %s into %s\n' "$source_db" "$dump_gzip"
+    fi
+
+    # Write beside the target and move it into place afterwards, so a failed
+    # dump leaves the previous archive usable.
+    staging_sql=${dump_sql}.tmp
+    rm -f "$staging_sql" "${staging_sql}.gz"
 
     pg_dump \
-        --host=127.0.0.1 \
-        --dbname=sead_staging \
-        --file=data/sead_staging.sql \
+        --host="$host" \
+        --dbname="$source_db" \
+        --file="$staging_sql" \
         --format=p \
+        --lock-wait-timeout=30s \
         --no-tablespaces --no-owner --no-privileges --no-comments \
         --schema=public \
         --schema=bugs_import \
         --schema=sead_utility
 
-    gzip data/sead_staging.sql
+    gzip "$staging_sql"
+    mv -f "${staging_sql}.gz" "$dump_gzip"
+
+    printf 'Wrote %s; later runs reuse it until --refresh is passed.\n' "$dump_gzip"
+else
+    printf 'Reusing %s (pass --refresh to re-dump %s)\n' "$dump_gzip" "$source_db"
 fi
 
-for db in \
-    sead_staging_validation \
-    sead_staging_corrected_payload \
-    sead_staging_ledger_snapshot_restore
+# The restore keeps the extension-owned public schema created below instead of
+# reissuing the dump's own "CREATE SCHEMA public;". The sed expression replaces
+# the first occurrence, so fail early unless the archive contains exactly one.
+# grep -c reads the whole stream; grep -q would close the pipe early and, with
+# pipefail set, report gzip's SIGPIPE as a failure.
+public_schema_count=$(gzip -dc "$dump_gzip" | grep -cxF 'CREATE SCHEMA public;' || true)
+
+if [[ "$public_schema_count" != "1" ]]; then
+    printf 'error: %s contains %s "CREATE SCHEMA public;" lines, expected 1\n' \
+        "$dump_gzip" "$public_schema_count" >&2
+    exit 1
+fi
+
+# Values that the change-request replay depends on. A scratch database is only
+# usable when every one of them matches the source database.
+function db_signature()
+{
+    local db=$1
+    sql "$db" -XAt -c "
+        select 'tables=' || (select count(*) from pg_class c join pg_namespace n on n.oid = c.relnamespace where c.relkind = 'r' and n.nspname in ('public', 'bugs_import'))
+        union all select 'foreign_keys=' || (select count(*) from pg_constraint c join pg_namespace n on n.oid = c.connamespace where c.contype = 'f' and n.nspname in ('public', 'bugs_import'))
+        union all select 'extensions=' || (select string_agg(extname, ',' order by extname) from pg_extension)
+        union all select 'tbl_sites=' || (select count(*) from public.tbl_sites)
+        union all select 'bugs_trace=' || (select count(*) from bugs_import.bugs_trace)
+        union all select 'bugs_errors=' || (select count(*) from bugs_import.bugs_errors)
+        union all select 'site_2278=' || (select count(*) from public.tbl_sites where site_id = 2278)
+        union all select 'site_4412=' || (select count(*) from public.tbl_sites where site_id = 4412)
+        union all select 'site_ids_2101_3402=' || (select count(*) from public.tbl_sites where site_id between 2101 and 3402)
+        union all select 'tsite_links=' || (select count(*) from bugs_import.bugs_trace where sead_table = 'tbl_sites')
+        union all select 'tsite_links_matching=' || (select count(*) from bugs_import.bugs_trace t join public.tbl_sites s on s.site_id = t.sead_reference_id where t.sead_table = 'tbl_sites')
+        union all select 'tbl_sites_seq=' || (select last_value from public.tbl_sites_site_id_seq)
+        union all select 'bugs_trace_seq=' || (select last_value from bugs_import.bugs_trace_bugs_trace_id_seq)
+        order by 1;"
+}
+
+source_signature=$(db_signature "$source_db")
+
+for db in "${scratch_dbs[@]}"
 do
-    psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -d postgres \
-        -c "DROP DATABASE IF EXISTS \"$db\";"
+    sql postgres -c "DROP DATABASE IF EXISTS \"$db\" WITH (FORCE);"
 
-    psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -d postgres \
-        -c "CREATE DATABASE \"$db\" TEMPLATE template0;"
+    sql postgres -c "CREATE DATABASE \"$db\" TEMPLATE template0;"
 
-    psql -X -q -v ECHO=none -v ON_ERROR_STOP=1 -h 127.0.0.1 -d "$db" \
-        -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public; CREATE EXTENSION IF NOT EXISTS "postgis" WITH SCHEMA public;'
+    # Extensions must exist before the data load, because geometry and UUID
+    # columns depend on their types. These are the extensions the staging
+    # database carries for the dumped schemas.
+    sql "$db" -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
+                  CREATE EXTENSION IF NOT EXISTS "postgis" WITH SCHEMA public;
+                  CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA public;
+                  CREATE EXTENSION IF NOT EXISTS "tablefunc" WITH SCHEMA public;'
 
-    gzip -dc data/sead_staging.sql.gz \
+    gzip -dc "$dump_gzip" \
         | sed '0,/^CREATE SCHEMA public;$/s/^CREATE SCHEMA public;$/CREATE SCHEMA IF NOT EXISTS public;/' \
-        | psql -X -q -v ECHO=none -v ON_ERROR_STOP=1 -h 127.0.0.1 -d "$db" >/dev/null
+        | psql -X -q -v ECHO=none -v ON_ERROR_STOP=1 -h "$host" -d "$db" >/dev/null
 
-    schema_count=$(psql -q -XAt -v ON_ERROR_STOP=1 \
-        -h 127.0.0.1 -d "$db" \
-        -c "SELECT count(*)
-            FROM pg_namespace
-            WHERE nspname IN ('public', 'bugs_import', 'sead_utility');"
-    ) || exit 1
+    scratch_signature=$(db_signature "$db")
 
-    if [[ "$schema_count" != "3" ]]; then
-        printf 'Expected 3 schemas in %s, found %s\n' "$db" "$schema_count" >&2
+    if [[ "$scratch_signature" != "$source_signature" ]]; then
+        printf 'error: %s does not match %s\n' "$db" "$source_db" >&2
+        diff <(printf '%s\n' "$source_signature") <(printf '%s\n' "$scratch_signature") >&2 || true
         exit 1
     fi
 
-    printf 'Database %s created and populated successfully.\n' "$db"
+    printf 'Database %s created, loaded, and verified against %s.\n' "$db" "$source_db"
 
 done
 
