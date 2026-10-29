@@ -129,3 +129,5 @@ nx*
 .vscode/mcp.json
 nohup.out
 transfer_database
+
+docs/investigations/site-identity-mismatch/data
