@@ -1,0 +1,56 @@
+#!/bin/bash
+
+
+set -euo pipefail
+
+if [ ! -f data/sead_staging.sql.gz ]; then
+
+    rm -f data/sead_staging.sql.gz data/sead_staging.sql
+
+    pg_dump \
+        --host=127.0.0.1 \
+        --dbname=sead_staging \
+        --file=data/sead_staging.sql \
+        --format=p \
+        --no-tablespaces --no-owner --no-privileges --no-comments \
+        --schema=public \
+        --schema=bugs_import \
+        --schema=sead_utility
+
+    gzip data/sead_staging.sql
+fi
+
+for db in \
+    sead_staging_validation \
+    sead_staging_corrected_payload \
+    sead_staging_ledger_snapshot_restore
+do
+    psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -d postgres \
+        -c "DROP DATABASE IF EXISTS \"$db\";"
+
+    psql -X -v ON_ERROR_STOP=1 -h 127.0.0.1 -d postgres \
+        -c "CREATE DATABASE \"$db\" TEMPLATE template0;"
+
+    psql -X -q -v ECHO=none -v ON_ERROR_STOP=1 -h 127.0.0.1 -d "$db" \
+        -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public; CREATE EXTENSION IF NOT EXISTS "postgis" WITH SCHEMA public;'
+
+    gzip -dc data/sead_staging.sql.gz \
+        | sed '0,/^CREATE SCHEMA public;$/s/^CREATE SCHEMA public;$/CREATE SCHEMA IF NOT EXISTS public;/' \
+        | psql -X -q -v ECHO=none -v ON_ERROR_STOP=1 -h 127.0.0.1 -d "$db" >/dev/null
+
+    schema_count=$(psql -q -XAt -v ON_ERROR_STOP=1 \
+        -h 127.0.0.1 -d "$db" \
+        -c "SELECT count(*)
+            FROM pg_namespace
+            WHERE nspname IN ('public', 'bugs_import', 'sead_utility');"
+    ) || exit 1
+
+    if [[ "$schema_count" != "3" ]]; then
+        printf 'Expected 3 schemas in %s, found %s\n' "$db" "$schema_count" >&2
+        exit 1
+    fi
+
+    printf 'Database %s created and populated successfully.\n' "$db"
+
+done
+
