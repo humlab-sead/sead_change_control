@@ -1,12 +1,12 @@
 # Tentative action list: realign 2023 Bugs site IDs to the 2019 assignments
 
 **Related:** [brief.md](./brief.md), [findings.md](./findings.md), [summary.md](./summary.md)  
-**Status:** Gates 0.1–0.3 closed. Delivery path decided (Track A, Track B, Track C). Not authorized for deployment, and no files, data, or databases were changed.  
+**Status:** Gates 0.1–0.3 closed. Delivery path decided (Track A, Track B, Track C). Phase 2 is complete under explicit authorization. No database rows were changed and no deployment was performed. Phases 3–6 remain pending.
 **Baseline:** `humlab-sead/sead_change_control`, branch `dev`, inspected at `ddc2aad722912db002711823ea783c1bbbf08573`.  
 **Date drafted:** 2026-10-28  
 **Date updated:** 2026-10-29
 
-This document turns the remediation note in [findings.md](./findings.md) into a concrete step list. It is a proposal to be approved before any deployment work, not permission to renumber records.
+This document turns the remediation note in [findings.md](./findings.md) into a concrete step list. Phase 2 payload edits were explicitly authorized; database changes and deployment still require approval.
 
 ## Objective
 
@@ -301,7 +301,7 @@ The crosswalk was loaded into `sead_staging_validation` and compared with the li
 
 Replace only the ID token. Leave row order, `change_date` values, `bugs_trace_id` values, numeric formatting, and all quoted text untouched.
 
-- [ ] **2.1** Rewrite `public.sql.gz` with a parser that respects quoted strings and escaped quotes. The `site_id` position, counting from 1:
+- [x] **2.1** Rewrite `public.sql.gz` with a parser that respects quoted strings and escaped quotes. The `site_id` position, counting from 1:
 
   | Table                           | `site_id` position |
   |---------------------------------|-------------------:|
@@ -311,10 +311,10 @@ Replace only the ID token. Leave row order, `change_date` values, `bugs_trace_id
   | `public.tbl_site_other_records` |                  2 |
   | `public.tbl_sample_groups`      |                  2 |
 
-- [ ] **2.2** Rewrite `bugs_import.sql.gz`: change `sead_reference_id` only where `sead_table = 'tbl_sites'`. Leave the `tbl_site_locations` and `tbl_locations` reference IDs alone, since they are location primary keys, and leave `bugs_data` and `translated_compressed_data` alone, since they hold identifiers rather than target IDs. Phase 1 measured the rows that this condition must skip: 2,820 `tbl_site_locations` and 337 `tbl_locations` references, against 1,410 `tbl_sites` references. A rewrite that matches on `bugs_table = 'TSite'` alone would corrupt 3,157 location references.
-- [ ] **2.3** Write the gzip output deterministically, with a fixed modification time and the original file name, so the repository diff shows content changes only.
-- [ ] **2.4** Confirm the row counts are unchanged: `tbl_sites` 1,410, `tbl_site_locations` 2,820, `tbl_site_references` 2,165, `tbl_site_other_records` 2,583, `tbl_sample_groups` 1,585.
-- [ ] **2.5** Decide what to do with the companion files `public.dcomp`, `bugs_import.dcomp`, `public.xls`, and `bugs_import.xls`. The `.dcomp` files name the source and target schemas used for the comparison, and the `.xls` files are comparison previews. Either regenerate them or state in the change-request notes that they are historical comparison output.
+- [x] **2.2** Rewrite `bugs_import.sql.gz`: change `sead_reference_id` only where `sead_table = 'tbl_sites'`. Leave the `tbl_site_locations` and `tbl_locations` reference IDs alone, since they are location primary keys, and leave `bugs_data` and `translated_compressed_data` alone, since they hold identifiers rather than target IDs. Phase 1 measured the rows that this condition must skip: 2,820 `tbl_site_locations` and 337 `tbl_locations` references, against 1,410 `tbl_sites` references. A rewrite that matches on `bugs_table = 'TSite'` alone would corrupt 3,157 location references.
+- [x] **2.3** Write the gzip output deterministically, with a fixed modification time and the original file name, so the repository diff shows content changes only.
+- [x] **2.4** Confirm the row counts are unchanged: `tbl_sites` 1,410, `tbl_site_locations` 2,820, `tbl_site_references` 2,165, `tbl_site_other_records` 2,583, `tbl_sample_groups` 1,585.
+- [x] **2.5** Leave the companion files `public.dcomp`, `bugs_import.dcomp`, `public.xls`, and `bugs_import.xls` unchanged rather than regenerating them. In the change-request notes, identify the `.dcomp` files as dbForge Data Compare project files and state that all four files are historical comparison output.
 
 ## Phase 3 — Validate before touching Sqitch
 
