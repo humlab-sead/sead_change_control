@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Builds site_id_map.tsv, the Bugs site-ID crosswalk used by the site-ID
+# realignment plan (Phase 1).
+#
+# Reads the Bugs import artefacts committed in this repository and writes one
+# row per Bugs site source key. No database is opened and no payload is
+# modified.
+#
+# Usage:
+#   ./build-site-id-map            write site_id_map.tsv beside this script
+#   ./build-site-id-map --output F write the crosswalk to F
+#   ./build-site-id-map --help     show the Python help text
+
+set -euo pipefail
+
+cd -- "$(dirname -- "$0")"
+
+python=${PYTHON:-python3}
+
+if ! command -v "$python" >/dev/null 2>&1; then
+    printf 'error: %s not found; set PYTHON to a Python 3 interpreter\n' "$python" >&2
+    exit 1
+fi
+
+exec "$python" site_id_map.py "$@"

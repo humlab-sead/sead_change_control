@@ -186,11 +186,11 @@ The 113 keys keep their 2023 IDs because their only alternative source, the 2020
 
     > The script reads `PGUSER` and `PGPORT` from `.env` in this folder, dumps `sead_staging` once into `data/sead_staging.sql.gz`, and restores that archive into three scratch databases. Both the archive and `.env` are excluded by `.gitignore`.
 
-    | Scratch database | Purpose |
-    | --- | --- |
-    | `sead_staging_validation` | Replays the 2023 change request and the Track B change request |
-    | `sead_staging_corrected_payload` | Holds a build from the corrected Track A payload |
-    | `sead_staging_ledger_snapshot_restore` | Receives the Track C ledger snapshot |
+    | Scratch database                       | Purpose                                                        |
+    |----------------------------------------|----------------------------------------------------------------|
+    | `sead_staging_validation`              | Replays the 2023 change request and the Track B change request |
+    | `sead_staging_corrected_payload`       | Holds a build from the corrected Track A payload               |
+    | `sead_staging_ledger_snapshot_restore` | Receives the Track C ledger snapshot                           |
 
     > The dump covers `public`, `bugs_import`, and `sead_utility`. `sead_utility` is required: the 2023 wrapper calls `sead_utility.sync_sequences` and `sead_utility.set_fk_is_deferrable`, and `bugs_import.post_import_updates()` calls `sync_sequences` as well.
 
@@ -205,31 +205,97 @@ The 113 keys keep their 2023 IDs because their only alternative source, the 2020
 
     > The comparison covers tables, foreign keys, extensions, `tbl_sites`, `bugs_trace`, and `bugs_errors` row counts, the `2278` and `4412` presence checks, `TSite` link counts, and both sequence values. All three scratch databases matched the source:
 
-    | Value | `sead_staging` | Each scratch database |
-    | --- | ---: | ---: |
-    | Tables / foreign keys | 177 / 267 | 177 / 267 |
-    | Functions / views | 894 / 18 | 894 / 18 |
-    | Extensions | `pgcrypto, plpgsql, postgis, tablefunc, uuid-ossp` | same |
-    | `tbl_sites` / `bugs_trace` / `bugs_errors` rows | 3,462 / 703,750 / 1,238 | same |
-    | `site_id` `2278` / `4412` | 0 / 1 | 0 / 1 |
-    | `site_id` in `2101–3402` | 0 | 0 |
-    | `TSite` links / links resolving to a site | 1,410 / 1,410 | 1,410 / 1,410 |
-    | `tbl_sites_site_id_seq` / `max(site_id)` | 6486 / 6486 | 6486 / 6486 |
+    | Value                                           |          `sead_staging` | Each scratch database |
+    |-------------------------------------------------|------------------------:|----------------------:|
+    | Tables / foreign keys                           |               177 / 267 |             177 / 267 |
+    | Functions / views                               |                894 / 18 |              894 / 18 |
+    | `tbl_sites` / `bugs_trace` / `bugs_errors` rows | 3,462 / 703,750 / 1,238 |                  same |
+    | `site_id` `2278` / `4412`                       |                   0 / 1 |                 0 / 1 |
+    | `site_id` in `2101–3402`                        |                       0 |                     0 |
+    | `TSite` links / links resolving to a site       |           1,410 / 1,410 |         1,410 / 1,410 |
+    | `tbl_sites_site_id_seq` / `max(site_id)`        |             6486 / 6486 |           6486 / 6486 |
+    | Extensions                                      |        (see list below) |                  same |
 
     > `sead_utility.out_of_sync_sequences` raises `currval … is not yet defined` in both the source and the scratch databases, so that is existing behaviour, not a restore defect. `sead_utility.sead_comments` returns no rows because the dump uses `--no-comments`; the table exists but its comments are not copied. Neither affects the replay.
+    > List of extensions: `pgcrypto, plpgsql, postgis, tablefunc, uuid-ossp`
 
 
 ## Phase 1 — Freeze the crosswalk as a reviewable artifact
 
-- [ ] **1.1** Write a one-off generator outside the change-request folder, for example under `tmp/`, that streams both trace sources:
+- [x] **1.1** Write a one-off generator outside the change-request folder, for example under `tmp/`, that streams both trace sources:
   - 2019: `bugs/archive/deploy/20191221_DML_SUBMISSION_BUGS_20190303_COMMIT/bugs_import_schema.sql.gz`, stored as a PostgreSQL `COPY ... FROM stdin` stream with tab-separated fields.
   - 2023: `bugs/deploy/20231211_DML_SUBMISSION_BUGS_20231219_COMMIT/bugs_import.sql.gz`, stored as `INSERT` statement tuples.
-- [ ] **1.2** Emit `site_id_map.tsv` with one row per site key and the columns `bugs_identifier`, `id_2019`, `id_2020`, `id_2023`, `new_id`, `provenance`. Include the 1,410 current keys and the 5 keys that exist only in 2019. Attach it to the issue as audit evidence.
-- [ ] **1.3** Assert on the generated map before rewriting anything:
-  - [ ] 1,410 rows with unique `new_id`.
-  - [ ] `2101–3402` and `5532–5644` do not intersect.
-  - [ ] Every child-table `site_id` value from `public.sql.gz` appears in the map.
-  - [ ] `SITE000234` maps to `2278`.
+  - 2020: `bugs/archive/deploy/20200313_DML_BUGS_IMPORT_TRACE_20200219.sql`, stored as `INSERT` statement tuples. Added because `id_2020` is a crosswalk column.
+- [x] **1.2** Emit `site_id_map.tsv` with one row per site key and the columns `bugs_identifier`, `id_2019`, `id_2020`, `id_2023`, `new_id`, `provenance`. Include the 1,410 current keys and the 5 keys that exist only in 2019. Attach it to the issue as audit evidence.
+- [x] **1.3** Assert on the generated map before rewriting anything:
+  - [x] 1,410 rows with unique `new_id`.
+  - [x] `2101–3402` and `5532–5644` do not intersect.
+  - [x] Every child-table `site_id` value from `public.sql.gz` appears in the map.
+  - [x] `SITE000234` maps to `2278`.
+
+### Generator
+
+Python 3 with the standard library only, driven by a bash entry point so it matches the other scripts in `bin/`. The 2023 payload is `INSERT` statements holding about 1,330 tuples each, with `E'...'` strings and 7,826 doubled quotes, so tuple splitting needs a scanner that tracks quoting across lines. Python supplies that scanner and the `csv` module writes the TSV; a pure shell version would need a hand-rolled state machine that is harder to review.
+
+| File | Purpose |
+| --- | --- |
+| `build-site-id-map` | Entry point. Runs `site_id_map.py`. |
+| `site_id_map.py` | Parsers, crosswalk rules, and checks. |
+| `site_id_map.tsv` | Generated crosswalk, 1,415 rows, tracked as audit evidence. |
+
+> Work record and reproduction steps: [phase-1-summary.md](./phase-1-summary.md).
+
+```bash
+λ ./build-site-id-map
+λ ./build-site-id-map --output /tmp/site_id_map.tsv
+```
+
+> The generator reads files only. It opens no database and writes no payload. It writes the TSV only when every check passes, so a failed run leaves the previous artifact in place.
+
+### Source keys
+
+| Snapshot | Artefact form | Rows read | `TSite` → `tbl_sites` links |
+| --- | --- | ---: | ---: |
+| 2019 full import | `COPY` stream, tab separated | 627,666 | 1,302 |
+| 2020 incremental trace | `INSERT` tuples | 9,575 | 17 |
+| 2023 full import | `INSERT` tuples | 703,750 | 1,410 |
+
+> A site link requires both `bugs_table = 'TSite'` and `sead_table = 'tbl_sites'`. Filtering on `bugs_table` alone is wrong: most `TSite` rows point at location tables. This also applies to the 2023 payload, which carries 2,820 `tbl_site_locations` and 337 `tbl_locations` reference IDs that are location primary keys, not site IDs. **Phase 2.2 must leave those 3,157 values untouched,** and the plan now states those counts explicitly.
+
+### Crosswalk
+
+| `provenance` | Rows | `new_id` |
+| --- | ---: | --- |
+| `2019` | 1,297 | The 2019 assignment, in `2101–3402` |
+| `2023` | 113 | The current 2023 assignment, in `5532–5644` |
+| `2019-only` | 5 | Empty; the key has left the source data and is not reintroduced |
+| **total** | **1,415** | 1,410 distinct target IDs |
+
+> `SITE000234` (Glanllynnau) maps `2278 → 4412 → 2278`. The five `2019-only` keys are `SITE000988`, `SITE001012`, `SITE001481`, `SITE001493`, and `SITE001494`, at `2891, 2914, 3369, 3381, 3382`. Their old IDs fall inside `2101–3402` and are left vacant rather than reassigned. The 1,297 vacated 2023 IDs span `4235–5531` and never collide with a realigned ID.
+
+### Checks
+
+The run performs 39 checks and exits non-zero on any failure:
+
+- Trace sizes: 627,666 / 9,575 / 703,750 rows; 530 `bugs_trace` statements and 1,238 `bugs_errors` rows in the 2023 payload.
+- Link counts: 1,302 / 17 / 1,410, with the `TSite` target tables and their non-site row counts asserted for both 2019 and 2023.
+- Key sets: 1,297 shared, 113 2023-only, 5 2019-only, every shared key changed its target ID.
+- Crosswalk: 1,415 rows, 1,410 with a target ID, all target IDs unique, restored range `2101–3402`, kept range `5532–5644`, no overlap, no collision with a vacated ID, vacated range `4235–5531`.
+- Payload agreement: `tbl_sites` holds 1,410 unique IDs matching the trace links, and every child-table `site_id` in all four dependent tables is a current 2023 site row.
+
+### Independent verification
+
+The crosswalk was loaded into `sead_staging_validation` and compared with the live ledger and site table. Every comparison returned zero:
+
+| Check | Result |
+| --- | ---: |
+| `map.id_2023` differing from `bugs_trace.sead_reference_id` | 0 |
+| Ledger `TSite` → `tbl_sites` keys missing from the map | 0 |
+| `map.id_2023` values without a `tbl_sites` row | 0 |
+| `new_id` values already used by another data provider's site | 0 |
+| `new_id` values occupied by a different current site row | 0 |
+
+> Re-running the generator reproduces the file byte for byte (SHA-256 `8a6430e0d6c849f4f0aa0eda16697dec28dbec1e6653c7f785770e242a6f312b`), so the artifact can be regenerated and compared rather than trusted.
 
 ## Phase 2 — Rewrite the payloads
 
@@ -237,15 +303,15 @@ Replace only the ID token. Leave row order, `change_date` values, `bugs_trace_id
 
 - [ ] **2.1** Rewrite `public.sql.gz` with a parser that respects quoted strings and escaped quotes. The `site_id` position, counting from 1:
 
-  | Table | `site_id` position |
-  | --- | ---: |
-  | `public.tbl_sites` | 1 |
-  | `public.tbl_site_locations` | 3 |
-  | `public.tbl_site_references` | 2 |
-  | `public.tbl_site_other_records` | 2 |
-  | `public.tbl_sample_groups` | 2 |
+  | Table                           | `site_id` position |
+  |---------------------------------|-------------------:|
+  | `public.tbl_sites`              |                  1 |
+  | `public.tbl_site_locations`     |                  3 |
+  | `public.tbl_site_references`    |                  2 |
+  | `public.tbl_site_other_records` |                  2 |
+  | `public.tbl_sample_groups`      |                  2 |
 
-- [ ] **2.2** Rewrite `bugs_import.sql.gz`: change `sead_reference_id` only where `sead_table = 'tbl_sites'`. Leave the `tbl_site_locations` and `tbl_locations` reference IDs alone, since they are location primary keys, and leave `bugs_data` and `translated_compressed_data` alone, since they hold identifiers rather than target IDs.
+- [ ] **2.2** Rewrite `bugs_import.sql.gz`: change `sead_reference_id` only where `sead_table = 'tbl_sites'`. Leave the `tbl_site_locations` and `tbl_locations` reference IDs alone, since they are location primary keys, and leave `bugs_data` and `translated_compressed_data` alone, since they hold identifiers rather than target IDs. Phase 1 measured the rows that this condition must skip: 2,820 `tbl_site_locations` and 337 `tbl_locations` references, against 1,410 `tbl_sites` references. A rewrite that matches on `bugs_table = 'TSite'` alone would corrupt 3,157 location references.
 - [ ] **2.3** Write the gzip output deterministically, with a fixed modification time and the original file name, so the repository diff shows content changes only.
 - [ ] **2.4** Confirm the row counts are unchanged: `tbl_sites` 1,410, `tbl_site_locations` 2,820, `tbl_site_references` 2,165, `tbl_site_other_records` 2,583, `tbl_sample_groups` 1,585.
 - [ ] **2.5** Decide what to do with the companion files `public.dcomp`, `bugs_import.dcomp`, `public.xls`, and `bugs_import.xls`. The `.dcomp` files name the source and target schemas used for the comparison, and the `.xls` files are comparison previews. Either regenerate them or state in the change-request notes that they are historical comparison output.
@@ -337,4 +403,6 @@ The database reads in 0.2 closed three of the four original blockers, and 0.3 cl
 - Scanned change requests after the 2023 import for hardcoded site IDs. Only `general/deploy/20241028_DML_UPDATE_INCORRECT_COORDINATES.sql` touches site rows, and it matches by name.
 - Ran the read-only checks listed in 0.2 against the target database and recorded their results there: `2101–3402` empty, `5532–5644` holding exactly 113 sites, the three uncovered child tables empty in `4235–5644`, and only `4412` present from the pair `2278` and `4412`.
 - Built the three scratch databases in 0.4 and compared each one against `sead_staging`: identical table, foreign-key, function, view, and extension counts, identical `tbl_sites`, `bugs_trace`, and `bugs_errors` row counts, identical `TSite` link counts, and identical sequence values. The comparison runs inside `create-dbs`, so a failed or partial restore stops the script.
+- Built the Phase 1 crosswalk with `build-site-id-map` and confirmed all 39 checks pass. Re-running reproduces the file byte for byte. Loading the result into `sead_staging_validation` and comparing it with `bugs_import.bugs_trace` and `public.tbl_sites` returned zero differences, zero missing keys, and zero id collisions.
+- Confirmed that most `TSite` ledger rows are not site links: the 2019 snapshot holds 2,604 `tbl_site_locations` and 298 `tbl_locations` references, and the 2023 payload holds 2,820 and 337. This is why the remap filters on `bugs_table` and `sead_table` together.
 - No source, payload, or database row was modified.
