@@ -15,6 +15,7 @@ Start with these repository guides:
 - [docs/TESTING.md](docs/TESTING.md): validation expectations and known testing gaps.
 - [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md): deployment and validation failure diagnosis.
 - [bin/deploy-staging.md](bin/deploy-staging.md): detailed command reference for the central deploy script.
+- [bin/create-docs/README.md](bin/create-docs/README.md): table and column description catalog, comment sync, and schema documentation generation.
 - [docs/RELEASE-NOTES.md](docs/RELEASE-NOTES.md): release history, checklist material, and release caveats.
 - [AGENTS.md](AGENTS.md): repository-specific guidance for AI agents and automation.
 

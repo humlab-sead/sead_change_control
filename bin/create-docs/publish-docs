@@ -1,0 +1,82 @@
+#!/bin/bash
+set -euo pipefail
+
+usage() {
+    cat <<EOF
+Usage: $0 GENERATED_FOLDER [OPTIONS]
+
+Publish a previously generated SchemaSpy site to the sead-schema gh-pages branch.
+Use --force only when you intend to replace the current published site.
+
+Options:
+  --remote URL     Git remote URL (default: https://github.com/humlab-sead/sead-schema)
+  --message TEXT   Git commit message (default: Deploy to GitHub Pages)
+  --force          Force-update the gh-pages branch
+  --help           Show this help
+EOF
+}
+
+if (($# == 0)); then
+    usage >&2
+    exit 64
+fi
+if [[ "$1" == "--help" ]]; then
+    usage
+    exit 0
+fi
+
+generated_folder="$1"
+shift
+remote="https://github.com/humlab-sead/sead-schema"
+message="Deploy to GitHub Pages"
+force_update=no
+
+while (($#)); do
+    case "$1" in
+        --remote|--message)
+            if (($# < 2)) || [[ -z "$2" ]]; then
+                echo "error: $1 requires a value" >&2
+                usage >&2
+                exit 64
+            fi
+            if [[ "$1" == "--remote" ]]; then
+                remote="$2"
+            else
+                message="$2"
+            fi
+            shift 2
+            ;;
+        --force)
+            force_update=yes
+            shift
+            ;;
+        --help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "error: unknown option $1" >&2
+            usage >&2
+            exit 64
+            ;;
+    esac
+done
+
+if [[ ! -d "$generated_folder" || ! -f "$generated_folder/index.html" ]]; then
+    echo "error: generated folder must contain index.html: $generated_folder" >&2
+    exit 64
+fi
+if ! command -v ghp-import >/dev/null 2>&1; then
+    echo "error: ghp-import is required to publish documentation" >&2
+    echo " info: install it with 'pipx install ghp-import'" >&2
+    exit 1
+fi
+
+generated_folder="$(cd "$generated_folder" && pwd -P)"
+arguments=(-n -p -m "$message" -r "$remote")
+if [[ "$force_update" == "yes" ]]; then
+    arguments+=(-f)
+fi
+
+ghp-import "${arguments[@]}" "$generated_folder"
+echo "Published $generated_folder to $remote"

@@ -120,6 +120,49 @@ begin
         select *
         from new_data;
 
+        comment on table tbl_site_type_groups is
+            'Stores broad groups used to classify site types, including descriptions of their origins.';
+        comment on column tbl_site_type_groups.site_type_group_id is
+            'Primary key (automatically incremented).';
+        comment on column tbl_site_type_groups.site_type_group_abbrev is
+            'Unique abbreviated code used to identify the site type group.';
+        comment on column tbl_site_type_groups.site_type_group is
+            'Name of the site type group.';
+        comment on column tbl_site_type_groups.description is
+            'Description of the site type group.';
+        comment on column tbl_site_type_groups.origin_code is
+            'Code classifying the group origin as natural, anthropogenic, mixed, or unknown.';
+        comment on column tbl_site_type_groups.origin_description is
+            'Text description of the group origin code.';
+
+        comment on table tbl_site_types is
+            'Defines specific site types and links each type to a broader site type group.';
+        comment on column tbl_site_types.site_type_id is
+            'Primary key (automatically incremented).';
+        comment on column tbl_site_types.site_type_group_id is
+            'Identifies the group to which this site type belongs.';
+        comment on column tbl_site_types.site_type_abbrev is
+            'Unique abbreviated code used to identify the site type.';
+        comment on column tbl_site_types.site_type is
+            'Name of the site type.';
+        comment on column tbl_site_types.description is
+            'Description or clarification of the site type.';
+
+        comment on table tbl_site_site_types is
+            'Associates sites with their site types and records the primary type, confidence, and notes for each assignment.';
+        comment on column tbl_site_site_types.site_site_type_id is
+            'Primary key (automatically incremented).';
+        comment on column tbl_site_site_types.site_id is
+            'Identifies the site associated with this site type.';
+        comment on column tbl_site_site_types.site_type_id is
+            'Identifies the site type assigned to this site.';
+        comment on column tbl_site_site_types.is_primary_type is
+            'Indicates whether this is the primary site type assigned to the site.';
+        comment on column tbl_site_site_types.confidence_code is
+            'Optional confidence rating for the site type assignment: 1=high, 2=medium, 3=low.';
+        comment on column tbl_site_site_types.notes is
+            'Additional notes about assigning this site type to the site.';
+            
     exception when sqlstate 'GUARD' then
         raise notice 'ALREADY EXECUTED';
     end;
