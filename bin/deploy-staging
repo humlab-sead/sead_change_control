@@ -38,6 +38,7 @@ g_dry_run=NO
 g_display_status=NO
 g_display_tags=NO
 g_sync_sequences=NO
+g_sync_comments=NO
 g_target_tag=
 g_start_tag=
 g_target_chain_tag=
@@ -78,6 +79,7 @@ Options:
     --dry-run                       Simulate a database snapshot operation. No changes are made
     --tags                          Display tags, then exit. No changes are made
     --sync-sequences                Synchronize all sequences post-deployment
+    --sync-comments                 Apply table and column comments from resources/tables_and_columns.csv post-deployment
     --ignore-git-tags               Continue deployment even if a Sqitch tag is missing in Git
     --source-type [empty|db|dump]   Specify the source type: a database name or a dump filename.
                                     Required if "--create-database" is specified, otherwise ignored
@@ -154,6 +156,9 @@ do
         ;;
         --sync-sequences)
             g_sync_sequences="YES"; shift;
+        ;;
+        --sync-comments)
+            g_sync_comments="YES"; shift;
         ;;
         --ignore-git-tags)
             g_ignore_git_tags="YES"; shift;
@@ -501,7 +506,29 @@ function sync_sequences()
 {
     execute_sql "${g_target_name}" "select sead_utility.sync_sequences();"
 }
+function sync_comments()
+{
+    # Applies table and column comments from resources/tables_and_columns.csv.
+    local target_name=$1
 
+    if [ "$g_dry_run" == "YES" ]; then
+        echo "$repo_root/bin/create-docs/sync-comments --database $target_name --schema public --host $g_host --port $g_port --user $g_user --apply"
+        return
+    fi
+
+    info "syncing table and column comments to ${target_name}..."
+
+    if ! "$repo_root/bin/create-docs/sync-comments" \
+        --database "$target_name" \
+        --schema public \
+        --host "$g_host" \
+        --port "$g_port" \
+        --user "$g_user" \
+        --apply; then
+        error "comment sync FAILED! Deployment aborted." >&2
+        exit 64
+    fi
+}
 
 function deployed_tags()
 {
@@ -709,6 +736,10 @@ function deploy_to_tag()
 
         done
 
+        if [ "$g_sync_comments" == "YES" ]; then
+            sync_comments "$target_name"
+        fi
+
         if [ "$tag" == "$target_tag" ]; then
             break
         fi
@@ -752,6 +783,10 @@ function deploy_single_cr()
     if [ "$g_sync_sequences" == "YES" ]; then
         info "syncing sequences (post deploy \"${sqitch_project}\")..."
         $echo_mode sync_sequences
+    fi
+
+    if [ "$g_sync_comments" == "YES" ]; then
+        sync_comments "$target_name"
     fi
 
 }
