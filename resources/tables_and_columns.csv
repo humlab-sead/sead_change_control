@@ -780,7 +780,7 @@ public;;tbl_value_classes;name;The name of the value class.;NO;NO
 public;;tbl_value_classes;parent_id;References a parent value class for hierarchical structuring.;NO;YES
 public;Value Classe;tbl_value_classes;;Specifies a value class describing e.g. a data column;;
 public;;tbl_value_classes;value_class_id;Primary key (automatically incremented).;YES;NO
-public;;tbl_value_classes;value_type_id; Identifies the type of value associated with the class.;NO;YES
+public;;tbl_value_classes;value_type_id;Identifies the type of value associated with the class.;NO;YES
 public;;tbl_value_qualifier_symbols;cardinal_qualifier_id;Specifies cardinal (base) qualifier id.;NO;YES
 public;;tbl_value_qualifier_symbols;symbol;The textual representation of the qualifier (e.g. '>', '<' etc.).;NO;NO
 public;Value Qualifier Symbol;tbl_value_qualifier_symbols;;Specifies alternative symbols for value qualifiers;;
@@ -806,3 +806,118 @@ public;;tbl_years_types;description;A detailed explanation of the year type.;NO;
 public;Year Type;tbl_years_types;;Contains the names and descriptions of different types of years used for dating, such as radiocarbon or calendar years.;;
 public;;tbl_years_types;years_type_id;Primary key (automatically incremented).;YES;NO
 public;;tbl_years_types;name;The name of the year type, e.g., 'Radiocarbon', 'Calendar'.;NO;NO
+public;tbl_abundance_properties;tbl_abundance_properties;;Stores property values assigned to abundance records.;;
+public;;tbl_abundance_properties;abundance_id;Identifies the abundance record assigned this property value.;NO;YES
+public;;tbl_abundance_properties;abundance_property_id;Primary key (automatically incremented).;YES;NO
+public;;tbl_abundance_properties;property_type_id;Identifies the type that defines and describes this property value.;NO;YES
+public;;tbl_abundance_properties;property_value;Property value stored as text. Its format is determined by the associated property type.;NO;NO
+public;tbl_data_providers;tbl_data_providers;;Stores organizations or individuals that provide submitted data.;;
+public;;tbl_data_providers;biblio_id;Identifies the bibliography entry associated with the data provider.;NO;YES
+public;;tbl_data_providers;contact_id;Identifies the contact person associated with the data provider.;NO;YES
+public;;tbl_data_providers;data_provider_code;Optional code used to identify the data provider in an external or local system.;NO;NO
+public;;tbl_data_providers;data_provider_id;Identifies the data provider.;YES;NO
+public;;tbl_data_providers;data_provider_name;Name of the organization or individual that provides data.;NO;NO
+public;;tbl_data_providers;notes;Additional information about the data provider.;NO;NO
+public;;tbl_data_providers;url;Web address for the data provider.;NO;NO
+public;;tbl_dataset_contacts;event_date;Records when the dataset contact activity occurred, when known.;NO;NO
+public;;tbl_datasets;submission_id;Identifies the submission associated with this dataset.;NO;YES
+public;tbl_dendro;tbl_dendro;;Stores dendrochronological measurement values associated with analysis entities and lookup entries.;;
+public;;tbl_dendro;analysis_entity_id;Identifies the analysis entity associated with this measurement.;NO;YES
+public;;tbl_dendro;dendro_id;Primary key (automatically incremented).;YES;NO
+public;;tbl_dendro;dendro_lookup_id;Identifies the lookup entry used to classify this measurement.;NO;YES
+public;;tbl_dendro;measurement_value;Dendrochronological measurement value recorded for the analysis entity.;NO;NO
+public;tbl_dendro_date_notes;tbl_dendro_date_notes;;Stores notes about dendrochronological date records.;;
+public;;tbl_dendro_date_notes;dendro_date_id;Identifies the dendrochronological date associated with this note.;NO;YES
+public;;tbl_dendro_date_notes;dendro_date_note_id;Primary key (automatically incremented).;YES;NO
+public;;tbl_dendro_date_notes;note;Text of the note.;NO;NO
+public;tbl_dendro_dates;tbl_dendro_dates;;Stores dendrochronological age estimates associated with analysis entities, including their age type, uncertainty, and optional season.;;
+public;;tbl_dendro_dates;age_older;Older bound of the age estimate, when available.;NO;NO
+public;;tbl_dendro_dates;age_range;;NO;NO
+public;;tbl_dendro_dates;age_type_id;Identifies the type of age recorded.;NO;YES
+public;;tbl_dendro_dates;age_younger;Younger bound of the age estimate, when available.;NO;NO
+public;;tbl_dendro_dates;analysis_entity_id;Identifies the analysis entity associated with this date.;NO;YES
+public;;tbl_dendro_dates;dating_uncertainty_id;Identifies the dating uncertainty category, when specified.;NO;YES
+public;;tbl_dendro_dates;dendro_date_id;Primary key (automatically incremented).;YES;NO
+public;;tbl_dendro_dates;dendro_lookup_id;Identifies the dendrochronological lookup entry used for this date.;NO;YES
+public;;tbl_dendro_dates;season_id;Identifies the season associated with this date, when specified.;NO;NO
+public;tbl_dendro_lookup;tbl_dendro_lookup;;Stores lookup entries used to classify dendrochronological measurement records, optionally linking each entry to a method.;;
+public;;tbl_dendro_lookup;dendro_lookup_id;Primary key (automatically incremented).;YES;NO
+public;;tbl_dendro_lookup;description;Description of the dendrochronological lookup entry.;NO;NO
+public;;tbl_dendro_lookup;method_id;Identifies the method associated with this lookup entry, when specified.;NO;YES
+public;;tbl_dendro_lookup;name;Name of the dendrochronological lookup entry.;NO;NO
+public;tbl_feature_properties;tbl_feature_properties;;Stores property values assigned to features.;;
+public;;tbl_feature_properties;feature_id;Identifies the feature assigned this property value.;NO;YES
+public;;tbl_feature_properties;feature_property_id;Primary key (automatically incremented).;YES;NO
+public;;tbl_feature_properties;property_type_id;Identifies the type that defines and describes this property value.;NO;YES
+public;;tbl_feature_properties;property_value;Property value stored as text. Its format is determined by the associated property type.;NO;NO
+public;tbl_property_type_groups;tbl_property_type_groups;;Stores groups used to organize property type definitions.;;
+public;;tbl_property_type_groups;description;Description of the property type group.;NO;NO
+public;;tbl_property_type_groups;property_type_group;Name of the property type group.;NO;NO
+public;;tbl_property_type_groups;property_type_group_abbrev;Unique abbreviated code used to identify the property type group.;NO;NO
+public;;tbl_property_type_groups;property_type_group_id;Primary key (automatically incremented).;YES;NO
+public;tbl_property_types;tbl_property_types;;Defines property types, their scope, and optional metadata used to interpret their values.;;
+public;;tbl_property_types;description;Description of the property type and the information it represents.;NO;NO
+public;;tbl_property_types;property_scope;Scope in which the property type applies. The default scope is global.;NO;NO
+public;;tbl_property_types;property_type_group_id;Identifies the group to which this property type belongs.;NO;YES
+public;;tbl_property_types;property_type_id;Primary key (automatically incremented).;YES;NO
+public;;tbl_property_types;property_type_name;Unique name of the property type.;NO;NO
+public;;tbl_property_types;uuid;Unique UUID generated for the property type.;NO;NO
+public;;tbl_property_types;value_class_id;Identifies the value class used to interpret the property value, when specified.;NO;YES
+public;;tbl_property_types;value_type_id;Identifies the value type used to interpret the property value, when specified.;NO;YES
+public;;tbl_sample_dimensions;qualifier_id;;NO;YES
+public;;tbl_sample_group_dimensions;qualifier_id;;NO;YES
+public;tbl_site_properties;tbl_site_properties;;Stores property values assigned to sites.;;
+public;;tbl_site_properties;property_type_id;Identifies the type that defines and describes this property value.;NO;YES
+public;;tbl_site_properties;property_value;Property value stored as text. Its format is determined by the associated property type.;NO;NO
+public;;tbl_site_properties;site_id;Identifies the site assigned this property value.;NO;YES
+public;;tbl_site_properties;site_property_id;Primary key (automatically incremented).;YES;NO
+public;tbl_site_site_types;tbl_site_site_types;;Associates sites with their site types and records the primary type, confidence, and notes for each assignment.;;
+public;;tbl_site_site_types;confidence_code;Optional confidence rating for the site type assignment: 1=high, 2=medium, 3=low.;NO;NO
+public;;tbl_site_site_types;is_primary_type;Indicates whether this is the primary site type assigned to the site.;NO;NO
+public;;tbl_site_site_types;notes;Additional notes about assigning this site type to the site.;NO;NO
+public;;tbl_site_site_types;site_id;Identifies the site associated with this site type.;NO;YES
+public;;tbl_site_site_types;site_site_type_id;Primary key (automatically incremented).;YES;NO
+public;;tbl_site_site_types;site_type_id;Identifies the site type assigned to this site.;NO;YES
+public;tbl_site_type_groups;tbl_site_type_groups;;Stores broad groups used to classify site types, including descriptions of their origins.;;
+public;;tbl_site_type_groups;description;Description of the site type group.;NO;NO
+public;;tbl_site_type_groups;origin_code;Code classifying the group origin as natural, anthropogenic, mixed, or unknown.;NO;NO
+public;;tbl_site_type_groups;origin_description;Text description of the group origin code.;NO;NO
+public;;tbl_site_type_groups;site_type_group;Name of the site type group.;NO;NO
+public;;tbl_site_type_groups;site_type_group_abbrev;Unique abbreviated code used to identify the site type group.;NO;NO
+public;;tbl_site_type_groups;site_type_group_id;Primary key (automatically incremented).;YES;NO
+public;tbl_site_types;tbl_site_types;;Defines specific site types and links each type to a broader site type group.;;
+public;;tbl_site_types;description;Description or clarification of the site type.;NO;NO
+public;;tbl_site_types;site_type;Name of the site type.;NO;NO
+public;;tbl_site_types;site_type_abbrev;Unique abbreviated code used to identify the site type.;NO;NO
+public;;tbl_site_types;site_type_group_id;Identifies the group to which this site type belongs.;NO;YES
+public;;tbl_site_types;site_type_id;Primary key (automatically incremented).;YES;NO
+public;tbl_submission_states;tbl_submission_states;;Defines the lifecycle states available to submissions.;;
+public;;tbl_submission_states;note;Additional explanation or guidance for the submission state.;NO;NO
+public;;tbl_submission_states;submission_state;Name of the submission lifecycle state.;NO;NO
+public;;tbl_submission_states;submission_state_id;Identifies the submission state.;YES;NO
+public;tbl_submission_task_types;tbl_submission_task_types;;Defines the types of tasks associated with submissions.;;
+public;;tbl_submission_task_types;action_task_name;Name of the action performed as part of a submission task.;NO;NO
+public;;tbl_submission_task_types;description;Description of the action or task type.;NO;NO
+public;;tbl_submission_task_types;submission_task_type_id;Identifies the submission task type.;YES;NO
+public;tbl_submission_tasks;tbl_submission_tasks;;Records submission tasks and the contacts responsible for them.;;
+public;;tbl_submission_tasks;biblio_id;Identifies the dataset bibliography associated with a migrated legacy task, when available.;NO;YES
+public;;tbl_submission_tasks;contact_id;Identifies the contact responsible for the task.;NO;YES
+public;;tbl_submission_tasks;event_date;Records when the submission task occurred.;NO;NO
+public;;tbl_submission_tasks;notes;Additional information about the submission task.;NO;NO
+public;;tbl_submission_tasks;submission_id;Identifies the submission to which the task belongs.;NO;YES
+public;;tbl_submission_tasks;submission_task_id;Primary key (automatically incremented).;YES;NO
+public;;tbl_submission_tasks;submission_task_type_id;Identifies the type of task performed.;NO;YES
+public;tbl_submissions;tbl_submissions;;Stores submission metadata and links each submission to its data provider.;;
+public;;tbl_submissions;author;Name of the person or organization credited as author of the submitted data.;NO;NO
+public;;tbl_submissions;biblio_id;Identifies a publication or reference associated with the submission.;NO;YES
+public;;tbl_submissions;data_provider_id;Identifies the provider that supplied the data.;NO;YES
+public;;tbl_submissions;data_types;Types of data included in the submission.;NO;NO
+public;;tbl_submissions;issue_identifier;Identifier of the issue or ticket used to track work on this submission, when available.;NO;NO
+public;;tbl_submissions;notes;Additional information about the submission.;NO;NO
+public;;tbl_submissions;source_name;Name of the source from which the submitted data originated.;NO;NO
+public;;tbl_submissions;submission_date;Date on which the submission was made to SEAD.;NO;NO
+public;;tbl_submissions;submission_id;Primary key (automatically incremented).;YES;NO
+public;;tbl_submissions;submission_identifier;Identifier assigned to the submission by the data provider or source system, when available.;NO;NO
+public;;tbl_submissions;submission_name;Name or title used to identify the submission.;NO;NO
+public;;tbl_submissions;submission_state_id;Identifies the lifecycle state assigned to the submission.;NO;YES
+public;;tbl_submissions;upload_date;Date on which files for the submission were uploaded.;NO;NO
