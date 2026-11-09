@@ -1,262 +1,276 @@
 #!/bin/bash
+set -euo pipefail
 
-source .env
+# Generate a SchemaSpy site for the requested PostgreSQL database and schema:
+# resolve connection settings and validate the empty output folder, extract
+# SchemaSpy's layout from the Podman image and apply repository templates,
+# run SchemaSpy, then normalize its generated columns.html. Temporary files
+# and containers are cleaned up on exit; publishing the site is a separate step.
 
-g_host=
-g_user=
-g_port=5433
-g_target_folder="./docs"
-g_verbose=NO
-g_database=sead_staging
-g_schema=public
-g_script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-g_script_name="${BASH_SOURCE[0]}"
-g_create_documentation=YES
-g_update_image=NO
-g_update_layout_folder=NO
-g_local_imagename=schemaspy:humlab
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+repository_root="$(cd "$script_dir/../.." && pwd)"
 
-g_deploy_to_github_pages=NO
-g_schemaspy_repository=git@github.com:roger-mahler/schemaspy
-g_organization=humlab-sead
-g_repository=sead-schema
- 
-if [ "$g_host" == "" ]; then
-    if [ -f ~/vault/.default.sead.server ]; then
-        g_host=`cat ~/vault/.default.sead.server`;
-    else
-        g_host=$(hostname -A);
-    fi
-fi
+# --- Define command-line defaults and help text ---
+database=""
+schema=""
+target_folder=""
+host="${PGHOST:-host.containers.internal}"
+port="${PGPORT:-9023}"
+user="${PGUSER:-}"
 
-if [ "$g_user" == "" ]; then
-    if [ -f ~/vault/.default.sead.username ]; then
-        g_user=`cat ~/vault/.default.sead.username`;
-    fi
-fi
+usage() {
+    cat <<EOF
+Usage: $0 DATABASE SCHEMA --target-folder FOLDER [OPTIONS]
 
-if [ -f ~/vault/.default.sead.password ]; then
-    export PGPASSWORD=$(cat ~/vault/.default.sead.password)
-fi
+Generate SchemaSpy documentation from comments in a PostgreSQL database.
+The target folder must be empty or not yet exist.
 
-usage_message=$(cat <<EOF
-usage: $g_script_name DBNAME SCHEMANAME OPTIONS
-
-    --host SERVERNAME               Target server (${g_host})
-    --user USERNAME                 User on target server (${g_user})
-    --port PORT                     Server port on target server (${g_port})
-    --target-folder FOLDER          Store in folder ($g_target_folder)
-    --verbose                       Print progress ($g_verbose).
-    --update-image                  Update the SchemaSpy image ($g_update_image).
-    --update-layout-folder          Update local copy of the SchemaSpy layout folder ($g_update_layout_folder).
-    --deploy-to-github-pages        Deploy to GitHub Pages ($g_deploy_to_github_pages).
-    --no-create-documentation       Skip creating documentation ($g_create_documentation).
+Options:
+  --host HOST             PostgreSQL host (default: PGHOST or host.containers.internal)
+  --port PORT             PostgreSQL port (default: PGPORT or 9023)
+  --user USER             PostgreSQL user (default: PGUSER)
+  --target-folder FOLDER  Empty folder for generated site files (required)
+  --help                  Show this help
 EOF
-)
-
-function usage() {
-    echo "$usage_message";
-    exit 64
 }
 
-POSITIONAL=()
-while [[ $# -gt 0 ]]
-do
-    key="$1"
+escape_properties_value() {
+    local value="$1"
+    value="${value//\\/\\\\}"
+    value="${value// /\\ }"
+    value="${value//$'\t'/\\t}"
+    value="${value//$'\r'/\\r}"
+    value="${value//$'\f'/\\f}"
+    printf '%s' "$value"
+}
 
-    case $key in
-        --host)
-            g_host="$2"; shift; shift
-        ;;
-        --port)
-            g_port="$2"; shift; shift
-        ;;
-        --user)
-            g_user="$2"; shift; shift
-        ;;
-        --target-folder)
-            g_target_folder="$2"; shift; shift
-        ;;
-        --verbose)
-            g_verbose="YES"; shift;
-        ;;
-        --update-image)
-            g_update_image="YES"; shift;
-        ;;
-        --update-layout-folder)
-            g_update_layout_folder="YES"; shift;    
-        ;;
-        --deploy-to-github-pages)
-            g_deploy_to_github_pages="YES"; shift;
-        ;;
-        --no-create-documentation)
-            g_create_documentation="NO"; shift;
-        ;;
-        --*)
-            usage "error: unknown option $1"
-        ;;
-        *)
-            POSITIONAL+=("$1") # save it in an array for later
+read_pgpass_password() {
+    local pgpass_file="$1"
+    local requested_host="$2"
+    local requested_port="$3"
+    local requested_database="$4"
+    local requested_user="$5"
+    local line character field escaped index
+    local -a fields=()
+
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        [[ "$line" == \#* ]] && continue
+        fields=()
+        field=""
+        escaped=0
+        for ((index = 0; index < ${#line}; index++)); do
+            character="${line:index:1}"
+            if ((escaped)); then
+                field+="$character"
+                escaped=0
+            elif [[ "$character" == "\\" ]]; then
+                escaped=1
+            elif [[ "$character" == ":" ]]; then
+                fields+=("$field")
+                field=""
+            else
+                field+="$character"
+            fi
+        done
+        if ((escaped)); then
+            field+="\\"
+        fi
+        fields+=("$field")
+        if ((${#fields[@]} != 5)); then
+            continue
+        fi
+
+        if [[ ( "${fields[0]}" == '*' || "${fields[0]}" == "$requested_host" ) &&
+            ( "${fields[1]}" == '*' || "${fields[1]}" == "$requested_port" ) &&
+            ( "${fields[2]}" == '*' || "${fields[2]}" == "$requested_database" ) &&
+            ( "${fields[3]}" == '*' || "${fields[3]}" == "$requested_user" ) ]]; then
+            printf '%s' "${fields[4]}"
+            return 0
+        fi
+    done < "$pgpass_file"
+
+    return 1
+}
+
+# --- Parse arguments and validate the requested database, schema, and target ---
+positionals=()
+while (($#)); do
+    case "$1" in
+        --host|--port|--user|--target-folder)
+            if (($# < 2)) || [[ -z "$2" ]]; then
+                echo "error: $1 requires a value" >&2
+                usage >&2
+                exit 64
+            fi
+            case "$1" in
+                --host) host="$2" ;;
+                --port) port="$2" ;;
+                --user) user="$2" ;;
+                --target-folder) target_folder="$2" ;;
+            esac
+            shift 2
+            ;;
+        --help)
+            usage
+            exit 0
+            ;;
+        --)
             shift
-        ;;
+            positionals+=("$@")
+            break
+            ;;
+        -*)
+            echo "error: unknown option $1" >&2
+            usage >&2
+            exit 64
+            ;;
+        *)
+            positionals+=("$1")
+            shift
+            ;;
     esac
 done
 
-set -- "${POSITIONAL[@]}" # restore positional parameters
-
-g_database=$1
-g_schema=$2
-
-if [ "$g_database" == "" ] || [ "$g_schema" == "" ]; then
-    usage;
+if ((${#positionals[@]} != 2)); then
+    usage >&2
+    exit 64
 fi
 
-function dbexec() {
-    local sql="$1"
-    psql -v ON_ERROR_STOP=1 -h $g_host -U $g_user -d $g_database -p $g_port --no-password --command "$sql"
-    if [ $? -ne 0 ];  then
-        echo "fatal: psql command failed! script aborted." >&2
+database="${positionals[0]}"
+schema="${positionals[1]}"
+if [[ -z "$target_folder" ]]; then
+    echo "error: --target-folder is required" >&2
+    usage >&2
+    exit 64
+fi
+
+# --- Resolve database connection settings from .env and the environment ---
+if [[ -f "$repository_root/.env" ]]; then
+    set -a
+    # shellcheck disable=SC1091
+    source "$repository_root/.env"
+    set +a
+fi
+
+host="${host:-${PGHOST:-}}"
+port="${PGPORT:-$port}"
+user="${user:-${PGUSER:-}}"
+database_password="${PGPASSWORD:-}"
+unset PGPASSWORD
+pgpass_file="${PGPASSFILE:-$HOME/.pgpass}"
+if [[ -z "$database_password" && ( -e "$pgpass_file" || -n "${PGPASSFILE:-}" ) ]]; then
+    if [[ ! -f "$pgpass_file" || ! -r "$pgpass_file" ]]; then
+        echo "error: PGPASSFILE is not a readable file: $pgpass_file" >&2
         exit 64
     fi
-}
-
-function setup_github_pages()
-{
-    local source_folder=${HOME}/source
-    local description="SEAD Schema Explorer"
-    local homepage="https://humlab-sead.github.io/sead-schema"
-
-	pushd "$source_folder"
-
-	gh repo create $g_organization/$g_repository --private --owner $g_organization --description $description --homepage $g_github_pages_url --confirm
-	git clone git@github.com:$g_organization/$g_repository
-	cd $g_repository
-	git checkout --orphan gh-pages
-	git commit --allow-empty -m "Initial empty commit for GitHub Pages"
-	git push origin gh-pages
-
-	popd
-}
-
-function deploy_to_github_pages()
-{
-    local folder=$(realpath $g_target_folder)
-    local commit_message="Deploy to GitHub Pages"
-    local repository="https://github.com/$g_organization/$g_repository"
-    local homepage="https://humlab-sead.github.io/sead-schema"
-
-    if ! command -v "ghp-import" >/dev/null; then
-        echo "error: ghp-import not found (please install with pix install ghp-import)..."
+    if ! pgpass_mode="$(stat -c '%a' -- "$pgpass_file")"; then
+        echo "error: could not check permissions on PGPASSFILE: $pgpass_file" >&2
         exit 1
     fi
-    
-    ghp-import -n -p -f -m "${commit_message}" -r $repository ${folder}
+    if (( (8#$pgpass_mode & 077) != 0 )); then
+        echo "error: PGPASSFILE must not be accessible by group or others: $pgpass_file" >&2
+        exit 64
+    fi
+    if pgpass_password="$(read_pgpass_password "$pgpass_file" "${host:-localhost}" "$port" "$database" "$user")"; then
+        database_password="$pgpass_password"
+    elif [[ -n "${PGPASSFILE:-}" ]]; then
+        echo "error: PGPASSFILE has no entry matching the selected connection" >&2
+        exit 64
+    fi
+fi
+if [[ "$database_password" == *$'\n'* ]]; then
+    echo "error: database password must not contain a newline" >&2
+    exit 64
+fi
 
-    echo "Deployment to GitHub Pages completed successfully."
+# --- Create the output directory and require it to be empty ---
+mkdir -p "$target_folder"
+target_folder="$(cd "$target_folder" && pwd -P)"
+if [[ -n "$(find "$target_folder" -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
+    echo "error: target folder must be empty: $target_folder" >&2
+    exit 64
+fi
+
+# --- Select the SchemaSpy image and check required local tools ---
+SCHEMASPY_IMAGE="${SCHEMASPY_IMAGE:-docker.io/schemaspy/schemaspy:latest}"
+for command_name in podman jar; do
+    if ! command -v "$command_name" >/dev/null 2>&1; then
+        echo "error: $command_name is required to generate documentation" >&2
+        exit 1
+    fi
+done
+
+# --- Create a temporary workspace and register cleanup ---
+temporary_folder="$(mktemp -d)"
+container_id=""
+cleanup() {
+    if [[ -n "$container_id" ]]; then
+        podman rm -f "$container_id" >/dev/null 2>&1 || true
+    fi
+    rm -rf "$temporary_folder"
 }
+trap cleanup EXIT
 
-# Use the image from the forked repository (roger-mahler/schemaspy) with postgresql 17 support
-SCHEMASPY_IMAGE=schemaspy:humlab
-#SCHEMASPY_IMAGE=schemaspy/schemaspy:latest
+# --- Extract SchemaSpy's built-in layout from its Podman image ---
+container_id="$(podman create "$SCHEMASPY_IMAGE")"
+podman cp "$container_id:/usr/local/lib/schemaspy/schemaspy-app.jar" "$temporary_folder/schemaspy-app.jar"
+podman rm "$container_id" >/dev/null
+container_id=""
 
-function create_documentation()
-{
+(
+    cd "$temporary_folder"
+    jar xf schemaspy-app.jar BOOT-INF/classes/layout
+)
+layout_folder="$temporary_folder/BOOT-INF/classes/layout"
+if [[ ! -d "$layout_folder" ]]; then
+    echo "error: SchemaSpy image did not contain its layout files" >&2
+    exit 1
+fi
+mv "$layout_folder" "$target_folder/layout"
 
-    local user_id=$(id -u)
-    local group_id=$(id -g)
-    local folder=$(realpath $g_target_folder)
+# --- Install the PostgreSQL configuration and overridden HTML templates ---
+cp "$script_dir/resources/pgsql17.properties" "$target_folder/pgsql17.properties"
+cp "$script_dir/resources/main.html" "$script_dir/resources/column.html" "$target_folder/layout/"
+mkdir -p "$target_folder/layout/tables"
+cp "$script_dir/resources/tables/table.html" "$target_folder/layout/tables/"
 
-    mkdir -p $folder
-
-    cp $g_script_dir/resources/pgsql17.properties $folder/pgsql17.properties
-
-    # https://schemaspy.readthedocs.io/en/latest/configuration/commandline.html
-
-    docker run --rm \
-        -v "$folder":/output \
-        --user "$user_id:$group_id" \
-        $SCHEMASPY_IMAGE \
-        -p $PGPASSWORD \
-        -t /output/pgsql17.properties \
-        -host "$g_host" \
-        -port "$g_port" \
-        -db "$g_database" \
-        -s "$g_schema" \
-        -u "$g_user" \
-        -template /output/layout
-
-        # -norows
-        # -noviews
-        # -nopages
-        # -noTablePaging
-        # -noDbObjectPaging
-
-    # fix faulty HTML
-    
-    sed -Ez 's|"defaultValue":\s*"\n([^"]+)",|"defaultValue": "",|g' $folder/columns.html > /tmp/columns.html
-
-    mv /tmp/columns.html $folder/columns.html
-
-}
-
-function update_layout_folder()
-{
-    local folder=$(realpath $g_target_folder)
-  
-    # Copy the layout folder from the schemaspy image
-
-    container_id=$(docker create $g_local_imagename) &> /dev/null
-    docker cp $container_id:/usr/local/lib/schemaspy/schemaspy-app.jar /tmp/schemaspy-app.jar  &> /dev/null
-    docker rm $container_id &> /dev/null
-
-    pushd /tmp &> /dev/null
-    jar xf /tmp/schemaspy-app.jar BOOT-INF/classes/layout
-    rm -rf $folder/layout
-    mv BOOT-INF/classes/layout $folder/
-    rm -rf /tmp/schemaspy-app.jar
-    popd &> /dev/null
-    
-    # Clone the layout folder from the schemaspy repository
-    # pushd "$folder"
-    # rm -rf $folder/layout
-    # git clone --depth 1 https://github.com/schemaspy/schemaspy
-    # mv $folder/schemaspy/src/main/resources/layout $folder/
-    # rm -rf $folder/schemaspy
-    # popd
-}
-
-function update_forked_image()
-{
-	pushd /tmp
-	git clone ${g_schemaspy_repository}
-	cd schemaspy
-	git checkout added-pgsql17-properties
-	./mvnw clean package
-	docker build -t ${g_local_imagename} -f Dockerfile .
-	popd
-	rm -rf /tmp/schemaspy
-}
-
-if [ ! -d "$(realpath $g_target_folder)/layout" ]; then
-    g_update_layout_folder=YES
+# --- Build SchemaSpy connection options and mount credentials when available ---
+connection_options=(-port "$port" -db "$database" -s "$schema")
+if [[ -n "$host" ]]; then
+    connection_options+=(-host "$host")
+fi
+if [[ -n "$user" ]]; then
+    connection_options+=(-u "$user")
+fi
+podman_options=()
+    if [[ -n "$database_password" ]]; then
+    password_file="$temporary_folder/schemaspy.properties"
+        printf 'schemaspy.p=%s\n' "$(escape_properties_value "$database_password")" > "$password_file"
+    chmod 600 "$password_file"
+    podman_options+=(--mount "type=bind,src=$password_file,dst=/tmp/schemaspy.properties,readonly")
+    connection_options+=(-configFile /tmp/schemaspy.properties)
 fi
 
-if [ "$g_update_layout_folder" == "YES" ]; then
-    update_layout_folder
-fi
+# --- Run SchemaSpy with the selected database and prepared layout ---
+# Preserve the host UID/GID mapping for the private password mount and output files.
+podman run --rm \
+    --userns=keep-id \
+    --volume "$target_folder:/output" \
+    --user "$(id -u):$(id -g)" \
+    "${podman_options[@]}" \
+    "$SCHEMASPY_IMAGE" \
+    -t /output/pgsql17.properties \
+    "${connection_options[@]}" \
+    -template /output/layout
 
-cp -f $g_script_dir/resources/* $(realpath $g_target_folder)/layout
-cp -f $g_script_dir/resources/tables/* $(realpath $g_target_folder)/layout/tables
-
-if [ "$g_update_image" == "YES" ]; then
-    update_forked_image
-    # docker pull schemaspy/schemaspy:latest
+# --- Verify and normalize the generated column metadata ---
+columns_file="$target_folder/columns.html"
+if [[ ! -f "$columns_file" ]]; then
+    echo "error: SchemaSpy did not generate $columns_file" >&2
+    exit 1
 fi
+sed -Ez 's|"defaultValue":\s*"\n([^"]+)",|"defaultValue": "",|g' "$columns_file" \
+    > "$columns_file.tmp"
+mv "$columns_file.tmp" "$columns_file"
 
-if [ "$g_create_documentation" == "YES" ]; then
-    create_documentation
-fi
-
-if [ "$g_deploy_to_github_pages" == "YES" ]; then
-    deploy_to_github_pages
-fi
+echo "SchemaSpy documentation generated in $target_folder"

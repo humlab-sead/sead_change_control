@@ -12,6 +12,7 @@ The script coordinates staging deployment by:
 - Running tag-level and CR-level deploy hooks when they exist.
 - Writing a deploy log under `logs/`.
 - Optionally synchronizing sequences after deployment.
+- Optionally applying table and column comments from [resources/tables_and_columns.csv](../resources/tables_and_columns.csv) after deployment.
 
 ## Access And Defaults
 
@@ -39,6 +40,7 @@ Options:
       --dry-run                       Simulate a database snapshot operation. No changes are made
       --tags                          Display tags, then exit. No changes are made
       --sync-sequences                Synchronize all sequences post-deployment
+      --sync-comments                 Apply table and column comments from resources/tables_and_columns.csv post-deployment
       --ignore-git-tags               Continue deployment even if a Sqitch tag is missing in Git
       --source-type [empty|db|dump]   Specify the source type: a database name or a dump filename.
                                                       Required if "--create-database" is specified, otherwise ignored
