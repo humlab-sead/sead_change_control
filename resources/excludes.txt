@@ -1,0 +1,13 @@
+view_*
+tbl_updates_log
+tbl_tephra*
+tbl_isotope*
+tbl_imported_taxa_replacements
+*.date_updated
+tbl_aggregate*
+spatial_ref_sys
+geometry_columns
+geography_columns
+typed_analysis_values
+*.*_uuid
+tbl_dataset_methods
