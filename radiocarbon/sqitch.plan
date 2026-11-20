@@ -2,7 +2,6 @@
 %project=radiocarbon
 %uri=https://github.com/humlab-sead/radiocarbon
 
-
-@2026.02 2026-02-10T13:49:45Z Roger Mähler <roger.mahler@umu.se> # February
-@2026.04 2026-04-02T11:09:06Z Johan von Boer <johan.von.boer@umu.se> # April 2026 release
-@2026.10 2026-10-05T15:06:16Z Johan von Boer <johan.von.boer@umu.se> # October 2026 release (timeline in plain years BP)
+# The only change, 20250401_RADIOCARBON_PILOT__COMMIT, was moved to archive/ in 01812d9.
+# Its tags (@2026.02, @2026.04, @2026.10) are gone too: Sqitch refuses a plan with a tag
+# that has no change before it, which stopped every database rebuild from parsing it.
