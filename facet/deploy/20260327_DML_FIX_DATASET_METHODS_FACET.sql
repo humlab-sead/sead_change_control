@@ -5,7 +5,7 @@
   Date          2026-03-27
   Description   Fix dataset_methods facet (facet_id=39): remove deprecated tbl_dataset_methods
                 entry and promote tbl_methods as TargetTable (sequence_id=1).
-  Issue         https://github.com/humlab-sead/sead_change_control/issues/423
+  Issue
   Prerequisites
   Reviewer
   Approver
