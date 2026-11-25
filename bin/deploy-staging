@@ -666,9 +666,10 @@ function deploy_to_tag()
 
             local sqitch_output_filename=$(mktemp)
 
-            sqitch deploy --target ${target_uri} --mode change --no-pager --no-verify -C $sqitch_project --to $tag  --set "client_min_messages=WARNING" | cat &> $sqitch_output_filename
+            sqitch deploy --target ${target_uri} --mode change --no-pager --no-verify -C $sqitch_project --to $tag  --set "client_min_messages=WARNING" 2>&1 | cat &> $sqitch_output_filename
 
-            deploy_code=$?
+            # sqitch's own exit code, not cat's: a plan that does not parse must stop the deploy
+            deploy_code=${PIPESTATUS[0]}
 
             #  | tee $sqitch_output_filename
 
